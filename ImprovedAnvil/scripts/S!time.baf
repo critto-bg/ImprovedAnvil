@@ -1,0 +1,100 @@
+IF
+  Global("Ianomachine","AR0411",0)
+  Global("Iakeywused","AR0411",1)
+  Global("Iakeygused","AR0411",1)
+  Global("Iakeyrused","AR0411",1)
+  Global("Iakeyaused","AR0411",1)
+  Global("Iakeybused","AR0411",1)
+  Clicked([ANYONE])
+  Range(LastTrigger,10)
+  !GlobalTimerNotExpired("Iatimeclick","AR0411")
+THEN
+  RESPONSE #100
+    SetGlobal("Ianomachine","AR0411",1)
+    SetGlobalTimer("Iatimeclick","AR0411",6)
+    DisplayString(Myself,12151) //
+END
+
+IF
+  Global("Iatimemactive","AR0411",2)
+  Global("Iatimemfspawn","AR0411",0)
+  GlobalGT("Chapter","GLOBAL",5)
+  Clicked([ANYONE])
+  Range(LastTrigger,10)
+  !GlobalTimerNotExpired("Iatimeclick","AR0411")
+THEN
+  RESPONSE #100
+    SetGlobal("Iatimemfspawn","AR0411",1)
+    SetGlobal("Iatimemftalked","AR0411",1)
+    SetGlobalTimer("Iatimeclick","AR0411",6)
+    CreateCreatureImpassable("S!timemf",[1660.484],3)
+END
+
+IF
+  Global("Iatimemactive","AR0411",2)
+  Global("Iatimemaspawn","AR0411",0)
+  Global("Iatimemfspawn","AR0411",2)
+  GlobalGT("Chapter","GLOBAL",5)
+  Clicked([ANYONE])
+  Range(LastTrigger,10)
+  !GlobalTimerNotExpired("Iatimeclick","AR0411")
+THEN
+  RESPONSE #100
+    SetGlobal("Iatimemaspawn","AR0411",1)
+    SetGlobalTimer("Iatimeclick","AR0411",6)
+    CreateCreatureImpassable("S!timema",[1660.484],3)
+END
+
+IF
+  Global("Iatimemactive","AR0411",1)
+  GlobalGT("Chapter","GLOBAL",5)
+  Clicked([ANYONE])
+  Range(LastTrigger,10)
+  !GlobalTimerNotExpired("Iatimeclick","AR0411")
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iatimeclick","AR0411",6)
+    DisplayString(Myself,12204) //
+END
+
+IF
+  Class(Player1,MAGE_ALL)
+  !Class(Player1,FIGHTER_ALL)
+  !Class(Player1,CLERIC_ALL)
+  !Class(Player1,THIEF_ALL)
+  OR(2)
+   Global("Iatimemactive","AR0411",0)
+   GlobalLT("Chapter","GLOBAL",6)
+  Clicked([ANYONE])
+  Range(LastTrigger,10)
+  !GlobalTimerNotExpired("Iatimeclick","AR0411")
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iatimeclick","AR0411",6)
+    DisplayString(Myself,12190) //
+END
+
+IF
+  OR(4)
+   !Class(Player1,MAGE_ALL)
+   Class(Player1,FIGHTER_ALL)
+   Class(Player1,CLERIC_ALL)
+   Class(Player1,THIEF_ALL)
+  Clicked([ANYONE])
+  Range(LastTrigger,10)
+  !GlobalTimerNotExpired("Iatimeclick","AR0411")
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iatimeclick","AR0411",6)
+    DisplayString(Myself,6622) //
+END
+
+IF
+  Clicked([ANYONE])
+  !Range(LastTrigger,10)
+  !GlobalTimerNotExpired("Iatimeclick","AR0411")
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iatimeclick","AR0411",6)
+    DisplayString(Myself,14702)  // ~You are too far away to use that.~
+END

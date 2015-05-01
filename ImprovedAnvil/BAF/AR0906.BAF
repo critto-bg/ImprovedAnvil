@@ -1,0 +1,53 @@
+//Guarded Compound 1st Floor //////////////
+
+IF
+   Global("Iacreature","AR0906",0)
+   Global("Iacgfftrap","AR0906",1)
+   InMyArea(Player1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iacreature","AR0906",1)
+      SetGlobalTimer("Iaexittimer","AR0906",12)
+      TriggerActivation("Tran0900",FALSE)
+      TriggerActivation("Tran0907a",FALSE)
+      TriggerActivation("Tran0907b",FALSE)
+      CreateCreatureObjectOffScreen("S!coins",Player1,0,0,0) //
+      CreateCreatureObjectOffScreen("S!gems",Player1,0,0,0) //
+      CreateCreatureObjectOffScreen("S!skels",Player1,0,0,0) //
+      CreateCreatureObjectOffScreen("S!slassa",Player1,0,0,0) //
+      CreateCreatureObjectOffScreen("S!slassa",Player1,0,0,0) //
+      CreateCreatureObject("S!slassa",Player1,0,0,0) //
+END
+
+IF
+   Global("Iacreature","AR0906",1)
+   Global("EnteredAR0907","GLOBAL",1)
+   InMyArea(Player1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iacreature","AR0906",2)
+      TriggerActivation("Tran0900",TRUE)
+END
+
+IF
+   Global("Iaproceed","AR0906",0)
+   Global("Iacreature","AR0906",1)
+   CombatCounter(0)
+   GlobalTimerExpired("Iaexittimer","AR0906")
+   InMyArea(Player1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaproceed","AR0906",1)
+      TriggerActivation("Tran0907a",TRUE)
+      TriggerActivation("Tran0907b",TRUE)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iaitemgone","AR0906",0)
+THEN
+   RESPONSE #100
+     SetGlobal("Iaitemgone","AR0906",1)
+     ActionOverride("Chest 5",DestroyItem("blun15"))
+     ActionOverride("Chest 5",CreateItem("misc23",0,0,0)) //
+END

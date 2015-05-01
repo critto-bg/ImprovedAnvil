@@ -1,0 +1,25 @@
+// Rayic Gethras  //////////////
+
+IF
+  Global("Iaexit","AR0317",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR0317",2)
+    SetGlobalTimer("Iareopen","AR0317",12)
+    SetInterrupt(FALSE)
+    TriggerActivation("Tran0316",FALSE)
+    ReputationInc(-1)
+    CreateCreatureObjectDoor("golcla01",Player1,0,0,0) //
+    CreateCreatureObjectDoor("golsto01",Player1,0,0,0) //
+    SetInterrupt(TRUE)
+END
+
+IF
+  Global("Iaexit","AR0317",2)
+  GlobalTimerExpired("Iareopen","AR0317")
+  CombatCounter(0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR0317",3)
+    TriggerActivation("Tran0316",TRUE)
+END

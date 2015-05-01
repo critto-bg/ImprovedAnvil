@@ -1,0 +1,199 @@
+// De'Arnise Cellar //////////////
+
+IF
+  Global("Iacreature","AR1301",0)
+THEN
+   RESPONSE #100
+     SetGlobal("Iacreature","AR1301",1)
+     CreateCreature("S!otyugh",[1077.407],2) //
+END
+
+IF
+  OpenState("DOOR01",TRUE)
+  Global("Door1Opened","AR1301",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door1Opened","AR1301",1)
+END
+
+IF
+  OpenState("DOOR02",TRUE)
+  Global("Door2Opened","AR1301",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door2Opened","AR1301",1)
+END
+
+IF
+  OpenState("DOOR03",TRUE)
+  Global("Door3Opened","AR1301",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door3Opened","AR1301",1)
+END
+
+IF
+  OpenState("DOOR04",TRUE)
+  Global("Door4Opened","AR1301",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door4Opened","AR1301",1)
+END
+
+IF
+  OpenState("DOOR05",TRUE)
+  Global("Door5Opened","AR1301",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door5Opened","AR1301",1)
+END
+
+IF
+  OpenState("DOOR06",TRUE)
+  Global("Door6Opened","AR1301",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door6Opened","AR1301",1)
+END
+
+IF
+  OpenState("DOOR07",TRUE)
+  Global("Door7Opened","AR1301",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door7Opened","AR1301",1)
+END
+
+IF
+  OpenState("DOOR08",TRUE)
+  Global("Door8Opened","AR1301",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door8Opened","AR1301",1)
+END
+
+IF
+  OpenState("DOOR09",TRUE)
+  Global("Door9Opened","AR1301",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door9Opened","AR1301",1)
+END
+
+IF
+  OpenState("DOOR01",FALSE)
+  Global("Door1Opened","AR1301",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR01")
+END
+
+IF
+  OpenState("DOOR02",FALSE)
+  Global("Door2Opened","AR1301",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR02")
+END
+
+IF
+  OpenState("DOOR03",FALSE)
+  Global("Door3Opened","AR1301",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR03")
+END
+
+IF
+  OpenState("DOOR04",FALSE)
+  Global("Door4Opened","AR1301",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR04")
+END
+
+IF
+  OpenState("DOOR05",FALSE)
+  Global("Door5Opened","AR1301",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR05")
+END
+
+IF
+  OpenState("DOOR06",FALSE)
+  Global("Door6Opened","AR1301",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR06")
+END
+
+IF
+  OpenState("DOOR07",FALSE)
+  Global("Door7Opened","AR1301",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR07")
+END
+
+IF
+  OpenState("DOOR08",FALSE)
+  Global("Door8Opened","AR1301",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR08")
+END
+
+IF
+  OpenState("DOOR09",FALSE)
+  Global("Door9Opened","AR1301",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR09")
+END
+
+IF
+  InMyArea(Player1)
+  OR(3)
+   SpellCast([PC],WIZARD_DEATH_FOG)
+   SpellCast([PC],WIZARD_CLOUDKILL)
+   SpellCast([PC],WIZARD_INCENDIARY_CLOUD)
+THEN
+  RESPONSE #100
+    SetGlobal("Iapccloud","AR1301",1)
+    SetGlobalTimer("Iacloudtime","AR1301",60)
+END
+
+IF
+  Global("Iapccloud","AR1301",1)
+  GlobalTimerExpired("Iacloudtime","AR1301")
+THEN
+  RESPONSE #100
+    SetGlobal("Iapccloud","AR1301",0)
+END
+
+IF
+  Global("Iaexit","AR1301",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR1301",1)
+    TriggerActivation("Tran1303",FALSE)
+END
+
+IF
+  Global("Iaexit","AR1301",1)
+  Dead("torgal")
+  CombatCounter(0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR1301",2)
+    TriggerActivation("Tran1303",TRUE)
+END
+
+IF
+  Global("Iaitem","AR1301",0)
+THEN
+   RESPONSE #100
+     SetGlobal("Iaitem","AR1301",1)
+     ActionOverride("Container 2",CreateItem("hamm08",0,0,0)) //
+END

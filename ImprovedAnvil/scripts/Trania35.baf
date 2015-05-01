@@ -1,0 +1,30 @@
+IF
+  Clicked([ANYONE])
+  Range(LastTrigger,10)
+  PartyHasItem("S!misc56")
+  Global("Iawoodenmir","GLOBAL",1)
+THEN
+  RESPONSE #100
+    StartCutSceneMode()
+    Wait(1)
+    FadeToColor([20.0],0)
+    Wait(2)
+    ActionOverride(Player1,LeaveAreaLUAPanic("AR2810","",[406.368],2))
+    ActionOverride(Player1,LeaveAreaLUA("AR2810","",[406.368],2))
+    ActionOverride(Player2,LeaveAreaLUA("AR2810","",[356.339],2))
+    ActionOverride(Player3,LeaveAreaLUA("AR2810","",[436.335],2))
+    ActionOverride(Player4,LeaveAreaLUA("AR2810","",[389.304],2))
+    ActionOverride(Player5,LeaveAreaLUA("AR2810","",[464.301],2))
+    ActionOverride(Player6,LeaveAreaLUA("AR2810","",[421.281],2))
+    MultiPlayerSync()
+    EndCutSceneMode()
+    FadeFromColor([20.0],0)
+END
+
+IF
+  Clicked([ANYONE])
+  !Range(LastTrigger,10)
+THEN
+  RESPONSE #100
+    DisplayString(Myself,14702)  // ~You are too far away to use that.~
+END

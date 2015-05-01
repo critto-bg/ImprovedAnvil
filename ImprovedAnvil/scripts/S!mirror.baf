@@ -1,0 +1,73 @@
+IF
+  Clicked([ANYONE])
+  Range(LastTrigger,8)
+  !GlobalTimerNotExpired("Iamirrorclick","AR2810")
+  Global("Iamirrorfixed","AR2810",1)
+  Global("Iamircrespawn","AR2810",0)
+  Dead("S!vipmi1")
+THEN
+  RESPONSE #100
+    SetGlobal("Iamircrespawn","AR2810",1)
+    SetGlobalTimer("Iamirrorclick","AR2810",6)
+    CreateCreatureImpassable("S!mircre",[491.138],1)
+END
+
+IF
+  Clicked([ANYONE])
+  Range(LastTrigger,8)
+  !GlobalTimerNotExpired("Iamirrorclick","AR2810")
+  Global("Iamirrorfixed","AR2810",0)
+  PartyHasItem("S!misc45")
+  Global("Iarubyregained","GLOBAL",1)
+  OR(3)
+   Global("Iastarttomend","AR2810",1)
+   Global("Iastarttomend","AR2810",3)
+   Global("Iastarttomend","AR2810",5)
+  Dead("S!vipmi1")
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iamirrorclick","AR2810",6)
+    IncrementGlobal("Iastarttomend","AR2810",1)
+END
+
+IF
+  Clicked([ANYONE])
+  Range(LastTrigger,8)
+  !GlobalTimerNotExpired("Iamirrorclick","AR2810")
+  Global("Iamirrorfixed","AR2810",0)
+  PartyHasItem("S!misc45")
+  Global("Iarubyregained","GLOBAL",1)
+  Global("Iastarttomend","AR2810",0)
+  Dead("S!vipmi1")
+THEN
+  RESPONSE #100
+    SetGlobal("Iastarttomend","AR2810",1)
+    SetGlobalTimer("Iamirrorclick","AR2810",6)
+    SetGlobalTimer("Iamir2ndtimer","AR2810",18)
+    DisplayString(Myself,14315)
+END
+
+IF
+  Clicked([ANYONE])
+  Range(LastTrigger,8)
+  !GlobalTimerNotExpired("Iamirrorclick","AR2810")
+  Global("Iamirrorfixed","AR2810",0)
+  OR(3)
+   !PartyHasItem("S!misc45")
+   Global("Iarubyregained","GLOBAL",0)
+   !Dead("S!vipmi1")
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iamirrorclick","AR2810",6)
+    DisplayString(Myself,10851)
+END
+
+IF
+  Clicked([ANYONE])
+  !Range(LastTrigger,8)
+  !GlobalTimerNotExpired("Iamirrorclick","AR2810")
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iamirrorclick","AR2810",6)
+    DisplayString(Myself,14702)  // ~You are too far away to use that.~
+END

@@ -1,0 +1,80 @@
+IF
+  NumberOfTimesTalkedTo(0)
+  !Class(LastSummonerOf(Myself),SORCERER)
+  OR(8)
+   Global("Iascrollmade","GLOBAL",0)
+   Alignment(Player1,MASK_EVIL)
+   !Class(Player1,MAGE_ALL)
+   Class(Player1,FIGHTER_ALL)
+   Class(Player1,CLERIC_ALL)
+   Class(Player1,THIEF_ALL)
+   !InParty(LastSummonerOf(Myself))
+   HPLT(LastSummonerOf(Myself),1)
+THEN
+  RESPONSE #100
+    DestroySelf()
+END
+
+IF
+  NumberOfTimesTalkedTo(0)
+  Class(LastSummonerOf(Myself),SORCERER)
+  OR(2)
+   !InParty(LastSummonerOf(Myself))
+   HPLT(LastSummonerOf(Myself),1)
+THEN
+  RESPONSE #100
+    DestroySelf()
+END
+
+IF
+  Detect(LastSummonerOf(Myself))
+  NumberOfTimesTalkedTo(0)
+  !StateCheck(LastSummonerOf(Myself),STATE_STUNNED)
+  !StateCheck(LastSummonerOf(Myself),STATE_SILENCED)
+  !StateCheck(LastSummonerOf(Myself),STATE_HELPLESS)
+  !StateCheck(LastSummonerOf(Myself),STATE_CONFUSED)
+  !StateCheck(LastSummonerOf(Myself),STATE_CHARMED)
+  !StateCheck(LastSummonerOf(Myself),STATE_PANIC)
+  !StateCheck(LastSummonerOf(Myself),STATE_FEEBLEMINDED)
+  Class(LastSummonerOf(Myself),SORCERER)
+THEN
+  RESPONSE #100
+    StartDialogNoSet(LastSummonerOf(Myself))
+END
+
+IF
+  Detect(LastSummonerOf(Myself))
+  NumberOfTimesTalkedTo(0)
+  !StateCheck(LastSummonerOf(Myself),STATE_STUNNED)
+  !StateCheck(LastSummonerOf(Myself),STATE_SILENCED)
+  !StateCheck(LastSummonerOf(Myself),STATE_HELPLESS)
+  !StateCheck(LastSummonerOf(Myself),STATE_CONFUSED)
+  !StateCheck(LastSummonerOf(Myself),STATE_CHARMED)
+  !StateCheck(LastSummonerOf(Myself),STATE_PANIC)
+  !StateCheck(LastSummonerOf(Myself),STATE_FEEBLEMINDED)
+  !Class(LastSummonerOf(Myself),SORCERER)
+  Class(Player1,MAGE_ALL)
+  !Class(Player1,FIGHTER_ALL)
+  !Class(Player1,CLERIC_ALL)
+  !Class(Player1,THIEF_ALL)
+  Global("Iascrollmade","GLOBAL",1)
+THEN
+  RESPONSE #100
+    StartDialogNoSet(LastSummonerOf(Myself))
+END
+
+IF
+  NumberOfTimesTalkedTo(0)
+  OR(8)
+   !Detect(LastSummonerOf(Myself))
+   StateCheck(LastSummonerOf(Myself),STATE_STUNNED)
+   StateCheck(LastSummonerOf(Myself),STATE_SILENCED)
+   StateCheck(LastSummonerOf(Myself),STATE_HELPLESS)
+   StateCheck(LastSummonerOf(Myself),STATE_CONFUSED)
+   StateCheck(LastSummonerOf(Myself),STATE_CHARMED)
+   StateCheck(LastSummonerOf(Myself),STATE_PANIC)
+   StateCheck(LastSummonerOf(Myself),STATE_FEEBLEMINDED)
+THEN
+  RESPONSE #100
+    DestroySelf()
+END

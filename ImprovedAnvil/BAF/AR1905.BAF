@@ -1,0 +1,30 @@
+//Store Tower //
+
+IF
+   Global("Iacreature","AR1905",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iacreature","AR1905",1)
+      CreateCreature("S!spidet",[478.375],3)  //
+      TriggerActivation("Tran1900",FALSE)
+END
+
+IF
+   Global("Iacreature","AR1905",1)
+   Dead("S!spidet")
+THEN
+   RESPONSE #100
+      SetGlobal("Iacreature","AR1905",2)
+      TriggerActivation("Tran1900",TRUE)
+END
+
+IF
+   Global("Iaitem","AR1905",0)
+   Global("Iacreature","AR1905",2)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem","AR1905",1)
+      ActionOverride("Container 1",CreateItem("potn55",0,0,0)) //
+      ActionOverride("Container 1",CreateItem("potn52",0,0,0)) //
+      ActionOverride("Container 1",CreateItem("potn35",0,0,0)) //
+END

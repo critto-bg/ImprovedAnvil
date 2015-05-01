@@ -1,0 +1,218 @@
+IF
+  Global("Iapcastts","GLOBAL",1)
+  Global("Iatsinvulner","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatsinvulner","LOCALS",1)
+    ApplySpellRES("SPINI70",Myself)
+END
+
+IF
+  Global("Iapcastts","GLOBAL",0)
+  Global("Iatsinvulner","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatsinvulner","LOCALS",0)
+    ApplySpellRES("SPINI71",Myself)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  Global("EnemySeen","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("EnemySeen","LOCALS",1)
+    DisplayStringHead(Myself,73274) //
+    PlaySound("SNAKE02")
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  Global("partyfled","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("partyfled","LOCALS",0)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  !GlobalTimerNotExpired("Iasummon","LOCALS")
+  GlobalLT("ViperCall","LOCALS",8)
+THEN
+  RESPONSE #50
+    CreateCreatureObject("S!vipe2",Myself,0,0,0) //
+    SetGlobalTimer("Iasummon","LOCALS",36)
+    IncrementGlobal("ViperCall","LOCALS",1)
+    PlaySound("SNAKE02")
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  !GlobalTimerNotExpired("Iacloud","LOCALS")
+THEN
+  RESPONSE #50
+    SetGlobalTimer("Iacloud","LOCALS",60)
+    ReallyForceSpell(LastSeenBy(Myself),WIZARD_CLOUDKILL)
+    PlaySound("SNAKE07")
+  RESPONSE #50
+    SetGlobalTimer("Iacloud","LOCALS",60)
+    ReallyForceSpell(LastSeenBy(Myself),WIZARD_DEATH_FOG)
+    PlaySound("SNAKE07")
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  !GlobalTimerNotExpired("Iasound","LOCALS")
+THEN
+  RESPONSE #30
+    SetGlobalTimer("Iasound","LOCALS",30)
+    PlaySound("SNAKE01")
+  RESPONSE #40
+    SetGlobalTimer("Iasound","LOCALS",30)
+    PlaySound("SNAKE02")
+  RESPONSE #30
+    SetGlobalTimer("Iasound","LOCALS",30)
+    PlaySound("SNAKE06")
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !HasItemEquiped("AMUL22",LastSeenBy(Myself))
+  !HasItemEquiped("RING39",LastSeenBy(Myself))
+  !HasItemEquiped("S!RING02",LastSeenBy(Myself))
+  CheckStatLT(LastSeenBy(Myself),100,RESISTPOISON)
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(SecondNearestEnemyOf(Myself))
+  Range(LastSeenBy(Myself),2)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !HasItemEquiped("AMUL22",LastSeenBy(Myself))
+  !HasItemEquiped("RING39",LastSeenBy(Myself))
+  !HasItemEquiped("S!RING02",LastSeenBy(Myself))
+  CheckStatLT(LastSeenBy(Myself),100,RESISTPOISON)
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  !HasItemEquiped("AMUL22",LastSeenBy(Myself))
+  !HasItemEquiped("RING39",LastSeenBy(Myself))
+  !HasItemEquiped("S!RING02",LastSeenBy(Myself))
+  CheckStatLT(LastSeenBy(Myself),100,RESISTPOISON)
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(SecondNearestEnemyOf(Myself))
+  Range(LastSeenBy(Myself),2)
+  !HasItemEquiped("AMUL22",LastSeenBy(Myself))
+  !HasItemEquiped("RING39",LastSeenBy(Myself))
+  !HasItemEquiped("S!RING02",LastSeenBy(Myself))
+  CheckStatLT(LastSeenBy(Myself),100,RESISTPOISON)
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(SecondNearestEnemyOf(Myself))
+  Range(LastSeenBy(Myself),2)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(SecondNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  GlobalGT("ViperCall","LOCALS",0)
+  Global("partyfled","LOCALS",0)
+  !See([GOODCUTOFF])
+  !See([PC])
+THEN
+  RESPONSE #100
+    SetGlobalTimer("chase","LOCALS",60)
+    SetGlobal("partyfled","LOCALS",1)
+END
+
+IF
+  !See([PC])
+  !See([GOODCUTOFF])
+  Global("partyfled","LOCALS",1)
+  GlobalTimerNotExpired("chase","LOCALS")
+  InMyArea(Player1)
+  GlobalGT("ViperCall","LOCALS",0)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  !See([PC])
+  !See([GOODCUTOFF])
+  GlobalGT("ViperCall","LOCALS",0)
+  GlobalTimerExpired("chase","LOCALS")
+  Global("partyfled","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("ViperCall","LOCALS",0)
+    ReallyForceSpellRES("SPWII07",Myself)
+END

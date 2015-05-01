@@ -1,0 +1,103 @@
+// Gromnir's Hideout //////////////
+
+IF
+  Global("EnteredArea","AR5002",0)
+  OR(2)
+   Global("Iapcastts","GLOBAL",0)
+   NumInPartyAliveGT(1)
+THEN
+  RESPONSE #100
+    SetGlobal("EnteredArea","AR5002",1)
+    ClearAllActions()
+    StartCutSceneMode()
+    StartCutScene("cut225a")
+END
+
+IF
+  Global("EnteredArea","AR5002",0)
+  !Global("Iapcastts","GLOBAL",0)
+  NumInPartyAlive(1)
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    SetGlobal("EnteredArea","AR5002",1)
+    Kill(Player1)
+END
+
+IF
+  !Dead("gromnir")
+  Allegiance("gromnir",ENEMY)
+  Global("Iaexit","AR5002",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR5002",1)
+    TriggerActivation("Tran5000",FALSE)
+    TriggerActivation("Tran5001",FALSE)
+END
+
+IF
+  Global("Iaexit","AR5002",1)
+  Dead("gromnir")
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR5002",2)
+    TriggerActivation("Tran5000",TRUE)
+    TriggerActivation("Tran5001",TRUE)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iadeathspell","AR5002",0)
+  SpellCast([PC],WIZARD_DEATH_SPELL)
+THEN
+  RESPONSE #100
+    SetGlobal("Iadeathspell","AR5002",1)
+    SetGlobalTimer("Iamsgone","AR5002",6)
+END
+
+IF
+  Global("Iacreature","AR5002",0)
+  Global("Iaexit","AR5002",1)
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iacreature","AR5002",1)
+    CreateCreatureObjectDoor("S!ancest",Player1,0,0,0) //
+END
+
+IF
+  Global("Iacreature","AR5002",1)
+  Dead("S!ancest")
+  !Dead("gromnir")
+THEN
+  RESPONSE #100
+    SetGlobal("Iacreature","AR5002",2)
+    TakeItemReplace("amul12","minhp1","gromnir")
+    ActionOverride("gromnir",ReallyForceSpellRES("SPWII07",Myself))
+END
+
+IF
+  !Dead("gromnir")
+  Allegiance("gromnir",ENEMY)
+  HPPercentLT("gromnir",20)
+  Global("Iainjured","AR5002",0)
+  Global("Iacreature","AR5002",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iainjured","AR5002",1)
+END
+
+IF
+  Global("DeathOfGromnir","GLOBAL",2)
+  Global("Iadoonce","AR5002",1)
+  InMyArea(Player1)
+  Dead("GROMG03")
+  Dead("GROMG04")
+  Dead("GROMG05")
+  Dead("GROMG08")
+  CombatCounter(0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iadoonce","AR5002",2)
+    SetGlobal("DeathOfGromnir","GLOBAL",0)
+END

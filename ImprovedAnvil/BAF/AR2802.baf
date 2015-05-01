@@ -1,0 +1,60 @@
+IF
+   InMyArea(Player1)
+   Class(Player1,MAGE_ALL)
+   !Class(Player1,FIGHTER_ALL)
+   !Class(Player1,CLERIC_ALL)
+   !Class(Player1,THIEF_ALL)
+   CheckStat(Player1,6,SCRIPTINGSTATE1)
+   Global("Iadeactivate","AR2802",0)
+   Global("Iaoldwine","GLOBAL",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadeactivate","AR2802",1)
+      ContainerEnable("Container 4",FALSE) //
+END
+
+IF
+   InMyArea(Player1)
+   Class(Player1,MAGE_ALL)
+   !Class(Player1,FIGHTER_ALL)
+   !Class(Player1,CLERIC_ALL)
+   !Class(Player1,THIEF_ALL)
+   CheckStat(Player1,6,SCRIPTINGSTATE1)
+   Global("Iadeactivate","AR2802",1)
+   Global("Iaoldwine","GLOBAL",1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadeactivate","AR2802",2)
+      ContainerEnable("Container 4",TRUE) //
+END
+
+IF
+   InMyArea(Player1)
+   Class(Player1,MAGE_ALL)
+   !Class(Player1,FIGHTER_ALL)
+   !Class(Player1,CLERIC_ALL)
+   !Class(Player1,THIEF_ALL)
+   CheckStat(Player1,6,SCRIPTINGSTATE1)
+   Global("Iaitem","AR2802",0)
+   Global("Iaoldwine","GLOBAL",1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem","AR2802",1)
+      ActionOverride("Container 4",CreateItem("S!misc50",0,0,0)) //
+END
+
+IF
+   InMyArea(Player1)
+   Class(Player1,MAGE_ALL)
+   !Class(Player1,FIGHTER_ALL)
+   !Class(Player1,CLERIC_ALL)
+   !Class(Player1,THIEF_ALL)
+   Global("Iaitem","AR2802",1)
+   Global("Iaoldwine","GLOBAL",1)
+   Global("Iamisc50found","GLOBAL",0)
+   PartyHasItem("S!misc50")
+THEN
+   RESPONSE #100
+      SetGlobal("Iamisc50found","GLOBAL",1)
+      AddexperienceParty(45000)
+END

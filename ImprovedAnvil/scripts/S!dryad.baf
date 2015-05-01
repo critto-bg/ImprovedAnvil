@@ -1,0 +1,20 @@
+IF
+  Global("quit","LOCALS",0)
+  Global("Iapcastts","GLOBAL",0)
+  AttackedBy([GOODCUTOFF],DEFAULT)
+THEN
+  RESPONSE #100
+    SetGlobal("quit","LOCALS",1)
+    ReputationInc(-18)
+    DialogueInterrupt(FALSE)
+    ForceSpell(Myself,DRYAD_TELEPORT)
+END
+
+IF
+  InMyArea(Player1)
+  GlobalGT("IaDryadItems","AR1100",8)
+  GlobalTimerExpired("DryadReady","GLOBAL")
+THEN
+  RESPONSE #100
+    DestroySelf()
+END

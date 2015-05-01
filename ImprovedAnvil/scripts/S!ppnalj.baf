@@ -1,0 +1,71 @@
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  AreaCheck("AR1516")
+  Global("Iadoonce","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iadoonce","LOCALS",1)
+    SetInterrupt(FALSE)
+    ChangeAIScript("",GENERAL)
+    ChangeAIScript("",DEFAULT)
+    SetInterrupt(TRUE)
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  AreaCheck("AR1516")
+  AttackedBy([GOODCUTOFF],DEFAULT)
+THEN
+  RESPONSE #100
+    SetInterrupt(FALSE)
+    Enemy()
+    ChangeAIScript("GPSHOUT",GENERAL)
+    ChangeAIScript("WTASIGHT",DEFAULT)
+    SetInterrupt(TRUE)
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  AreaCheck("AR1516")
+  Global("prep","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("prep","LOCALS",1)
+    ReallyForceSpell(Myself,WIZARD_HASTE)
+    ReallyForceSpell(Myself,WIZARD_MELF_METEOR)
+    ReallyForceSpell(Myself,WIZARD_ARMOR)
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  AreaCheck("AR1516")
+  HasItem("melfmet",Myself)
+  See(NearestEnemyOf(Myself))
+  CheckStatLT(LastSeenBy(Myself),100,RESISTFIRE)
+  !CheckStatGT(LastSeenBy(Myself),1,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  AreaCheck("AR1516")
+  HasItem("melfmet",Myself)
+  See(SecondNearestEnemyOf(Myself))
+  CheckStatLT(LastSeenBy(Myself),100,RESISTFIRE)
+  !CheckStatGT(LastSeenBy(Myself),1,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  AreaCheck("AR1516")
+  !Detect([EVILCUTOFF])
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END

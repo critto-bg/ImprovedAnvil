@@ -1,0 +1,24 @@
+//Brynnlaw //////////////
+
+IF
+   InMyArea(Player1)
+   Global("Iacreature","AR1600",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iacreature","AR1600",1)
+      CreateCreature("S!dwarf",[1237.1180],5)  //
+END
+
+IF
+  Global("Ianticheat","AR1600",0)
+  Global("Iacreature","AR1600",1)
+  Exists("S!dwarf") //
+  !Dead("S!dwarf") //
+  !Allegiance("S!dwarf",ENEMY)
+  HPPercentLT("S!dwarf",100)
+THEN
+  RESPONSE #100
+    SetGlobal("Ianticheat","AR1600",1)
+    ChangeEnemyAlly("S!dwarf",ENEMY)
+    ApplySpellRES("SPWII07","S!dwarf")
+END

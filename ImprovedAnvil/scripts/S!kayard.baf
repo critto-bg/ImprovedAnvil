@@ -1,0 +1,875 @@
+// Mage level 17 //
+// First level Spells (5): Chromatic Orb x5 //
+// Second level spells (5): Vocalize, Acid Arrow x4 //
+// Third level spells (5): Pro fire, Pro cold, Remove Magic x2, Slow //
+// Fourth level Spells (5): Stone Skin x2, Minor globe, Fire shield, GMalison //
+// Fifth level spells (5): Pro Elec, Spell Immunity, Breach x3 //
+// Sixth level spells (3): True Sight, Pro Magic Energy, Death Spell //
+// Seventh level spells (3): Spell Turning, MSword, FoD //
+// Eighth level spells (2): ADHW x2 //
+// scrolls: PW: Silence, Improved Mantle x3 //
+
+IF
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  InMyArea(Player1)
+  Global("EnemySeen","LOCALS",0)
+  Global("Iahalfbattle","AR0411",1)
+THEN
+  RESPONSE #100
+    SetGlobal("EnemySeen","LOCALS",1)
+    SetGlobal("Iakayardi01","LOCALS",1)
+    SetInterrupt(FALSE)
+    ReallyForceSpell(Myself,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
+    ReallyForceSpell(Myself,WIZARD_PROTECTION_FROM_FIRE)
+    ReallyForceSpell(Myself,WIZARD_PROTECTION_FROM_COLD)
+    ReallyForceSpell(Myself,WIZARD_PROTECTION_FROM_ELECTRICITY)
+    ReallyForceSpell(Myself,WIZARD_SPELL_TURNING)
+    ReallyForceSpell(Myself,WIZARD_SPELL_IMMUNITY_ABJURATION)
+    ReallyForceSpell(Myself,WIZARD_MINOR_GLOBE_OF_INVULNERABILITY)
+    ReallyForceSpell(Myself,WIZARD_STONE_SKIN)
+    ReallyForceSpell(Myself,WIZARD_FIRE_SHIELD_RED)
+    CreateVisualEffect("SPDIMNDR",[1323.2529])
+    Wait(1)
+    JumpToPoint([1323.2529])
+    SetInterrupt(TRUE)
+END
+
+IF
+  Detect([PC])
+  Global("Iakayardi01","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iakayardi01","LOCALS",1)
+    ReallyForceSpell(Myself,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
+    ReallyForceSpell(Myself,WIZARD_PROTECTION_FROM_FIRE)
+    ReallyForceSpell(Myself,WIZARD_PROTECTION_FROM_COLD)
+    ReallyForceSpell(Myself,WIZARD_PROTECTION_FROM_ELECTRICITY)
+    ReallyForceSpell(Myself,WIZARD_SPELL_TURNING)
+    ReallyForceSpell(Myself,WIZARD_SPELL_IMMUNITY_ABJURATION)
+    ReallyForceSpell(Myself,WIZARD_MINOR_GLOBE_OF_INVULNERABILITY)
+    ReallyForceSpell(Myself,WIZARD_STONE_SKIN)
+    ReallyForceSpell(Myself,WIZARD_FIRE_SHIELD_RED)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  OR(2)
+   Detect([PC])
+   Detect([GOODCUTOFF])
+  Global("partyfled","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("partyfled","LOCALS",0)
+END
+
+IF
+  Global("Iapcastts","GLOBAL",1)
+  Global("Iatsinvulner","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatsinvulner","LOCALS",1)
+    ApplySpellRES("SPINI70",Myself)
+END
+
+IF
+  Global("Iapcastts","GLOBAL",0)
+  Global("Iatsinvulner","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatsinvulner","LOCALS",0)
+    ApplySpellRES("SPINI71",Myself)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  CheckStatGT(Myself,0,SCRIPTINGSTATE9)
+  See(NearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    EquipMostDamagingMelee()
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  CheckStatGT(Myself,0,SCRIPTINGSTATE9)
+  See(SecondNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    EquipMostDamagingMelee()
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  CheckStatGT(Myself,0,SCRIPTINGSTATE9)
+  See(ThirdNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    EquipMostDamagingMelee()
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  CheckStatGT(Myself,0,SCRIPTINGSTATE9)
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    EquipMostDamagingMelee()
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  OR(3)
+   StateCheck(Myself,STATE_HELPLESS)
+   StateCheck(Myself,STATE_STUNNED)
+   Global("Iapcastts","GLOBAL",1)
+THEN
+  RESPONSE #100
+    NoAction()
+END
+
+IF
+  StateCheck(Myself,STATE_SILENCED)
+THEN
+  RESPONSE #100
+    SpellNoDec(Myself,WIZARD_VOCALIZE)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  OR(2)
+   !GlobalTimerNotExpired("absolute","LOCALS")
+   CheckStat(Myself,0,SCRIPTINGSTATE6)
+  HasItem("scrl9c",Myself)
+  See(NearestEnemyOf(Myself))
+  HPPercentLT(Myself,100)
+  GlobalLT("Iakayardi10","LOCALS",3)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iakayardi10","LOCALS",1)
+    SetGlobalTimer("pfmw","LOCALS",24)
+    DisplayStringHead(Myself,46153) //
+    UseItem("scrl9c",Myself) //
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  !StateCheck(Myself,STATE_HELPLESS)
+  CheckStatLT(Myself,1,STONESKINS)
+  Global("Iakayardi07","LOCALS",1)
+  HPPercentLT(Myself,90)
+  !HPLT(Myself,1)
+  Global("Iakayardi12","LOCALS",0)
+  Global("Iapcastts","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iakayardi12","LOCALS",1)
+    DisplayString(Myself,39968) // Spell Trigger- Fired
+    ReallyForceSpell(Myself,WIZARD_MIRROR_IMAGE)
+    ReallyForceSpell(Myself,WIZARD_BLUR)
+    ReallyForceSpell(Myself,WIZARD_STONE_SKIN)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  CheckStatLT(Myself,1,STONESKINS)
+  Global("Iakayardi07","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iakayardi07","LOCALS",1)
+    SpellNoDec(Myself,WIZARD_STONE_SKIN)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  Global("Iakayardi02","LOCALS",0)
+  See([PC])
+  OR(2)
+   StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+   StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  !GlobalTimerNotExpired("truesight","LOCALS")
+THEN
+  RESPONSE #100
+    SetGlobal("Iakayardi02","LOCALS",1)
+    SetGlobalTimer("truesight","LOCALS",60)
+    SpellNoDec(Myself,WIZARD_TRUE_SIGHT)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  Global("Iakayardi02","LOCALS",0)
+  See(SecondNearest([PC]))
+  OR(2)
+   StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+   StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  !GlobalTimerNotExpired("truesight","LOCALS")
+THEN
+  RESPONSE #100
+    SetGlobal("Iakayardi02","LOCALS",1)
+    SetGlobalTimer("truesight","LOCALS",60)
+    SpellNoDec(Myself,WIZARD_TRUE_SIGHT)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !StateCheck(Myself,STATE_HELPLESS)
+  See([PC])
+  StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !StateCheck(LastSeenBy(Myself),STATE_PANIC)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE7)
+  Global("Iaremove2","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaremove2","LOCALS",1)
+    SetInterrupt(FALSE)
+    ForceSpell(LastSeenBy(Myself),WIZARD_DISPEL_MAGIC)
+    Wait(2)
+    SetInterrupt(TRUE)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !StateCheck(Myself,STATE_HELPLESS)
+  See(SecondNearest([PC]))
+  StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !StateCheck(LastSeenBy(Myself),STATE_PANIC)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE7)
+  Global("Iaremove2","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaremove2","LOCALS",1)
+    SetInterrupt(FALSE)
+    ForceSpell(LastSeenBy(Myself),WIZARD_DISPEL_MAGIC)
+    Wait(2)
+    SetInterrupt(TRUE)
+END
+
+IF
+  !GlobalTimerNotExpired("truesight","LOCALS")
+  Detect([PC])
+  OR(2)
+    !See([PC])
+    !See([GOODCUTOFF])
+THEN
+  RESPONSE #100
+    SetGlobalTimer("truesight","LOCALS",60)
+    SpellNoDec(Myself,WIZARD_TRUE_SIGHT)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  Global("Iakayardi11","LOCALS",0)
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    SetGlobal("Iakayardi11","LOCALS",1)
+    SpellNoDec(Myself,WIZARD_MORDENKAINENS_SWORD)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(Player1)
+  !StateCheck(Player1,STATE_IMPROVEDINVISIBILITY)
+  !CheckStat(Player1,1,SCRIPTINGSTATE7)
+  GlobalLT("Iacastbreach","LOCALS",3)
+  Global("Iap1nb","GLOBAL",1)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iacastbreach","LOCALS",1)
+    SetGlobal("Iap1nb","GLOBAL",0)
+    SpellNoDec(Player1,WIZARD_BREACH)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(Player2)
+  !StateCheck(Player2,STATE_IMPROVEDINVISIBILITY)
+  !CheckStat(Player2,1,SCRIPTINGSTATE7)
+  GlobalLT("Iacastbreach","LOCALS",3)
+  Global("Iap2nb","GLOBAL",1)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iacastbreach","LOCALS",1)
+    SetGlobal("Iap2nb","GLOBAL",0)
+    SpellNoDec(Player2,WIZARD_BREACH)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(Player3)
+  !StateCheck(Player3,STATE_IMPROVEDINVISIBILITY)
+  !CheckStat(Player3,1,SCRIPTINGSTATE7)
+  GlobalLT("Iacastbreach","LOCALS",3)
+  Global("Iap3nb","GLOBAL",1)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iacastbreach","LOCALS",1)
+    SetGlobal("Iap3nb","GLOBAL",0)
+    SpellNoDec(Player3,WIZARD_BREACH)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(Player4)
+  !StateCheck(Player4,STATE_IMPROVEDINVISIBILITY)
+  !CheckStat(Player4,1,SCRIPTINGSTATE7)
+  GlobalLT("Iacastbreach","LOCALS",3)
+  Global("Iap4nb","GLOBAL",1)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iacastbreach","LOCALS",1)
+    SetGlobal("Iap4nb","GLOBAL",0)
+    SpellNoDec(Player4,WIZARD_BREACH)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(Player5)
+  !StateCheck(Player5,STATE_IMPROVEDINVISIBILITY)
+  !CheckStat(Player5,1,SCRIPTINGSTATE7)
+  GlobalLT("Iacastbreach","LOCALS",3)
+  Global("Iap5nb","GLOBAL",1)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iacastbreach","LOCALS",1)
+    SetGlobal("Iap5nb","GLOBAL",0)
+    SpellNoDec(Player5,WIZARD_BREACH)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(Player6)
+  !StateCheck(Player6,STATE_IMPROVEDINVISIBILITY)
+  !CheckStat(Player6,1,SCRIPTINGSTATE7)
+  GlobalLT("Iacastbreach","LOCALS",3)
+  Global("Iap6nb","GLOBAL",1)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iacastbreach","LOCALS",1)
+    SetGlobal("Iap6nb","GLOBAL",0)
+    SpellNoDec(Player6,WIZARD_BREACH)
+END
+
+IF
+  !GlobalTimerNotExpired("truesight","LOCALS")
+  See(NearestEnemyOfType([0.0.0.0.0.ILLUSIONARY.0]))
+THEN
+  RESPONSE #100
+    SetGlobalTimer("truesight","LOCALS",60)
+    SpellNoDec(Myself,WIZARD_TRUE_SIGHT)
+END
+
+IF
+  See(NearestEnemyOfType([0.0.0.0.0.ILLUSIONARY.0]))
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  Global("Iaremove","LOCALS",0)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iaremove","LOCALS",1)
+    SpellNoDec(LastSeenBy(Myself),WIZARD_DISPEL_MAGIC)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOfType([GOODCUTOFF.0.0.0.0.SUMMONED]))
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  OR(3)
+   LevelGT(LastSeenBy(Myself),8)
+   CheckStat(LastSeenBy(Myself),95,RESISTPIERCING)
+   CheckStatGT(LastSeenBy(Myself),89,RESISTMAGIC)
+  Global("Iakayardi05","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iakayardi05","LOCALS",1)
+    SpellNoDec(LastSeenBy(Myself),WIZARD_DEATH_SPELL)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See([PC])
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE7)
+  CheckStat(LastSeenBy(Myself),0,SCRIPTINGSTATE3)
+  Global("Iakayardi03","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iakayardi03","LOCALS",1)
+    SpellNoDec(LastSeenBy(Myself),WIZARD_GREATER_MALISON)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(SecondNearest([PC]))
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE7)
+  CheckStat(LastSeenBy(Myself),0,SCRIPTINGSTATE3)
+  Global("Iakayardi03","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iakayardi03","LOCALS",1)
+    SpellNoDec(LastSeenBy(Myself),WIZARD_GREATER_MALISON)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOfType([PC.0.0.MAGE_ALL]))
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !HasBounceEffects(LastSeenBy(Myself))
+  !CheckStat(LastSeenBy(Myself),5,SCRIPTINGSTATE7)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE2)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
+  Global("Iakayardi21","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iakayardi21","LOCALS",1)
+    SpellNoDec(LastSeenBy(Myself),WIZARD_FINGER_OF_DEATH)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(SecondNearestEnemyOfType([PC.0.0.MAGE_ALL]))
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !HasBounceEffects(LastSeenBy(Myself))
+  !CheckStat(LastSeenBy(Myself),5,SCRIPTINGSTATE7)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE2)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
+  Global("Iakayardi21","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iakayardi21","LOCALS",1)
+    SpellNoDec(LastSeenBy(Myself),WIZARD_FINGER_OF_DEATH)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !StateCheck(Myself,STATE_HELPLESS)
+  See(SecondNearest([PC]))
+  !StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !StateCheck(LastSeenBy(Myself),STATE_PANIC)
+  CheckStatLT(LastSeenBy(Myself),75,RESISTMAGIC)
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE4)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE8)
+  !CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE7)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
+  Global("Iakayardi20","LOCALS",0)
+  Global("Iapcastts","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iakayardi20","LOCALS",1)
+    SetInterrupt(FALSE)
+    DisplayString(Myself,39969)  // ~Spell Sequencer - Fired~
+    ReallyForceSpell(LastSeenBy(Myself),WIZARD_EMOTION_HOPELESSNESS)
+    ReallyForceSpell(LastSeenBy(Myself),WIZARD_CONFUSION)
+    ReallyForceSpell(LastSeenBy(Myself),WIZARD_SLOW)
+    Wait(5)
+    SetInterrupt(TRUE)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !StateCheck(Myself,STATE_HELPLESS)
+  See([PC])
+  !StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !StateCheck(LastSeenBy(Myself),STATE_PANIC)
+  CheckStatLT(LastSeenBy(Myself),75,RESISTMAGIC)
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE4)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE8)
+  !CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE7)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
+  Global("Iakayardi20","LOCALS",0)
+  Global("Iapcastts","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iakayardi20","LOCALS",1)
+    SetInterrupt(FALSE)
+    DisplayString(Myself,39969)  // ~Spell Sequencer - Fired~
+    ReallyForceSpell(LastSeenBy(Myself),WIZARD_EMOTION_HOPELESSNESS)
+    ReallyForceSpell(LastSeenBy(Myself),WIZARD_CONFUSION)
+    ReallyForceSpell(LastSeenBy(Myself),WIZARD_SLOW)
+    Wait(5)
+    SetInterrupt(TRUE)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See([PC])
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
+  OR(2)
+   !StateCheck(LastSeenBy(Myself),STATE_SLOWED)
+   StateCheck(LastSeenBy(Myself),STATE_HASTED)
+  Global("Iakayardi06","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iakayardi06","LOCALS",1)
+    SpellNoDec(LastSeenBy(Myself),WIZARD_SLOW)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(SecondNearest([PC]))
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
+  OR(2)
+   !StateCheck(LastSeenBy(Myself),STATE_SLOWED)
+   StateCheck(LastSeenBy(Myself),STATE_HASTED)
+  Global("Iakayardi06","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iakayardi06","LOCALS",1)
+    SpellNoDec(LastSeenBy(Myself),WIZARD_SLOW)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See([PC])
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  CheckStatLT(LastSeenBy(Myself),100,MAGICDAMAGERESISTANCE)
+  !CheckStat(LastSeenBy(Myself),5,SCRIPTINGSTATE7)
+  CheckStatLT(LastSeenBy(Myself),30,RESISTMAGIC)
+  !HasItemEquiped("S!halb02",LastSeenBy(Myself))
+  Global("Iakayardi08","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iakayardi08","LOCALS",1)
+    SpellNoDec(LastSeenBy(Myself),WIZARD_ABI_DALZIMS_HORRID_WILTING)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(SecondNearest([PC]))
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  CheckStatLT(LastSeenBy(Myself),100,MAGICDAMAGERESISTANCE)
+  !CheckStat(LastSeenBy(Myself),5,SCRIPTINGSTATE7)
+  CheckStatLT(LastSeenBy(Myself),30,RESISTMAGIC)
+  !HasItemEquiped("S!halb02",LastSeenBy(Myself))
+  Global("Iakayardi08","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iakayardi08","LOCALS",1)
+    SpellNoDec(LastSeenBy(Myself),WIZARD_ABI_DALZIMS_HORRID_WILTING)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOfType([PC.0.0.CLERIC_ALL]))
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !HasBounceEffects(LastSeenBy(Myself))
+  !StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+  !StateCheck(LastSeenBy(Myself),STATE_SILENCED)
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE9)
+  !HasItemEquiped("amul21",LastSeenBy(Myself))
+  !HasItemEquiped("S!amul05",LastSeenBy(Myself))
+  !HasItemEquiped("S!amul06",LastSeenBy(Myself))
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE7)
+  HasItem("scrl7p",Myself)
+  Global("Iakayardi04","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iakayardi04","LOCALS",1)
+    DisplayStringHead(Myself,46153) //
+    UseItem("scrl7p",LastSeenBy(Myself))  //
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOfType([PC.0.0.DRUID_ALL]))
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !HasBounceEffects(LastSeenBy(Myself))
+  !StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+  !StateCheck(LastSeenBy(Myself),STATE_SILENCED)
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE9)
+  !HasItemEquiped("amul21",LastSeenBy(Myself))
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE1)
+  HasItem("scrl7p",Myself)
+  Global("Iakayardi04","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iakayardi04","LOCALS",1)
+    DisplayStringHead(Myself,46153) //
+    UseItem("scrl7p",LastSeenBy(Myself))  //
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOfType([PC.0.0.MAGE_ALL]))
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !HasBounceEffects(LastSeenBy(Myself))
+  !StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+  !StateCheck(LastSeenBy(Myself),STATE_SILENCED)
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !HasItemEquiped("amul21",LastSeenBy(Myself))
+  !HasItemEquiped("S!amul05",LastSeenBy(Myself))
+  !HasItemEquiped("S!amul06",LastSeenBy(Myself))
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE9)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE7)
+  HasItem("scrl7p",Myself)
+  Global("Iakayardi04","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iakayardi04","LOCALS",1)
+    DisplayStringHead(Myself,46153) //
+    UseItem("scrl7p",LastSeenBy(Myself))  //
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  CheckStatLT(LastSeenBy(Myself),100,RESISTACID)
+  !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+  !HasBounceEffects(LastSeenBy(Myself))
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE7)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  Global("Iakayardi19","LOCALS",0)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iakayardi19","LOCALS",1)
+    SpellNoDec(LastSeenBy(Myself),WIZARD_MELF_ACID_ARROW)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(SecondNearestEnemyOf(Myself))
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  CheckStatLT(LastSeenBy(Myself),100,RESISTACID)
+  !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+  !HasBounceEffects(LastSeenBy(Myself))
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE7)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  Global("Iakayardi19","LOCALS",0)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iakayardi19","LOCALS",1)
+    SpellNoDec(LastSeenBy(Myself),WIZARD_MELF_ACID_ARROW)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See([PC])
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  CheckStatLT(LastSeenBy(Myself),100,MAGICDAMAGERESISTANCE)
+  !CheckStat(LastSeenBy(Myself),5,SCRIPTINGSTATE7)
+  CheckStatLT(LastSeenBy(Myself),30,RESISTMAGIC)
+  !HasItemEquiped("S!halb02",LastSeenBy(Myself))
+  Global("Iakayardi08","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iakayardi08","LOCALS",2)
+    SpellNoDec(LastSeenBy(Myself),WIZARD_ABI_DALZIMS_HORRID_WILTING)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(SecondNearest([PC]))
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  CheckStatLT(LastSeenBy(Myself),100,MAGICDAMAGERESISTANCE)
+  !CheckStat(LastSeenBy(Myself),5,SCRIPTINGSTATE7)
+  CheckStatLT(LastSeenBy(Myself),30,RESISTMAGIC)
+  !HasItemEquiped("S!halb02",LastSeenBy(Myself))
+  Global("Iakayardi08","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iakayardi08","LOCALS",2)
+    SpellNoDec(LastSeenBy(Myself),WIZARD_ABI_DALZIMS_HORRID_WILTING)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  CheckStatLT(LastSeenBy(Myself),100,RESISTACID)
+  !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE7)
+  !HasBounceEffects(LastSeenBy(Myself))
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  GlobalLT("Iakayardi19","LOCALS",4)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iakayardi19","LOCALS",1)
+    SpellNoDec(LastSeenBy(Myself),WIZARD_MELF_ACID_ARROW)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(SecondNearestEnemyOf(Myself))
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  CheckStatLT(LastSeenBy(Myself),100,RESISTACID)
+  !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE7)
+  !HasBounceEffects(LastSeenBy(Myself))
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  GlobalLT("Iakayardi19","LOCALS",4)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iakayardi19","LOCALS",1)
+    SpellNoDec(LastSeenBy(Myself),WIZARD_MELF_ACID_ARROW)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See([PC])
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  CheckStatLT(LastSeenBy(Myself),100,RESISTACID)
+  !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+  !HasBounceEffects(LastSeenBy(Myself))
+  !CheckStat(LastSeenBy(Myself),4,SCRIPTINGSTATE7)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  GlobalLT("Iakayardi09","LOCALS",5)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iakayardi09","LOCALS",1)
+    SpellNoDec(LastSeenBy(Myself),WIZARD_CHROMATIC_ORB)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(SecondNearest([PC]))
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  CheckStatLT(LastSeenBy(Myself),100,RESISTACID)
+  !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+  !CheckStat(LastSeenBy(Myself),4,SCRIPTINGSTATE7)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  !HasBounceEffects(LastSeenBy(Myself))
+  GlobalLT("Iakayardi09","LOCALS",5)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iakayardi09","LOCALS",1)
+    SpellNoDec(LastSeenBy(Myself),WIZARD_CHROMATIC_ORB)
+END
+
+IF
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Global("partyfled","LOCALS",0)
+  Allegiance(Myself,ENEMY)
+  Global("Iakayardi01","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("chase","LOCALS",60)
+    SetGlobal("partyfled","LOCALS",1)
+END
+
+IF
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_STUNNED)
+  !StateCheck(Myself,STATE_PANIC)
+  !StateCheck(Myself,STATE_CHARMED)
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Global("partyfled","LOCALS",1)
+  GlobalTimerNotExpired("chase","LOCALS")
+  InMyArea(Player1)
+  Allegiance(Myself,ENEMY)
+  Global("Iakayardi01","LOCALS",1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Allegiance(Myself,ENEMY)
+  GlobalTimerExpired("chase","LOCALS")
+  Global("partyfled","LOCALS",1)
+  Global("Iakayardi01","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iakayardi01","LOCALS",0)
+    SetGlobal("Iakayardi02","LOCALS",0)
+    SetGlobal("Iakayardi03","LOCALS",0)
+    SetGlobal("Iakayardi04","LOCALS",0)
+    SetGlobal("Iakayardi05","LOCALS",0)
+    SetGlobal("Iakayardi06","LOCALS",0)
+    SetGlobal("Iakayardi07","LOCALS",0)
+    SetGlobal("Iakayardi08","LOCALS",0)
+    SetGlobal("Iakayardi09","LOCALS",0)
+    SetGlobal("Iakayardi10","LOCALS",0)
+    SetGlobal("Iakayardi11","LOCALS",0)
+    SetGlobal("Iacastbreach","LOCALS",0)
+    SetGlobal("Iakayardi12","LOCALS",0)
+    SetGlobal("Iakayardi19","LOCALS",0)
+    SetGlobal("Iakayardi20","LOCALS",0)
+    SetGlobal("Iakayardi21","LOCALS",0)
+    SetGlobal("Iaremove","LOCALS",0)
+    SetGlobal("Iaremove2","LOCALS",0)
+    ReallyForceSpellRES("SPWII07",Myself)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  ActionListEmpty()
+  See(NearestEnemyOf(Myself))
+  !CheckStat(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  !HasItemEquiped("immune2",LastSeenBy(Myself))
+THEN
+  RESPONSE #100
+    EquipMostDamagingMelee()
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  ActionListEmpty()
+  See(SecondNearestEnemyOf(Myself))
+  !CheckStat(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  !HasItemEquiped("immune2",LastSeenBy(Myself))
+THEN
+  RESPONSE #100
+    EquipMostDamagingMelee()
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  ActionListEmpty()
+  See(ThirdNearestEnemyOf(Myself))
+  !CheckStat(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  !HasItemEquiped("immune2",LastSeenBy(Myself))
+THEN
+  RESPONSE #100
+    EquipMostDamagingMelee()
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  ActionListEmpty()
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    EquipMostDamagingMelee()
+    AttackOneRound(NearestEnemyOf(Myself))
+END

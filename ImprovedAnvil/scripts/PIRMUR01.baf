@@ -1,0 +1,244 @@
+IF
+  NumberOfTimesTalkedTo(0)
+  Global("Iapcastts","GLOBAL",0)
+  Detect([PC])
+  !Dead("pirmur07")  // ~Vadek~
+  !Allegiance(Myself,ENEMY)
+THEN
+  RESPONSE #100
+    StartDialogNoSet([PC])
+END
+
+IF
+  Dead("pirmur07")  // ~Vadek~
+  !Allegiance(Myself,ENEMY)
+THEN
+  RESPONSE #100
+    Enemy()
+END
+
+IF
+  Global("Iapcastts","GLOBAL",1)
+  Global("Iatsinvulner","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatsinvulner","LOCALS",1)
+    ApplySpellRES("SPINI70",Myself)
+END
+
+IF
+  Global("Iapcastts","GLOBAL",0)
+  Global("Iatsinvulner","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatsinvulner","LOCALS",0)
+    ApplySpellRES("SPINI71",Myself)
+END
+
+IF
+  !Allegiance(Myself,ENEMY)
+  !HPLT(Myself,1)
+  InMyArea(Player1)
+  OR(4)
+   AttackedBy([GOODCUTOFF],DEFAULT)
+   AttackedBy([PC],DEFAULT)
+   SpellCastOnMe([GOODCUTOFF],0)
+   SpellCastOnMe([PC],0)
+THEN
+  RESPONSE #100
+    Enemy()
+    MoveToObject(Player1)
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  Global("EnemySeen","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("EnemySeen","LOCALS",1)
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  Global("partyfled","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("partyfled","LOCALS",0)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_PANIC)
+  !StateCheck(Myself,STATE_STUNNED)
+  Global("Iagal01","LOCALS",0)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  HasItem("POTN35",Myself) //
+  See([PC])
+  Global("Iapcastts","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SetGlobal("Iagal01","LOCALS",1)
+    DisplayStringHead(Myself,46150)  // ~quaffs a potion~
+    UseItem("POTN35",Myself) //
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  Global("Iapcastts","GLOBAL",0)
+  Global("Iagal01","LOCALS",1)
+  HasItem("S!minhp1",Myself)
+THEN
+  RESPONSE #100
+    DestroyItem("S!minhp1")
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  Global("Iapcastts","GLOBAL",0)
+  Global("Iaitem","LOCALS",0)
+  !HasItem("S!minhp1",Myself)
+  AreaCheck("AR1610")
+  Global("Iasingleswash","AR1610",1)
+  NumInPartyGT(4)
+  OR(6)
+   CheckStat(Player1,8,SCRIPTINGSTATE1)
+   CheckStat(Player2,8,SCRIPTINGSTATE1)
+   CheckStat(Player3,8,SCRIPTINGSTATE1)
+   CheckStat(Player4,8,SCRIPTINGSTATE1)
+   CheckStat(Player5,8,SCRIPTINGSTATE1)
+   CheckStat(Player6,8,SCRIPTINGSTATE1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaitem","LOCALS",1)
+    GiveItemCreate("leat09",Myself,0,0,0) //
+END
+
+IF
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_PANIC)
+  !StateCheck(Myself,STATE_STUNNED)
+  Global("Iapcastts","GLOBAL",0)
+  HPPercentLT(Myself,50)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  HasItem("POTN55",Myself) // ~Potion of Superior Healing~
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    DisplayStringHead(Myself,46150)  // ~quaffs a potion~
+    UseItem("POTN55",Myself) // ~Potion of Superior Healing~
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !StateCheck(Myself,STATE_SILENCED)
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_PANIC)
+  !StateCheck(Myself,STATE_STUNNED)
+  Global("Iapcastts","GLOBAL",0)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  See([PC])
+  Range(LastSeenBy(Myself),3)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE5)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  Global("Iagal02","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iagal02","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    ForceSpell(Myself,WARRIOR_POWER_ATTACK)
+END
+
+IF
+  !See([PC])
+  !See([GOODCUTOFF])
+  Global("partyfled","LOCALS",0)
+  Allegiance(Myself,ENEMY)
+  Global("EnemySeen","LOCALS",1)
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("chase","LOCALS",60)
+    SetGlobal("partyfled","LOCALS",1)
+END
+
+IF
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_STUNNED)
+  !StateCheck(Myself,STATE_PANIC)
+  !StateCheck(Myself,STATE_CHARMED)
+  !See([PC])
+  !See([GOODCUTOFF])
+  Global("partyfled","LOCALS",1)
+  GlobalTimerNotExpired("chase","LOCALS")
+  InMyArea(Player1)
+  Allegiance(Myself,ENEMY)
+  Global("EnemySeen","LOCALS",1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  !See([PC])
+  !See([GOODCUTOFF])
+  Allegiance(Myself,ENEMY)
+  GlobalTimerExpired("chase","LOCALS")
+  Global("partyfled","LOCALS",1)
+  Global("EnemySeen","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iagal02","LOCALS",0)
+    SetGlobal("EnemySeen","LOCALS",0)
+    ReallyForceSpellRES("SPWII07",Myself)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    EquipMostDamagingMelee()
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(SecondNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    EquipMostDamagingMelee()
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    EquipMostDamagingMelee()
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_STUNNED)
+  !StateCheck(Myself,STATE_PANIC)
+  !StateCheck(Myself,STATE_CHARMED)
+  !See([PC])
+  !See([GOODCUTOFF])
+  InMyArea(Player1)
+  Allegiance(Myself,ENEMY)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END

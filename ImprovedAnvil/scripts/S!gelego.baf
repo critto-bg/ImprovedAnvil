@@ -1,0 +1,272 @@
+IF
+  See(NearestEnemyOf(Myself))
+  Global("partyfled","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("partyfled","LOCALS",0)
+END
+
+IF
+  AreaCheck("AR3019")
+  Global("Iaseal","LOCALS",0)
+  OR(2)
+   InMyArea(Player1)
+   See(NearestEnemyOf(Myself))
+  Global("Iaexit","AR3019",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaseal","LOCALS",1)
+    SetGlobal("Iaexit","AR3019",1)
+END
+
+IF
+  Global("Iapcastts","GLOBAL",0)
+  See([PC])
+  !GlobalTimerNotExpired("Iapurge","LOCALS")
+  !HPLT(Myself,1)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iapurge","LOCALS",24)
+    ReallyForceSpellRES("SPINI29",LastSeenBy(Myself)) //
+END
+
+IF
+  !GlobalTimerNotExpired("Iareconstruct","LOCALS")
+  Global("Iapcastts","GLOBAL",1)
+  !HPLT(Myself,1)
+  HPPercentLT(Myself,75)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iareconstruct","LOCALS",18)
+    ReallyForceSpellRES("SPWII45",Myself)
+END
+
+IF
+  !GlobalTimerNotExpired("Iareconstruct","LOCALS")
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  !HPLT(Myself,1)
+  HPPercentLT(Myself,75)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iareconstruct","LOCALS",60)
+    ReallyForceSpellRES("SPWII45",Myself)
+END
+
+IF
+  Detect([PC])
+  Global("Iatimer","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("golemcall","LOCALS",6)
+    SetGlobal("Iatimer","LOCALS",1)
+END
+
+IF
+  Detect([PC])
+  Global("Iatimer2","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("ambercall","LOCALS",12)
+    SetGlobal("Iatimer2","LOCALS",1)
+END
+
+IF
+  See([PC])
+  !GlobalTimerNotExpired("golemcall","LOCALS")
+  GlobalLT("golems","LOCALS",6)
+  !HPLT(Myself,1)
+THEN
+  RESPONSE #50
+    SetGlobalTimer("golemcall","LOCALS",12)
+    IncrementGlobal("golems","LOCALS",1)
+    CreateCreatureObject("S!coins",Myself,0,0,0) //
+  RESPONSE #50
+    SetGlobalTimer("golemcall","LOCALS",12)
+    IncrementGlobal("golems","LOCALS",1)
+    CreateCreatureObject("S!gems",Myself,0,0,0) //
+END
+
+IF
+  See([PC])
+  !GlobalTimerNotExpired("ambercall","LOCALS")
+  GlobalLT("ambers","LOCALS",3)
+  !HPLT(Myself,1)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("ambercall","LOCALS",12)
+    IncrementGlobal("ambers","LOCALS",1)
+    CreateCreatureObject("S!ambers",Myself,0,0,0) //
+END
+
+IF
+  AreaCheck("AR3019")
+  Detect([PC])
+  Global("Iatreasure","LOCALS",0)
+  Global("Iausunoplace","GLOBAL",2)
+  GlobalGT("golems","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iausunoplace","GLOBAL",3)
+    SetGlobal("Iatreasure","LOCALS",1)
+    GiveItemCreate("sw1h67",Myself,0,0,0) //
+END
+
+IF
+  AreaCheck("AR3019")
+  Detect([PC])
+  Global("Iatreasure2","LOCALS",0)
+  Global("Iafbaneplace","GLOBAL",2)
+  GlobalGT("golems","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iafbaneplace","GLOBAL",4)
+    SetGlobal("Iatreasure2","LOCALS",1)
+    GiveItemCreate("sw1h62",Myself,0,0,0) //
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(SecondNearestEnemyOf(Myself))
+  CheckStatLT(LastSeenBy(Myself),90,RESISTCRUSHING)
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  RandomNumGT(6,4)
+  Range(LastSeenBy(Myself),2)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Global("partyfled","LOCALS",0)
+  Global("Iatimer","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("chase","LOCALS",90)
+    SetGlobal("partyfled","LOCALS",1)
+END
+
+IF
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Global("partyfled","LOCALS",1)
+  GlobalTimerNotExpired("chase","LOCALS")
+  InMyArea(Player1)
+  Global("Iatimer","LOCALS",1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  GlobalTimerExpired("chase","LOCALS")
+  Global("partyfled","LOCALS",1)
+  Global("Iatimer","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatimer","LOCALS",0)
+    SetGlobal("Iatimer2","LOCALS",0)
+    SetGlobal("golems","LOCALS",0)
+    SetGlobal("ambers","LOCALS",0)
+    ReallyForceSpellRES("SPWII07",Myself)
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  See(SecondNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  Range(LastSeenBy(Myself),3)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(ThirdNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  Range(LastSeenBy(Myself),3)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(FourthNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  Range(LastSeenBy(Myself),3)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(SecondNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  Range(LastSeenBy(Myself),4)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(ThirdNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  Range(LastSeenBy(Myself),4)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(FourthNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  Range(LastSeenBy(Myself),4)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(SecondNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(ThirdNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  AreaCheck("AR3019")
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  InMyArea(Player1)
+  Global("Iatimer","LOCALS",0)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END

@@ -1,0 +1,339 @@
+IF
+  OR(3)
+   HPPercentLT(Myself,100)
+   Detect([PC])
+   Detect([GOODCUTOFF])
+  Global("spoke","LOCALS",0)
+  Global("Iapcastts","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("spoke","LOCALS",1)
+    SetGlobal("Iahalfbattle","AR0411",1)
+    SetGlobal("Ialocation","LOCALS",1)
+    ForceSpell(Myself,GAROCK_TELEPORT)
+    JumpToPoint([1756.2659])
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  OR(2)
+   Detect([PC])
+   Detect([GOODCUTOFF])
+  Global("partyfled","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("partyfled","LOCALS",0)
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  Global("partyfled","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("partyfled","LOCALS",0)
+END
+
+IF
+  Global("Iapcastts","GLOBAL",1)
+  Global("Iatsinvulner","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatsinvulner","LOCALS",1)
+    ApplySpellRES("SPINI70",Myself)
+END
+
+IF
+  Global("Iapcastts","GLOBAL",0)
+  Global("Iatsinvulner","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatsinvulner","LOCALS",0)
+    ApplySpellRES("SPINI71",Myself)
+END
+
+IF
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Global("spoke","LOCALS",0)
+  InMyArea(Player1)
+  OR(3)
+   HPPercentLT(Myself,100)
+   AttackedBy([GOODCUTOFF],DEFAULT)
+   SpellCastOnMe([PC],0)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_PANIC)
+  !StateCheck(Myself,STATE_STUNNED)
+  Global("Iapcastts","GLOBAL",0)
+  HPPercentLT(Myself,50)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  HasItem("potn55",Myself)  // ~Potion of Superior Healing~
+THEN
+  RESPONSE #100
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    DisplayStringHead(Myself,46150)  // ~quaffs a potion~
+    UseItem("potn55",Myself)  // ~Potion of Superior Healing~
+END
+
+IF
+  See([PC])
+  HasItem("arow10",Myself)
+  Global("Iahalfbattle","AR0411",1)
+  !Range(LastSeenBy(Myself),3)
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE10)
+THEN
+  RESPONSE #100
+    EquipRanged()
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(SecondNearest([PC]))
+  HasItem("arow10",Myself)
+  Global("Iahalfbattle","AR0411",1)
+  !Range(LastSeenBy(Myself),3)
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE10)
+THEN
+  RESPONSE #100
+    EquipRanged()
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(ThirdNearest([PC]))
+  HasItem("arow10",Myself)
+  Global("Iahalfbattle","AR0411",1)
+  !Range(LastSeenBy(Myself),3)
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE10)
+THEN
+  RESPONSE #100
+    EquipRanged()
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(FourthNearest([PC]))
+  HasItem("arow10",Myself)
+  Global("Iahalfbattle","AR0411",1)
+  !Range(LastSeenBy(Myself),3)
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE10)
+THEN
+  RESPONSE #100
+    EquipRanged()
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(FifthNearest([PC]))
+  HasItem("arow10",Myself)
+  Global("Iahalfbattle","AR0411",1)
+  !Range(LastSeenBy(Myself),3)
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE10)
+THEN
+  RESPONSE #100
+    EquipRanged()
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(SixthNearest([PC]))
+  HasItem("arow10",Myself)
+  Global("Iahalfbattle","AR0411",1)
+  !Range(LastSeenBy(Myself),3)
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE10)
+THEN
+  RESPONSE #100
+    EquipRanged()
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  HasItem("arow10",Myself)
+  See(NearestEnemyOf(Myself))
+  Global("Iahalfbattle","AR0411",1)
+  Range(LastSeenBy(Myself),3)
+  Global("Ialocation","LOCALS",1)
+  GlobalLT("Iateleport","LOCALS",6)
+  Global("Iapcastts","GLOBAL",0)
+  RandomNumGT(6,4)
+THEN
+  RESPONSE #100
+    SetGlobal("Ialocation","LOCALS",2)
+    IncrementGlobal("Iateleport","LOCALS",1)
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    ForceSpell(Myself,GAROCK_TELEPORT)
+    JumpToPoint([1282.2623])
+END
+
+IF
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  HasItem("arow10",Myself)
+  See(NearestEnemyOf(Myself))
+  Global("Iahalfbattle","AR0411",1)
+  Range(LastSeenBy(Myself),3)
+  Global("Ialocation","LOCALS",1)
+  GlobalLT("Iateleport","LOCALS",6)
+  Global("Iapcastts","GLOBAL",0)
+  RandomNumLT(4,3)
+THEN
+  RESPONSE #100
+    SetGlobal("Ialocation","LOCALS",3)
+    IncrementGlobal("Iateleport","LOCALS",1)
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    ForceSpell(Myself,GAROCK_TELEPORT)
+    JumpToPoint([1646.2473])
+END
+
+IF
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  HasItem("arow10",Myself)
+  See(NearestEnemyOf(Myself))
+  Global("Iahalfbattle","AR0411",1)
+  Range(LastSeenBy(Myself),3)
+  Global("Ialocation","LOCALS",2)
+  GlobalLT("Iateleport","LOCALS",6)
+  Global("Iapcastts","GLOBAL",0)
+  RandomNumGT(6,4)
+THEN
+  RESPONSE #100
+    SetGlobal("Ialocation","LOCALS",1)
+    IncrementGlobal("Iateleport","LOCALS",1)
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    ForceSpell(Myself,GAROCK_TELEPORT)
+    JumpToPoint([1756.2659])
+END
+
+IF
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  HasItem("arow10",Myself)
+  See(NearestEnemyOf(Myself))
+  Global("Iahalfbattle","AR0411",1)
+  Range(LastSeenBy(Myself),3)
+  Global("Ialocation","LOCALS",2)
+  GlobalLT("Iateleport","LOCALS",6)
+  Global("Iapcastts","GLOBAL",0)
+  RandomNumLT(4,3)
+THEN
+  RESPONSE #100
+    SetGlobal("Ialocation","LOCALS",3)
+    IncrementGlobal("Iateleport","LOCALS",1)
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    ForceSpell(Myself,GAROCK_TELEPORT)
+    JumpToPoint([1646.2473])
+END
+
+IF
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  HasItem("arow10",Myself)
+  See(NearestEnemyOf(Myself))
+  Global("Iahalfbattle","AR0411",1)
+  Range(LastSeenBy(Myself),3)
+  Global("Ialocation","LOCALS",3)
+  GlobalLT("Iateleport","LOCALS",6)
+  Global("Iapcastts","GLOBAL",0)
+  RandomNumGT(6,4)
+THEN
+  RESPONSE #100
+    SetGlobal("Ialocation","LOCALS",2)
+    IncrementGlobal("Iateleport","LOCALS",1)
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    ForceSpell(Myself,GAROCK_TELEPORT)
+    JumpToPoint([1282.2623])
+END
+
+IF
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  HasItem("arow10",Myself)
+  See(NearestEnemyOf(Myself))
+  Global("Iahalfbattle","AR0411",1)
+  Range(LastSeenBy(Myself),3)
+  Global("Ialocation","LOCALS",3)
+  GlobalLT("Iateleport","LOCALS",6)
+  Global("Iapcastts","GLOBAL",0)
+  RandomNumLT(4,3)
+THEN
+  RESPONSE #100
+    SetGlobal("Ialocation","LOCALS",1)
+    IncrementGlobal("Iateleport","LOCALS",1)
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    ForceSpell(Myself,GAROCK_TELEPORT)
+    JumpToPoint([1756.2659])
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  Global("Iahalfbattle","AR0411",1)
+  Range(LastSeenBy(Myself),3)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    EquipMostDamagingMelee()
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  See(SecondNearestEnemyOf(Myself))
+  Global("Iahalfbattle","AR0411",1)
+  Range(LastSeenBy(Myself),3)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    EquipMostDamagingMelee()
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Global("partyfled","LOCALS",0)
+  Allegiance(Myself,ENEMY)
+  Global("partyseen","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("chase","LOCALS",60)
+    SetGlobal("partyfled","LOCALS",1)
+END
+
+IF
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_STUNNED)
+  !StateCheck(Myself,STATE_PANIC)
+  !StateCheck(Myself,STATE_CHARMED)
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Global("partyfled","LOCALS",1)
+  GlobalTimerNotExpired("chase","LOCALS")
+  InMyArea(Player1)
+  Allegiance(Myself,ENEMY)
+  Global("partyseen","LOCALS",1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Allegiance(Myself,ENEMY)
+  GlobalTimerExpired("chase","LOCALS")
+  Global("partyfled","LOCALS",1)
+  Global("partyseen","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("partyseen","LOCALS",0)
+    ReallyForceSpellRES("SPWII07",Myself)
+END

@@ -1,0 +1,219 @@
+IF
+  Allegiance(Myself,ENEMY)
+  HitBy([GOODCUTOFF],FIRE)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  Global("Iapcastts","GLOBAL",0)
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_STUNNED)
+  !StateCheck(Myself,STATE_PANIC)
+  HasItem("POTN02",Myself) //
+THEN
+  RESPONSE #100
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    DisplayStringHead(Myself,46150)  // ~quaffs a potion~
+    UseItem("POTN02",Myself) //
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  Global("Iapcastts","GLOBAL",0)
+  Global("Iashielding","LOCALS",0)
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_STUNNED)
+  !StateCheck(Myself,STATE_PANIC)
+  HasItem("POTN35",Myself)  //
+THEN
+  RESPONSE #100
+    SetGlobal("Iashielding","LOCALS",1)
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    DisplayStringHead(Myself,46150)  // ~quaffs a potion~
+    UseItem("POTN35",Myself)  //
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  Global("Iapcastts","GLOBAL",0)
+  Global("Iashielding","LOCALS",1)
+  HasItem("minhp1",Myself)
+THEN
+  RESPONSE #100
+    SetInterrupt(FALSE)
+    ReallyForceSpellRES("SPWII07",Myself)
+    DestroyItem("minhp1")
+    SetInterrupt(TRUE)
+END
+
+IF
+  !HasItem("minhp1",Myself)
+  Global("Iapcastts","GLOBAL",1)
+  Global("Iatsinvulner","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatsinvulner","LOCALS",1)
+    ApplySpellRES("SPINI70",Myself)
+END
+
+IF
+  Global("Iapcastts","GLOBAL",0)
+  Global("Iatsinvulner","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatsinvulner","LOCALS",0)
+    ApplySpellRES("SPINI71",Myself)
+END
+
+IF
+  OR(2)
+    NumberOfTimesTalkedTo(0)
+    GlobalTimerExpired("SevpatReinit","GLOBAL")
+  Allegiance(Myself,NEUTRAL)
+  See([PC])
+  Global("Iapcastts","GLOBAL",0)
+THEN
+  RESPONSE #100
+    StartDialogNoSet([PC])
+END
+
+IF
+  Global("RiatavinFight","GLOBAL",1)
+  Allegiance(Myself,NEUTRAL)
+THEN
+  RESPONSE #100
+    Enemy()
+END
+
+IF
+  Global("RiatavinFight","GLOBAL",0)
+  Allegiance(Myself,ENEMY)
+THEN
+  RESPONSE #100
+    SetGlobal("RiatavinFight","GLOBAL",1)
+END
+
+IF
+  Allegiance(Myself,NEUTRAL)
+  OR(8)
+    HPPercentLT(Myself,100)
+    AttackedBy([GOODCUTOFF],DEFAULT)
+    HitBy([GOODCUTOFF],CRUSHING)
+    SpellCastOnMe([GOODCUTOFF],0)
+    SpellCastOnMe([PC],0)
+    TookDamage()
+    SpellCastInnate([GOODCUTOFF],SET_SNARE_TRAP)
+    SpellCastInnate([GOODCUTOFF],SET_SPECIAL_SNARE_TRAP)
+  Global("RiatavinFight","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("RiatavinFight","GLOBAL",1)
+    Enemy()
+    Shout(151)
+END
+
+IF
+  Allegiance(Myself,NEUTRAL)
+  Detect([PC.0.0.THIEF_ALL])
+  Range([PC.0.0.THIEF_ALL],3)
+  Global("RiatavinFight","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("RiatavinFight","GLOBAL",1)
+    Enemy()
+    Shout(151)
+END
+
+IF
+  Heard([EVILCUTOFF],151)
+  !Allegiance(Myself,ENEMY)
+THEN
+  RESPONSE #100
+    Enemy()
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !StateCheck(Myself,STATE_SILENCED)
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_PANIC)
+  Global("Iapcastts","GLOBAL",0)
+  !CheckStatGT(Myself,0,SCRIPTINGSTATE9)
+  HPPercentLT(Myself,80)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  Global("Iahla","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iahla","LOCALS",1)
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    ForceSpell(Myself,WARRIOR_HARDINESS)
+END
+
+IF
+  HPPercentLT(Myself,50)
+  Global("Iapcastts","GLOBAL",0)
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_STUNNED)
+  !StateCheck(Myself,STATE_PANIC)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  HasItem("POTN55",Myself)  // ~Potion of Superior Healing~
+THEN
+  RESPONSE #100
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    DisplayStringHead(Myself,46150)  // ~quaffs a potion~
+    UseItem("POTN55",Myself)  // ~Potion of Superior Healing~
+END
+
+IF
+  InMyArea(Player1)
+  !Detect([GOODCUTOFF])
+  Allegiance(Myself,ENEMY)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(SecondNearestEnemyOf(Myself))
+  CheckStatLT(LastSeenBy(Myself),90,RESISTCRUSHING)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  RandomNumGT(6,4)
+  Range(LastSeenBy(Myself),3)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  See(SecondNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(ThirdNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END

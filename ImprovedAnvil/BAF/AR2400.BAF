@@ -1,0 +1,100 @@
+//Mindflayers lair underdark //////////////
+
+IF
+  InMyArea(Player1)
+  OpenState("Door01",TRUE)
+  Global("Iacutscene","AR2400",1)
+THEN
+  RESPONSE #100
+    CloseDoor("Door01")
+    Lock("Door01")
+END
+
+IF
+  InMyArea(Player1)
+  OpenState("Door01",FALSE)
+  Global("Iacutscene","AR2400",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iacutscene","AR2400",2)
+END
+
+IF
+   Global("Iacreature","AR2400",1)
+   Dead("S!elegob")
+THEN
+   RESPONSE #100
+      SetGlobal("Iacreature","AR2400",2)
+      TakeItemReplace("amul12","minhp1","udmaster")
+END
+
+IF
+   Global("Iaitem","AR2400",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem","AR2400",1)
+      ActionOverride("Container 3",CreateItem("scrl6m",0,0,0)) //
+      ActionOverride("Container 6",CreateItem("potn55",0,0,0)) //
+      ActionOverride("Container 6",CreateItem("misc44",0,0,0)) //
+END
+
+IF
+  Dead("udmaster")  // ~The Master Brain~
+  Global("openTheDoor","AR2400",0)
+THEN
+  RESPONSE #100
+    SetInterrupt(FALSE)
+    AddXPObject(Player1,15000)
+    AddXPObject(Player2,15000)
+    AddXPObject(Player3,15000)
+    AddXPObject(Player4,15000)
+    AddXPObject(Player5,15000)
+    AddXPObject(Player6,15000)
+    EraseJournalEntry(54410)  // ~Captured by Mind Flayers!I have stumbled upon a Mind Flayer enclave, and I am in serious trouble. I am to fight in their pit, presumably for their amusement. I do not know if it is possible to escape from the center of a Mind Flayer stronghold. They will be at their most powerful here.~
+    EraseJournalEntry(54413)  // ~Captured by Mind Flayers!It would appear that I am not the only one that has been captured and forced to fight. There is a group of Githyanki here, and they harbor even more hatred for the 'illithid' than I do. Perhaps they will be of help, if they survive their battle.~
+    EraseJournalEntry(57859)  // ~Captured by Mind Flayers!It would appear that I am not the only one that has been captured and forced to fight. There is a group of Githyanki here as well, the same group that attacked Saemon Havarian's ship. I hope they prove friendlier now that we are in the same predicament. Their hatred of illithids may make them willing to help us both escape.~
+    EraseJournalEntry(57860)  // ~Captured by Mind Flayers!The Githyanki leader, Simyaz, has proposed a plan.  His men will use their abilities to try and block the mental energy of the Mind Flayers in the arena. If they can be disrupted, I will be able to open the arena door and escape into the illithid city proper. From there, I'm not sure. I don't know if I can trust Simyaz, but I have little choice.~
+    EraseJournalEntry(57863)  // ~Captured by Mind Flayers!I could trust the Githyanki, but only to a point. Simyaz and his group are leaving me to fend for myself, and I will have to find my own means of escape. Lacking the teleportation abilities of the Githyanki I could not follow when they left, and must now face the wrath of the illithid city on my own.~
+    EraseJournalEntry(57864)  // ~Captured by Mind Flayers!I could trust the Githyanki, but only to a point. Simyaz and his group are leaving me to fend for myself, and I will have to find my own means of escape.  They left after again chastizing me for the theft of their Silver Sword, the weapon I got from Saemon Havarian.  Lacking the teleportational abilities of the Githyanki I could not follow when they left, and must now face the wrath of the illithid city on my own. ~
+    EraseJournalEntry(57894)  // ~Captured by Mind Flayers!I have slain the Githyanki prisoners.  Now I can focus my attention on escaping this foul prison.  I need to find some way to force open the door out of the arena.~
+    GiveItemCreate("MISCBV",Player1,0,0,0)  // ~Elder Brain Blood~
+    DisplayStringHead(Player1,58111)  // ~You have killed the master illithid brain.  You feel a psychic backlash, a sharp pain that jabs into your mind like a knife.  Your vision goes white, then slowly returns to normal.  You are certain that all of the doors controlled by the brain are now open.~
+    Unlock("Door08")
+    OpenDoor("Door08")
+    SetGlobal("openTheDoor","AR2400",1)
+    SetInterrupt(TRUE)
+END
+
+IF
+  Dead("udmaster")  // ~The Master Brain~
+  Global("Iacutscene","AR2400",2)
+THEN
+  RESPONSE #100
+    SetInterrupt(FALSE)
+    SetGlobal("Iacutscene","AR2400",3)
+    Unlock("Door01")
+    SetInterrupt(TRUE)
+END
+
+IF
+  InMyArea(Player1)
+  OpenState("Door01",TRUE)
+  Global("Iacutscene","AR2400",0)
+THEN
+  RESPONSE #100
+    ClearAllActions()
+    StartCutSceneMode()
+    FadeToColor([30.0],0)
+    Wait(1)
+    MoveViewPoint([650.859],INSTANT)
+    ActionOverride(Player1,JumpToPoint([650.859]))
+    ActionOverride(Player2,JumpToPoint([691.811]))
+    ActionOverride(Player3,JumpToPoint([584.900]))
+    ActionOverride(Player4,JumpToPoint([706.761]))
+    ActionOverride(Player5,JumpToPoint([518.919]))
+    ActionOverride(Player6,JumpToPoint([700.894])
+    Wait(1)
+    SetGlobal("Iacutscene","AR2400",1)
+    FadeFromColor([30.0],0)
+    EndCutSceneMode()
+END

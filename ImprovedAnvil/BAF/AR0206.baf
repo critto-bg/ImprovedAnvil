@@ -1,0 +1,43 @@
+//Theshal  //////////////
+
+IF
+  Global("Iaexit","AR0206",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR0206",1)
+    TriggerActivation("Tran0201a",FALSE)
+    TriggerActivation("Tran0201b",FALSE)
+END
+
+IF
+  Global("Iaexit","AR0206",1)
+  Dead("theshal") //
+  CombatCounter(0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR0206",2)
+    TriggerActivation("Tran0201a",TRUE)
+    TriggerActivation("Tran0201b",TRUE)
+END
+
+IF
+  Global("Iaexit","AR0206",2)
+  Global("Iaexit2","AR0206",0)
+  PartyHasItem("brac07")
+  !CombatCounter(0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit2","AR0206",1)
+    TriggerActivation("Tran0201a",FALSE)
+    TriggerActivation("Tran0201b",FALSE)
+END
+
+IF
+  Global("Iaexit2","AR0206",1)
+  CombatCounter(0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit2","AR0206",2)
+    TriggerActivation("Tran0201a",TRUE)
+    TriggerActivation("Tran0201b",TRUE)
+END

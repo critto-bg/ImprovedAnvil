@@ -1,0 +1,235 @@
+//Bridge District //////////////
+
+IF
+  Alignment(Player1,MASK_GOOD)
+  Reputation(Player1,20)
+  !Global("Iaswanmejob","GLOBAL",2)
+  GlobalTimerExpired("Iavanyafir","GLOBAL")
+  InMyArea(Player1)
+  NumInPartyAliveGT(1)
+  !GlobalGT("Iap1notgood","GLOBAL",0)
+  OR(2)
+   Global("FirkraagDead","GLOBAL",1)
+   Dead("firkra02")
+  Global("Iamesvan","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iamesvan","GLOBAL",1)
+    CreateCreatureObjectOffScreen("S!messen",Player1,0,0,0) //
+END
+
+IF
+  Global("Iaswanmejob","GLOBAL",2)
+  Global("Iacreature","AR0500",0)
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iacreature","AR0500",1)
+    CreateCreatureObjectOffScreen("S!aurie2",Player1,0,0,0) //
+END
+
+IF
+  Global("Iamvagrant","GLOBAL",1)
+  Global("Iacreature2","AR0500",0)
+  Global("Iaswanmejob","GLOBAL",4)
+THEN
+  RESPONSE #100
+    SetGlobal("Iacreature2","AR0500",1)
+    CreateCreature("S!malbar",[4529.159],0) //
+END
+
+IF
+  Global("Iamalbardead","GLOBAL",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iamalbardead","GLOBAL",2)
+    CreateCreature("S!malba2",[4468.341],5) //
+END
+
+IF
+  Global("Iaregions","AR0500",0)
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaregions","AR0500",1)
+    TriggerActivation("Tran0506",FALSE)
+    TriggerActivation("Tran0506b",FALSE)
+    TriggerActivation("Tran0530",FALSE)
+END
+
+IF
+  Global("Iasquirjob","GLOBAL",3)
+  Global("Iacreature3","AR0500",0)
+  InMyArea(Player1)
+  !Class(Player1,FIGHTER_ALL)
+  !Class(Player1,THIEF_ALL)
+  !Class(Player1,CLERIC_ALL)
+  OR(3)
+    Class(Player1,RANGER_ALL)
+    Class(Player1,DRUID_ALL)
+    Class(Player1,MAGE_ALL)
+THEN
+  RESPONSE #100
+    SetGlobal("Iacreature3","AR0500",1)
+    CreateCreature("S!squi03",[4980.2512],3) //
+END
+
+IF
+  Global("Iasquirjob","GLOBAL",4)
+  Global("Iaassassinator","AR0500",0)
+  InMyArea(Player1)
+  OR(2)
+    TimeGT(DUSK_START)
+    TimeLT(DAWN_START)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaassassinator","AR0500",1)
+    CreateCreature("S!sqassa",[4420.981],0) //
+    CreateCreature("S!sqass2",[4360.988],0) //
+    CreateCreature("S!sqass3",[4439.1045],0) //
+END
+
+IF
+  Global("Iaregions2","AR0500",0)
+  Global("IasqEnemySeen","AR0500",1)
+  Global("Iaassassinator","AR0500",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaregions2","AR0500",1)
+    TriggerActivation("Tran0501",FALSE)
+    TriggerActivation("Tran0504",FALSE)
+    TriggerActivation("Tran0507",FALSE)
+    TriggerActivation("Tran0512",FALSE)
+    TriggerActivation("Tran0513",FALSE)
+    TriggerActivation("Tran0514a",FALSE)
+    TriggerActivation("Tran0514b",FALSE)
+    TriggerActivation("Tran0515",FALSE)
+    TriggerActivation("Tran0505a",FALSE)
+    TriggerActivation("Tran0505b",FALSE)
+    TriggerActivation("Tran0525",FALSE)
+    TriggerActivation("Tran0527",FALSE)
+    TriggerActivation("Tran0529",FALSE)
+    TriggerActivation("Tran0531",FALSE)
+END
+
+IF
+  Global("Iaregions3","AR0500",0)
+  Global("IasqEnemySeen","AR0500",1)
+  Global("Iaassassinator","AR0500",1)
+  Global("firstActivate","AR0500",2)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaregions3","AR0500",1)
+    TriggerActivation("Tran0522",FALSE)
+END
+
+IF
+  Global("Iaregions3","AR0500",0)
+  Global("IasqEnemySeen","AR0500",1)
+  Global("Iaassassinator","AR0500",1)
+  Global("firstActivate","AR0500",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaregions3","AR0500",1)
+    TriggerActivation("Tran0509",FALSE)
+END
+
+IF
+  Global("Iasquirjob","GLOBAL",4)
+  Global("Iaassassinator","AR0500",1)
+  Global("Iahazelgiven","AR0500",1)
+  InMyArea(Player1)
+  Dead("S!sqassa")
+  Dead("S!sqass2")
+  Dead("S!sqass3")
+THEN
+  RESPONSE #100
+    SetGlobal("Iasquirjob","GLOBAL",5)
+    TriggerActivation("Tran0506",TRUE)
+    TriggerActivation("Tran0506b",TRUE)
+    CreateCreature("S!squi04",[4980.2512],3) //
+END
+
+IF
+  Global("Iasquirjob","GLOBAL",4)
+  Global("Iaassassinator","AR0500",1)
+  Global("Iahazelgiven","AR0500",0)
+  InMyArea(Player1)
+  Dead("S!sqassa")
+  Dead("S!sqass2")
+  Dead("S!sqass3")
+THEN
+  RESPONSE #100
+    SetGlobal("Iasquirjob","GLOBAL",5)
+    TriggerActivation("Tran0506",TRUE)
+    TriggerActivation("Tran0506b",TRUE)
+END
+
+IF
+  Global("Iaregions2","AR0500",1)
+  Global("Iasquirjob","GLOBAL",5)
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaregions2","AR0500",2)
+    TriggerActivation("Tran0501",TRUE)
+    TriggerActivation("Tran0504",TRUE)
+    TriggerActivation("Tran0507",TRUE)
+    TriggerActivation("Tran0512",TRUE)
+    TriggerActivation("Tran0513",TRUE)
+    TriggerActivation("Tran0514a",TRUE)
+    TriggerActivation("Tran0514b",TRUE)
+    TriggerActivation("Tran0515",TRUE)
+    TriggerActivation("Tran0505a",TRUE)
+    TriggerActivation("Tran0505b",TRUE)
+    TriggerActivation("Tran0525",TRUE)
+    TriggerActivation("Tran0527",TRUE)
+    TriggerActivation("Tran0529",TRUE)
+    TriggerActivation("Tran0531",TRUE)
+END
+
+IF
+  Global("Iaregions3","AR0500",1)
+  Global("Iasquirjob","GLOBAL",5)
+  InMyArea(Player1)
+  Global("firstActivate","AR0500",2)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaregions3","AR0500",2)
+    TriggerActivation("Tran0522",TRUE)
+END
+
+IF
+  Global("Iaregions3","AR0500",1)
+  Global("Iasquirjob","GLOBAL",5)
+  InMyArea(Player1)
+  Global("firstActivate","AR0500",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaregions3","AR0500",2)
+    TriggerActivation("Tran0509",TRUE)
+END
+
+IF
+  Global("Iasquirjob","GLOBAL",6)
+  Global("Iaregions","AR0500",1)
+  GlobalGT("Chapter","GLOBAL",5)
+  PartyHasItem("DWDUST")
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaregions","AR0500",2)
+    TriggerActivation("Tran0530",TRUE)
+END
+
+IF
+  Global("Iasquirjob","GLOBAL",6)
+  Global("Iaregions","AR0500",2)
+  GlobalGT("Chapter","GLOBAL",5)
+  !PartyHasItem("DWDUST")
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaregions","AR0500",1)
+    TriggerActivation("Tran0530",FALSE)
+END

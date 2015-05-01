@@ -1,0 +1,17 @@
+IF
+  Global("Iacreature","AR0511",2)
+  Global("Iadoonce","LOCALS",0)
+  OR(5)
+   AttackedBy([GOODCUTOFF],DEFAULT)
+   AttackedBy([PC],DEFAULT)
+   SpellCastOnMe([GOODCUTOFF],0)
+   SpellCastOnMe([PC],0)
+   TookDamage()
+THEN
+  RESPONSE #100
+    DialogueInterrupt(FALSE)
+    SetGlobal("GypsyJob","GLOBAL",6)
+    SetGlobal("Iadoonce","LOCALS",1)
+    DisplayStringHead(Myself,12672) //
+    ForceSpell(Myself,DRYAD_TELEPORT)
+END

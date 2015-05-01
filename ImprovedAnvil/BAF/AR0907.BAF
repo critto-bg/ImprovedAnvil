@@ -1,0 +1,171 @@
+//Guarded Compound 2nd Floor //////////////
+
+IF
+  OnCreation()
+  Global("EnteredAR0907","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("EnteredAR0907","GLOBAL",1)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iaexit2","AR0907",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit2","AR0907",1)
+    TriggerActivation("Tran0906a",FALSE)
+    TriggerActivation("Tran0906b",FALSE)
+END
+
+IF
+   InMyArea(Player1)
+   Global("Iatrap","AR0907",0)
+   Global("Iapcastts","GLOBAL",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iatrap","AR0907",1)
+      SetInterrupt(FALSE)
+      DisplayString(Player1,14381)  // ~Trap Sprung~
+      PlaySound("AMB_D17")
+      SetGlobal("Iap1nr","GLOBAL",0)
+      SetGlobal("Iap2nr","GLOBAL",0)
+      SetGlobal("Iap3nr","GLOBAL",0)
+      SetGlobal("Iap4nr","GLOBAL",0)
+      SetGlobal("Iap5nr","GLOBAL",0)
+      SetGlobal("Iap6nr","GLOBAL",0)
+      SetGlobal("Iap1nb","GLOBAL",0)
+      SetGlobal("Iap2nb","GLOBAL",0)
+      SetGlobal("Iap3nb","GLOBAL",0)
+      SetGlobal("Iap4nb","GLOBAL",0)
+      SetGlobal("Iap5nb","GLOBAL",0)
+      SetGlobal("Iap6nb","GLOBAL",0)
+      ActionOverride(Player1,ReallyForceSpellRES("SPINI22",Myself))
+      SetInterrupt(TRUE)
+END
+
+IF
+   InMyArea(Player1)
+   Global("Iatrap","AR0907",0)
+   Global("Iapcastts","GLOBAL",1)
+   NumInPartyAlive(1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iatrap","AR0907",1)
+      SetGlobal("Iap1nr","GLOBAL",0)
+      SetGlobal("Iap1nb","GLOBAL",0)
+      ActionOverride(Player1,ReallyForceSpellRES("SPINI14",Myself))
+END
+
+IF
+  Global("Iaexit2","AR0907",1)
+  Dead("hlsion") //
+  Dead("hlstal") //
+  Dead("hlketta") //
+  Dead("hlolaf") //
+  Dead("hlmafer") //
+  Dead("hlkoshi") //
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit2","AR0907",2)
+    TriggerActivation("Tran0906a",TRUE)
+    TriggerActivation("Tran0906b",TRUE)
+END
+
+IF
+  Global("Iaexit2","AR0907",1)
+  Global("Iasummontime","AR0907",0)
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iasummontime","AR0907",1)
+    SetGlobalTimer("Iaassassin","AR0907",12)
+END
+
+IF
+  Global("Iaexit2","AR0907",1)
+  GlobalLT("Iaassassins","AR0907",9)
+  Global("Iasummontime","AR0907",1)
+  !GlobalTimerNotExpired("Iaassassin","AR0907")
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iaassassins","AR0907",1)
+    SetGlobalTimer("Iaassassin","AR0907",18)
+    CreateCreatureObject("S!slassa",Player1,0,0,0) //
+END
+
+IF
+   Global("Iaitem","AR0907",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem","AR0907",1)
+      ActionOverride("Container 11",CreateItem("misc07",4500,0,0)) //
+      ActionOverride("Container 13",CreateItem("blun07",0,0,0)) //
+      CreateCreature("S!elegos",[1908.497],3) //
+END
+
+IF
+  Global("Iaexit","AR0907",1)
+  Global("Iaexit2","AR0907",2)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR0907",2)
+    TriggerActivation("Tran0906a",FALSE)
+    TriggerActivation("Tran0906b",FALSE)
+END
+
+IF
+  Global("Iaexit","AR0907",2)
+  Dead("S!elegos")
+  CombatCounter(0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR0907",3)
+    TriggerActivation("Tran0906a",TRUE)
+    TriggerActivation("Tran0906b",TRUE)
+END
+
+IF
+  InMyArea(Player1)
+  OR(4)
+   SpellCast([PC],WIZARD_DEATH_FOG)
+   SpellCast([PC],WIZARD_CLOUDKILL)
+   SpellCast([PC],WIZARD_INCENDIARY_CLOUD)
+   SpellCast([PC],WIZARD_STINKING_CLOUD)
+THEN
+  RESPONSE #100
+    SetGlobal("Iapccloud","AR0907",1)
+    SetGlobalTimer("Iacloudtime","AR0907",60)
+END
+
+IF
+  Global("Iapccloud","AR0907",1)
+  GlobalTimerExpired("Iacloudtime","AR0907")
+THEN
+  RESPONSE #100
+    SetGlobal("Iapccloud","AR0907",0)
+END
+
+IF
+   InMyArea(Player1)
+   GlobalGT("Iapcastts","GLOBAL",0)
+   Global("Ianotreasure","AR0907",0)
+   Global("Iadooncech","AR0907",0)
+   NumInPartyAlive(1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadooncech","AR0907",1)
+      SetGlobal("Ianotreasure","AR0907",1)
+END
+
+IF
+   InMyArea(Player1)
+   Global("Iadooncech","AR0907",0)
+   OR(2)
+    Global("Iapcastts","GLOBAL",0)
+    NumInPartyAliveGT(1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadooncech","AR0907",1)
+END

@@ -1,0 +1,58 @@
+BEGIN ~IAORDER~
+
+IF ~NumTimesTalkedTo(0)~ THEN BEGIN 0
+  SAY @1350
+  IF ~~ THEN REPLY @1351 GOTO 1
+END
+
+IF ~~ THEN BEGIN 1
+  SAY @1352
+  IF ~~ THEN REPLY @1353 GOTO 2
+  IF ~!InParty("keldorn") Alignment(Player1,MASK_EVIL)~ THEN REPLY @1354 GOTO 9
+END
+
+IF ~~ THEN BEGIN 2
+  SAY @1355
+  IF ~~ THEN REPLY @1356 GOTO 3
+END
+
+IF ~~ THEN BEGIN 3
+  SAY @1357
+  IF ~~ THEN REPLY @1358 GOTO 4
+END
+
+IF ~~ THEN BEGIN 4
+  SAY @1359
+  IF ~~ THEN REPLY @1360 GOTO 5
+  IF ~PartyHasItem("S!misc19")~ THEN REPLY @1361 GOTO 8
+  IF ~~ THEN REPLY @1362 GOTO 9
+  IF ~~ THEN REPLY @1363 GOTO 7
+END
+
+IF ~~ THEN BEGIN 5
+  SAY @1364
+  IF ~~ THEN REPLY @1365 GOTO 6
+END
+
+IF ~~ THEN BEGIN 6
+  SAY @1366
+  IF ~PartyHasItem("S!misc19")~ THEN REPLY @1361 GOTO 8
+  IF ~~ THEN REPLY @1362 GOTO 9
+  IF ~~ THEN REPLY @1363 GOTO 7
+END
+
+IF ~~ THEN BEGIN 7
+  SAY @1367
+  IF ~PartyHasItem("S!misc19")~ THEN REPLY @1361 GOTO 8
+  IF ~~ THEN REPLY @1362 GOTO 9
+END
+
+IF ~~ THEN BEGIN 8
+  SAY @1368
+  IF ~~ THEN DO ~SetGlobal("GypsyJob","GLOBAL",6) TakePartyItemNum("S!misc19",1) DestroyItem("S!misc19") AddexperienceParty(30000) ReputationInc(1) ForceSpell(Myself,DRYAD_TELEPORT)~ EXIT
+END
+
+IF ~~ THEN BEGIN 9
+  SAY @1369
+  IF ~~ THEN DO ~SetGlobal("GypsyJob","GLOBAL",5) ForceSpell(Myself,DRYAD_TELEPORT)~ EXIT
+END

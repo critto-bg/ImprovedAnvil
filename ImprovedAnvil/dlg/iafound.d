@@ -1,0 +1,22 @@
+BEGIN ~IAFOUND~
+
+IF ~NumTimesTalkedTo(0)~ THEN BEGIN 0
+  SAY @3050
+  IF ~~ THEN REPLY @3051 GOTO 1
+  IF ~~ THEN REPLY @3052 GOTO 2
+END
+
+IF ~~ THEN BEGIN 1
+  SAY @3053
+  IF ~~ THEN GOTO 2
+END
+
+IF ~~ THEN BEGIN 2
+  SAY @3054
+  IF ~~ THEN GOTO 3
+END
+
+IF ~~ THEN BEGIN 3
+  SAY @3055
+  IF ~~ THEN DO ~ActionOverride(Player1,ReallyForceSpellRES("SPINI22",Myself))~ EXIT
+END

@@ -1,0 +1,96 @@
+// The Harpist House //////////////
+
+IF
+  InMyArea(Player1)
+  Global("Iaexit","AR2811",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR2811",1)
+    TriggerActivation("Tran2800",FALSE)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iacreature","AR2811",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iacreature","AR2811",1)
+    SetGlobalTimer("Iareopen","AR2811",6)
+    CreateCreature("S!rak1s",[319.319],13)  //
+    CreateCreature("S!gelegs",[450.294],3)  //
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iaitem","AR2811",0)
+  GlobalGT("Iapcastts","GLOBAL",0)
+  NumInPartyAlive(1)
+THEN
+   RESPONSE #100
+     SetGlobal("Iaitem","AR2811",1)
+     SetGlobal("Iaitem2","AR2811",1)
+     SetGlobal("Iaitem3","AR2811",1)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iaexit","AR2811",1)
+  GlobalTimerExpired("Iareopen","AR2811")
+  Dead("S!rak1s")
+  Dead("S!gelegs")
+  CombatCounter(0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR2811",2)
+    TriggerActivation("Tran2800",TRUE)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iaitem","AR2811",0)
+  Global("Iapcastts","GLOBAL",0)
+THEN
+   RESPONSE #100
+     SetGlobal("Iaitem","AR2811",1)
+     ActionOverride("Drawer 1",CreateItem("S!scrl05",0,0,0)) //
+     ActionOverride("Drawer 1",CreateItem("scrlb2",0,0,0)) //
+     ActionOverride("Drawer 1",CreateItem("S!scrl24",0,0,0)) //
+     ActionOverride("Drawer 1",CreateItem("misc23",0,0,0)) //
+     ActionOverride("Table 1",CreateItem("Staf16",0,20,20)) //
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iaitem2","AR2811",0)
+  Global("Iaexit","AR2811",2)
+  Class(Player1,MAGE_ALL)
+  !Class(Player1,FIGHTER_ALL)
+  !Class(Player1,CLERIC_ALL)
+  !Class(Player1,THIEF_ALL)
+  Alignment(Player1,MASK_GOOD)
+  Reputation(Player1,20)
+  CheckStat(Player1,6,SCRIPTINGSTATE1)
+  !GlobalGT("Iap1notgood","GLOBAL",0)
+  Global("Iapcastts","GLOBAL",0)
+THEN
+   RESPONSE #100
+     SetGlobal("Iaitem2","AR2811",1)
+     ActionOverride("Table 1",CreateItem("S!scrl10",0,0,0)) //
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iaitem3","AR2811",0)
+  OR(6)
+   Class(Player1,RANGER_ALL)
+   Class(Player2,RANGER_ALL)
+   Class(Player3,RANGER_ALL)
+   Class(Player4,RANGER_ALL)
+   Class(Player5,RANGER_ALL)
+   Class(Player6,RANGER_ALL)
+  Global("Iapcastts","GLOBAL",0)
+THEN
+   RESPONSE #100
+     SetGlobal("Iaitem3","AR2811",1)
+     ActionOverride("Drawer 1",CreateItem("scrl7q",0,0,0)) //
+END

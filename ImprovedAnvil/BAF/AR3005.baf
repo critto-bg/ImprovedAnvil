@@ -1,0 +1,25 @@
+//Watcher's Keep tieflings //////////////
+
+IF
+  Global("Iaexit","AR3005",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR3005",1)
+    TriggerActivation("Tran3007",FALSE)
+    TriggerActivation("Tran3003",FALSE)
+    TriggerActivation("Tran3005",FALSE)
+    TriggerActivation("Tran3010",FALSE)
+END
+
+IF
+  Global("Iaexit","AR3005",1)
+  Dead("teltief3")
+  CombatCounter(0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR3005",2)
+    TriggerActivation("Tran3007",TRUE)
+    TriggerActivation("Tran3003",TRUE)
+    TriggerActivation("Tran3005",TRUE)
+    TriggerActivation("Tran3010",TRUE)
+END

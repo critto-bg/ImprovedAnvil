@@ -1,0 +1,91 @@
+IF
+  NumTimesTalkedTo(0)
+  Global("Iapcastts","GLOBAL",0)
+  Detect(Player1)
+THEN
+  RESPONSE #100
+    StartDialogueNoSet(Player1)
+END
+
+IF
+  Global("Iapcastts","GLOBAL",1)
+  Global("Iatsinvulner","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatsinvulner","LOCALS",1)
+    ApplySpellRES("SPINI70",Myself)
+END
+
+IF
+  Global("Iapcastts","GLOBAL",0)
+  Global("Iatsinvulner","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatsinvulner","LOCALS",0)
+    ApplySpellRES("SPINI71",Myself)
+END
+
+IF
+  Global("Iadisbelieve","GLOBAL",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iadisbelieve","GLOBAL",0)
+    SetInterrupt(FALSE)
+    DisplayString(Myself,57749) //
+    Wait(1)
+    SetInterrupt(TRUE)
+    DestroySelf()
+END
+
+IF
+  Global("Iaremove","LOCALS",0)
+  Detect(Player1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaremove","LOCALS",1)
+    SetGlobal("Iap1nb","GLOBAL",0)
+    ApplySpellRES("SPINI10",Player1)
+END
+
+IF
+  InMyArea(Player1)
+  !GlobalTimerNotExpired("Iacheckp1","LOCALS")
+  OR(2)
+   !Detect(Player1)
+   !Range(Player1,3)
+  See(NearestEnemyOf(Myself))
+  RandomNumLT(4,3)
+THEN
+  RESPONSE #60
+    SetGlobalTimer("Iacheckp1","LOCALS",6)
+    MoveToObject(Player1)
+END
+
+IF
+  InMyArea(Player1)
+  !GlobalTimerNotExpired("Iacheckp1","LOCALS")
+  OR(2)
+   !Detect(Player1)
+   !Range(Player1,3)
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iacheckp1","LOCALS",6)
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  InMyArea(Player1)
+  !See([GOODCUTOFF])
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  See(Player1)
+  Range(Player1,3)
+THEN
+  RESPONSE #100
+    AttackOneRound(Player1)
+END

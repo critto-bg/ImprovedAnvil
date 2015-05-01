@@ -1,0 +1,128 @@
+IF
+  Global("Iamoving","LOCALS",1)
+  OR(2)
+   Detect(NearestEnemyOf(Myself))
+   Detect(NearestEnemyOf(LastSummonerOf(Myself)))
+THEN
+  RESPONSE #100
+    SetGlobal("Iamoving","LOCALS",0)
+END
+
+IF
+  Global("Iamoving","LOCALS",1)
+  CombatCounter(0)
+  See([PC])
+  Range(LastSeenBy(Myself),6)
+THEN
+  RESPONSE #100
+    SetGlobal("Iamoving","LOCALS",0)
+END
+
+IF
+  ActionListEmpty()
+  See(NearestEnemyOf(Myself))
+  !GlobalTimerNotExpired("summons","LOCALS")
+  !See([GOODCUTOFF.0.0.0.0.SUMMONED])
+  Global("Iapcastts","GLOBAL",0)
+THEN
+  RESPONSE #60
+    SetGlobalTimer("summons","LOCALS",30)
+    ForceSpellRES("SPWII23",Myself) //
+  RESPONSE #40
+    SetGlobalTimer("summons","LOCALS",30)
+END
+
+IF
+  ActionListEmpty()
+  See(NearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  ActionListEmpty()
+  See(NearestEnemyOf(Player1))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  ActionListEmpty()
+  See(SecondNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  ActionListEmpty()
+  See(SecondNearestEnemyOf(Player1))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  ActionListEmpty()
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  ActionListEmpty()
+  See(NearestEnemyOf(Player1))
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  ActionListEmpty()
+  Global("Iamoving","LOCALS",0)
+  !Detect(NearestEnemyOf(Myself))
+  !Detect(NearestEnemyOf(LastSummonerOf(Myself)))
+THEN
+  RESPONSE #100
+    SetGlobal("Iamoving","LOCALS",1)
+END
+
+IF
+  ActionListEmpty()
+  Global("Iamoving","LOCALS",0)
+  CombatCounter(0)
+  !Detect(Player1)
+  !Detect(LastSummonerOf(Myself))
+  !Detect([PC])
+THEN
+  RESPONSE #100
+    SetGlobal("Iamoving","LOCALS",1)
+END
+
+IF
+  ActionListEmpty()
+  Global("Iamoving","LOCALS",1)
+  !Detect(NearestEnemyOf(Myself))
+  !Detect(NearestEnemyOf(LastSummonerOf(Myself)))
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  ActionListEmpty()
+  Global("Iamoving","LOCALS",1)
+  !Detect(NearestEnemyOf(Myself))
+  !Detect(NearestEnemyOf(LastSummonerOf(Myself)))
+THEN
+  RESPONSE #100
+    MoveToObject(LastSummonerOf(Myself))
+END

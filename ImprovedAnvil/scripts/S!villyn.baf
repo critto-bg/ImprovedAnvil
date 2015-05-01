@@ -1,0 +1,221 @@
+IF
+  Allegiance(Myself,ENEMY)
+  OR(2)
+   Detect([PC])
+   See(NearestEnemyOf(Myself))
+  Global("Iabattle","LOCALS",0)
+THEN
+  RESPONSE #50
+    SetGlobal("Iabattle","LOCALS",1)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  Global("Iapcastts","GLOBAL",0)
+  Global("Iasummons","LOCALS",3)
+  HasItem("S!minhp2",Myself)
+THEN
+  RESPONSE #100
+    DestroyItem("S!minhp2")
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !HPLT(Myself,1)
+  Detect([PC])
+  !GlobalTimerNotExpired("Iaviper","LOCALS")
+  GlobalLT("Iasummons","LOCALS",3)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iasummons","LOCALS",1)
+    SetGlobalTimer("Iaviper","LOCALS",24)
+    CreateCreatureObjectEffect("S!sahvip","SPFLESHS",Myself) //
+    CreateCreatureObjectEffect("S!sahvip","SPFLESHS",Myself) //
+    CreateCreatureObjectEffect("S!sahvip","SPFLESHS",Myself) //
+    CreateCreatureObjectEffect("S!sahvip","SPFLESHS",Myself) //
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !HPLT(Myself,1)
+  Detect([PC])
+  Global("Iasummons2","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iasummons2","LOCALS",1)
+    CreateCreature("S!vilmag",[3803.3098],13)
+    CreateCreature("S!vilmag",[4627.2587],0)
+    GiveItemCreate("scrl8r",Myself,0,0,0)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  Global("partyfled","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("partyfled","LOCALS",0)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  OR(2)
+   Detect([PC])
+   See(NearestEnemyOf(Myself))
+  Global("Iapcastts","GLOBAL",1)
+  !HasItem("S!minhp2",Myself)
+  Global("Iatsinvulner","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatsinvulner","LOCALS",1)
+    ApplySpellRES("SPINI70",Myself)
+END
+
+IF
+  Global("Iapcastts","GLOBAL",0)
+  Global("Iatsinvulner","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatsinvulner","LOCALS",0)
+    ApplySpellRES("SPINI71",Myself)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(SecondNearestEnemyOf(Myself))
+  CheckStatLT(LastSeenBy(Myself),90,RESISTPIERCING)
+  !CheckStatGT(LastSeenBy(Myself),1,SCRIPTINGSTATE6)
+  RandomNumGT(6,4)
+  Range(LastSeenBy(Myself),3)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),1,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  See(SecondNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),1,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  !See([PC])
+  !See([GOODCUTOFF])
+  Global("partyfled","LOCALS",0)
+  Allegiance(Myself,ENEMY)
+  Global("Iabattle","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("chase","LOCALS",60)
+    SetGlobal("partyfled","LOCALS",1)
+END
+
+IF
+  !See([PC])
+  !See([GOODCUTOFF])
+  Global("partyfled","LOCALS",1)
+  GlobalTimerNotExpired("chase","LOCALS")
+  InMyArea(Player1)
+  Allegiance(Myself,ENEMY)
+  Global("Iabattle","LOCALS",1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  !See([PC])
+  !See([GOODCUTOFF])
+  Allegiance(Myself,ENEMY)
+  GlobalTimerExpired("chase","LOCALS")
+  Global("partyfled","LOCALS",1)
+  Global("Iabattle","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iabattle","LOCALS",0)
+    ReallyForceSpellRES("SPWII07",Myself)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !See([PC])
+  !See([GOODCUTOFF])
+  Global("Iabattle","LOCALS",0)
+  Global("anticheese","LOCALS",0)
+  OR(2)
+   AttackedBy([GOODCUTOFF],DEFAULT)
+   HPPercentLT(Myself,100)
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    SetGlobal("anticheese","LOCALS",1)
+    SetGlobalTimer("chase2","LOCALS",12)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  GlobalTimerNotExpired("chase2","LOCALS")
+  Global("anticheese","LOCALS",1)
+  Global("Iabattle","LOCALS",0)
+  !See([PC])
+  !See([GOODCUTOFF])
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  GlobalTimerExpired("chase2","LOCALS")
+  Global("anticheese","LOCALS",1)
+  Global("Iabattle","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("anticheese","LOCALS",0)
+    ReallyForceSpellRES("SPWII07",Myself)
+END
+
+IF
+  AttackedBy([GOODCUTOFF],DEFAULT)
+  Allegiance(Myself,NEUTRAL)
+  Global("villynatyjob","GLOBAL",2)
+THEN
+  RESPONSE #100
+    SetGlobal("Hostilecity","GLOBAL",1)
+    Enemy()
+END
+
+IF
+  Global("Hostilecity","GLOBAL",1)
+  Allegiance(Myself,NEUTRAL)
+THEN
+  RESPONSE #100
+    Enemy()
+END
+
+IF
+  !Allegiance(Myself,ENEMY)
+  AttackedBy([GOODCUTOFF],DEFAULT)
+THEN
+  RESPONSE #100
+    Enemy()
+END

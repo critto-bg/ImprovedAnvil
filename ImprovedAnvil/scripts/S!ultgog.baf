@@ -1,0 +1,287 @@
+IF
+  Global("Iaedeswascall","LOCALS",0)
+  Global("Iaedeswaspawn","AR4500",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaedeswascall","LOCALS",1)
+    CreateCreatureObject("S!edeswa",Myself,0,0,0)
+    CreateCreatureObject("S!edeswa",Myself,0,0,0)
+    CreateCreatureObject("S!edeswa",Myself,0,0,0)
+    CreateCreatureObject("S!edeswa",Myself,0,0,0)
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  Global("partyfled","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("partyfled","LOCALS",0)
+END
+
+IF
+  AreaCheck("AR4500")
+  GlobalGT("Iapasha","AR4500",0)
+  Exists("S!pasha2")
+  !Dead("S!pasha2")
+  OR(2)
+   See("S!pasha2")
+   See(NearestEnemyOf(Myself))
+  Global("partyfled","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("partyfled","LOCALS",0)
+END
+
+IF
+  Detect([PC])
+  Global("EnemySeen","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("EnemySeen","LOCALS",1)
+END
+
+IF
+  Detect([PC])
+  Global("Iatimer","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("golemcall","LOCALS",12)
+    SetGlobal("Iatimer","LOCALS",1)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See([PC])
+  !GlobalTimerNotExpired("golemcall","LOCALS")
+  GlobalLT("golems","LOCALS",6)
+  !HPLT(Myself,1)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("golemcall","LOCALS",30)
+    IncrementGlobal("golems","LOCALS",1)
+    CreateCreatureObject("S!amberg",Myself,0,0,0) //
+END
+
+IF
+  AreaCheck("AR4500")
+  GlobalGT("Iapasha","AR4500",0)
+  See([PC])
+  Exists("S!pasha2")
+  !Dead("S!pasha2")
+  See("S!pasha2")
+  Range("S!pasha2",5)
+  RandomNumLT(6,2)
+THEN
+  RESPONSE #100
+    AttackOneRound("S!pasha2")
+    AttackOneRound("S!pasha2")
+END
+
+IF
+  AreaCheck("AR4500")
+  GlobalGT("Iapasha","AR4500",0)
+  !See([PC])
+  Exists("S!pasha2")
+  !Dead("S!pasha2")
+  See("S!pasha2")
+  RandomNumGT(6,5)
+THEN
+  RESPONSE #100
+    AttackOneRound("S!pasha2")
+    AttackOneRound("S!pasha2")
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(SecondNearestEnemyOf(Myself))
+  CheckStatLT(LastSeenBy(Myself),90,RESISTCRUSHING)
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  RandomNumGT(6,4)
+  Range(LastSeenBy(Myself),5)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  AreaCheck("AR4500")
+  GlobalGT("Iapasha","AR4500",0)
+  !See([PC])
+  !See([GOODCUTOFF])
+  Exists("S!pasha2")
+  !Dead("S!pasha2")
+  !See("S!pasha2")
+  Global("partyfled","LOCALS",0)
+  Global("EnemySeen","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("chase","LOCALS",90)
+    SetGlobal("partyfled","LOCALS",1)
+END
+
+IF
+  AreaCheck("AR4500")
+  GlobalGT("Iapasha","AR4500",0)
+  !See([PC])
+  !See([GOODCUTOFF])
+  Exists("S!pasha2")
+  !Dead("S!pasha2")
+  !See("S!pasha2")
+  Global("partyfled","LOCALS",1)
+  GlobalTimerNotExpired("chase","LOCALS")
+  InMyArea(Player1)
+  Global("EnemySeen","LOCALS",1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  AreaCheck("AR4500")
+  GlobalGT("Iapasha","AR4500",0)
+  !See([PC])
+  !See([GOODCUTOFF])
+  Exists("S!pasha2")
+  !Dead("S!pasha2")
+  !See("S!pasha2")
+  GlobalTimerExpired("chase","LOCALS")
+  Global("partyfled","LOCALS",1)
+  Global("EnemySeen","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("EnemySeen","LOCALS",0)
+    ReallyForceSpellRES("SPWII07",Myself)
+END
+
+IF
+  AreaCheck("AR4500")
+  GlobalGT("Iapasha","AR4500",0)
+  !See([PC])
+  !See([GOODCUTOFF])
+  Dead("S!pasha2")
+  Global("partyfled","LOCALS",0)
+  Global("EnemySeen","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("chase","LOCALS",90)
+    SetGlobal("partyfled","LOCALS",1)
+END
+
+IF
+  AreaCheck("AR4500")
+  GlobalGT("Iapasha","AR4500",0)
+  !See([PC])
+  !See([GOODCUTOFF])
+  Dead("S!pasha2")
+  Global("partyfled","LOCALS",1)
+  GlobalTimerNotExpired("chase","LOCALS")
+  InMyArea(Player1)
+  Global("EnemySeen","LOCALS",1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  AreaCheck("AR4500")
+  GlobalGT("Iapasha","AR4500",0)
+  !See([PC])
+  !See([GOODCUTOFF])
+  Dead("S!pasha2")
+  GlobalTimerExpired("chase","LOCALS")
+  Global("partyfled","LOCALS",1)
+  Global("EnemySeen","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("EnemySeen","LOCALS",0)
+    ReallyForceSpellRES("SPWII07",Myself)
+END
+
+IF
+  Global("Iapasha","AR4500",0)
+  !See([PC])
+  !See([GOODCUTOFF])
+  Global("partyfled","LOCALS",0)
+  Global("EnemySeen","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("chase","LOCALS",90)
+    SetGlobal("partyfled","LOCALS",1)
+END
+
+IF
+  Global("Iapasha","AR4500",0)
+  !See([PC])
+  !See([GOODCUTOFF])
+  Global("partyfled","LOCALS",1)
+  GlobalTimerNotExpired("chase","LOCALS")
+  InMyArea(Player1)
+  Global("EnemySeen","LOCALS",1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  Global("Iapasha","AR4500",0)
+  !See([PC])
+  !See([GOODCUTOFF])
+  GlobalTimerExpired("chase","LOCALS")
+  Global("partyfled","LOCALS",1)
+  Global("EnemySeen","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("EnemySeen","LOCALS",0)
+    ReallyForceSpellRES("SPWII07",Myself)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(SecondNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  AreaCheck("AR4500")
+  GlobalGT("Iapasha","AR4500",0)
+  !See([PC])
+  !See([GOODCUTOFF])
+  Exists("S!pasha2")
+  !Dead("S!pasha2")
+  !See("S!pasha2")
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  Global("Iapasha","AR4500",0)
+  !See([PC])
+  !See([GOODCUTOFF])
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END

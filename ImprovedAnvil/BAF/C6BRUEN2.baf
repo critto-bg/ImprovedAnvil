@@ -1,0 +1,29 @@
+IF
+  Detect([PC])
+  Global("C6DrizztHelp","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("C6DrizztHelp","GLOBAL",1)
+END
+
+IF
+  AreaCheck("AR0808")
+  Global("C6DrizztHelp","GLOBAL",0)
+  AttackedBy([EVILCUTOFF],DEFAULT)
+  See(LastAttackerOf(Myself))
+  Global("Iaattackvamps","AR0808",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaattackvamps","AR0808",1)
+    AttackOneRound(LastAttackerOf(Myself))
+END
+
+IF
+  AreaCheck("AR0808")
+  Global("C6DrizztHelp","GLOBAL",0)
+  See([EVILCUTOFF])
+  Global("Iaattackvamps","AR0808",1)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END

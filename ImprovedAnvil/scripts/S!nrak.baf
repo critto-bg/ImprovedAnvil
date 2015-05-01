@@ -1,0 +1,641 @@
+IF
+  AreaCheck("AR4500")
+  GlobalGT("Iaepicbattle","AR4500",2)
+  Global("Iasuicide","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iasuicide","LOCALS",1)
+    DestroySelf()
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  Allegiance(Myself,ENEMY)
+  Global("RakshasaChange","LOCALS",0)
+THEN
+  RESPONSE #100
+    Polymorph(RAKSHASA)
+    SetGlobal("RakshasaChange","LOCALS",1)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See([PC])
+  GlobalLT("Iacreature","LOCALS",3)
+  !GlobalTimerNotExpired("Iasummons","LOCALS")
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iacreature","LOCALS",1)
+    SetGlobalTimer("Iasummons","LOCALS",36)
+    CreateCreatureObject("S!rak2g",Myself,0,0,0) //
+    CreateCreatureObject("S!rak2g",Myself,0,0,0) //
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  Detect([PC])
+  Global("Iabattle","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iabattle","LOCALS",1)
+END
+
+IF
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  OR(2)
+   !GlobalTimerNotExpired("absolute","LOCALS")
+   CheckStat(Myself,0,SCRIPTINGSTATE6)
+  HPPercentLT(Myself,90)
+  See(NearestEnemyOf(Myself))
+  Range(LastSeenBy(Myself),5)
+  GlobalLT("Iarak01","LOCALS",3)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iarak01","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SetGlobalTimer("absolute","LOCALS",24)
+    SpellNoDec(Myself,WIZARD_ABSOLUTE_IMMUNITY)
+END
+
+IF
+  Global("Iapcastts","GLOBAL",0)
+  Detect([PC])
+  Global("Iatreasure","LOCALS",0)
+THEN
+  RESPONSE #60
+    SetGlobal("Iatreasure","LOCALS",1)
+    GiveItemCreate("scrl7j",Myself,0,0,0) //
+    GiveItemCreate("scrl8t",Myself,0,0,0) //
+  RESPONSE #40
+    SetGlobal("Iatreasure","LOCALS",1)
+    GiveItemCreate("scrl9g",Myself,0,0,0) //
+    GiveItemCreate("scrl8s",Myself,0,0,0) //
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  Global("partyfled","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("partyfled","LOCALS",0)
+END
+
+IF
+  AreaCheck("AR4500")
+  GlobalGT("Iapasha","AR4500",0)
+  Exists("S!pasha2")
+  !Dead("S!pasha2")
+  OR(2)
+   See("S!pasha2")
+   See(NearestEnemyOf(Myself))
+  Global("partyfled","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("partyfled","LOCALS",0)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !GlobalTimerNotExpired("Iadismag","LOCALS")
+  Global("Iapcastts","GLOBAL",0)
+  See([PC])
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE7)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_SLOWED)
+  OR(3)
+   CheckStatGT(LastSeenBy(Myself),99,MAGICDAMAGERESISTANCE)
+   CheckStatGT(LastSeenBy(Myself),99,RESISTFIRE)
+   CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iadismag","LOCALS",24)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDec(LastSeenBy(Myself),WIZARD_DISPEL_MAGIC)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !GlobalTimerNotExpired("Iadismag","LOCALS")
+  Global("Iapcastts","GLOBAL",0)
+  See(SecondNearest([PC]))
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE7)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_SLOWED)
+  OR(3)
+   CheckStatGT(LastSeenBy(Myself),99,MAGICDAMAGERESISTANCE)
+   CheckStatGT(LastSeenBy(Myself),99,RESISTFIRE)
+   CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iadismag","LOCALS",24)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDec(LastSeenBy(Myself),WIZARD_DISPEL_MAGIC)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !GlobalTimerNotExpired("Iagmalison","LOCALS")
+  Global("Iapcastts","GLOBAL",0)
+  See([PC])
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  CheckStat(LastSeenBy(Myself),0,SCRIPTINGSTATE3)
+  !CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE7)
+  !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iagmalison","LOCALS",24)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDec(LastSeenBy(Myself),WIZARD_GREATER_MALISON)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !GlobalTimerNotExpired("Iagmalison","LOCALS")
+  Global("Iapcastts","GLOBAL",0)
+  See(SecondNearest([PC]))
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  CheckStat(LastSeenBy(Myself),0,SCRIPTINGSTATE3)
+  !CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE7)
+  !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iagmalison","LOCALS",24)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDec(LastSeenBy(Myself),WIZARD_GREATER_MALISON)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !GlobalTimerNotExpired("Iagmalison","LOCALS")
+  Global("Iapcastts","GLOBAL",0)
+  See(ThirdNearest([PC]))
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  CheckStat(LastSeenBy(Myself),0,SCRIPTINGSTATE3)
+  !CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE7)
+  !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iagmalison","LOCALS",24)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDec(LastSeenBy(Myself),WIZARD_GREATER_MALISON)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !GlobalTimerNotExpired("Iaslow","LOCALS")
+  Global("Iapcastts","GLOBAL",0)
+  See([PC])
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_SLOWED)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
+  !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE5)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iaslow","LOCALS",60)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDec(LastSeenBy(Myself),WIZARD_SLOW)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !GlobalTimerNotExpired("Iaslow","LOCALS")
+  Global("Iapcastts","GLOBAL",0)
+  See(SecondNearest([PC]))
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_SLOWED)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
+  !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE5)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iaslow","LOCALS",60)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDec(LastSeenBy(Myself),WIZARD_SLOW)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !GlobalTimerNotExpired("Iaslow","LOCALS")
+  Global("Iapcastts","GLOBAL",0)
+  See(ThirdNearest([PC]))
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_SLOWED)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
+  !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE5)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iaslow","LOCALS",60)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDec(LastSeenBy(Myself),WIZARD_SLOW)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  See([PC])
+  CheckStatLT(LastSeenBy(Myself),100,RESISTFIRE)
+  !GlobalTimerNotExpired("Iabreath","LOCALS")
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iabreath","LOCALS",30)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDec(LastSeenBy(Myself),WIZARD_DRAGONS_BREATH)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  See(SecondNearest([PC]))
+  CheckStatLT(LastSeenBy(Myself),100,RESISTFIRE)
+  !GlobalTimerNotExpired("Iabreath","LOCALS")
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iabreath","LOCALS",30)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDec(LastSeenBy(Myself),WIZARD_DRAGONS_BREATH)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  See(ThirdNearest([PC]))
+  CheckStatLT(LastSeenBy(Myself),100,RESISTFIRE)
+  !GlobalTimerNotExpired("Iabreath","LOCALS")
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iabreath","LOCALS",30)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDec(LastSeenBy(Myself),WIZARD_DRAGONS_BREATH)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  See(FourthNearest([PC]))
+  CheckStatLT(LastSeenBy(Myself),100,RESISTFIRE)
+  !GlobalTimerNotExpired("Iabreath","LOCALS")
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iabreath","LOCALS",30)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDec(LastSeenBy(Myself),WIZARD_DRAGONS_BREATH)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  See(FifthNearest([PC]))
+  CheckStatLT(LastSeenBy(Myself),100,RESISTFIRE)
+  !GlobalTimerNotExpired("Iabreath","LOCALS")
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iabreath","LOCALS",30)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDec(LastSeenBy(Myself),WIZARD_DRAGONS_BREATH)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  See(SixthNearest([PC]))
+  CheckStatLT(LastSeenBy(Myself),100,RESISTFIRE)
+  !GlobalTimerNotExpired("Iabreath","LOCALS")
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iabreath","LOCALS",30)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDec(LastSeenBy(Myself),WIZARD_DRAGONS_BREATH)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !GlobalTimerNotExpired("Iahorrid","LOCALS")
+  See([PC])
+  CheckStatLT(LastSeenBy(Myself),100,MAGICDAMAGERESISTANCE)
+  CheckStatLT(LastSeenBy(Myself),90,RESISTMAGIC)
+  !CheckStat(LastSeenBy(Myself),5,SCRIPTINGSTATE7)
+  !HasItemEquiped("S!halb02",LastSeenBy(Myself))
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iahorrid","LOCALS",18)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDec(LastSeenBy(Myself),WIZARD_ABI_DALZIMS_HORRID_WILTING)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !GlobalTimerNotExpired("Iahorrid","LOCALS")
+  See(SecondNearest([PC]))
+  CheckStatLT(LastSeenBy(Myself),100,MAGICDAMAGERESISTANCE)
+  CheckStatLT(LastSeenBy(Myself),90,RESISTMAGIC)
+  !CheckStat(LastSeenBy(Myself),5,SCRIPTINGSTATE7)
+  !HasItemEquiped("S!halb02",LastSeenBy(Myself))
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iahorrid","LOCALS",18)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDec(LastSeenBy(Myself),WIZARD_ABI_DALZIMS_HORRID_WILTING)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !GlobalTimerNotExpired("Iahorrid","LOCALS")
+  See(ThirdNearest([PC]))
+  CheckStatLT(LastSeenBy(Myself),100,MAGICDAMAGERESISTANCE)
+  CheckStatLT(LastSeenBy(Myself),90,RESISTMAGIC)
+  !CheckStat(LastSeenBy(Myself),5,SCRIPTINGSTATE7)
+  !HasItemEquiped("S!halb02",LastSeenBy(Myself))
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iahorrid","LOCALS",18)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDec(LastSeenBy(Myself),WIZARD_ABI_DALZIMS_HORRID_WILTING)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !GlobalTimerNotExpired("Iahorrid","LOCALS")
+  See(FourthNearest([PC]))
+  CheckStatLT(LastSeenBy(Myself),100,MAGICDAMAGERESISTANCE)
+  CheckStatLT(LastSeenBy(Myself),90,RESISTMAGIC)
+  !CheckStat(LastSeenBy(Myself),5,SCRIPTINGSTATE7)
+  !HasItemEquiped("S!halb02",LastSeenBy(Myself))
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iahorrid","LOCALS",18)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDec(LastSeenBy(Myself),WIZARD_ABI_DALZIMS_HORRID_WILTING)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !GlobalTimerNotExpired("Iahorrid","LOCALS")
+  See(FifthNearest([PC]))
+  CheckStatLT(LastSeenBy(Myself),100,MAGICDAMAGERESISTANCE)
+  CheckStatLT(LastSeenBy(Myself),90,RESISTMAGIC)
+  !CheckStat(LastSeenBy(Myself),5,SCRIPTINGSTATE7)
+  !HasItemEquiped("S!halb02",LastSeenBy(Myself))
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iahorrid","LOCALS",18)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDec(LastSeenBy(Myself),WIZARD_ABI_DALZIMS_HORRID_WILTING)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !GlobalTimerNotExpired("Iahorrid","LOCALS")
+  See(SixthNearest([PC]))
+  CheckStatLT(LastSeenBy(Myself),100,MAGICDAMAGERESISTANCE)
+  CheckStatLT(LastSeenBy(Myself),90,RESISTMAGIC)
+  !CheckStat(LastSeenBy(Myself),5,SCRIPTINGSTATE7)
+  !HasItemEquiped("S!halb02",LastSeenBy(Myself))
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iahorrid","LOCALS",18)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDec(LastSeenBy(Myself),WIZARD_ABI_DALZIMS_HORRID_WILTING)
+END
+
+IF
+  AreaCheck("AR4500")
+  GlobalGT("Iapasha","AR4500",0)
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Exists("S!pasha2")
+  !Dead("S!pasha2")
+  !See("S!pasha2")
+  Global("partyfled","LOCALS",0)
+  Global("Iabattle","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("chase","LOCALS",90)
+    SetGlobal("partyfled","LOCALS",1)
+END
+
+IF
+  AreaCheck("AR4500")
+  GlobalGT("Iapasha","AR4500",0)
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Exists("S!pasha2")
+  !Dead("S!pasha2")
+  !See("S!pasha2")
+  Global("partyfled","LOCALS",1)
+  GlobalTimerNotExpired("chase","LOCALS")
+  InMyArea(Player1)
+  Global("Iabattle","LOCALS",1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  AreaCheck("AR4500")
+  GlobalGT("Iapasha","AR4500",0)
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Exists("S!pasha2")
+  !Dead("S!pasha2")
+  !See("S!pasha2")
+  GlobalTimerExpired("chase","LOCALS")
+  Global("partyfled","LOCALS",1)
+  Global("Iabattle","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iabattle","LOCALS",0)
+    SetGlobal("Iadispel","LOCALS",0)
+    SetGlobal("Iaremove","LOCALS",0)
+    SetGlobal("Iarak01","LOCALS",0)
+    SetGlobal("Iasequencer","LOCALS",0)
+    ReallyForceSpellRES("SPWII07",Myself)
+END
+
+IF
+  AreaCheck("AR4500")
+  GlobalGT("Iapasha","AR4500",0)
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Dead("S!pasha2")
+  Global("partyfled","LOCALS",0)
+  Global("Iabattle","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("chase","LOCALS",90)
+    SetGlobal("partyfled","LOCALS",1)
+END
+
+IF
+  AreaCheck("AR4500")
+  GlobalGT("Iapasha","AR4500",0)
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Dead("S!pasha2")
+  Global("partyfled","LOCALS",1)
+  GlobalTimerNotExpired("chase","LOCALS")
+  InMyArea(Player1)
+  Global("Iabattle","LOCALS",1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  AreaCheck("AR4500")
+  GlobalGT("Iapasha","AR4500",0)
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Dead("S!pasha2")
+  GlobalTimerExpired("chase","LOCALS")
+  Global("partyfled","LOCALS",1)
+  Global("Iabattle","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iabattle","LOCALS",0)
+    SetGlobal("Iadispel","LOCALS",0)
+    SetGlobal("Iaremove","LOCALS",0)
+    SetGlobal("Iarak01","LOCALS",0)
+    SetGlobal("Iasequencer","LOCALS",0)
+    ReallyForceSpellRES("SPWII07",Myself)
+END
+
+IF
+  Global("Iapasha","AR4500",0)
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Global("partyfled","LOCALS",0)
+  Global("Iabattle","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("chase","LOCALS",90)
+    SetGlobal("partyfled","LOCALS",1)
+END
+
+IF
+  Global("Iapasha","AR4500",0)
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Global("partyfled","LOCALS",1)
+  GlobalTimerNotExpired("chase","LOCALS")
+  InMyArea(Player1)
+  Global("Iabattle","LOCALS",1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  Global("Iapasha","AR4500",0)
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  GlobalTimerExpired("chase","LOCALS")
+  Global("partyfled","LOCALS",1)
+  Global("Iabattle","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iabattle","LOCALS",0)
+    SetGlobal("Iadispel","LOCALS",0)
+    SetGlobal("Iaremove","LOCALS",0)
+    SetGlobal("Iarak01","LOCALS",0)
+    SetGlobal("Iasequencer","LOCALS",0)
+    ReallyForceSpellRES("SPWII07",Myself)
+END
+
+IF
+  AreaCheck("AR4500")
+  GlobalGT("Iapasha","AR4500",0)
+  See([PC])
+  Exists("S!pasha2")
+  !Dead("S!pasha2")
+  See("S!pasha2")
+  RandomNumLT(6,2)
+THEN
+  RESPONSE #100
+    AttackOneRound("S!pasha2")
+    AttackOneRound("S!pasha2")
+END
+
+IF
+  AreaCheck("AR4500")
+  GlobalGT("Iapasha","AR4500",0)
+  !See([PC])
+  Exists("S!pasha2")
+  !Dead("S!pasha2")
+  See("S!pasha2")
+THEN
+  RESPONSE #100
+    AttackOneRound("S!pasha2")
+    AttackOneRound("S!pasha2")
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  See(SecondNearestEnemyOf(Myself))
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(ThirdNearestEnemyOf(Myself))
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  AreaCheck("AR4500")
+  GlobalGT("Iapasha","AR4500",0)
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Exists("S!pasha2")
+  !Dead("S!pasha2")
+  !See("S!pasha2")
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  AreaCheck("AR4500")
+  Global("Iapasha","AR4500",0)
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END

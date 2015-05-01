@@ -1,0 +1,271 @@
+IF
+  HPLT(Myself,15)
+  !HPLT(Myself,1)
+  Allegiance(Myself,ENEMY)
+  Global("EfreetiGasForm","LOCALS",0)
+  !StateCheck(Myself,STATE_DEAD)
+  !HasItemEquiped("SW1H20",Myself)
+THEN
+  RESPONSE #100
+    SetGlobal("EfreetiGasForm","LOCALS",1)
+    ReallyForceSpell(Myself,EFREETI_GAS_FORM_CHANGE)
+END
+
+IF
+  AttackedBy([GOODCUTOFF],DEFAULT)
+  InParty(LastAttackerOf(Myself))
+  !Gender(LastAttackerOf(Myself),SUMMONED)
+  !Allegiance(Myself,ENEMY)
+THEN
+  RESPONSE #100
+    Enemy()
+END
+
+IF
+  Global("Iamoving","LOCALS",1)
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    SetGlobal("Iamoving","LOCALS",0)
+END
+
+IF
+  Gender(Myself,SUMMONED)
+  !Allegiance(Myself,ENEMY)
+  Global("Iamoving","LOCALS",1)
+  CombatCounter(0)
+  See([PC])
+  Range(LastSeenBy(Myself),6)
+THEN
+  RESPONSE #100
+    SetGlobal("Iamoving","LOCALS",0)
+END
+
+IF
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  See(NearestEnemyOf(Myself))
+  Global("Shield","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Shield","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    ReallyForceSpell(Myself,WIZARD_FIRE_SHIELD_RED)
+END
+
+IF
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  CheckStatGT(Myself,0,SCRIPTINGSTATE9)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iaspell","LOCALS",6)
+END
+
+IF
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_HELPLESS)
+  !CheckStatGT(Myself,0,SCRIPTINGSTATE9)
+  See(SecondNearestEnemyOf(Myself))
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+  CheckStatLT(LastSeenBy(Myself),100,RESISTFIRE)
+  CheckStatLT(LastSeenBy(Myself),90,RESISTMAGIC)
+  !CheckStat(LastSeenBy(Myself),4,SCRIPTINGSTATE7)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  HaveSpell(WIZARD_FIREBALL)
+  Global("EfreetiFireball","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("EfreetiFireball","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    Spell(NearestEnemyOf(Myself),WIZARD_FIREBALL)
+END
+
+IF
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_HELPLESS)
+  !CheckStatGT(Myself,0,SCRIPTINGSTATE9)
+  See(NearestEnemyOf(Myself))
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+  CheckStatLT(LastSeenBy(Myself),100,RESISTFIRE)
+  CheckStatLT(LastSeenBy(Myself),90,RESISTMAGIC)
+  !CheckStat(LastSeenBy(Myself),4,SCRIPTINGSTATE7)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  HaveSpell(WIZARD_FIREBALL)
+  Global("EfreetiFireball","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("EfreetiFireball","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    Spell(NearestEnemyOf(Myself),WIZARD_FIREBALL)
+END
+
+IF
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_HELPLESS)
+  !CheckStatGT(Myself,0,SCRIPTINGSTATE9)
+  See(NearestEnemyOf(Myself))
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+  CheckStatLT(LastSeenBy(Myself),100,RESISTFIRE)
+  CheckStatLT(LastSeenBy(Myself),90,RESISTMAGIC)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE7)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  HaveSpell(WIZARD_FLAME_ARROW)
+  Global("arrow","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("arrow","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    Spell(LastSeenBy(Myself),WIZARD_FLAME_ARROW)
+END
+
+IF
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_HELPLESS)
+  !CheckStatGT(Myself,0,SCRIPTINGSTATE9)
+  See(SecondNearestEnemyOf(Myself))
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+  CheckStatLT(LastSeenBy(Myself),100,RESISTFIRE)
+  CheckStatLT(LastSeenBy(Myself),90,RESISTMAGIC)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE7)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  HaveSpell(WIZARD_FLAME_ARROW)
+  Global("arrow","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("arrow","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    Spell(LastSeenBy(Myself),WIZARD_FLAME_ARROW)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  OR(2)
+   CheckStat(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+   CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(SecondNearestEnemyOf(Myself))
+  Range(LastSeenBy(Myself),2)
+  OR(2)
+   CheckStat(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+   CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  Allegiance(Myself,ALLY)
+  See(NearestEnemyOf(Myself))
+  OR(2)
+   CheckStat(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+   CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE6)
+  ActionListEmpty()
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  Allegiance(Myself,ALLY)
+  See(SecondNearestEnemyOf(Myself))
+  Range(LastSeenBy(Myself),2)
+  OR(2)
+   CheckStat(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+   CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE6)
+  ActionListEmpty()
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ALLY)
+  See(NearestEnemyOf(Myself))
+  ActionListEmpty()
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  !See([GOODCUTOFF])
+  Allegiance(Myself,ENEMY)
+  InMyArea(Player1)
+  !StateCheck(Player1,STATE_INVISIBLE)
+  !StateCheck(Player1,STATE_IMPROVEDINVISIBILITY)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  Gender(Myself,SUMMONED)
+  !Allegiance(Myself,ENEMY)
+  ActionListEmpty()
+  Global("Iamoving","LOCALS",0)
+  !Detect(NearestEnemyOf(Myself))
+  !Detect(NearestEnemyOf(LastSummonerOf(Myself)))
+THEN
+  RESPONSE #100
+    SetGlobal("Iamoving","LOCALS",1)
+END
+
+IF
+  Gender(Myself,SUMMONED)
+  !Allegiance(Myself,ENEMY)
+  ActionListEmpty()
+  Global("Iamoving","LOCALS",0)
+  CombatCounter(0)
+  !Detect(Player1)
+  !Detect(LastSummonerOf(Myself))
+  !Detect([PC])
+THEN
+  RESPONSE #100
+    SetGlobal("Iamoving","LOCALS",1)
+END
+
+IF
+  Gender(Myself,SUMMONED)
+  !Allegiance(Myself,ENEMY)
+  ActionListEmpty()
+  Global("Iamoving","LOCALS",1)
+  !Detect(NearestEnemyOf(Myself))
+  !Detect(NearestEnemyOf(LastSummonerOf(Myself)))
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  Gender(Myself,SUMMONED)
+  ActionListEmpty()
+  Global("Iamoving","LOCALS",1)
+  !Detect(NearestEnemyOf(Myself))
+  !Detect(NearestEnemyOf(LastSummonerOf(Myself)))
+THEN
+  RESPONSE #100
+    MoveToObject(LastSummonerOf(Myself))
+END

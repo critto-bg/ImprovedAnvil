@@ -1,0 +1,28 @@
+IF
+  Clicked([ANYONE])
+  Range(LastTrigger,10)
+THEN
+  RESPONSE #100
+    StartCutSceneMode()
+    Wait(1)
+    FadeToColor([20.0],0)
+    Wait(2)
+    ActionOverride(Player1,LeaveAreaLUAPanic("AR0411","",[2995.2649],7))
+    ActionOverride(Player1,LeaveAreaLUA("AR0411","",[2995.2649],7))
+    ActionOverride(Player2,LeaveAreaLUA("AR0411","",[2939.2667],7))
+    ActionOverride(Player3,LeaveAreaLUA("AR0411","",[2869.2692],7))
+    ActionOverride(Player4,LeaveAreaLUA("AR0411","",[3019.2720],7))
+    ActionOverride(Player5,LeaveAreaLUA("AR0411","",[2961.2736],7))
+    ActionOverride(Player6,LeaveAreaLUA("AR0411","",[2904.2751],7))
+    MultiPlayerSync()
+    EndCutSceneMode()
+    FadeFromColor([20.0],0)
+END
+
+IF
+  Clicked([ANYONE])
+  !Range(LastTrigger,10)
+THEN
+  RESPONSE #100
+    DisplayString(Myself,14702)  // ~You are too far away to use that.~
+END

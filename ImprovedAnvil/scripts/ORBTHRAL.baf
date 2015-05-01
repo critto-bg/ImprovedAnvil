@@ -1,0 +1,82 @@
+IF
+  Global("ThrallOrb","GLOBAL",2)
+  Dead("pwarden")  // ~Warden~
+  Global("ThrallLeaves","LOCALS",0)
+  Global("Iapcastts","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("ThrallLeaves","LOCALS",1)
+    ForceSpell(Myself,POOF_GONE)
+END
+
+IF
+  Global("ThrallOrb","GLOBAL",2)
+  Allegiance(Myself,GOODBUTBLUE)
+  !Dead("pwarden")  // ~Warden~
+  Global("Iathralldie","AR0516",2)
+  Global("Iasettime","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iasettime","LOCALS",1)
+    SetGlobalTimer("Iaimgone","LOCALS",2)
+END
+
+IF
+  GlobalTimerExpired("Iaimgone","LOCALS")
+  Global("ThrallOrb","GLOBAL",2)
+  Allegiance(Myself,GOODBUTBLUE)
+  !Dead("pwarden")  // ~Warden~
+  Global("Iathralldie","AR0516",2)
+  Global("Iasettime","LOCALS",1)
+  Global("Iapcastts","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iasettime","LOCALS",2)
+    DestroySelf()
+END
+
+IF
+  Global("ThrallOrb","GLOBAL",2)
+  Allegiance(Myself,GOODBUTBLUE)
+  !See(NearestEnemyOf(Myself))
+  !Dead("pwarden")  // ~Warden~
+  !See("pwarden")
+THEN
+  RESPONSE #100
+    MoveToObject("pwarden")
+END
+
+IF
+  Global("ThrallOrb","GLOBAL",2)
+  Allegiance(Myself,GOODBUTBLUE)
+  !Dead("pwarden")  // ~Warden~
+  See("pwarden")
+THEN
+  RESPONSE #100
+    AttackOneRound("pwarden")
+END
+
+IF
+  Global("ThrallOrb","GLOBAL",2)
+  Global("Iapcastts","GLOBAL",0)
+  HasItem("MISC7Y",Myself)  // ~Thrall Collar~
+  !Dead("pwarden")  // ~Warden~
+THEN
+  RESPONSE #100
+    SetGlobal("Iakillthrall","AR0516",1)
+    DestroyItem("MISC7Y")  // ~Thrall Collar~
+    SetDialogue("PFREE")
+    DialogueInterrupt(TRUE)
+    ChangeEnemyAlly(Myself,GOODBUTBLUE)
+END
+
+IF
+  AttackedBy([GOODCUTOFF],DEFAULT)
+  Global("Iapcastts","GLOBAL",0)
+  Global("ThrallOrb","GLOBAL",2)
+  !Allegiance(Myself,ENEMY)
+THEN
+  RESPONSE #100
+    Enemy()
+    ForceSpell(Myself,POOF_GONE)
+END

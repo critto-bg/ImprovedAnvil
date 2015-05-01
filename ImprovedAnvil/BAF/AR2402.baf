@@ -1,0 +1,163 @@
+//Underdark western caverns //////////////
+
+ IF
+  InMyArea(Player1)
+  OpenState("Door02",TRUE)
+  Global("spawnKnights","AR2402",1)
+  GlobalLT("Iadknights","AR2402",3)
+THEN
+  RESPONSE #100
+    CloseDoor("Door02")
+    Lock("Door02")
+END
+
+IF
+  InMyArea(Player1)
+  OpenState("Door02",FALSE)
+  Global("spawnKnights","AR2402",1)
+  Global("Iadknights","AR2402",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iadknights","AR2402",1)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iadknights","AR2402",2)
+  GlobalTimerExpired("Iaunlockdoor","AR2402")
+  CombatCounter(0)
+  Dead("UDDEATH2")
+THEN
+  RESPONSE #100
+    SetGlobal("Iadknights","AR2402",3)
+    Unlock("Door02")
+END
+
+IF
+  OpenState("Door02",TRUE)
+  Global("Door2Opened","AR2402",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door2Opened","AR2402",1)
+END
+
+IF
+  OpenState("Door02",FALSE)
+  Global("Door2Opened","AR2402",1)
+  OR(2)
+   Global("Iadknights","AR2402",0)
+   Global("Iadknights","AR2402",3)
+THEN
+  RESPONSE #100
+    OpenDoor("Door02")
+END
+
+IF
+  Global("Iaoldsquijob","GLOBAL",2)
+  GlobalGT("Chapter","GLOBAL",5)
+  Dead("S!avatar") //
+THEN
+  RESPONSE #100
+    SetGlobal("Iaoldsquijob","GLOBAL",3)
+END
+
+IF
+  Global("Iaexit","AR2402",2)
+  GlobalTimerExpired("Iareopen","AR2402")
+  CombatCounter(0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR2402",3)
+    TriggerActivation("Tran2100",TRUE)
+    TriggerActivation("Tran2401",TRUE)
+END
+
+IF
+  Global("Ianoexit","AR2402",2)
+  Dead("S!avatar")
+  CombatCounter(0)
+THEN
+  RESPONSE #100
+    SetGlobal("Ianoexit","AR2402",3)
+    TriggerActivation("Tran2100",TRUE)
+    TriggerActivation("Tran2401",TRUE)
+END
+
+IF
+  Global("Iaexit","AR2402",1)
+  !Global("Ianoexit","AR2402",2)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR2402",2)
+    SetGlobalTimer("Iareopen","AR2402",12)
+    TriggerActivation("Tran2100",FALSE)
+    TriggerActivation("Tran2401",FALSE)
+END
+
+IF
+  Global("Ianoexit","AR2402",1)
+  !Global("Iaexit","AR2402",2)
+THEN
+  RESPONSE #100
+    SetGlobal("Ianoexit","AR2402",2)
+    TriggerActivation("Tran2100",FALSE)
+    TriggerActivation("Tran2401",FALSE)
+END
+
+IF
+   InMyArea(Player1)
+   Global("spawnKnights","AR2402",1)
+   Global("Iadknights","AR2402",1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadknights","AR2402",2)
+      ClearAllActions()
+      StartCutSceneMode()
+      Wait(1)
+      FadeToColor([30.0],0)
+      Wait(1)
+      SetGlobalTimer("Iaunlockdoor","AR2402",18)
+      MoveViewPoint([3025.1405],INSTANT)
+      ActionOverride(Player1,JumpToPoint([2894.1285]))
+      ActionOverride(Player2,JumpToPoint([3056.1237]))
+      ActionOverride(Player3,JumpToPoint([3025.1405]))
+      ActionOverride(Player4,JumpToPoint([3108.1373]))
+      ActionOverride(Player5,JumpToPoint([3059.1574]))
+      ActionOverride(Player6,JumpToPoint([3210.1488])
+      Wait(1)
+      FadeFromColor([30.0],0)
+      Wait(1)
+      CreateVisualEffect("SPPORTAL",[2724.1143])
+      CreateVisualEffect("SPPORTAL",[3280.1348])
+      CreateVisualEffect("SPPORTAL",[2929.1562])
+      CreateVisualEffect("SPPORTAL",[3071.1172])
+      CreateVisualEffect("SPPORTAL",[3094.1695])
+      Wait(3)
+      CreateCreature("uddeath",[2929.1562],12)  // ~Demon Knight~
+      CreateCreature("uddeath",[2724.1143],12)  // ~Demon Knight~
+      CreateCreature("uddeath",[3280.1348],12)  // ~Demon Knight~
+      CreateCreature("uddeath2",[3071.1172],12)  // ~Demon Knight~
+      CreateCreature("uddeath",[3094.1695],12)  // ~Demon Knight~
+      EndCutSceneMode()
+END
+
+IF
+  InMyArea(Player1)
+  OR(4)
+   SpellCast([PC],WIZARD_CLOUDKILL)
+   SpellCast([PC],WIZARD_STINKING_CLOUD)
+   SpellCast([PC],WIZARD_DEATH_FOG)
+   SpellCast([PC],WIZARD_INCENDIARY_CLOUD)
+THEN
+  RESPONSE #100
+    SetGlobal("Iapccloud","AR2402",1)
+    SetGlobalTimer("Iacloudtime","AR2402",60)
+END
+
+IF
+  Global("Iapccloud","AR2402",1)
+  GlobalTimerExpired("Iacloudtime","AR2402")
+THEN
+  RESPONSE #100
+    SetGlobal("Iapccloud","AR2402",0)
+END

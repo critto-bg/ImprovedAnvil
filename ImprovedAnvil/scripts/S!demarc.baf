@@ -1,0 +1,598 @@
+IF
+  Allegiance(Myself,ENEMY)
+  HPLT(Myself,10)
+  Global("Iagrestore","AR0530",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iagrestore","AR0530",1)
+END
+
+IF
+  Global("Iagrestore","AR0530",2)
+  Global("Iapcastts","GLOBAL",0)
+  HasItem("bhaalhp1",Myself)
+THEN
+  RESPONSE #100
+    DestroyItem("bhaalhp1")
+END
+
+IF
+  Global("Iapcastts","GLOBAL",1)
+  Global("Iatsinvulner","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatsinvulner","LOCALS",1)
+    ApplySpellRES("SPINI70",Myself)
+END
+
+IF
+  Global("Iapcastts","GLOBAL",0)
+  Global("Iatsinvulner","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatsinvulner","LOCALS",0)
+    ApplySpellRES("SPINI71",Myself)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  !StateCheck(Myself,STATE_SILENCED)
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_PANIC)
+  CheckStatLT(Myself,70,RESISTCRUSHING)
+  HPPercentLT(Myself,90)
+  See(NearestEnemyOf(Myself))
+  Range(LastSeenBy(Myself),5)
+  GlobalLT("Iademfig01","LOCALS",3)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iademfig01","LOCALS",1)
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    ForceSpell(Myself,WARRIOR_HARDINESS)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  HPPercentLT(Myself,70)
+  HasItem("potn55",Myself)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+THEN
+  RESPONSE #100
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    DisplayStringHead(Myself,46150)//quaffs a potion
+    UseItem("potn55",Myself)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  !GlobalTimerNotExpired("Iagww","LOCALS")
+  !StateCheck(Myself,STATE_SILENCED)
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_PANIC)
+  See(NearestEnemyOf(Myself))
+  Range(LastSeenBy(Myself),4)
+  CheckStatLT(LastSeenBy(Myself),90,RESISTCRUSHING)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  Global("Iademfig02","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iademfig02","LOCALS",1)
+    SetGlobalTimer("Iagww","LOCALS",12)
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    ForceSpell(Myself,WARRIOR_GREATER_WHIRLWIND)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  !GlobalTimerNotExpired("Iagww","LOCALS")
+  !StateCheck(Myself,STATE_SILENCED)
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_PANIC)
+  Global("Iapcastts","GLOBAL",0)
+  See(NearestEnemyOf(Myself))
+  Range(LastSeenBy(Myself),4)
+  CheckStatLT(LastSeenBy(Myself),90,RESISTCRUSHING)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  Global("Iademfig03","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iademfig03","LOCALS",1)
+    SetGlobalTimer("Iagww","LOCALS",12)
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    ForceSpell(Myself,WARRIOR_WHIRLWIND)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  !GlobalTimerNotExpired("Iagww","LOCALS")
+  !StateCheck(Myself,STATE_SILENCED)
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_PANIC)
+  Global("Iapcastts","GLOBAL",0)
+  OR(3)
+   See(NearestEnemyOfType([0.0.0.DRUID_ALL]))
+   See(NearestEnemyOfType([0.0.0.CLERIC_ALL]))
+   See(NearestEnemyOfType([0.0.0.MAGE_ALL]))
+  !Range(LastSeenBy(Myself),4)
+  CheckStatLT(LastSeenBy(Myself),90,RESISTMISSILE)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE10)
+  Global("Iademfig02","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iademfig02","LOCALS",1)
+    SetGlobalTimer("Iagww","LOCALS",12)
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    ForceSpell(Myself,WARRIOR_GREATER_WHIRLWIND)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  !GlobalTimerNotExpired("Iagww","LOCALS")
+  !StateCheck(Myself,STATE_SILENCED)
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_PANIC)
+  Global("Iapcastts","GLOBAL",0)
+  OR(3)
+   See(SecondNearestEnemyOfType([0.0.0.DRUID_ALL]))
+   See(SecondNearestEnemyOfType([0.0.0.CLERIC_ALL]))
+   See(SecondNearestEnemyOfType([0.0.0.MAGE_ALL]))
+  !Range(LastSeenBy(Myself),4)
+  CheckStatLT(LastSeenBy(Myself),90,RESISTMISSILE)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE10)
+  Global("Iademfig02","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iademfig02","LOCALS",1)
+    SetGlobalTimer("Iagww","LOCALS",12)
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    ForceSpell(Myself,WARRIOR_GREATER_WHIRLWIND)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  !GlobalTimerNotExpired("Iagww","LOCALS")
+  !StateCheck(Myself,STATE_SILENCED)
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_PANIC)
+  Global("Iapcastts","GLOBAL",0)
+  OR(3)
+   See(ThirdNearestEnemyOfType([0.0.0.DRUID_ALL]))
+   See(ThirdNearestEnemyOfType([0.0.0.CLERIC_ALL]))
+   See(ThirdNearestEnemyOfType([0.0.0.MAGE_ALL]))
+  !Range(LastSeenBy(Myself),4)
+  CheckStatLT(LastSeenBy(Myself),90,RESISTMISSILE)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE10)
+  Global("Iademfig02","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iademfig02","LOCALS",1)
+    SetGlobalTimer("Iagww","LOCALS",12)
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    ForceSpell(Myself,WARRIOR_GREATER_WHIRLWIND)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  !GlobalTimerNotExpired("Iagww","LOCALS")
+  !StateCheck(Myself,STATE_SILENCED)
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_PANIC)
+  Global("Iapcastts","GLOBAL",0)
+  See(NearestEnemyOf(Myself))
+  !Range(LastSeenBy(Myself),4)
+  CheckStatLT(LastSeenBy(Myself),90,RESISTMISSILE)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE10)
+  Global("Iademfig02","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iademfig02","LOCALS",1)
+    SetGlobalTimer("Iagww","LOCALS",12)
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    ForceSpell(Myself,WARRIOR_GREATER_WHIRLWIND)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  !GlobalTimerNotExpired("Iagww","LOCALS")
+  !StateCheck(Myself,STATE_SILENCED)
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_PANIC)
+  Global("Iapcastts","GLOBAL",0)
+  See(SecondNearestEnemyOf(Myself))
+  !Range(LastSeenBy(Myself),4)
+  CheckStatLT(LastSeenBy(Myself),90,RESISTMISSILE)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE10)
+  Global("Iademfig02","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iademfig02","LOCALS",1)
+    SetGlobalTimer("Iagww","LOCALS",12)
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    ForceSpell(Myself,WARRIOR_GREATER_WHIRLWIND)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  !GlobalTimerNotExpired("Iagww","LOCALS")
+  !StateCheck(Myself,STATE_SILENCED)
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_PANIC)
+  Global("Iapcastts","GLOBAL",0)
+  See(ThirdNearestEnemyOf(Myself))
+  !Range(LastSeenBy(Myself),4)
+  CheckStatLT(LastSeenBy(Myself),90,RESISTMISSILE)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE10)
+  Global("Iademfig02","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iademfig02","LOCALS",1)
+    SetGlobalTimer("Iagww","LOCALS",12)
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    ForceSpell(Myself,WARRIOR_GREATER_WHIRLWIND)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  !GlobalTimerNotExpired("Iagww","LOCALS")
+  !StateCheck(Myself,STATE_SILENCED)
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_PANIC)
+  Global("Iapcastts","GLOBAL",0)
+  OR(3)
+   See(NearestEnemyOfType([0.0.0.DRUID_ALL]))
+   See(NearestEnemyOfType([0.0.0.CLERIC_ALL]))
+   See(NearestEnemyOfType([0.0.0.MAGE_ALL]))
+  !Range(LastSeenBy(Myself),4)
+  CheckStatLT(LastSeenBy(Myself),90,RESISTMISSILE)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE10)
+  Global("Iademfig03","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iademfig03","LOCALS",1)
+    SetGlobalTimer("Iagww","LOCALS",12)
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    ForceSpell(Myself,WARRIOR_WHIRLWIND)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  !GlobalTimerNotExpired("Iagww","LOCALS")
+  !StateCheck(Myself,STATE_SILENCED)
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_PANIC)
+  Global("Iapcastts","GLOBAL",0)
+  OR(3)
+   See(SecondNearestEnemyOfType([0.0.0.DRUID_ALL]))
+   See(SecondNearestEnemyOfType([0.0.0.CLERIC_ALL]))
+   See(SecondNearestEnemyOfType([0.0.0.MAGE_ALL]))
+  !Range(LastSeenBy(Myself),4)
+  CheckStatLT(LastSeenBy(Myself),90,RESISTMISSILE)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE10)
+  Global("Iademfig03","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iademfig03","LOCALS",1)
+    SetGlobalTimer("Iagww","LOCALS",12)
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    ForceSpell(Myself,WARRIOR_WHIRLWIND)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  !GlobalTimerNotExpired("Iagww","LOCALS")
+  !StateCheck(Myself,STATE_SILENCED)
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_PANIC)
+  Global("Iapcastts","GLOBAL",0)
+  OR(3)
+   See(ThirdNearestEnemyOfType([0.0.0.DRUID_ALL]))
+   See(ThirdNearestEnemyOfType([0.0.0.CLERIC_ALL]))
+   See(ThirdNearestEnemyOfType([0.0.0.MAGE_ALL]))
+  !Range(LastSeenBy(Myself),4)
+  CheckStatLT(LastSeenBy(Myself),90,RESISTMISSILE)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE10)
+  Global("Iademfig03","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iademfig03","LOCALS",1)
+    SetGlobalTimer("Iagww","LOCALS",12)
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    ForceSpell(Myself,WARRIOR_WHIRLWIND)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  !GlobalTimerNotExpired("Iagww","LOCALS")
+  !StateCheck(Myself,STATE_SILENCED)
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_PANIC)
+  Global("Iapcastts","GLOBAL",0)
+  See(NearestEnemyOf(Myself))
+  !Range(LastSeenBy(Myself),4)
+  CheckStatLT(LastSeenBy(Myself),90,RESISTMISSILE)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE10)
+  Global("Iademfig03","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iademfig03","LOCALS",1)
+    SetGlobalTimer("Iagww","LOCALS",12)
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    ForceSpell(Myself,WARRIOR_WHIRLWIND)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  !GlobalTimerNotExpired("Iagww","LOCALS")
+  !StateCheck(Myself,STATE_SILENCED)
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_PANIC)
+  Global("Iapcastts","GLOBAL",0)
+  See(SecondNearestEnemyOf(Myself))
+  !Range(LastSeenBy(Myself),4)
+  CheckStatLT(LastSeenBy(Myself),90,RESISTMISSILE)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE10)
+  Global("Iademfig03","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iademfig03","LOCALS",1)
+    SetGlobalTimer("Iagww","LOCALS",12)
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    ForceSpell(Myself,WARRIOR_WHIRLWIND)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  !GlobalTimerNotExpired("Iagww","LOCALS")
+  !StateCheck(Myself,STATE_SILENCED)
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_PANIC)
+  Global("Iapcastts","GLOBAL",0)
+  See(ThirdNearestEnemyOf(Myself))
+  !Range(LastSeenBy(Myself),4)
+  CheckStatLT(LastSeenBy(Myself),90,RESISTMISSILE)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE10)
+  Global("Iademfig03","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iademfig03","LOCALS",1)
+    SetGlobalTimer("Iagww","LOCALS",12)
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    ForceSpell(Myself,WARRIOR_WHIRLWIND)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  OR(2)
+   Range(LastSeenBy(Myself),4)
+   !HasItem("bolt03",Myself)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    EquipMostDamagingMelee()
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  HasItem("bolt03",Myself)
+  OR(3)
+   See(NearestEnemyOfType([0.0.0.DRUID_ALL]))
+   See(NearestEnemyOfType([0.0.0.CLERIC_ALL]))
+   See(NearestEnemyOfType([0.0.0.MAGE_ALL]))
+  !Range(LastSeenBy(Myself),4)
+  CheckStatLT(LastSeenBy(Myself),90,RESISTMISSILE)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE10)
+THEN
+  RESPONSE #100
+    EquipRanged()
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  HasItem("bolt03",Myself)
+  OR(3)
+   See(SecondNearestEnemyOfType([0.0.0.DRUID_ALL]))
+   See(SecondNearestEnemyOfType([0.0.0.CLERIC_ALL]))
+   See(SecondNearestEnemyOfType([0.0.0.MAGE_ALL]))
+  !Range(LastSeenBy(Myself),4)
+  CheckStatLT(LastSeenBy(Myself),90,RESISTMISSILE)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE10)
+THEN
+  RESPONSE #100
+    EquipRanged()
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  HasItem("bolt03",Myself)
+  OR(3)
+   See(ThirdNearestEnemyOfType([0.0.0.DRUID_ALL]))
+   See(ThirdNearestEnemyOfType([0.0.0.CLERIC_ALL]))
+   See(ThirdNearestEnemyOfType([0.0.0.MAGE_ALL]))
+  !Range(LastSeenBy(Myself),4)
+  CheckStatLT(LastSeenBy(Myself),90,RESISTMISSILE)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE10)
+THEN
+  RESPONSE #100
+    EquipRanged()
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  HasItem("bolt03",Myself)
+  See(NearestEnemyOf(Myself))
+  !Range(LastSeenBy(Myself),4)
+  CheckStatLT(LastSeenBy(Myself),90,RESISTMISSILE)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE10)
+THEN
+  RESPONSE #100
+    EquipRanged()
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  HasItem("bolt03",Myself)
+  See(SecondNearestEnemyOf(Myself))
+  !Range(LastSeenBy(Myself),4)
+  CheckStatLT(LastSeenBy(Myself),90,RESISTMISSILE)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE10)
+THEN
+  RESPONSE #100
+    EquipRanged()
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  HasItem("bolt03",Myself)
+  See(ThirdNearestEnemyOf(Myself))
+  !Range(LastSeenBy(Myself),4)
+  CheckStatLT(LastSeenBy(Myself),90,RESISTMISSILE)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE10)
+THEN
+  RESPONSE #100
+    EquipRanged()
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  HasItem("bolt03",Myself)
+  See(FourthNearestEnemyOf(Myself))
+  !Range(LastSeenBy(Myself),4)
+  CheckStatLT(LastSeenBy(Myself),90,RESISTMISSILE)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE10)
+THEN
+  RESPONSE #100
+    EquipRanged()
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  HasItem("bolt03",Myself)
+  See(FifthNearestEnemyOf(Myself))
+  !Range(LastSeenBy(Myself),4)
+  CheckStatLT(LastSeenBy(Myself),90,RESISTMISSILE)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE10)
+THEN
+  RESPONSE #100
+    EquipRanged()
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  HasItem("bolt03",Myself)
+  See(SixthNearestEnemyOf(Myself))
+  !Range(LastSeenBy(Myself),4)
+  CheckStatLT(LastSeenBy(Myself),90,RESISTMISSILE)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE10)
+THEN
+  RESPONSE #100
+    EquipRanged()
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(SecondNearestEnemyOf(Myself))
+  OR(2)
+   Range(LastSeenBy(Myself),4)
+   !HasItem("bolt03",Myself)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    EquipMostDamagingMelee()
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(ThirdNearestEnemyOf(Myself))
+  OR(2)
+   Range(LastSeenBy(Myself),4)
+   !HasItem("bolt03",Myself)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    EquipMostDamagingMelee()
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !HasItem("bolt03",Myself)
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    EquipMostDamagingMelee()
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  InMyArea(Player1)
+  !See([PC])
+  !See([GOODCUTOFF])
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END

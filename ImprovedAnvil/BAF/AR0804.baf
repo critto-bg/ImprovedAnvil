@@ -1,0 +1,89 @@
+//Pai'Na's Hideout /////
+
+IF
+  PartyHasItem("MISC3E")
+  Global("Iaspidfig","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaspidfig","GLOBAL",1)
+END
+
+IF
+  Global("Chapter","GLOBAL",6)
+  Global("Deactivation","AR0804",2)
+THEN
+  RESPONSE #100
+    SetGlobal("Deactivation","AR0804",3)
+    TriggerActivation("Tran0808",FALSE)
+END
+
+IF
+  !Global("Chapter","GLOBAL",6)
+  Global("Deactivation","AR0804",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Deactivation","AR0804",3)
+    TriggerActivation("Tran0801",FALSE)
+END
+
+IF
+  !Global("Chapter","GLOBAL",6)
+  Global("Deactivation","AR0804",3)
+  Dead("SPPAIN")
+THEN
+  RESPONSE #100
+    SetGlobal("Deactivation","AR0804",4)
+    TriggerActivation("Tran0801",TRUE)
+END
+
+IF
+  Global("Chapter","GLOBAL",6)
+  Global("Deactivation","AR0804",3)
+  Dead("SPPAIN")
+THEN
+  RESPONSE #100
+    SetGlobal("Deactivation","AR0804",5)
+    TriggerActivation("Tran0808",TRUE)
+END
+
+IF
+  Global("Chapter","GLOBAL",6)
+  Global("Deactivation","AR0804",4)
+THEN
+  RESPONSE #100
+    SetGlobal("Deactivation","AR0804",5)
+    TriggerActivation("Tran0801",FALSE)
+    TriggerActivation("Tran0808",TRUE)
+END
+
+IF
+  InMyArea(Player1)
+  OR(4)
+   SpellCast([PC],WIZARD_DEATH_FOG)
+   SpellCast([PC],WIZARD_CLOUDKILL)
+   SpellCast([PC],WIZARD_INCENDIARY_CLOUD)
+   SpellCast([PC],WIZARD_STINKING_CLOUD)
+THEN
+  RESPONSE #100
+    SetGlobal("Iapccloud","AR0804",1)
+    SetGlobalTimer("Iacloudtime","AR0804",60)
+END
+
+IF
+  Global("Iapccloud","AR0804",1)
+  GlobalTimerExpired("Iacloudtime","AR0804")
+THEN
+  RESPONSE #100
+    SetGlobal("Iapccloud","AR0804",0)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iaitemgone","AR0804",0)
+  Class(Player1,MAGE_ALL)
+  Class(Player1,FIGHTER_ALL)
+THEN
+   RESPONSE #100
+     SetGlobal("Iaitemgone","AR0804",1)
+     ActionOverride("Container 1",DestroyItem("scrl6s"))
+END

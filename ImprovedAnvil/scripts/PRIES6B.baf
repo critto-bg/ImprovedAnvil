@@ -1,0 +1,76 @@
+IF
+  !StateCheck(Myself,STATE_SILENCED)
+  See(NearestEnemyOf(Myself))
+  See(NearestMyGroupOfType)
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  HaveSpell(CLERIC_CHANT)
+THEN
+  RESPONSE #100
+    Spell(LastSeenBy(Myself),CLERIC_CHANT)
+END
+
+IF
+  !StateCheck(Myself,STATE_SILENCED)
+  See(NearestEnemyOf(Myself))
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !HasItemEquiped("shld25",LastSeenBy(Myself))
+  HaveSpell(CLERIC_CHARM_PERSON)
+THEN
+  RESPONSE #100
+    Spell(LastSeenBy(Myself),CLERIC_CHARM_PERSON)
+END
+
+IF
+  !StateCheck(Myself,STATE_SILENCED)
+  See(NearestEnemyOf(Myself))
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !HasItemEquiped("sw1h27",LastSeenBy(Myself))
+  !HasItemEquiped("shld25",LastSeenBy(Myself))
+  HaveSpell(CLERIC_HOLD_PERSON)
+THEN
+  RESPONSE #100
+    Spell(LastSeenBy(Myself),CLERIC_HOLD_PERSON)
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  HaveSpell(CLERIC_ANIMATE_DEAD)
+THEN
+  RESPONSE #100
+    Spell(Myself,CLERIC_ANIMATE_DEAD)
+END
+
+IF
+  !StateCheck(Myself,STATE_SILENCED)
+  See(NearestEnemyOf(Myself))
+  See(NearestMyGroupOfType)
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  HPPercentLT(LastSeenBy(Myself),80)
+  HaveSpell(CLERIC_CURE_LIGHT_WOUNDS)
+THEN
+  RESPONSE #100
+    Spell(LastSeenBy(Myself),CLERIC_CURE_LIGHT_WOUNDS)
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  !Range(LastSeenBy(Myself),4)
+  HPPercentLT(Myself,80)
+  HaveSpell(CLERIC_CURE_LIGHT_WOUNDS)
+THEN
+  RESPONSE #100
+    Spell(Myself,CLERIC_CURE_LIGHT_WOUNDS)
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    EquipRanged()
+    AttackOneRound(NearestEnemyOf(Myself))
+    AttackOneRound(NearestEnemyOf(Myself))
+END

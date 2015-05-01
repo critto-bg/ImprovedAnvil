@@ -1,0 +1,131 @@
+IF
+  Detect([PC])
+  Global("Iatimer","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("golemcall","LOCALS",18)
+    SetGlobal("Iatimer","LOCALS",1)
+END
+
+IF
+  See([PC])
+  !GlobalTimerNotExpired("golemcall","LOCALS")
+  GlobalLT("golems","LOCALS",6)
+  !HPLT(Myself,1)
+THEN
+  RESPONSE #50
+    SetGlobalTimer("golemcall","LOCALS",36)
+    IncrementGlobal("golems","LOCALS",1)
+    CreateCreatureObject("S!coin3",Myself,0,0,0) //
+  RESPONSE #50
+    SetGlobalTimer("golemcall","LOCALS",36)
+    IncrementGlobal("golems","LOCALS",1)
+    CreateCreatureObject("S!gem3",Myself,0,0,0) //
+END
+
+IF
+  See([PC])
+  Exists("S!aurie3")
+  !Dead("S!aurie3")
+  See("S!aurie3")
+  RandomNumLT(6,2)
+THEN
+  RESPONSE #100
+    AttackOneRound("S!aurie3")
+    AttackOneRound("S!aurie3")
+END
+
+IF
+  !See([PC])
+  Exists("S!aurie3")
+  !Dead("S!aurie3")
+  See("S!aurie3")
+THEN
+  RESPONSE #100
+    AttackOneRound("S!aurie3")
+    AttackOneRound("S!aurie3")
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(SecondNearestEnemyOf(Myself))
+  CheckStatLT(LastSeenBy(Myself),90,RESISTCRUSHING)
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  RandomNumGT(6,4)
+  Range(LastSeenBy(Myself),3)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  See(SecondNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(ThirdNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(FourthNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  InMyArea(Player1)
+  Exists("S!aurie3")
+  !Dead("S!aurie3")
+  See(NearestEnemyOf(Myself))
+  CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    MoveToObject("S!aurie3")
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Exists("S!aurie3")
+  !Dead("S!aurie3")
+  !See("S!aurie3")
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END

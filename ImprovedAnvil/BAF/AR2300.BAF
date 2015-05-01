@@ -1,0 +1,40 @@
+//Sahuagin City //////////////
+
+IF
+  Dead("Sahoty01")
+  Global("KilledSahoty01","AR2300",2)
+  Global("Hostilecity","GLOBAL",0)
+THEN
+  RESPONSE #100
+    Unlock("Door03")
+    SetGlobal("KilledSahoty01","AR2300",1)
+    FadeToColor([20.0],0)
+    Wait(1)
+    ApplySpellRES("SPINI10",Player1)
+    ActionOverride(Player1,JumpToPoint([298.829]))
+    ActionOverride(Player1,Face(10))
+    ApplySpellRES("SPINI10",Player2)
+    ApplySpellRES("SPINI10",Player3)
+    ApplySpellRES("SPINI10",Player4)
+    ApplySpellRES("SPINI10",Player5)
+    ApplySpellRES("SPINI10",Player6)
+    Wait(1)
+    ActionOverride(Player2,MakeUnselectable(1))
+    ActionOverride(Player3,MakeUnselectable(1))
+    ActionOverride(Player4,MakeUnselectable(1))
+    ActionOverride(Player5,MakeUnselectable(1))
+    ActionOverride(Player6,MakeUnselectable(1))
+    MoveViewPoint([429.887],INSTANT)
+    FadeFromColor([20.0],0)
+    Wait(1)
+    ActionOverride("sahkng01",StartDialogNoSet(Player1))
+END
+
+IF
+   Global("Iaitem","AR2300",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem","AR2300",1)
+      ActionOverride("Chest6",CreateItem("S!misc02",0,0,0)) //
+      ActionOverride("Chest6",CreateItem("potn55",0,0,0)) //
+END

@@ -1,0 +1,31 @@
+IF
+  NumberOfTimesTalkedTo(0)
+  Global("Iapcastts","GLOBAL",0)
+  Detect([PC])
+THEN
+  RESPONSE #100
+    StartDialogNoSet([PC])
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  Global("Iasummon","LOCALS",0)
+  OR(2)
+   Detect([PC])
+   Detect([GOODCUTOFF])
+THEN
+  RESPONSE #100
+    SetGlobal("Iasummon","LOCALS",1)
+    CreateCreatureObject("S!mekear",Myself,0,0,0) //
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  Global("Iasummon","LOCALS",1)
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END

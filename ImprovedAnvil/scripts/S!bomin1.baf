@@ -1,0 +1,152 @@
+IF
+  Global("Iacreature2","AR1513",1)
+  Dead("S!bolich")
+THEN
+  RESPONSE #100
+    DestroySelf()
+END
+
+IF
+  See([GOODCUTOFF])
+  Global("Iapupilschange","AR1513",0)
+  HPPercentLT(Myself,100)
+THEN
+  RESPONSE #100
+    SetGlobal("Iapupilschange","AR1513",1)
+END
+
+IF
+  OR(2)
+   See([PC])
+   See([GOODCUTOFF])
+  Global("Iapcastts","GLOBAL",0)
+  !Global("Iabolichcastts","AR1513",1)
+  OR(2)
+   HPPercentLT(Myself,100)
+   Global("Iapupilschange","AR1513",1)
+THEN
+  RESPONSE #100
+    Enemy()
+    ForceSpellRES("SPWI947",Myself)
+END
+
+IF
+  See([PC])
+  !GlobalTimerNotExpired("Iafondle","LOCALS")
+  Global("Iapraise","LOCALS",3)
+  Global("Iapcastts","GLOBAL",0)
+  !Global("Iabolichcastts","AR1513",1)
+  Exists("S!bolich")
+  !Dead("S!bolich")
+  See("S!bolich")
+  HPPercentLT("S!bolich",90)
+THEN
+  RESPONSE #100
+    Enemy()
+    ForceSpellRES("SPWI947",Myself)
+END
+
+IF
+  !GlobalTimerNotExpired("Iafondle","LOCALS")
+  GlobalLT("Iapraise","LOCALS",3)
+  Global("Iapcastts","GLOBAL",0)
+  !Global("Iabolichcastts","AR1513",1)
+  Exists("S!bolich")
+  !Dead("S!bolich")
+  See("S!bolich")
+  Range("S!bolich",5)
+  HPPercentLT("S!bolich",90)
+  RandomNumGT(4,2)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iapraise","LOCALS",1)
+    SetGlobalTimer("Iafondle","LOCALS",12)
+    SetInterrupt(FALSE)
+    SetGlobal("WillCast","LOCALS",0)
+    ForceSpellRES("SPINI42","S!bolich")
+    SetInterrupt(TRUE)
+END
+
+IF
+  !GlobalTimerNotExpired("Iafondle","LOCALS")
+  Exists("S!bolich")
+  !Dead("S!bolich")
+  See("S!bolich")
+  Range("S!bolich",5)
+  HPPercentLT("S!bolich",90)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iafondle","LOCALS",6)
+END
+
+IF
+  !GlobalTimerNotExpired("Iafondle","LOCALS")
+  Global("WillCast","LOCALS",0)
+  Exists("S!bolich")
+  !Dead("S!bolich")
+  See("S!bolich")
+  !Range("S!bolich",5)
+  HPPercentLT("S!bolich",90)
+  RandomNumLT(4,3)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iafondle","LOCALS",6)
+END
+
+IF
+  !GlobalTimerNotExpired("Iafondle","LOCALS")
+  Exists("S!bolich")
+  !Dead("S!bolich")
+  See("S!bolich")
+  !Range("S!bolich",5)
+  HPPercentLT("S!bolich",90)
+  Global("WillCast","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("WillCast","LOCALS",1)
+END
+
+IF
+  !GlobalTimerNotExpired("Iafondle","LOCALS")
+  Exists("S!bolich")
+  !Dead("S!bolich")
+  See("S!bolich")
+  !Range("S!bolich",5)
+  Global("WillCast","LOCALS",1)
+THEN
+  RESPONSE #100
+    MoveToObject("S!bolich")
+END
+
+IF
+  See([PC])
+  Global("partyfled","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("partyfled","LOCALS",0)
+END
+
+IF
+  See([PC])
+  Range(LastSeenBy(Myself),7)
+THEN
+  RESPONSE #100
+    RandomWalk()
+END
+
+IF
+  See([PC])
+  !Range(LastSeenBy(Myself),7)
+THEN
+  RESPONSE #100
+    MoveToObject(LastSeenBy(Myself))
+END
+
+IF
+  !See([PC])
+  InMyArea(Player1)
+  Global("partyfled","LOCALS",1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END

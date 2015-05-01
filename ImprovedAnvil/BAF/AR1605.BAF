@@ -1,0 +1,39 @@
+//Brynnlaw, Perth's house //////////////
+
+IF
+  InMyArea(Player1)
+  Global("Iaexit","AR1605",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR1605",1)
+    TriggerActivation("Tran1600",FALSE)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iaexit","AR1605",1)
+  Dead("PPCOWLED")
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR1605",2)
+    TriggerActivation("Tran1600",TRUE)
+END
+
+IF
+   InMyArea(Player1)
+   Global("Iaitem","AR1605",0)
+   Global("Iapcastts","GLOBAL",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem","AR1605",1)
+      ActionOverride("Container 1",CreateItem("misc07",2345,0,0)) //
+END
+
+IF
+   InMyArea(Player1)
+   Global("Iaitem","AR1605",0)
+   GlobalGT("Iapcastts","GLOBAL",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem","AR1605",1)
+END

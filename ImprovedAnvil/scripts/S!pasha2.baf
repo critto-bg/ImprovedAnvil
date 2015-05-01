@@ -1,0 +1,221 @@
+IF
+  !StateCheck(Myself,STATE_HELPLESS)
+  Global("Iapcastts","GLOBAL",0)
+  HPPercentLT(Myself,60)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  HasItem("POTN55",Myself)  // ~Potion of Superior Healing~
+THEN
+  RESPONSE #100
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    DisplayStringHead(Myself,46150)  // ~quaffs a potion~
+    UseItem("POTN55",Myself)  // ~Potion of Superior Healing~
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  !GlobalTimerNotExpired("gww","LOCALS")
+  !StateCheck(Myself,STATE_HELPLESS)
+  Global("Iapcastts","GLOBAL",0)
+  See(NearestEnemyOf(Player1))
+  Range(LastSeenBy(Myself),5)
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  OR(2)
+   Global("Iathethree","AR4500",2)
+   !HasItem("S!rakp",LastSeenBy(Myself))
+  GlobalLT("Iapasha01","LOCALS",8)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iapasha01","LOCALS",1)
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    SetGlobalTimer("gww","LOCALS",12)
+    ForceSpell(Myself,WARRIOR_GREATER_WHIRLWIND)
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  !GlobalTimerNotExpired("cstrike","LOCALS")
+  !StateCheck(Myself,STATE_HELPLESS)
+  Global("Iapcastts","GLOBAL",0)
+  See(NearestEnemyOf(Player1))
+  Range(LastSeenBy(Myself),5)
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  OR(2)
+   Global("Iathethree","AR4500",2)
+   !HasItem("S!rakp",LastSeenBy(Myself))
+  GlobalLT("Iapasha02","LOCALS",4)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iapasha02","LOCALS",1)
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    SetGlobalTimer("cstrike","LOCALS",18)
+    ForceSpell(Myself,WARRIOR_CRITICAL_STRIKE)
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  !GlobalTimerNotExpired("gww","LOCALS")
+  !StateCheck(Myself,STATE_HELPLESS)
+  Global("Iapcastts","GLOBAL",0)
+  See(NearestEnemyOf(Player1))
+  Range(LastSeenBy(Myself),5)
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  OR(2)
+   Global("Iathethree","AR4500",2)
+   !HasItem("S!rakp",LastSeenBy(Myself))
+  Global("Iapasha03","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iapasha03","LOCALS",1)
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    SetGlobalTimer("gww","LOCALS",12)
+    ForceSpell(Myself,WARRIOR_WHIRLWIND)
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  Global("Iathethree","AR4500",1)
+  Dead("S!supgol")
+  Dead("S!ultgg1")
+  Dead("S!ultgg2")
+THEN
+  RESPONSE #100
+    SetGlobal("Iathethree","AR4500",2)
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  Global("Iathethree","AR4500",1)
+  See(NearestEnemyOf(Player1))
+  !HasItem("S!rakp",LastSeenBy(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  Global("Iathethree","AR4500",1)
+  See(SecondNearestEnemyOf(Player1))
+  !HasItem("S!rakp",LastSeenBy(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  Global("Iathethree","AR4500",1)
+  See(ThirdNearestEnemyOf(Player1))
+  !HasItem("S!rakp",LastSeenBy(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  Global("Iathethree","AR4500",1)
+  See(NearestEnemyOf(Player1))
+  HasItem("S!rakp",LastSeenBy(Myself))
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  Global("Iathethree","AR4500",0)
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  Global("Iathethree","AR4500",2)
+  See(NearestEnemyOf(Player1))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  Global("Iathethree","AR4500",2)
+  See(SecondNearestEnemyOf(Player1))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  Global("Iathethree","AR4500",2)
+  See(ThirdNearestEnemyOf(Player1))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  Global("Iathethree","AR4500",2)
+  See(NearestEnemyOf(Player1))
+  OR(2)
+   !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+   !HasItem("S!rakp",LastSeenBy(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Player1))
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  Global("Iathethree","AR4500",2)
+  See(NearestEnemyOf(Player1))
+  CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  HasItem("S!rakp",LastSeenBy(Myself))
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  Global("Iaepicbattle","AR4500",4)
+  Global("Farewell","LOCALS",0)
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    SetGlobal("Farewell","LOCALS",1)
+    MoveToObjectNoInterrupt(Player1)
+    StartDialogueNoSet(Player1)
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  !See(NearestEnemyOf(Player1))
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  !Allegiance(Myself,GOODBUTBLUE)
+THEN
+  RESPONSE #100
+    ChangeEnemyAlly(Myself,GOODBUTBLUE)
+END

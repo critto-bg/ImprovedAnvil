@@ -1,0 +1,176 @@
+IF
+  Global("Iamonster","LOCALS",0)
+  GlobalGT("Iammirrorjob","GLOBAL",2)
+  GlobalLT("Iammirrorjob","GLOBAL",6)
+THEN
+  RESPONSE #100
+    SetGlobal("Iamonster","LOCALS",1)
+    CreateCreatureObject("S!elegwi",Myself,0,0,0)
+END
+
+IF
+  Global("Iamoving","LOCALS",1)
+  OR(2)
+   Detect(NearestEnemyOf(Myself))
+   Detect(NearestEnemyOf(LastSummonerOf(Myself)))
+THEN
+  RESPONSE #100
+    SetGlobal("Iamoving","LOCALS",0)
+END
+
+IF
+  Global("Iamoving","LOCALS",1)
+  CombatCounter(0)
+  See([PC])
+  Range(LastSeenBy(Myself),6)
+THEN
+  RESPONSE #100
+    SetGlobal("Iamoving","LOCALS",0)
+END
+
+IF
+  ActionListEmpty()
+  See(NearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),1,SCRIPTINGSTATE6)
+  !HasItemEquiped("immune4",LastSeenBy(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  ActionListEmpty()
+  See(NearestEnemyOf(Player1))
+  !CheckStatGT(LastSeenBy(Myself),1,SCRIPTINGSTATE6)
+  !HasItemEquiped("immune4",LastSeenBy(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  ActionListEmpty()
+  OR(2)
+   HasItem("S!swanq",Myself)
+   HasItem("S!gswan",Myself)
+  See(NearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  ActionListEmpty()
+  OR(2)
+   HasItem("S!swanq",Myself)
+   HasItem("S!gswan",Myself)
+  See(NearestEnemyOf(Player1))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  ActionListEmpty()
+  See(SecondNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),1,SCRIPTINGSTATE6)
+  !HasItemEquiped("immune4",LastSeenBy(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  ActionListEmpty()
+  See(SecondNearestEnemyOf(Player1))
+  !CheckStatGT(LastSeenBy(Myself),1,SCRIPTINGSTATE6)
+  !HasItemEquiped("immune4",LastSeenBy(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  ActionListEmpty()
+  OR(2)
+   HasItem("S!swanq",Myself)
+   HasItem("S!gswan",Myself)
+  See(SecondNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  ActionListEmpty()
+  OR(2)
+   HasItem("S!swanq",Myself)
+   HasItem("S!gswan",Myself)
+  See(SecondNearestEnemyOf(Player1))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  ActionListEmpty()
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  ActionListEmpty()
+  See(NearestEnemyOf(Player1))
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  ActionListEmpty()
+  Global("Iamoving","LOCALS",0)
+  !Detect(NearestEnemyOf(Myself))
+  !Detect(NearestEnemyOf(LastSummonerOf(Myself)))
+THEN
+  RESPONSE #100
+    SetGlobal("Iamoving","LOCALS",1)
+END
+
+IF
+  ActionListEmpty()
+  Global("Iamoving","LOCALS",0)
+  CombatCounter(0)
+  !Detect(Player1)
+  !Detect(LastSummonerOf(Myself))
+  !Detect([PC])
+THEN
+  RESPONSE #100
+    SetGlobal("Iamoving","LOCALS",1)
+END
+
+IF
+  ActionListEmpty()
+  Global("Iamoving","LOCALS",1)
+  !Detect(NearestEnemyOf(Myself))
+  !Detect(NearestEnemyOf(LastSummonerOf(Myself)))
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  ActionListEmpty()
+  Global("Iamoving","LOCALS",1)
+  !Detect(NearestEnemyOf(Myself))
+  !Detect(NearestEnemyOf(LastSummonerOf(Myself)))
+THEN
+  RESPONSE #100
+    MoveToObject(LastSummonerOf(Myself))
+END

@@ -1,0 +1,217 @@
+// The Sealed House //////////////
+
+IF
+  InMyArea(Player1)
+  Global("Iaexit","AR2810",1)
+THEN
+   RESPONSE #100
+     SetGlobal("Iaexit","AR2810",2)
+     SetGlobalTimer("Iaunseal","AR2810",12)
+     TriggerActivation("Tran2800",FALSE)
+     TriggerActivation("Info Point 2",FALSE)
+     TriggerActivation("Info Point 3",FALSE)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iaexit","AR2810",2)
+  GlobalTimerExpired("Iaunseal","AR2810")
+  CombatCounter(0)
+THEN
+   RESPONSE #100
+     SetGlobal("Iaexit","AR2810",0)
+     IncrementGlobal("Iastarttomend","AR2810",1)
+     SetGlobal("Iamirrorcre","AR2810",0)
+     TriggerActivation("Tran2800",TRUE)
+     TriggerActivation("Info Point 2",TRUE)
+     TriggerActivation("Info Point 3",TRUE)
+END
+
+IF
+  InMyArea(Player1)
+  !GlobalTimerNotExpired("Iavisuals","AR2810")
+THEN
+   RESPONSE #50
+     SetGlobalTimer("Iavisuals","AR2810",24)
+     CreateVisualEffect("FISH1S",[259.412])
+   RESPONSE #50
+     SetGlobalTimer("Iavisuals","AR2810",18)
+     CreateVisualEffect("FISH3S",[284.432])
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iamirrorfixed","AR2810",0)
+  Global("Iastarttomend","AR2810",1)
+  !GlobalTimerNotExpired("Iamir2ndtimer","AR2810")
+THEN
+  RESPONSE #100
+    SetGlobal("Iastarttomend","AR2810",0)
+END
+
+IF
+  InMyArea(Player1)
+  GlobalGT("Iastarttomend","AR2810",2)
+  Global("Ianoresttimer","AR2810",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Ianoresttimer","AR2810",1)
+    SetGlobalTimer("Ianorestar2810","GLOBAL",900)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iastarttomend","AR2810",2)
+  Global("Iamirrorcre","AR2810",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iamirrorcre","AR2810",1)
+    SetGlobal("Iaexit","AR2810",1)
+    ClearAllActions()
+    StartCutSceneMode()
+    MoveViewPoint([410.362],INSTANT)
+    Wait(1)
+    CreateVisualEffect("SPRAISED",[410.362])
+    Wait(4)
+    CreateCreature("S!skelmi",[410.362],0) //
+    EndCutSceneMode()
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iastarttomend","AR2810",4)
+  Global("Iamirrorcre","AR2810",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iamirrorcre","AR2810",1)
+    SetGlobal("Iaexit","AR2810",1)
+    ClearAllActions()
+    StartCutSceneMode()
+    MoveViewPoint([410.362],INSTANT)
+    Wait(1)
+    CreateVisualEffect("SPPORTAL",[410.362])
+    Wait(3)
+    CreateCreature("S!windmi",[410.362],0) //
+    EndCutSceneMode()
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iastarttomend","AR2810",6)
+  Global("Iamirrorcre","AR2810",0)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iamirrorcre","AR2810",1)
+    SetGlobal("Iaexit","AR2810",1)
+    ClearAllActions()
+    StartCutSceneMode()
+    MoveViewPoint([410.362],INSTANT)
+    Wait(1)
+    CreateVisualEffect("SPMONSUM",[410.362])
+    Wait(2)
+    CreateCreature("S!spidmi",[410.362],0) //
+    EndCutSceneMode()
+END
+
+IF
+  InMyArea(Player1)
+  GlobalGT("Iastarttomend","AR2810",2)
+  GlobalLT("Iastarttomend","AR2810",7)
+  OR(2)
+   GlobalTimerExpired("Ianorestar2810","GLOBAL")
+   PartyRested()
+THEN
+  RESPONSE #100
+    SetGlobal("Iastarttomend","AR2810",1)
+    SetGlobal("Ianoresttimer","AR2810",0)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iastarttomend","AR2810",7)
+  Global("Iamirrorfixed","AR2810",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iamirrorfixed","AR2810",1)
+    SetGlobal("Iammirrorjob","GLOBAL",4)
+    AddXPObject(Player1,15000)
+    AddXPObject(Player2,15000)
+    AddXPObject(Player3,15000)
+    AddXPObject(Player4,15000)
+    AddXPObject(Player5,15000)
+    AddXPObject(Player6,15000)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iasendblazing","AR2810",1)
+  Global("Iacanbreathe","GLOBAL",1)
+  Dead("S!shadm1")
+THEN
+  RESPONSE #100
+    SetGlobal("Iasendblazing","AR2810",2)
+    ClearAllActions()
+    StartCutSceneMode()
+    StartCutScene("Trania30")
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iasendbldstain","AR2810",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iasendbldstain","AR2810",2)
+    ClearAllActions()
+    StartCutSceneMode()
+    StartCutScene("Trania32")
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iasendwooden","AR2810",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iasendwooden","AR2810",2)
+    ClearAllActions()
+    StartCutSceneMode()
+    StartCutScene("Trania34")
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iablazingmir","GLOBAL",1)
+  Global("Iabldstainmir","GLOBAL",1)
+  Global("Iawoodenmir","GLOBAL",1)
+  Global("Iammirrorjob","GLOBAL",4)
+  PartyHasItem("S!misc54")
+  PartyHasItem("S!misc55")
+  PartyHasItem("S!misc56")
+THEN
+  RESPONSE #100
+    SetGlobal("Iammirrorjob","GLOBAL",5)
+    TriggerActivation("Info Point 2",FALSE)
+    TriggerActivation("Tran2800",FALSE)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iasendformom","AR2810",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iasendformom","AR2810",2)
+    ClearAllActions()
+    StartCutSceneMode()
+    StartCutScene("Trania36")
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iammirrorjob","GLOBAL",6)
+  Global("Iareactivate","AR2810",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iareactivate","AR2810",1)
+    TriggerActivation("Info Point 2",TRUE)
+    TriggerActivation("Tran2800",TRUE)
+    TriggerActivation("Info Point 3",FALSE)
+END

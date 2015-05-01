@@ -1,0 +1,138 @@
+IF
+  Global("Iaskelgrs","AR0809",0)
+  OR(2)
+   Global("C6BodhiFight","AR0809",1)
+   Allegiance(Myself,ENEMY)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaskelgrs","AR0809",1)
+    CreateCreature("S!orvam",[1500.525],3) //
+END
+
+IF
+  Global("Iapcastts","GLOBAL",1)
+  Global("Iatsinvulner","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatsinvulner","LOCALS",1)
+    ApplySpellRES("SPINI70",Myself)
+END
+
+IF
+  Global("Iapcastts","GLOBAL",0)
+  Global("Iatsinvulner","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatsinvulner","LOCALS",0)
+    ApplySpellRES("SPINI71",Myself)
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE1)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE4)
+  !HasItemEquiped("S!sw06",LastSeenBy(Myself))
+  !HasItemEquiped("S!skelsu",LastSeenBy(Myself))
+  !HasItemEquiped("S!swansu",LastSeenBy(Myself))
+  !HasItemEquiped("S!gswan",LastSeenBy(Myself))
+  !HasItemEquiped("S!swanq",LastSeenBy(Myself))
+  !HasItemEquiped("S!gscim",LastSeenBy(Myself))
+  !HasItemEquiped("amul21",LastSeenBy(Myself))
+  !HasItemEquiped("S!amul05",LastSeenBy(Myself))
+  !HasItemEquiped("S!amul06",LastSeenBy(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  See(SecondNearestEnemyOf(Myself))
+  Range(LastSeenBy(Myself),3)
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE1)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE4)
+  !HasItemEquiped("S!sw06",LastSeenBy(Myself))
+  !HasItemEquiped("S!skelsu",LastSeenBy(Myself))
+  !HasItemEquiped("S!swansu",LastSeenBy(Myself))
+  !HasItemEquiped("S!gswan",LastSeenBy(Myself))
+  !HasItemEquiped("S!swanq",LastSeenBy(Myself))
+  !HasItemEquiped("S!gscim",LastSeenBy(Myself))
+  !HasItemEquiped("amul21",LastSeenBy(Myself))
+  !HasItemEquiped("S!amul05",LastSeenBy(Myself))
+  !HasItemEquiped("S!amul06",LastSeenBy(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(ThirdNearestEnemyOf(Myself))
+  Range(LastSeenBy(Myself),3)
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE1)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE4)
+  !HasItemEquiped("S!sw06",LastSeenBy(Myself))
+  !HasItemEquiped("S!skelsu",LastSeenBy(Myself))
+  !HasItemEquiped("S!swansu",LastSeenBy(Myself))
+  !HasItemEquiped("S!gswan",LastSeenBy(Myself))
+  !HasItemEquiped("S!swanq",LastSeenBy(Myself))
+  !HasItemEquiped("S!gscim",LastSeenBy(Myself))
+  !HasItemEquiped("amul21",LastSeenBy(Myself))
+  !HasItemEquiped("S!amul05",LastSeenBy(Myself))
+  !HasItemEquiped("S!amul06",LastSeenBy(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  See(SecondNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(ThirdNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  !See([PC])
+  !See([GOODCUTOFF])
+  InMyArea(Player1)
+  Allegiance(Myself,ENEMY)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  OR(2)
+   AttackedBy([GOODCUTOFF],DEFAULT)
+   HPPercentLT(Myself,100)
+  !Allegiance(Myself,ENEMY)
+THEN
+  RESPONSE #100
+    Enemy()
+END

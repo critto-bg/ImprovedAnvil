@@ -1,0 +1,31 @@
+//Oasis //
+
+IF
+  OR(3)
+   SpellCast([PC],WIZARD_DEATH_FOG)
+   SpellCast([PC],WIZARD_CLOUDKILL)
+   SpellCast([PC],WIZARD_INCENDIARY_CLOUD)
+THEN
+  RESPONSE #100
+    SetGlobal("Iapccloud","AR6300",1)
+    SetGlobalTimer("Iacloudtime","AR6300",60)
+END
+
+IF
+  Global("Iapccloud","AR6300",1)
+  GlobalTimerExpired("Iacloudtime","AR6300")
+THEN
+  RESPONSE #100
+    SetGlobal("Iapccloud","AR6300",0)
+END
+
+IF
+   Global("Iaitem","AR6300",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem","AR6300",1)
+      ActionOverride("Container 2",CreateItem("potn55",3,0,0)) //
+      ActionOverride("Container 2",CreateItem("potn10",4,0,0)) //
+      ActionOverride("Container 2",CreateItem("potn35",2,0,0)) //
+      ActionOverride("Container 2",CreateItem("potn24",2,0,0)) //
+END

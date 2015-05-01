@@ -1,0 +1,41 @@
+IF
+  PartyHasItem("S!key1")
+  Clicked([ANYONE])
+  Range(LastTrigger,10)
+  Global("Iapcastts","GLOBAL",0)
+THEN
+  RESPONSE #100
+    StartCutSceneMode()
+    Wait(1)
+    FadeToColor([20.0],0)
+    TakePartyItem("S!key1")
+    DestroyItem("S!key1")
+    Wait(2)
+    ActionOverride(Player1,LeaveAreaLUAPanic("ARia11","",[486.683],10))
+    ActionOverride(Player1,LeaveAreaLUA("ARia11","",[486.683],10))
+    ActionOverride(Player2,LeaveAreaLUA("ARia11","",[429.647],10))
+    ActionOverride(Player3,LeaveAreaLUA("ARia11","",[549.713],10))
+    ActionOverride(Player4,LeaveAreaLUA("ARia11","",[489.732],10))
+    ActionOverride(Player5,LeaveAreaLUA("ARia11","",[408.698],10))
+    ActionOverride(Player6,LeaveAreaLUA("ARia11","",[402.750],10))
+    MultiPlayerSync()
+    EndCutSceneMode()
+    FadeFromColor([20.0],0)
+END
+
+IF
+  !PartyHasItem("S!key1")
+  Clicked([ANYONE])
+  Range(LastTrigger,10)
+THEN
+  RESPONSE #100
+    DisplayString(Myself,14645)  //
+END
+
+IF
+  Clicked([ANYONE])
+  !Range(LastTrigger,10)
+THEN
+  RESPONSE #100
+    DisplayString(Myself,14702)  // ~You are too far away to use that.~
+END

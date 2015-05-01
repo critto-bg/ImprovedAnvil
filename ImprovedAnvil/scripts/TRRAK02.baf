@@ -1,0 +1,33 @@
+IF
+  !Allegiance(Myself,ENEMY)
+THEN
+  RESPONSE #100
+    Enemy()
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  Global("Change2","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Change2","LOCALS",1)
+    Polymorph(RAKSHASA)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !Detect([GOODCUTOFF])
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !Detect([GOODCUTOFF])
+  AreaCheck("AR1902")
+THEN
+  RESPONSE #100
+    MoveToPoint([459.553])
+END

@@ -1,0 +1,30 @@
+//Umar's Cave //
+
+IF
+  Class(Player1,RANGER_ALL)
+  Global("Iarangerjob","GLOBAL",6)
+  Global("Iacreature","AR1106",0)
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iacreature","AR1106",1)
+    CreateCreature("S!dopple",[651.1089],3) //
+END
+
+IF
+  Global("Iaexit","AR1106",0)
+  Global("Iarangerjob","GLOBAL",7)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR1106",1)
+    TriggerActivation("Tran1100",FALSE)
+END
+
+IF
+  Global("Iaexit","AR1106",1)
+  Dead("S!dopple")
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR1106",2)
+    TriggerActivation("Tran1100",TRUE)
+END

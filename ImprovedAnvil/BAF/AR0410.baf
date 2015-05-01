@@ -1,0 +1,239 @@
+//Mage Stronghold Navigator's Room  //////////////
+
+IF
+  Class(Player1,MAGE_ALL)
+  !Class(Player1,FIGHTER_ALL)
+  !Class(Player1,THIEF_ALL)
+  !Class(Player1,CLERIC_ALL)
+  GlobalGT("LavokOutside","GLOBAL",0)
+  Global("Iatimer","AR0410",0)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iascrolls","GLOBAL",SEVEN_DAYS)
+    SetGlobal("Iaitem","AR0410",0)
+    SetGlobal("Iatimer","AR0410",1)
+END
+
+IF
+  Class(Player1,MAGE_ALL)
+  !Class(Player1,FIGHTER_ALL)
+  !Class(Player1,THIEF_ALL)
+  !Class(Player1,CLERIC_ALL)
+  GlobalGT("LavokOutside","GLOBAL",0)
+  GlobalTimerExpired("Iascrolls","GLOBAL")
+  Global("Iaitem","AR0410",0)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iascrolls","GLOBAL",SEVEN_DAYS)
+    SetGlobal("Iaitem","AR0410",1)
+END
+
+IF
+  Class(Player1,MAGE_ALL)
+  !Class(Player1,FIGHTER_ALL)
+  !Class(Player1,THIEF_ALL)
+  !Class(Player1,CLERIC_ALL)
+  Global("Iaitem","AR0410",1)
+  GlobalLT("Iacountscrl","AR0410",7)
+THEN
+   RESPONSE #50
+     SetGlobal("Iaitem","AR0410",0)
+     IncrementGlobal("Iacountscrl","AR0410",1)
+     ActionOverride("Container 1",CreateItem("scrl9g",2,0,0)) //
+     ActionOverride("Container 1",CreateItem("scrl8t",3,0,0)) //
+     ActionOverride("Container 1",CreateItem("scrl7m",3,0,0)) //
+     ActionOverride("Container 1",CreateItem("scrl7i",2,0,0)) //
+   RESPONSE #50
+     SetGlobal("Iaitem","AR0410",0)
+     IncrementGlobal("Iacountscrl","AR0410",1)
+     ActionOverride("Container 1",CreateItem("scrl8y",3,0,0)) //
+     ActionOverride("Container 1",CreateItem("scrl7j",2,0,0)) //
+     ActionOverride("Container 1",CreateItem("scrl6v",3,0,0)) //
+     ActionOverride("Container 1",CreateItem("scrl7u",2,0,0)) //
+END
+
+IF
+  OpenState("Door 0412B",TRUE)
+  Global("Door1Opened","AR0410",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door1Opened","AR0410",1)
+END
+
+IF
+  OpenState("Door 0419",TRUE)
+  Global("Door2Opened","AR0410",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door2Opened","AR0410",1)
+END
+
+IF
+  OpenState("Door 0420",TRUE)
+  Global("Door3Opened","AR0410",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door3Opened","AR0410",1)
+END
+
+IF
+  OpenState("Door 0412B",FALSE)
+  Global("Door1Opened","AR0410",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door 0412B")
+END
+
+IF
+  OpenState("Door 0419",FALSE)
+  Global("Door2Opened","AR0410",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door 0419")
+END
+
+IF
+  OpenState("Door 0420",FALSE)
+  Global("Door3Opened","AR0410",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door 0420")
+END
+
+IF
+  Global("Iaexit","AR0410",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR0410",1)
+    TriggerActivation("Tran0420",FALSE)
+    TriggerActivation("Tran0419",FALSE)
+    TriggerActivation("Tran0412b",FALSE)
+END
+
+IF
+  Global("Iaexit","AR0410",1)
+  Global("Iacanexit","AR0410",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR0410",2)
+    TriggerActivation("Tran0420",TRUE)
+    TriggerActivation("Tran0419",TRUE)
+    TriggerActivation("Tran0412b",TRUE)
+END
+
+IF
+  InMyArea(Player1)
+  OR(4)
+   !Class(Player1,MAGE_ALL)
+   Class(Player1,FIGHTER_ALL)
+   Class(Player1,THIEF_ALL)
+   Class(Player1,CLERIC_ALL)
+  !Global("Iacountscrl","AR0410",7)
+THEN
+  RESPONSE #100
+    SetGlobal("Iacountscrl","AR0410",7)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Ianticheat","AR0410",0)
+  Global("Iacanexit","AR0410",0)
+  Exists("LAVOK") //
+  !Dead("LAVOK") //
+  !Allegiance("LAVOK",ENEMY)
+  HPPercentLT("LAVOK",100)
+THEN
+  RESPONSE #100
+    SetGlobal("Ianticheat","AR0410",1)
+    ChangeEnemyAlly("LAVOK",ENEMY)
+    ApplySpellRES("SPWII07","LAVOK")
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iacells","AR0410",1)
+  OR(2)
+   XPGT(Player1,2349999)
+   NumInPartyLT(5)
+THEN
+  RESPONSE #100
+    SetGlobal("Iacells","AR0410",6)
+    CreateVisualEffect("SPRAISED",[907.613])
+    CreateVisualEffect("SPRAISED",[959.623])
+    CreateVisualEffect("SPRAISED",[1014.617])
+    CreateVisualEffect("SPRAISED",[1051.607])
+    CreateVisualEffect("SPRAISED",[1083.593])
+    Wait(4)
+    CreateCreature("S!skell1",[907.613],13) //
+    CreateCreature("S!skell2",[959.623],13) //
+    CreateCreature("S!skell3",[1014.617],13) //
+    CreateCreature("S!skell4",[1051.607],13) //
+    CreateCreature("S!skell5",[1083.593],13) //
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iacells","AR0410",1)
+  XPGT(Player1,1999999)
+  XPLT(Player1,2350000)
+  NumInPartyGT(4)
+THEN
+  RESPONSE #100
+    SetGlobal("Iacells","AR0410",5)
+    CreateVisualEffect("SPRAISED",[907.613])
+    CreateVisualEffect("SPRAISED",[959.623])
+    CreateVisualEffect("SPRAISED",[1014.617])
+    CreateVisualEffect("SPRAISED",[1051.607])
+    Wait(4)
+    CreateCreature("S!skell1",[907.613],13) //
+    CreateCreature("S!skell2",[959.623],13) //
+    CreateCreature("S!skell3",[1014.617],13) //
+    CreateCreature("S!skell4",[1051.607],13) //
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iacells","AR0410",1)
+  XPGT(Player1,1699999)
+  XPLT(Player1,2000000)
+  NumInPartyGT(4)
+THEN
+  RESPONSE #100
+    SetGlobal("Iacells","AR0410",4)
+    CreateVisualEffect("SPRAISED",[907.613])
+    CreateVisualEffect("SPRAISED",[959.623])
+    CreateVisualEffect("SPRAISED",[1014.617])
+    Wait(4)
+    CreateCreature("S!skell1",[907.613],13) //
+    CreateCreature("S!skell2",[959.623],13) //
+    CreateCreature("S!skell3",[1014.617],13) //
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iacells","AR0410",1)
+  XPGT(Player1,1299999)
+  XPLT(Player1,1700000)
+  NumInPartyGT(4)
+THEN
+  RESPONSE #100
+    SetGlobal("Iacells","AR0410",3)
+    CreateVisualEffect("SPRAISED",[907.613])
+    CreateVisualEffect("SPRAISED",[959.623])
+    Wait(4)
+    CreateCreature("S!skell1",[907.613],13) //
+    CreateCreature("S!skell2",[959.623],13) //
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iacells","AR0410",1)
+  XPLT(Player1,1300000)
+  NumInPartyGT(4)
+THEN
+  RESPONSE #100
+    SetGlobal("Iacells","AR0410",2)
+    CreateVisualEffect("SPRAISED",[907.613])
+    Wait(4)
+    CreateCreature("S!skell1",[907.613],13) //
+END

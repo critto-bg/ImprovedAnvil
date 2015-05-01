@@ -1,0 +1,94 @@
+// The Old One //
+
+IF
+  Global("Iablock","ARia20",0)
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iablock","ARia20",1)
+    CreateCreature("S!blocko",[628.719],5)
+    CreateCreature("S!blocko",[772.798],1)
+    TriggerActivation("Trania25",FALSE)
+    ContainerEnable("Container 1",FALSE)
+END
+
+IF
+  Global("Iaoldonejob","GLOBAL",2)
+  InMyArea(Player1)
+  Dead("S!grlch5")
+  Dead("S!grlch6")
+  Dead("S!grlch7")
+  !Dead("S!oldon2")
+  CombatCounter(0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaoldonejob","GLOBAL",3)
+    ApplySpellRES("SPINI77",Player1)
+    ApplySpellRES("SPINI77","S!oldon2")
+END
+
+IF
+  Global("Iaoldonejob","GLOBAL",2)
+  InMyArea(Player1)
+  Dead("S!grlch5")
+  Dead("S!grlch6")
+  Dead("S!grlch7")
+  Dead("S!oldon2")
+  CombatCounter(0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaoldonejob","GLOBAL",4)
+    ApplySpellRES("SPINI77",Player1)
+END
+
+IF
+  Global("Iablock","ARia20",1)
+  Global("Iaoldonejob","GLOBAL",4)
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iablock","ARia20",2)
+    CreateCreature("S!morid1",[1065.536],1)
+END
+
+IF
+  GlobalGT("Iaoldonejob","GLOBAL",4)
+  Global("Iareactivate","ARia20",0)
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iareactivate","ARia20",1)
+    TriggerActivation("Trania25",TRUE)
+    ContainerEnable("Container 1",TRUE)
+    ApplySpellRES("SPINI10",Player2)
+    ApplySpellRES("SPINI10",Player3)
+    ApplySpellRES("SPINI10",Player4)
+    ApplySpellRES("SPINI10",Player5)
+    ApplySpellRES("SPINI10",Player6)
+    ApplySpellRES("SPINI10",Player1)
+    Wait(1)
+    ActionOverride(Player2,MakeUnselectable(1))
+    ActionOverride(Player3,MakeUnselectable(1))
+    ActionOverride(Player4,MakeUnselectable(1))
+    ActionOverride(Player5,MakeUnselectable(1))
+    ActionOverride(Player6,MakeUnselectable(1))
+END
+
+IF
+   InMyArea(Player1)
+   StateCheck(Player1,STATE_SILENCED)
+   Global("Iadisableb1","ARia20",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisableb1","ARia20",1)
+      ActionOverride(Player1,ReallyForceSpellRES("spwii44",Myself))
+END
+
+IF
+   InMyArea(Player1)
+   !StateCheck(Player1,STATE_SILENCED)
+   Global("Iadisableb1","ARia20",1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisableb1","ARia20",0)
+END

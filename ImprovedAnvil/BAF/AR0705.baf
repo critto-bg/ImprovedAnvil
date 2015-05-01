@@ -1,0 +1,48 @@
+//Mekrath's Hideout //////////////
+
+IF
+   Global("Iaitem","AR0705",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem","AR0705",1)
+      ActionOverride("Lens Container",DestroyItem("RODS03")) //
+END
+
+IF
+   Global("Iaswanmejob","GLOBAL",3)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaswanmejob","GLOBAL",4)
+END
+
+IF
+  OR(2)
+   GlobalLT("Iaswanmejob","GLOBAL",5)
+   Global("Iamvagrant","GLOBAL",2)
+  PartyHasItem("S!misc38")
+THEN
+  RESPONSE #100
+    TakePartyItem("S!misc38")
+    DestroyItem("S!misc38")
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iaexit","AR0705",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR0705",2)
+    TriggerActivation("Tran0701",FALSE)
+    TriggerActivation("Tran0500",FALSE)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iaexit","AR0705",2)
+  Dead("Mekrath")
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR0705",3)
+    TriggerActivation("Tran0701",TRUE)
+    TriggerActivation("Tran0500",TRUE)
+END

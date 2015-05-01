@@ -1,0 +1,48 @@
+// Spirit Heads Area //
+
+IF
+  InMyArea(Player1)
+  OR(3)
+   SpellCast([PC],WIZARD_INCENDIARY_CLOUD)
+   SpellCast([PC],WIZARD_DEATH_FOG)
+   SpellCast([PC],WIZARD_CLOUDKILL)
+THEN
+  RESPONSE #100
+    SetGlobal("Iapccloud","AR4000",1)
+    SetGlobalTimer("Iacloudtime","AR4000",60)
+END
+
+IF
+  Global("Iapccloud","AR4000",1)
+  GlobalTimerExpired("Iacloudtime","AR4000")
+THEN
+  RESPONSE #100
+    SetGlobal("Iapccloud","AR4000",0)
+END
+
+IF
+  Global("Iaskelgrs","AR4000",1)
+  GlobalLT("Iaskelgated","AR4000",9)
+  OR(2)
+   GlobalGT("Iabeltplace","GLOBAL",0)
+   XPGT(Player1,2999999)
+  !GlobalTimerNotExpired("Iasgrlords","AR4000")
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iaskelgated","AR4000",1)
+    SetGlobalTimer("Iasgrlords","AR4000",9)
+    CreateCreature("S!skelgr",[2470.1516],5)  //
+END
+
+IF
+  Global("Iaskelgrs","AR4000",1)
+  GlobalLT("Iaskelgated","AR4000",9)
+  Global("Iabeltplace","GLOBAL",0)
+  XPLT(Player1,3000000)
+  !GlobalTimerNotExpired("Iasgrlords","AR4000")
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iaskelgated","AR4000",1)
+    SetGlobalTimer("Iasgrlords","AR4000",9)
+    CreateCreature("S!skels",[2470.1516],5)  //
+END

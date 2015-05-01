@@ -1,0 +1,154 @@
+IF
+  !Allegiance(Myself,ENEMY)
+  AttackedBy([GOODCUTOFF],DEFAULT)
+THEN
+  RESPONSE #100
+    Enemy()
+END
+
+IF
+  Gender(Myself,SUMMONED)
+  !Allegiance(Myself,ENEMY)
+  GlobalGT("Iamoving","LOCALS",0)
+  Detect(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    SetGlobal("Iamoving","LOCALS",0)
+END
+
+IF
+  Gender(Myself,SUMMONED)
+  !Allegiance(Myself,ENEMY)
+  GlobalGT("Iamoving","LOCALS",0)
+  CombatCounter(0)
+  See([PC])
+  Range(LastSeenBy(Myself),6)
+THEN
+  RESPONSE #100
+    SetGlobal("Iamoving","LOCALS",0)
+END
+
+IF
+  Gender(Myself,SUMMONED)
+  !Allegiance(Myself,ENEMY)
+  Global("Iamoving","LOCALS",1)
+  CombatCounter(0)
+  GlobalTimerExpired("Iaallychase","LOCALS")
+THEN
+  RESPONSE #100
+    SetGlobal("Iamoving","LOCALS",2)
+END
+
+IF
+  Gender(Myself,SUMMONED)
+  !Allegiance(Myself,ENEMY)
+  ActionListEmpty()
+  See(SecondNearestEnemyOf(Myself))
+  CheckStatLT(LastSeenBy(Myself),90,RESISTPIERCING)
+  !CheckStatGT(LastSeenBy(Myself),1,SCRIPTINGSTATE6)
+  !HasItemEquiped("immune4",LastSeenBy(Myself))
+  RandomNumGT(6,4)
+  Range(LastSeenBy(Myself),2)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Gender(Myself,SUMMONED)
+  !Allegiance(Myself,ENEMY)
+  ActionListEmpty()
+  See(NearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),1,SCRIPTINGSTATE6)
+  !HasItemEquiped("immune4",LastSeenBy(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  Gender(Myself,SUMMONED)
+  !Allegiance(Myself,ENEMY)
+  ActionListEmpty()
+  See(SecondNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),1,SCRIPTINGSTATE6)
+  !HasItemEquiped("immune4",LastSeenBy(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Gender(Myself,SUMMONED)
+  !Allegiance(Myself,ENEMY)
+  ActionListEmpty()
+  See(ThirdNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),1,SCRIPTINGSTATE6)
+  !HasItemEquiped("immune4",LastSeenBy(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Gender(Myself,SUMMONED)
+  !Allegiance(Myself,ENEMY)
+  ActionListEmpty()
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  Gender(Myself,SUMMONED)
+  !Allegiance(Myself,ENEMY)
+  ActionListEmpty()
+  Global("Iamoving","LOCALS",0)
+  !Detect(NearestEnemyOf(Myself))
+  !Detect(NearestEnemyOf(LastSummonerOf(Myself)))
+THEN
+  RESPONSE #100
+    SetGlobal("Iamoving","LOCALS",1)
+    SetGlobalTimer("Iaallychase","LOCALS",60)
+END
+
+IF
+  Gender(Myself,SUMMONED)
+  !Allegiance(Myself,ENEMY)
+  ActionListEmpty()
+  Global("Iamoving","LOCALS",0)
+  CombatCounter(0)
+  !Detect(Player1)
+  !Detect(LastSummonerOf(Myself))
+  !Detect([PC])
+THEN
+  RESPONSE #100
+    SetGlobal("Iamoving","LOCALS",1)
+    SetGlobalTimer("Iaallychase","LOCALS",60)
+END
+
+IF
+  Gender(Myself,SUMMONED)
+  !Allegiance(Myself,ENEMY)
+  ActionListEmpty()
+  Global("Iamoving","LOCALS",1)
+  !Detect(NearestEnemyOf(Myself))
+  !Detect(NearestEnemyOf(LastSummonerOf(Myself)))
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  Gender(Myself,SUMMONED)
+  !Allegiance(Myself,ENEMY)
+  ActionListEmpty()
+  Global("Iamoving","LOCALS",1)
+  !Detect(NearestEnemyOf(Myself))
+  !Detect(NearestEnemyOf(LastSummonerOf(Myself)))
+THEN
+  RESPONSE #100
+    MoveToObject(LastSummonerOf(Myself))
+END

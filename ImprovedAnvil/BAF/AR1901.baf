@@ -1,0 +1,84 @@
+//Druid Grove //////////////
+
+IF
+  Global("Iapartyheld","AR1901",1)
+  Dead("CEFALD01") //
+THEN
+   RESPONSE #100
+     SetGlobal("Iapartyheld","AR1901",2)
+     ApplySpellRES("SPINI10",Player2)
+     ApplySpellRES("SPINI10",Player3)
+     ApplySpellRES("SPINI10",Player4)
+     ApplySpellRES("SPINI10",Player5)
+     ApplySpellRES("SPINI10",Player6)
+     ApplySpellRES("SPINI10",Player1)
+     Wait(1)
+     ActionOverride(Player2,MakeUnselectable(1))
+     ActionOverride(Player3,MakeUnselectable(1))
+     ActionOverride(Player4,MakeUnselectable(1))
+     ActionOverride(Player5,MakeUnselectable(1))
+     ActionOverride(Player6,MakeUnselectable(1))
+END
+
+IF
+  Global("Iapartyheld2","AR1901",1)
+  Dead("GDRUID") //
+THEN
+   RESPONSE #100
+     SetGlobal("Iapartyheld2","AR1901",2)
+     ApplySpellRES("SPINI10",Player2)
+     ApplySpellRES("SPINI10",Player3)
+     ApplySpellRES("SPINI10",Player4)
+     ApplySpellRES("SPINI10",Player5)
+     ApplySpellRES("SPINI10",Player6)
+     ApplySpellRES("SPINI10",Player1)
+     Wait(1)
+     ActionOverride(Player2,MakeUnselectable(1))
+     ActionOverride(Player3,MakeUnselectable(1))
+     ActionOverride(Player4,MakeUnselectable(1))
+     ActionOverride(Player5,MakeUnselectable(1))
+     ActionOverride(Player6,MakeUnselectable(1))
+END
+
+IF
+  Global("Iadruidjob","GLOBAL",1)
+  False()
+  InMyArea(Player1)
+  Dead("GDRUID") //
+  PartyRested()
+THEN
+   RESPONSE #100
+     SetGlobal("Iadruidjob","GLOBAL",2)
+     CreateCreatureObject("S!chick1",Player1,0,0,0) //
+END
+
+IF
+   InParty("Cernd")
+   XPGT(Player1,1299999)
+   Global("Iahlcernd","GLOBAL",0)
+   NumInPartyGT(3)
+THEN
+   RESPONSE #100
+      SetGlobal("Iahlcernd","GLOBAL",1)
+      AddXPObject("Cernd",764000)
+END
+
+IF
+   InParty("Cernd")
+   XPGT(Player1,949999)
+   XPLT(Player1,1300000)
+   Global("Iahlcernd","GLOBAL",0)
+   NumInPartyGT(3)
+THEN
+   RESPONSE #100
+      SetGlobal("Iahlcernd","GLOBAL",1)
+      AddXPObject("Cernd",289000)
+END
+
+IF
+   InParty("Cernd")
+   Global("Iahlcernd","GLOBAL",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iahlcernd","GLOBAL",1)
+END

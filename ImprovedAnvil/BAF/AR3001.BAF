@@ -1,0 +1,726 @@
+//Level 1 in Watcher's Keep //////////////
+
+IF
+   Global("Iaqueen","AR3001",1)
+   OR(2)
+    PartyHasItem("MISC3E")
+    Global("Iaspidfig","GLOBAL",1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaqueen","AR3001",2)
+      SetGlobal("Iadoors","AR3001",1)
+      Wait(4)
+      CreateCreatureObjectDoor("S!spideq",Player1,0,0,0) //
+END
+
+IF
+   Global("Iaqueen","AR3001",2)
+   Global("Iaqueenalleg","AR3001",0)
+   Exists("S!spideq")
+   !Dead("S!spideq")
+   HPPercentLT("S!spideq",100)
+   Allegiance("S!spideq",NEUTRAL)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaqueenalleg","AR3001",1)
+      ChangeEnemyAlly("S!spideq",ENEMY)
+END
+
+IF
+  Global("Iadoors","AR3001",1)
+  Dead("S!spideq")
+THEN
+  RESPONSE #100
+    SetGlobal("Iadoors","AR3001",2)
+    SetGlobal("Iaspideqdead","GLOBAL",1)
+END
+
+IF
+   Global("Iaguard1","AR3001",0)
+   PartyHasItem("PLOT01F")
+   InMyArea(Player1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaguard1","AR3001",1)
+      CreateCreatureObjectDoor("S!cangua",Player1,0,0,0) //
+END
+
+IF
+   Global("Iaguard1","AR3001",2)
+   Global("Iacanguadead","AR3001",0)
+   InMyArea(Player1)
+   Dead("S!cangua")
+THEN
+   RESPONSE #100
+      SetGlobal("Iacanguadead","AR3001",1)
+      SetGlobal("Iadoors2","AR3001",2)
+END
+
+IF
+   GlobalGT("Iaguard1","AR3001",0)
+   PartyHasItem("PLOT01F")
+   InMyArea(Player1)
+   Global("Iacanguadead","AR3001",0)
+THEN
+   RESPONSE #100
+      TakePartyItem("PLOT01F")
+      DestroyItem("PLOT01F")
+END
+
+IF
+   Global("Iaguard2","AR3001",0)
+   PartyHasItem("PLOT01H")
+   InMyArea(Player1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaguard2","AR3001",1)
+      CreateCreatureObjectDoor("S!belgua",Player1,0,0,0) //
+END
+
+IF
+   Global("Iaguard2","AR3001",2)
+   Global("Iabelguadead","AR3001",0)
+   InMyArea(Player1)
+   Dead("S!belgua")
+THEN
+   RESPONSE #100
+      SetGlobal("Iabelguadead","AR3001",1)
+      SetGlobal("Iadoors3","AR3001",2)
+END
+
+IF
+   GlobalGT("Iaguard2","AR3001",0)
+   PartyHasItem("PLOT01H")
+   InMyArea(Player1)
+   Global("Iabelguadead","AR3001",0)
+THEN
+   RESPONSE #100
+      TakePartyItem("PLOT01H")
+      DestroyItem("PLOT01H")
+END
+
+IF
+  Global("Iadoors","AR3001",2)
+  Global("Iadoorthing","AR3001",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iadoorthing","AR3001",1)
+    SetGlobal("Door1Opened","AR3001",2)
+    SetGlobal("Door2Opened","AR3001",2)
+    SetGlobal("Door3Opened","AR3001",2)
+    SetGlobal("Door4Opened","AR3001",2)
+    SetGlobal("Door5Opened","AR3001",2)
+    SetGlobal("Door6Opened","AR3001",2)
+    SetGlobal("Door7Opened","AR3001",2)
+    SetGlobal("Door8Opened","AR3001",2)
+    SetGlobal("Door9Opened","AR3001",2)
+    SetGlobal("Door10Opened","AR3001",2)
+    SetGlobal("Door11Opened","AR3001",2)
+    SetGlobal("Door12Opened","AR3001",2)
+    SetGlobal("Door13Opened","AR3001",2)
+END
+
+IF
+  Global("Iadoors","AR3001",1)
+  OpenState("Door01",TRUE)
+  Global("Door1Opened","AR3001",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door1Opened","AR3001",1)
+END
+
+IF
+  Global("Iadoors","AR3001",1)
+  OpenState("Door02",TRUE)
+  Global("Door2Opened","AR3001",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door2Opened","AR3001",1)
+END
+
+IF
+  Global("Iadoors","AR3001",1)
+  OpenState("Door03",TRUE)
+  Global("Door3Opened","AR3001",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door3Opened","AR3001",1)
+END
+
+IF
+  Global("Iadoors","AR3001",1)
+  OpenState("Door04",TRUE)
+  Global("Door4Opened","AR3001",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door4Opened","AR3001",1)
+END
+
+IF
+  Global("Iadoors","AR3001",1)
+  OpenState("Door05",TRUE)
+  Global("Door5Opened","AR3001",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door5Opened","AR3001",1)
+END
+
+IF
+  Global("Iadoors","AR3001",1)
+  OpenState("Door06",TRUE)
+  Global("Door6Opened","AR3001",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door6Opened","AR3001",1)
+END
+
+IF
+  Global("Iadoors","AR3001",1)
+  OpenState("Door07",TRUE)
+  Global("Door7Opened","AR3001",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door7Opened","AR3001",1)
+END
+
+IF
+  Global("Iadoors","AR3001",1)
+  OpenState("Door08",TRUE)
+  Global("Door8Opened","AR3001",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door8Opened","AR3001",1)
+END
+
+IF
+  Global("Iadoors","AR3001",1)
+  OpenState("Door09",TRUE)
+  Global("Door9Opened","AR3001",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door9Opened","AR3001",1)
+END
+
+IF
+  Global("Iadoors","AR3001",1)
+  OpenState("Door10",TRUE)
+  Global("Door10Opened","AR3001",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door10Opened","AR3001",1)
+END
+
+IF
+  Global("Iadoors","AR3001",1)
+  OpenState("Door11",TRUE)
+  Global("Door11Opened","AR3001",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door11Opened","AR3001",1)
+END
+
+IF
+  Global("Iadoors","AR3001",1)
+  OpenState("Door12",TRUE)
+  Global("Door12Opened","AR3001",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door12Opened","AR3001",1)
+END
+
+IF
+  Global("Iadoors","AR3001",1)
+  OpenState("Door13",TRUE)
+  Global("Door13Opened","AR3001",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door13Opened","AR3001",1)
+END
+
+IF
+  Global("Iadoors2","AR3001",2)
+  Global("Iadoorthing2","AR3001",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iadoorthing2","AR3001",1)
+    SetGlobal("Door1Opened2","AR3001",2)
+    SetGlobal("Door2Opened2","AR3001",2)
+    SetGlobal("Door3Opened2","AR3001",2)
+    SetGlobal("Door4Opened2","AR3001",2)
+    SetGlobal("Door5Opened2","AR3001",2)
+    SetGlobal("Door6Opened2","AR3001",2)
+    SetGlobal("Door7Opened2","AR3001",2)
+    SetGlobal("Door8Opened2","AR3001",2)
+    SetGlobal("Door9Opened2","AR3001",2)
+    SetGlobal("Door10Opened2","AR3001",2)
+    SetGlobal("Door11Opened2","AR3001",2)
+    SetGlobal("Door12Opened2","AR3001",2)
+    SetGlobal("Door13Opened2","AR3001",2)
+END
+
+IF
+  Global("Iadoors2","AR3001",1)
+  OpenState("Door01",TRUE)
+  Global("Door1Opened2","AR3001",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door1Opened2","AR3001",1)
+END
+
+IF
+  Global("Iadoors2","AR3001",1)
+  OpenState("Door02",TRUE)
+  Global("Door2Opened2","AR3001",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door2Opened2","AR3001",1)
+END
+
+IF
+  Global("Iadoors2","AR3001",1)
+  OpenState("Door03",TRUE)
+  Global("Door3Opened2","AR3001",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door3Opened2","AR3001",1)
+END
+
+IF
+  Global("Iadoors2","AR3001",1)
+  OpenState("Door04",TRUE)
+  Global("Door4Opened2","AR3001",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door4Opened2","AR3001",1)
+END
+
+IF
+  Global("Iadoors2","AR3001",1)
+  OpenState("Door05",TRUE)
+  Global("Door5Opened2","AR3001",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door5Opened2","AR3001",1)
+END
+
+IF
+  Global("Iadoors2","AR3001",1)
+  OpenState("Door06",TRUE)
+  Global("Door6Opened2","AR3001",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door6Opened2","AR3001",1)
+END
+
+IF
+  Global("Iadoors2","AR3001",1)
+  OpenState("Door07",TRUE)
+  Global("Door7Opened2","AR3001",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door7Opened2","AR3001",1)
+END
+
+IF
+  Global("Iadoors2","AR3001",1)
+  OpenState("Door08",TRUE)
+  Global("Door8Opened2","AR3001",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door8Opened2","AR3001",1)
+END
+
+IF
+  Global("Iadoors2","AR3001",1)
+  OpenState("Door09",TRUE)
+  Global("Door9Opened2","AR3001",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door9Opened2","AR3001",1)
+END
+
+IF
+  Global("Iadoors2","AR3001",1)
+  OpenState("Door10",TRUE)
+  Global("Door10Opened2","AR3001",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door10Opened2","AR3001",1)
+END
+
+IF
+  Global("Iadoors2","AR3001",1)
+  OpenState("Door11",TRUE)
+  Global("Door11Opened2","AR3001",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door11Opened2","AR3001",1)
+END
+
+IF
+  Global("Iadoors2","AR3001",1)
+  OpenState("Door12",TRUE)
+  Global("Door12Opened2","AR3001",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door12Opened2","AR3001",1)
+END
+
+IF
+  Global("Iadoors2","AR3001",1)
+  OpenState("Door13",TRUE)
+  Global("Door13Opened2","AR3001",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door13Opened2","AR3001",1)
+END
+
+IF
+  Global("Iadoors3","AR3001",2)
+  Global("Iadoorthing3","AR3001",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iadoorthing3","AR3001",1)
+    SetGlobal("Door1Opened3","AR3001",2)
+    SetGlobal("Door2Opened3","AR3001",2)
+    SetGlobal("Door3Opened3","AR3001",2)
+    SetGlobal("Door4Opened3","AR3001",2)
+    SetGlobal("Door5Opened3","AR3001",2)
+    SetGlobal("Door6Opened3","AR3001",2)
+    SetGlobal("Door7Opened3","AR3001",2)
+    SetGlobal("Door8Opened3","AR3001",2)
+    SetGlobal("Door9Opened3","AR3001",2)
+    SetGlobal("Door10Opened3","AR3001",2)
+    SetGlobal("Door11Opened3","AR3001",2)
+    SetGlobal("Door12Opened3","AR3001",2)
+    SetGlobal("Door13Opened3","AR3001",2)
+END
+
+IF
+  Global("Iadoors3","AR3001",1)
+  OpenState("Door01",TRUE)
+  Global("Door1Opened3","AR3001",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door1Opened3","AR3001",1)
+END
+
+IF
+  Global("Iadoors3","AR3001",1)
+  OpenState("Door02",TRUE)
+  Global("Door2Opened3","AR3001",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door2Opened3","AR3001",1)
+END
+
+IF
+  Global("Iadoors3","AR3001",1)
+  OpenState("Door03",TRUE)
+  Global("Door3Opened3","AR3001",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door3Opened3","AR3001",1)
+END
+
+IF
+  Global("Iadoors3","AR3001",1)
+  OpenState("Door04",TRUE)
+  Global("Door4Opened3","AR3001",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door4Opened3","AR3001",1)
+END
+
+IF
+  Global("Iadoors3","AR3001",1)
+  OpenState("Door05",TRUE)
+  Global("Door5Opened3","AR3001",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door5Opened3","AR3001",1)
+END
+
+IF
+  Global("Iadoors3","AR3001",1)
+  OpenState("Door06",TRUE)
+  Global("Door6Opened3","AR3001",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door6Opened3","AR3001",1)
+END
+
+IF
+  Global("Iadoors3","AR3001",1)
+  OpenState("Door07",TRUE)
+  Global("Door7Opened3","AR3001",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door7Opened3","AR3001",1)
+END
+
+IF
+  Global("Iadoors3","AR3001",1)
+  OpenState("Door08",TRUE)
+  Global("Door8Opened3","AR3001",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door8Opened3","AR3001",1)
+END
+
+IF
+  Global("Iadoors3","AR3001",1)
+  OpenState("Door09",TRUE)
+  Global("Door9Opened3","AR3001",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door9Opened3","AR3001",1)
+END
+
+IF
+  Global("Iadoors3","AR3001",1)
+  OpenState("Door10",TRUE)
+  Global("Door10Opened3","AR3001",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door10Opened3","AR3001",1)
+END
+
+IF
+  Global("Iadoors3","AR3001",1)
+  OpenState("Door11",TRUE)
+  Global("Door11Opened3","AR3001",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door11Opened3","AR3001",1)
+END
+
+IF
+  Global("Iadoors3","AR3001",1)
+  OpenState("Door12",TRUE)
+  Global("Door12Opened3","AR3001",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door12Opened3","AR3001",1)
+END
+
+IF
+  Global("Iadoors3","AR3001",1)
+  OpenState("Door13",TRUE)
+  Global("Door13Opened3","AR3001",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door13Opened3","AR3001",1)
+END
+
+IF
+  OpenState("Door01",FALSE)
+  OR(3)
+   Global("Door1Opened","AR3001",1)
+   Global("Door1Opened2","AR3001",1)
+   Global("Door1Opened3","AR3001",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door01")
+END
+
+IF
+  OpenState("Door02",FALSE)
+  OR(3)
+   Global("Door2Opened","AR3001",1)
+   Global("Door2Opened2","AR3001",1)
+   Global("Door2Opened3","AR3001",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door02")
+END
+
+IF
+  OpenState("Door03",FALSE)
+  OR(3)
+   Global("Door3Opened","AR3001",1)
+   Global("Door3Opened2","AR3001",1)
+   Global("Door3Opened3","AR3001",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door03")
+END
+
+IF
+  OpenState("Door04",FALSE)
+  OR(3)
+   Global("Door4Opened","AR3001",1)
+   Global("Door4Opened2","AR3001",1)
+   Global("Door4Opened3","AR3001",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door04")
+END
+
+IF
+  OpenState("Door05",FALSE)
+  OR(3)
+   Global("Door5Opened","AR3001",1)
+   Global("Door5Opened2","AR3001",1)
+   Global("Door5Opened3","AR3001",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door05")
+END
+
+IF
+  OpenState("Door06",FALSE)
+  OR(3)
+   Global("Door6Opened","AR3001",1)
+   Global("Door6Opened2","AR3001",1)
+   Global("Door6Opened3","AR3001",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door06")
+END
+
+IF
+  OpenState("Door07",FALSE)
+  OR(3)
+   Global("Door7Opened","AR3001",1)
+   Global("Door7Opened2","AR3001",1)
+   Global("Door7Opened3","AR3001",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door07")
+END
+
+IF
+  OpenState("Door08",FALSE)
+  OR(3)
+   Global("Door8Opened","AR3001",1)
+   Global("Door8Opened2","AR3001",1)
+   Global("Door8Opened3","AR3001",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door08")
+END
+
+IF
+  OpenState("Door09",FALSE)
+  OR(3)
+   Global("Door9Opened","AR3001",1)
+   Global("Door9Opened2","AR3001",1)
+   Global("Door9Opened3","AR3001",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door09")
+END
+
+IF
+  OpenState("Door10",FALSE)
+  OR(3)
+   Global("Door10Opened","AR3001",1)
+   Global("Door10Opened2","AR3001",1)
+   Global("Door10Opened3","AR3001",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door10")
+END
+
+IF
+  OpenState("Door11",FALSE)
+  OR(3)
+   Global("Door11Opened","AR3001",1)
+   Global("Door11Opened2","AR3001",1)
+   Global("Door11Opened3","AR3001",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door11")
+END
+
+IF
+  OpenState("Door12",FALSE)
+  OR(3)
+   Global("Door12Opened","AR3001",1)
+   Global("Door12Opened2","AR3001",1)
+   Global("Door12Opened3","AR3001",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door12")
+END
+
+IF
+  OpenState("Door13",FALSE)
+  OR(3)
+   Global("Door13Opened","AR3001",1)
+   Global("Door13Opened2","AR3001",1)
+   Global("Door13Opened3","AR3001",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door13")
+END
+
+IF
+  Global("Iadoors","AR3001",1)
+  Global("Iaexit","AR3001",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR3001",1)
+    TriggerActivation("Tran3000",FALSE)
+    TriggerActivation("Mirror Portal",FALSE)
+END
+
+IF
+  Global("Iadoors","AR3001",2)
+  Global("Iaexit","AR3001",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR3001",2)
+    TriggerActivation("Tran3000",TRUE)
+    TriggerActivation("Mirror Portal",TRUE)
+END
+
+IF
+   Global("Iaitem","AR3001",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem","AR3001",1)
+      ActionOverride("Container 26",CreateItem("scrl6m",0,0,0)) //
+      ActionOverride("Container 26",CreateItem("potn08",0,0,0)) //
+END
+
+IF
+  Global("Iaitem2","AR3001",0)
+THEN
+   RESPONSE #100
+     SetGlobal("Iaitem2","AR3001",1)
+     ActionOverride("Shelf5",DestroyItem("tome01")) //
+END
+
+IF
+  Global("Iaitem3","AR3001",0)
+THEN
+   RESPONSE #100
+     SetGlobal("Iaitem3","AR3001",1)
+     ActionOverride("Shelf6",DestroyItem("quiver02")) //
+END
+
+IF
+  Global("Iaitem4","AR3001",0)
+THEN
+   RESPONSE #100
+     SetGlobal("Iaitem4","AR3001",1)
+     ActionOverride("Shelf10",DestroyItem("quiver01")) //
+END
+
+IF
+  Global("Iaitem5","AR3001",0)
+THEN
+   RESPONSE #100
+     SetGlobal("Iaitem5","AR3001",1)
+     ActionOverride("Chest1",DestroyItem("brac22")) //
+END
+
+IF
+  Global("Iaitem6","AR3001",0)
+THEN
+   RESPONSE #100
+     SetGlobal("Iaitem6","AR3001",1)
+     ActionOverride("Chest3",DestroyItem("dart08")) //
+END

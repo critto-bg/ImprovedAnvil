@@ -1,0 +1,31 @@
+//Level 3 in Watchers Keep (Tahazzar) //////////////
+
+IF
+  Global("Iaexit","AR3012",0)
+  InMyArea(Player1)
+  !CombatCounter(0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR3012",1)
+    TriggerActivation("Tran3004",FALSE)
+    TriggerActivation("Tran3006",FALSE)
+END
+
+IF
+  Global("Iaexit","AR3012",1)
+  InMyArea(Player1)
+  CombatCounter(0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR3012",0)
+    TriggerActivation("Tran3004",TRUE)
+    TriggerActivation("Tran3008",TRUE)
+END
+
+IF
+   Global("Iaitem","AR3012",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem","AR3012",1)
+      ActionOverride("Container 1",CreateItem("potn52",0,0,0)) //
+END

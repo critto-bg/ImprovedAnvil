@@ -1,0 +1,404 @@
+//Spellhold Bodhi's Hunt Level 2//
+
+IF
+   Global("Iacreature","AR1513",0)
+   PartyHasItem("misc9a")
+THEN
+   RESPONSE #100
+      SetGlobal("Iacreature","AR1513",1)
+      CreateCreature("S!vlord",[2020.1859],3) //
+END
+
+IF
+   Global("Iaitem","AR1513",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem","AR1513",1)
+      ActionOverride("Vase 3",CreateItem("potn52",0,0,0)) //
+      ActionOverride("Vase 4",CreateItem("misc6w",0,0,0)) //
+      ActionOverride("Vase 7",CreateItem("potn52",0,0,0)) //
+      ActionOverride("Shelf 2",CreateItem("potn52",0,0,0)) //
+      ActionOverride("Shelf 3",CreateItem("miscal",0,0,0)) //
+      ActionOverride("Table 1",CreateItem("scrl3g",0,0,0)) //
+      ActionOverride("Table 1",CreateItem("S!misc02",0,0,0)) //
+      CreateCreature("S!cat1",[1694.1840],0) //
+      CreateCreature("S!coinb",[1566.1918],14) //
+      CreateCreature("S!skel",[1111.2127],0) //
+      CreateCreature("S!skel",[1688.2083],13) //
+END
+
+IF
+  Global("Iarested","AR1513",0)
+  GlobalGT("page","AR1513",0)
+  GlobalLT("page","AR1513",11)
+  OR(2)
+    GlobalTimerExpired("Ianorest","AR1513")
+    PartyRested()
+THEN
+  RESPONSE #100
+    SetGlobal("page","AR1513",0)
+    SetGlobal("Iarested","AR1513",1)
+END
+
+IF
+  Global("Iaexit","AR1513",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR1513",1)
+    TriggerActivation("Door1512",FALSE)
+    TriggerActivation("Door1512a",FALSE)
+END
+
+IF
+  Global("Iaexit","AR1513",1)
+  GlobalGT("Iacreature","AR1513",0)
+  OR(2)
+   Dead("S!VLORD")
+   Global("Iavlordwent","AR1513",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR1513",2)
+    TriggerActivation("Door1512",TRUE)
+    TriggerActivation("Door1512a",TRUE)
+END
+
+IF
+  Global("Ianticheat","AR1513",0)
+  Global("Iacreature","AR1513",1)
+  Global("Iavlordwent","AR1513",0)
+  Exists("S!VLORD") //
+  !Dead("S!VLORD") //
+  !Allegiance("S!VLORD",ENEMY)
+  HPPercentLT("S!VLORD",100)
+THEN
+  RESPONSE #100
+    SetGlobal("Ianticheat","AR1513",1)
+    ChangeEnemyAlly("S!VLORD",ENEMY)
+    ApplySpellRES("SPWII07","S!VLORD")
+END
+
+IF
+   Global("Iacreature2","AR1513",0)
+   Global("Iapcastts","GLOBAL",0)
+   Dead("S!coinb")
+   Dead("S!cat9")
+THEN
+   RESPONSE #100
+      SetGlobal("Iacreature2","AR1513",1)
+      CreateCreatureObject("S!BOLICH",Player1,0,0,0) //
+END
+
+IF
+   SpellCast("S!BOLICH",WIZARD_TIME_STOP)
+THEN
+   RESPONSE #100
+      SetGlobal("Iabolichcastts","AR1513",1)
+      SetGlobalTimer("Iabolichtstime","AR1513",18)
+END
+
+IF
+   Global("Iabolichcastts","AR1513",1)
+   GlobalTimerExpired("Iabolichtstime","AR1513")
+THEN
+   RESPONSE #100
+      SetGlobal("Iabolichcastts","AR1513",0)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iabolichwent","AR1513",1)
+  Global("Iapctoohigh","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iabolichwent","AR1513",2)
+    CreateCreatureObject("S!SPIDBO",Player1,0,0,0) //
+    CreateCreatureObject("S!SPIDWR",Player1,0,0,0) //
+    CreateCreatureObject("S!SPIDE2",Player1,0,0,0) //
+    CreateCreatureObject("S!SPIDER",Player1,0,0,0) //
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iabolichwent","AR1513",1)
+  Global("Iapctoohigh","GLOBAL",1)
+  !LevelGT(Player1,16)
+  XPLT(Player1,2975000)
+THEN
+  RESPONSE #100
+    SetGlobal("Iabolichwent","AR1513",2)
+    SetGlobal("Iarspawn","AR1513",1)
+    SetGlobal("Iarestarttime","AR1513",0)
+    CreateCreature("S!spidpp",[2499.1546],3) //
+    CreateCreature("S!spidpp",[2597.1482],3) //
+    CreateCreatureObject("S!SPIDBO",Player1,0,0,0) //
+    CreateCreatureObject("S!SPIDWR",Player1,0,0,0) //
+    CreateCreatureObject("S!SPIDE2",Player1,0,0,0) //
+    CreateCreatureObject("S!SPIDER",Player1,0,0,0) //
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iabolichwent","AR1513",1)
+  Global("Iapctoohigh","GLOBAL",1)
+  OR(2)
+    LevelGT(Player1,16)
+    XPGT(Player1,2974999)
+THEN
+  RESPONSE #100
+    SetGlobal("Iabolichwent","AR1513",2)
+    SetGlobal("Iarspawn","AR1513",1)
+    SetGlobal("Iarestarttime","AR1513",0)
+    CreateCreature("S!spidpp",[2499.1546],3) //
+    CreateCreature("S!spidpp",[2597.1482],3) //
+    CreateCreature("S!spidpp",[2563.1509],3) //
+    CreateCreatureObject("S!SPIDBO",Player1,0,0,0) //
+    CreateCreatureObject("S!SPIDWR",Player1,0,0,0) //
+    CreateCreatureObject("S!SPIDE2",Player1,0,0,0) //
+    CreateCreatureObject("S!SPIDER",Player1,0,0,0) //
+END
+
+IF
+  OpenState("Door02",TRUE)
+  Global("Door2Opened","AR1513",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door2Opened","AR1513",1)
+END
+
+IF
+  OpenState("Door06",TRUE)
+  Global("Door6Opened","AR1513",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door6Opened","AR1513",1)
+END
+
+IF
+  OpenState("Door07",TRUE)
+  Global("Door7Opened","AR1513",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door7Opened","AR1513",1)
+END
+
+IF
+  OpenState("Door08",TRUE)
+  Global("Door8Opened","AR1513",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door8Opened","AR1513",1)
+END
+
+IF
+  OpenState("Split1",FALSE)
+  Global("opened","AR1513",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Split1")
+END
+
+IF
+  OpenState("Door02",FALSE)
+  Global("Door2Opened","AR1513",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door02")
+END
+
+IF
+  OpenState("Door03",FALSE)
+THEN
+  RESPONSE #100
+    OpenDoor("Door03")
+END
+
+IF
+  OpenState("Split2",FALSE)
+  Global("opened","AR1513",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Split2")
+END
+
+IF
+  OpenState("Split3",FALSE)
+  Global("opened","AR1513",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Split3")
+END
+
+IF
+  OpenState("Door06",FALSE)
+  Global("Door6Opened","AR1513",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door06")
+END
+
+IF
+  OpenState("Door07",FALSE)
+  Global("Door7Opened","AR1513",1)
+  OR(2)
+   Global("libraryactivate","GLOBAL",0)
+   Global("LibraryOpen","AR1513",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door07")
+END
+
+IF
+  OpenState("Door08",FALSE)
+  Global("Door8Opened","AR1513",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door08")
+END
+
+IF
+   InMyArea(Player1)
+   Global("Iadoonce","AR1513",0)
+   Global("Iapctoohigh","GLOBAL",1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadoonce","AR1513",1)
+      SetGlobal("Iarspawn","AR1513",1)
+END
+
+IF
+   InMyArea(Player1)
+   Global("Iarspawn","AR1513",0)
+   Global("Iapctoohigh","GLOBAL",1)
+   Global("Iapcastts","GLOBAL",0)
+   !LevelGT(Player1,16)
+   XPLT(Player1,2975000)
+   RandomNumGT(6,4)
+THEN
+   RESPONSE #100
+      SetGlobal("Iarspawn","AR1513",1)
+      SetGlobal("Iarestarttime","AR1513",0)
+      CreateCreature("S!gempp",[2499.1546],3) //
+END
+
+IF
+   InMyArea(Player1)
+   Global("Iarspawn","AR1513",0)
+   Global("Iapctoohigh","GLOBAL",1)
+   Global("Iapcastts","GLOBAL",0)
+   !LevelGT(Player1,16)
+   XPLT(Player1,2975000)
+   RandomNumLT(4,3)
+THEN
+   RESPONSE #100
+      SetGlobal("Iarspawn","AR1513",1)
+      SetGlobal("Iarestarttime","AR1513",0)
+      CreateCreature("S!spidpp",[2499.1546],3) //
+      CreateCreature("S!spidpp",[2597.1482],3) //
+END
+
+IF
+   InMyArea(Player1)
+   Global("Iarspawn","AR1513",0)
+   Global("Iapctoohigh","GLOBAL",1)
+   Global("Iapcastts","GLOBAL",0)
+   !LevelGT(Player1,16)
+   XPLT(Player1,2975000)
+THEN
+   RESPONSE #100
+      SetGlobal("Iarspawn","AR1513",1)
+      SetGlobal("Iarestarttime","AR1513",0)
+      CreateCreature("S!skelpp",[2499.1546],3) //
+      CreateCreature("S!skelpp",[2597.1482],3) //
+END
+
+IF
+   InMyArea(Player1)
+   Global("Iarspawn","AR1513",0)
+   Global("Iapctoohigh","GLOBAL",1)
+   Global("Iapcastts","GLOBAL",0)
+   OR(2)
+    LevelGT(Player1,16)
+    XPGT(Player1,2974999)
+   RandomNumGT(6,4)
+THEN
+   RESPONSE #100
+      SetGlobal("Iarspawn","AR1513",1)
+      SetGlobal("Iarestarttime","AR1513",0)
+      CreateCreature("S!gempp",[2499.1546],3) //
+      CreateCreature("S!gempp",[2597.1482],3) //
+END
+
+IF
+   InMyArea(Player1)
+   Global("Iarspawn","AR1513",0)
+   Global("Iapctoohigh","GLOBAL",1)
+   Global("Iapcastts","GLOBAL",0)
+   OR(2)
+    LevelGT(Player1,16)
+    XPGT(Player1,2974999)
+   RandomNumLT(4,3)
+THEN
+   RESPONSE #100
+      SetGlobal("Iarspawn","AR1513",1)
+      SetGlobal("Iarestarttime","AR1513",0)
+      CreateCreature("S!spidpp",[2499.1546],3) //
+      CreateCreature("S!spidpp",[2597.1482],3) //
+      CreateCreature("S!spidpp",[2563.1509],3) //
+END
+
+IF
+   InMyArea(Player1)
+   Global("Iarspawn","AR1513",0)
+   Global("Iapctoohigh","GLOBAL",1)
+   OR(2)
+    LevelGT(Player1,16)
+    XPGT(Player1,2974999)
+THEN
+   RESPONSE #100
+      SetGlobal("Iarspawn","AR1513",1)
+      SetGlobal("Iarestarttime","AR1513",0)
+      CreateCreature("S!skelpp",[2499.1546],3) //
+      CreateCreature("S!skelpp",[2597.1482],3) //
+      CreateCreature("S!skelpp",[2563.1509],3) //
+END
+
+IF
+   InMyArea(Player1)
+   Global("Iarspawn","AR1513",1)
+   Global("Iapctoohigh","GLOBAL",1)
+   Global("Iarestarttime","AR1513",0)
+   OR(5)
+    Global("Door2Opened","AR1513",1)
+    Global("Door6Opened","AR1513",1)
+    Global("Door7Opened","AR1513",1)
+    Global("Door8Opened","AR1513",1)
+    Global("opened","AR1513",1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iarestarttime","AR1513",1)
+      SetGlobalTimer("Iastarttimer","AR1513",12)
+END
+
+IF
+   InMyArea(Player1)
+   Global("Iarspawn","AR1513",1)
+   Global("Iapctoohigh","GLOBAL",1)
+   Global("Iarestarttime","AR1513",1)
+   GlobalTimerExpired("Iastarttimer","AR1513")
+   CombatCounter(0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iarestarttime","AR1513",2)
+      SetGlobalTimer("Iaspawntimer","AR1513",60)
+END
+
+IF
+   InMyArea(Player1)
+   Global("Iarspawn","AR1513",1)
+   Global("Iapctoohigh","GLOBAL",1)
+   Global("Iarestarttime","AR1513",2)
+   GlobalTimerExpired("Iaspawntimer","AR1513")
+THEN
+   RESPONSE #100
+      SetGlobal("Iarspawn","AR1513",0)
+END

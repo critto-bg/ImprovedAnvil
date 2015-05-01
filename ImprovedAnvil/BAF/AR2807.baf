@@ -1,0 +1,197 @@
+//Black Dragon's Hideout //////////////
+
+IF
+  InMyArea(Player1)
+  OR(2)
+   SpellCast([PC],WIZARD_INCENDIARY_CLOUD)
+   SpellCast([PC],WIZARD_CLOUDKILL)
+THEN
+  RESPONSE #100
+    SetGlobal("Iapccloud","AR2807",1)
+    SetGlobalTimer("Iacloudtime","AR2807",60)
+END
+
+IF
+  Global("Iapccloud","AR2807",1)
+  GlobalTimerExpired("Iacloudtime","AR2807")
+THEN
+  RESPONSE #100
+    SetGlobal("Iapccloud","AR2807",0)
+END
+
+IF
+  Global("Iaexit","AR2807",0)
+  Global("Iacantexit","AR2807",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR2807",1)
+    TriggerActivation("Tran2800",FALSE)
+END
+
+IF
+  Global("Iaexit","AR2807",1)
+  Dead("dragblac")
+  CombatCounter(0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR2807",2)
+    TriggerActivation("Tran2800",TRUE)
+END
+
+IF
+  Global("Ianticheat","AR2807",0)
+  Exists("dragblac") //
+  !Dead("dragblac") //
+  !Allegiance("dragblac",ENEMY)
+  HPPercentLT("dragblac",100)
+THEN
+  RESPONSE #100
+    SetGlobal("Ianticheat","AR2807",1)
+    ChangeEnemyAlly("dragblac",ENEMY)
+    ApplySpellRES("SPWII07","dragblac")
+END
+
+IF
+  GlobalLT("BlackDragonItems","GLOBAL",2)
+THEN
+  RESPONSE #100
+    SetGlobal("BlackDragonItems","GLOBAL",2)
+END
+
+IF
+   InMyArea(Player1)
+   StateCheck(Player1,STATE_SILENCED)
+   OR(3)
+    Class(Player1,MAGE_ALL)
+    Class(Player1,BARD_ALL)
+    CheckStat(Player1,1,SCRIPTINGSTATE16)
+   Global("Iadisabled1","AR2807",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled1","AR2807",1)
+      ActionOverride(Player1,ReallyForceSpellRES("spwii44",Myself))
+END
+
+IF
+   InMyArea(Player1)
+   !StateCheck(Player1,STATE_SILENCED)
+   Global("Iadisabled1","AR2807",1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled1","AR2807",0)
+END
+
+IF
+   InMyArea(Player2)
+   StateCheck(Player2,STATE_SILENCED)
+   OR(3)
+    Class(Player2,MAGE_ALL)
+    Class(Player2,BARD_ALL)
+    CheckStat(Player2,1,SCRIPTINGSTATE16)
+   Global("Iadisabled2","AR2807",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled2","AR2807",1)
+      ActionOverride(Player2,ReallyForceSpellRES("spwii44",Myself))
+END
+
+IF
+   InMyArea(Player2)
+   !StateCheck(Player2,STATE_SILENCED)
+   Global("Iadisabled2","AR2807",1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled2","AR2807",0)
+END
+
+IF
+   InMyArea(Player3)
+   StateCheck(Player3,STATE_SILENCED)
+   OR(3)
+    Class(Player3,MAGE_ALL)
+    Class(Player3,BARD_ALL)
+    CheckStat(Player3,1,SCRIPTINGSTATE16)
+   Global("Iadisabled3","AR2807",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled3","AR2807",1)
+      ActionOverride(Player3,ReallyForceSpellRES("spwii44",Myself))
+END
+
+IF
+   InMyArea(Player3)
+   !StateCheck(Player3,STATE_SILENCED)
+   Global("Iadisabled3","AR2807",1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled3","AR2807",0)
+END
+
+IF
+   InMyArea(Player4)
+   StateCheck(Player4,STATE_SILENCED)
+   OR(3)
+    Class(Player4,MAGE_ALL)
+    Class(Player4,BARD_ALL)
+    CheckStat(Player4,1,SCRIPTINGSTATE16)
+   Global("Iadisabled4","AR2807",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled4","AR2807",1)
+      ActionOverride(Player4,ReallyForceSpellRES("spwii44",Myself))
+END
+
+IF
+   InMyArea(Player4)
+   !StateCheck(Player4,STATE_SILENCED)
+   Global("Iadisabled4","AR2807",1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled4","AR2807",0)
+END
+
+IF
+   InMyArea(Player5)
+   StateCheck(Player5,STATE_SILENCED)
+   OR(3)
+    Class(Player5,MAGE_ALL)
+    Class(Player5,BARD_ALL)
+    CheckStat(Player5,1,SCRIPTINGSTATE16)
+   Global("Iadisabled5","AR2807",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled5","AR2807",1)
+      ActionOverride(Player5,ReallyForceSpellRES("spwii44",Myself))
+END
+
+IF
+   InMyArea(Player5)
+   !StateCheck(Player5,STATE_SILENCED)
+   Global("Iadisabled5","AR2807",1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled5","AR2807",0)
+END
+
+IF
+   InMyArea(Player6)
+   StateCheck(Player6,STATE_SILENCED)
+   OR(3)
+    Class(Player6,MAGE_ALL)
+    Class(Player6,BARD_ALL)
+    CheckStat(Player6,1,SCRIPTINGSTATE16)
+   Global("Iadisabled6","AR2807",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled6","AR2807",1)
+      ActionOverride(Player6,ReallyForceSpellRES("spwii44",Myself))
+END
+
+IF
+   InMyArea(Player6)
+   !StateCheck(Player6,STATE_SILENCED)
+   Global("Iadisabled6","AR2807",1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled6","AR2807",0)
+END

@@ -1,0 +1,310 @@
+IF
+  NumberOfTimesTalkedTo(0)
+  Global("Iapcastts","GLOBAL",1)
+  Global("Iatsinvulner","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatsinvulner","LOCALS",1)
+    ApplySpellRES("SPINI70",Myself)
+END
+
+IF
+  Global("Ialavokjob","GLOBAL",4)
+  Global("Iaheal","LOCALS",2)
+  Global("Iapcastts","GLOBAL",1)
+  Global("Iatsinvulner","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatsinvulner","LOCALS",1)
+    ApplySpellRES("SPINI70",Myself)
+END
+
+IF
+  Global("Iapcastts","GLOBAL",0)
+  Global("Iatsinvulner","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatsinvulner","LOCALS",0)
+    ApplySpellRES("SPINI71",Myself)
+END
+
+IF
+  NumberOfTimesTalkedTo(0)
+  See([PC])
+THEN
+  RESPONSE #100
+    StartDialogNoSet(LastSeenBy(Myself))
+END
+
+IF
+  Global("Iabongolsdead","AR0414",1)
+  Global("Ialavokjob","GLOBAL",3)
+  Global("Iaheal","LOCALS",2)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iaheal","LOCALS",1)
+    ReallyForceSpellRES("SPWII07",Myself)
+END
+
+IF
+  HPLT(Myself,10)
+  Global("Iaheal","LOCALS",3)
+  Global("Ialavokjob","GLOBAL",3)
+THEN
+  RESPONSE #100
+    SetGlobal("Ialavokjob","GLOBAL",4)
+END
+
+IF
+  See([PC])
+  Global("Ialavokjob","GLOBAL",4)
+  Global("Iaheal","LOCALS",3)
+THEN
+  RESPONSE #100
+    StartDialogNoSet(LastSeenBy(Myself))
+END
+
+IF
+  HPLT(Myself,10)
+  Global("Ialavokjob","GLOBAL",3)
+  Global("Iaheal","LOCALS",0)
+  See([PC])
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iaheal","LOCALS",1)
+    ForceSpellRES("SPINI54",LastSeenBy(Myself))
+    ReallyForceSpell(Myself,HEAL_NO_VISUAL)
+    CreateCreatureObject("S!bongol",Myself,0,0,0) //
+    CreateCreatureObject("S!bongol",Myself,0,0,0) //
+    CreateCreatureObject("S!bongol",Myself,0,0,0) //
+    CreateCreatureObject("S!bongol",Myself,0,0,0) //
+    CreateCreatureObject("S!bongol",Myself,0,0,0) //
+END
+
+IF
+  HPLT(Myself,10)
+  Global("Ialavokjob","GLOBAL",3)
+  Global("Iaheal","LOCALS",1)
+  See([PC])
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iaheal","LOCALS",1)
+    ForceSpellRES("SPINI54",LastSeenBy(Myself))
+    ReallyForceSpell(Myself,HEAL_NO_VISUAL)
+    CreateCreatureObject("S!bongof",Myself,0,0,0) //
+    CreateCreatureObject("S!bongof",Myself,0,0,0) //
+    CreateCreatureObject("S!bongof",Myself,0,0,0) //
+    CreateCreatureObject("S!bongof",Myself,0,0,0) //
+    CreateCreatureObject("S!bongof",Myself,0,0,0) //
+END
+
+IF
+  !GlobalTimerNotExpired("Iapurge","LOCALS")
+  Global("Iapcastts","GLOBAL",0)
+  Global("Iabongolsdead","AR0414",0)
+  !HPLT(Myself,10)
+  See([PC])
+  OR(4)
+   CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE11)
+   CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+   CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE5)
+   CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iapurge","LOCALS",18)
+    ReallyForceSpellRES("SPINI29",LastSeenBy(Myself)) //
+END
+
+IF
+  !GlobalTimerNotExpired("Iapurge","LOCALS")
+  Global("Iapcastts","GLOBAL",0)
+  Global("Iabongolsdead","AR0414",0)
+  !HPLT(Myself,10)
+  See(SecondNearest([PC]))
+  OR(4)
+   CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE11)
+   CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+   CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE5)
+   CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iapurge","LOCALS",18)
+    ReallyForceSpellRES("SPINI29",LastSeenBy(Myself)) //
+END
+
+IF
+  !GlobalTimerNotExpired("Iapurge","LOCALS")
+  Global("Iapcastts","GLOBAL",0)
+  Global("Iabongolsdead","AR0414",0)
+  !HPLT(Myself,10)
+  See(ThirdNearest([PC]))
+  OR(4)
+   CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE11)
+   CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+   CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE5)
+   CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iapurge","LOCALS",18)
+    ReallyForceSpellRES("SPINI29",LastSeenBy(Myself)) //
+END
+
+IF
+  !GlobalTimerNotExpired("Iapurge","LOCALS")
+  Global("Iapcastts","GLOBAL",0)
+  Global("Iabongolsdead","AR0414",0)
+  !HPLT(Myself,10)
+  See(FourthNearest([PC]))
+  OR(2)
+   CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE5)
+   CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iapurge","LOCALS",18)
+    ReallyForceSpellRES("SPINI29",LastSeenBy(Myself)) //
+END
+
+IF
+  !GlobalTimerNotExpired("Iapurge","LOCALS")
+  Global("Iapcastts","GLOBAL",0)
+  Global("Iabongolsdead","AR0414",0)
+  !HPLT(Myself,10)
+  See(FifthNearest([PC]))
+  OR(2)
+   CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE5)
+   CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iapurge","LOCALS",18)
+    ReallyForceSpellRES("SPINI29",LastSeenBy(Myself)) //
+END
+
+IF
+  !GlobalTimerNotExpired("Iapurge","LOCALS")
+  Global("Iapcastts","GLOBAL",0)
+  Global("Iabongolsdead","AR0414",0)
+  !HPLT(Myself,10)
+  See(SixthNearest([PC]))
+  OR(2)
+   CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE5)
+   CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iapurge","LOCALS",18)
+    ReallyForceSpellRES("SPINI29",LastSeenBy(Myself)) //
+END
+
+IF
+  !GlobalTimerNotExpired("Iapurge","LOCALS")
+  Global("Iapcastts","GLOBAL",0)
+  !HPLT(Myself,10)
+  See([PC])
+  OR(6)
+   StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+   CheckStatGT(LastSeenBy(Myself),0,STONESKINS)
+   CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE11)
+   CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+   CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE5)
+   CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iapurge","LOCALS",18)
+    ReallyForceSpellRES("SPINI29",LastSeenBy(Myself)) //
+END
+
+IF
+  !GlobalTimerNotExpired("Iapurge","LOCALS")
+  Global("Iapcastts","GLOBAL",0)
+  !HPLT(Myself,10)
+  See(SecondNearest([PC]))
+  OR(6)
+   StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+   CheckStatGT(LastSeenBy(Myself),0,STONESKINS)
+   CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE11)
+   CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+   CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE5)
+   CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iapurge","LOCALS",18)
+    ReallyForceSpellRES("SPINI29",LastSeenBy(Myself)) //
+END
+
+IF
+  !GlobalTimerNotExpired("Iapurge","LOCALS")
+  Global("Iapcastts","GLOBAL",0)
+  !HPLT(Myself,10)
+  See(ThirdNearest([PC]))
+  OR(6)
+   StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+   CheckStatGT(LastSeenBy(Myself),0,STONESKINS)
+   CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE11)
+   CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+   CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE5)
+   CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iapurge","LOCALS",18)
+    ReallyForceSpellRES("SPINI29",LastSeenBy(Myself)) //
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(SecondNearestEnemyOf(Myself))
+  CheckStatLT(LastSeenBy(Myself),90,RESISTPIERCING)
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  RandomNumGT(6,4)
+  Range(LastSeenBy(Myself),3)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  See(SecondNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(ThirdNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(FourthNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  Range(LastSeenBy(Myself),3)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  !See([PC])
+  !See([GOODCUTOFF])
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END

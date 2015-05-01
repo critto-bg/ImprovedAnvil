@@ -1,0 +1,115 @@
+IF
+  OnCreation()
+  GlobalGT("RakCloud","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("RakCloud","GLOBAL",0)
+END
+
+IF
+  Global("Iapcastts","GLOBAL",1)
+  Global("Iatsinvulner","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatsinvulner","LOCALS",1)
+    ApplySpellRES("SPINI70",Myself)
+END
+
+IF
+  Global("Iapcastts","GLOBAL",0)
+  Global("Iatsinvulner","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatsinvulner","LOCALS",0)
+    ApplySpellRES("SPINI71",Myself)
+END
+
+IF
+  OR(5)
+   StateCheck(Myself,STATE_CONFUSED)
+   StateCheck(Myself,STATE_HELPLESS)
+   StateCheck(Myself,STATE_PANIC)
+   StateCheck(Myself,STATE_STUNNED)
+   Global("Iapcastts","GLOBAL",1)
+THEN
+  RESPONSE #100
+    NoAction()
+END
+
+IF
+  See([GOODCUTOFF])
+  Global("RakshasaChange","LOCALS",0)
+THEN
+  RESPONSE #30
+    Polymorph(RAKSHASA)
+    ChangeEnemyAlly(Myself,NEUTRAL)
+    SetGlobal("RakshasaChange","LOCALS",1)
+  RESPONSE #30
+    Polymorph(RAKSHASA)
+    SetGlobal("RakshasaChange","LOCALS",1)
+  RESPONSE #30
+    Polymorph(RAKSHASA)
+    SetGlobal("RakshasaChange","LOCALS",1)
+END
+
+IF
+  See([GOODCUTOFF])
+  Global("RakshasaChange","LOCALS",1)
+THEN
+  RESPONSE #100
+    Polymorph(RAKSHASA)
+    ChangeEnemyAlly(Myself,ENEMY)
+    SetGlobal("RakshasaChange","LOCALS",2)
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
+  Global("RakshasaChange","LOCALS",2)
+THEN
+  RESPONSE #100
+    SpellNoDec(LastSeenBy(Myself),WIZARD_LIGHTNING_BOLT)
+    Polymorph(RAKSHASA)
+    ChangeEnemyAlly(Myself,NEUTRAL)
+    SetGlobal("RakshasaChange","LOCALS",3)
+END
+
+IF
+  See([GOODCUTOFF])
+  Global("RakshasaChange","LOCALS",3)
+THEN
+  RESPONSE #100
+    Polymorph(RAKSHASA)
+    ChangeEnemyAlly(Myself,ENEMY)
+    SetGlobal("RakshasaChange","LOCALS",4)
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  Global("RakshasaChange","LOCALS",4)
+THEN
+  RESPONSE #100
+    SpellNoDec(LastSeenBy(Myself),WIZARD_FIREBALL)
+    SetGlobal("RakshasaChange","LOCALS",5)
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  Global("Iarak","LOCALS",0)
+THEN
+  RESPONSE #100
+    SpellNoDec(Myself,WIZARD_ABSOLUTE_IMMUNITY)
+    SetGlobal("Iarak","LOCALS",1)
+    EquipMostDamagingMelee()
+    AttackOneRound(NearestEnemyOf(Myself))
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+    AttackOneRound(NearestEnemyOf(Myself))
+END

@@ -1,0 +1,365 @@
+IF
+  See(NearestEnemyOf(Myself))
+  Global("EnemySeen","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("EnemySeen","LOCALS",1)
+    Shout(89)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  OR(2)
+   Detect([GOODCUTOFF])
+   Detect([PC])
+  Global("partyfled","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("partyfled","LOCALS",0)
+    Shout(89)
+END
+
+IF
+  Global("Iapcastts","GLOBAL",1)
+  Global("Iatsinvulner","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatsinvulner","LOCALS",1)
+    ApplySpellRES("SPINI70",Myself)
+END
+
+IF
+  Global("Iapcastts","GLOBAL",0)
+  Global("Iatsinvulner","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatsinvulner","LOCALS",0)
+    ApplySpellRES("SPINI71",Myself)
+END
+
+IF
+  OR(5)
+   StateCheck(Myself,STATE_CONFUSED)
+   StateCheck(Myself,STATE_HELPLESS)
+   StateCheck(Myself,STATE_PANIC)
+   StateCheck(Myself,STATE_STUNNED)
+   Global("Iapcastts","GLOBAL",1)
+THEN
+  RESPONSE #100
+    NoAction()
+END
+
+IF
+  !CheckStatGT(Myself,0,SCRIPTINGSTATE9)
+  See(NearestEnemyOf(Myself))
+  HPPercentLT(Myself,75)
+  GlobalLT("Iaprep","LOCALS",2)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iaprep","LOCALS",1)
+    ForceSpell(Myself,WIZARD_MIRROR_IMAGE)
+END
+
+IF
+  HPPercentLT(Myself,50)
+  Global("MindFlayerHeal","LOCALS",0)
+THEN
+  RESPONSE #100
+    ForceSpell(Myself,ULITHARID_CURE_SERIOUS_WOUNDS)
+    SetGlobal("MindFlayerHeal","LOCALS",1)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See([PC])
+  !StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+  !StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE8)
+  !HasItemEquiped("shld25",LastSeenBy(Myself))
+  !HasItemEquiped("sw2h14",LastSeenBy(Myself))
+  !HasItemEquiped("S!helm05",LastSeenBy(Myself))
+  !HasItemEquiped("S!leat03",LastSeenBy(Myself))
+  !HasItemEquiped("S!shld01",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw04",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw07",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw08",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw09",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw10",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw11",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw12",LastSeenBy(Myself))
+  !HasItemEquiped("npchan",LastSeenBy(Myself))
+  !HasItemEquiped("helm06",LastSeenBy(Myself))
+  !Class(LastSeenBy(Myself),MONK)
+  !CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE1)
+  !CheckStat(LastSeenBy(Myself),4,SCRIPTINGSTATE1)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
+  !HasBounceEffects(LastSeenBy(Myself))
+  Delay(12)
+THEN
+  RESPONSE #100
+    ForceSpell([PC],MIND_FLAYER_DOMINATION)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(SecondNearest([PC]))
+  !StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+  !StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE8)
+  !HasItemEquiped("shld25",LastSeenBy(Myself))
+  !HasItemEquiped("sw2h14",LastSeenBy(Myself))
+  !HasItemEquiped("S!helm05",LastSeenBy(Myself))
+  !HasItemEquiped("S!leat03",LastSeenBy(Myself))
+  !HasItemEquiped("S!shld01",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw04",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw07",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw08",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw09",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw10",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw11",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw12",LastSeenBy(Myself))
+  !HasItemEquiped("npchan",LastSeenBy(Myself))
+  !HasItemEquiped("helm06",LastSeenBy(Myself))
+  !Class(LastSeenBy(Myself),MONK)
+  !CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE1)
+  !CheckStat(LastSeenBy(Myself),4,SCRIPTINGSTATE1)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
+  !HasBounceEffects(LastSeenBy(Myself))
+  Delay(12)
+THEN
+  RESPONSE #100
+    ForceSpell(LastSeenBy(Myself),MIND_FLAYER_DOMINATION)
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  !StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+  !StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE5)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE4)
+  !HasItemEquiped("S!sw02",LastSeenBy(Myself))
+  Global("firstStun","LOCALS",0)
+THEN
+  RESPONSE #100
+    ForceSpell(NearestEnemyOf(Myself),MIND_FLAYER_PSIONIC_BLAST)
+    SetGlobal("firstStun","LOCALS",1)
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  !StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+  !StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE5)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE4)
+  !HasItemEquiped("S!sw02",LastSeenBy(Myself))
+  Delay(9)
+THEN
+  RESPONSE #100
+    ForceSpell(NearestEnemyOf(Myself),MIND_FLAYER_PSIONIC_BLAST)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  StateCheck([PC],STATE_STUNNED)
+THEN
+  RESPONSE #100
+    AttackReevaluate([PC],45)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  StateCheck(SecondNearest([PC]),STATE_STUNNED)
+THEN
+  RESPONSE #100
+    AttackReevaluate(SecondNearest([PC]),45)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  StateCheck(ThirdNearest([PC]),STATE_STUNNED)
+THEN
+  RESPONSE #100
+    AttackReevaluate(ThirdNearest([PC]),45)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  StateCheck(FourthNearest([PC]),STATE_STUNNED)
+THEN
+  RESPONSE #100
+    AttackReevaluate(FourthNearest([PC]),45)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  StateCheck(FifthNearest([PC]),STATE_STUNNED)
+THEN
+  RESPONSE #100
+    AttackReevaluate(FifthNearest([PC]),45)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  StateCheck(SixthNearest([PC]),STATE_STUNNED)
+THEN
+  RESPONSE #100
+    AttackReevaluate(SixthNearest([PC]),45)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  StateCheck(NearestEnemyOf(Myself),STATE_STUNNED)
+  !CheckStatGT(NearestEnemyOf(Myself),1,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackReevaluate(NearestEnemyOf(Myself),45)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  StateCheck(SecondNearestEnemyOf(Myself),STATE_STUNNED)
+  Range(SecondNearestEnemyOf(Myself),2)
+  !CheckStatGT(SecondNearestEnemyOf(Myself),1,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackReevaluate(SecondNearestEnemyOf(Myself),45)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  StateCheck(ThirdNearestEnemyOf(Myself),STATE_STUNNED)
+  Range(ThirdNearestEnemyOf(Myself),2)
+  !CheckStatGT(ThirdNearestEnemyOf(Myself),1,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackReevaluate(ThirdNearestEnemyOf(Myself),45)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  StateCheck(FourthNearestEnemyOf(Myself),STATE_STUNNED)
+  Range(FourthNearestEnemyOf(Myself),2)
+  !CheckStatGT(FourthNearestEnemyOf(Myself),1,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackReevaluate(FourthNearestEnemyOf(Myself),45)
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),1,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(SecondNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),1,SCRIPTINGSTATE6)
+  Range(LastSeenBy(Myself),2)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Global("partyfled","LOCALS",0)
+  Allegiance(Myself,ENEMY)
+  Global("EnemySeen","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("chase","LOCALS",90)
+    SetGlobal("partyfled","LOCALS",1)
+END
+
+IF
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Global("partyfled","LOCALS",1)
+  GlobalTimerNotExpired("chase","LOCALS")
+  InMyArea(Player1)
+  Allegiance(Myself,ENEMY)
+  Global("EnemySeen","LOCALS",1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Allegiance(Myself,ENEMY)
+  Global("EnemySeen","LOCALS",1)
+  GlobalTimerExpired("chase","LOCALS")
+  Global("partyfled","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("EnemySeen","LOCALS",0)
+    SetGlobal("Iaprep","LOCALS",0)
+    SetGlobal("MindFlayerHeal","LOCALS",0)
+    SetGlobal("firstStun","LOCALS",0)
+    ReallyForceSpellRES("SPWII07",Myself)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !See([PC])
+  !See([GOODCUTOFF])
+  Global("EnemySeen","LOCALS",0)
+  Global("anticheese","LOCALS",0)
+  OR(2)
+   AttackedBy([GOODCUTOFF],DEFAULT)
+   HPPercentLT(Myself,100)
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    SetGlobal("anticheese","LOCALS",1)
+    SetGlobalTimer("chase2","LOCALS",12)
+    Shout(89)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  GlobalTimerNotExpired("chase2","LOCALS")
+  Global("anticheese","LOCALS",1)
+  Global("EnemySeen","LOCALS",0)
+  !See([PC])
+  !See([GOODCUTOFF])
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  GlobalTimerExpired("chase2","LOCALS")
+  Global("anticheese","LOCALS",1)
+  Global("EnemySeen","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("anticheese","LOCALS",0)
+    ReallyForceSpellRES("SPWII07",Myself)
+END
+
+IF
+  Global("EnemySeen","LOCALS",0)
+  Heard([EVILCUTOFF],89)
+  !See([GOODCUTOFF])
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  Global("EnemySeen","LOCALS",0)
+  Heard([EVILCUTOFF],89)
+  !See(NearestEnemyOf(Myself))
+  See(LastHeardBy(Myself))
+THEN
+  RESPONSE #100
+    MoveToObject(LastHeardBy(Myself))
+END

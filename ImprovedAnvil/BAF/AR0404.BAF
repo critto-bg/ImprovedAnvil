@@ -1,0 +1,63 @@
+//Sewers beneath Coronet //
+
+IF
+   Class(Player1,RANGER_ALL)
+   Global("Iaitem","AR0404",0)
+   Global("Iarangerjob","GLOBAL",10)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem","AR0404",1)
+      ActionOverride("Table 1",CreateItem("S!misc26",0,0,0)) //
+END
+
+IF
+   Class(Player1,RANGER_ALL)
+   Global("Iaitem","AR0404",1)
+   Global("Iarangerjob","GLOBAL",10)
+   PartyHasItem("S!misc26")
+THEN
+   RESPONSE #100
+      SetGlobal("Iarangerjob","GLOBAL",11)
+END
+
+IF
+  Global("Iasewccdead","GLOBAL",0)
+  Dead("SEWCC") //
+THEN
+  RESPONSE #100
+    SetGlobal("Iasewccdead","GLOBAL",1)
+END
+
+IF
+  GlobalGT("Iashadowlover","AR0404",0)
+  Global("Iasloverdead","GLOBAL",0)
+  Dead("S!shados") //
+THEN
+  RESPONSE #100
+    SetGlobal("Iasloverdead","GLOBAL",1)
+END
+
+IF
+  Global("Iasewccdead","GLOBAL",0)
+  PartyHasItem("MISC5Q")
+THEN
+  RESPONSE #100
+    TakePartyItem("MISC5Q")
+    DestroyItem("MISC5Q")
+END
+
+IF
+  OpenState("Door01",TRUE)
+  Global("Door1Opened","AR0404",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door1Opened","AR0404",1)
+END
+
+IF
+  OpenState("Door01",FALSE)
+  Global("Door1Opened","AR0404",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door01")
+END

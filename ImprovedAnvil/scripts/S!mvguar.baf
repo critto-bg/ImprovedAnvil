@@ -1,0 +1,365 @@
+IF
+  Allegiance(Myself,ENEMY)
+  Global("Iamaevarfight","AR0301",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iamaevarfight","AR0301",1)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  HasItem("Arow01",Myself)
+  !StateCheck(Myself,STATE_INVISIBLE)
+  See(NearestEnemyOf(Myself))
+  !Range(LastSeenBy(Myself),4)
+  !Gender(LastSeenBy(Myself),SUMMONED)
+  !HasItemEquiped("immune1",LastSeenBy(Myself))
+  !HasItemEquiped("immune2",LastSeenBy(Myself))
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE10)
+  CheckStatLT(LastSeenBy(Myself),90,RESISTMISSILE)
+  OR(2)
+   CheckStat(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+   CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    EquipRanged()
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  Global("Iapcastts","GLOBAL",0)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  !StateCheck(Myself,STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(Myself,STATE_INVISIBLE)
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_STUNNED)
+  !StateCheck(Myself,STATE_PANIC)
+  HasItem("potn10",Myself)  // ~Potion of Invisibility~
+  See([PC])
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  !CheckStat(LastSeenBy(Myself),5,SCRIPTINGSTATE1)
+  !HasItemEquiped("S!sw11",LastSeenBy(Myself))
+  OR(2)
+   CheckStat(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+   CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE6)
+  CheckStatLT(LastSeenBy(Myself),1,STONESKINS)
+  OR(2)
+   Range(LastSeenBy(Myself),4)
+   !HasItem("Arow01",Myself)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    DisplayStringHead(Myself,46150)  // ~quaffs a potion~
+    UseItem("potn10",Myself)  // ~Potion of Invisibility~
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  Global("Iapcastts","GLOBAL",0)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  !StateCheck(Myself,STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(Myself,STATE_INVISIBLE)
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_STUNNED)
+  !StateCheck(Myself,STATE_PANIC)
+  HasItem("potn10",Myself)  // ~Potion of Invisibility~
+  See(SecondNearest([PC]))
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  !CheckStat(LastSeenBy(Myself),5,SCRIPTINGSTATE1)
+  !HasItemEquiped("S!sw11",LastSeenBy(Myself))
+  OR(2)
+   CheckStat(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+   CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE6)
+  CheckStatLT(LastSeenBy(Myself),1,STONESKINS)
+  OR(2)
+   Range(LastSeenBy(Myself),4)
+   !HasItem("Arow01",Myself)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    DisplayStringHead(Myself,46150)  // ~quaffs a potion~
+    UseItem("potn10",Myself)  // ~Potion of Invisibility~
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  Global("Iapcastts","GLOBAL",0)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  !StateCheck(Myself,STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(Myself,STATE_INVISIBLE)
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_STUNNED)
+  !StateCheck(Myself,STATE_PANIC)
+  HasItem("potn10",Myself)  // ~Potion of Invisibility~
+  See(ThirdNearest([PC]))
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  !CheckStat(LastSeenBy(Myself),5,SCRIPTINGSTATE1)
+  !HasItemEquiped("S!sw11",LastSeenBy(Myself))
+  OR(2)
+   CheckStat(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+   CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE6)
+  CheckStatLT(LastSeenBy(Myself),1,STONESKINS)
+  OR(2)
+   Range(LastSeenBy(Myself),4)
+   !HasItem("Arow01",Myself)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    DisplayStringHead(Myself,46150)  // ~quaffs a potion~
+    UseItem("potn10",Myself)  // ~Potion of Invisibility~
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  Global("Iapcastts","GLOBAL",0)
+  !GlobalTimerNotExpired("PoisonWeapon","LOCALS")
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  !StateCheck(Myself,STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(Myself,STATE_INVISIBLE)
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_STUNNED)
+  !StateCheck(Myself,STATE_PANIC)
+  !StateCheck(Myself,STATE_SILENCED)
+  GlobalLT("Iapweapon","LOCALS",5)
+  See(NearestEnemyOf(Myself))
+  Range(LastSeenBy(Myself),4)
+  CheckStatLT(LastSeenBy(Myself),100,RESISTPOISON)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iapweapon","LOCALS",1)
+    SetGlobalTimer("PoisonWeapon","LOCALS",24)
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    ForceSpellRES("SPCL423",Myself) //
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  StateCheck(Myself,STATE_INVISIBLE)
+  See([PC])
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  !CheckStat(LastSeenBy(Myself),5,SCRIPTINGSTATE1)
+  !HasItemEquiped("S!sw11",LastSeenBy(Myself))
+  OR(2)
+   CheckStat(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+   CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE6)
+  CheckStatLT(LastSeenBy(Myself),1,STONESKINS)
+THEN
+  RESPONSE #100
+    EquipMostDamagingMelee()
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  StateCheck(Myself,STATE_INVISIBLE)
+  See(SecondNearest([PC]))
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  !CheckStat(LastSeenBy(Myself),5,SCRIPTINGSTATE1)
+  !HasItemEquiped("S!sw11",LastSeenBy(Myself))
+  OR(2)
+   CheckStat(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+   CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE6)
+  CheckStatLT(LastSeenBy(Myself),1,STONESKINS)
+THEN
+  RESPONSE #100
+    EquipMostDamagingMelee()
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  StateCheck(Myself,STATE_INVISIBLE)
+  See(ThirdNearest([PC]))
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  !CheckStat(LastSeenBy(Myself),5,SCRIPTINGSTATE1)
+  !HasItemEquiped("S!sw11",LastSeenBy(Myself))
+  OR(2)
+   CheckStat(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+   CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE6)
+  CheckStatLT(LastSeenBy(Myself),1,STONESKINS)
+THEN
+  RESPONSE #100
+    EquipMostDamagingMelee()
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  StateCheck(Myself,STATE_INVISIBLE)
+  See([PC])
+  !CheckStat(LastSeenBy(Myself),5,SCRIPTINGSTATE1)
+  !HasItemEquiped("S!sw11",LastSeenBy(Myself))
+  OR(2)
+   CheckStat(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+   CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE6)
+  OR(2)
+   !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+   CheckStatLT(LastSeenBy(Myself),1,STONESKINS)
+THEN
+  RESPONSE #100
+    EquipMostDamagingMelee()
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  StateCheck(Myself,STATE_INVISIBLE)
+  See(SecondNearest([PC]))
+  !CheckStat(LastSeenBy(Myself),5,SCRIPTINGSTATE1)
+  !HasItemEquiped("S!sw11",LastSeenBy(Myself))
+  OR(2)
+   CheckStat(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+   CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE6)
+  OR(2)
+   !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+   CheckStatLT(LastSeenBy(Myself),1,STONESKINS)
+THEN
+  RESPONSE #100
+    EquipMostDamagingMelee()
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  StateCheck(Myself,STATE_INVISIBLE)
+  See(ThirdNearest([PC]))
+  !CheckStat(LastSeenBy(Myself),5,SCRIPTINGSTATE1)
+  !HasItemEquiped("S!sw11",LastSeenBy(Myself))
+  OR(2)
+   CheckStat(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+   CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE6)
+  OR(2)
+   !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+   CheckStatLT(LastSeenBy(Myself),1,STONESKINS)
+THEN
+  RESPONSE #100
+    EquipMostDamagingMelee()
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See([PC])
+  OR(2)
+   CheckStat(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+   CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE6)
+  Range(LastSeenBy(Myself),2)
+THEN
+  RESPONSE #100
+    EquipMostDamagingMelee()
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  !Gender(LastSeenBy(Myself),SUMMONED)
+  !HasItemEquiped("immune1",LastSeenBy(Myself))
+  !HasItemEquiped("immune2",LastSeenBy(Myself))
+  OR(2)
+   CheckStat(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+   CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    EquipMostDamagingMelee()
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(SecondNearestEnemyOf(Myself))
+  !Gender(LastSeenBy(Myself),SUMMONED)
+  !HasItemEquiped("immune1",LastSeenBy(Myself))
+  !HasItemEquiped("immune2",LastSeenBy(Myself))
+  OR(2)
+   CheckStat(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+   CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    EquipMostDamagingMelee()
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  !HasItemEquiped("immune1",LastSeenBy(Myself))
+  !HasItemEquiped("immune2",LastSeenBy(Myself))
+  OR(2)
+   CheckStat(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+   CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    EquipMostDamagingMelee()
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(SecondNearestEnemyOf(Myself))
+  !HasItemEquiped("immune1",LastSeenBy(Myself))
+  !HasItemEquiped("immune2",LastSeenBy(Myself))
+  OR(2)
+   CheckStat(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+   CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    EquipMostDamagingMelee()
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(ThirdNearestEnemyOf(Myself))
+  !HasItemEquiped("immune1",LastSeenBy(Myself))
+  !HasItemEquiped("immune2",LastSeenBy(Myself))
+  OR(2)
+   CheckStat(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+   CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    EquipMostDamagingMelee()
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    EquipMostDamagingMelee()
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  OR(2)
+   AttackedBy([GOODCUTOFF],DEFAULT)
+   HPPercentLT(Myself,100)
+  !Allegiance(Myself,ENEMY)
+THEN
+  RESPONSE #100
+    Enemy()
+END
+
+IF
+  Global("Iamaevarfight","AR0301",1)
+  !Allegiance(Myself,ENEMY)
+THEN
+  RESPONSE #100
+    Enemy()
+END

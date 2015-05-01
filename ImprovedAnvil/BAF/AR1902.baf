@@ -1,0 +1,20 @@
+//Ihtafeer's Hideout //////////////
+
+IF
+  Global("Ianoexit","AR1902",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Ianoexit","AR1902",2)
+    SetGlobalTimer("Iaopentimer","AR1902",12)
+    TriggerActivation("Tran1900",FALSE)
+END
+
+IF
+  Global("Ianoexit","AR1902",2)
+  GlobalTimerExpired("Iaopentimer","AR1902")
+  CombatCounter(0)
+THEN
+  RESPONSE #100
+    SetGlobal("Ianoexit","AR1902",3)
+    TriggerActivation("Tran1900",TRUE)
+END

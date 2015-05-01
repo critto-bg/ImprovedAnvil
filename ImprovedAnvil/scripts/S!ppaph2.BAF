@@ -1,0 +1,148 @@
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  AreaCheck("AR1516")
+  Global("Iadoonce","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iadoonce","LOCALS",1)
+    SetInterrupt(FALSE)
+    ChangeAIScript("",RACE)
+    ChangeAIScript("",GENERAL)
+    SetInterrupt(TRUE)
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  AreaCheck("AR1516")
+  AttackedBy([GOODCUTOFF],DEFAULT)
+THEN
+  RESPONSE #100
+    SetInterrupt(FALSE)
+    Enemy()
+    ChangeAIScript("GPSHOUT",RACE)
+    ChangeAIScript("MAGE14A",GENERAL)
+    SetInterrupt(TRUE)
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  AreaCheck("AR1516")
+  See(NearestEnemyOf(Myself))
+  Global("Prep","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Prep","LOCALS",1)
+    ReallyForceSpell(Myself,WIZARD_STONE_SKIN)
+    ReallyForceSpellRES("SPWII41",Myself)
+    ReallyForceSpell(Myself,WIZARD_SPELL_IMMUNITY_DIVINATION)
+    ReallyForceSpell(Myself,WIZARD_GLOBE_OF_INVULNERABILITY)
+    ReallyForceSpell(Myself,WIZARD_PROTECTION_FROM_MAGIC_WEAPONS)
+    ReallyForceSpell(Myself,WIZARD_PROTECTION_FROM_NORMAL_MISSILES)
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  AreaCheck("AR1516")
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  OR(6)
+   CheckStatGT(Myself,0,SCRIPTINGSTATE9)
+   StateCheck(Myself,STATE_HELPLESS)
+   StateCheck(Myself,STATE_STUNNED)
+   StateCheck(Myself,STATE_CONFUSED)
+   StateCheck(Myself,STATE_PANIC)
+   Global("Iapcastts","GLOBAL",1)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iaspell","LOCALS",6)
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  AreaCheck("AR1516")
+  See(NearestEnemyOf(Myself))
+  StateCheck(Myself,STATE_SILENCED)
+  !CheckStatGT(Myself,0,SCRIPTINGSTATE9)
+THEN
+  RESPONSE #100
+    SpellNoDec(Myself,WIZARD_VOCALIZE)
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  AreaCheck("AR1516")
+  !StateCheck(Myself,STATE_IMPROVEDINVISIBILITY)
+  !CheckStatGT(Myself,0,SCRIPTINGSTATE9)
+  See(NearestEnemyOf(Myself))
+  Global("Prep","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Prep","LOCALS",2)
+    SpellNoDec(Myself,WIZARD_SHADOW_DOOR)
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  AreaCheck("AR1516")
+  !CheckStatGT(Myself,0,SCRIPTINGSTATE9)
+  See(NearestEnemyOf(Myself))
+  HaveSpell(WIZARD_STONE_SKIN)
+  CheckStatLT(Myself,1,STONESKINS)
+  !HPLT(Myself,1)
+THEN
+  RESPONSE #100
+    Spell(Myself,WIZARD_STONE_SKIN)
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  AreaCheck("AR1516")
+  !CheckStatGT(Myself,0,SCRIPTINGSTATE9)
+  HaveSpell(WIZARD_SPIDER_SPAWN)
+  CheckStatGT(Myself,0,MINORGLOBE)
+  See(NearestEnemyOf(Myself))
+  !StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !StateCheck(LastSeenBy(Myself),STATE_PANIC)
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE4)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE8)
+  !CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE7)
+  !HasItemEquiped("ring95",LastSeenBy(Myself))
+  !HasItemEquiped("ring99",LastSeenBy(Myself))
+  !HasItemEquiped("morsword",LastSeenBy(Myself))
+  CheckStatLT(LastSeenBy(Myself),90,RESISTMAGIC)
+  Global("Ianospider","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Ianospider","LOCALS",1)
+    SpellNoDec(LastSeenBy(Myself),WIZARD_EMOTION_HOPELESSNESS)
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  AreaCheck("AR1516")
+  !CheckStatGT(Myself,0,SCRIPTINGSTATE9)
+  See(NearestEnemyOf(Myself))
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+  CheckStatLT(LastSeenBy(Myself),100,MAGICDAMAGERESISTANCE)
+  CheckStatLT(LastSeenBy(Myself),90,RESISTMAGIC)
+  !HasItemEquiped("morsword",LastSeenBy(Myself))
+  !CheckStat(LastSeenBy(Myself),4,SCRIPTINGSTATE7)
+  !HasBounceEffects(LastSeenBy(Myself))
+  HaveSpell(WIZARD_MAGIC_MISSILE)
+THEN
+  RESPONSE #100
+    Spell(LastSeenBy(Myself),WIZARD_MAGIC_MISSILE)
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  AreaCheck("AR1516")
+  !Detect([EVILCUTOFF])
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END

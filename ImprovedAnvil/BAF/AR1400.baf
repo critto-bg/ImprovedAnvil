@@ -1,0 +1,29 @@
+// Temple Ruins Restored //
+
+IF
+  Global("ShadowLordDead","GLOBAL",1)
+  Global("Iadruidjob","GLOBAL",4)
+  InMyArea(Player1)
+  Global("Iamoose","AR1400",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iamoose","AR1400",1)
+    CreateCreature("S!moose1",[1644.726],7)  //
+END
+
+IF
+  Global("Iamirror","AR1400",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iamirror","AR1400",1)
+    TriggerActivation("Mirror",FALSE)
+END
+
+IF
+  Global("Iamirror","AR1400",1)
+  Global("Iadruidjob","GLOBAL",5)
+THEN
+  RESPONSE #100
+    SetGlobal("Iamirror","AR1400",2)
+    TriggerActivation("Mirror",TRUE)
+END

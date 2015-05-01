@@ -1,0 +1,55 @@
+IF
+  See(NearestEnemyOf(Myself))
+  !HasItemEquiped("immune2",LastSeenBy(Myself))
+  !HasItemEquiped("immune1",LastSeenBy(Myself))
+  OR(2)
+   !Class(LastSeenBy(Myself),MONK)
+   !LevelGT(LastSeenBy(Myself),19)
+  OR(2)
+   CheckStat(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+   CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    EquipMostDamagingMelee()
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  See(SecondNearestEnemyOf(Myself))
+  !HasItemEquiped("immune2",LastSeenBy(Myself))
+  !HasItemEquiped("immune1",LastSeenBy(Myself))
+  OR(2)
+   !Class(LastSeenBy(Myself),MONK)
+   !LevelGT(LastSeenBy(Myself),19)
+  OR(2)
+   CheckStat(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+   CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    EquipMostDamagingMelee()
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(ThirdNearestEnemyOf(Myself))
+  !HasItemEquiped("immune2",LastSeenBy(Myself))
+  !HasItemEquiped("immune1",LastSeenBy(Myself))
+  OR(2)
+   !Class(LastSeenBy(Myself),MONK)
+   !LevelGT(LastSeenBy(Myself),19)
+  OR(2)
+   CheckStat(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+   CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    EquipMostDamagingMelee()
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    EquipMostDamagingMelee()
+    AttackOneRound(NearestEnemyOf(Myself))
+END

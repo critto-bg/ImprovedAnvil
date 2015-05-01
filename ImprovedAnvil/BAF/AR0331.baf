@@ -1,0 +1,31 @@
+//House Cellar (Kangaxx) //////////////
+
+IF
+  InMyArea(Player1)
+  Global("Iaexit","AR0331",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR0331",2)
+    TriggerActivation("Tran0330",FALSE)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iaexit","AR0331",2)
+  Dead("hldemi") //
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR0331",3)
+    TriggerActivation("Tran0330",TRUE)
+END
+
+IF
+  Exists("HLKANG")
+  !Dead("HLKANG")
+  HPLT("HLKANG",5)
+  Global("UsedCrypt0331","GLOBAL",2)
+  Global("Iakangaxx","AR0331",0)
+THEN
+  RESPONSE #100
+  ActionOverride("HLKANG",StartDialogNoSet([PC]))
+END

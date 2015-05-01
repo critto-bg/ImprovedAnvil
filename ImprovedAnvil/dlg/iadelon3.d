@@ -1,0 +1,17 @@
+BEGIN ~IADELON3~
+
+IF ~NumTimesTalkedTo(0)~ THEN BEGIN 0
+  SAY @1700
+  IF ~~ THEN REPLY @1701 GOTO 1
+  IF ~~ THEN REPLY @1702 GOTO 2
+END
+
+IF ~~ THEN BEGIN 1
+  SAY @1703
+  IF ~~ THEN REPLY @1702 GOTO 2
+END
+
+IF ~~ THEN BEGIN 2
+  SAY @1704
+  IF ~~ THEN DO ~SetGlobal("Iarangerjob","GLOBAL",3) EscapeArea()~ EXIT
+END

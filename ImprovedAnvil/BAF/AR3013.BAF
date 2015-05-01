@@ -1,0 +1,32 @@
+//Level 3 in Watchers Keep //////////////
+
+IF
+  Global("Iaexit","AR3013",0)
+  InMyArea(Player1)
+  !CombatCounter(0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR3013",1)
+    TriggerActivation("Tran3006",FALSE)
+    TriggerActivation("Tran3010",FALSE)
+END
+
+IF
+  Global("Iaexit","AR3013",1)
+  InMyArea(Player1)
+  CombatCounter(0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR3013",0)
+    TriggerActivation("Tran3006",TRUE)
+    TriggerActivation("Tran3010",TRUE)
+END
+
+IF
+   Global("Iaitem","AR3013",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem","AR3013",1)
+      ActionOverride("Container 1",CreateItem("potn52",0,0,0)) //
+      ActionOverride("Container 1",CreateItem("potn08",0,0,0)) //
+END

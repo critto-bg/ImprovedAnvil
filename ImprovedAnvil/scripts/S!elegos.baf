@@ -1,0 +1,328 @@
+IF
+  See(NearestEnemyOf(Myself))
+  Global("partyfled","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("partyfled","LOCALS",0)
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  Global("Iaexit","AR0907",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR0907",1)
+END
+
+IF
+  Global("Iapcastts","GLOBAL",0)
+  See([PC])
+  !GlobalTimerNotExpired("Iapurge","LOCALS")
+  !HPLT(Myself,1)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iapurge","LOCALS",24)
+    ReallyForceSpellRES("SPINI29",LastSeenBy(Myself)) //
+END
+
+IF
+  !GlobalTimerNotExpired("Iareconstruct","LOCALS")
+  Global("Iapcastts","GLOBAL",1)
+  !HPLT(Myself,1)
+  HPPercentLT(Myself,75)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iareconstruct","LOCALS",18)
+    ReallyForceSpellRES("SPWII45",Myself)
+END
+
+IF
+  !GlobalTimerNotExpired("Iareconstruct","LOCALS")
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  !HPLT(Myself,1)
+  HPPercentLT(Myself,75)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iareconstruct","LOCALS",60)
+    ReallyForceSpellRES("SPWII45",Myself)
+END
+
+IF
+  Detect([PC])
+  Global("Iatimer","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("golemcall","LOCALS",6)
+    SetGlobal("Iatimer","LOCALS",1)
+END
+
+IF
+  Detect([PC])
+  Global("Iatimer2","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("ambercall","LOCALS",12)
+    SetGlobal("Iatimer2","LOCALS",1)
+END
+
+IF
+  See([PC])
+  !GlobalTimerNotExpired("golemcall","LOCALS")
+  GlobalLT("golems","LOCALS",6)
+  !HPLT(Myself,1)
+THEN
+  RESPONSE #50
+    SetGlobalTimer("golemcall","LOCALS",12)
+    IncrementGlobal("golems","LOCALS",1)
+    CreateCreatureObject("S!coins",Myself,0,0,0) //
+  RESPONSE #50
+    SetGlobalTimer("golemcall","LOCALS",12)
+    IncrementGlobal("golems","LOCALS",1)
+    CreateCreatureObject("S!gems",Myself,0,0,0) //
+END
+
+IF
+  See([PC])
+  !GlobalTimerNotExpired("ambercall","LOCALS")
+  GlobalLT("ambers","LOCALS",3)
+  !HPLT(Myself,1)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("ambercall","LOCALS",12)
+    IncrementGlobal("ambers","LOCALS",1)
+    CreateCreatureObject("S!ambers",Myself,0,0,0) //
+END
+
+IF
+  Detect([PC])
+  Global("Iatreasure","LOCALS",0)
+  Global("Iarynnplace","GLOBAL",4)
+  GlobalGT("golems","LOCALS",0)
+  !GlobalGT("Ianotreasure","AR0907",0)
+  Global("Iapcastts","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iarynnplace","GLOBAL",5)
+    SetGlobal("Iatreasure","LOCALS",1)
+    GiveItemCreate("staf20",Myself,0,0,0) //
+END
+
+IF
+  Detect([PC])
+  Global("Iatreasure2","LOCALS",0)
+  Global("Iaavoidplace","GLOBAL",1)
+  GlobalGT("golems","LOCALS",0)
+  !GlobalGT("Ianotreasure","AR0907",0)
+  Global("Iapcastts","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaavoidplace","GLOBAL",5)
+    SetGlobal("Iatreasure2","LOCALS",1)
+    GiveItemCreate("boot04",Myself,0,0,0) //
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  Detect([PC])
+  Global("Iatreasure3","LOCALS",0)
+  Global("Iaring35place","GLOBAL",4)
+  GlobalGT("golems","LOCALS",0)
+  !GlobalGT("Ianotreasure","AR0907",0)
+  Global("Iapcastts","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaring35place","GLOBAL",5)
+    SetGlobal("Iatreasure3","LOCALS",1)
+    GiveItemCreate("ring35",Myself,0,0,0) //
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  Detect([PC])
+  Global("Iatreasure4","LOCALS",0)
+  Global("Iaaegerplace","GLOBAL",1)
+  GlobalGT("golems","LOCALS",0)
+  !GlobalGT("Ianotreasure","AR0907",0)
+  Global("Iapcastts","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaaegerplace","GLOBAL",3)
+    SetGlobal("Iatreasure4","LOCALS",1)
+    GiveItemCreate("leat20",Myself,0,0,0) //
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(SecondNearestEnemyOf(Myself))
+  CheckStatLT(LastSeenBy(Myself),90,RESISTCRUSHING)
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  RandomNumGT(6,4)
+  Range(LastSeenBy(Myself),2)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Global("partyfled","LOCALS",0)
+  Global("Iatimer","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("chase","LOCALS",90)
+    SetGlobal("partyfled","LOCALS",1)
+END
+
+IF
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Global("partyfled","LOCALS",1)
+  GlobalTimerNotExpired("chase","LOCALS")
+  InMyArea(Player1)
+  Global("Iatimer","LOCALS",1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  GlobalTimerExpired("chase","LOCALS")
+  Global("partyfled","LOCALS",1)
+  Global("Iatimer","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatimer","LOCALS",0)
+    SetGlobal("Iatimer2","LOCALS",0)
+    SetGlobal("golems","LOCALS",0)
+    SetGlobal("ambers","LOCALS",0)
+    ReallyForceSpellRES("SPWII07",Myself)
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  See(SecondNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  Range(LastSeenBy(Myself),3)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(ThirdNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  Range(LastSeenBy(Myself),3)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(FourthNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  Range(LastSeenBy(Myself),3)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(SecondNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  Range(LastSeenBy(Myself),4)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(ThirdNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  Range(LastSeenBy(Myself),4)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(FourthNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  Range(LastSeenBy(Myself),4)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(SecondNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(ThirdNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !See([PC])
+  !See([GOODCUTOFF])
+  Global("Iatimer","LOCALS",0)
+  Global("anticheese","LOCALS",0)
+  OR(2)
+   AttackedBy([GOODCUTOFF],DEFAULT)
+   HPPercentLT(Myself,100)
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    SetGlobal("anticheese","LOCALS",1)
+    SetGlobalTimer("chase2","LOCALS",12)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  GlobalTimerNotExpired("chase2","LOCALS")
+  Global("anticheese","LOCALS",1)
+  Global("Iatimer","LOCALS",0)
+  !See([PC])
+  !See([GOODCUTOFF])
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  GlobalTimerExpired("chase2","LOCALS")
+  Global("anticheese","LOCALS",1)
+  Global("Iatimer","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("anticheese","LOCALS",0)
+    ReallyForceSpellRES("SPWII07",Myself)
+END

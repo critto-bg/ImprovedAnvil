@@ -1,0 +1,27 @@
+// Sendai's Lair -- Spiders //////////////
+
+IF
+  Global("Iaexit","AR6103",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR6103",1)
+    TriggerActivation("Tran6104",FALSE)
+END
+
+IF
+  Global("Iaexit","AR6103",1)
+  Global("Iasengua04dead","GLOBAL",1)
+  Global("Iasenspi01dead","GLOBAL",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR6103",2)
+    TriggerActivation("Tran6104",TRUE)
+END
+
+IF
+  Global("Iasenspi01dead","GLOBAL",0)
+  Dead("senspi01")
+THEN
+  RESPONSE #100
+    SetGlobal("Iasenspi01dead","GLOBAL",1)
+END

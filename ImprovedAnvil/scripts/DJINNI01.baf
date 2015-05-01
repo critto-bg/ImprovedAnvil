@@ -1,0 +1,169 @@
+IF
+  AttackedBy([GOODCUTOFF],DEFAULT)
+  InParty(LastAttackerOf(Myself))
+  !Gender(LastAttackerOf(Myself),SUMMONED)
+  !Allegiance(Myself,ENEMY)
+THEN
+  RESPONSE #100
+    Enemy()
+END
+
+IF
+  Global("Iamoving","LOCALS",1)
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    SetGlobal("Iamoving","LOCALS",0)
+END
+
+IF
+  Gender(Myself,SUMMONED)
+  !Allegiance(Myself,ENEMY)
+  Global("Iamoving","LOCALS",1)
+  CombatCounter(0)
+  See([PC])
+  Range(LastSeenBy(Myself),6)
+THEN
+  RESPONSE #100
+    SetGlobal("Iamoving","LOCALS",0)
+END
+
+IF
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_HELPLESS)
+  See(NearestEnemyOf(Myself))
+  HaveSpell(WIZARD_GHOST_ARMOR)
+  Global("djinni","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("djinni","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    Spell(Myself,WIZARD_GHOST_ARMOR)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  OR(2)
+   CheckStat(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+   CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(SecondNearestEnemyOf(Myself))
+  Range(LastSeenBy(Myself),2)
+  OR(2)
+   CheckStat(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+   CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  Allegiance(Myself,ALLY)
+  See(NearestEnemyOf(Myself))
+  OR(2)
+   CheckStat(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+   CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE6)
+  ActionListEmpty()
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  Allegiance(Myself,ALLY)
+  See(SecondNearestEnemyOf(Myself))
+  Range(LastSeenBy(Myself),2)
+  OR(2)
+   CheckStat(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+   CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE6)
+  ActionListEmpty()
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ALLY)
+  See(NearestEnemyOf(Myself))
+  ActionListEmpty()
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  !See([GOODCUTOFF])
+  Allegiance(Myself,ENEMY)
+  InMyArea(Player1)
+  !StateCheck(Player1,STATE_INVISIBLE)
+  !StateCheck(Player1,STATE_IMPROVEDINVISIBILITY)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  Gender(Myself,SUMMONED)
+  !Allegiance(Myself,ENEMY)
+  ActionListEmpty()
+  Global("Iamoving","LOCALS",0)
+  !Detect(NearestEnemyOf(Myself))
+  !Detect(NearestEnemyOf(LastSummonerOf(Myself)))
+THEN
+  RESPONSE #100
+    SetGlobal("Iamoving","LOCALS",1)
+END
+
+IF
+  Gender(Myself,SUMMONED)
+  !Allegiance(Myself,ENEMY)
+  ActionListEmpty()
+  Global("Iamoving","LOCALS",0)
+  CombatCounter(0)
+  !Detect(Player1)
+  !Detect(LastSummonerOf(Myself))
+  !Detect([PC])
+THEN
+  RESPONSE #100
+    SetGlobal("Iamoving","LOCALS",1)
+END
+
+IF
+  Gender(Myself,SUMMONED)
+  !Allegiance(Myself,ENEMY)
+  ActionListEmpty()
+  Global("Iamoving","LOCALS",1)
+  !Detect(NearestEnemyOf(Myself))
+  !Detect(NearestEnemyOf(LastSummonerOf(Myself)))
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  Gender(Myself,SUMMONED)
+  ActionListEmpty()
+  Global("Iamoving","LOCALS",1)
+  !Detect(NearestEnemyOf(Myself))
+  !Detect(NearestEnemyOf(LastSummonerOf(Myself)))
+THEN
+  RESPONSE #100
+    MoveToObject(LastSummonerOf(Myself))
+END

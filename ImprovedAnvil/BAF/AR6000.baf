@@ -1,0 +1,239 @@
+//Abazigal's Entrance //////////////
+
+IF
+   InMyArea(Player1)
+   Global("Iacutscene","AR6000",0)
+THEN
+   RESPONSE #100
+      ClearAllActions()
+      StartCutSceneMode()
+      FadeToColor([30.0],0)
+      Wait(1)
+      ActionOverride(Player1,ReallyForceSpellRES("SPINI14",Myself))
+      ActionOverride(Player2,ReallyForceSpellRES("SPINI14",Myself))
+      ActionOverride(Player3,ReallyForceSpellRES("SPINI14",Myself))
+      ActionOverride(Player4,ReallyForceSpellRES("SPINI14",Myself))
+      ActionOverride(Player5,ReallyForceSpellRES("SPINI14",Myself))
+      ActionOverride(Player6,ReallyForceSpellRES("SPINI14",Myself))
+      Wait(1)
+      SetGlobal("Iap1nr","GLOBAL",0)
+      SetGlobal("Iap2nr","GLOBAL",0)
+      SetGlobal("Iap3nr","GLOBAL",0)
+      SetGlobal("Iap4nr","GLOBAL",0)
+      SetGlobal("Iap5nr","GLOBAL",0)
+      SetGlobal("Iap6nr","GLOBAL",0)
+      SetGlobal("Iap1nb","GLOBAL",0)
+      SetGlobal("Iap2nb","GLOBAL",0)
+      SetGlobal("Iap3nb","GLOBAL",0)
+      SetGlobal("Iap4nb","GLOBAL",0)
+      SetGlobal("Iap5nb","GLOBAL",0)
+      SetGlobal("Iap6nb","GLOBAL",0)
+      MoveViewPoint([833.925],INSTANT)
+      ActionOverride(Player1,JumpToPoint([833.925]))
+      ActionOverride(Player2,JumpToPoint([882.964]))
+      ActionOverride(Player3,JumpToPoint([834.994]))
+      ActionOverride(Player4,JumpToPoint([928.933]))
+      ActionOverride(Player5,JumpToPoint([794.1025]))
+      ActionOverride(Player6,JumpToPoint([979.902])
+      SetGlobal("Iadraconisseen","GLOBAL",1)
+      SetGlobal("Iacutscene","AR6000",1)
+      Explore()
+      Wait(1)
+      FadeFromColor([30.0],0)
+      EndCutSceneMode()
+END
+
+IF
+  OR(2)
+   SpellCast([PC],WIZARD_INCENDIARY_CLOUD)
+   SpellCast([PC],WIZARD_CLOUDKILL)
+THEN
+  RESPONSE #100
+    SetGlobal("Iapccloud","AR6000",1)
+    SetGlobalTimer("Iacloudtime","AR6000",60)
+END
+
+IF
+  Global("Iapccloud","AR6000",1)
+  GlobalTimerExpired("Iacloudtime","AR6000")
+THEN
+  RESPONSE #100
+    SetGlobal("Iapccloud","AR6000",0)
+END
+
+IF
+  InMyArea(Player1)
+  SpellCast([PC],WIZARD_MIRROR_IMAGE)
+THEN
+  RESPONSE #100
+    SetGlobal("Iapcmimage","AR6000",1)
+    SetGlobalTimer("Iaimagetime","AR6000",138)
+END
+
+IF
+  Global("Iapcmimage","AR6000",1)
+  GlobalTimerExpired("Iaimagetime","AR6000")
+THEN
+  RESPONSE #100
+    SetGlobal("Iapcmimage","AR6000",0)
+END
+
+IF
+  Global("Ianticheat","AR6000",0)
+  Exists("BAZDRA01") //
+  !Dead("BAZDRA01") //
+  !Allegiance("BAZDRA01",ENEMY)
+  HPPercentLT("BAZDRA01",100)
+THEN
+  RESPONSE #100
+    SetGlobal("Ianticheat","AR6000",1)
+    ChangeEnemyAlly("BAZDRA01",ENEMY)
+    ApplySpellRES("SPWII07","BAZDRA01")
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iadraconisseen","GLOBAL",1)
+  Dead("BAZDRA02") //
+THEN
+  RESPONSE #100
+    SetGlobal("Iadraconisseen","GLOBAL",2)
+END
+
+IF
+   InMyArea(Player1)
+   StateCheck(Player1,STATE_SILENCED)
+   OR(3)
+    Class(Player1,MAGE_ALL)
+    Class(Player1,BARD_ALL)
+    CheckStat(Player1,1,SCRIPTINGSTATE16)
+   Global("Iadisabled1","AR6000",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled1","AR6000",1)
+      ActionOverride(Player1,ReallyForceSpellRES("spwii44",Myself))
+END
+
+IF
+   InMyArea(Player1)
+   !StateCheck(Player1,STATE_SILENCED)
+   Global("Iadisabled1","AR6000",1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled1","AR6000",0)
+END
+
+IF
+   InMyArea(Player2)
+   StateCheck(Player2,STATE_SILENCED)
+   OR(3)
+    Class(Player2,MAGE_ALL)
+    Class(Player2,BARD_ALL)
+    CheckStat(Player2,1,SCRIPTINGSTATE16)
+   Global("Iadisabled2","AR6000",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled2","AR6000",1)
+      ActionOverride(Player2,ReallyForceSpellRES("spwii44",Myself))
+END
+
+IF
+   InMyArea(Player2)
+   !StateCheck(Player2,STATE_SILENCED)
+   Global("Iadisabled2","AR6000",1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled2","AR6000",0)
+END
+
+IF
+   InMyArea(Player3)
+   StateCheck(Player3,STATE_SILENCED)
+   OR(3)
+    Class(Player3,MAGE_ALL)
+    Class(Player3,BARD_ALL)
+    CheckStat(Player3,1,SCRIPTINGSTATE16)
+   Global("Iadisabled3","AR6000",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled3","AR6000",1)
+      ActionOverride(Player3,ReallyForceSpellRES("spwii44",Myself))
+END
+
+IF
+   InMyArea(Player3)
+   !StateCheck(Player3,STATE_SILENCED)
+   Global("Iadisabled3","AR6000",1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled3","AR6000",0)
+END
+
+IF
+   InMyArea(Player4)
+   StateCheck(Player4,STATE_SILENCED)
+   OR(3)
+    Class(Player4,MAGE_ALL)
+    Class(Player4,BARD_ALL)
+    CheckStat(Player4,1,SCRIPTINGSTATE16)
+   Global("Iadisabled4","AR6000",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled4","AR6000",1)
+      ActionOverride(Player4,ReallyForceSpellRES("spwii44",Myself))
+END
+
+IF
+   InMyArea(Player4)
+   !StateCheck(Player4,STATE_SILENCED)
+   Global("Iadisabled4","AR6000",1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled4","AR6000",0)
+END
+
+IF
+   InMyArea(Player5)
+   StateCheck(Player5,STATE_SILENCED)
+   OR(3)
+    Class(Player5,MAGE_ALL)
+    Class(Player5,BARD_ALL)
+    CheckStat(Player5,1,SCRIPTINGSTATE16)
+   Global("Iadisabled5","AR6000",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled5","AR6000",1)
+      ActionOverride(Player5,ReallyForceSpellRES("spwii44",Myself))
+END
+
+IF
+   InMyArea(Player5)
+   !StateCheck(Player5,STATE_SILENCED)
+   Global("Iadisabled5","AR6000",1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled5","AR6000",0)
+END
+
+IF
+   InMyArea(Player6)
+   StateCheck(Player6,STATE_SILENCED)
+   OR(3)
+    Class(Player6,MAGE_ALL)
+    Class(Player6,BARD_ALL)
+    CheckStat(Player6,1,SCRIPTINGSTATE16)
+   Global("Iadisabled6","AR6000",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled6","AR6000",1)
+      ActionOverride(Player6,ReallyForceSpellRES("spwii44",Myself))
+END
+
+IF
+   InMyArea(Player6)
+   !StateCheck(Player6,STATE_SILENCED)
+   Global("Iadisabled6","AR6000",1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled6","AR6000",0)
+END

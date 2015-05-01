@@ -1,0 +1,41 @@
+IF
+  HPPercentLT(Myself,20)
+  Global("Iacutscene","LOCALS",0)
+  Global("Iapcastts","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iacutscene","LOCALS",1)
+    SetGlobal("Iamirrngcomes","ARia25",1)
+    SetGlobalTimer("Iakillable","ARia25",12)
+    ReallyForceSpellRES("SPWII07",Myself)
+    ClearAllActions()
+    StartCutSceneMode()
+    StartCutScene("S!cutrng")
+END
+
+IF
+  Global("Iapcastts","GLOBAL",1)
+  Global("Iatsinvulner","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatsinvulner","LOCALS",1)
+    ApplySpellRES("SPINI70",Myself)
+END
+
+IF
+  Global("Iapcastts","GLOBAL",0)
+  Global("Iatsinvulner","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatsinvulner","LOCALS",0)
+    ApplySpellRES("SPINI71",Myself)
+END
+
+IF
+  !See([PC])
+  !See([GOODCUTOFF])
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END

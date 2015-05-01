@@ -1,0 +1,108 @@
+IF
+  Allegiance(Myself,ENEMY)
+  Global("Iapcastts","GLOBAL",0)
+  Global("Iamombattle","ARia27",2)
+  Global("Iammirrorjob","GLOBAL",5)
+  See([PC])
+  HPLT(Myself,10)
+  !HPLT(Myself,1)
+THEN
+  RESPONSE #100
+    StartDialogueNoSet([PC])
+END
+
+IF
+  Global("Iapcastts","GLOBAL",0)
+  NumTimesTalkedTo(0)
+  See(Player1)
+THEN
+  RESPONSE #100
+    StartDialogueNoSet(Player1)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  Global("Iamombattle","ARia27",1)
+  Global("Iaduplicate","LOCALS",1)
+  Global("Iapcastts","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaduplicate","LOCALS",2)
+    SetInterrupt(FALSE)
+    CreateVisualEffectObject("SPPROIMG",Myself)
+    Wait(3)
+    CreateCreatureObject("S!momd",Myself,0,0,0)
+    SetInterrupt(TRUE)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  Global("Iamombattle","ARia27",1)
+  Global("Iaduplicate","LOCALS",2)
+  Global("Iapcastts","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaduplicate","LOCALS",3)
+    SetInterrupt(FALSE)
+    CreateVisualEffectObject("SPDIMNDR",Myself)
+    Wait(1)
+    JumpToPoint([1057.704])
+    Wait(1)
+    CreateCreatureObject("S!spidmi",Myself,0,0,0)
+    CreateCreatureObject("S!spidmi",Myself,0,0,0)
+    CreateCreatureObject("S!spidmi",Myself,0,0,0)
+    Face(0)
+    SetInterrupt(TRUE)
+END
+
+IF
+  Global("Iapcastts","GLOBAL",1)
+  Global("Iatsinvulner","LOCALS",0)
+  !HasItem("S!mom",Myself)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatsinvulner","LOCALS",1)
+    ApplySpellRES("SPINI70",Myself)
+END
+
+IF
+  Global("Iapcastts","GLOBAL",0)
+  Global("Iatsinvulner","LOCALS",1)
+  !HasItem("S!mom",Myself)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatsinvulner","LOCALS",0)
+    ApplySpellRES("SPINI71",Myself)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  Global("Iapcastts","GLOBAL",1)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iaspell","LOCALS",6)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  Global("Iamombattle","ARia27",1)
+  Global("Iaduplicate","LOCALS",0)
+  Global("Iapcastts","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaduplicate","LOCALS",1)
+    ForceSpellRES("SPWII53",Myself)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  Global("Iamombattle","ARia27",1)
+  Global("Iaduplicate","LOCALS",3)
+  Global("Iapcastts","GLOBAL",0)
+  Dead("S!momd")
+THEN
+  RESPONSE #100
+    SetGlobal("Iamombattle","ARia27",2)
+    DestroyItem("S!mom")
+END

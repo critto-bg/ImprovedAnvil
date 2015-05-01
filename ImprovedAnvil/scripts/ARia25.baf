@@ -1,0 +1,91 @@
+// mirror cave //
+
+IF
+  InMyArea(Player1)
+  Global("Iaclonespawn","ARia25",0)
+THEN
+   RESPONSE #100
+     SetGlobal("Iaclonespawn","ARia25",1)
+     CreateCreature("S!mircha",[677.1080],0)
+END
+
+IF
+  Global("Iablock","ARia25",0)
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iablock","ARia25",1)
+    SetGlobalTimer("Iaunseal","ARia25",12)
+    CreateCreature("S!blockm",[628.719],5)
+    CreateCreature("S!blockm",[772.798],1)
+    TriggerActivation("Trania33",FALSE)
+    ContainerEnable("Container 1",FALSE)
+END
+
+IF
+   InMyArea(Player1)
+   GlobalTimerExpired("Iakillable","ARia25")
+   Global("Iamirrngcomes","ARia25",1)
+   Dead("S!mirrng")
+THEN
+   RESPONSE #100
+      SetGlobal("Iamirrngcomes","ARia25",2)
+      TakeItemReplace("amul14","minhp1","S!mircha")
+END
+
+IF
+  GlobalTimerExpired("Iaunseal","ARia25")
+  Global("Iablock","ARia25",1)
+  Dead("S!mircha")
+  InMyArea(Player1)
+  CombatCounter(0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iablock","ARia25",2)
+    ContainerEnable("Container 1",TRUE)
+    ApplySpellRES("SPINI10",Player2)
+    ApplySpellRES("SPINI10",Player3)
+    ApplySpellRES("SPINI10",Player4)
+    ApplySpellRES("SPINI10",Player5)
+    ApplySpellRES("SPINI10",Player6)
+    ApplySpellRES("SPINI10",Player1)
+    Wait(1)
+    ActionOverride(Player2,MakeUnselectable(1))
+    ActionOverride(Player3,MakeUnselectable(1))
+    ActionOverride(Player4,MakeUnselectable(1))
+    ActionOverride(Player5,MakeUnselectable(1))
+    ActionOverride(Player6,MakeUnselectable(1))
+END
+
+IF
+  Global("Iablock","ARia25",2)
+  Global("Iabldstainmir","GLOBAL",0)
+  PartyHasItem("S!misc55")
+  InMyArea(Player1)
+  Dead("S!mircha")
+THEN
+  RESPONSE #100
+    SetGlobal("Iabldstainmir","GLOBAL",1)
+    TriggerActivation("Trania33",TRUE)
+END
+
+IF
+  Global("Iablock","ARia25",2)
+  Global("Iabldstainmir","GLOBAL",1)
+  !PartyHasItem("S!misc55")
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iabldstainmir","GLOBAL",0)
+    TriggerActivation("Trania33",FALSE)
+END
+
+IF
+   Global("Iaitem","ARia25",0)
+   Global("Iablock","ARia25",2)
+   InMyArea(Player1)
+THEN
+   RESPONSE #100
+     SetGlobal("Iaitem","ARia25",1)
+     ActionOverride("Container 1",CreateItem("potn33",0,0,0)) //
+END

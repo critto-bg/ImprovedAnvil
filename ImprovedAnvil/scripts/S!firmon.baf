@@ -1,0 +1,172 @@
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  Global("EnemySeen","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("EnemySeen","LOCALS",1)
+END
+
+IF
+  Global("Iapcastts","GLOBAL",1)
+  Global("Iatsinvulner","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatsinvulner","LOCALS",1)
+    ApplySpellRES("SPINI70",Myself)
+END
+
+IF
+  Global("Iapcastts","GLOBAL",0)
+  Global("Iatsinvulner","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatsinvulner","LOCALS",0)
+    ApplySpellRES("SPINI71",Myself)
+END
+
+IF
+  AreaCheck("AR1202")
+  InMyArea(Player1)
+  Global("Iashl","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iashl","LOCALS",1)
+    SetHomeLocation([3157.596])
+END
+
+IF
+  AreaCheck("AR1202")
+  InMyArea(Player1)
+  Global("Iajump","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iajump","LOCALS",1)
+    JumpToPoint([3157.596])
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  StateCheck(Myself,STATE_INVISIBLE)
+  AreaCheck("AR1202")
+  Global("EnemySeen","LOCALS",1)
+  Global("Iajump","LOCALS",1)
+  Global("Iawander","LOCALS",0)
+  RandomNumGT(8,6)
+THEN
+  RESPONSE #100
+    SetGlobal("Iawander","LOCALS",1)
+    JumpToPoint([2679.785])
+    CreateCreature("S!mistho",[3157.596],3) //
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  StateCheck(Myself,STATE_INVISIBLE)
+  AreaCheck("AR1202")
+  Global("EnemySeen","LOCALS",1)
+  Global("Iajump","LOCALS",1)
+  Global("Iawander","LOCALS",0)
+  RandomNumLT(6,3)
+THEN
+  RESPONSE #100
+    SetGlobal("Iawander","LOCALS",1)
+    JumpToPoint([3157.596])
+    CreateCreature("S!mistho",[2679.785],11) //
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  StateCheck(Myself,STATE_INVISIBLE)
+  AreaCheck("AR1202")
+  Global("EnemySeen","LOCALS",1)
+  Global("Iajump","LOCALS",1)
+  Global("Iawander","LOCALS",0)
+  RandomNumGT(4,2)
+THEN
+  RESPONSE #100
+    SetGlobal("Iawander","LOCALS",1)
+    JumpToPoint([3663.1468])
+    CreateCreature("S!mistho",[3157.596],3) //
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  StateCheck(Myself,STATE_INVISIBLE)
+  AreaCheck("AR1202")
+  Global("EnemySeen","LOCALS",1)
+  Global("Iajump","LOCALS",1)
+  Global("Iawander","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iawander","LOCALS",1)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !StateCheck(Myself,STATE_INVISIBLE)
+  AreaCheck("AR1202")
+  Global("EnemySeen","LOCALS",1)
+  Global("Iajump","LOCALS",1)
+  Global("Iawander","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iawander","LOCALS",0)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(SecondNearestEnemyOf(Myself))
+  CheckStatLT(LastSeenBy(Myself),90,RESISTPIERCING)
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  RandomNumGT(6,4)
+  Range(LastSeenBy(Myself),2)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(SecondNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(ThirdNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See([GOODCUTOFF])
+  InMyArea(Player1)
+  Global("EnemySeen","LOCALS",1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END

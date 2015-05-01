@@ -1,0 +1,39 @@
+//Sendai's Lair -- Kensai //////////////
+
+IF
+  Global("Iaexit","AR6109",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR6109",1)
+    TriggerActivation("Tran6101",FALSE)
+END
+
+IF
+  Global("Iaexit","AR6109",1)
+  Dead("SENKEN01")
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR6109",2)
+    TriggerActivation("Tran6101",TRUE)
+END
+
+IF
+  InMyArea(Player1)
+  OR(4)
+   SpellCast([PC],WIZARD_DEATH_FOG)
+   SpellCast([PC],WIZARD_CLOUDKILL)
+   SpellCast([PC],WIZARD_INCENDIARY_CLOUD)
+   SpellCast([PC],WIZARD_STINKING_CLOUD)
+THEN
+  RESPONSE #100
+    SetGlobal("Iapccloud","AR6109",1)
+    SetGlobalTimer("Iacloudtime","AR6109",60)
+END
+
+IF
+  Global("Iapccloud","AR6109",1)
+  GlobalTimerExpired("Iacloudtime","AR6109")
+THEN
+  RESPONSE #100
+    SetGlobal("Iapccloud","AR6109",0)
+END

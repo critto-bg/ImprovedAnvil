@@ -1,0 +1,135 @@
+IF
+  GlobalGT("KeepPlot","GLOBAL",11)
+  AreaCheck("AR1304")
+THEN
+  RESPONSE #100
+    DestroySelf()
+END
+
+IF
+  Global("Iapcastts","GLOBAL",1)
+  Global("Iatsinvulner","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatsinvulner","LOCALS",1)
+    ApplySpellRES("SPINI70",Myself)
+END
+
+IF
+  Global("Iapcastts","GLOBAL",0)
+  Global("Iatsinvulner","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatsinvulner","LOCALS",0)
+    ApplySpellRES("SPINI71",Myself)
+END
+
+IF
+  Heard("kproen01",1)  // ~Lord Roenall~
+  Allegiance(Myself,NEUTRAL)
+THEN
+  RESPONSE #100
+    Enemy()
+    Shout(ALERT)
+END
+
+IF
+  Allegiance("kproen01",ENEMY)  //
+  !Allegiance(Myself,ENEMY)
+THEN
+  RESPONSE #100
+    Enemy()
+    Shout(ALERT)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  Global("ShoutedAlert","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("ShoutedAlert","LOCALS",1)
+    Shout(ALERT)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(SecondNearestEnemyOf(Myself))
+  CheckStatLT(LastSeenBy(Myself),90,RESISTCRUSHING)
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  RandomNumGT(6,3)
+  Range(LastSeenBy(Myself),2)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  See(SecondNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(ThirdNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  Global("KeepPlot","GLOBAL",11)
+  See("kpsold03")  // ~de'Arnise Guard~
+  Allegiance(Myself,ENEMY)
+THEN
+  RESPONSE #100
+    AttackOneRound("kpsold03")
+    AttackOneRound("kpsold03")
+END
+
+IF
+  Global("KeepPlot","GLOBAL",11)
+  See("kpsold04")  // ~de'Arnise Guard~
+  Allegiance(Myself,ENEMY)
+THEN
+  RESPONSE #100
+    AttackOneRound("kpsold04")
+    AttackOneRound("kpsold04")
+END
+
+IF
+  Global("KeepPlot","GLOBAL",11)
+  See("kpcapt02")  // ~Captain Cernick~
+  Allegiance(Myself,ENEMY)
+THEN
+  RESPONSE #100
+    AttackOneRound("kpcapt02")
+    AttackOneRound("kpcapt02")
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !See([GOODCUTOFF])
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END

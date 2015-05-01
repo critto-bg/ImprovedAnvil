@@ -1,0 +1,194 @@
+//Troll's Lair //////////////
+
+IF
+  InMyArea(Player1)
+  OR(3)
+   SpellCast([PC],WIZARD_DEATH_FOG)
+   SpellCast([PC],WIZARD_CLOUDKILL)
+   SpellCast([PC],WIZARD_INCENDIARY_CLOUD)
+THEN
+  RESPONSE #100
+    SetGlobal("Iapccloud","AR1904",1)
+    SetGlobalTimer("Iacloudtime","AR1904",60)
+END
+
+IF
+  Global("Iapccloud","AR1904",1)
+  GlobalTimerExpired("Iacloudtime","AR1904")
+THEN
+  RESPONSE #100
+    SetGlobal("Iapccloud","AR1904",0)
+END
+
+IF
+  Global("Iaexit","AR1904",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR1904",1)
+    TriggerActivation("AR1900",FALSE)
+END
+
+IF
+   InMyArea(Player1)
+   GlobalLT("Iavengeance","AR1904",4)
+   !GlobalTimerNotExpired("Iarevenge","AR1904")
+   OR(2)
+    Dead("S!trollk")
+    Dead("S!trollq")
+THEN
+   RESPONSE #100
+      IncrementGlobal("Iavengeance","AR1904",1)
+      SetGlobalTimer("Iarevenge","AR1904",6)
+      CreateCreatureObjectOffScreen("trollsm2",Player1,0,0,0) //
+      CreateCreatureObjectOffScreen("trollsm2",Player1,0,0,0) //
+      CreateCreatureObjectOffScreen("trollsm2",Player1,0,0,0) //
+      CreateCreatureObjectOffScreen("trollsm2",Player1,0,0,0) //
+END
+
+IF
+  Global("Iaexit","AR1904",1)
+  Global("Iavengeance","AR1904",4)
+  Dead("S!trollk")
+  Dead("S!trollq")
+  CombatCounter(0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR1904",2)
+    TriggerActivation("AR1900",TRUE)
+END
+
+IF
+   Global("Iacreature","AR1904",0)
+   Global("Iapcastts","GLOBAL",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iacreature","AR1904",1)
+      CreateCreature("S!trollk",[967.883],13) //
+      CreateCreature("S!trollq",[857.937],13) //
+END
+
+IF
+   Global("Iaitem","AR1904",0)
+   Global("Iaexit","AR1904",2)
+   Global("Iapcastts","GLOBAL",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem","AR1904",1)
+      ActionOverride("Container 1",CreateItem("potn33",0,0,0)) //
+      ActionOverride("Container 1",CreateItem("misc07",3456,0,0)) //
+END
+
+IF
+   Global("Iaitem2","AR1904",0)
+   Global("Iaexit","AR1904",2)
+   Global("Iabowplace","GLOBAL",1)
+   Global("Iapcastts","GLOBAL",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem2","AR1904",1)
+      SetGlobal("Iabowplace","GLOBAL",4)
+      ActionOverride("Container 2",CreateItem("bow15",0,0,0)) //
+END
+
+IF
+   Global("Iaitem3","AR1904",0)
+   Global("Iaexit","AR1904",2)
+   Global("Iaslingplace","GLOBAL",2)
+   Global("Iapcastts","GLOBAL",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem3","AR1904",1)
+      SetGlobal("Iaslingplace","GLOBAL",4)
+      ActionOverride("Container 2",CreateItem("wasling",0,0,0)) //
+END
+
+IF
+   Global("Iaitem4","AR1904",0)
+   Global("Iaexit","AR1904",2)
+   Global("Iashaftplace","GLOBAL",1)
+   Global("Iapcastts","GLOBAL",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem4","AR1904",1)
+      SetGlobal("Iashaftplace","GLOBAL",5)
+      ActionOverride("Container 1",CreateItem("BOW19A",0,0,0)) //
+END
+
+IF
+   Global("Iaitem5","AR1904",0)
+   Global("Iaexit","AR1904",2)
+   Global("Iaring30place","GLOBAL",3)
+   Global("Iapcastts","GLOBAL",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem5","AR1904",1)
+      SetGlobal("Iaring30place","GLOBAL",4)
+      ActionOverride("Container 1",CreateItem("ring30",0,0,0)) //
+END
+
+IF
+   Global("Iaitem6","AR1904",0)
+   Global("Iaexit","AR1904",2)
+   Global("Ialeat03place","GLOBAL",1)
+   Global("Iapcastts","GLOBAL",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem6","AR1904",1)
+      SetGlobal("Ialeat03place","GLOBAL",3)
+      ActionOverride("Container 2",CreateItem("leat03",0,0,0)) //
+END
+
+IF
+   Global("Iaitem7","AR1904",0)
+   InMyArea(Player1)
+   Global("Iaexit","AR1904",2)
+   OR(6)
+    Class(Player1,RANGER_ALL)
+    Class(Player2,RANGER_ALL)
+    Class(Player3,RANGER_ALL)
+    Class(Player4,RANGER_ALL)
+    Class(Player5,RANGER_ALL)
+    Class(Player6,RANGER_ALL)
+   Global("Iapcastts","GLOBAL",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem7","AR1904",1)
+      SetGlobal("Ialeat04place","GLOBAL",3)
+      ActionOverride("Container 2",CreateItem("S!leat04",0,0,0)) //
+END
+
+IF
+   Global("Iaitem8","AR1904",0)
+   Global("Iaexit","AR1904",2)
+   Global("Iablun24place","GLOBAL",1)
+   Global("Iapcastts","GLOBAL",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem8","AR1904",1)
+      SetGlobal("Iablun24place","GLOBAL",4)
+      ActionOverride("Container 1",CreateItem("BLUN24",0,0,0)) //
+END
+
+IF
+   Global("Iaitem9","AR1904",0)
+   Global("Iaexit","AR1904",2)
+   Global("Iaavoidplace","GLOBAL",4)
+   Global("Iapcastts","GLOBAL",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem9","AR1904",1)
+      SetGlobal("Iaavoidplace","GLOBAL",5)
+      ActionOverride("Container 1",CreateItem("BOOT04",0,0,0)) //
+END
+
+IF
+   Global("Iaitem10","AR1904",0)
+   Global("Iaexit","AR1904",2)
+   Global("Iamalakplace","GLOBAL",4)
+   Global("Iapcastts","GLOBAL",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem10","AR1904",1)
+      SetGlobal("Iamalakplace","GLOBAL",5)
+      ActionOverride("Container 2",CreateItem("sw1h45",0,0,0)) //
+END

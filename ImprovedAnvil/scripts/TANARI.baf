@@ -1,0 +1,365 @@
+IF
+  Global("Iapcastts","GLOBAL",1)
+THEN
+  RESPONSE #100
+    NoAction()
+END
+
+IF
+  See([PC])
+  Global("Paralyze","LOCALS",0)
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE5)
+  !HasItemEquiped("S!sw02",LastSeenBy(Myself))
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE4)
+  NotStateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE1)
+  !CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE1)
+THEN
+  RESPONSE #100
+    ForceSpell([PC],TANARI_PARALYZE)
+    SetGlobal("Paralyze","LOCALS",1)
+END
+
+IF
+  See([PC.0.0.CLERIC_MAGE])
+  Global("Silence","LOCALS",0)
+  !StateCheck(LastSeenBy(Myself),STATE_SILENCED)
+  !HasBounceEffects(LastSeenBy(Myself))
+  !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+THEN
+  RESPONSE #100
+    ForceSpell([PC.0.0.CLERIC_MAGE],TANARI_SILENCE)
+    SetGlobal("Silence","LOCALS",1)
+END
+
+IF
+  See([PC.0.0.MAGE_THIEF])
+  Global("Silence","LOCALS",0)
+  !StateCheck(LastSeenBy(Myself),STATE_SILENCED)
+  !HasBounceEffects(LastSeenBy(Myself))
+  !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+THEN
+  RESPONSE #100
+    ForceSpell([PC.0.0.MAGE_THIEF],TANARI_SILENCE)
+    SetGlobal("Silence","LOCALS",1)
+END
+
+IF
+  See([PC.0.0.CLERIC])
+  Global("Silence","LOCALS",0)
+  !StateCheck(LastSeenBy(Myself),STATE_SILENCED)
+THEN
+  RESPONSE #100
+    ForceSpell([PC.0.0.CLERIC],TANARI_SILENCE)
+    SetGlobal("Silence","LOCALS",1)
+END
+
+IF
+  See([PC.0.0.MAGE_ALL])
+  Global("Silence","LOCALS",0)
+  !HasItemEquiped("S!amul05",LastSeenBy(Myself))
+  !HasItemEquiped("S!amul06",LastSeenBy(Myself))
+  !StateCheck(LastSeenBy(Myself),STATE_SILENCED)
+  !HasBounceEffects(LastSeenBy(Myself))
+  !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+THEN
+  RESPONSE #100
+    ForceSpell(LastSeenBy(Myself),TANARI_SILENCE)
+    SetGlobal("Silence","LOCALS",1)
+END
+
+IF
+  See([PC.0.0.BARD])
+  Global("Silence","LOCALS",0)
+  !StateCheck(LastSeenBy(Myself),STATE_SILENCED)
+  !HasItemEquiped("S!amul05",LastSeenBy(Myself))
+  !HasItemEquiped("S!amul06",LastSeenBy(Myself))
+  !HasBounceEffects(LastSeenBy(Myself))
+  !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+THEN
+  RESPONSE #100
+    ForceSpell([PC.0.0.BARD],TANARI_SILENCE)
+    SetGlobal("Silence","LOCALS",1)
+END
+
+IF
+  See([PC.0.0.DRUID])
+  Global("Silence","LOCALS",0)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE1)
+  !StateCheck(LastSeenBy(Myself),STATE_SILENCED)
+THEN
+  RESPONSE #100
+    ForceSpell([PC.0.0.DRUID],TANARI_SILENCE)
+    SetGlobal("Silence","LOCALS",1)
+END
+
+IF
+  See([PC])
+  Global("Silence","LOCALS",0)
+  !HasItemEquiped("S!amul05",LastSeenBy(Myself))
+  !HasItemEquiped("S!amul06",LastSeenBy(Myself))
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE1)
+  !StateCheck(LastSeenBy(Myself),STATE_SILENCED)
+  !HasBounceEffects(LastSeenBy(Myself))
+  !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+THEN
+  RESPONSE #100
+    ForceSpell([PC],TANARI_SILENCE)
+    SetGlobal("Silence","LOCALS",1)
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  Global("Iadoonce","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iadoonce","LOCALS",1)
+    SetGlobal("Iaattack","LOCALS",2)
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  Global("Iaattack","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaattack","LOCALS",1)
+    SetGlobalTimer("Iaattacking","LOCALS",6)
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  Global("Iaattack","LOCALS",1)
+  GlobalTimerExpired("Iaattacking","LOCALS")
+THEN
+  RESPONSE #100
+    SetGlobal("Iaattack","LOCALS",2)
+END
+
+IF
+  GlobalTimerNotExpired("Iaattacking","LOCALS")
+  See(NearestEnemyOf(Myself))
+  Global("Iaattack","LOCALS",1)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  GlobalTimerNotExpired("Iaattacking","LOCALS")
+  See(SecondNearestEnemyOf(Myself))
+  Global("Iaattack","LOCALS",1)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  GlobalTimerNotExpired("Iaattacking","LOCALS")
+  See(ThirdNearestEnemyOf(Myself))
+  Global("Iaattack","LOCALS",1)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  GlobalTimerNotExpired("Iaattacking","LOCALS")
+  See(NearestEnemyOf(Myself))
+  Global("Iaattack","LOCALS",1)
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE5)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !CheckStat(LastSeenBy(Myself),5,SCRIPTINGSTATE7)
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  CheckStatLT(LastSeenBy(Myself),100,MAGICDAMAGERESISTANCE)
+  !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  !HasBounceEffects(LastSeenBy(Myself))
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE1)
+  !CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE1)
+  !HasItemEquiped("morsword",LastSeenBy(Myself))
+  !HasItemEquiped("ring95",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw02",LastSeenBy(Myself))
+  Range(LastSeenBy(Myself),5)
+THEN
+  RESPONSE #100
+    ForceSpell(NearestEnemyOf(Myself),TANARI_DEATH_GAZE)
+    ForceSpell(NearestEnemyOf(Myself),TANARI_VAMPIRIC_TOUCH)
+    SetGlobal("Iaattack","LOCALS",0)
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE5)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE1)
+  !CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE1)
+  !HasItemEquiped("morsword",LastSeenBy(Myself))
+  !HasItemEquiped("ring95",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw02",LastSeenBy(Myself))
+  OR(3)
+   CheckStat(LastSeenBy(Myself),5,SCRIPTINGSTATE7)
+   CheckStatGT(LastSeenBy(Myself),99,MAGICDAMAGERESISTANCE)
+   CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  NumCreatureGT([GOODCUTOFF],6)
+THEN
+  RESPONSE #100
+    ForceSpell(LastSeenBy(Myself),TANARI_DEATH_GAZE)
+    SetGlobal("Iaattack","LOCALS",0)
+END
+
+IF
+  See([PC])
+  StateCheck([PC],STATE_HELPLESS)
+  !CheckStat([PC],5,SCRIPTINGSTATE7)
+  !StateCheck([PC],STATE_IMPROVEDINVISIBILITY)
+  CheckStatLT([PC],100,MAGICDAMAGERESISTANCE)
+  !CheckStatGT([PC],0,MINORGLOBE)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  Range([PC],5)
+  See(SecondNearest([PC]))
+  !CheckStat(SecondNearest([PC]),1,SCRIPTINGSTATE5)
+  !StateCheck(SecondNearest([PC]),STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(SecondNearest([PC]),STATE_HELPLESS)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE1)
+  !CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE1)
+  !HasItemEquiped("S!sw02",LastSeenBy(Myself))
+  !HasBounceEffects(LastSeenBy(Myself))
+THEN
+  RESPONSE #100
+    ForceSpell(SecondNearest([PC]),TANARI_DEATH_GAZE)
+    ForceSpell([PC],TANARI_VAMPIRIC_TOUCH)
+    SetGlobal("Iaattack","LOCALS",0)
+END
+
+IF
+  See([PC.0.0.0.0.FEMALE])
+  NotStateCheck([PC.0.0.0.0.FEMALE],STATE_HELPLESS)
+  !CheckStat([PC.0.0.0.0.FEMALE],1,SCRIPTINGSTATE5)
+  !StateCheck([PC.0.0.0.0.FEMALE],STATE_IMPROVEDINVISIBILITY)
+  See(NearestEnemyOf(Myself))
+  !StateCheck(NearestEnemyOf(Myself),STATE_IMPROVEDINVISIBILITY)
+  !CheckStat(NearestEnemyOf(Myself),5,SCRIPTINGSTATE7)
+  CheckStatLT(NearestEnemyOf(Myself),100,MAGICDAMAGERESISTANCE)
+  !CheckStatGT(NearestEnemyOf(Myself),0,MINORGLOBE)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  !HasBounceEffects(LastSeenBy(Myself))
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE1)
+  !CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE1)
+  !HasItemEquiped("S!sw02",LastSeenBy(Myself))
+  Range(NearestEnemyOf(Myself),5)
+THEN
+  RESPONSE #100
+    ForceSpell(LastSeenBy(Myself),TANARI_DEATH_GAZE)
+    ForceSpell(NearestEnemyOf(Myself),TANARI_VAMPIRIC_TOUCH)
+    SetGlobal("Iaattack","LOCALS",0)
+END
+
+IF
+  See([PC.0.0.0.0.MALE])
+  !CheckStat([PC.0.0.0.0.MALE],1,SCRIPTINGSTATE5)
+  !StateCheck([PC.0.0.0.0.MALE],STATE_IMPROVEDINVISIBILITY)
+  !StateCheck([PC.0.0.0.0.MALE],STATE_HELPLESS)
+  See([PC.0.0.0.0.FEMALE])
+  StateCheck([PC.0.0.0.0.FEMALE],STATE_HELPLESS)
+  !StateCheck([PC.0.0.0.0.FEMALE],STATE_IMPROVEDINVISIBILITY)
+  !CheckStat([PC.0.0.0.0.FEMALE],5,SCRIPTINGSTATE7)
+  CheckStatLT([PC.0.0.0.0.FEMALE],100,MAGICDAMAGERESISTANCE)
+  !CheckStatGT([PC.0.0.0.0.FEMALE],0,MINORGLOBE)
+  Range([PC.0.0.0.0.FEMALE],5)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  !HasBounceEffects(LastSeenBy(Myself))
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE1)
+  !CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE1)
+  !HasItemEquiped("S!sw02",LastSeenBy(Myself))
+THEN
+  RESPONSE #100
+    ForceSpell([PC.0.0.0.0.MALE],TANARI_DEATH_GAZE)
+    ForceSpell([PC.0.0.0.0.FEMALE],TANARI_VAMPIRIC_TOUCH)
+    SetGlobal("Iaattack","LOCALS",0)
+END
+
+IF
+  See([PC])
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE5)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !CheckStat(LastSeenBy(Myself),5,SCRIPTINGSTATE7)
+  CheckStatLT(LastSeenBy(Myself),100,MAGICDAMAGERESISTANCE)
+  !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+  Range(LastSeenBy(Myself),5)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  !HasBounceEffects(LastSeenBy(Myself))
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE1)
+  !CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE1)
+  !HasItemEquiped("S!sw02",LastSeenBy(Myself))
+THEN
+  RESPONSE #100
+    ForceSpell(LastSeenBy(Myself),TANARI_DEATH_GAZE)
+    ForceSpell(LastSeenBy(Myself),TANARI_VAMPIRIC_TOUCH)
+    SetGlobal("Iaattack","LOCALS",0)
+END
+
+IF
+  See([PC])
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE5)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE1)
+  !CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE1)
+  !HasItemEquiped("S!sw02",LastSeenBy(Myself))
+  OR(4)
+   CheckStat(LastSeenBy(Myself),5,SCRIPTINGSTATE7)
+   CheckStatGT(LastSeenBy(Myself),99,MAGICDAMAGERESISTANCE)
+   CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+   !Range(LastSeenBy(Myself),5)
+THEN
+  RESPONSE #100
+    ForceSpell(LastSeenBy(Myself),TANARI_DEATH_GAZE)
+    SetGlobal("Iaattack","LOCALS",0)
+END
+
+IF
+  See([PC])
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  OR(2)
+    CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE5)
+    StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !CheckStat(LastSeenBy(Myself),5,SCRIPTINGSTATE7)
+  CheckStatLT(LastSeenBy(Myself),100,MAGICDAMAGERESISTANCE)
+  !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+  Range(LastSeenBy(Myself),5)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  !HasBounceEffects(LastSeenBy(Myself))
+THEN
+  RESPONSE #100
+    ForceSpell(LastSeenBy(Myself),TANARI_VAMPIRIC_TOUCH)
+    SetGlobal("Iaattack","LOCALS",0)
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  Global("Iaattack","LOCALS",2)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaattack","LOCALS",0)
+END

@@ -1,0 +1,145 @@
+// Anti-Paladins //////////////
+
+IF
+  Global("Iaexit","AR3022",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR3022",1)
+    TriggerActivation("Tran3017",FALSE)
+    TriggerActivation("Tran3018",FALSE)
+    TriggerActivation("Tran3027",FALSE)
+END
+
+IF
+   InMyArea(Player1)
+   GlobalGT("Iapcastts","GLOBAL",0)
+   !Global("Ianotreasure","AR3022",1)
+   Global("Iadooncech","AR3022",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadooncech","AR3022",1)
+      SetGlobal("Ianotreasure","AR3022",1)
+END
+
+IF
+   InMyArea(Player1)
+   Global("Iadooncech","AR3022",0)
+   Global("Iapcastts","GLOBAL",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadooncech","AR3022",1)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iacreature","AR3022",1)
+  Dead("S!mlar") //
+  Global("Iainquisitors1","AR3022",0)
+THEN
+  RESPONSE #100
+    SetInterrupt(FALSE)
+    SetGlobal("Iainquisitors1","AR3022",1)
+    CreateCreatureObjectOffScreen("S!inqui1",Player1,0,0,0) //
+    CreateCreatureObject("S!inqui2","gorgit",0,0,0) //
+    SetInterrupt(TRUE)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iacreature","AR3022",1)
+  Dead("S!hrack") //
+  Global("Iainquisitors2","AR3022",0)
+THEN
+  RESPONSE #100
+    SetInterrupt(FALSE)
+    SetGlobal("Iainquisitors2","AR3022",1)
+    CreateCreatureObjectOffScreen("S!inqui3",Player1,0,0,0) //
+    CreateCreatureObject("S!inqui4","gorgit",0,0,0) //
+    SetInterrupt(TRUE)
+END
+
+IF
+   Global("Iacreature","AR3022",1)
+   Global("Iaitemremove","AR3022",0)
+   Global("Iainquisitors1","AR3022",1)
+   Global("Iainquisitors2","AR3022",1)
+   Dead("S!mlar") //
+   Dead("S!hrack") //
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitemremove","AR3022",1)
+      SetInterrupt(FALSE)
+      ApplySpellRES("SPWII07","gorgit")
+      TakeItemReplace("amul12","MINHP1","gorgit")
+      SetInterrupt(TRUE)
+END
+
+IF
+  OpenState("DOOR01",FALSE)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR01")
+END
+
+IF
+  OpenState("DOOR02",FALSE)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR02")
+END
+
+IF
+  OpenState("DOOR03",FALSE)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR03")
+END
+
+IF
+  OpenState("DOOR04",FALSE)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR04")
+END
+
+IF
+  OpenState("DOOR05",FALSE)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR05")
+END
+
+IF
+  OpenState("DOOR06",FALSE)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR06")
+END
+
+IF
+  Dead("gorgit") //
+  Dead("S!inqui1")
+  Dead("S!inqui2")
+  Dead("S!inqui3")
+  Dead("S!inqui4")
+  Global("IaGorgitDead","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("IaGorgitDead","GLOBAL",1)
+END
+
+IF
+  Global("Iaexit","AR3022",1)
+  CombatCounter(0)
+  Dead("gorgit")
+  Dead("S!inqui1")
+  Dead("S!inqui2")
+  Dead("S!inqui3")
+  Dead("S!inqui4")
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR3022",2)
+    TriggerActivation("Tran3017",TRUE)
+    TriggerActivation("Tran3018",TRUE)
+    TriggerActivation("Tran3027",TRUE)
+END

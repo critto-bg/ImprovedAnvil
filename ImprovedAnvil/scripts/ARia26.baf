@@ -1,0 +1,57 @@
+// wooden mirror //
+
+IF
+  Global("Iaexit","ARia26",0)
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","ARia26",1)
+    SetGlobalTimer("Iaenabletime","ARia26",18)
+    TriggerActivation("Trania35",FALSE)
+    ContainerEnable("Pool 1",FALSE)
+    Explore()
+END
+
+IF
+  GlobalTimerExpired("Iaenabletime","ARia26")
+  CombatCounter(0)
+  Global("Iaexit","ARia26",1)
+  Global("Iaenablepool","ARia26",0)
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaenablepool","ARia26",1)
+    ContainerEnable("Pool 1",TRUE)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iaexit","ARia26",1)
+  PartyHasItem("S!misc56")
+  Global("Iaenablepool","ARia26",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","ARia26",2)
+    SetGlobal("Iawoodenmir","GLOBAL",1)
+    TriggerActivation("Trania35",TRUE)
+END
+
+IF
+  Global("Iaexit","ARia26",2)
+  !PartyHasItem("S!misc56")
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","ARia26",1)
+    SetGlobal("Iawoodenmir","GLOBAL",0)
+    TriggerActivation("Trania35",FALSE)
+END
+
+IF
+   Global("Iaitem","ARia26",0)
+   Global("Iaenablepool","ARia26",1)
+   InMyArea(Player1)
+THEN
+   RESPONSE #100
+     SetGlobal("Iaitem","ARia26",1)
+     ActionOverride("Pool 1",CreateItem("potn33",0,0,0)) //
+END

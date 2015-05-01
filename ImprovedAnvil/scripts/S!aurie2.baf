@@ -1,0 +1,26 @@
+IF
+  NumTimesTalkedTo(0)
+  See(NearestEnemyOf(Player1))
+THEN
+  RESPONSE #100
+    EquipMostDamagingMelee()
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  NumTimesTalkedTo(0)
+  InMyArea(Player1)
+  !Range(Player1,5)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  NumTimesTalkedTo(0)
+  See(Player1)
+  Range(Player1,5)
+THEN
+  RESPONSE #100
+    StartDialogueNoSet(Player1)
+END

@@ -1,0 +1,131 @@
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  AreaCheck("AR1516")
+  Global("Iadoonce","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iadoonce","LOCALS",1)
+    SetInterrupt(FALSE)
+    ChangeAIScript("",RACE)
+    ChangeAIScript("",GENERAL)
+    ChangeAIScript("",DEFAULT)
+    SetInterrupt(TRUE)
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  AreaCheck("AR1516")
+  AttackedBy([GOODCUTOFF],DEFAULT)
+THEN
+  RESPONSE #100
+    SetInterrupt(FALSE)
+    Enemy()
+    ChangeAIScript("GPSHOUT",RACE)
+    ChangeAIScript("THICLR10",GENERAL)
+    ChangeAIScript("WTASIGHT",DEFAULT)
+    SetInterrupt(TRUE)
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  AreaCheck("AR1516")
+  Global("prep","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("prep","LOCALS",1)
+    ReallyForceSpell(Myself,CLERIC_DEFENSIVE_HARMONY)
+    ReallyForceSpell(Myself,CLERIC_CHAOTIC_COMMANDS)
+    ReallyForceSpell(Myself,CLERIC_FREE_ACTION)
+    ReallyForceSpell(Myself,CLERIC_PROTECTION_FROM_FIRE)
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  AreaCheck("AR1516")
+  OR(6)
+   CheckStatGT(Myself,0,SCRIPTINGSTATE9)
+   StateCheck(Myself,STATE_HELPLESS)
+   StateCheck(Myself,STATE_STUNNED)
+   StateCheck(Myself,STATE_CONFUSED)
+   StateCheck(Myself,STATE_PANIC)
+   Global("Iapcastts","GLOBAL",1)
+THEN
+  RESPONSE #100
+    NoAction()
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  AreaCheck("AR1516")
+  See([PC])
+  HPPercentLT(LastSeenBy(Myself),75)
+  !CheckStat(LastSeenBy(Myself),5,SCRIPTINGSTATE7)
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
+  !HasBounceEffects(LastSeenBy(Myself))
+  Global("Iaccw","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaccw","LOCALS",1)
+    SpellNoDec(LastSeenBy(Myself),CLERIC_CURE_CRITICAL_WOUNDS)
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  AreaCheck("AR1516")
+  See(SecondNearest([PC]))
+  HPPercentLT(LastSeenBy(Myself),75)
+  !CheckStat(LastSeenBy(Myself),5,SCRIPTINGSTATE7)
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
+  !HasBounceEffects(LastSeenBy(Myself))
+  Global("Iaccw","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaccw","LOCALS",1)
+    SpellNoDec(LastSeenBy(Myself),CLERIC_CURE_CRITICAL_WOUNDS)
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  AreaCheck("AR1516")
+  See([PC])
+  HPPercentLT(LastSeenBy(Myself),80)
+  !CheckStat(LastSeenBy(Myself),5,SCRIPTINGSTATE7)
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
+  !HasBounceEffects(LastSeenBy(Myself))
+  !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+  Global("Iacsw","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iacsw","LOCALS",1)
+    SpellNoDec(LastSeenBy(Myself),CLERIC_CURE_SERIOUS_WOUNDS)
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  AreaCheck("AR1516")
+  See(SecondNearest([PC]))
+  HPPercentLT(LastSeenBy(Myself),80)
+  !CheckStat(LastSeenBy(Myself),5,SCRIPTINGSTATE7)
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
+  !HasBounceEffects(LastSeenBy(Myself))
+  !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+  Global("Iacsw","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iacsw","LOCALS",1)
+    SpellNoDec(LastSeenBy(Myself),CLERIC_CURE_SERIOUS_WOUNDS)
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  AreaCheck("AR1516")
+  !Detect([EVILCUTOFF])
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END

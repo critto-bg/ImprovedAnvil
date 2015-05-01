@@ -1,0 +1,46 @@
+//Trademeet Crypt ///
+
+IF
+  Global("Iaexit","AR2013",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR2013",1)
+    TriggerActivation("Tran2000",FALSE)
+END
+
+IF
+  !GlobalTimerNotExpired("DeadmagicTimer","AR2013")
+THEN
+  RESPONSE #100
+    ApplySpellRES("SPINI21",Player1)
+    SetGlobalTimer("DeadmagicTimer","AR2013",3)
+END
+
+IF
+  Global("Iaexit","AR2013",1)
+  Dead("CESKEL01")
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR2013",2)
+    TriggerActivation("Tran2000",TRUE)
+END
+
+IF
+  InMyArea(Player1)
+  OR(3)
+   SpellCast([PC],WIZARD_DEATH_FOG)
+   SpellCast([PC],WIZARD_CLOUDKILL)
+   SpellCast([PC],WIZARD_INCENDIARY_CLOUD)
+THEN
+  RESPONSE #100
+    SetGlobal("Iapccloud","AR2013",1)
+    SetGlobalTimer("Iacloudtime","AR2013",60)
+END
+
+IF
+  Global("Iapccloud","AR2013",1)
+  GlobalTimerExpired("Iacloudtime","AR2013")
+THEN
+  RESPONSE #100
+    SetGlobal("Iapccloud","AR2013",0)
+END

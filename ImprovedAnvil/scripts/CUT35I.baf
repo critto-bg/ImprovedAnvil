@@ -1,0 +1,26 @@
+IF
+  True()
+THEN
+  RESPONSE #100
+    CutSceneId(Player1)  // 
+    SetGlobal("DruidFight","AR1901",1)
+    StorePartyLocations()
+    TriggerActivation("THESOURCE",FALSE)
+    FadeToColor([20.0],0)
+    Wait(2)
+    MoveViewPoint([1250.958],INSTANT)
+    ActionOverride("cefaldor",DestroySelf())
+    ActionOverride("Cernd",JumpToPoint([1332.966]))
+    ActionOverride("Cernd",Face(4))
+    ActionOverride("Cernd",ReallyForceSpellRES("SPINI14",Myself))
+    Wait(1)
+    CreateCreature("observe",[1250.958],0)  // <Invalid Strref -1>
+    CreateCreature("CEFALD01",[1173.964],12)  // ~Faldorn~
+    ActionOverride("Cernd",DestroyItem("npstaf")) //
+    ActionOverride("Cernd",DestroyItem("npclck")) //
+    ActionOverride("Cernd",GiveItemCreate("npstaf",Myself,1,1,1))
+    ActionOverride("Cernd",GiveItemCreate("npclck",Myself,1,1,1))
+    ActionOverride("CEFALD01",ReallyForceSpellRES("SPINI20",Myself))
+    FadeFromColor([20.0],0)
+    EndCutSceneMode()
+END

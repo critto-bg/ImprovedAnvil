@@ -1,0 +1,60 @@
+// underwater ////
+
+IF
+  InMyArea(Player1)
+  !GlobalTimerNotExpired("IaSlowTimer","ARia24")
+THEN
+  RESPONSE #100
+    SetGlobalTimer("IaSlowTimer","ARia24",6)
+    ApplySpellRES("SPPRI23",Player1)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iaenteraria24","ARia24",1)
+  Global("Ia2ndspy","ARia24",0)
+  Dead("S!gelem1")
+THEN
+   RESPONSE #100
+     SetGlobal("Ia2ndspy","ARia24",1)
+     CreateCreature("S!spy7",[280.653],11)
+END
+
+IF
+   InMyArea(Player1)
+   Global("Iaenteraria24","ARia24",1)
+   Global("Iablazingmir","GLOBAL",0)
+   Dead("S!gelem1")
+   CombatCounter(0)
+   PartyHasItem("S!misc54")
+THEN
+   RESPONSE #100
+      SetGlobal("Iablazingmir","GLOBAL",1)
+      ClearAllActions()
+      StartCutSceneMode()
+      StartCutScene("Trania31")
+END
+
+IF
+  InMyArea(Player1)
+  !GlobalTimerNotExpired("Iavisuals","ARia24")
+THEN
+   RESPONSE #100
+     SetGlobalTimer("Iavisuals","ARia24",18)
+     CreateVisualEffect("BUBBLES2",[448.712])
+     CreateVisualEffect("BUBBLES2",[266.651])
+     CreateVisualEffect("BUBBLES2",[533.572])
+     PlaySound("AM0602D2")
+END
+
+IF
+  InMyArea(Player1)
+  !GlobalTimerNotExpired("Iavisuals2","ARia24")
+THEN
+   RESPONSE #100
+     SetGlobalTimer("Iavisuals2","ARia24",12)
+     CreateVisualEffect("BUBLES",[343.586])
+     CreateVisualEffect("BUBLES",[629.622])
+     CreateVisualEffect("BUBLES",[271.507])
+     PlaySound("AM0602D2")
+END

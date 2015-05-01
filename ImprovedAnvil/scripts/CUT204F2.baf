@@ -1,0 +1,37 @@
+IF
+  True()
+THEN
+  RESPONSE #100
+    CutSceneId(Player1)  // 
+    FadeToColor([30.0],0)
+    Wait(2)
+    JumpToPoint([615.489])
+    Face(15)
+    CreateCreature("ILLASERA",[2470.1516],5)  // ~Illasera~
+    ActionOverride("Illasera",ApplySpellRES("SPCL915",Myself))
+    ActionOverride("Illasera",Enemy())
+    ActionOverride("Illasera",DisplayString(Myself,46153))
+    ActionOverride("Illasera",ApplySpell(Myself,WIZARD_IMPROVED_HASTE))
+    ActionOverride("Illasera",DisplayString(Myself,46153))
+    ActionOverride("Illasera",ApplySpell(Myself,WIZARD_STONE_SKIN))
+    Wait(2)
+    ActionOverride("Illasera",DisplayString(Myself,46153))
+    ActionOverride("Illasera",ApplySpell(Myself,WIZARD_SPELL_IMMUNITY_ABJURATION))
+    Wait(1)
+    ActionOverride("Illasera",JumpToPoint([807.993]))
+    ActionOverride("Illasera",ChangeEnemyAlly(Myself,NEUTRAL))
+    CreateCreature("ZILFGT01",[608.659],8)  // ~Black Reaver~
+    CreateCreature("ZILMAG01",[454.520],10)  // ~Black Reaver~
+    CreateCreature("ZILFGT02",[482.295],0)  // ~Black Reaver~
+    CreateCreature("ZILARC01",[986.592],6)  // ~Black Reaver~
+    ActionOverride("ZILFGT01",ApplySpell(Myself,WARRIOR_HARDINESS))
+    MoveViewObject(Player1,INSTANT)
+    Explore()
+    Wait(2)
+    FadeFromColor([30.0],0)
+    ActionOverride("Illasera",MoveToPointNoInterrupt([805.683]))
+    ActionOverride("Illasera",Face(7))
+    Wait(4)
+    ActionOverride("Illasera",StartDialogNoSet(Player1))
+    EndCutSceneMode()
+END

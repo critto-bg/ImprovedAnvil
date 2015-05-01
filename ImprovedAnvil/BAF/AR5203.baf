@@ -1,0 +1,106 @@
+// Yaga-Shura's Camp /////
+
+IF
+  Global("Iayagatimer","AR5203",0)
+  GlobalGT("YagaShuraSpawn","AR5203",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iayagatimer","AR5203",1)
+    SetGlobalTimer("Iayagasummon","AR5203",12)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iayagatimer","AR5203",1)
+  GlobalLT("Iacreature","AR5203",2)
+  !GlobalTimerNotExpired("Iayagasummon","AR5203")
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iacreature","AR5203",1)
+    SetGlobalTimer("Iayagasummon","AR5203",18)
+    CreateCreatureObjectOffScreen("YAGA02",Player1,0,0,0)  //
+    CreateCreatureObjectOffScreen("YAGA03",Player1,0,0,0)  // ~Lieutenant Fighter~
+    CreateCreatureObjectOffScreen("YAGA04",Player1,0,0,0)  // ~Lieutenant Cleric~
+    CreateCreatureObjectOffScreen("YAGA05",Player1,0,0,0)  //
+    CreateCreatureObjectOffScreen("HGWAR02",Player1,0,0,0)  //
+END
+
+IF
+  InMyArea(Player1)
+  !GlobalTimerNotExpired("Iaysoldtimer","AR5203")
+  Global("SpawnStart","AR5203",1)
+  Global("Iafirstspawn","AR5203",0)
+  !Dead("Yaga01") // Yaga-Shura
+  ActionListEmpty()
+  InActiveArea(Myself)
+THEN
+  RESPONSE #100
+    SetGlobal("Iafirstspawn","AR5203",1)
+    SetGlobalTimer("Iaysoldtimer","AR5203",6)
+    CreateCreatureObjectOffScreen("YSSOLD01",Player1,0,0,0) // Yaga-Shura Soldier
+    CreateCreatureObjectOffScreen("YSSOLD03",Player1,0,0,0) // Yaga-Shura Officer
+    CreateCreatureObjectOffScreen("YSSOLD04",Player1,0,0,0) // Yaga-Shura Elite
+END
+
+IF
+  InMyArea(Player1)
+  !GlobalTimerNotExpired("Iaysoldtimer","AR5203")
+  Global("SpawnStart","AR5203",1)
+  GlobalLT("MaxSpawn","AR5203",35)
+  !Dead("Yaga01") // Yaga-Shura
+  ActionListEmpty()
+  InActiveArea(Myself)
+  RandomNumGT(6,3)
+THEN
+  RESPONSE #100
+    IncrementGlobal("MaxSpawn","AR5203",1)
+    SetGlobalTimer("Iaysoldtimer","AR5203",6)
+    CreateCreatureObjectOffScreen("YSSOLD01",Player1,0,0,0) // Yaga-Shura Soldier
+END
+
+IF
+  InMyArea(Player1)
+  !GlobalTimerNotExpired("Iaysoldtimer","AR5203")
+  Global("SpawnStart","AR5203",1)
+  GlobalLT("MaxSpawn","AR5203",35)
+  !Dead("Yaga01") // Yaga-Shura
+  ActionListEmpty()
+  InActiveArea(Myself)
+  RandomNumLT(4,3)
+THEN
+  RESPONSE #100
+    IncrementGlobal("MaxSpawn","AR5203",1)
+    SetGlobalTimer("Iaysoldtimer","AR5203",6)
+    CreateCreatureObjectOffScreen("YSSOLD03",Player1,0,0,0) // Yaga-Shura Officer
+END
+
+IF
+  InMyArea(Player1)
+  !GlobalTimerNotExpired("Iaysoldtimer","AR5203")
+  Global("SpawnStart","AR5203",1)
+  GlobalLT("MaxSpawn","AR5203",35)
+  !Dead("Yaga01") // Yaga-Shura
+  ActionListEmpty()
+  InActiveArea(Myself)
+THEN
+  RESPONSE #100
+    IncrementGlobal("MaxSpawn","AR5203",1)
+    SetGlobalTimer("Iaysoldtimer","AR5203",6)
+    CreateCreatureObjectOffScreen("YSSOLD04",Player1,0,0,0) // Yaga-Shura Elite
+END
+
+IF
+  InMyArea(Player1)
+  !GlobalTimerNotExpired("Iagiantstimer","AR5203")
+  Global("SpawnStart","AR5203",1)
+  GlobalLT("IaMaxGiants","AR5203",2)
+  GlobalGT("YagaShuraHeart","GLOBAL",2)
+  !Dead("Yaga01") // Yaga-Shura
+  ActionListEmpty()
+  InActiveArea(Myself)
+THEN
+  RESPONSE #100
+    IncrementGlobal("IaMaxGiants","AR5203",1)
+    SetGlobalTimer("Iagiantstimer","AR5203",18)
+    CreateCreatureObjectOffScreen("HGWAR02",Player1,0,0,0)
+END

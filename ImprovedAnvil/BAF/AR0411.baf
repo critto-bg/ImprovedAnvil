@@ -1,0 +1,927 @@
+//Sphere: Entrance floor  //////////////
+
+IF
+  Class(Player1,MAGE_ALL)
+  !Class(Player1,FIGHTER_ALL)
+  !Class(Player1,THIEF_ALL)
+  !Class(Player1,CLERIC_ALL)
+  GlobalGT("LavokOutside","GLOBAL",0)
+  Global("Iatimer","AR0411",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatimer","AR0411",1)
+    SetGlobalTimer("Iagypsy","GLOBAL",SEVEN_DAYS)
+END
+
+IF
+  Class(Player1,MAGE_ALL)
+  !Class(Player1,FIGHTER_ALL)
+  !Class(Player1,THIEF_ALL)
+  !Class(Player1,CLERIC_ALL)
+  GlobalGT("LavokOutside","GLOBAL",0)
+  GlobalTimerExpired("Iagypsy","GLOBAL")
+  Global("Iacreature","AR0411",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iacreature","AR0411",1)
+    CreateCreature("S!gypsy",[1449.2634],11) //
+END
+
+IF
+  Global("GypsyJob","GLOBAL",9)
+  Global("Iacreature","AR0411",1)
+  Class(Player1,MAGE_ALL)
+  !Class(Player1,FIGHTER_ALL)
+  !Class(Player1,THIEF_ALL)
+  !Class(Player1,CLERIC_ALL)
+THEN
+  RESPONSE #100
+    SetGlobal("Iacreature","AR0411",2)
+    Wait(3)
+    CreateCreatureObjectDoor("S!pasha",Player1,0,0,0)
+END
+
+IF
+  Global("GypsyJob","GLOBAL",11)
+  Global("Iacreature","AR0411",2)
+  Class(Player1,MAGE_ALL)
+  !Class(Player1,FIGHTER_ALL)
+  !Class(Player1,THIEF_ALL)
+  !Class(Player1,CLERIC_ALL)
+THEN
+  RESPONSE #100
+    SetGlobal("Iacreature","AR0411",3)
+    Wait(1)
+    CreateCreatureObjectDoor("S!gypgod",Player1,0,0,0)
+END
+
+IF
+  Global("GypsyJob","GLOBAL",12)
+  Global("Iacreature","AR0411",3)
+  Global("Iaexit","AR0411",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR0411",1)
+    TriggerActivation("Tran0400",FALSE)
+    TriggerActivation("Tran0410",FALSE)
+    TriggerActivation("Tran0412",FALSE)
+END
+
+IF
+  Global("GypsyJob","GLOBAL",12)
+  Global("Iacreature","AR0411",3)
+  Global("Iadebuff","AR0411",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iadebuff","AR0411",1)
+    SetGlobal("Iap1nr","GLOBAL",0)
+    SetGlobal("Iap2nr","GLOBAL",0)
+    SetGlobal("Iap3nr","GLOBAL",0)
+    SetGlobal("Iap4nr","GLOBAL",0)
+    SetGlobal("Iap5nr","GLOBAL",0)
+    SetGlobal("Iap6nr","GLOBAL",0)
+    SetGlobal("Iap1nb","GLOBAL",0)
+    SetGlobal("Iap2nb","GLOBAL",0)
+    SetGlobal("Iap3nb","GLOBAL",0)
+    SetGlobal("Iap4nb","GLOBAL",0)
+    SetGlobal("Iap5nb","GLOBAL",0)
+    SetGlobal("Iap6nb","GLOBAL",0)
+    ActionOverride(Player1,ReallyForceSpellRES("SPINI14",Myself))
+    ActionOverride(Player2,ReallyForceSpellRES("SPINI14",Myself))
+    ActionOverride(Player3,ReallyForceSpellRES("SPINI14",Myself))
+    ActionOverride(Player4,ReallyForceSpellRES("SPINI14",Myself))
+    ActionOverride(Player5,ReallyForceSpellRES("SPINI14",Myself))
+    ActionOverride(Player6,ReallyForceSpellRES("SPINI14",Myself))
+END
+
+IF
+  Global("GypsyJob","GLOBAL",12)
+  Global("Iacreature","AR0411",3)
+THEN
+  RESPONSE #100
+    SetGlobal("Iacreature","AR0411",4)
+    CreateCreatureObject("S!elego2",Player1,0,0,0)
+    CreateCreatureObject("S!rakgyp",Player1,0,0,0)
+    CreateCreatureObject("S!ladygy",Player1,0,0,0)
+END
+
+IF
+  Global("GypsyJob","GLOBAL",12)
+  Global("Iacreature","AR0411",4)
+  Dead("S!elego2")
+  Dead("S!rakgyp")
+  Dead("S!ladygy")
+THEN
+  RESPONSE #100
+    SetGlobal("GypsyJob","GLOBAL",13)
+END
+
+IF
+  GlobalGT("GypsyJob","GLOBAL",12)
+  Global("Iaexit","AR0411",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR0411",2)
+    TriggerActivation("Tran0400",TRUE)
+    TriggerActivation("Tran0410",TRUE)
+    TriggerActivation("Tran0412",TRUE)
+END
+
+IF
+  Global("GypsyJob","GLOBAL",14)
+  Global("Iaoldonespawn","AR0411",0)
+  GlobalGT("Chapter","GLOBAL",5)
+  Class(Player1,MAGE_ALL)
+  !Class(Player1,FIGHTER_ALL)
+  !Class(Player1,CLERIC_ALL)
+  !Class(Player1,THIEF_ALL)
+  Alignment(Player1,MASK_GOOD)
+  CheckStat(Player1,6,SCRIPTINGSTATE1)
+  Reputation(Player1,20)
+  Global("Iap1notgood","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaoldonespawn","AR0411",1)
+    SetGlobalTimer("Iaoldonetimer","GLOBAL",THREE_DAYS)
+END
+
+IF
+  Global("Iaoldonespawn","AR0411",1)
+  GlobalGT("Chapter","GLOBAL",5)
+  InMyArea(Player1)
+  Class(Player1,MAGE_ALL)
+  !Class(Player1,FIGHTER_ALL)
+  !Class(Player1,CLERIC_ALL)
+  !Class(Player1,THIEF_ALL)
+  Alignment(Player1,MASK_GOOD)
+  CheckStat(Player1,6,SCRIPTINGSTATE1)
+  Reputation(Player1,20)
+  PartyRested()
+  HasItemEquiped("S!robe01",Player1)
+  Global("Iarobeforged","GLOBAL",1)
+  GlobalTimerExpired("Iaoldonetimer","GLOBAL")
+  Global("Iap1notgood","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaoldonespawn","AR0411",2)
+    CreateCreatureObject("S!oldone",Player1,0,0,0)
+END
+
+IF
+   Global("Iaoldonespawn","AR0411",2)
+   Global("Iaoldonejob","GLOBAL",1)
+   InMyArea(Player1)
+   Class(Player1,MAGE_ALL)
+   !Class(Player1,FIGHTER_ALL)
+   !Class(Player1,CLERIC_ALL)
+   !Class(Player1,THIEF_ALL)
+   Global("Iacutscene","AR0411",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iacutscene","AR0411",1)
+      ClearAllActions()
+      StartCutSceneMode()
+      StartCutScene("Trania24")
+END
+
+IF
+  Global("Iaoldonefailed","GLOBAL",1)
+  Global("Iagrlch","AR0411",0)
+  GlobalTimerExpired("Iagrlichtimer","GLOBAL")
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iagrlch","AR0411",1)
+    TriggerActivation("Tran0400",FALSE)
+    CreateCreatureObject("S!grlch8",Player1,0,0,0)
+END
+
+IF
+  Global("Iaoldonefailed","GLOBAL",1)
+  Global("Iagrlch","AR0411",1)
+  Exists("S!grlch8")
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iagrlch","AR0411",2)
+    ActionOverride("S!grlch8",StartDialogueNoSet(Player1))
+END
+
+IF
+  Global("Iagrlch","AR0411",2)
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iagrlch","AR0411",3)
+    TriggerActivation("Tran0400",TRUE)
+END
+
+IF
+  Class(Player1,MAGE_ALL)
+  !Class(Player1,FIGHTER_ALL)
+  !Class(Player1,CLERIC_ALL)
+  !Class(Player1,THIEF_ALL)
+  CheckStat(Player1,6,SCRIPTINGSTATE1)
+  Global("Iaoldonejob","GLOBAL",5)
+  Global("Iamoridjob","GLOBAL",1)
+  Global("Iamoridcame","AR0411",0)
+  GlobalGT("Chapter","GLOBAL",5)
+THEN
+  RESPONSE #100
+    SetGlobal("Iamoridcame","AR0411",1)
+    CreateCreature("S!morid2",[405.583],0) //
+END
+
+IF
+   Global("Iakeywused","AR0411",1)
+   Global("Iacutscenew","AR0411",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iacutscenew","AR0411",1)
+      ClearAllActions()
+      StartCutSceneMode()
+      StartCutScene("Trania26")
+END
+
+IF
+  Global("Iakeygused","AR0411",1)
+  Global("Iacutsceneg","AR0411",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iacutsceneg","AR0411",1)
+    SetGlobalTimer("Iareopen","AR0411",18)
+    TriggerActivation("Info Trigger 4",FALSE)
+    TriggerActivation("Tran0400",FALSE)
+    TriggerActivation("Tran0410",FALSE)
+    TriggerActivation("Tran0412",FALSE)
+    ActionOverride(Player1,ReallyForceSpellRES("SPINI22",Myself))
+    MoveViewPoint([1466.445],INSTANT)
+    CreateCreature("S!skelgr",[1343.438],11)  //
+    CreateCreature("S!skelgr",[1366.378],11)  //
+    CreateCreature("S!skelgr",[1408.355],13)  //
+    CreateCreature("S!skelgr",[1334.497],9)  //
+    CreateCreature("S!skelgr",[1347.547],9)  //
+    CreateCreature("S!skelg6",[1549.457],5)  //
+END
+
+IF
+  GlobalTimerExpired("Iareopen","AR0411")
+  Global("Iacutsceneg","AR0411",1)
+  Dead("S!skelg6")
+  CombatCounter(0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iacutsceneg","AR0411",2)
+    TriggerActivation("Info Trigger 4",TRUE)
+    TriggerActivation("Tran0400",TRUE)
+    TriggerActivation("Tran0410",TRUE)
+    TriggerActivation("Tran0412",TRUE)
+END
+
+IF
+   Global("Iakeyrused","AR0411",1)
+   Global("Iacutscener","AR0411",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iacutscener","AR0411",1)
+      ClearAllActions()
+      StartCutSceneMode()
+      Wait(1)
+      FadeToColor([30.0],0)
+      Wait(1)
+      MoveViewPoint([1466.445],INSTANT)
+      ActionOverride(Player1,JumpToPoint([1466.445]))
+      ActionOverride(Player2,JumpToPoint([1343.438]))
+      ActionOverride(Player3,JumpToPoint([1366.378]))
+      ActionOverride(Player4,JumpToPoint([1408.355]))
+      ActionOverride(Player5,JumpToPoint([1334.497]))
+      ActionOverride(Player6,JumpToPoint([1347.547])
+      Wait(1)
+      CreateCreature("S!youngl",[1549.457],5)  //
+      EndCutSceneMode()
+      FadeFromColor([30.0],0)
+END
+
+IF
+   Global("Iakeyrused","AR0411",1)
+   Global("Iacutscener","AR0411",2)
+THEN
+   RESPONSE #100
+      SetGlobal("Iacutscener","AR0411",3)
+      ClearAllActions()
+      StartCutSceneMode()
+      Wait(1)
+      FadeToColor([30.0],0)
+      Wait(1)
+      MoveViewPoint([2995.2649],INSTANT)
+      ActionOverride(Player1,JumpToPoint([2995.2649]))
+      ActionOverride(Player2,JumpToPoint([2939.2667]))
+      ActionOverride(Player3,JumpToPoint([2869.2692]))
+      ActionOverride(Player4,JumpToPoint([3019.2720]))
+      ActionOverride(Player5,JumpToPoint([2961.2736]))
+      ActionOverride(Player6,JumpToPoint([2904.2751]))
+      Wait(1)
+      EndCutSceneMode()
+      FadeFromColor([30.0],0)
+END
+
+IF
+   Global("Iakeyaused","AR0411",1)
+   Global("Iacutscenea","AR0411",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iacutscenea","AR0411",1)
+      SetGlobal("Iasecondtravel","AR0411",1)
+      ClearAllActions()
+      StartCutSceneMode()
+      FadeToColor([30.0],0)
+      MoveViewPoint([1466.445],INSTANT)
+      ActionOverride(Player1,JumpToPoint([1466.445]))
+      ActionOverride(Player2,JumpToPoint([1343.438]))
+      ActionOverride(Player3,JumpToPoint([1366.378]))
+      ActionOverride(Player4,JumpToPoint([1408.355]))
+      ActionOverride(Player5,JumpToPoint([1334.497]))
+      ActionOverride(Player6,JumpToPoint([1347.547])
+      Wait(2)
+      FadeFromColor([30.0],0)
+      Wait(1)
+      ScreenShake([1466.445],5)
+      DisplayStringNoName(Player1,39442) // The lights went out for a few moments, then the ship rumbled.
+      CloseDoor("DoorPool1")
+      EndCutSceneMode()
+END
+
+IF
+   Global("Iasecondtravel","AR0411",1)
+   Global("Ialavokjob","GLOBAL",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Ialavokjob","GLOBAL",1)
+      TriggerActivation("Tran0400",FALSE)
+      TriggerActivation("Tran0414",TRUE)
+END
+
+IF
+   Global("Iakeybused","AR0411",1)
+   Global("Iacutsceneb","AR0411",0)
+   Global("Iasecondtravel","AR0411",1)
+   GlobalGT("Ialavokjob","GLOBAL",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iacutsceneb","AR0411",1)
+      SetGlobal("Iasecondtravel","AR0411",2)
+      ClearAllActions()
+      StartCutSceneMode()
+      TriggerActivation("Tran0400",TRUE)
+      TriggerActivation("Tran0414",FALSE)
+      FadeToColor([30.0],0)
+      MoveViewPoint([1466.445],INSTANT)
+      ActionOverride(Player1,JumpToPoint([1466.445]))
+      ActionOverride(Player2,JumpToPoint([1343.438]))
+      ActionOverride(Player3,JumpToPoint([1366.378]))
+      ActionOverride(Player4,JumpToPoint([1408.355]))
+      ActionOverride(Player5,JumpToPoint([1334.497]))
+      ActionOverride(Player6,JumpToPoint([1347.547])
+      Wait(2)
+      FadeFromColor([30.0],0)
+      Wait(1)
+      ScreenShake([1466.445],5)
+      DisplayStringNoName(Player1,39442) // The lights went out for a few moments, then the ship rumbled.
+      OpenDoor("DoorPool1")
+      EndCutSceneMode()
+END
+
+IF
+  Global("Ianomachine","AR0411",1)
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    SetGlobal("Ianomachine","AR0411",2)
+    TriggerActivation("Info Trigger 4",FALSE)
+END
+
+IF
+  InMyArea(Player1)
+  OR(4)
+   SpellCast([PC],WIZARD_DEATH_FOG)
+   SpellCast([PC],WIZARD_CLOUDKILL)
+   SpellCast([PC],WIZARD_INCENDIARY_CLOUD)
+   SpellCast([PC],WIZARD_STINKING_CLOUD)
+THEN
+  RESPONSE #100
+    SetGlobal("Iapccloud","AR0411",1)
+    SetGlobalTimer("Iacloudtime","AR0411",60)
+END
+
+IF
+  Global("Iapccloud","AR0411",1)
+  GlobalTimerExpired("Iacloudtime","AR0411")
+THEN
+  RESPONSE #100
+    SetGlobal("Iapccloud","AR0411",0)
+END
+
+IF
+  OpenState("Door Furnace 1",TRUE)
+  Global("Door1Opened","AR0411",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door1Opened","AR0411",1)
+END
+
+IF
+  OpenState("Door 0412",TRUE)
+  Global("Door2Opened","AR0411",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door2Opened","AR0411",1)
+END
+
+IF
+  OpenState("Door 0400",TRUE)
+  Global("Door3Opened","AR0411",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door3Opened","AR0411",1)
+END
+
+IF
+  OpenState("Door Rune 1",TRUE)
+  Global("Door4Opened","AR0411",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door4Opened","AR0411",1)
+END
+
+IF
+  OpenState("Door Rune 3",TRUE)
+  Global("Door5Opened","AR0411",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door5Opened","AR0411",1)
+END
+
+IF
+  OpenState("Door Furnace 2",TRUE)
+  Global("Door6Opened","AR0411",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door6Opened","AR0411",1)
+END
+
+IF
+  OpenState("Door Golem 1",TRUE)
+  Global("Door7Opened","AR0411",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door7Opened","AR0411",1)
+END
+
+IF
+  OpenState("Door Golem 2",TRUE)
+  Global("Door8Opened","AR0411",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door8Opened","AR0411",1)
+END
+
+IF
+  OpenState("Door Golem 3",TRUE)
+  Global("Door9Opened","AR0411",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door9Opened","AR0411",1)
+END
+
+IF
+  OpenState("Door Soldier 1",TRUE)
+  Global("Door10Opened","AR0411",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door10Opened","AR0411",1)
+END
+
+IF
+  OpenState("Door Soldier 2",TRUE)
+  Global("Door11Opened","AR0411",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door11Opened","AR0411",1)
+END
+
+IF
+  OpenState("Door Pool 2",TRUE)
+  Global("Door12Opened","AR0411",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door12Opened","AR0411",1)
+END
+
+IF
+  OpenState("Door Treasure 1",TRUE)
+  Global("Door13Opened","AR0411",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door13Opened","AR0411",1)
+END
+
+IF
+  OpenState("Door Treasure 2",TRUE)
+  Global("Door14Opened","AR0411",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door14Opened","AR0411",1)
+END
+
+IF
+  OpenState("Door Soldier 4",TRUE)
+  Global("Door15Opened","AR0411",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door15Opened","AR0411",1)
+END
+
+IF
+  OpenState("Door Soldier 4",TRUE)
+  Global("Door15Opened","AR0411",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door15Opened","AR0411",1)
+END
+
+IF
+  OpenState("Door Furnace 1",FALSE)
+  Global("Door1Opened","AR0411",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door Furnace 1")
+END
+
+IF
+  OpenState("Door 0412",FALSE)
+  Global("Door2Opened","AR0411",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door 0412")
+END
+
+IF
+  OpenState("Door 0400",FALSE)
+  Global("Door3Opened","AR0411",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door 0400")
+END
+
+IF
+  OpenState("Door Rune 1",FALSE)
+  Global("Door4Opened","AR0411",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door Rune 1")
+END
+
+IF
+  OpenState("Door Rune 3",FALSE)
+  Global("Door5Opened","AR0411",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door Rune 3")
+END
+
+IF
+  OpenState("Door Furnace 2",FALSE)
+  Global("Door6Opened","AR0411",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door Furnace 2")
+END
+
+IF
+  OpenState("Door Golem 1",FALSE)
+  Global("Door7Opened","AR0411",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door Golem 1")
+END
+
+IF
+  OpenState("Door Golem 2",FALSE)
+  Global("Door8Opened","AR0411",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door Golem 2")
+END
+
+IF
+  OpenState("Door Golem 3",FALSE)
+  Global("Door9Opened","AR0411",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door Golem 3")
+END
+
+IF
+  OpenState("Door Soldier 1",FALSE)
+  Global("Door10Opened","AR0411",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door Soldier 1")
+END
+
+IF
+  OpenState("Door Soldier 2",FALSE)
+  Global("Door11Opened","AR0411",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door Soldier 2")
+END
+
+IF
+  OpenState("Door Pool 2",FALSE)
+  Global("Door12Opened","AR0411",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door Pool 2")
+END
+
+IF
+  OpenState("Door Treasure 1",FALSE)
+  Global("Door13Opened","AR0411",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door Treasure 1")
+END
+
+IF
+  OpenState("Door Treasure 2",FALSE)
+  Global("Door14Opened","AR0411",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door Treasure 2")
+END
+
+IF
+  OpenState("Door Soldier 4",FALSE)
+  Global("Door15Opened","AR0411",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door Soldier 4")
+END
+
+IF
+  Global("AstralPlane","AR0411",0)
+THEN
+  RESPONSE #100
+    SetGlobal("AstralPlane","AR0411",1)
+    TriggerActivation("Tran0400",TRUE)
+    TriggerActivation("Tran0414",FALSE)
+    TriggerActivation("Tran0412",FALSE)
+END
+
+IF
+  GlobalGT("TriggerAstralPlane","GLOBAL",0)
+  Global("Iareopentolger","AR0411",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iareopentolger","AR0411",1)
+    TriggerActivation("Tran0412",TRUE)
+END
+
+IF
+  Global("Iaitem","AR0411",0)
+THEN
+   RESPONSE #100
+     SetGlobal("Iaitem","AR0411",1)
+     ActionOverride("Tool CT 4",DestroyItem("scrl7d"))
+END
+
+IF
+  Class(Player1,MAGE_ALL)
+  !Class(Player1,SORCERER)
+  !Class(Player1,THIEF_ALL)
+  !Class(Player1,FIGHTER_ALL)
+  !Class(Player1,BARD_ALL)
+  !Class(Player1,CLERIC_ALL)
+  Global("Iarotaforge","AR0411",0)
+  CheckStatGT(Player1,17,WIS)
+  CheckStat(LastSeenBy(Myself),6,SCRIPTINGSTATE1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iarotaforge","AR0411",1)
+END
+
+IF
+  Class(Player1,MAGE_ALL)
+  !Class(Player1,SORCERER)
+  !Class(Player1,THIEF_ALL)
+  !Class(Player1,FIGHTER_ALL)
+  !Class(Player1,BARD_ALL)
+  !Class(Player1,CLERIC_ALL)
+  Global("Iarotaforge","AR0411",0)
+  CheckStatGT(Player1,17,WIS)
+  !CheckStat(LastSeenBy(Myself),6,SCRIPTINGSTATE1)
+  RandomNumGT(8,2)
+THEN
+  RESPONSE #100
+    SetGlobal("Iarotaforge","AR0411",1)
+END
+
+IF
+  Class(Player1,MAGE_ALL)
+  !Class(Player1,SORCERER)
+  !Class(Player1,THIEF_ALL)
+  !Class(Player1,FIGHTER_ALL)
+  !Class(Player1,BARD_ALL)
+  !Class(Player1,CLERIC_ALL)
+  Global("Iarotaforge","AR0411",0)
+  CheckStatLT(Player1,18,WIS)
+  RandomNumLT(4,3)
+THEN
+  RESPONSE #100
+    SetGlobal("Iarotaforge","AR0411",1)
+END
+
+IF
+  Class(Player1,MAGE_ALL)
+  !Class(Player1,SORCERER)
+  !Class(Player1,THIEF_ALL)
+  !Class(Player1,FIGHTER_ALL)
+  !Class(Player1,BARD_ALL)
+  Class(Player1,CLERIC_ALL)
+  !Race(Player1,HUMAN)
+  Global("Iarotaforge","AR0411",0)
+  RandomNumGT(8,7)
+THEN
+  RESPONSE #100
+    SetGlobal("Iarotaforge","AR0411",1)
+END
+
+IF
+  Class(Player1,MAGE_ALL)
+  Class(Player1,SORCERER)
+  !Class(Player1,THIEF_ALL)
+  !Class(Player1,FIGHTER_ALL)
+  !Class(Player1,BARD_ALL)
+  !Class(Player1,CLERIC_ALL)
+  Global("Iarotaforge","AR0411",0)
+  CheckStatGT(Player1,17,WIS)
+  RandomNumGT(6,3)
+THEN
+  RESPONSE #100
+    SetGlobal("Iarotaforge","AR0411",1)
+END
+
+IF
+  Class(Player1,MAGE_ALL)
+  Class(Player1,SORCERER)
+  !Class(Player1,THIEF_ALL)
+  !Class(Player1,FIGHTER_ALL)
+  !Class(Player1,BARD_ALL)
+  !Class(Player1,CLERIC_ALL)
+  Global("Iarotaforge","AR0411",0)
+  CheckStatLT(Player1,18,WIS)
+  RandomNumLT(8,4)
+THEN
+  RESPONSE #100
+    SetGlobal("Iarotaforge","AR0411",1)
+END
+
+IF
+  Class(Player1,MAGE_ALL)
+  !Class(Player1,SORCERER)
+  Race(Player1,HUMAN)
+  OR(4)
+   Class(Player1,THIEF_ALL)
+   Class(Player1,FIGHTER_ALL)
+   Class(Player1,BARD_ALL)
+   Class(Player1,CLERIC_ALL)
+  Global("Iarotaforge","AR0411",0)
+  CheckStatGT(Player1,17,WIS)
+  RandomNumGT(6,3)
+THEN
+  RESPONSE #100
+    SetGlobal("Iarotaforge","AR0411",1)
+END
+
+IF
+  Class(Player1,MAGE_ALL)
+  !Class(Player1,SORCERER)
+  Race(Player1,HUMAN)
+  OR(4)
+   Class(Player1,THIEF_ALL)
+   Class(Player1,FIGHTER_ALL)
+   Class(Player1,BARD_ALL)
+   Class(Player1,CLERIC_ALL)
+  Global("Iarotaforge","AR0411",0)
+  CheckStatLT(Player1,18,WIS)
+  RandomNumLT(8,4)
+THEN
+  RESPONSE #100
+    SetGlobal("Iarotaforge","AR0411",1)
+END
+
+IF
+  Class(Player1,MAGE_ALL)
+  Global("Iarotaforge","AR0411",0)
+  RandomNumGT(5,4)
+THEN
+  RESPONSE #100
+    SetGlobal("Iarotaforge","AR0411",1)
+END
+
+IF
+  Global("Iarotaforge","AR0411",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iarotaforge","AR0411",2)
+END
+
+IF
+  Class(Player1,MAGE_ALL)
+  Global("Iarotaforge","AR0411",1)
+  Global("Iarobething","AR0411",0)
+  OR(2)
+   Global("Apprenti","GLOBAL",17)
+   Global("Apprenti","GLOBAL",18)
+THEN
+  RESPONSE #100
+    SetGlobal("Apprenti","GLOBAL",13)
+    SetGlobal("Iarobething","AR0411",1)
+END
+
+IF
+  Class(Player1,MAGE_ALL)
+  Global("Apprenti","GLOBAL",19)
+  Global("Iarotaforge","AR0411",1)
+  Global("Iarobething","AR0411",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Apprenti","GLOBAL",15)
+    SetGlobal("Iarobething","AR0411",1)
+END
+
+IF
+  Class(Player1,MAGE_ALL)
+  Global("Apprenti","GLOBAL",20)
+  Global("Iarotaforge","AR0411",1)
+  Global("Iarobething","AR0411",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Apprenti","GLOBAL",16)
+    SetGlobal("DropRobeApprenti","AR0411",1)
+    SetGlobal("Iarobething","AR0411",1)
+END
+
+IF
+  Global("Iarotaforge","AR0411",2)
+  Global("Iarobething","AR0411",0)
+  Global("Apprenti","GLOBAL",13)
+  RandomNumLT(4,3)
+THEN
+  RESPONSE #100
+    SetGlobal("Apprenti","GLOBAL",17)
+    SetGlobal("Iarobething","AR0411",1)
+END
+
+IF
+  Global("Iarotaforge","AR0411",2)
+  Global("Iarobething","AR0411",0)
+  Global("Apprenti","GLOBAL",13)
+THEN
+  RESPONSE #100
+    SetGlobal("Apprenti","GLOBAL",18)
+    SetGlobal("Iarobething","AR0411",1)
+END
+
+IF
+  Global("Apprenti","GLOBAL",15)
+  Global("Iarotaforge","AR0411",2)
+  Global("Iarobething","AR0411",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Apprenti","GLOBAL",19)
+    SetGlobal("Iarobething","AR0411",1)
+END
+
+IF
+  Global("Apprenti","GLOBAL",16)
+  Global("Iarotaforge","AR0411",2)
+  Global("Iarobething","AR0411",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Apprenti","GLOBAL",20)
+    SetGlobal("DropRobeApprenti","AR0411",0)
+    SetGlobal("Iarobething","AR0411",1)
+END
+
+IF
+  Class(Player1,MAGE_ALL)
+  Global("Iarotaforge","AR0411",1)
+  Global("Iaclck29made","GLOBAL",0)
+  GlobalGT("Apprenti","GLOBAL",12)
+  GlobalLT("Apprenti","GLOBAL",17)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaclck29made","GLOBAL",1)
+END

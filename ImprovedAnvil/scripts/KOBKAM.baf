@@ -1,0 +1,154 @@
+IF
+  HPLT(Myself,5)
+THEN
+  RESPONSE #50
+    ReallyForceSpell(Myself,KAMIKAZE_EXPLOSION)
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  Range(LastSeenBy(Myself),2)
+  CheckStatLT(LastSeenBy(Myself),100,RESISTFIRE)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+THEN
+  RESPONSE #100
+    ReallyForceSpell(Myself,KAMIKAZE_EXPLOSION)
+END
+
+IF
+  See(SecondNearestEnemyOf(Myself))
+  Range(LastSeenBy(Myself),2)
+  CheckStatLT(LastSeenBy(Myself),100,RESISTFIRE)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+THEN
+  RESPONSE #100
+    ReallyForceSpell(Myself,KAMIKAZE_EXPLOSION)
+END
+
+IF
+  See(ThirdNearestEnemyOf(Myself))
+  Range(LastSeenBy(Myself),2)
+  CheckStatLT(LastSeenBy(Myself),100,RESISTFIRE)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+THEN
+  RESPONSE #100
+    ReallyForceSpell(Myself,KAMIKAZE_EXPLOSION)
+END
+
+IF
+  See(FourthNearestEnemyOf(Myself))
+  Range(LastSeenBy(Myself),2)
+  CheckStatLT(LastSeenBy(Myself),100,RESISTFIRE)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+THEN
+  RESPONSE #100
+    ReallyForceSpell(Myself,KAMIKAZE_EXPLOSION)
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  !Range(LastSeenBy(Myself),2)
+  CheckStatLT(LastSeenBy(Myself),100,RESISTFIRE)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+THEN
+  RESPONSE #100
+    MoveToObject(LastSeenBy(Myself))
+END
+
+IF
+  See(SecondNearestEnemyOf(Myself))
+  !Range(LastSeenBy(Myself),2)
+  CheckStatLT(LastSeenBy(Myself),100,RESISTFIRE)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+THEN
+  RESPONSE #100
+    MoveToObject(LastSeenBy(Myself))
+END
+
+IF
+  See(ThirdNearestEnemyOf(Myself))
+  !Range(LastSeenBy(Myself),2)
+  CheckStatLT(LastSeenBy(Myself),100,RESISTFIRE)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+THEN
+  RESPONSE #100
+    MoveToObject(LastSeenBy(Myself))
+END
+
+IF
+  See(FourthNearestEnemyOf(Myself))
+  !Range(LastSeenBy(Myself),2)
+  CheckStatLT(LastSeenBy(Myself),100,RESISTFIRE)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+THEN
+  RESPONSE #100
+    MoveToObject(LastSeenBy(Myself))
+END
+
+IF
+  See(FifthNearestEnemyOf(Myself))
+  !Range(LastSeenBy(Myself),2)
+  CheckStatLT(LastSeenBy(Myself),100,RESISTFIRE)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+THEN
+  RESPONSE #100
+    MoveToObject(LastSeenBy(Myself))
+END
+
+IF
+  See(SixthNearestEnemyOf(Myself))
+  !Range(LastSeenBy(Myself),2)
+  CheckStatLT(LastSeenBy(Myself),100,RESISTFIRE)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+THEN
+  RESPONSE #100
+    MoveToObject(LastSeenBy(Myself))
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  !HasItemEquiped("immune2",LastSeenBy(Myself))
+  !HasItemEquiped("immune1",LastSeenBy(Myself))
+  OR(2)
+   CheckStat(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+   CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  See(SecondNearestEnemyOf(Myself))
+  !HasItemEquiped("immune2",LastSeenBy(Myself))
+  !HasItemEquiped("immune1",LastSeenBy(Myself))
+  OR(2)
+   CheckStat(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+   CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(ThirdNearestEnemyOf(Myself))
+  !HasItemEquiped("immune2",LastSeenBy(Myself))
+  !HasItemEquiped("immune1",LastSeenBy(Myself))
+  OR(2)
+   CheckStat(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+   CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  AreaCheck("AR1201")
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  InMyArea(Player1)
+  Allegiance(Myself,ENEMY)
+  Global("Iakobattack","AR1201",1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END

@@ -1,0 +1,42 @@
+IF
+  PartyHasItem("S!misc38")
+  GlobalGT("Iaswanmejob","GLOBAL",4)
+  Clicked([ANYONE])
+  Range(LastTrigger,10)
+  Global("Iapcastts","GLOBAL",0)
+THEN
+  RESPONSE #100
+    StartCutSceneMode()
+    Wait(1)
+    FadeToColor([20.0],0)
+    Wait(2)
+    ActionOverride(Player1,LeaveAreaLUAPanic("ARia18","",[440.437],11))
+    ActionOverride(Player1,LeaveAreaLUA("ARia18","",[440.437],11))
+    ActionOverride(Player2,LeaveAreaLUA("ARia18","",[407.462],11))
+    ActionOverride(Player3,LeaveAreaLUA("ARia18","",[470.460],11))
+    ActionOverride(Player4,LeaveAreaLUA("ARia18","",[439.488],11))
+    ActionOverride(Player5,LeaveAreaLUA("ARia18","",[396.418],11))
+    ActionOverride(Player6,LeaveAreaLUA("ARia18","",[382.444],11))
+    MultiPlayerSync()
+    EndCutSceneMode()
+    FadeFromColor([20.0],0)
+END
+
+IF
+  OR(2)
+   !PartyHasItem("S!misc38")
+   GlobalLT("Iaswanmejob","GLOBAL",5)
+  Clicked([ANYONE])
+  Range(LastTrigger,10)
+THEN
+  RESPONSE #100
+    DisplayString(Myself,2314) //
+END
+
+IF
+  Clicked([ANYONE])
+  !Range(LastTrigger,10)
+THEN
+  RESPONSE #100
+    DisplayString(Myself,14702)  // ~You are too far away to use that.~
+END

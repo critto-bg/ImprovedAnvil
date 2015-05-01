@@ -1,0 +1,1031 @@
+//Firkaarg's Maze //////////////
+
+IF
+  OnCreation()
+  Global("HideFalseDoors","AR1202",0)
+THEN
+  RESPONSE #100
+    SetGlobal("HideFalseDoors","AR1202",1)
+    TriggerActivation("FD09",FALSE)
+    TriggerActivation("FD05",FALSE)
+    TriggerActivation("FD25",FALSE)
+    TriggerActivation("FD26",FALSE)
+    TriggerActivation("FD27",FALSE)
+    TriggerActivation("FD18",FALSE)
+END
+
+IF
+  OR(2)
+    PartyHasItem("SW1H32") // ~Dragonslayer~
+    PartyHasItem("SHLD21") // ~Dragon Scale Shield +2~
+  Global("Iatomb","AR1202",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatomb","AR1202",1)
+END
+
+IF
+  OR(3)
+    PartyHasItem("SW1H32") // ~Dragonslayer~
+    PartyHasItem("SHLD21") // ~Dragon Scale Shield +2~
+    Global("Iatomb","AR1202",1)
+  Global("SpawnSamia","AR1202",0)
+  !Dead("Samia") // ~Samia~
+  Global("SamiaPreempted","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("SpawnSamia","AR1202",1)
+    ActionOverride("Samia",JumpToPoint([3437.418]))
+END
+
+IF
+  OR(3)
+    PartyHasItem("SW1H32") // ~Dragonslayer~
+    PartyHasItem("SHLD21") // ~Dragon Scale Shield +2~
+    Global("Iatomb","AR1202",1)
+  Global("SpawnSamiaFriends","AR1202",0)
+  !Dead("Samia")  // ~Samia~
+  Global("SamiaPreempted","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("SpawnSamiaFriends","AR1202",1)
+    CreateCreature("Akae",[3481.433],10)  // ~Akae~
+    CreateCreature("Kaol",[3359.438],11)  // ~Kaol~
+    CreateCreature("Chak",[3405.485],10)  // ~Chak~
+    CreateCreature("Legdor",[3360.543],13)  // ~Legdoril~
+    CreateCreature("Deshar",[3305.492],9)  // ~Ferric Ironblade~
+END
+
+IF
+  OpenState("DOOR01",TRUE)
+  Global("Door1Opened","AR1202",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door1Opened","AR1202",1)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iadoorlock","AR1202",1)
+THEN
+  RESPONSE #100
+    SetInterrupt(FALSE)
+    SetGlobal("Iadoorlock","AR1202",2)
+    TriggerActivation("Tran1203",FALSE)
+    CloseDoor("Door02")
+    Lock("Door02")
+    SetInterrupt(TRUE)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iadoorlock","AR1202",2)
+  Global("Iaskelies","AR1202",4)
+  Dead("FIRMAG01")
+  CombatCounter(0)
+THEN
+  RESPONSE #100
+    SetInterrupt(FALSE)
+    SetGlobal("Iadoorlock","AR1202",3)
+    TriggerActivation("Tran1203",TRUE)
+    Unlock("Door02")
+    SetInterrupt(TRUE)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iadoorlock","AR1202",0)
+  Global("SpawnFirmag01","AR1202",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iadoorlock","AR1202",1)
+END
+
+IF
+   InMyArea(Player1)
+   GlobalGT("Iapcastts","GLOBAL",0)
+   !Global("Ianotreasure","AR1202",1)
+   Global("Iadooncech","AR1202",0)
+   Global("Iadoorlock","AR1202",2)
+   NumInPartyAlive(1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadooncech","AR1202",1)
+      SetGlobal("Ianotreasure","AR1202",1)
+END
+
+IF
+   InMyArea(Player1)
+   Global("Iadooncech","AR1202",0)
+   Global("Iadoorlock","AR1202",2)
+   OR(2)
+    Global("Iapcastts","GLOBAL",0)
+    NumInPartyAliveGT(1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadooncech","AR1202",1)
+END
+
+IF
+  OpenState("DOOR02",TRUE)
+  Global("Door2Opened","AR1202",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door2Opened","AR1202",1)
+END
+
+IF
+  OpenState("DOOR03",TRUE)
+  Global("Door3Opened","AR1202",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door3Opened","AR1202",1)
+END
+
+IF
+  OpenState("DOOR04",TRUE)
+  Global("Door4Opened","AR1202",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door4Opened","AR1202",1)
+END
+
+IF
+  OpenState("DOOR06",TRUE)
+  Global("Door6Opened","AR1202",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door6Opened","AR1202",1)
+END
+
+IF
+  OpenState("DOOR07",TRUE)
+  Global("Door7Opened","AR1202",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door7Opened","AR1202",1)
+END
+
+IF
+  OpenState("DOOR08",TRUE)
+  Global("Door8Opened","AR1202",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door8Opened","AR1202",1)
+END
+
+IF
+  OpenState("DOOR10",TRUE)
+  Global("Door10Opened","AR1202",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door10Opened","AR1202",1)
+END
+
+IF
+  OpenState("DOOR11",TRUE)
+  Global("Door11Opened","AR1202",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door11Opened","AR1202",1)
+END
+
+IF
+  OpenState("DOOR12",TRUE)
+  Global("Door12Opened","AR1202",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door12Opened","AR1202",1)
+END
+
+IF
+  OpenState("DOOR13",TRUE)
+  Global("Door13Opened","AR1202",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door13Opened","AR1202",1)
+END
+
+IF
+  OpenState("DOOR14",TRUE)
+  Global("Door14Opened","AR1202",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door14Opened","AR1202",1)
+END
+
+IF
+  OpenState("DOOR15",TRUE)
+  Global("Door15Opened","AR1202",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door15Opened","AR1202",1)
+END
+
+IF
+  OpenState("DOOR16",TRUE)
+  Global("Door16Opened","AR1202",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door16Opened","AR1202",1)
+END
+
+IF
+  OpenState("DOOR17",TRUE)
+  Global("Door17Opened","AR1202",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door17Opened","AR1202",1)
+END
+
+IF
+  OpenState("DOOR19",TRUE)
+  Global("Door19Opened","AR1202",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door19Opened","AR1202",1)
+END
+
+IF
+  OpenState("DOOR20",TRUE)
+  Global("Door20Opened","AR1202",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door20Opened","AR1202",1)
+END
+
+IF
+  OpenState("DOOR21",TRUE)
+  Global("Door21Opened","AR1202",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door21Opened","AR1202",1)
+END
+
+IF
+  OpenState("DOOR22",TRUE)
+  Global("Door22Opened","AR1202",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door22Opened","AR1202",1)
+END
+
+IF
+  OpenState("DOOR23",TRUE)
+  Global("Door23Opened","AR1202",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door23Opened","AR1202",1)
+END
+
+IF
+  OpenState("DOOR24",TRUE)
+  Global("Door24Opened","AR1202",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door24Opened","AR1202",1)
+END
+
+IF
+  OpenState("DOOR28",TRUE)
+  Global("Door28Opened","AR1202",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door28Opened","AR1202",1)
+END
+
+IF
+  OpenState("DOOR29",TRUE)
+  Global("Door29Opened","AR1202",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door29Opened","AR1202",1)
+END
+
+IF
+  OpenState("DOOR30",TRUE)
+  Global("Door30Opened","AR1202",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door30Opened","AR1202",1)
+END
+
+IF
+  OpenState("DOOR31",TRUE)
+  Global("Door31Opened","AR1202",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door31Opened","AR1202",1)
+END
+
+IF
+  OpenState("DOOR32",TRUE)
+  Global("Door32Opened","AR1202",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door32Opened","AR1202",1)
+END
+
+IF
+  OpenState("DOOR33",TRUE)
+  Global("Door33Opened","AR1202",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door33Opened","AR1202",1)
+END
+
+IF
+  OpenState("DOOR34",TRUE)
+  Global("Door34Opened","AR1202",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door34Opened","AR1202",1)
+END
+
+IF
+  OpenState("DOOR35",TRUE)
+  Global("Door35Opened","AR1202",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door35Opened","AR1202",1)
+END
+
+IF
+  OpenState("DOOR36",TRUE)
+  Global("Door36Opened","AR1202",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door36Opened","AR1202",1)
+END
+
+IF
+  OpenState("DOOR37",TRUE)
+  Global("Door37Opened","AR1202",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door37Opened","AR1202",1)
+END
+
+IF
+  OpenState("DOOR38",TRUE)
+  Global("Door38Opened","AR1202",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door38Opened","AR1202",1)
+END
+
+IF
+  OpenState("DOOR39",TRUE)
+  Global("Door39Opened","AR1202",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door39Opened","AR1202",1)
+END
+
+IF
+  OpenState("DOOR40",TRUE)
+  Global("Door40Opened","AR1202",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door40Opened","AR1202",1)
+END
+
+IF
+  OpenState("DOOR41",TRUE)
+  Global("Door41Opened","AR1202",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door41Opened","AR1202",1)
+END
+
+IF
+  OpenState("DOOR42",TRUE)
+  Global("Door42Opened","AR1202",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door42Opened","AR1202",1)
+END
+
+IF
+  OpenState("DOOR43",TRUE)
+  Global("Door43Opened","AR1202",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door43Opened","AR1202",1)
+END
+
+IF
+  OpenState("DOOR44",TRUE)
+  Global("Door44Opened","AR1202",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door44Opened","AR1202",1)
+END
+
+IF
+  OpenState("DOOR01",FALSE)
+  Global("Door1Opened","AR1202",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR01")
+END
+
+IF
+  OpenState("DOOR02",FALSE)
+  Global("Door2Opened","AR1202",1)
+  OR(2)
+   Global("Iadoorlock","AR1202",0)
+   Global("Iadoorlock","AR1202",3)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR02")
+END
+
+IF
+  OpenState("DOOR03",FALSE)
+  Global("Door3Opened","AR1202",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR03")
+END
+
+IF
+  OpenState("DOOR04",FALSE)
+  Global("Door4Opened","AR1202",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR04")
+END
+
+IF
+  OpenState("DOOR06",FALSE)
+  Global("Door6Opened","AR1202",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR06")
+END
+
+IF
+  OpenState("DOOR07",FALSE)
+  Global("Door7Opened","AR1202",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR07")
+END
+
+IF
+  OpenState("DOOR08",FALSE)
+  Global("Door8Opened","AR1202",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR08")
+END
+
+IF
+  OpenState("DOOR10",FALSE)
+  Global("Door10Opened","AR1202",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR10")
+END
+
+IF
+  OpenState("DOOR11",FALSE)
+  Global("Door11Opened","AR1202",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR11")
+END
+
+IF
+  OpenState("DOOR12",FALSE)
+  Global("Door12Opened","AR1202",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR12")
+END
+
+IF
+  OpenState("DOOR13",FALSE)
+  Global("Door13Opened","AR1202",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR13")
+END
+
+IF
+  OpenState("DOOR14",FALSE)
+  Global("Door14Opened","AR1202",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR14")
+END
+
+IF
+  OpenState("DOOR15",FALSE)
+  Global("Door15Opened","AR1202",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR15")
+END
+
+IF
+  OpenState("DOOR16",FALSE)
+  Global("Door16Opened","AR1202",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR16")
+END
+
+IF
+  OpenState("DOOR17",FALSE)
+  Global("Door17Opened","AR1202",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR17")
+END
+
+IF
+  OpenState("DOOR19",FALSE)
+  Global("Door19Opened","AR1202",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR19")
+END
+
+IF
+  OpenState("DOOR20",FALSE)
+  Global("Door20Opened","AR1202",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR20")
+END
+
+IF
+  OpenState("DOOR21",FALSE)
+  Global("Door21Opened","AR1202",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR21")
+END
+
+IF
+  OpenState("DOOR22",FALSE)
+  Global("Door22Opened","AR1202",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR22")
+END
+
+IF
+  OpenState("DOOR23",FALSE)
+  Global("Door23Opened","AR1202",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR23")
+END
+
+IF
+  OpenState("DOOR24",FALSE)
+  Global("Door24Opened","AR1202",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR24")
+END
+
+IF
+  OpenState("DOOR28",FALSE)
+  Global("Door28Opened","AR1202",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR28")
+END
+
+IF
+  OpenState("DOOR29",FALSE)
+  Global("Door29Opened","AR1202",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR29")
+END
+
+IF
+  OpenState("DOOR30",FALSE)
+  Global("Door30Opened","AR1202",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR30")
+END
+
+IF
+  OpenState("DOOR31",FALSE)
+  Global("Door31Opened","AR1202",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR31")
+END
+
+IF
+  OpenState("DOOR32",FALSE)
+  Global("Door32Opened","AR1202",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR32")
+END
+
+IF
+  OpenState("DOOR33",FALSE)
+  Global("Door33Opened","AR1202",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR33")
+END
+
+IF
+  OpenState("DOOR34",FALSE)
+  Global("Door34Opened","AR1202",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR34")
+END
+
+IF
+  OpenState("DOOR35",FALSE)
+  Global("Door35Opened","AR1202",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR35")
+END
+
+IF
+  OpenState("DOOR36",FALSE)
+  Global("Door36Opened","AR1202",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR36")
+END
+
+IF
+  OpenState("DOOR37",FALSE)
+  Global("Door37Opened","AR1202",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR37")
+END
+
+IF
+  OpenState("DOOR38",FALSE)
+  Global("Door38Opened","AR1202",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR38")
+END
+
+IF
+  OpenState("DOOR39",FALSE)
+  Global("Door39Opened","AR1202",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR39")
+END
+
+IF
+  OpenState("DOOR40",FALSE)
+  Global("Door40Opened","AR1202",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR40")
+END
+
+IF
+  OpenState("DOOR41",FALSE)
+  Global("Door41Opened","AR1202",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR41")
+END
+
+IF
+  OpenState("DOOR42",FALSE)
+  Global("Door42Opened","AR1202",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR42")
+END
+
+IF
+  OpenState("DOOR43",FALSE)
+  Global("Door43Opened","AR1202",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR43")
+END
+
+IF
+  OpenState("DOOR44",FALSE)
+  Global("Door44Opened","AR1202",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR44")
+END
+
+IF
+  Global("SamiaBattle","AR1202",1)
+  Global("Iaexit","AR1202",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR1202",1)
+    TriggerActivation("Tran1201",FALSE)
+    TriggerActivation("Tran1203",FALSE)
+END
+
+IF
+  Global("Iaexit","AR1202",1)
+  Dead("kaol")
+  Dead("chak")
+  Dead("legdor")
+  Dead("deshar")
+  Dead("akae")
+  Dead("samia")
+  CombatCounter(0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR1202",2)
+    TriggerActivation("Tran1201",TRUE)
+    TriggerActivation("Tran1203",TRUE)
+END
+
+IF
+  Global("Iaexit","AR1202",2)
+  Global("Iakeepdslays","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iakeepdslays","GLOBAL",1)
+END
+
+IF
+  Global("DeactivateAirElemental","AR1202",1)
+  Global("IaDragonWell","AR1202",0)
+  Global("VanyaJob","GLOBAL",4)
+THEN
+  RESPONSE #100
+    SetGlobal("DeactivateAirElemental","AR1202",2)
+    Wait(1)
+    TriggerActivation("Elementaltrigger",TRUE)
+END
+
+IF
+  Global("DeactivateAirElemental","AR1202",2)
+  Global("IaDragonWell","AR1202",1)
+THEN
+  RESPONSE #100
+    SetGlobal("DeactivateAirElemental","AR1202",3)
+    Wait(3)
+    TriggerActivation("Elementaltrigger",FALSE)
+END
+
+IF
+   Global("VanyaJob","GLOBAL",4)
+   Global("IaDragonWell","AR1202",1)
+   Dead("S!vipe1")
+THEN
+   RESPONSE #100
+      SetGlobal("VanyaJob","GLOBAL",5)
+      TriggerActivation("Elementaltrigger",TRUE)
+END
+
+IF
+   Global("VanyaJob","GLOBAL",5)
+   Global("IaDragonWell","AR1202",2)
+   Global("DeactivateAirElemental","AR1202",3)
+THEN
+   RESPONSE #100
+      SetInterrupt(FALSE)
+      SetGlobal("DeactivateAirElemental","AR1202",4)
+      Wait(3)
+      TriggerActivation("Elementaltrigger",FALSE)
+      SetInterrupt(TRUE)
+END
+
+IF
+   GlobalGT("VanyaJob","GLOBAL",5)
+   Global("DeactivateAirElemental","AR1202",3)
+THEN
+   RESPONSE #100
+      SetGlobal("DeactivateAirElemental","AR1202",4)
+      TriggerActivation("Elementaltrigger",FALSE)
+END
+
+IF
+   Global("VanyaJob","GLOBAL",4)
+   Global("Iatimer","AR1202",0)
+   InMyArea(Player1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iatimer","AR1202",1)
+      SetGlobalTimer("Iahorde","AR1202",54)
+      SetGlobalTimer("Iahorde2","AR1202",42)
+END
+
+IF
+   Global("VanyaJob","GLOBAL",4)
+   InMyArea(Player1)
+   !GlobalTimerNotExpired("Iaviper","AR1202")
+THEN
+   RESPONSE #100
+      SetGlobalTimer("Iaviper","AR1202",24)
+      CreateCreatureObjectOffScreen("S!vipe2",Player1,0,0,0) //
+END
+
+IF
+   Global("VanyaJob","GLOBAL",4)
+   InMyArea(Player1)
+   !GlobalTimerNotExpired("Iacreature","AR1202")
+THEN
+   RESPONSE #100
+      SetGlobalTimer("Iacreature","AR1202",18)
+      CreateCreatureObjectOffScreen("S!vipe3",Player1,0,0,0) //
+END
+
+IF
+   Global("VanyaJob","GLOBAL",4)
+   Global("IaDragonWell","AR1202",0)
+   InMyArea(Player1)
+   !GlobalTimerNotExpired("Iahorde","AR1202")
+THEN
+   RESPONSE #100
+      SetGlobalTimer("Iahorde","AR1202",54)
+      CreateCreatureObjectOffScreen("S!vipe2",Player1,0,0,0) //
+      CreateCreatureObjectOffScreen("S!vipe2",Player1,0,0,0) //
+      CreateCreatureObjectOffScreen("S!vipe3",Player1,0,0,0) //
+      CreateCreatureObjectOffScreen("S!vipe3",Player1,0,0,0) //
+      CreateCreatureObjectOffScreen("S!vipe3",Player1,0,0,0) //
+END
+
+IF
+   Global("VanyaJob","GLOBAL",4)
+   InMyArea(Player1)
+   !GlobalTimerNotExpired("Iahorde2","AR1202")
+THEN
+   RESPONSE #100
+      SetGlobalTimer("Iahorde2","AR1202",42)
+      CreateCreatureObjectOffScreen("S!vipe3",Player1,0,0,0) //
+      CreateCreatureObjectOffScreen("S!vipe3",Player1,0,0,0) //
+      CreateCreatureObjectOffScreen("S!vipe2",Player1,0,0,0) //
+END
+
+IF
+  InMyArea(Player1)
+  OR(4)
+   SpellCast([PC],WIZARD_DEATH_FOG)
+   SpellCast([PC],WIZARD_CLOUDKILL)
+   SpellCast([PC],WIZARD_STINKING_CLOUD)
+   SpellCast([PC],WIZARD_INCENDIARY_CLOUD)
+THEN
+  RESPONSE #100
+    SetGlobal("Iapccloud","AR1202",1)
+    SetGlobalTimer("Iacloudtime","AR1202",60)
+END
+
+IF
+  Global("Iapccloud","AR1202",1)
+  GlobalTimerNotExpired("Iacloudtime","AR1202")
+  Global("Iawhosweet","AR1202",0)
+  Exists("legdor")
+  !Dead("legdor")
+  RandomNumGT(6,3)
+THEN
+  RESPONSE #100
+    SetGlobal("Iawhosweet","AR1202",1)
+END
+
+IF
+  Global("Iapccloud","AR1202",1)
+  GlobalTimerNotExpired("Iacloudtime","AR1202")
+  Global("Iawhosweet","AR1202",0)
+  Exists("legdor")
+  !Dead("legdor")
+  Dead("chak")
+THEN
+  RESPONSE #100
+    SetGlobal("Iawhosweet","AR1202",1)
+END
+
+IF
+  Global("Iapccloud","AR1202",1)
+  GlobalTimerNotExpired("Iacloudtime","AR1202")
+  Global("Iawhosweet","AR1202",0)
+  Exists("chak")
+  !Dead("chak")
+THEN
+  RESPONSE #100
+    SetGlobal("Iawhosweet","AR1202",2)
+END
+
+IF
+  Global("Iapccloud","AR1202",1)
+  GlobalTimerExpired("Iacloudtime","AR1202")
+THEN
+  RESPONSE #100
+    SetGlobal("Iapccloud","AR1202",0)
+END
+
+IF
+   Global("Iaitem","AR1202",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem","AR1202",1)
+      ActionOverride("Container 10",CreateItem("misc33",0,0,0)) //
+      ActionOverride("Container 10",CreateItem("misc43",0,0,0)) //
+      ActionOverride("Container 10",CreateItem("scrl6m",0,0,0)) //
+      ActionOverride("Container 10",CreateItem("scrl1j",0,0,0)) //
+      ActionOverride("Container 10",CreateItem("scrl3g",0,0,0)) //
+END
+
+IF
+   Global("Iaambush","AR1202",0)
+   Global("VanyaJob","GLOBAL",1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaambush","AR1202",1)
+      CreateCreature("S!tanthf",[2330.1937],11) //
+      CreateCreature("S!tanthf",[2216.1853],11) //
+      CreateCreature("S!tanthf",[2489.1461],11) //
+      CreateCreature("S!tanthf",[1640.1135],11) //
+      CreateCreature("S!tanthf",[1415.620],11) //
+      CreateCreature("S!tanthf",[1436.736],11) //
+      CreateCreature("S!tanthf",[1931.568],11) //
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iaskels","AR1202",1)
+  GlobalLT("Iaskelies","AR1202",4)
+  !GlobalTimerNotExpired("Iaskelspawn","AR1202")
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iaskelspawn","AR1202",12)
+    IncrementGlobal("Iaskelies","AR1202",1)
+    CreateVisualEffect("SPRAISED",[1784.451])
+    CreateVisualEffect("SPRAISED",[1925.363])
+    Wait(4)
+    CreateCreature("S!skels",[1784.451],13) //
+    CreateCreature("S!skels",[1925.363],0) //
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iaskelw","AR1202",1)
+  Global("Iatomb","AR1202",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaskelw","AR1202",2)
+    CreateVisualEffect("SPRAISED",[3459.164])
+    CreateVisualEffect("SPRAISED",[3429.184])
+    CreateVisualEffect("SPRAISED",[3393.206])
+    Wait(4)
+    CreateCreature("S!skelw2",[3459.164],13) //
+    CreateCreature("S!skelw2",[3429.184],13) //
+    CreateCreature("S!skelw2",[3393.206],13) //
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iaskelw","AR1202",1)
+  Global("Iatomb","AR1202",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaskelw","AR1202",2)
+    CreateVisualEffect("SPRAISED",[2968.1610])
+    CreateVisualEffect("SPRAISED",[2935.1633])
+    CreateVisualEffect("SPRAISED",[2903.1656])
+    Wait(4)
+    CreateCreature("S!skelw2",[2968.1610],7) //
+    CreateCreature("S!skelw2",[2935.1633],7) //
+    CreateCreature("S!skelw2",[2903.1656],7) //
+END
+
+IF
+   InMyArea(Player1)
+   !Global("Ianotreasure","AR1202",1)
+   Global("Iadofirst","AR1202",0)
+   NumInPartyAlive(1)
+   Class(Player1,MAGE_ALL)
+   Class(Player1,FIGHTER_ALL)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadofirst","AR1202",1)
+      SetGlobal("Ianotreasure","AR1202",1)
+END
+
+IF
+   InMyArea(Player1)
+   Global("Iadofirst","AR1202",0)
+   OR(3)
+    NumInPartyAliveGT(1)
+    !Class(Player1,MAGE_ALL)
+    !Class(Player1,FIGHTER_ALL)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadofirst","AR1202",1)
+END

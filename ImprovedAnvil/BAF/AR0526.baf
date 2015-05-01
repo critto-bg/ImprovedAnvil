@@ -1,0 +1,21 @@
+// Lich Grave in Bridge District Inn //
+
+IF
+  Global("UsedCrypt","AR0526",2)
+  Global("Iaexit","AR0526",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR0526",1)
+    TriggerActivation("Tran0525",FALSE)
+END
+
+IF
+  Global("Iaexit","AR0526",1)
+  OR(2)
+   !Dead("HLLICH")  // ~Elemental Lich~
+   Global("UsedCrypt","AR0526",3)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR0526",2)
+    TriggerActivation("Tran0525",TRUE)
+END

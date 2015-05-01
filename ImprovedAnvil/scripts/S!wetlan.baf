@@ -1,0 +1,61 @@
+IF
+  Clicked([ANYONE])
+  Range(LastTrigger,6)
+  !GlobalTimerNotExpired("Iapondclick","AR2810")
+  Global("Iabreathissue","AR2810",1)
+  Global("Iacanbreathe","AR2810",0)
+  Global("Iaponcrespawn","AR2810",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaponcrespawn","AR2810",1)
+    SetGlobalTimer("Iapondclick","AR2810",6)
+    CreateCreatureImpassable("S!poncre",[259.412],11)
+END
+
+IF
+  Clicked([ANYONE])
+  Range(LastTrigger,6)
+  !GlobalTimerNotExpired("Iapondclick","AR2810")
+  Global("Iapondpotion","AR2810",0)
+  GlobalLT("Iammirrorjob","GLOBAL",5)
+  Global("Iaponcrespawn","AR2810",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaponcrespawn","AR2810",1)
+    SetGlobalTimer("Iapondclick","AR2810",6)
+    CreateCreatureImpassable("S!poncre",[259.412],11)
+END
+
+IF
+  Clicked([ANYONE])
+  Range(LastTrigger,6)
+  !GlobalTimerNotExpired("Iapondclick","AR2810")
+  Global("Iammirrorjob","GLOBAL",6)
+  PartyHasItem("S!misc53")
+  Global("Iaponcrespawn","AR2810",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaponcrespawn","AR2810",1)
+    SetGlobalTimer("Iapondclick","AR2810",6)
+    CreateCreatureImpassable("S!poncre",[259.412],11)
+END
+
+IF
+  Clicked([ANYONE])
+  Range(LastTrigger,6)
+  !GlobalTimerNotExpired("Iapondclick","AR2810")
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iapondclick","AR2810",6)
+    DisplayString(Myself,40850)
+END
+
+IF
+  Clicked([ANYONE])
+  !Range(LastTrigger,6)
+  !GlobalTimerNotExpired("Iapondclick","AR2810")
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iapondclick","AR2810",6)
+    DisplayString(Myself,14702)  // ~You are too far away to use that.~
+END

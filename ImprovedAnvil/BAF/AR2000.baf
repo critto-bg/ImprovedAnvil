@@ -1,0 +1,31 @@
+//Trademeet  //////////////
+
+IF
+  Global("GypsyJob","GLOBAL",3)
+  Global("Iacreature","AR2000",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iacreature","AR2000",1)
+    CreateCreature("S!beggar",[2431.3339],0) //
+END
+
+IF
+  Global("GypsyJob","GLOBAL",3)
+  Global("Iacreature","AR2000",1)
+  Exists("S!beggar")
+  Global("BeggarTalk","AR2000",2)
+  GlobalTimerExpired("Iabeggar","AR2000")
+THEN
+  RESPONSE #100
+    SetGlobal("Iacreature","AR2000",2)
+    ActionOverride("S!beggar",DestroySelf())
+END
+
+IF
+  Global("DruidQuest2","GLOBAL",2)
+  Global("Iadruidjob","GLOBAL",0)
+  Dead("Drshch01")
+THEN
+  RESPONSE #100
+    SetGlobal("Iadruidjob","GLOBAL",1)
+END

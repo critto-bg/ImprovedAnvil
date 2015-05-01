@@ -1,0 +1,79 @@
+// De'Arnise Keep  //////////////
+
+IF
+  Global("Iacreature","AR1300",0)
+THEN
+   RESPONSE #100
+     SetGlobal("Iacreature","AR1300",1)
+     CreateCreature("S!otyugh",[2471.1939],3) //
+END
+
+IF
+  Global("Iacreature2","AR1300",0)
+  OpenState("Bridge01",TRUE)  // Bridge01
+  Global("BridgeOpen","GLOBAL",0)
+  !Dead("Torgal")  // ~TorGal~
+THEN
+   RESPONSE #100
+     CreateCreature("S!spidwf",[2944.1819],2) //
+     SetGlobal("Iacreature2","AR1300",1)
+     TriggerActivation("Tran1300sta",FALSE)
+     TriggerActivation("Tran1300stb",FALSE)
+     TriggerActivation("Tran1302a",FALSE)
+     TriggerActivation("Tran1302b",FALSE)
+     TriggerActivation("Tran1302c",FALSE)
+END
+
+IF
+  Global("Iakpyuancame","AR1300",1)
+  Global("BridgeOpen","GLOBAL",1)
+  Dead("KPYUAN01")  //
+THEN
+   RESPONSE #100
+     SetGlobal("Iakpyuandead","GLOBAL",1)
+     SetGlobal("Iakpyuancame","AR1300",2)
+END
+
+IF
+  Global("Iacreature2","AR1300",1)
+  Dead("S!spidwf")  //
+THEN
+   RESPONSE #100
+     SetGlobal("Iaspidwfdead","GLOBAL",1)
+     SetGlobal("Iacreature2","AR1300",2)
+END
+
+IF
+  Global("Iacreature2","AR1300",2)
+  Global("Iakpyuancame","AR1300",2)
+  Global("Iakpyuandead","GLOBAL",1)
+  Global("Iaspidwfdead","GLOBAL",1)
+  Global("Iareactivate","AR1300",0)
+THEN
+   RESPONSE #100
+     SetGlobal("Iareactivate","AR1300",1)
+     TriggerActivation("Tran1300sta",TRUE)
+     TriggerActivation("Tran1300stb",TRUE)
+     TriggerActivation("Tran1302a",TRUE)
+     TriggerActivation("Tran1302b",TRUE)
+     TriggerActivation("Tran1302c",TRUE)
+END
+
+IF
+  Global("Iadeactivate","AR1300",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iadeactivate","AR1300",1)
+    TriggerActivation("Tran1303a",FALSE)
+    TriggerActivation("Tran1303b",FALSE)
+END
+
+IF
+   Global("Iaitem","AR1300",0)
+   Global("Iaspidwfdead","GLOBAL",1)
+   Global("Iakpyuandead","GLOBAL",1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem","AR1300",1)
+      GiveItemCreate("blun14a",Player1,0,0,0) //
+END

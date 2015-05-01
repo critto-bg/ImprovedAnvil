@@ -1,0 +1,45 @@
+IF
+  PartyHasItem("S!misc33")
+  Clicked([ANYONE])
+  Range(LastTrigger,10)
+THEN
+  RESPONSE #100
+    StartCutSceneMode()
+    Wait(1)
+    FadeToColor([20.0],0)
+    Wait(2)
+    ActionOverride(Player1,ReallyForceSpellRES("SPINI14",Myself))
+    ActionOverride(Player2,ReallyForceSpellRES("SPINI14",Myself))
+    ActionOverride(Player3,ReallyForceSpellRES("SPINI14",Myself))
+    ActionOverride(Player4,ReallyForceSpellRES("SPINI14",Myself))
+    ActionOverride(Player5,ReallyForceSpellRES("SPINI14",Myself))
+    ActionOverride(Player6,ReallyForceSpellRES("SPINI14",Myself))
+    Wait(2)
+    ActionOverride(Player1,LeaveAreaLUAPanic("ARia14","",[421.414],12))
+    ActionOverride(Player1,LeaveAreaLUA("ARia14","",[421.414],12))
+    ActionOverride(Player2,LeaveAreaLUA("ARia14","",[468.371],12))
+    ActionOverride(Player3,LeaveAreaLUA("ARia14","",[519.336],12))
+    ActionOverride(Player4,LeaveAreaLUA("ARia14","",[355.455],12))
+    ActionOverride(Player5,LeaveAreaLUA("ARia14","",[305.491],12))
+    ActionOverride(Player6,LeaveAreaLUA("ARia14","",[373.368],12))
+    MultiPlayerSync()
+    EndCutSceneMode()
+    FadeFromColor([20.0],0)
+END
+
+IF
+  !PartyHasItem("S!misc33")
+  Clicked([ANYONE])
+  Range(LastTrigger,10)
+THEN
+  RESPONSE #100
+    DisplayString(Myself,23226)  //
+END
+
+IF
+  Clicked([ANYONE])
+  !Range(LastTrigger,10)
+THEN
+  RESPONSE #100
+    DisplayString(Myself,14702)  // ~You are too far away to use that.~
+END

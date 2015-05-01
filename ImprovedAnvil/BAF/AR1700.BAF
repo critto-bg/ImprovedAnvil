@@ -1,0 +1,51 @@
+//Small Teeth Pass //////////////
+
+IF
+   Global("Iacreature","AR1700",0)
+   Global("Iarangerjob","GLOBAL",11)
+THEN
+   RESPONSE #100
+      CreateCreature("S!runef",[1526.2208],11) //
+      SetGlobal("Iacreature","AR1700",1)
+END
+
+IF
+   Global("Iacreature","AR1700",1)
+   Global("Iarangerjob","GLOBAL",11)
+   Dead("S!runef") //
+THEN
+   RESPONSE #100
+      SetGlobal("Iarangerjob","GLOBAL",12)
+END
+
+IF
+   Global("Iacreature2","AR1700",0)
+   Global("RuneFinalBattle","GLOBAL",1)
+   Global("Iarangerjob","GLOBAL",11)
+THEN
+   RESPONSE #100
+      SetGlobal("Iacreature2","AR1700",1)
+      CreateCreature("S!runef2",[1675.1979],0) //
+      CreateCreature("S!runef2",[2489.2444],5) //
+      CreateCreature("S!runef2",[671.2414],0) //
+      CreateCreature("S!runef2",[1837.2324],3) //
+      CreateCreature("S!runef2",[1396.2234],11) //
+END
+
+IF
+   Global("Iarangerjob","GLOBAL",12)
+   Global("Iaregain","AR1700",0)
+   FallenRanger(Player1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaregain","AR1700",1)
+      ActionOverride(Player1,RegainRangerhood())
+END
+
+IF
+   Global("Iarangerjob","GLOBAL",12)
+   Global("Iaregain","AR1700",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaregain","AR1700",1)
+END

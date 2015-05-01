@@ -1,0 +1,19 @@
+IF
+  GlobalGT("PlayerDuelingLesaonar","GLOBAL",1)
+  CombatCounter(0)
+  Global("DuelOn","AR2202",1)
+THEN
+  RESPONSE #100
+    SetGlobal("DuelOn","AR2202",0)
+    SetGlobal("PlayerBarredFromDuel","GLOBAL",1)
+    EscapeArea()
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !See([GOODCUTOFF])
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    RandomWalk()
+END

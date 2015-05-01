@@ -1,0 +1,342 @@
+//Five Flagons Inn 2nd Floor  //////////////
+
+IF
+  Class(Player1,RANGER_ALL)
+  Global("Iamvagrant","GLOBAL",1)
+  Reputation(Player1,20)
+  Global("Iaswanmejob","GLOBAL",1)
+  Global("Iacreature2","AR0511",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iacreature2","AR0511",1)
+    CreateCreature("S!looker",[778.430],0) //
+END
+
+IF
+  Global("GypsyJob","GLOBAL",4)
+  PartyHasItem("S!misc19")
+  Global("Iacreature","AR0511",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iacreature","AR0511",1)
+    CreateCreature("S!order",[706.774],3) //
+END
+
+IF
+  Global("GypsyJob","GLOBAL",5)
+  PartyHasItem("S!misc19")
+  Global("Iacreature","AR0511",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iacreature","AR0511",2)
+    CreateCreature("S!lady1",[778.430],0) //
+END
+
+IF
+  Global("GypsyJob","GLOBAL",5)
+  Global("Iacreature","AR0511",3)
+THEN
+  RESPONSE #100
+    SetGlobal("Iacreature","AR0511",4)
+    Wait(3)
+    CreateCreatureObjectDoor("S!lady2",Player1,0,0,0)
+END
+
+IF
+  Global("GypsyJob","GLOBAL",5)
+  Global("Iacreature","AR0511",4)
+  Global("Iadoors","AR0511",1)
+  Dead("S!lady2")
+THEN
+  RESPONSE #100
+    SetGlobal("GypsyJob","GLOBAL",6)
+    SetGlobal("Iadoors","AR0511",2)
+END
+
+IF
+  Global("GypsyJob","GLOBAL",6)
+  Global("Ianofight","AR0511",0)
+  Global("Iacreature","AR0511",2)
+  Exists("S!lady1")
+  !Dead("S!Lady1")
+THEN
+  RESPONSE #100
+    SetGlobal("Ianofight","AR0511",1)
+    ActionOverride("S!lady1",DestroySelf())
+END
+
+IF
+  Global("Iadoors","AR0511",2)
+  Global("Iadoorthing","AR0511",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iadoorthing","AR0511",1)
+    SetGlobal("Door1Opened","AR0511",2)
+    SetGlobal("Door2Opened","AR0511",2)
+    SetGlobal("Door3Opened","AR0511",2)
+    SetGlobal("Door4Opened","AR0511",2)
+END
+
+IF
+  Global("Iadoors","AR0511",1)
+  OpenState("Door Object 1",TRUE)
+  Global("Door1Opened","AR0511",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door1Opened","AR0511",1)
+END
+
+IF
+  Global("Iadoors","AR0511",1)
+  OpenState("Door Object 2",TRUE)
+  Global("Door2Opened","AR0511",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door2Opened","AR0511",1)
+END
+
+IF
+  Global("Iadoors","AR0511",1)
+  OpenState("Door Object 3",TRUE)
+  Global("Door3Opened","AR0511",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door3Opened","AR0511",1)
+END
+
+IF
+  Global("Iadoors","AR0511",1)
+  OpenState("Door Object 4",TRUE)
+  Global("Door4Opened","AR0511",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door4Opened","AR0511",1)
+END
+
+IF
+  OpenState("Door Object 1",FALSE)
+  Global("Door1Opened","AR0511",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door Object 1")
+END
+
+IF
+  OpenState("Door Object 2",FALSE)
+  Global("Door2Opened","AR0511",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door Object 2")
+END
+
+IF
+  OpenState("Door Object 3",FALSE)
+  Global("Door3Opened","AR0511",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door Object 3")
+END
+
+IF
+  OpenState("Door Object 4",FALSE)
+  Global("Door4Opened","AR0511",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door Object 4")
+END
+
+IF
+  Global("Iadoors","AR0511",1)
+  Global("Iastairs","AR0511",0)
+  Global("firstActivate","AR0511",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iastairs","AR0511",1)
+    TriggerActivation("Tran0509",FALSE)
+END
+
+IF
+  Global("Iadoors","AR0511",1)
+  Global("Iastairs","AR0511",0)
+  Global("firstActivate","AR0511",2)
+THEN
+  RESPONSE #100
+    SetGlobal("Iastairs","AR0511",1)
+    TriggerActivation("Tran0522",FALSE)
+END
+
+IF
+  Global("Iadoors","AR0511",2)
+  Global("Iastairs","AR0511",1)
+  Global("firstActivate","AR0511",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iastairs","AR0511",2)
+    TriggerActivation("Tran0509",TRUE)
+END
+
+IF
+  Global("Iadoors","AR0511",2)
+  Global("Iastairs","AR0511",1)
+  Global("firstActivate","AR0511",2)
+THEN
+  RESPONSE #100
+    SetGlobal("Iastairs","AR0511",2)
+    TriggerActivation("Tran0522",TRUE)
+END
+
+IF
+  Global("Iadoors2","AR0511",1)
+  Dead("BODFGT03")
+THEN
+  RESPONSE #100
+    SetGlobal("Iadoors2","AR0511",2)
+END
+
+IF
+  Global("Iadoors2","AR0511",2)
+  Global("Iadoorthing2","AR0511",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iadoorthing2","AR0511",1)
+    SetGlobal("Door1Opened2","AR0511",2)
+    SetGlobal("Door2Opened2","AR0511",2)
+    SetGlobal("Door3Opened2","AR0511",2)
+    SetGlobal("Door4Opened2","AR0511",2)
+END
+
+IF
+  InMyArea(Player1)
+  XPLT(Player1,850000)
+  Global("Iadoors2","AR0511",1)
+  GlobalLT("Iaguildbrides","AR0511",2)
+  !GlobalTimerNotExpired("Iaguildvamps","AR0511")
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iaguildbrides","AR0511",1)
+    SetGlobalTimer("Iaguildvamps","AR0511",30)
+    CreateVisualEffect("SPFLESHS",[374.1010])
+    CreateCreature("nevm4",[374.1010],10) //
+END
+
+IF
+  InMyArea(Player1)
+  XPGT(Player1,849999)
+  Global("Iadoors2","AR0511",1)
+  GlobalLT("Iaguildbrides","AR0511",3)
+  !GlobalTimerNotExpired("Iaguildvamps","AR0511")
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iaguildbrides","AR0511",1)
+    SetGlobalTimer("Iaguildvamps","AR0511",18)
+    CreateVisualEffect("SPFLESHS",[374.1010])
+    CreateCreature("nevm4",[374.1010],10) //
+END
+
+IF
+  Global("Iadoors2","AR0511",1)
+  OpenState("Door Object 1",TRUE)
+  Global("Door1Opened2","AR0511",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door1Opened2","AR0511",1)
+END
+
+IF
+  Global("Iadoors2","AR0511",1)
+  OpenState("Door Object 2",TRUE)
+  Global("Door2Opened2","AR0511",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door2Opened2","AR0511",1)
+END
+
+IF
+  Global("Iadoors2","AR0511",1)
+  OpenState("Door Object 3",TRUE)
+  Global("Door3Opened2","AR0511",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door3Opened2","AR0511",1)
+END
+
+IF
+  Global("Iadoors2","AR0511",1)
+  OpenState("Door Object 4",TRUE)
+  Global("Door4Opened2","AR0511",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door4Opened2","AR0511",1)
+END
+
+IF
+  OpenState("Door Object 1",FALSE)
+  Global("Door1Opened2","AR0511",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door Object 1")
+END
+
+IF
+  OpenState("Door Object 2",FALSE)
+  Global("Door2Opened2","AR0511",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door Object 2")
+END
+
+IF
+  OpenState("Door Object 3",FALSE)
+  Global("Door3Opened2","AR0511",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door Object 3")
+END
+
+IF
+  OpenState("Door Object 4",FALSE)
+  Global("Door4Opened2","AR0511",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door Object 4")
+END
+
+IF
+  Global("Iadoors2","AR0511",1)
+  Global("Iastairs2","AR0511",0)
+  Global("firstActivate","AR0511",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iastairs2","AR0511",1)
+    TriggerActivation("Tran0509",FALSE)
+END
+
+IF
+  Global("Iadoors2","AR0511",1)
+  Global("Iastairs2","AR0511",0)
+  Global("firstActivate","AR0511",2)
+THEN
+  RESPONSE #100
+    SetGlobal("Iastairs2","AR0511",1)
+    TriggerActivation("Tran0522",FALSE)
+END
+
+IF
+  Global("Iadoors2","AR0511",2)
+  Global("Iastairs2","AR0511",1)
+  Global("firstActivate","AR0511",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iastairs2","AR0511",2)
+    TriggerActivation("Tran0509",TRUE)
+END
+
+IF
+  Global("Iadoors2","AR0511",2)
+  Global("Iastairs2","AR0511",1)
+  Global("firstActivate","AR0511",2)
+THEN
+  RESPONSE #100
+    SetGlobal("Iastairs2","AR0511",2)
+    TriggerActivation("Tran0522",TRUE)
+END

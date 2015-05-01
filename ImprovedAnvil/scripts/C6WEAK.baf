@@ -1,0 +1,18 @@
+IF
+  OR(3)
+   Detect([PC])
+   AttackedBy([GOODCUTOFF],DEFAULT)
+   HPPercentLT(Myself,100)
+  Global("FightWait","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("FightWait","LOCALS",1)
+END
+
+IF
+  Global("FightWait","LOCALS",0)
+THEN
+  RESPONSE #100
+    NoAction()
+END
+

@@ -1,0 +1,69 @@
+IF
+  Allegiance("beast",ENEMY)  // ~Beastmaster~
+  !Allegiance(Myself,ENEMY)
+THEN
+  RESPONSE #100
+    SetInterrupt(FALSE)
+    ChangeEnemyAlly(Myself,ENEMY)
+    ReallyForceSpellRES("SPWII07",Myself)
+    SetInterrupt(TRUE)
+END
+
+IF
+  Exists("beast")
+  !Dead("beast")
+  !Allegiance("beast",ENEMY)  // ~Beastmaster~
+  Allegiance(Myself,ENEMY)
+THEN
+  RESPONSE #100
+    SetInterrupt(FALSE)
+    ActionOverride("beast",ReallyForceSpellRES("SPWII07",Myself))
+    ChangeEnemyAlly("beast",ENEMY)
+    SetInterrupt(TRUE)
+END
+
+IF
+  OR(3)
+   AttackedBy([GOODCUTOFF],DEFAULT)
+   SpellCastOnMe([PC],0)
+   HPPercentLT(Myself,100)
+  !Allegiance(Myself,ENEMY)
+THEN
+  RESPONSE #100
+    SetInterrupt(FALSE)
+    Enemy()
+    ReallyForceSpellRES("SPWII07",Myself)
+    SetInterrupt(TRUE)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  InMyArea(Player1)
+  !See([GOODCUTOFF])
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),1,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  See(SecondNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),1,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END

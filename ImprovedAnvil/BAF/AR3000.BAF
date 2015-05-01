@@ -1,0 +1,189 @@
+//Watcher's Keep //////////////
+
+IF
+   Global("Iacreature","AR3000",0)
+   !Class(Player1,THIEF_ALL)
+   !Class(Player1,BARD_ALL)
+   !Class(Player1,CLERIC_ALL)
+   !Class(Player1,MAGE_ALL)
+   !Class(Player1,DRUID_ALL)
+   !Class(Player1,MONK)
+   Alignment(Player1,MASK_GOOD)
+   PartyHasItem("sw1h60")
+   Dead("gorgit")
+   Global("IaGorgitDead","GLOBAL",1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iacreature","AR3000",1)
+      CreateCreature("S!dlord",[2361.1207],0)  //
+END
+
+IF
+   Global("Iacreature","AR3000",1)
+   Global("Iajdplot","GLOBAL",0)
+   PartyHasItem("sw1h60")
+   Dead("S!dlord")
+   Dead("gorgit")
+   Global("IaGorgitDead","GLOBAL",1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iajdplot","GLOBAL",1)
+END
+
+IF
+   InMyArea(Player1)
+   Global("Iacreature","AR3000",1)
+   PartyHasItem("S!sw04")
+   Global("Iajdplot","GLOBAL",2)
+   Global("Iajdstalk","GLOBAL",1)
+   GlobalTimerNotExpired("Iajdstime","GLOBAL")
+   GlobalLT("Chapter","GLOBAL",8)
+THEN
+   RESPONSE #100
+      SetGlobal("Iacreature","AR3000",2)
+      CreateCreatureObjectOffScreen("S!demgod",Player1,0,0,0) //
+END
+
+IF
+   InMyArea(Player1)
+   Global("Iacreature","AR3000",1)
+   PartyHasItem("S!sw04")
+   Global("Iajdplot","GLOBAL",2)
+   Global("Iajdstalk","GLOBAL",1)
+   GlobalTimerNotExpired("Iajdstime","GLOBAL")
+   GlobalGT("Chapter","GLOBAL",7)
+THEN
+   RESPONSE #100
+      SetGlobal("Iacreature","AR3000",2)
+      ClearAllActions()
+      StartCutSceneMode()
+      Wait(1)
+      FadeToColor([30.0],0)
+      Wait(1)
+      SetGlobal("Iap1nr","GLOBAL",0)
+      SetGlobal("Iap2nr","GLOBAL",0)
+      SetGlobal("Iap3nr","GLOBAL",0)
+      SetGlobal("Iap4nr","GLOBAL",0)
+      SetGlobal("Iap5nr","GLOBAL",0)
+      SetGlobal("Iap6nr","GLOBAL",0)
+      SetGlobal("Iap1nb","GLOBAL",0)
+      SetGlobal("Iap2nb","GLOBAL",0)
+      SetGlobal("Iap3nb","GLOBAL",0)
+      SetGlobal("Iap4nb","GLOBAL",0)
+      SetGlobal("Iap5nb","GLOBAL",0)
+      SetGlobal("Iap6nb","GLOBAL",0)
+      ActionOverride(Player1,ReallyForceSpellRES("SPINI14",Myself))
+      ActionOverride(Player2,ReallyForceSpellRES("SPINI14",Myself))
+      ActionOverride(Player3,ReallyForceSpellRES("SPINI14",Myself))
+      ActionOverride(Player4,ReallyForceSpellRES("SPINI14",Myself))
+      ActionOverride(Player5,ReallyForceSpellRES("SPINI14",Myself))
+      ActionOverride(Player6,ReallyForceSpellRES("SPINI14",Myself))
+      Wait(1)
+      MoveViewPoint([1766.2763],INSTANT)
+      ActionOverride(Player1,JumpToPoint([1766.2763]))
+      ActionOverride(Player2,JumpToPoint([1813.2763]))
+      ActionOverride(Player3,JumpToPoint([1861.2763]))
+      ActionOverride(Player4,JumpToPoint([1768.2800]))
+      ActionOverride(Player5,JumpToPoint([1816.2800]))
+      ActionOverride(Player6,JumpToPoint([1863.2800])
+      Wait(1)
+      ActionOverride(Player1,Face(9))
+      ActionOverride(Player2,Face(9))
+      ActionOverride(Player3,Face(9))
+      ActionOverride(Player4,Face(9))
+      ActionOverride(Player5,Face(9))
+      ActionOverride(Player6,Face(9))
+      CreateCreatureObject("S!demgod",Player1,0,0,0) //
+      EndCutSceneMode()
+      FadeFromColor([30.0],0)
+END
+
+IF
+   Global("Iacreature","AR3000",2)
+   Global("Iademgoddead","GLOBAL",0)
+   Dead("S!demgod")
+   GlobalTimerNotExpired("Iajdstime","GLOBAL")
+THEN
+   RESPONSE #100
+      SetGlobal("Iademgoddead","GLOBAL",1)
+      SetGlobal("Iajdstalk","GLOBAL",2)
+END
+
+IF
+  Global("Iaexit1","AR3000",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit1","AR3000",2)
+    TriggerActivation("Tran3000a",FALSE)
+    TriggerActivation("Tran3000b",FALSE)
+END
+
+IF
+  Global("Iaexit1","AR3000",2)
+  Dead("S!dlord")
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit1","AR3000",3)
+    TriggerActivation("Tran3000a",TRUE)
+    TriggerActivation("Tran3000b",TRUE)
+END
+
+IF
+  Global("Iaexit2","AR3000",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit2","AR3000",2)
+    TriggerActivation("Tran3000a",FALSE)
+    TriggerActivation("Tran3000b",FALSE)
+    TriggerActivation("Tran3011",FALSE)
+    TriggerActivation("Tran3016",FALSE)
+    TriggerActivation("Tran3017",FALSE)
+    TriggerActivation("Tran3019",FALSE)
+    TriggerActivation("Tran3020",FALSE)
+END
+
+IF
+  Global("Iaexit2","AR3000",2)
+  Global("Iajdfled","GLOBAL",0)
+  GlobalGT("Chapter","GLOBAL",7)
+THEN
+  RESPONSE #100
+    SetGlobal("Iajdfled","GLOBAL",1)
+END
+
+IF
+  Global("Iaexit2","AR3000",2)
+  Dead("S!demgod")
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit2","AR3000",3)
+    TriggerActivation("Tran3000a",TRUE)
+    TriggerActivation("Tran3000b",TRUE)
+    TriggerActivation("Tran3011",TRUE)
+    TriggerActivation("Tran3016",TRUE)
+    TriggerActivation("Tran3017",TRUE)
+    TriggerActivation("Tran3019",TRUE)
+    TriggerActivation("Tran3020",TRUE)
+END
+
+IF
+  Global("Iaexit2","AR3000",3)
+  Global("Iajdfled","GLOBAL",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iajdfled","GLOBAL",2)
+END
+
+IF
+  Global("Ianticheat","AR3000",0)
+  Global("Iacreature","AR3000",2)
+  Exists("S!demgod") //
+  !Dead("S!demgod") //
+  !Allegiance("S!demgod",ENEMY)
+  HPPercentLT("S!demgod",100)
+THEN
+  RESPONSE #100
+    SetGlobal("Ianticheat","AR3000",1)
+    ChangeEnemyAlly("S!demgod",ENEMY)
+    ApplySpellRES("SPWII07","S!demgod")
+END

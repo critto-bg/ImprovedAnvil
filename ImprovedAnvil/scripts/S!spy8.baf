@@ -1,0 +1,20 @@
+IF
+  !GlobalTimerNotExpired("Iaspy8timer","AR0802")
+  !See([EVILCUTOFF])
+  See([PC])
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iaspy8timer","AR0802",30)
+    CreateCreatureObject("S!orvam",LastSeenBy(Myself),0,0,0) //
+END
+
+IF
+  Global("Iaorcusdead","GLOBAL",1)
+  Dead("S!orcus")
+  CombatCounter(0)
+  Global("Iasuicide","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iasuicide","LOCALS",1)
+    DestroySelf()
+END

@@ -1,0 +1,169 @@
+//Slaver's Ship Building //
+
+IF
+  InMyArea(Player1)
+  OR(4)
+   SpellCast([PC],WIZARD_DEATH_FOG)
+   SpellCast([PC],WIZARD_CLOUDKILL)
+   SpellCast([PC],WIZARD_INCENDIARY_CLOUD)
+   SpellCast([PC],WIZARD_STINKING_CLOUD)
+THEN
+  RESPONSE #100
+    SetGlobal("Iapccloud","AR0405",1)
+    SetGlobalTimer("Iacloudtime","AR0405",60)
+END
+
+IF
+  Global("Iapccloud","AR0405",1)
+  GlobalTimerExpired("Iacloudtime","AR0405")
+THEN
+  RESPONSE #100
+    SetGlobal("Iapccloud","AR0405",0)
+END
+
+IF
+   InMyArea(Player1)
+   Global("Iaspy5","AR0405",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaspy5","AR0405",1)
+      CreateCreature("S!spy5",[905.1936],5) //
+END
+
+IF
+   Global("Iaitem","AR0405",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem","AR0405",1)
+      ActionOverride("Drawer 1",CreateItem("S!misc02",0,0,0)) //
+      CreateCreature("S!slave",[702.844],13) //
+END
+
+IF
+  Global("Iaexit","AR0405",0)
+  GlobalLT("Iaexit2","AR0405",2)
+  Global("Deactivation0404","AR0405",2)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR0405",1)
+    TriggerActivation("Door0404",FALSE)
+END
+
+IF
+  Global("Iaexit2","AR0405",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit2","AR0405",1)
+    TriggerActivation("Door0400",FALSE)
+END
+
+IF
+  Global("Iaexit","AR0405",1)
+  Dead("HAEGAN")
+  Dead("S!SLAVE")
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR0405",2)
+    TriggerActivation("Door0404",TRUE)
+END
+
+IF
+  Global("Iaexit2","AR0405",1)
+  Dead("HAEGAN")
+  Dead("S!SLAVE")
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit2","AR0405",2)
+    TriggerActivation("Door0400",TRUE)
+END
+
+IF
+  Global("Iapartyhere","AR0405",1)
+  Global("Iawrongdoor","AR0405",1)
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iawrongdoor","AR0405",2)
+    ActionOverride("HAEGAN",JumpToPoint([985.778]))
+    ActionOverride("SLAPRI",JumpToPoint([1042.818]))
+END
+
+IF
+  Global("Iaexit2","AR0405",1)
+  !GlobalTimerNotExpired("Iaassassin","AR0405")
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iaassassin","AR0405",42)
+    CreateCreatureObject("S!slassa",Player1,0,0,0) //
+END
+
+IF
+  Global("Iaexit2","AR0405",1)
+  GlobalGT("Iawrongdoor","AR0405",0)
+  !GlobalTimerNotExpired("Iaassassin2","AR0405")
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iaassassin2","AR0405",12)
+    CreateCreatureObject("S!slassa",Player1,0,0,0) //
+    CreateCreatureObject("S!slassa",Player1,0,0,0) //
+END
+
+IF
+  Global("Ialetter","AR0405",0)
+  PartyHasItem("S!misc40") //
+  Dead("HAEGAN") //
+THEN
+  RESPONSE #100
+    SetGlobal("Ialetter","AR0405",1)
+    SetGlobal("HeardOfSlaveLords","GLOBAL",1)
+END
+
+IF
+  OpenState("Door Room 1",TRUE)
+  Global("Door1Opened","AR0405",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door1Opened","AR0405",1)
+END
+
+IF
+  OpenState("Door Room 2",TRUE)
+  Global("Door2Opened","AR0405",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door2Opened","AR0405",1)
+END
+
+IF
+  OpenState("Door Room 3",TRUE)
+  Global("Door3Opened","AR0405",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door3Opened","AR0405",1)
+END
+
+IF
+  OpenState("Door Room 1",FALSE)
+  Global("Door1Opened","AR0405",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door Room 1")
+END
+
+IF
+  OpenState("Door Room 2",FALSE)
+  Global("Door2Opened","AR0405",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door Room 2")
+END
+
+IF
+  OpenState("Door Room 3",FALSE)
+  Global("Door3Opened","AR0405",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door Room 3")
+END

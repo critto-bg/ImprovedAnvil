@@ -1,0 +1,178 @@
+//Jae'llat's House  //////////////
+
+IF
+  Global("Iaexit","AR2209",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR2209",1)
+    TriggerActivation("Tran2200",FALSE)
+END
+
+IF
+  Global("Iaexit","AR2209",1)
+  Dead("jael01")
+  Dead("jael02")
+  Dead("jael03")
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR2209",2)
+    TriggerActivation("Tran2200",TRUE)
+END
+
+IF
+  InMyArea(Player1)
+  OR(4)
+   SpellCast([PC],WIZARD_DEATH_FOG)
+   SpellCast([PC],WIZARD_CLOUDKILL)
+   SpellCast([PC],WIZARD_STINKING_CLOUD)
+   SpellCast([PC],WIZARD_INCENDIARY_CLOUD)
+THEN
+  RESPONSE #100
+    SetGlobal("Iapccloud","AR2209",1)
+    SetGlobalTimer("Iacloudtime","AR2209",60)
+END
+
+IF
+  Global("Iapccloud","AR2209",1)
+  GlobalTimerExpired("Iacloudtime","AR2209")
+  Global("Iawhosweet","AR2209",0)
+  Exists("jael01")
+  !Dead("jael01")
+  RandomNumGT(6,3)
+THEN
+  RESPONSE #100
+    SetGlobal("Iawhosweet","AR2209",1)
+END
+
+IF
+  Global("Iapccloud","AR2209",1)
+  GlobalTimerExpired("Iacloudtime","AR2209")
+  Global("Iawhosweet","AR2209",0)
+  Exists("jael01")
+  !Dead("jael01")
+  Dead("jael02")
+THEN
+  RESPONSE #100
+    SetGlobal("Iawhosweet","AR2209",1)
+END
+
+IF
+  Global("Iapccloud","AR2209",1)
+  GlobalTimerExpired("Iacloudtime","AR2209")
+  Global("Iawhosweet","AR2209",0)
+  Exists("jael02")
+  !Dead("jael02")
+THEN
+  RESPONSE #100
+    SetGlobal("Iawhosweet","AR2209",2)
+END
+
+IF
+  Global("Iapccloud","AR2209",1)
+  GlobalTimerExpired("Iacloudtime","AR2209")
+THEN
+  RESPONSE #100
+    SetGlobal("Iapccloud","AR2209",0)
+END
+
+IF
+   Global("Iaitem","AR2209",0)
+   Global("Iaexit","AR2209",2)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem","AR2209",1)
+      ActionOverride("Shelf 1",CreateItem("potn35",0,0,0)) //
+      ActionOverride("Shelf 4",CreateItem("potn52",0,0,0)) //
+      ActionOverride("Shelf 4",CreateItem("potn55",0,0,0)) //
+      ActionOverride("Shelf 5",CreateItem("potn08",0,0,0)) //
+END
+
+IF
+   InMyArea(Player1)
+   NumInPartyGT(4)
+   Global("Iaitem2","AR2209",0)
+   Global("Iaexit","AR2209",2)
+   CheckStat(Player1,8,SCRIPTINGSTATE1)
+   !Class(Player1,FIGHTER_ALL)
+   !Class(Player1,CLERIC_ALL)
+   !Class(Player1,MAGE_ALL)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem2","AR2209",1)
+      ActionOverride("Shelf 1",CreateItem("S!misc02",0,0,0)) //
+END
+
+IF
+   InMyArea(Player1)
+   NumInPartyGT(4)
+   Global("Iaitem2","AR2209",0)
+   Global("Iaexit","AR2209",2)
+   CheckStat(Player2,8,SCRIPTINGSTATE1)
+   !Class(Player2,FIGHTER_ALL)
+   !Class(Player2,CLERIC_ALL)
+   !Class(Player2,MAGE_ALL)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem2","AR2209",1)
+      ActionOverride("Shelf 1",CreateItem("S!misc02",0,0,0)) //
+END
+
+IF
+   InMyArea(Player1)
+   NumInPartyGT(4)
+   Global("Iaitem2","AR2209",0)
+   Global("Iaexit","AR2209",2)
+   CheckStat(Player3,8,SCRIPTINGSTATE1)
+   !Class(Player3,FIGHTER_ALL)
+   !Class(Player3,CLERIC_ALL)
+   !Class(Player3,MAGE_ALL)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem2","AR2209",1)
+      ActionOverride("Shelf 1",CreateItem("S!misc02",0,0,0)) //
+END
+
+IF
+   InMyArea(Player1)
+   NumInPartyGT(4)
+   Global("Iaitem2","AR2209",0)
+   Global("Iaexit","AR2209",2)
+   CheckStat(Player4,8,SCRIPTINGSTATE1)
+   !Class(Player4,FIGHTER_ALL)
+   !Class(Player4,CLERIC_ALL)
+   !Class(Player4,MAGE_ALL)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem2","AR2209",1)
+      ActionOverride("Shelf 1",CreateItem("S!misc02",0,0,0)) //
+END
+
+IF
+   InMyArea(Player1)
+   NumInPartyGT(4)
+   Global("Iaitem2","AR2209",0)
+   Global("Iaexit","AR2209",2)
+   CheckStat(Player5,8,SCRIPTINGSTATE1)
+   !Class(Player5,FIGHTER_ALL)
+   !Class(Player5,CLERIC_ALL)
+   !Class(Player5,MAGE_ALL)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem2","AR2209",1)
+      ActionOverride("Shelf 1",CreateItem("S!misc02",0,0,0)) //
+END
+
+IF
+   InMyArea(Player1)
+   NumInPartyGT(4)
+   Global("Iaitem2","AR2209",0)
+   Global("Iaexit","AR2209",2)
+   CheckStat(Player6,8,SCRIPTINGSTATE1)
+   !Class(Player6,FIGHTER_ALL)
+   !Class(Player6,CLERIC_ALL)
+   !Class(Player6,MAGE_ALL)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem2","AR2209",1)
+      ActionOverride("Shelf 1",CreateItem("S!misc02",0,0,0)) //
+END

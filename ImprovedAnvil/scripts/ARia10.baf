@@ -1,0 +1,47 @@
+// Horde of Spiders ///
+
+IF
+  Global("Iaexit","ARia10",0)
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","ARia10",1)
+    TriggerActivation("Trania01",FALSE)
+    TriggerActivation("Trania09",FALSE)
+END
+
+IF
+  Global("Iaexit","ARia10",1)
+  GlobalLT("Iaspiders","ARia10",8)
+  !GlobalTimerNotExpired("SpiderHorde","ARia10")
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iaspiders","ARia10",1)
+    SetGlobalTimer("SpiderHorde","ARia10",4)
+    CreateCreature("S!spiwd2",[1065.536],1)
+END
+
+IF
+  Global("Iaexit","ARia10",1)
+  Global("Iaspiders","ARia10",8)
+  !GlobalTimerNotExpired("SpiderHorde","ARia10")
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iaspiders","ARia10",1)
+    SetGlobalTimer("SpiderHorde","ARia10",4)
+    CreateCreature("S!spiwd3",[1065.536],1)
+END
+
+IF
+  Global("Iaexit","ARia10",1)
+  Global("Iaspiders","ARia10",9)
+  !GlobalTimerNotExpired("SpiderHorde","ARia10")
+  Dead("S!spiwd3")
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","ARia10",2)
+    TriggerActivation("Trania01",TRUE)
+    TriggerActivation("Trania09",TRUE)
+END

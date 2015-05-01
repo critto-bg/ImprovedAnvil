@@ -1,0 +1,46 @@
+//Underdark ///
+
+IF
+  InMyArea(Player1)
+  OR(4)
+   SpellCast([PC],WIZARD_DEATH_FOG)
+   SpellCast([PC],WIZARD_CLOUDKILL)
+   SpellCast([PC],WIZARD_INCENDIARY_CLOUD)
+   SpellCast([PC],WIZARD_STINKING_CLOUD)
+THEN
+  RESPONSE #100
+    SetGlobal("Iapccloud","AR2100",1)
+    SetGlobalTimer("Iacloudtime","AR2100",60)
+END
+
+IF
+  Global("Iapccloud","AR2100",1)
+  GlobalTimerExpired("Iacloudtime","AR2100")
+THEN
+  RESPONSE #100
+    SetGlobal("Iapccloud","AR2100",0)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iaustnatha","AR2100",0)
+  GlobalGT("Chapter","GLOBAL",5)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaustnatha","AR2100",1)
+    TriggerActivation("Tran2200",FALSE)
+    CloseDoor("Door02")
+    Lock("Door02")
+END
+
+IF
+  InMyArea(Player1)
+  PartyHasItem("misc8u") // Silver Blade
+  Global("Iaforcekruin","GLOBAL",0)
+  Global("KruinTalked","GLOBAL",0)
+  !Dead("KRUIN")
+THEN
+  RESPONSE #100
+    SetGlobal("Iacromwellshut","GLOBAL",1)
+    SetGlobal("Iaforcekruin","GLOBAL",1)
+END

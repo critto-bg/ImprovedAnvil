@@ -1,0 +1,157 @@
+IF
+  Global("Iapcastts","GLOBAL",1)
+  Global("Iatsinvulner","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatsinvulner","LOCALS",1)
+    ApplySpellRES("SPINI70",Myself)
+END
+
+IF
+  Global("Iapcastts","GLOBAL",0)
+  Global("Iatsinvulner","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatsinvulner","LOCALS",0)
+    ApplySpellRES("SPINI71",Myself)
+END
+
+IF
+  Global("RemoveRing","LOCALS",0)
+  Global("Iapcastts","GLOBAL",0)
+  Detect(Player1)
+  HasItemEquiped("key20",Player1)
+THEN
+  RESPONSE #100
+    SetGlobal("RemoveRing","LOCALS",1)
+    DestroyItem("firering")  // ~Ring of Invisibility ~
+    CreateVisualEffectObject("SPFLESHS",Myself)
+END
+
+IF
+  Global("RemoveRing","LOCALS",0)
+  Global("Iapcastts","GLOBAL",0)
+  Detect(Player2)
+  HasItemEquiped("key20",Player2)
+THEN
+  RESPONSE #100
+    SetGlobal("RemoveRing","LOCALS",1)
+    DestroyItem("firering")  // ~Ring of Invisibility ~
+    CreateVisualEffectObject("SPFLESHS",Myself)
+END
+
+IF
+  Global("RemoveRing","LOCALS",0)
+  Global("Iapcastts","GLOBAL",0)
+  Detect(Player3)
+  HasItemEquiped("key20",Player3)
+THEN
+  RESPONSE #100
+    SetGlobal("RemoveRing","LOCALS",1)
+    DestroyItem("firering")  // ~Ring of Invisibility ~
+    CreateVisualEffectObject("SPFLESHS",Myself)
+END
+
+IF
+  Global("RemoveRing","LOCALS",0)
+  Global("Iapcastts","GLOBAL",0)
+  Detect(Player4)
+  HasItemEquiped("key20",Player4)
+THEN
+  RESPONSE #100
+    SetGlobal("RemoveRing","LOCALS",1)
+    DestroyItem("firering")  // ~Ring of Invisibility ~
+    CreateVisualEffectObject("SPFLESHS",Myself)
+END
+
+IF
+  Global("RemoveRing","LOCALS",0)
+  Global("Iapcastts","GLOBAL",0)
+  Detect(Player5)
+  HasItemEquiped("key20",Player5)
+THEN
+  RESPONSE #100
+    SetGlobal("RemoveRing","LOCALS",1)
+    DestroyItem("firering")  // ~Ring of Invisibility ~
+    CreateVisualEffectObject("SPFLESHS",Myself)
+END
+
+IF
+  Global("RemoveRing","LOCALS",0)
+  Global("Iapcastts","GLOBAL",0)
+  Detect(Player6)
+  HasItemEquiped("key20",Player6)
+THEN
+  RESPONSE #100
+    SetGlobal("RemoveRing","LOCALS",1)
+    DestroyItem("firering")  // ~Ring of Invisibility ~
+    CreateVisualEffectObject("SPFLESHS",Myself)
+END
+
+IF
+  Global("RemoveRing","LOCALS",0)
+  !GlobalTimerNotExpired("Ianomask","LOCALS")
+  See(NearestEnemyOf(Myself))
+  Range(LastSeenBy(Myself),6)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Ianomask","LOCALS",6)
+    ReallyForceSpell(Myself,WIZARD_SUN_FIRE)
+END
+
+IF
+  Global("RemoveRing","LOCALS",0)
+  HPPercentLT(Myself,100)
+  !HPLT(Myself,1)
+THEN
+  RESPONSE #100
+    ReallyForceSpellRES("SPWII07",Myself)
+END
+
+IF
+  Global("RemoveRing","LOCALS",0)
+  !StateCheck(Myself,STATE_INVISIBLE)
+  OR(2)
+   Detect([GOODCUTOFF])
+   AttackedBy([GOODCUTOFF],DEFAULT)
+  !HPLT(Myself,1)
+THEN
+  RESPONSE #100
+    ApplySpell(Myself,WIZARD_INVISIBILITY)
+END
+
+IF
+  Global("RemoveRing","LOCALS",1)
+  See(NearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  Global("RemoveRing","LOCALS",1)
+  See(SecondNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Global("RemoveRing","LOCALS",1)
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Global("RemoveRing","LOCALS",1)
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END

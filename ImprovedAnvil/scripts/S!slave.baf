@@ -1,0 +1,88 @@
+IF
+  Range([PC],6)
+  NumberOfTimesTalkedTo(0)
+  Global("Iapcastts","GLOBAL",0)
+  See([PC])
+  Global("Iatalk","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatalk","LOCALS",1)
+    StartDialogNoSet([PC])
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  Global("EnemySeen","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("EnemySeen","LOCALS",1)
+END
+
+IF
+  Global("Iaexit2","AR0405",1)
+  !GlobalTimerNotExpired("Iasummon","LOCALS")
+  See([PC])
+  Global("Iatalk","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iasummon","LOCALS",36)
+    CreateCreatureObject("S!slassa",LastSeenBy(Myself),0,0,0) //
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  !StateCheck(Myself,STATE_HASTED)
+  Global("Iapcastts","GLOBAL",0)
+THEN
+  RESPONSE #100
+    ForceSpell(Myself,GOLEM_HASTE)
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #50
+    AttackOneRound(NearestEnemyOf(Myself))
+    AttackOneRound(NearestEnemyOf(Myself))
+  RESPONSE #25
+    DisplayStringHead(Myself,49767)  // ~No more~
+    RunAwayFrom(NearestEnemyOf(Myself),90)
+  RESPONSE #25
+    DisplayStringHead(Myself,49768)  // ~Mercy!~
+    RunAwayFrom(NearestEnemyOf(Myself),90)
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),1,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  See(SecondNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),1,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  InMyArea(Player1)
+  Global("EnemySeen","LOCALS",1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END

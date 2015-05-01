@@ -1,0 +1,25 @@
+//Guardian of the key ///
+
+IF
+  Global("Iaexit","ARia16",0)
+  Global("Iatrapworked","ARia16",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","ARia16",1)
+    TriggerActivation("Trania15",FALSE)
+END
+
+IF
+  Global("Iatrapworked","ARia16",1)
+  Global("Iaexit","ARia16",1)
+  Dead("S!gghost")
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","ARia16",2)
+    TriggerActivation("Trania15",TRUE)
+    ActionOverride("Container 1",CreateItem("potn55",0,0,0)) //
+    ActionOverride("Container 1",CreateItem("potn52",2,0,0)) //
+    ActionOverride("Container 1",CreateItem("potn42",0,0,0)) //
+    ActionOverride("Container 1",CreateItem("potn35",0,0,0)) //
+    ActionOverride("Container 1",CreateItem("potn34",0,0,0)) //
+END

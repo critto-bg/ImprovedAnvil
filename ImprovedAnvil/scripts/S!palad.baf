@@ -1,0 +1,18 @@
+IF
+  Global("quit","LOCALS",0)
+  Global("Iapcastts","GLOBAL",0)
+  OR(4)
+   AttackedBy([GOODCUTOFF],DEFAULT)
+   AttackedBy([PC],DEFAULT)
+   SpellCastOnMe([GOODCUTOFF],0)
+   TookDamage()
+THEN
+  RESPONSE #100
+    SetGlobal("quit","LOCALS",1)
+    SetInterrupt(FALSE)
+    DisplayStringHead(Myself,36515)
+    ReputationInc(-4)
+    SetInterrupt(TRUE)
+    DialogueInterrupt(FALSE)
+    ForceSpell(Myself,DRYAD_TELEPORT)
+END

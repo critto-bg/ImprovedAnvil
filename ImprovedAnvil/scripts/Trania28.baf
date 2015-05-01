@@ -1,0 +1,81 @@
+IF
+  Clicked([ANYONE])
+  Class(Player1,RANGER_ALL)
+  !Class(Player1,CLERIC_ALL)
+  CheckStat(Player1,7,SCRIPTINGSTATE1)
+  Global("Iamvagrant","GLOBAL",1)
+  !Global("Iap1notgood","GLOBAL",1)
+  GlobalGT("Iaswanmejob","GLOBAL",8)
+  GlobalGT("Iaoldsquijob","GLOBAL",3)
+  PartyHasItem("S!misc45")
+  Range(LastTrigger,10)
+  Global("Iapcastts","GLOBAL",0)
+  Global("Iammirrorjob","GLOBAL",0)
+THEN
+  RESPONSE #100
+    StartCutSceneMode()
+    Wait(1)
+    FadeToColor([20.0],0)
+    TakePartyItem("S!misc45")
+    DestroyItem("S!misc45")
+    Wait(2)
+    ActionOverride(Player1,LeaveAreaLUAPanic("ARia23","",[1017.640],3))
+    ActionOverride(Player1,LeaveAreaLUA("ARia23","",[1017.640],3))
+    ActionOverride(Player2,LeaveAreaLUA("ARia23","",[985.605],3))
+    ActionOverride(Player3,LeaveAreaLUA("ARia23","",[1065.616],3))
+    ActionOverride(Player4,LeaveAreaLUA("ARia23","",[1020.579],3))
+    ActionOverride(Player5,LeaveAreaLUA("ARia23","",[1113.593],3))
+    ActionOverride(Player6,LeaveAreaLUA("ARia23","",[1079.557],3))
+    MultiPlayerSync()
+    Wait(1)
+    SetGlobal("Iammirrorjob","GLOBAL",1)
+    EndCutSceneMode()
+    FadeFromColor([20.0],0)
+END
+
+IF
+  Clicked([ANYONE])
+  Class(Player1,RANGER_ALL)
+  !Class(Player1,CLERIC_ALL)
+  CheckStat(Player1,7,SCRIPTINGSTATE1)
+  Global("Iamvagrant","GLOBAL",1)
+  !Global("Iap1notgood","GLOBAL",1)
+  GlobalGT("Iaswanmejob","GLOBAL",8)
+  GlobalGT("Iaoldsquijob","GLOBAL",3)
+  Range(LastTrigger,10)
+  Global("Iapcastts","GLOBAL",0)
+  GlobalGT("Iammirrorjob","GLOBAL",0)
+THEN
+  RESPONSE #100
+    StartCutSceneMode()
+    Wait(1)
+    FadeToColor([20.0],0)
+    Wait(2)
+    ActionOverride(Player1,LeaveAreaLUAPanic("ARia23","",[1017.640],3))
+    ActionOverride(Player1,LeaveAreaLUA("ARia23","",[1017.640],3))
+    ActionOverride(Player2,LeaveAreaLUA("ARia23","",[985.605],3))
+    ActionOverride(Player3,LeaveAreaLUA("ARia23","",[1065.616],3))
+    ActionOverride(Player4,LeaveAreaLUA("ARia23","",[1020.579],3))
+    ActionOverride(Player5,LeaveAreaLUA("ARia23","",[1113.593],3))
+    ActionOverride(Player6,LeaveAreaLUA("ARia23","",[1079.557],3))
+    MultiPlayerSync()
+    EndCutSceneMode()
+    FadeFromColor([20.0],0)
+END
+
+IF
+  Clicked([ANYONE])
+  Range(LastTrigger,10)
+  Global("Iapcastts","GLOBAL",0)
+THEN
+  RESPONSE #100
+    DisplayString(Myself,2314) //
+END
+
+IF
+  Clicked([ANYONE])
+  !Range(LastTrigger,10)
+THEN
+  RESPONSE #100
+    DisplayString(Myself,14702)  // ~You are too far away to use that.~
+END

@@ -1,0 +1,291 @@
+IF
+  See("Edwin")  // Edwin
+  !Dead("Edwin")  // Edwin
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  OR(5)
+   Global("Iapcastts","GLOBAL",1)
+   StateCheck(Myself,STATE_CONFUSED)
+   StateCheck(Myself,STATE_HELPLESS)
+   StateCheck(Myself,STATE_PANIC)
+   StateCheck(Myself,STATE_STUNNED)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iaspell","LOCALS",6)
+END
+
+IF
+  HPPercentLT(Myself,50)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  HasItem("POTN35",Myself)
+  !CheckStat(Myself,2,SCRIPTINGSTATE3)
+  See("Edwin")  // Edwin
+  !Dead("Edwin")  // Edwin
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    DisplayStringHead(Myself,46150)  // ~quaffs a potion~
+    UseItem("POTN35",Myself)
+END
+
+IF
+  See("Edwin")  // Edwin
+  !Dead("Edwin")  // Edwin
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  StateCheck(Myself,STATE_SILENCED)
+  !CheckStatGT(Myself,0,SCRIPTINGSTATE9)
+  Level(Myself,10)
+  Global("vocalize","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("vocalize","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDecRES("SPPRI19",Myself)
+END
+
+IF
+  See("Edwin")  // Edwin
+  !Dead("Edwin")  // Edwin
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  StateCheck(Myself,STATE_SILENCED)
+  !CheckStatGT(Myself,0,SCRIPTINGSTATE9)
+  LevelGT(Myself,10)
+  LevelLT(Myself,15)
+  GlobalLT("vocalize","LOCALS",2)
+THEN
+  RESPONSE #100
+    IncrementGlobal("vocalize","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDecRES("SPPRI19",Myself)
+END
+
+IF
+  See("Edwin")  // Edwin
+  !Dead("Edwin")  // Edwin
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  StateCheck(Myself,STATE_SILENCED)
+  !CheckStatGT(Myself,0,SCRIPTINGSTATE9)
+  LevelGT(Myself,14)
+  LevelLT(Myself,19)
+  GlobalLT("vocalize","LOCALS",3)
+THEN
+  RESPONSE #100
+    IncrementGlobal("vocalize","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDecRES("SPPRI19",Myself)
+END
+
+IF
+  See("Edwin")  // Edwin
+  !Dead("Edwin")  // Edwin
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  StateCheck(Myself,STATE_SILENCED)
+  !CheckStatGT(Myself,0,SCRIPTINGSTATE9)
+  LevelGT(Myself,18)
+  GlobalLT("vocalize","LOCALS",4)
+THEN
+  RESPONSE #100
+    IncrementGlobal("vocalize","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDecRES("SPPRI19",Myself)
+END
+
+IF
+  HPPercentLT(Myself,50)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  HasItem("POTN55",Myself)  // ~Potion of Superior Healing~
+  See("Edwin")  // Edwin
+  !Dead("Edwin")  // Edwin
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    DisplayStringHead(Myself,46150)  // ~quaffs a potion~
+    UseItem("POTN55",Myself)  // ~Potion of Superior Healing~
+END
+
+IF
+  HPPercentLT(Myself,50)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  HasItem("POTN52",Myself)
+  See("Edwin")  // Edwin
+  !Dead("Edwin")  // Edwin
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    DisplayStringHead(Myself,46150)  // ~quaffs a potion~
+    UseItem("POTN52",Myself)
+END
+
+IF
+  See("Edwin")  // Edwin
+  !Dead("Edwin")  // Edwin
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  OR(2)
+   StateCheck(Myself,STATE_SILENCED)
+   CheckStatGT(Myself,0,SCRIPTINGSTATE9)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iaspell","LOCALS",6)
+END
+
+IF
+  See("Edwin")  // Edwin
+  !Dead("Edwin")  // Edwin
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  LevelGT(Myself,17)
+  Global("contact","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("contact","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDecRES("SPCL922",Myself)
+END
+
+IF
+  See("Edwin")  // Edwin
+  !Dead("Edwin")  // Edwin
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  HPPercentLT(Myself,50)
+  LevelGT(Myself,9)
+  LevelLT(Myself,16)
+  Global("masscure","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("masscure","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDecRES("SPINI41",Myself)
+END
+
+IF
+  See("Edwin")  // Edwin
+  !Dead("Edwin")  // Edwin
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  HPPercentLT(Myself,50)
+  LevelGT(Myself,15)
+  GlobalLT("masscure","LOCALS",2)
+THEN
+  RESPONSE #100
+    IncrementGlobal("masscure","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDecRES("SPINI41",Myself)
+END
+
+IF
+  See("Edwin")  // Edwin
+  !Dead("Edwin")  // Edwin
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  HPPercentLT(Myself,75)
+  LevelGT(Myself,10)
+  LevelLT(Myself,15)
+  GlobalLT("csw","LOCALS",2)
+THEN
+  RESPONSE #100
+    IncrementGlobal("csw","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDecRES("SPINI40",Myself)
+END
+
+IF
+  See("Edwin")  // Edwin
+  !Dead("Edwin")  // Edwin
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  HPPercentLT(Myself,75)
+  LevelGT(Myself,14)
+  GlobalLT("csw","LOCALS",3)
+THEN
+  RESPONSE #100
+    IncrementGlobal("csw","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDecRES("SPINI40",Myself)
+END
+
+IF
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  See("Edwin")  // Edwin
+  !Dead("Edwin")  // Edwin
+  HaveSpell(WARRIOR_HARDINESS)
+  !CheckStat(Myself,1,SCRIPTINGSTATE11)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    Spell(Myself,WARRIOR_HARDINESS)
+END
+
+IF
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  See("Edwin")  // Edwin
+  !Dead("Edwin")  // Edwin
+  HaveSpell(CLERIC_ARMOR_OF_FAITH)
+  Global("armoroffaith","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("armoroffaith","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    Spell(Myself,CLERIC_ARMOR_OF_FAITH)
+END
+
+IF
+  See("Edwin")  // Edwin
+  !Dead("Edwin")  // Edwin
+THEN
+  RESPONSE #100
+    EquipMostDamagingMelee()
+    AttackOneRound("Edwin")
+END
+
+IF
+  AttackedBy([ANYONE],DEFAULT)
+  See(LastAttackerOf(Myself))
+THEN
+  RESPONSE #100
+    EquipMostDamagingMelee()
+    AttackOneRound(LastAttackerOf(Myself))
+END
+
+IF
+  See("Edwin")  // Edwin
+  !Dead("Edwin")  // Edwin
+THEN
+  RESPONSE #100
+    EquipMostDamagingMelee()
+    AttackReevaluate("Edwin",30)
+END
+
+IF
+  OR(2)
+    Dead("Edwin")  // Edwin
+    !Detect("Edwin")  // Edwin
+  CombatCounter(0)
+  !Allegiance(Myself,ENEMY)
+  Global("EdwinValygarFight","GLOBAL",1)
+  See([PC])
+THEN
+  RESPONSE #100
+    SetGlobal("EdwinValygarFight","GLOBAL",2)
+    StartDialogNoSet([PC])
+END
+
+IF
+  OR(2)
+    Dead("Edwin")  // Edwin
+    !Detect("Edwin")  // Edwin
+  CombatCounter(0)
+  Global("EdwinValygarFight","GLOBAL",1)
+  !See([PC])
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  OR(2)
+    Dead("Edwin")  // Edwin
+    !Detect("Edwin")  // Edwin
+  CombatCounter(0)
+  Global("EdwinValygarFight","GLOBAL",1)
+  !See([PC])
+  !InMyArea(Player1)
+THEN
+  RESPONSE #100
+    EscapeArea()
+END

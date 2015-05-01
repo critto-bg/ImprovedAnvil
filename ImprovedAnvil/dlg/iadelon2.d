@@ -1,0 +1,11 @@
+BEGIN ~IADELON2~
+
+IF ~NumTimesTalkedTo(0)~ THEN BEGIN 0
+  SAY @1800
+  IF ~~ THEN REPLY @1801 GOTO 1
+END
+
+IF ~~ THEN BEGIN 1
+  SAY @1802
+  IF ~~ THEN DO ~EscapeArea()~ EXIT
+END

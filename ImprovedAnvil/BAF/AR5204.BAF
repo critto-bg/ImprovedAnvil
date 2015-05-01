@@ -1,0 +1,65 @@
+// Yaga-Shura's Keep///
+
+IF
+  OpenState("Door01",TRUE)
+  Global("Door1Opened","AR5204",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door1Opened","AR5204",1)
+END
+
+IF
+  OpenState("Door01",FALSE)
+  Global("Door1Opened","AR5204",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door01")
+END
+
+IF
+  Global("Iaexit","AR5204",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR5204",1)
+    TriggerActivation("Tran5201",FALSE)
+END
+
+IF
+  Global("Iaexit","AR5204",1)
+  Dead("hgber01")
+  Dead("ELEMIMIX")
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR5204",2)
+    TriggerActivation("Tran5201",TRUE)
+END
+
+IF
+  InMyArea(Player1)
+  OR(2)
+   SpellCast([PC],WIZARD_DEATH_FOG)
+   SpellCast([PC],WIZARD_CLOUDKILL)
+THEN
+  RESPONSE #100
+    SetGlobal("Iapccloud","AR5204",1)
+    SetGlobalTimer("Iacloudtime","AR5204",60)
+END
+
+IF
+  Global("Iapccloud","AR5204",1)
+  GlobalTimerExpired("Iacloudtime","AR5204")
+THEN
+  RESPONSE #100
+    SetGlobal("Iapccloud","AR5204",0)
+END
+
+IF
+   Global("Iaitem","AR5204",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem","AR5204",1)
+      ActionOverride("Container 2",CreateItem("S!misc01",0,0,0)) //
+      ActionOverride("Container 2",CreateItem("S!misc02",0,0,0)) //
+      ActionOverride("Container 2",CreateItem("S!misc06",0,0,0)) //
+      ActionOverride("Container 2",CreateItem("ring18",0,0,0)) //
+END

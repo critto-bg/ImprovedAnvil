@@ -1,0 +1,33 @@
+//Deirex's Tower in Ust Natha //////////////
+
+IF
+   Global("Iacreature","AR2207",0)
+   Global("Iaamarieljob","GLOBAL",1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iacreature","AR2207",1)
+      CreateCreature("S!ammar",[1021.505],13) //
+      CreateCreature("S!skel3",[1351.699],0) //
+      CreateCreature("S!spy1",[1005.481],13) //
+      Explore()
+END
+
+IF
+   Global("Iacreature","AR2207",1)
+   Global("Iaamarieljob","GLOBAL",1)
+   Global("Iaitemremove","AR2207",1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitemremove","AR2207",2)
+      TakeItemReplace("ring19","S!holdr","S!ammar")
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iaitemmgone","AR2207",0)
+THEN
+   RESPONSE #100
+     SetGlobal("Iaitemmgone","AR2207",1)
+     ActionOverride("Shelf 3",DestroyItem("leat18")) //
+     ActionOverride("Shelf 3",CreateItem("misc07",999,0,0)) //
+END

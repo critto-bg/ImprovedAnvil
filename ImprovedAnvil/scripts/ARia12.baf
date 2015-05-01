@@ -1,0 +1,31 @@
+// Neo-Otyughs ///
+
+IF
+  Global("Iaexit","ARia12",0)
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","ARia12",1)
+    TriggerActivation("Trania15",FALSE)
+END
+
+IF
+  Global("Iaexit","ARia12",1)
+  OR(2)
+   NumDeadGT("S!otyug2",5)
+   GlobalGT("IaNumOfDeads","ARia12",5)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","ARia12",2)
+    TriggerActivation("Trania15",TRUE)
+END
+
+IF
+  Global("Iablock","ARia12",0)
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iablock","ARia12",1)
+    CreateCreature("S!blockd",[628.719],5)
+    CreateCreature("S!blockd",[772.798],1)
+END

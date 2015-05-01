@@ -1,0 +1,150 @@
+//The Docks //////////////
+
+IF
+  PartyHasItem("S!robe01")
+  Class(Player1,MAGE_ALL)
+  Global("Iarobeforged","GLOBAL",1)
+  Global("Ialimak","AR0300",0)
+  Global("Iarobetimer","AR0300",0)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Ialimakspawn","GLOBAL",THREE_DAYS)
+    SetGlobal("Ialimak","AR0300",1)
+    SetGlobal("Iarobetimer","AR0300",1)
+END
+
+IF
+  Global("Ialimak","AR0300",1)
+  GlobalTimerExpired("Ialimakspawn","GLOBAL")
+  InMyArea(Player1)
+  Class(Player1,MAGE_ALL)
+THEN
+  RESPONSE #100
+    SetGlobal("Ialimak","AR0300",2)
+    CreateCreatureObjectDoor("S!limak",Player1,0,0,0) //
+END
+
+IF
+  Global("IaLimakMet","GLOBAL",1)
+  Global("IaLimakHostile","GLOBAL",1)
+  RandomNumLT(6,3)
+THEN
+  RESPONSE #100
+    SetGlobal("IaLimakMet","GLOBAL",0)
+    CreateCreature("S!limak",[1648.1545],5)  //
+END
+
+IF
+  Global("IaLimakMet","GLOBAL",1)
+  Global("IaLimakHostile","GLOBAL",1)
+  RandomNumLT(4,3)
+THEN
+  RESPONSE #100
+    SetGlobal("IaLimakMet","GLOBAL",0)
+    CreateCreature("S!limak",[3080.350],13)  //
+END
+
+IF
+  Global("IaLimakMet","GLOBAL",1)
+  Global("IaLimakHostile","GLOBAL",1)
+THEN
+  RESPONSE #100
+    SetGlobal("IaLimakMet","GLOBAL",0)
+    CreateCreature("S!limak",[3625.1299],9)  //
+END
+
+IF
+  PartyHasItem("S!misc20")
+  Global("Iabraintimer","AR0300",0)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iabrainrot","GLOBAL",THREE_DAYS)
+    SetGlobal("Iabraintimer","AR0300",1)
+END
+
+IF
+  Alignment(Player1,MASK_GOOD)
+  Reputation(Player1,20)
+  GlobalTimerExpired("Iavanyafir","GLOBAL")
+  InMyArea(Player1)
+  NumInPartyAliveGT(1)
+  !GlobalGT("Iap1notgood","GLOBAL",0)
+  OR(2)
+   Global("FirkraagDead","GLOBAL",1)
+   Dead("firkra02")
+  Global("Iamesvan","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iamesvan","GLOBAL",1)
+    CreateCreatureObjectOffScreen("S!messen",Player1,0,0,0) //
+END
+
+IF
+  Global("Ianticheat","AR0300",0)
+  Global("IaLimakHostile","GLOBAL",0)
+  Global("Ialimak","AR0300",2)
+  Exists("S!limak") //
+  !Dead("S!limak") //
+  !Allegiance("S!limak",ENEMY)
+  HPPercentLT("S!limak",100)
+THEN
+  RESPONSE #100
+    SetGlobal("Ianticheat","AR0300",1)
+    ChangeEnemyAlly("S!limak",ENEMY)
+    ApplySpellRES("SPWII07","S!limak")
+END
+
+IF
+  InMyArea(Player1)
+  Global("GorchOpen","GLOBAL",3)
+  Global("Iasealonce","AR0300",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iasealonce","AR0300",1)
+    TriggerActivation("TRAN0301",FALSE)
+    TriggerActivation("INFO301",TRUE)
+END
+
+IF
+  InMyArea(Player1)
+  Global("GorchOpen","GLOBAL",3)
+  Global("Iasealonce","AR0300",1)
+  Dead("maevar")
+THEN
+  RESPONSE #100
+    SetGlobal("Iasealonce","AR0300",2)
+    TriggerActivation("TRAN0301",TRUE)
+    TriggerActivation("INFO301",FALSE)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iaforcekruin","GLOBAL",1)
+  !PartyHasItem("misc8u") // Silver Blade
+  Global("KruinTalked","GLOBAL",0)
+  !Exists("Kruin")
+THEN
+  RESPONSE #100
+    SetGlobal("Iaforcekruin","GLOBAL",2)
+    CreateCreatureObjectOffScreen("KRUIN",Player1,0,0,0) //
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iacromwellshut","GLOBAL",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iacromwellshut","GLOBAL",2)
+    TriggerActivation("TRAN0334",FALSE)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iacromwellshut","GLOBAL",2)
+  Dead("KRUIN")
+  CombatCounter(0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iacromwellshut","GLOBAL",3)
+    TriggerActivation("TRAN0334",TRUE)
+END

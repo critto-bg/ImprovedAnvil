@@ -1,0 +1,74 @@
+//Suldanesselar //////////////
+
+IF
+   Global("Iacreature","AR2800",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iacreature","AR2800",1)
+      CreateCreature("S!rak1",[2061.3358],11) //
+      TriggerActivation("Tran2809",FALSE)
+END
+
+IF
+   Global("Iacreature","AR2800",1)
+   Dead("S!rak1")
+THEN
+   RESPONSE #100
+      SetGlobal("Iacreature","AR2800",2)
+      TriggerActivation("Tran2809",TRUE)
+END
+
+IF
+  Global("Iaunlockdoor07","AR2800",0)
+  Class(Player1,RANGER_ALL)
+  !Class(Player1,CLERIC_ALL)
+  CheckStat(Player1,7,SCRIPTINGSTATE1)
+  Global("Iamvagrant","GLOBAL",1)
+  !GlobalGT("Iap1notgood","GLOBAL",0)
+  PartyHasItem("S!misc53")
+THEN
+  RESPONSE #100
+    SetGlobal("Iaunlockdoor07","AR2800",1)
+    Unlock("Door07")
+END
+
+IF
+  Global("Iaunlockdoor07","AR2800",0)
+  Global("Iaspy6","AR2800",0)
+  !GlobalTimerNotExpired("Iaspy6timer","AR2800")
+  Class(Player1,RANGER_ALL)
+  !Class(Player1,CLERIC_ALL)
+  CheckStat(Player1,7,SCRIPTINGSTATE1)
+  Global("Iamvagrant","GLOBAL",1)
+  !GlobalGT("Iap1notgood","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaspy6","AR2800",1)
+    CreateCreature("S!spy6",[2219.2967],11)
+END
+
+IF
+  Global("Iavisualeffect","AR2800",1)
+  GlobalTimerExpired("Iavisualstimer","AR2800")
+THEN
+  RESPONSE #100
+    SetGlobal("Iavisualeffect","AR2800",0)
+    CreateVisualEffect("AMCALL",[2219.2967])
+    PlaySound("EFF_P12")
+END
+
+IF
+  GlobalGT("ElvenSpirits","GLOBAL",0)
+  !Dead("dragblac") //
+THEN
+  RESPONSE #100
+    SetGlobal("ElvenSpirits","GLOBAL",0)
+END
+
+IF
+  GlobalGT("ElvenAvatar","GLOBAL",0)
+  !Dead("dragblac") //
+THEN
+  RESPONSE #100
+    SetGlobal("ElvenAvatar","GLOBAL",0)
+END

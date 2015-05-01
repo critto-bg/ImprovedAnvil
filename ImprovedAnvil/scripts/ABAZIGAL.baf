@@ -1,0 +1,51 @@
+IF
+  HPPercentLT(Myself,25)
+  Global("STARTEDCHANGE","LOCALS",0)
+THEN
+  RESPONSE #100
+    StartCutSceneMode()
+    ClearAllActions()
+    ReallyForceSpellRES("abzaway",Myself)  // <Invalid Strref -1>
+    Wait(1)
+    EndCutSceneMode()
+    ReallyForceSpellRES("JWSP02",Myself)  // <Invalid Strref -1>
+    SetGlobal("STARTEDCHANGE","LOCALS",1)
+END
+
+IF
+  OR(2)
+    Detect([PC])
+    See(Player1)
+  Global("SelfInit","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("SelfInit","LOCALS",1)
+    StartDialogNoSet(LastSeenBy(Myself))
+END
+
+IF
+  !Detect([PC])
+  !See(Player1)
+  Allegiance(Myself,NEUTRAL)
+  InMyArea(Player1)
+  Global("SelfInit","LOCALS",0)
+  Global("Ianotraptimer","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Ianotraptimer","LOCALS",1)
+    SetGlobalTimer("Ianotrap","LOCALS",4)
+END
+
+IF
+  !Detect([PC])
+  !See(Player1)
+  Allegiance(Myself,NEUTRAL)
+  InMyArea(Player1)
+  Global("SelfInit","LOCALS",0)
+  Global("Ianotraptimer","LOCALS",1)
+  GlobalTimerExpired("Ianotrap","LOCALS")
+THEN
+  RESPONSE #100
+    SetGlobal("Ianotraptimer","LOCALS",2)
+    MoveToObject(Player1)
+END

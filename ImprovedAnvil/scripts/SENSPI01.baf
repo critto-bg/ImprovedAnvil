@@ -1,0 +1,202 @@
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  Global("EnemySeen","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("EnemySeen","LOCALS",1)
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  Global("partyfled","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("partyfled","LOCALS",0)
+END
+
+IF
+  See([PC])
+  Global("ApplyProtection","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("ApplyProtection","LOCALS",1)
+    ReallyForceSpellRES("SPWII03",Myself)
+    ReallyForceSpellRES("SPWII02",Myself)
+    ReallyForceSpell(Myself,CLERIC_ARMOR_OF_FAITH)
+END
+
+IF
+  Global("Iapcastts","GLOBAL",1)
+  Global("Iatsinvulner","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatsinvulner","LOCALS",1)
+    ApplySpellRES("SPINI70",Myself)
+END
+
+IF
+  Global("Iapcastts","GLOBAL",0)
+  Global("Iatsinvulner","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatsinvulner","LOCALS",0)
+    ApplySpellRES("SPINI71",Myself)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  Global("Iapcastts","GLOBAL",1)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iaspell","LOCALS",6)
+END
+
+IF
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  HPLT(Myself,80)
+  GlobalLT("HealSelf","LOCALS",2)
+THEN
+  RESPONSE #100
+    IncrementGlobal("HealSelf","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    ForceSpellRES("senspihe",Myself)  // ~Heal~
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  !GlobalTimerNotExpired("Iasummon","LOCALS")
+  GlobalLT("SpiderCall","LOCALS",2)
+  !HPLT(Myself,1)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iasummon","LOCALS",30)
+    IncrementGlobal("SpiderCall","LOCALS",1)
+    CreateCreatureObject("S!spideg",Myself,0,0,0) //
+END
+
+IF
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  See(NearestEnemyOfType([0.0.0.0.0.ILLUSIONARY.0]))
+  Global("Iaremove","LOCALS",0)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iaremove","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    ReallyForceSpell(LastSeenBy(Myself),WIZARD_DISPEL_MAGIC)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !GlobalTimerNotExpired("Iavortex","LOCALS")
+  See([PC])
+  Range(LastSeenBy(Myself),5)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE16)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE5)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iavortex","LOCALS",48)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    ForceSpell(Myself,VORTEX_WEB)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !GlobalTimerNotExpired("Iavortex","LOCALS")
+  See(SecondNearest([PC]))
+  Range(LastSeenBy(Myself),5)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE16)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE5)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iavortex","LOCALS",48)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    ForceSpell(Myself,VORTEX_WEB)
+END
+
+IF
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !GlobalTimerNotExpired("Iacreature","LOCALS")
+  HPLT(Myself,100)
+  GlobalLT("SummonSpiders","LOCALS",3)
+THEN
+  RESPONSE #100
+    IncrementGlobal("SummonSpiders","LOCALS",1)
+    SetGlobalTimer("Iacreature","LOCALS",24)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    ForceSpellRES("senspisu",Myself)  // ~Summon Spider~
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  See(SecondNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(ThirdNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  Global("EnemySeen","LOCALS",1)
+  Global("partyfled","LOCALS",0)
+  !Detect([GOODCUTOFF])
+  !Detect([PC])
+THEN
+  RESPONSE #100
+    SetGlobalTimer("chase","LOCALS",60)
+    SetGlobal("partyfled","LOCALS",1)
+END
+
+IF
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Global("partyfled","LOCALS",1)
+  GlobalTimerNotExpired("chase","LOCALS")
+  InMyArea(Player1)
+  Global("EnemySeen","LOCALS",1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Global("EnemySeen","LOCALS",1)
+  GlobalTimerExpired("chase","LOCALS")
+  Global("partyfled","LOCALS",1)
+  !HPLT(Myself,1)
+THEN
+  RESPONSE #100
+    SetGlobal("EnemySeen","LOCALS",0)
+    SetGlobal("Iaremove","LOCALS",0)
+    SetGlobal("SpiderCall","LOCALS",0)
+    SetGlobal("HealSelf","LOCALS",0)
+    ReallyForceSpellRES("SPWII07",Myself)
+END

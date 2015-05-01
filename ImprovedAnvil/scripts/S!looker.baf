@@ -1,0 +1,24 @@
+IF
+  Global("quit","LOCALS",0)
+  OR(5)
+   AttackedBy([GOODCUTOFF],DEFAULT)
+   AttackedBy([PC],DEFAULT)
+   SpellCastOnMe([GOODCUTOFF],0)
+   TookDamage()
+   HPPercentLT(Myself,100)
+THEN
+  RESPONSE #100
+    SetGlobal("quit","LOCALS",1)
+    SetGlobalTimer("Iaquit","LOCALS",9)
+    ReputationInc(-4)
+    DialogueInterrupt(FALSE)
+    ForceSpell(Myself,DRYAD_TELEPORT)
+END
+
+IF
+  Global("quit","LOCALS",1)
+  GlobalTimerExpired("Iaquit","LOCALS")
+THEN
+  RESPONSE #100
+    DestroySelf()
+END

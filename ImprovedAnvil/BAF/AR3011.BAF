@@ -1,0 +1,76 @@
+//Watcher's Keep 3rd level: Scepter of Radiance //
+
+IF
+  Global("Iaexit","AR3011",0)
+  OR(2)
+   Allegiance("S!supgow",ENEMY)
+   Global("Iasupgowattack","AR3011",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR3011",1)
+    TriggerActivation("Tran3000",FALSE)
+    TriggerActivation("Tran3003",FALSE)
+END
+
+IF
+  Global("Iaexit","AR3011",1)
+  Dead("S!supgow") //
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR3011",2)
+    TriggerActivation("Tran3000",TRUE)
+    TriggerActivation("Tran3003",TRUE)
+END
+
+IF
+   Global("Iaitem","AR3011",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem","AR3011",1)
+      CreateCreature("S!supgow",[588.615],7) //
+      ActionOverride("Tent",DestroyItem("plot02a")) //
+END
+
+IF
+   Global("Iaitem","AR3011",1)
+   Global("Iasupgowdead","GLOBAL",0)
+   Dead("S!supgow") //
+THEN
+   RESPONSE #100
+      SetGlobal("Iasupgowdead","GLOBAL",1)
+END
+
+IF
+   Global("Iasupgowsent","AR3011",1)
+   Global("Iacutscene","AR3011",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iacutscene","AR3011",1)
+      ClearAllActions()
+      StartCutSceneMode()
+      StartCutScene("Trania18")
+END
+
+IF
+   Global("Iadraggrdead","GLOBAL",1)
+   Global("Iacutscene","AR3011",1)
+   Global("Iasupgowsent","AR3011",1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iasupgowsent","AR3011",2)
+END
+
+IF
+  Global("Ianticheat","AR3011",0)
+  Global("Iaitem","AR3011",1)
+  Global("Iasupgowdead","GLOBAL",0)
+  Exists("S!supgow") //
+  !Dead("S!supgow") //
+  !Allegiance("S!supgow",ENEMY)
+  HPPercentLT("S!supgow",100)
+THEN
+  RESPONSE #100
+    SetGlobal("Ianticheat","AR3011",1)
+    ChangeEnemyAlly("S!supgow",ENEMY)
+    ApplySpellRES("SPWII07","S!supgow")
+END

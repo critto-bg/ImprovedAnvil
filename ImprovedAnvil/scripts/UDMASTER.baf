@@ -1,0 +1,271 @@
+IF
+  !GlobalGT("Iacutscene","AR2400",0)
+THEN
+  RESPONSE #100
+    NoAction()
+END
+
+IF
+  Global("Iapcastts","GLOBAL",1)
+  Global("Iatsinvulner","LOCALS",0)
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    SetGlobal("Iatsinvulner","LOCALS",1)
+    ApplySpellRES("SPINI70",Myself)
+END
+
+IF
+  Global("Iapcastts","GLOBAL",0)
+  Global("Iatsinvulner","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatsinvulner","LOCALS",0)
+    ApplySpellRES("SPINI71",Myself)
+END
+
+IF
+  See([PC])
+  Global("doOnce","LOCALS",0)
+  Global("Iapcastts","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("doOnce","LOCALS",1)
+    SetInterrupt(FALSE)
+    DisplayStringHead(Myself,62033)  // ~The reek of chemicals and fermented brain overwhelms you as you step into sight of the famed elder brain of the Illithid.  An instant later the brain lashes out at you with a psionic whip...~
+    Wait(1)
+    ReallyForceSpell(LastSeenBy(Myself),PSIONIC_EGOWHIP)
+    SetInterrupt(TRUE)
+END
+
+IF
+  Global("Iasummon","LOCALS",0)
+  See([PC])
+THEN
+  RESPONSE #100
+    SetGlobal("Iasummon","LOCALS",1)
+    CreateCreatureObject("S!elegob",LastSeenBy(Myself),0,0,0)
+END
+
+IF
+  Global("Iacreature","AR2400",0)
+  Global("Iasummon","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iacreature","AR2400",1)
+END
+
+IF
+  See([PC])
+  Global("firstspawn","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("firstspawn","LOCALS",1)
+    CreateVisualEffect("SPROTECT",[728.711])
+    CreateCreature("udgolem",[728.711],12)  // ~Brain Golem~
+    CreateVisualEffect("SPROTECT",[501.905])
+    CreateCreature("udgolem",[501.905],12)  // ~Brain Golem~
+END
+
+IF
+  Global("firstspawn","LOCALS",1)
+  !GlobalTimerNotExpired("Iamoregolems","LOCALS")
+  See(NearestEnemyOf(Myself))
+  !HPLT(Myself,1)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iamoregolems","LOCALS",24)
+    CreateCreatureObject("udgolem",LastSeenBy(Myself),0,0,0) // ~Brain Golem~
+END
+
+IF
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !GlobalTimerNotExpired("Iapurge","LOCALS")
+  !HPLT(Myself,1)
+  See([PC])
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  OR(8)
+   CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE8)
+   CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+   CheckStatGT(LastSeenBy(Myself),1,STONESKINS)
+   StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+   StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+   StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
+   CheckStatGT(LastSeenBy(Myself),0,IMPROVEDHASTE)
+   CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iapurge","LOCALS",36)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    ReallyForceSpellRES("SPINI29",LastSeenBy(Myself)) //
+END
+
+IF
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !GlobalTimerNotExpired("Iapurge","LOCALS")
+  !HPLT(Myself,1)
+  See(SecondNearest([PC]))
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  OR(8)
+   CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE8)
+   CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+   CheckStatGT(LastSeenBy(Myself),1,STONESKINS)
+   StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+   StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+   StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
+   CheckStatGT(LastSeenBy(Myself),0,IMPROVEDHASTE)
+   CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iapurge","LOCALS",36)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    ReallyForceSpellRES("SPINI29",LastSeenBy(Myself)) //
+END
+
+IF
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !GlobalTimerNotExpired("Iapurge","LOCALS")
+  !HPLT(Myself,1)
+  See(ThirdNearest([PC]))
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  OR(8)
+   CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE8)
+   CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+   CheckStatGT(LastSeenBy(Myself),1,STONESKINS)
+   StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+   StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+   StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
+   CheckStatGT(LastSeenBy(Myself),0,IMPROVEDHASTE)
+   CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iapurge","LOCALS",36)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    ReallyForceSpellRES("SPINI29",LastSeenBy(Myself)) //
+END
+
+IF
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !GlobalTimerNotExpired("Iapurge","LOCALS")
+  !HPLT(Myself,1)
+  See(FourthNearest([PC]))
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  OR(8)
+   CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE8)
+   CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+   CheckStatGT(LastSeenBy(Myself),1,STONESKINS)
+   StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+   StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+   StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
+   CheckStatGT(LastSeenBy(Myself),0,IMPROVEDHASTE)
+   CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iapurge","LOCALS",36)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    ReallyForceSpellRES("SPINI29",LastSeenBy(Myself)) //
+END
+
+IF
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !GlobalTimerNotExpired("Iapurge","LOCALS")
+  !HPLT(Myself,1)
+  See(FifthNearest([PC]))
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  OR(8)
+   CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE8)
+   CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+   CheckStatGT(LastSeenBy(Myself),1,STONESKINS)
+   StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+   StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+   StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
+   CheckStatGT(LastSeenBy(Myself),0,IMPROVEDHASTE)
+   CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iapurge","LOCALS",36)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    ReallyForceSpellRES("SPINI29",LastSeenBy(Myself)) //
+END
+
+IF
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !GlobalTimerNotExpired("Iapurge","LOCALS")
+  !HPLT(Myself,1)
+  See(SixthNearest([PC]))
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  OR(8)
+   CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE8)
+   CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+   CheckStatGT(LastSeenBy(Myself),1,STONESKINS)
+   StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+   StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+   StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
+   CheckStatGT(LastSeenBy(Myself),0,IMPROVEDHASTE)
+   CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iapurge","LOCALS",36)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    ReallyForceSpellRES("SPINI29",LastSeenBy(Myself)) //
+END
+
+IF
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !GlobalTimerNotExpired("Iablast","LOCALS")
+  !HPLT(Myself,1)
+  See([PC])
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  CheckStatLT(LastSeenBy(Myself),30,RESISTMAGIC)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE4)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE8)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE7)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SetGlobalTimer("Iablast","LOCALS",18)
+    ReallyForceSpell(LastSeenBy(Myself),PSIONIC_MIND_BLAST)
+END
+
+IF
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !GlobalTimerNotExpired("Iablast","LOCALS")
+  !HPLT(Myself,1)
+  See(SecondNearest([PC]))
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  CheckStatLT(LastSeenBy(Myself),30,RESISTMAGIC)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE4)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE8)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE7)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SetGlobalTimer("Iablast","LOCALS",18)
+    ReallyForceSpell(LastSeenBy(Myself),PSIONIC_MIND_BLAST)
+END
+
+IF
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !GlobalTimerNotExpired("Iablast","LOCALS")
+  !HPLT(Myself,1)
+  See(ThirdNearest([PC]))
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  CheckStatLT(LastSeenBy(Myself),30,RESISTMAGIC)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE4)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE8)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE7)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SetGlobalTimer("Iablast","LOCALS",18)
+    ReallyForceSpell(LastSeenBy(Myself),PSIONIC_MIND_BLAST)
+END

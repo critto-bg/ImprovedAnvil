@@ -1,0 +1,65 @@
+//Beholders cave underdark //////////////
+
+IF
+  Global("Iaexit","AR2101",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR2101",1)
+    TriggerActivation("Exit2100",FALSE)
+END
+
+IF
+   InMyArea(Player1)
+   Global("Iacreature","AR2101",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iacreature","AR2101",1)
+      CreateCreature("S!block3",[408.798],0) //
+END
+
+IF
+  Global("Iaexit","AR2101",1)
+  Dead("udelder")
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR2101",2)
+    TriggerActivation("Exit2100",TRUE)
+END
+
+IF
+  Global("Iadeepdungeons","AR2101",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iadeepdungeons","AR2101",2)
+    TriggerActivation("StairInfo",FALSE)
+END
+
+IF
+  GlobalLT("Iadeepdungeons","AR2101",2)
+  Global("Iadelayfordeep","AR2101",0)
+  GlobalGT("Chapter","GLOBAL",5)
+THEN
+  RESPONSE #100
+    SetGlobal("Iadelayfordeep","AR2101",1)
+    TriggerActivation("StairInfo",FALSE)
+END
+
+IF
+   InMyArea(Player1)
+   Global("Iaitem","AR2101",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem","AR2101",1)
+      ActionOverride("Hidden 2",DestroyItem("amul17"))
+END
+
+IF
+   Global("Iapctoohigh","GLOBAL",0)
+   Global("Iaitem2","AR2101",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem2","AR2101",1)
+      ActionOverride("Hidden 3",CreateItem("potn52",0,0,0)) //
+      ActionOverride("Hidden 5",CreateItem("scrl75",0,0,0)) //
+      ActionOverride("Hidden 6",CreateItem("scrl5d",0,0,0)) //
+END

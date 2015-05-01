@@ -1,0 +1,190 @@
+// Lower Reaches //
+
+IF
+   Global("Iatrap","AR0204",0)
+   InMyArea(Player1)
+   HasItem("HAMM03",Player1)
+THEN
+   RESPONSE #100
+      SetInterrupt(FALSE)
+      SetGlobal("Iatrap","AR0204",1)
+      TriggerActivation("Tran0202",FALSE)
+      DisplayString(Player1,14381)  // ~Trap Sprung~
+      PlaySound("AMB_D04A")
+      CreateCreatureObject("S!spideh",Player1,0,0,0) //
+      SetInterrupt(TRUE)
+END
+
+IF
+   Global("Iatrap","AR0204",0)
+   InMyArea(Player1)
+   HasItem("HAMM03",Player2)
+THEN
+   RESPONSE #100
+      SetInterrupt(FALSE)
+      SetGlobal("Iatrap","AR0204",1)
+      TriggerActivation("Tran0202",FALSE)
+      TriggerActivation("Tran0203",FALSE)
+      DisplayString(Player2,14381)  // ~Trap Sprung~
+      PlaySound("AMB_D04A")
+      CreateCreatureObject("S!spideh",Player2,0,0,0) //
+      SetInterrupt(TRUE)
+END
+
+IF
+   Global("Iatrap","AR0204",0)
+   InMyArea(Player1)
+   HasItem("HAMM03",Player3)
+THEN
+   RESPONSE #100
+      SetInterrupt(FALSE)
+      SetGlobal("Iatrap","AR0204",1)
+      TriggerActivation("Tran0202",FALSE)
+      TriggerActivation("Tran0203",FALSE)
+      DisplayString(Player3,14381)  // ~Trap Sprung~
+      PlaySound("AMB_D04A")
+      CreateCreatureObject("S!spideh",Player3,0,0,0) //
+      SetInterrupt(TRUE)
+END
+
+IF
+   Global("Iatrap","AR0204",0)
+   InMyArea(Player1)
+   HasItem("HAMM03",Player4)
+THEN
+   RESPONSE #100
+      SetInterrupt(FALSE)
+      SetGlobal("Iatrap","AR0204",1)
+      TriggerActivation("Tran0202",FALSE)
+      TriggerActivation("Tran0203",FALSE)
+      DisplayString(Player4,14381)  // ~Trap Sprung~
+      PlaySound("AMB_D04A")
+      CreateCreatureObject("S!spideh",Player4,0,0,0) //
+      SetInterrupt(TRUE)
+END
+
+IF
+   Global("Iatrap","AR0204",0)
+   InMyArea(Player1)
+   HasItem("HAMM03",Player5)
+THEN
+   RESPONSE #100
+      SetInterrupt(FALSE)
+      SetGlobal("Iatrap","AR0204",1)
+      TriggerActivation("Tran0202",FALSE)
+      TriggerActivation("Tran0203",FALSE)
+      DisplayString(Player5,14381)  // ~Trap Sprung~
+      PlaySound("AMB_D04A")
+      CreateCreatureObject("S!spideh",Player5,0,0,0) //
+      SetInterrupt(TRUE)
+END
+
+IF
+   Global("Iatrap","AR0204",0)
+   InMyArea(Player1)
+   HasItem("HAMM03",Player6)
+THEN
+   RESPONSE #100
+      SetInterrupt(FALSE)
+      SetGlobal("Iatrap","AR0204",1)
+      TriggerActivation("Tran0202",FALSE)
+      TriggerActivation("Tran0203",FALSE)
+      DisplayString(Player6,14381)  // ~Trap Sprung~
+      PlaySound("AMB_D04A")
+      CreateCreatureObject("S!spideh",Player6,0,0,0) //
+      SetInterrupt(TRUE)
+END
+
+IF
+   Global("Iatrap","AR0204",1)
+   OR(2)
+    Global("Iaexit","AR0204",0)
+    Global("Iaexit","AR0204",2)
+   Dead("S!spideh")
+   CombatCounter(0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iatrap","AR0204",2)
+      SetGlobal("Iaspidehdead","GLOBAL",1)
+      TriggerActivation("Tran0202",TRUE)
+      TriggerActivation("Tran0203",TRUE)
+END
+
+IF
+   Global("Iatrap","AR0204",1)
+   Global("Iaexit","AR0204",1)
+   Global("spawnNum","AR0204",3)
+   Dead("S!masvam")
+   Dead("S!spideh")
+   CombatCounter(0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iatrap","AR0204",2)
+      SetGlobal("Iaspidehdead","GLOBAL",1)
+      TriggerActivation("Tran0202",TRUE)
+      TriggerActivation("Tran0203",TRUE)
+END
+
+IF
+   GlobalGT("spawnNum","AR0204",0)
+   Global("Iaexit","AR0204",0)
+   OR(2)
+    Global("Iatrap","AR0204",0)
+    Global("Iatrap","AR0204",2)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaexit","AR0204",1)
+      TriggerActivation("Tran0202",FALSE)
+      TriggerActivation("Tran0203",FALSE)
+END
+
+IF
+   Global("spawnNum","AR0204",3)
+   Global("Iaexit","AR0204",1)
+   Dead("S!masvam")
+   CombatCounter(0)
+   OR(2)
+    Global("Iatrap","AR0204",0)
+    Global("Iatrap","AR0204",2)
+THEN
+   RESPONSE #100
+      SetGlobal("spawnNum","AR0204",4)
+      SetGlobal("Iaexit","AR0204",2)
+      TriggerActivation("Tran0202",TRUE)
+      TriggerActivation("Tran0203",TRUE)
+END
+
+IF
+   Global("Ianostatue","AR0204",0)
+   Global("spawnNum","AR0204",4)
+THEN
+   RESPONSE #100
+      SetInterrupt(FALSE)
+      SetGlobal("Ianostatue","AR0204",1)
+      TriggerActivation("Statue",FALSE)
+      GiveItemCreate("potn33",Player1,0,0,0)
+      GiveItemCreate("potn11",Player1,4,0,0)
+      GiveItemCreate("potn55",Player1,4,0,0)
+      GiveItemCreate("S!misc02",Player1,0,0,0)
+      SetInterrupt(TRUE)
+END
+
+IF
+   Global("Ianostatue","AR0204",0)
+   Global("spawnNum","AR0204",0)
+   XPGT(Player1,2349999)
+THEN
+   RESPONSE #100
+      SetGlobal("Ianostatue","AR0204",1)
+      TriggerActivation("Statue",FALSE)
+END
+
+IF
+   Global("spawnNum","AR0204",2)
+   InMyArea(Player1)
+   PartyRested()
+THEN
+   RESPONSE #100
+      SetGlobal("spawnNum","AR0204",1)
+      SetGlobal("Iastatuerest","AR0204",1)
+END

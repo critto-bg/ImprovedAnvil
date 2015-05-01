@@ -1,0 +1,383 @@
+IF
+  Global("Iamoving","LOCALS",1)
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    SetGlobal("Iamoving","LOCALS",0)
+END
+
+IF
+  Gender(Myself,SUMMONED)
+  !Allegiance(Myself,ENEMY)
+  Global("Iamoving","LOCALS",1)
+  CombatCounter(0)
+  See([PC])
+  Range(LastSeenBy(Myself),6)
+THEN
+  RESPONSE #100
+    SetGlobal("Iamoving","LOCALS",0)
+END
+
+IF
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  OR(6)
+   CheckStatGT(Myself,0,SCRIPTINGSTATE9)
+   StateCheck(Myself,STATE_HELPLESS)
+   StateCheck(Myself,STATE_STUNNED)
+   StateCheck(Myself,STATE_PANIC)
+   StateCheck(Myself,STATE_CONFUSED)
+   Global("Iapcastts","GLOBAL",1)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iaspell","LOCALS",6)
+END
+
+IF
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  HaveSpell(CLERIC_BARKSKIN)
+  ActionListEmpty()
+  See(NearestEnemyOf(Myself))
+  Global("prep","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("prep","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    Spell(Myself,CLERIC_BARKSKIN)
+END
+
+IF
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  HaveSpell(CLERIC_ANIMAL_SUMMONING_1)
+  ActionListEmpty()
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    Spell(Myself,CLERIC_ANIMAL_SUMMONING_1)
+END
+
+IF
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !GlobalTimerNotExpired("Isteleporting","LOCALS")
+  HaveSpell(CLERIC_HOLD_PERSON)
+  ActionListEmpty()
+  See(NearestEnemyOf(Myself))
+  General(LastSeenBy(Myself),HUMANOID)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !StateCheck(LastSeenBy(Myself),STATE_PANIC)
+  !StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE7)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE5)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE4)
+  !HasItemEquiped("shld25",LastSeenBy(Myself))
+  !HasItemEquiped("sw1h27",LastSeenBy(Myself))
+  !HasItemEquiped("S!shld01",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw02",LastSeenBy(Myself))
+  !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+  CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+  !HasItemEquiped("ring95",LastSeenBy(Myself))
+  !HasItemEquiped("ring09",LastSeenBy(Myself))
+  !HasItemEquiped("dragring",LastSeenBy(Myself))
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    Spell(LastSeenBy(Myself),CLERIC_HOLD_PERSON)
+END
+
+IF
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !GlobalTimerNotExpired("Isteleporting","LOCALS")
+  HaveSpell(CLERIC_HOLD_PERSON)
+  ActionListEmpty()
+  See(SecondNearestEnemyOf(Myself))
+  General(LastSeenBy(Myself),HUMANOID)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !StateCheck(LastSeenBy(Myself),STATE_PANIC)
+  !StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE7)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE5)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE4)
+  !HasItemEquiped("shld25",LastSeenBy(Myself))
+  !HasItemEquiped("sw1h27",LastSeenBy(Myself))
+  !HasItemEquiped("S!shld01",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw02",LastSeenBy(Myself))
+  !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+  CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+  !HasItemEquiped("ring95",LastSeenBy(Myself))
+  !HasItemEquiped("ring09",LastSeenBy(Myself))
+  !HasItemEquiped("dragring",LastSeenBy(Myself))
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    Spell(LastSeenBy(Myself),CLERIC_HOLD_PERSON)
+END
+
+IF
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !GlobalTimerNotExpired("Isteleporting","LOCALS")
+  HaveSpell(CLERIC_CURE_MEDIUM_WOUNDS)
+  ActionListEmpty()
+  See(LastSummonerOf(Myself))
+  HPPercentLT(LastSummonerOf(Myself),80)
+  !StateCheck(LastSummonerOf(Myself),STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(LastSummonerOf(Myself),STATE_INVISIBLE)
+  !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+  !CheckStat(LastSeenBy(Myself),5,SCRIPTINGSTATE7)
+  OR(3)
+   Range(LastSeenBy(Myself),2)
+   CombatCounter(0)
+   !Detect(NearestEnemyOf(LastSummonerOf(Myself)))
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    Spell(LastSummonerOf(Myself),CLERIC_CURE_MEDIUM_WOUNDS)
+END
+
+IF
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !GlobalTimerNotExpired("Isteleporting","LOCALS")
+  HaveSpell(CLERIC_CURE_LIGHT_WOUNDS)
+  ActionListEmpty()
+  See(LastSummonerOf(Myself))
+  HPPercentLT(LastSummonerOf(Myself),100)
+  !StateCheck(LastSummonerOf(Myself),STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(LastSummonerOf(Myself),STATE_INVISIBLE)
+  !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+  !CheckStat(LastSeenBy(Myself),5,SCRIPTINGSTATE7)
+  OR(3)
+   Range(LastSeenBy(Myself),2)
+   CombatCounter(0)
+   !Detect(NearestEnemyOf(LastSummonerOf(Myself)))
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    Spell(LastSummonerOf(Myself),CLERIC_CURE_LIGHT_WOUNDS)
+END
+
+IF
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !GlobalTimerNotExpired("Isteleporting","LOCALS")
+  HaveSpell(CLERIC_CURE_MEDIUM_WOUNDS)
+  ActionListEmpty()
+  HPPercentLT(Myself,50)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    Spell(Myself,CLERIC_CURE_MEDIUM_WOUNDS)
+END
+
+IF
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !GlobalTimerNotExpired("Isteleporting","LOCALS")
+  HaveSpell(CLERIC_CURE_LIGHT_WOUNDS)
+  ActionListEmpty()
+  HPPercentLT(Myself,80)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    Spell(Myself,CLERIC_CURE_LIGHT_WOUNDS)
+END
+
+IF
+  ActionListEmpty()
+  Global("lastSpell","LOCALS",0)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+THEN
+  RESPONSE #100
+    SetGlobal("lastSpell","LOCALS",1)
+END
+
+IF
+  ActionListEmpty()
+  See(NearestEnemyOf(Myself))
+  Range(LastSeenBy(Myself),4)
+  !HasItemEquiped("immune2",LastSeenBy(Myself))
+  !HasItemEquiped("immune3",LastSeenBy(Myself))
+  !HasItemEquiped("immune4",LastSeenBy(Myself))
+  OR(2)
+   CheckStat(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+   CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE6)
+  Global("lastSpell","LOCALS",1)
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  ActionListEmpty()
+  See(SecondNearestEnemyOf(Myself))
+  Range(LastSeenBy(Myself),2)
+  !HasItemEquiped("immune2",LastSeenBy(Myself))
+  !HasItemEquiped("immune3",LastSeenBy(Myself))
+  !HasItemEquiped("immune4",LastSeenBy(Myself))
+  OR(2)
+   CheckStat(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+   CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE6)
+  Global("lastSpell","LOCALS",1)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  ActionListEmpty()
+  See(ThirdNearestEnemyOf(Myself))
+  Range(LastSeenBy(Myself),2)
+  !HasItemEquiped("immune2",LastSeenBy(Myself))
+  !HasItemEquiped("immune3",LastSeenBy(Myself))
+  !HasItemEquiped("immune4",LastSeenBy(Myself))
+  OR(2)
+   CheckStat(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+   CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE6)
+  Global("lastSpell","LOCALS",1)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  ActionListEmpty()
+  !GlobalTimerNotExpired("Isteleporting","LOCALS")
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_PANIC)
+  See(NearestEnemyOf(Myself))
+  !Range(LastSeenBy(Myself),4)
+  !HasItemEquiped("immune2",LastSeenBy(Myself))
+  !HasItemEquiped("immune3",LastSeenBy(Myself))
+  !HasItemEquiped("immune4",LastSeenBy(Myself))
+  OR(2)
+   CheckStat(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+   CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE6)
+  Global("lastSpell","LOCALS",1)
+  Global("DimensionDoor","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("DimensionDoor","LOCALS",1)
+    SetGlobalTimer("Isteleporting","LOCALS",3)
+    ForceSpell(NearestEnemyOf(Myself),WIZARD_DIMENSION_DOOR)
+END
+
+IF
+  ActionListEmpty()
+  !GlobalTimerNotExpired("Isteleporting","LOCALS")
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_PANIC)
+  See(SecondNearestEnemyOf(Myself))
+  !Range(LastSeenBy(Myself),4)
+  !HasItemEquiped("immune2",LastSeenBy(Myself))
+  !HasItemEquiped("immune3",LastSeenBy(Myself))
+  !HasItemEquiped("immune4",LastSeenBy(Myself))
+  OR(2)
+   CheckStat(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+   CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE6)
+  Global("lastSpell","LOCALS",1)
+  Global("DimensionDoor","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("DimensionDoor","LOCALS",1)
+    SetGlobalTimer("Isteleporting","LOCALS",3)
+    ForceSpell(SecondNearestEnemyOf(Myself),WIZARD_DIMENSION_DOOR)
+END
+
+IF
+  ActionListEmpty()
+  !GlobalTimerNotExpired("Isteleporting","LOCALS")
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_PANIC)
+  See(ThirdNearestEnemyOf(Myself))
+  !Range(LastSeenBy(Myself),4)
+  !HasItemEquiped("immune2",LastSeenBy(Myself))
+  !HasItemEquiped("immune3",LastSeenBy(Myself))
+  !HasItemEquiped("immune4",LastSeenBy(Myself))
+  OR(2)
+   CheckStat(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+   CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE6)
+  Global("lastSpell","LOCALS",1)
+  Global("DimensionDoor","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("DimensionDoor","LOCALS",1)
+    SetGlobalTimer("Isteleporting","LOCALS",3)
+    ForceSpell(ThirdNearestEnemyOf(Myself),WIZARD_DIMENSION_DOOR)
+END
+
+IF
+  ActionListEmpty()
+  See(NearestEnemyOf(Myself))
+  OR(2)
+   !GlobalTimerNotExpired("Isteleporting","LOCALS")
+   Range(LastSeenBy(Myself),4)
+  Global("lastSpell","LOCALS",1)
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  ActionListEmpty()
+  !GlobalTimerNotExpired("Isteleporting","LOCALS")
+  Global("Iamoving","LOCALS",0)
+  !See(NearestEnemyOf(Myself))
+  !See(NearestEnemyOf(LastSummonerOf(Myself)))
+THEN
+  RESPONSE #100
+    SetGlobal("Iamoving","LOCALS",1)
+END
+
+IF
+  Gender(Myself,SUMMONED)
+  !GlobalTimerNotExpired("Isteleporting","LOCALS")
+  !Allegiance(Myself,ENEMY)
+  ActionListEmpty()
+  Global("Iamoving","LOCALS",0)
+  CombatCounter(0)
+  !Detect(Player1)
+  !Detect(LastSummonerOf(Myself))
+  !Detect([PC])
+THEN
+  RESPONSE #100
+    SetGlobal("Iamoving","LOCALS",1)
+END
+
+IF
+  ActionListEmpty()
+  !GlobalTimerNotExpired("Isteleporting","LOCALS")
+  Global("Iamoving","LOCALS",1)
+  !See(NearestEnemyOf(Myself))
+  !See(NearestEnemyOf(LastSummonerOf(Myself)))
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  !See([GOODCUTOFF])
+  !GlobalTimerNotExpired("Isteleporting","LOCALS")
+  Allegiance(Myself,ENEMY)
+  InMyArea(Player1)
+  !StateCheck(Player1,STATE_INVISIBLE)
+  !StateCheck(Player1,STATE_IMPROVEDINVISIBILITY)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  Gender(Myself,SUMMONED)
+  ActionListEmpty()
+  !GlobalTimerNotExpired("Isteleporting","LOCALS")
+  Global("Iamoving","LOCALS",1)
+  !See(NearestEnemyOf(Myself))
+  !See(NearestEnemyOf(LastSummonerOf(Myself)))
+THEN
+  RESPONSE #100
+    MoveToObject(LastSummonerOf(Myself))
+END

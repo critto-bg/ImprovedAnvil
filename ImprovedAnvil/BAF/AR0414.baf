@@ -1,0 +1,345 @@
+//Sphere: Demon Plane  //////////////
+
+IF
+  InMyArea(Player1)
+  Global("Iaexit","AR0414",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR0414",2)
+    SetGlobalTimer("Iareopen","AR0414",24)
+    TriggerActivation("Exit0414",FALSE)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iaexit","AR0414",2)
+  GlobalTimerExpired("Iareopen","AR0414")
+  CombatCounter(0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR0414",3)
+    TriggerActivation("Exit0414",TRUE)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Ialavokjob","GLOBAL",1)
+  Global("Ianoexit","AR0414",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Ianoexit","AR0414",1)
+    CreateCreature("S!force1",[2859.1200],0)  //
+    TriggerActivation("Exit0414",FALSE)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Ialavokjob","GLOBAL",5)
+  Global("Ianoexit","AR0414",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Ianoexit","AR0414",2)
+    TriggerActivation("Exit0414",TRUE)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Ialavokjob","GLOBAL",1)
+  GlobalGT("Iaforce1tlknum","AR0414",0)
+  Global("Iapartyrest","AR0414",0)
+  PartyRested()
+THEN
+  RESPONSE #100
+    SetGlobal("Iapartyrest","AR0414",1)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Ialavokjob","GLOBAL",1)
+  Global("Iacompensate","AR0414",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iacompensate","AR0414",2)
+    ApplySpellRES("SPINI10",Player1)
+    ApplySpellRES("SPINI10",Player2)
+    ApplySpellRES("SPINI10",Player3)
+    ApplySpellRES("SPINI10",Player4)
+    ApplySpellRES("SPINI10",Player5)
+    ApplySpellRES("SPINI10",Player6)
+    ActionOverride(Player1,ReallyForceSpellRES("SPPRI09",Myself))
+    ActionOverride(Player2,ReallyForceSpellRES("SPPRI09",Myself))
+    ActionOverride(Player3,ReallyForceSpellRES("SPPRI09",Myself))
+    ActionOverride(Player4,ReallyForceSpellRES("SPPRI09",Myself))
+    ActionOverride(Player5,ReallyForceSpellRES("SPPRI09",Myself))
+    ActionOverride(Player6,ReallyForceSpellRES("SPPRI09",Myself))
+END
+
+IF
+  InMyArea(Player1)
+  Global("Ialavokjob","GLOBAL",1)
+  Global("Iafirstbattle","AR0414",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iafirstbattle","AR0414",2)
+    SetGlobalTimer("Iafirsttimer","AR0414",12)
+    CreateCreatureObjectOffScreen("S!skels",Player1,0,0,0) //
+    CreateCreatureObjectOffScreen("S!skels",Player1,0,0,0) //
+    CreateCreatureObjectOffScreen("S!skels",Player1,0,0,0) //
+    CreateCreatureObjectOffScreen("S!skels",Player1,0,0,0) //
+    CreateCreatureObjectOffScreen("S!skels",Player1,0,0,0) //
+    CreateCreatureObjectOffScreen("S!skels",Player1,0,0,0) //
+END
+
+IF
+  InMyArea(Player1)
+  Global("Ialavokjob","GLOBAL",1)
+  Global("Iafirstbattle","AR0414",2)
+  GlobalTimerExpired("Iafirsttimer","AR0414")
+  CombatCounter(0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iafirstbattle","AR0414",3)
+    CreateCreatureObject("S!force1",Player1,0,0,0)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Ialavokjob","GLOBAL",1)
+  Global("Iaforcerespawn","AR0414",1)
+  GlobalTimerExpired("Iafrespawntime","AR0414")
+THEN
+  RESPONSE #100
+    SetGlobal("Iaforcerespawn","AR0414",0)
+    CreateCreatureObject("S!force1",Player1,0,0,0)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Ialavokjob","GLOBAL",1)
+  Global("Ia2ndbattle","AR0414",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Ia2ndbattle","AR0414",2)
+    SetGlobalTimer("Ia2ndtimer","AR0414",12)
+    CreateCreatureObjectOffScreen("S!balorf",Player1,0,0,0) //
+    CreateCreatureObjectOffScreen("S!balor2",Player1,0,0,0) //
+    CreateCreatureObjectOffScreen("S!balor2",Player1,0,0,0) //
+    CreateCreatureObjectOffScreen("S!balor2",Player1,0,0,0) //
+    CreateCreatureObjectOffScreen("S!balor2",Player1,0,0,0) //
+    CreateCreatureObjectOffScreen("S!balor2",Player1,0,0,0) //
+END
+
+IF
+  InMyArea(Player1)
+  Global("Ialavokjob","GLOBAL",1)
+  Global("Ia2ndbattle","AR0414",2)
+  GlobalTimerExpired("Ia2ndtimer","AR0414")
+  CombatCounter(0)
+THEN
+  RESPONSE #100
+    SetGlobal("Ia2ndbattle","AR0414",3)
+    CreateCreatureObject("S!force1",Player1,0,0,0)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Ialavokjob","GLOBAL",1)
+  Global("Ia3rdbattle","AR0414",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Ia3rdbattle","AR0414",2)
+    SetGlobalTimer("Ia3rdtimer","AR0414",12)
+    ActionOverride(Player1,ReallyForceSpellRES("SPINI22",Myself))
+    CreateCreatureObjectOffScreen("S!skelgr",Player1,0,0,0) //
+    CreateCreatureObjectOffScreen("S!skelgr",Player1,0,0,0) //
+    CreateCreatureObjectOffScreen("S!skelgr",Player1,0,0,0) //
+    CreateCreatureObjectOffScreen("S!skelgr",Player1,0,0,0) //
+    CreateCreatureObjectOffScreen("S!skelgr",Player1,0,0,0) //
+    CreateCreatureObjectOffScreen("S!skelgr",Player1,0,0,0) //
+END
+
+IF
+  InMyArea(Player1)
+  Global("Ialavokjob","GLOBAL",1)
+  Global("Ia3rdbattle","AR0414",2)
+  GlobalTimerExpired("Ia3rdtimer","AR0414")
+  CombatCounter(0)
+THEN
+  RESPONSE #100
+    SetGlobal("Ia3rdbattle","AR0414",3)
+    SetGlobalTimer("Iaforce2comes","AR0414",12)
+    SetInterrupt(FALSE)
+    ActionOverride(Player1,ReallyForceSpellRES("SPWISH28",Myself)
+    ActionOverride(Player1,ReallyForceSpellRES("SPWISH16",Myself)
+    Wait(2)
+    MoveViewObject(Player1,-1)
+    DisplayStringNoName(Player1,26229)  //
+    SetInterrupt(TRUE)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Ialavokjob","GLOBAL",1)
+  Global("Ia3rdbattle","AR0414",3)
+  GlobalTimerExpired("Iaforce2comes","AR0414")
+  CombatCounter(0)
+THEN
+  RESPONSE #100
+    SetGlobal("Ialavokjob","GLOBAL",2)
+    CreateCreatureObject("S!force2",Player1,0,0,0)
+END
+
+IF
+  Global("Iabongolsdead","AR0414",0)
+  Global("Ialavokjob","GLOBAL",3)
+  OR(2)
+   NumDeadGT("S!bongof",4)
+   GlobalGT("IaNumOfDeads","AR0414",4)
+THEN
+  RESPONSE #100
+    SetGlobal("Iabongolsdead","AR0414",1)
+END
+
+IF
+   InMyArea(Player1)
+   GlobalGT("Iaexit","AR0414",0)
+   StateCheck(Player1,STATE_SILENCED)
+   OR(3)
+    Class(Player1,MAGE_ALL)
+    Class(Player1,BARD_ALL)
+    CheckStat(Player1,1,SCRIPTINGSTATE16)
+   Global("Iadisabled1","AR0414",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled1","AR0414",1)
+      ActionOverride(Player1,ReallyForceSpellRES("spwii44",Myself))
+END
+
+IF
+   InMyArea(Player1)
+   !StateCheck(Player1,STATE_SILENCED)
+   Global("Iadisabled1","AR0414",1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled1","AR0414",0)
+END
+
+IF
+   InMyArea(Player2)
+   GlobalGT("Iaexit","AR0414",0)
+   StateCheck(Player2,STATE_SILENCED)
+   OR(3)
+    Class(Player2,MAGE_ALL)
+    Class(Player2,BARD_ALL)
+    CheckStat(Player2,1,SCRIPTINGSTATE16)
+   Global("Iadisabled2","AR0414",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled2","AR0414",1)
+      ActionOverride(Player2,ReallyForceSpellRES("spwii44",Myself))
+END
+
+IF
+   InMyArea(Player2)
+   !StateCheck(Player2,STATE_SILENCED)
+   Global("Iadisabled2","AR0414",1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled2","AR0414",0)
+END
+
+IF
+   InMyArea(Player3)
+   GlobalGT("Iaexit","AR0414",0)
+   StateCheck(Player3,STATE_SILENCED)
+   OR(3)
+    Class(Player3,MAGE_ALL)
+    Class(Player3,BARD_ALL)
+    CheckStat(Player3,1,SCRIPTINGSTATE16)
+   Global("Iadisabled3","AR0414",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled3","AR0414",1)
+      ActionOverride(Player3,ReallyForceSpellRES("spwii44",Myself))
+END
+
+IF
+   InMyArea(Player3)
+   !StateCheck(Player3,STATE_SILENCED)
+   Global("Iadisabled3","AR0414",1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled3","AR0414",0)
+END
+
+IF
+   InMyArea(Player4)
+   GlobalGT("Iaexit","AR0414",0)
+   StateCheck(Player4,STATE_SILENCED)
+   OR(3)
+    Class(Player4,MAGE_ALL)
+    Class(Player4,BARD_ALL)
+    CheckStat(Player4,1,SCRIPTINGSTATE16)
+   Global("Iadisabled4","AR0414",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled4","AR0414",1)
+      ActionOverride(Player4,ReallyForceSpellRES("spwii44",Myself))
+END
+
+IF
+   InMyArea(Player4)
+   !StateCheck(Player4,STATE_SILENCED)
+   Global("Iadisabled4","AR0414",1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled4","AR0414",0)
+END
+
+IF
+   InMyArea(Player5)
+   GlobalGT("Iaexit","AR0414",0)
+   StateCheck(Player5,STATE_SILENCED)
+   OR(3)
+    Class(Player5,MAGE_ALL)
+    Class(Player5,BARD_ALL)
+    CheckStat(Player5,1,SCRIPTINGSTATE16)
+   Global("Iadisabled5","AR0414",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled5","AR0414",1)
+      ActionOverride(Player5,ReallyForceSpellRES("spwii44",Myself))
+END
+
+IF
+   InMyArea(Player5)
+   !StateCheck(Player5,STATE_SILENCED)
+   Global("Iadisabled5","AR0414",1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled5","AR0414",0)
+END
+
+IF
+   InMyArea(Player6)
+   GlobalGT("Iaexit","AR0414",0)
+   StateCheck(Player6,STATE_SILENCED)
+   OR(3)
+    Class(Player6,MAGE_ALL)
+    Class(Player6,BARD_ALL)
+    CheckStat(Player6,1,SCRIPTINGSTATE16)
+   Global("Iadisabled6","AR0414",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled6","AR0414",1)
+      ActionOverride(Player6,ReallyForceSpellRES("spwii44",Myself))
+END
+
+IF
+   InMyArea(Player6)
+   !StateCheck(Player6,STATE_SILENCED)
+   Global("Iadisabled6","AR0414",1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled6","AR0414",0)
+END

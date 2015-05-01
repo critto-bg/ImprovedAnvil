@@ -1,0 +1,46 @@
+IF
+  NumTimesTalkedTo(0)
+  Detect(Player1)
+THEN
+  RESPONSE #100
+    StartDialogueNoSet(Player1)
+END
+
+IF
+  Global("quit","LOCALS",0)
+  OR(5)
+   AttackedBy([GOODCUTOFF],DEFAULT)
+   AttackedBy([PC],DEFAULT)
+   SpellCastOnMe([GOODCUTOFF],0)
+   TookDamage()
+   HPPercentLT(Myself,100)
+THEN
+  RESPONSE #100
+    SetGlobal("quit","LOCALS",1)
+    SetGlobal("SwanmeAttacked","AR1107",1)
+END
+
+IF
+  Global("SwanmeAttacked","AR1107",1)
+  See([PC])
+THEN
+  RESPONSE #100
+    StartDialogueNoSet([PC])
+END
+
+IF
+  Global("SwanmeAttacked","AR1107",1)
+  !See([PC])
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  Global("SwanmeAttacked","AR1107",2)
+THEN
+  RESPONSE #100
+    ReputationInc(-4)
+    Kill(Myself)
+END

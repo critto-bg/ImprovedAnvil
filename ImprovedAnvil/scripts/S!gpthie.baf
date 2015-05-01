@@ -1,0 +1,535 @@
+IF
+  Global("Iapcastts","GLOBAL",1)
+  Global("Iatsinvulner","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatsinvulner","LOCALS",1)
+    ApplySpellRES("SPINI70",Myself)
+END
+
+IF
+  Global("Iapcastts","GLOBAL",0)
+  Global("Iatsinvulner","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatsinvulner","LOCALS",0)
+    ApplySpellRES("SPINI71",Myself)
+END
+
+IF
+  AttackedBy([GOODCUTOFF],DEFAULT)
+  Global("Iapcastts","GLOBAL",0)
+  OR(3)
+    Allegiance(Myself,GOODBUTBLUE)
+    Allegiance(Myself,NEUTRAL)
+    Allegiance(Myself,0)
+THEN
+  RESPONSE #100
+    Shout(151)
+    Enemy()
+END
+
+IF
+  HitBy([GOODCUTOFF],CRUSHING)
+  Global("Iapcastts","GLOBAL",0)
+  Global("Iashoutonce","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iashoutonce","LOCALS",1)
+    Shout(151)
+END
+
+IF
+  Global("Iashoutonce2","LOCALS",0)
+  Global("Iapcastts","GLOBAL",0)
+  See([GOODCUTOFF])
+  Allegiance(Myself,ENEMY)
+  ActionListEmpty()
+THEN
+  RESPONSE #100
+    SetGlobal("Iashoutonce2","LOCALS",1)
+    Shout(151)
+END
+
+IF
+  Heard([EVILCUTOFF],151)
+  OR(2)
+    Allegiance(Myself,GOODBUTBLUE)
+    Allegiance(Myself,NEUTRAL)
+THEN
+  RESPONSE #100
+    Enemy()
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  OR(2)
+   Detect([GOODCUTOFF])
+   Detect([PC])
+  Global("partyfled","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("partyfled","LOCALS",0)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !StateCheck(Myself,STATE_SILENCED)
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_STUNNED)
+  !StateCheck(Myself,STATE_PANIC)
+  Global("Iapcastts","GLOBAL",0)
+  See(NearestEnemyOf(Myself))
+  Global("Iagpthief01","LOCALS",0)
+  !GlobalTimerNotExpired("Iauseitem","LOCALS")
+THEN
+  RESPONSE #100
+    SetGlobal("Iagpthief01","LOCALS",1)
+    SetGlobalTimer("Iauseitem","LOCALS",6)
+    ForceSpell(Myself,ROGUE_GREATER_EVASION)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  Global("Iapcastts","GLOBAL",0)
+  Global("Iashoutonce3","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iashoutonce3","LOCALS",1)
+    Shout(152)
+    EquipMostDamagingMelee()
+END
+
+IF
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_STUNNED)
+  !StateCheck(Myself,STATE_PANIC)
+  Global("Iapcastts","GLOBAL",0)
+  !GlobalTimerNotExpired("Iauseitem","LOCALS")
+  HPPercentLT(Myself,50)
+  HasItem("potn55",Myself)  // ~Potion of Superior Healing~
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iauseitem","LOCALS",6)
+    DisplayStringHead(Myself,46150)  // ~quaffs a potion~
+    UseItem("potn55",Myself)  // ~Potion of Superior Healing~
+END
+
+IF
+  !GlobalTimerNotExpired("Iauseitem","LOCALS")
+  HPPercentLT(Myself,50)
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_STUNNED)
+  !StateCheck(Myself,STATE_PANIC)
+  Global("Iapcastts","GLOBAL",0)
+  HasItem("potn52",Myself)  // ~Potion of Extra Healing~
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iauseitem","LOCALS",6)
+    DisplayStringHead(Myself,46150)  // ~quaffs a potion~
+    UseItem("potn52",Myself)  // ~Potion of Extra Healing~
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_STUNNED)
+  !StateCheck(Myself,STATE_PANIC)
+  Global("Iapcastts","GLOBAL",0)
+  Detect([PC])
+  !See([PC])
+  !GlobalTimerNotExpired("Iathiefskill","LOCALS")
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iathiefskill","LOCALS",6)
+    DisplayStringHead(Myself,31858)  // ~Detects Illusion~
+    ReallyForceSpell(LastSeenBy(Myself),THIEF_DETECT_ILLUSION)
+    ReallyForceSpellRES("spwii08",Myself)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_STUNNED)
+  !StateCheck(Myself,STATE_PANIC)
+  Global("Iapcastts","GLOBAL",0)
+  See(LastSeenBy(Myself))
+  Range(LastSeenBy(Myself),6)
+  StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !GlobalTimerNotExpired("Iathiefskill","LOCALS")
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iathiefskill","LOCALS",6)
+    DisplayStringHead(Myself,31858)  // ~Detects Illusion~
+    ReallyForceSpell(LastSeenBy(Myself),THIEF_DETECT_ILLUSION)
+    ReallyForceSpellRES("spwii08",Myself)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_STUNNED)
+  !StateCheck(Myself,STATE_PANIC)
+  Global("Iapcastts","GLOBAL",0)
+  See(NearestEnemyOfType([0.0.0.0.0.ILLUSIONARY.0]))
+  Range(LastSeenBy(Myself),6)
+  !GlobalTimerNotExpired("Iathiefskill","LOCALS")
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iathiefskill","LOCALS",6)
+    DisplayStringHead(Myself,31858)  // ~Detects Illusion~
+    ReallyForceSpell(LastSeenBy(Myself),THIEF_DETECT_ILLUSION)
+    ReallyForceSpellRES("spwii08",Myself)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOfType([0.0.0.0.0.ILLUSIONARY.0]))
+  !Range(LastSeenBy(Myself),6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  !GlobalTimerNotExpired("Iauseitem","LOCALS")
+  Allegiance(Myself,ENEMY)
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_STUNNED)
+  !StateCheck(Myself,STATE_PANIC)
+  !StateCheck(Myself,STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(Myself,STATE_INVISIBLE)
+  Global("Iapcastts","GLOBAL",0)
+  OR(4)
+    See(NearestEnemyOfType([0.0.0.CLERIC_ALL]))
+    See(NearestEnemyOfType([0.0.0.BARD_ALL]))
+    See(NearestEnemyOfType([0.0.0.DRUID_ALL]))
+    See(NearestEnemyOfType([0.0.0.MAGE_ALL]))
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  CheckStatLT(LastSeenBy(Myself),1,STONESKINS)
+  !HasItemEquiped("S!sw11",LastSeenBy(Myself))
+  HasItem("ring05",Myself)  // ~Ring of Invisibility~
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iauseitem","LOCALS",6)
+    DisplayStringHead(Myself,46285)  //
+    UseItem("ring05",Myself)  // ~Ring of Invisibility~
+END
+
+IF
+  !GlobalTimerNotExpired("Iauseitem","LOCALS")
+  Allegiance(Myself,ENEMY)
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_STUNNED)
+  !StateCheck(Myself,STATE_PANIC)
+  !StateCheck(Myself,STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(Myself,STATE_INVISIBLE)
+  Global("Iapcastts","GLOBAL",0)
+  OR(4)
+    See(NearestEnemyOfType([0.0.0.CLERIC_ALL]))
+    See(NearestEnemyOfType([0.0.0.BARD_ALL]))
+    See(NearestEnemyOfType([0.0.0.DRUID_ALL]))
+    See(NearestEnemyOfType([0.0.0.MAGE_ALL]))
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  CheckStatLT(LastSeenBy(Myself),1,STONESKINS)
+  !HasItemEquiped("S!sw11",LastSeenBy(Myself))
+  HasItem("potn10",Myself)  // ~Potion of Invisibility~
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iauseitem","LOCALS",6)
+    DisplayStringHead(Myself,46150)  // ~quaffs a potion~
+    UseItem("potn10",Myself)  // ~Potion of Invisibility~
+END
+
+IF
+  !GlobalTimerNotExpired("Iauseitem","LOCALS")
+  Allegiance(Myself,ENEMY)
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_STUNNED)
+  !StateCheck(Myself,STATE_PANIC)
+  !StateCheck(Myself,STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(Myself,STATE_INVISIBLE)
+  Global("Iapcastts","GLOBAL",0)
+  See([PC])
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  CheckStatLT(LastSeenBy(Myself),1,STONESKINS)
+  !CheckStat(LastSeenBy(Myself),5,SCRIPTINGSTATE1)
+  !HasItemEquiped("S!sw11",LastSeenBy(Myself))
+  HasItem("potn10",Myself)  // ~Potion of Invisibility~
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iauseitem","LOCALS",6)
+    DisplayStringHead(Myself,46150)  // ~quaffs a potion~
+    UseItem("potn10",Myself)  // ~Potion of Invisibility~
+END
+
+IF
+  !GlobalTimerNotExpired("Iauseitem","LOCALS")
+  Allegiance(Myself,ENEMY)
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_STUNNED)
+  !StateCheck(Myself,STATE_PANIC)
+  !StateCheck(Myself,STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(Myself,STATE_INVISIBLE)
+  Global("Iapcastts","GLOBAL",0)
+  See(SecondNearest([PC]))
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  CheckStatLT(LastSeenBy(Myself),1,STONESKINS)
+  !CheckStat(LastSeenBy(Myself),5,SCRIPTINGSTATE1)
+  !HasItemEquiped("S!sw11",LastSeenBy(Myself))
+  HasItem("potn10",Myself)  // ~Potion of Invisibility~
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iauseitem","LOCALS",6)
+    DisplayStringHead(Myself,46150)  // ~quaffs a potion~
+    UseItem("potn10",Myself)  // ~Potion of Invisibility~
+END
+
+IF
+  !Allegiance(Myself,ENEMY)
+  OR(4)
+    See([GOODCUTOFF.0.0.MAGE_ALL])
+    See([GOODCUTOFF.0.0.BARD_ALL])
+    See([GOODCUTOFF.0.0.DRUID_ALL])
+    See([GOODCUTOFF.0.0.CLERIC_ALL])
+THEN
+  RESPONSE #100
+    MoveToObject(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  StateCheck(Myself,STATE_INVISIBLE)
+  See([PC])
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  CheckStatLT(LastSeenBy(Myself),1,STONESKINS)
+  !CheckStat(LastSeenBy(Myself),5,SCRIPTINGSTATE1)
+  !HasItemEquiped("S!sw11",LastSeenBy(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  StateCheck(Myself,STATE_INVISIBLE)
+  See(SecondNearest([PC]))
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  CheckStatLT(LastSeenBy(Myself),1,STONESKINS)
+  !CheckStat(LastSeenBy(Myself),5,SCRIPTINGSTATE1)
+  !HasItemEquiped("S!sw11",LastSeenBy(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  StateCheck(Myself,STATE_INVISIBLE)
+  See(ThirdNearest([PC]))
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  CheckStatLT(LastSeenBy(Myself),1,STONESKINS)
+  !CheckStat(LastSeenBy(Myself),5,SCRIPTINGSTATE1)
+  !HasItemEquiped("S!sw11",LastSeenBy(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  StateCheck(Myself,STATE_INVISIBLE)
+  See([PC])
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  !CheckStat(LastSeenBy(Myself),5,SCRIPTINGSTATE1)
+  !HasItemEquiped("S!sw11",LastSeenBy(Myself))
+  OR(2)
+   !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+   CheckStatLT(LastSeenBy(Myself),1,STONESKINS)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  StateCheck(Myself,STATE_INVISIBLE)
+  See(SecondNearest([PC]))
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  !CheckStat(LastSeenBy(Myself),5,SCRIPTINGSTATE1)
+  !HasItemEquiped("S!sw11",LastSeenBy(Myself))
+  OR(2)
+   !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+   CheckStatLT(LastSeenBy(Myself),1,STONESKINS)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  StateCheck(Myself,STATE_INVISIBLE)
+  See(ThirdNearest([PC]))
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  !CheckStat(LastSeenBy(Myself),5,SCRIPTINGSTATE1)
+  !HasItemEquiped("S!sw11",LastSeenBy(Myself))
+  OR(2)
+   !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+   CheckStatLT(LastSeenBy(Myself),1,STONESKINS)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  !GlobalTimerNotExpired("Iauseitem","LOCALS")
+  Allegiance(Myself,ENEMY)
+  !StateCheck(Myself,STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(Myself,STATE_INVISIBLE)
+  Global("Iapcastts","GLOBAL",0)
+  See(NearestEnemyOf(Myself))
+  !Gender(LastSeenBy(Myself),SUMMONED)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  HasItem("ring05",Myself)  // ~Ring of Invisibility~
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iauseitem","LOCALS",6)
+    DisplayStringHead(Myself,46285)  //
+    UseItem("ring05",Myself)  // ~Ring of Invisibility~
+END
+
+IF
+  !GlobalTimerNotExpired("Iauseitem","LOCALS")
+  Allegiance(Myself,ENEMY)
+  !StateCheck(Myself,STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(Myself,STATE_INVISIBLE)
+  Global("Iapcastts","GLOBAL",0)
+  See(NearestEnemyOf(Myself))
+  !Gender(LastSeenBy(Myself),SUMMONED)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  HasItem("potn10",Myself)  // ~Potion of Invisibility~
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iauseitem","LOCALS",6)
+    DisplayStringHead(Myself,46150)  // ~quaffs a potion~
+    UseItem("potn10",Myself)  // ~Potion of Invisibility~
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  CheckStatLT(LastSeenBy(Myself),100,RESISTPIERCING)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    Shout(152)
+    EquipMostDamagingMelee()
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(SecondNearestEnemyOf(Myself))
+  CheckStatLT(LastSeenBy(Myself),100,RESISTPIERCING)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    Shout(152)
+    EquipMostDamagingMelee()
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(ThirdNearestEnemyOf(Myself))
+  CheckStatLT(LastSeenBy(Myself),100,RESISTPIERCING)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    Shout(152)
+    EquipMostDamagingMelee()
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Global("partyfled","LOCALS",0)
+  Allegiance(Myself,ENEMY)
+  Global("Iagpthief01","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("chase","LOCALS",90)
+    SetGlobal("partyfled","LOCALS",1)
+END
+
+IF
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_STUNNED)
+  !StateCheck(Myself,STATE_PANIC)
+  !StateCheck(Myself,STATE_CHARMED)
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Global("partyfled","LOCALS",1)
+  GlobalTimerNotExpired("chase","LOCALS")
+  InMyArea(Player1)
+  Allegiance(Myself,ENEMY)
+  Global("Iagpthief01","LOCALS",1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Allegiance(Myself,ENEMY)
+  Global("Iagpthief01","LOCALS",1)
+  GlobalTimerExpired("chase","LOCALS")
+  Global("partyfled","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iagpthief01","LOCALS",0)
+    SetGlobal("Iashoutonce","LOCALS",0)
+    ReallyForceSpellRES("SPWII07",Myself)
+END
+
+IF
+  Heard([EVILCUTOFF],151)
+  See(LastHeardBy(Myself))
+  OR(2)
+    Allegiance(Myself,GOODBUTBLUE)
+    Allegiance(Myself,NEUTRAL)
+THEN
+  RESPONSE #100
+    Enemy()
+    MoveToObject(LastHeardBy(Myself))
+END
+
+IF
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Allegiance(Myself,ENEMY)
+  Heard([EVILCUTOFF],151)
+  See(LastHeardBy(Myself))
+THEN
+  RESPONSE #100
+    MoveToObject(LastHeardBy(Myself))
+    Continue()
+END

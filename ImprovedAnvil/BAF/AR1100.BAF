@@ -1,0 +1,265 @@
+// Umar Hills //////////////
+
+IF
+   Global("ShadowLordDead","GLOBAL",1)
+   Global("Iacreature","AR1100",0)
+   Class(Player1,RANGER_ALL)
+THEN
+   RESPONSE #100
+      SetGlobal("Iacreature","AR1100",1)
+      CreateCreature("S!dryad",[655.2973],0) //
+END
+
+IF
+   Global("Iarangerjob","GLOBAL",2)
+   Class(Player1,RANGER_ALL)
+   InMyArea(Player1)
+   Global("Iad2ltimer","AR1100",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iad2ltimer","AR1100",1)
+      SetGlobalTimer("Iad2appear","GLOBAL",TWO_DAYS)
+END
+
+IF
+   Global("Iarangerjob","GLOBAL",2)
+   Global("Iacreature2","AR1100",0)
+   Global("Iad2ltimer","AR1100",1)
+   GlobalTimerExpired("Iad2appear","GLOBAL")
+   Class(Player1,RANGER_ALL)
+   InMyArea(Player1)
+   Global("Iad2timer","AR1100",0)
+   OR(2)
+    TimeGT(DUSK_START)
+    TimeLT(DAWN_START)
+THEN
+   RESPONSE #100
+      SetGlobal("Iad2timer","AR1100",1)
+      SetGlobalTimer("Iad2spawn","AR1100",18)
+END
+
+IF
+   GlobalTimerExpired("Iad2spawn","AR1100")
+   GlobalTimerExpired("Iad2appear","GLOBAL")
+   Global("Iad2ltimer","AR1100",1)
+   Global("Iad2timer","AR1100",1)
+   Global("Iarangerjob","GLOBAL",2)
+   Global("Iacreature2","AR1100",0)
+   Class(Player1,RANGER_ALL)
+   InMyArea(Player1)
+   OR(2)
+    TimeGT(DUSK_START)
+    TimeLT(DAWN_START)
+THEN
+   RESPONSE #100
+      SetGlobal("Iacreature2","AR1100",1)
+      CreateCreatureObject("S!delon2",Player1,0,0,0) //
+END
+
+IF
+   Global("Iarangerjob","GLOBAL",2)
+   Global("Iacreature2","AR1100",1)
+   Class(Player1,RANGER_ALL)
+   InMyArea(Player1)
+   Global("Iad3ltimer","AR1100",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iad3ltimer","AR1100",1)
+      SetGlobalTimer("Iad3appear","GLOBAL",TWO_DAYS)
+END
+
+IF
+   Global("Iarangerjob","GLOBAL",2)
+   Global("Iacreature2","AR1100",1)
+   Global("Iad3ltimer","AR1100",1)
+   GlobalTimerExpired("Iad3appear","GLOBAL")
+   Class(Player1,RANGER_ALL)
+   InMyArea(Player1)
+   Reputation(Player1,20)
+   Global("Iad3timer","AR1100",0)
+   OR(2)
+    TimeGT(DUSK_START)
+    TimeLT(DAWN_START)
+THEN
+   RESPONSE #100
+      SetGlobal("Iad3timer","AR1100",1)
+      SetGlobalTimer("Iad3spawn","AR1100",18)
+END
+
+IF
+   GlobalTimerExpired("Iad3spawn","AR1100")
+   GlobalTimerExpired("Iad3appear","GLOBAL")
+   Global("Iad3ltimer","AR1100",1)
+   Global("Iad3timer","AR1100",1)
+   Global("Iarangerjob","GLOBAL",2)
+   Global("Iacreature2","AR1100",1)
+   Class(Player1,RANGER_ALL)
+   InMyArea(Player1)
+   Reputation(Player1,20)
+   OR(2)
+    TimeGT(DUSK_START)
+    TimeLT(DAWN_START)
+THEN
+   RESPONSE #100
+      SetGlobal("Iacreature2","AR1100",2)
+      CreateCreatureObject("S!delon3",Player1,0,0,0) //
+END
+
+IF
+   Global("Iarangerjob","GLOBAL",3)
+   Global("Iacreature2","AR1100",2)
+   Class(Player1,RANGER_ALL)
+   Reputation(Player1,20)
+THEN
+   RESPONSE #100
+      SetGlobal("Iacreature2","AR1100",3)
+      CreateCreature("S!girl1",[2441.197],0) //
+END
+
+IF
+   Global("Iarangerjob","GLOBAL",4)
+   Global("Iacreature2","AR1100",3)
+   GlobalTimerExpired("Iaauriel","GLOBAL")
+   Class(Player1,RANGER_ALL)
+   Reputation(Player1,20)
+THEN
+   RESPONSE #100
+      SetGlobal("Iacreature2","AR1100",4)
+      CreateCreature("S!auriel",[4174.2528],5) //
+END
+
+IF
+   Global("Iamvagrant","GLOBAL",1)
+   Global("Iacreature3","AR1100",0)
+   Global("Iaswanmejob","GLOBAL",6)
+   GlobalTimerNotExpired("Iaaurieldies","GLOBAL")
+THEN
+   RESPONSE #100
+      SetGlobal("Iacreature3","AR1100",1)
+      CreateCreature("S!aurie3",[259.1388],11) //
+END
+
+IF
+   Global("Iamvagrant","GLOBAL",1)
+   Global("Iacreature3","AR1100",1)
+   Global("Iakillp1","AR1100",0)
+   GlobalGT("Iaswanmejob","GLOBAL",5)
+   GlobalLT("Iaswanmejob","GLOBAL",8)
+   Dead("S!aurie3") //
+THEN
+   RESPONSE #100
+    SetGlobal("Iakillp1","AR1100",1)
+    ClearAllActions()
+    StartCutSceneMode()
+    Wait(2)
+    MoveViewObject(Player1,-1)
+    DisplayStringHead(Player1,22180) //
+    Wait(4)
+    EndCutSceneMode()
+    Kill(Player1)
+END
+
+IF
+   Global("Iamvagrant","GLOBAL",1)
+   Global("Iacreature3","AR1100",1)
+   Global("Iaentrances","AR1100",0)
+   Global("Iaswanmejob","GLOBAL",6)
+   Global("DeactivateCabin","AR1100",2)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaentrances","AR1100",1)
+      TriggerActivation("Tran1107",FALSE)
+      TriggerActivation("Tran1105",FALSE)
+      TriggerActivation("Tran1105b",FALSE)
+      TriggerActivation("Tran1104",FALSE)
+      TriggerActivation("Tran1103",FALSE)
+      TriggerActivation("Tran1101",FALSE)
+      TriggerActivation("Tran1106",FALSE)
+END
+
+IF
+   Global("Iamvagrant","GLOBAL",1)
+   Global("Iaentrances","AR1100",1)
+   Global("Iaswanmejob","GLOBAL",8)
+   Global("DeactivateCabin","AR1100",2)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaentrances","AR1100",2)
+      TriggerActivation("Tran1107",TRUE)
+      TriggerActivation("Tran1105",TRUE)
+      TriggerActivation("Tran1105b",TRUE)
+      TriggerActivation("Tran1104",TRUE)
+      TriggerActivation("Tran1103",TRUE)
+      TriggerActivation("Tran1101",TRUE)
+      TriggerActivation("Tran1106",TRUE)
+END
+
+IF
+   Global("Iamvagrant","GLOBAL",1)
+   Global("Iacreature3","AR1100",1)
+   Global("Iaentrances","AR1100",0)
+   Global("Iaswanmejob","GLOBAL",6)
+   !Global("DeactivateCabin","AR1100",2)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaentrances","AR1100",1)
+      TriggerActivation("Tran1105",FALSE)
+      TriggerActivation("Tran1105b",FALSE)
+      TriggerActivation("Tran1104",FALSE)
+      TriggerActivation("Tran1103",FALSE)
+      TriggerActivation("Tran1101",FALSE)
+      TriggerActivation("Tran1106",FALSE)
+END
+
+IF
+   Global("Iamvagrant","GLOBAL",1)
+   Global("Iaentrances","AR1100",1)
+   Global("Iaswanmejob","GLOBAL",8)
+   !Global("DeactivateCabin","AR1100",2)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaentrances","AR1100",2)
+      TriggerActivation("Tran1105",TRUE)
+      TriggerActivation("Tran1105b",TRUE)
+      TriggerActivation("Tran1104",TRUE)
+      TriggerActivation("Tran1103",TRUE)
+      TriggerActivation("Tran1101",TRUE)
+      TriggerActivation("Tran1106",TRUE)
+END
+
+IF
+   Global("Iamvagrant","GLOBAL",1)
+   Global("Iacreature3","AR1100",0)
+   Global("Iaswanmejob","GLOBAL",6)
+   Global("Iakillp1","AR1100",0)
+   GlobalTimerExpired("Iaaurieldies","GLOBAL")
+THEN
+   RESPONSE #100
+    SetGlobal("Iakillp1","AR1100",1)
+    ClearAllActions()
+    StartCutSceneMode()
+    Wait(2)
+    MoveViewObject(Player1,-1)
+    DisplayStringHead(Player1,22180) //
+    Wait(4)
+    EndCutSceneMode()
+    Kill(Player1)
+END
+
+IF
+   InMyArea(Player1)
+   Global("ShadowLordDead","GLOBAL",1)
+   Global("Iacreature4","AR1100",0)
+   Global("Iasquirjob","GLOBAL",2)
+   !Class(Player1,FIGHTER_ALL)
+   !Class(Player1,THIEF_ALL)
+   !Class(Player1,CLERIC_ALL)
+   OR(3)
+    Class(Player1,RANGER_ALL)
+    Class(Player1,DRUID_ALL)
+    Class(Player1,MAGE_ALL)
+THEN
+   RESPONSE #100
+      SetGlobal("Iacreature4","AR1100",1)
+      CreateCreature("S!squi02",[4969.1661],3) //
+END

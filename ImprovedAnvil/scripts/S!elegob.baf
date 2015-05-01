@@ -1,0 +1,222 @@
+IF
+  See(NearestEnemyOf(Myself))
+  Global("partyfled","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("partyfled","LOCALS",0)
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  Global("EnemySeen","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("EnemySeen","LOCALS",1)
+END
+
+IF
+  Detect([PC])
+  Global("Iatimer","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("golemcall","LOCALS",18)
+    SetGlobal("Iatimer","LOCALS",1)
+END
+
+IF
+  Detect([PC])
+  Global("Iatreasure","LOCALS",0)
+  Global("Iaslingplace","GLOBAL",3)
+  Global("Iapcastts","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaslingplace","GLOBAL",4)
+    SetGlobal("Iatreasure","LOCALS",1)
+    GiveItemCreate("wasling",Myself,0,0,0) //
+END
+
+IF
+  Detect([PC])
+  Global("Iatreasure2","LOCALS",0)
+  Global("Iakundaneplace","GLOBAL",2)
+  Global("Iapcastts","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iakundaneplace","GLOBAL",4)
+    SetGlobal("Iatreasure2","LOCALS",1)
+    GiveItemCreate("sw1h25",Myself,0,0,0) //
+END
+
+IF
+  Detect([PC])
+  Global("Iatreasure3","LOCALS",0)
+  Global("Iaavoidplace","GLOBAL",3)
+  Global("Iapcastts","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaavoidplace","GLOBAL",5)
+    SetGlobal("Iatreasure3","LOCALS",1)
+    GiveItemCreate("boot04",Myself,0,0,0) //
+END
+
+IF
+  Detect([PC])
+  Global("Iatreasure4","LOCALS",0)
+  Global("Iafotnplace","GLOBAL",1)
+  Global("Iapcastts","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iafotnplace","GLOBAL",3)
+    SetGlobal("Iatreasure4","LOCALS",1)
+    GiveItemCreate("sw2h12",Myself,0,0,0) //
+END
+
+IF
+  Detect([PC])
+  Global("Iatreasure5","LOCALS",0)
+  OR(6)
+   Class(Player1,RANGER_ALL)
+   Class(Player2,RANGER_ALL)
+   Class(Player3,RANGER_ALL)
+   Class(Player4,RANGER_ALL)
+   Class(Player5,RANGER_ALL)
+   Class(Player6,RANGER_ALL)
+  Global("Iapcastts","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatreasure5","LOCALS",1)
+    GiveItemCreate("scrl7q",Myself,0,0,0) //
+END
+
+IF
+  Detect([PC])
+  NumInPartyAliveGT(1)
+  Global("Iatreasure6","LOCALS",0)
+  Global("Iapcastts","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatreasure6","LOCALS",1)
+    GiveItemCreate("scrl6s",Myself,0,0,0) //
+END
+
+IF
+  See([PC])
+  !GlobalTimerNotExpired("golemcall","LOCALS")
+  GlobalLT("golems","LOCALS",6)
+  !HPLT(Myself,1)
+THEN
+  RESPONSE #50
+    SetGlobalTimer("golemcall","LOCALS",36)
+    IncrementGlobal("golems","LOCALS",1)
+    CreateCreatureObject("S!coin",Myself,0,0,0) //
+  RESPONSE #50
+    SetGlobalTimer("golemcall","LOCALS",36)
+    IncrementGlobal("golems","LOCALS",1)
+    CreateCreatureObject("S!gem",Myself,0,0,0) //
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(SecondNearestEnemyOf(Myself))
+  CheckStatLT(LastSeenBy(Myself),90,RESISTCRUSHING)
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  RandomNumGT(6,4)
+  Range(LastSeenBy(Myself),3)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Global("partyfled","LOCALS",0)
+  Global("Iatimer","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("chase","LOCALS",90)
+    SetGlobal("partyfled","LOCALS",1)
+END
+
+IF
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Global("partyfled","LOCALS",1)
+  GlobalTimerNotExpired("chase","LOCALS")
+  InMyArea(Player1)
+  Global("Iatimer","LOCALS",1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  GlobalTimerExpired("chase","LOCALS")
+  Global("partyfled","LOCALS",1)
+  Global("Iatimer","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatimer","LOCALS",0)
+    SetGlobal("EnemySeen","LOCALS",0)
+    ReallyForceSpellRES("SPWII07",Myself)
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  See(SecondNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  Range(LastSeenBy(Myself),5)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(ThirdNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  Range(LastSeenBy(Myself),5)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(FourthNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  Range(LastSeenBy(Myself),5)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(SecondNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(ThirdNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END

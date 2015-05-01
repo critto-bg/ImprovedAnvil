@@ -1,0 +1,442 @@
+//Spellhold Level 3 //
+
+IF
+   Global("Iaitem","AR1514",0)
+   Global("closedDoor","AR1514",2)
+   Class(Player1,RANGER_ALL)
+   Global("Iamvagrant","GLOBAL",1)
+   CheckStat(Player1,7,SCRIPTINGSTATE1)
+   !Class(Player1,CLERIC_ALL)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem","AR1514",1)
+      GiveItemCreate("S!clck03",Player1,0,0,0) //
+END
+
+IF
+   Global("Iaitem","AR1514",0)
+   Global("closedDoor","AR1514",2)
+   Class(Player1,MAGE_ALL)
+   !Class(Player1,FIGHTER_ALL)
+   !Class(Player1,THIEF_ALL)
+   !Class(Player1,CLERIC_ALL)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem","AR1514",1)
+      GiveItemCreate("S!misc01",Player1,0,0,0) //
+END
+
+IF
+   Global("Iaitem","AR1514",0)
+   Global("closedDoor","AR1514",2)
+   Global("Iapctoohigh","GLOBAL",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem","AR1514",1)
+      GiveItemCreate("potn33",Player1,0,0,0) //
+END
+
+IF
+   Global("Iaitem","AR1514",0)
+   Global("closedDoor","AR1514",2)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem","AR1514",1)
+END
+
+IF
+   Global("Iacreature","AR1514",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iacreature","AR1514",1)
+      CreateCreature("S!mitgol",[1366.926],9) //
+END
+
+IF
+  Global("Iamachine","AR1514",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iamachine","AR1514",1)
+    TriggerActivation("Machine",FALSE)
+END
+
+IF
+  Global("Iamachine","AR1514",1)
+  Dead("S!mitgol")
+THEN
+  RESPONSE #100
+    SetGlobal("Iamachine","AR1514",2)
+    TriggerActivation("Machine",TRUE)
+END
+
+IF
+  Global("magtrap","AR1514",2)
+  Global("Iawheel","AR1514",0)
+  OpenState("Secret02",TRUE)
+THEN
+  RESPONSE #100
+    SetGlobal("Iawheel","AR1514",1)
+    TriggerActivation("MagTrig",FALSE)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iaexit","AR1514",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR1514",1)
+    TriggerActivation("Door1512",FALSE)
+END
+
+IF
+   Global("Iascroll","AR1514",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iascroll","AR1514",1)
+      ActionOverride("Horn2",DestroyItem("scrla4")) //
+END
+
+IF
+  OpenState("DOOR01",TRUE)
+  Global("Door1Opened","AR1514",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door1Opened","AR1514",1)
+END
+
+IF
+  OpenState("DOOR01",FALSE)
+  Global("Door1Opened","AR1514",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR01")
+END
+
+IF
+  OpenState("DOOR02",TRUE)
+  Global("Door2Opened","AR1514",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door2Opened","AR1514",1)
+END
+
+IF
+  OpenState("DOOR02",FALSE)
+  Global("Door2Opened","AR1514",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR02")
+END
+
+IF
+  OpenState("IronDoor",FALSE)
+  OR(2)
+   Global("closedDoor","AR1514",2)
+   Global("closedDoor","AR1514",0)
+THEN
+  RESPONSE #100
+    OpenDoor("IronDoor")
+END
+
+IF
+  OpenState("Door08",TRUE)
+  Global("Door8Opened","AR1514",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door8Opened","AR1514",1)
+END
+
+IF
+  OpenState("Door08",FALSE)
+  Global("Door8Opened","AR1514",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door08")
+END
+
+IF
+  OpenState("Door09",TRUE)
+  Global("Door9Opened","AR1514",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door9Opened","AR1514",1)
+END
+
+IF
+  OpenState("Door09",FALSE)
+  Global("Door9Opened","AR1514",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door09")
+END
+
+IF
+  OpenState("Door10",TRUE)
+  Global("Door10Opened","AR1514",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door10Opened","AR1514",1)
+END
+
+IF
+  OpenState("Door10",FALSE)
+  Global("Door10Opened","AR1514",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door10")
+END
+
+IF
+  OpenState("Door11",TRUE)
+  Global("Door11Opened","AR1514",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door11Opened","AR1514",1)
+END
+
+IF
+  OpenState("Door11",FALSE)
+  Global("Door11Opened","AR1514",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door11")
+END
+
+IF
+  OpenState("Door12",TRUE)
+  Global("Door12Opened","AR1514",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door12Opened","AR1514",1)
+END
+
+IF
+  OpenState("Door12",FALSE)
+  Global("Door12Opened","AR1514",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door12")
+END
+
+IF
+  OpenState("Door13",TRUE)
+  Global("Door13Opened","AR1514",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door13Opened","AR1514",1)
+END
+
+IF
+  OpenState("Door13",FALSE)
+  Global("Door13Opened","AR1514",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door13")
+END
+
+IF
+  OpenState("Door14",TRUE)
+  Global("Door14Opened","AR1514",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door14Opened","AR1514",1)
+END
+
+IF
+  OpenState("Door14",FALSE)
+  Global("Door14Opened","AR1514",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door14")
+END
+
+IF
+  OpenState("Door15",TRUE)
+  Global("Door15Opened","AR1514",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door15Opened","AR1514",1)
+END
+
+IF
+  OpenState("Door15",FALSE)
+  Global("Door15Opened","AR1514",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door15")
+END
+
+IF
+  OpenState("Door16",TRUE)
+  Global("Door16Opened","AR1514",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door16Opened","AR1514",1)
+END
+
+IF
+  OpenState("Door16",FALSE)
+  Global("Door16Opened","AR1514",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door16")
+END
+
+IF
+  OpenState("Door17",TRUE)
+  Global("Door17Opened","AR1514",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door17Opened","AR1514",1)
+END
+
+IF
+  OpenState("Door17",FALSE)
+  Global("Door17Opened","AR1514",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door17")
+END
+
+IF
+   InMyArea(Player1)
+   Global("Iadoonce","AR1514",0)
+   Global("Iapctoohigh","GLOBAL",1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadoonce","AR1514",1)
+      SetGlobal("Iarspawn","AR1514",1)
+END
+
+IF
+   InMyArea(Player1)
+   Global("Iarspawn","AR1514",0)
+   Global("Iapctoohigh","GLOBAL",1)
+   Global("Iapcastts","GLOBAL",0)
+   !LevelGT(Player1,16)
+   XPLT(Player1,2975000)
+   RandomNumGT(6,4)
+THEN
+   RESPONSE #100
+      SetGlobal("Iarspawn","AR1514",1)
+      SetGlobal("Iarestarttime","AR1514",0)
+      CreateCreature("S!gempp",[585.682],0) //
+END
+
+IF
+   InMyArea(Player1)
+   Global("Iarspawn","AR1514",0)
+   Global("Iapctoohigh","GLOBAL",1)
+   Global("Iapcastts","GLOBAL",0)
+   !LevelGT(Player1,16)
+   XPLT(Player1,2975000)
+   RandomNumLT(4,3)
+THEN
+   RESPONSE #100
+      SetGlobal("Iarspawn","AR1514",1)
+      SetGlobal("Iarestarttime","AR1514",0)
+      CreateCreature("S!spidpp",[585.682],0) //
+      CreateCreature("S!spidpp",[717.602],0) //
+END
+
+IF
+   InMyArea(Player1)
+   Global("Iarspawn","AR1514",0)
+   Global("Iapctoohigh","GLOBAL",1)
+   Global("Iapcastts","GLOBAL",0)
+   !LevelGT(Player1,16)
+   XPLT(Player1,2975000)
+THEN
+   RESPONSE #100
+      SetGlobal("Iarspawn","AR1514",1)
+      SetGlobal("Iarestarttime","AR1514",0)
+      CreateCreature("S!skelpp",[585.682],0) //
+      CreateCreature("S!skelpp",[717.602],0) //
+END
+
+IF
+   InMyArea(Player1)
+   Global("Iarspawn","AR1514",0)
+   Global("Iapctoohigh","GLOBAL",1)
+   Global("Iapcastts","GLOBAL",0)
+   OR(2)
+    LevelGT(Player1,16)
+    XPGT(Player1,2974999)
+   RandomNumGT(6,4)
+THEN
+   RESPONSE #100
+      SetGlobal("Iarspawn","AR1514",1)
+      SetGlobal("Iarestarttime","AR1514",0)
+      CreateCreature("S!gempp",[585.682],0) //
+      CreateCreature("S!gempp",[717.602],0) //
+END
+
+IF
+   InMyArea(Player1)
+   Global("Iarspawn","AR1514",0)
+   Global("Iapctoohigh","GLOBAL",1)
+   Global("Iapcastts","GLOBAL",0)
+   OR(2)
+    LevelGT(Player1,16)
+    XPGT(Player1,2974999)
+   RandomNumLT(4,3)
+THEN
+   RESPONSE #100
+      SetGlobal("Iarspawn","AR1514",1)
+      SetGlobal("Iarestarttime","AR1514",0)
+      CreateCreature("S!spidpp",[585.682],0) //
+      CreateCreature("S!spidpp",[717.602],0) //
+      CreateCreature("S!spidpp",[645.638],0) //
+END
+
+IF
+   InMyArea(Player1)
+   Global("Iarspawn","AR1514",0)
+   Global("Iapctoohigh","GLOBAL",1)
+   Global("Iapcastts","GLOBAL",0)
+   OR(2)
+    LevelGT(Player1,16)
+    XPGT(Player1,2974999)
+THEN
+   RESPONSE #100
+      SetGlobal("Iarspawn","AR1514",1)
+      SetGlobal("Iarestarttime","AR1514",0)
+      CreateCreature("S!skelpp",[585.682],0) //
+      CreateCreature("S!skelpp",[717.602],0) //
+      CreateCreature("S!skelpp",[645.638],0) //
+END
+
+IF
+   InMyArea(Player1)
+   Global("Iarspawn","AR1514",1)
+   Global("Iapctoohigh","GLOBAL",1)
+   Global("Iarestarttime","AR1514",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iarestarttime","AR1514",1)
+      SetGlobalTimer("Iastarttimer","AR1514",12)
+END
+
+IF
+   InMyArea(Player1)
+   Global("Iarspawn","AR1514",1)
+   Global("Iapctoohigh","GLOBAL",1)
+   Global("Iarestarttime","AR1514",1)
+   GlobalTimerExpired("Iastarttimer","AR1514")
+   CombatCounter(0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iarestarttime","AR1514",2)
+      SetGlobalTimer("Iaspawntimer","AR1514",60)
+END
+
+IF
+   InMyArea(Player1)
+   Global("Iarspawn","AR1514",1)
+   Global("Iapctoohigh","GLOBAL",1)
+   Global("Iarestarttime","AR1514",2)
+   GlobalTimerExpired("Iaspawntimer","AR1514")
+THEN
+   RESPONSE #100
+      SetGlobal("Iarspawn","AR1514",0)
+END

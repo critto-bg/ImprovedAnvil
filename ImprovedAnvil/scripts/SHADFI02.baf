@@ -1,0 +1,32 @@
+IF
+  HPPercentLT(Myself,75)
+  Global("MoreShadows","LOCALS",0)
+  Global("Iapcastts","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetInterrupt(FALSE)
+    SetGlobal("MoreShadows","LOCALS",1)
+    CreateVisualEffectObject("ICMAGICH",Myself)
+    CreateCreatureObject("hgwra03",Myself,0,0,0)
+    CreateCreatureObject("hgwra03",Myself,0,0,0)
+    CreateCreatureObject("hgwra03",Myself,0,0,0)
+    SetInterrupt(TRUE)
+END
+
+IF
+  HPPercentLT(Myself,50)
+  Global("CuredSelf","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("CuredSelf","LOCALS",1)
+    ApplySpell(Myself,HEAL_NO_VISUAL)
+END
+
+IF
+  !See([GOODCUTOFF])
+  Allegiance(Myself,ENEMY)
+  Range(Player1,40)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END

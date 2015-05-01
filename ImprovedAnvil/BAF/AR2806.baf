@@ -1,0 +1,177 @@
+//Tree of Life //////////////
+
+IF
+  InMyArea(Player1)
+  GlobalGT("PartyMove","AR2806",0)
+  Global("Iaexit","AR2806",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR2806",1)
+    TriggerActivation("Tran2805",FALSE)
+    TriggerActivation("Trigger Point 19",FALSE)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iagolems","AR2806",1)
+THEN
+  RESPONSE #100
+    SetInterrupt(FALSE)
+    CreateVisualEffect("SPENTAXI",[1856.2105])
+    CreateVisualEffect("SPENTAXI",[1797.2104])
+    CreateVisualEffect("SPENTAXI",[1712.2034])
+    CreateVisualEffect("SPENTAXI",[1799.1946])
+    Wait(1)
+    CreateCreature("S!woogo1",[1856.2105],13) //
+    CreateCreature("S!woogo2",[1797.2104],0) //
+    CreateCreature("S!woogo3",[1712.2034],5) //
+    CreateCreature("S!woogo4",[1799.1946],9) //
+    SetGlobal("Iagolems","AR2806",2)
+    SetInterrupt(TRUE)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iagolems","AR2806",2)
+  Dead("S!woogo1")
+  Dead("S!woogo2")
+  Dead("S!woogo3")
+  Dead("S!woogo4")
+  Exists("SUJON")
+  !Dead("SUJON")
+THEN
+  RESPONSE #100
+    SetGlobal("Iagolems","AR2806",3)
+END
+
+IF
+  InMyArea(Player1)
+  Global("IrenicusBeat","AR2806",0)
+  Global("Iagolems","AR2806",3)
+  Exists("SUJON")
+  !Dead("SUJON")
+  HPLT("SUJON",5)
+THEN
+  RESPONSE #100
+    SetGlobal("IrenicusBeat","AR2806",1)
+    ActionOverride("SUJON",StartDialogNoSet([PC]))
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iaitem","AR2806",0)
+  GlobalGT("Iammirrorjob","GLOBAL",1)
+  Class(Player1,RANGER_ALL)
+  !Class(Player1,CLERIC_ALL)
+  CheckStat(Player1,7,SCRIPTINGSTATE1)
+  Global("Iamvagrant","GLOBAL",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaitem","AR2806",1)
+    ActionOverride("Container 1",CreateItem("S!misc57",0,0,0)) //
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iacutscentime","AR2806",0)
+  GlobalGT("Iammirrorjob","GLOBAL",2)
+  Class(Player1,RANGER_ALL)
+  !Class(Player1,CLERIC_ALL)
+  CheckStat(Player1,7,SCRIPTINGSTATE1)
+  Global("Iamvagrant","GLOBAL",1)
+  Global("Iapennyroyal","GLOBAL",2)
+  PartyHasItem("S!misc58")
+THEN
+  RESPONSE #100
+    SetGlobal("Iacutscentime","AR2806",1)
+    SetGlobalTimer("Iacscenetimer","AR2806",6)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iacutscentime","AR2806",1)
+  GlobalGT("Iammirrorjob","GLOBAL",2)
+  GlobalTimerExpired("Iacscenetimer","AR2806")
+  Class(Player1,RANGER_ALL)
+  !Class(Player1,CLERIC_ALL)
+  CheckStat(Player1,7,SCRIPTINGSTATE1)
+  Global("Iamvagrant","GLOBAL",1)
+  Global("Iapennyroyal","GLOBAL",2)
+  PartyHasItem("S!misc58")
+THEN
+  RESPONSE #100
+    ClearAllActions()
+    StartCutSceneMode()
+    TakePartyItem("S!misc58")
+    DestroyItem("S!misc58")
+    Wait(2)
+    MoveViewObject(Player1,-1)
+    DisplayStringHead(Player1,65415) //
+    Wait(4)
+    SetGlobal("Iacutscentime","AR2806",2)
+    SetGlobalTimer("Iavipertimer","AR2806",6)
+    TriggerActivation("Tran2805",FALSE)
+    TriggerActivation("Trigger Point 19",FALSE)
+    EndCutSceneMode()
+END
+
+IF
+  GlobalLT("Iacreature","AR2806",6)
+  InMyArea(Player1)
+  Global("Iacutscentime","AR2806",2)
+  GlobalGT("Iammirrorjob","GLOBAL",2)
+  GlobalTimerExpired("Iavipertimer","AR2806")
+  Class(Player1,RANGER_ALL)
+  !Class(Player1,CLERIC_ALL)
+  CheckStat(Player1,7,SCRIPTINGSTATE1)
+  Global("Iamvagrant","GLOBAL",1)
+  Global("Iapennyroyal","GLOBAL",2)
+THEN
+   RESPONSE #100
+     IncrementGlobal("Iacreature","AR2806",1)
+     SetGlobalTimer("Iavipertimer","AR2806",12)
+     CreateCreature("S!vipmir",[3204.1117],0)
+     CreateCreature("S!vipmir",[2549.819],0)
+     CreateCreature("S!vipmir",[3155.566],0)
+     CreateCreature("S!vipmir",[3341.1454],0)
+END
+
+IF
+  Global("Iacreature","AR2806",6)
+  InMyArea(Player1)
+  Global("Iacutscentime","AR2806",2)
+  GlobalGT("Iammirrorjob","GLOBAL",2)
+  GlobalTimerExpired("Iavipertimer","AR2806")
+  Class(Player1,RANGER_ALL)
+  !Class(Player1,CLERIC_ALL)
+  CheckStat(Player1,7,SCRIPTINGSTATE1)
+  Global("Iamvagrant","GLOBAL",1)
+  Global("Iapennyroyal","GLOBAL",2)
+THEN
+   RESPONSE #100
+     IncrementGlobal("Iacreature","AR2806",1)
+     CreateCreature("S!vipmi1",[3341.1454],0)
+END
+
+IF
+  Global("Iacreature","AR2806",7)
+  Global("Iaunseal","AR2806",0)
+  InMyArea(Player1)
+  Dead("S!vipmi1")
+  CombatCounter(0)
+THEN
+   RESPONSE #100
+     SetGlobal("Iaunseal","AR2806",1)
+     TriggerActivation("Tran2805",TRUE)
+END
+
+IF
+  Global("Iarubyregained","GLOBAL",0)
+  Global("Iaunseal","AR2806",1)
+  InMyArea(Player1)
+  Dead("S!vipmi1")
+  PartyHasItem("S!misc45")
+THEN
+   RESPONSE #100
+     SetGlobal("Iarubyregained","GLOBAL",1)
+END

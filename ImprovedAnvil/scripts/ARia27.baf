@@ -1,0 +1,49 @@
+// MoM battle ////
+
+IF
+  GlobalTimerExpired("Iasummons","ARia27")
+  GlobalLT("Iamomminion","ARia27",3)
+  Global("Iamombattle","ARia27",1)
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iamomminion","ARia27",1)
+    SetGlobalTimer("Iasummons","GLOBAL",18)
+    CreateVisualEffect("SPPROIMG",[1077.1107])
+    CreateVisualEffect("SPPROIMG",[1118.1202])
+    CreateVisualEffect("SPPROIMG",[1412.1112])
+    CreateVisualEffect("SPPROIMG",[1368.1198])
+    Wait(3)
+    CreateCreature("S!vipmir",[1077.1107],11)
+    CreateCreature("S!windmi",[1118.1202],9)
+    CreateCreature("S!skelmi",[1412.1112],4)
+    CreateCreature("S!shadmi",[1368.1198],6)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iamombattle","ARia27",3)
+THEN
+  RESPONSE #100
+    SetGlobal("Iamombattle","ARia27",4)
+    SetGlobal("Iammirrorjob","GLOBAL",6)
+    AddXPObject(Player1,35000)
+    AddXPObject(Player2,25000)
+    AddXPObject(Player3,25000)
+    AddXPObject(Player4,25000)
+    AddXPObject(Player5,25000)
+    AddXPObject(Player6,25000)
+    ClearAllActions()
+    StartCutSceneMode()
+    StartCutScene("Trania37")
+END
+
+IF
+  Global("Iaexit","ARia26",2)
+  !PartyHasItem("S!misc56")
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","ARia26",1)
+    SetGlobal("Iawoodenmir","GLOBAL",0)
+    TriggerActivation("Trania35",FALSE)
+END

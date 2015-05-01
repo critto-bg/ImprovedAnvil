@@ -1,0 +1,31 @@
+// Sigil's place ///
+
+IF
+  Global("Iaexit","ARia11",0)
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","ARia11",1)
+    TriggerActivation("Trania09",FALSE)
+END
+
+IF
+  Global("Iaexit","ARia11",1)
+  PartyHasItem("S!misc33")
+  OR(2)
+   NumDeadGT("S!shado2",9)
+   GlobalGT("IaNumOfDeads","ARia11",9)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","ARia11",2)
+    TriggerActivation("Trania09",TRUE)
+END
+
+IF
+  Global("Iaexit","ARia11",2)
+  !PartyHasItem("S!misc33")
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","ARia11",1)
+    TriggerActivation("Trania09",FALSE)
+END

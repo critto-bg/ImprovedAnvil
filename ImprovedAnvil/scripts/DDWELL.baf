@@ -1,0 +1,53 @@
+IF
+  Clicked([ANYONE])
+  Range(LastTrigger,10)
+  Global("VanyaJob","GLOBAL",4)
+  Global("IaDragonWell","AR1202",0)
+THEN
+  RESPONSE #100
+    SetGlobal("IaDragonWell","AR1202",1)
+    CreateCreatureObjectDoor("S!vipe1",LastTrigger,0,0,0)
+END
+
+IF
+  Clicked([ANYONE])
+  Range(LastTrigger,10)
+  Global("VanyaJob","GLOBAL",5)
+  Global("IaDragonWell","AR1202",1)
+THEN
+  RESPONSE #100
+    SetInterrupt(FALSE)
+    SetGlobal("IaDragonWell","AR1202",2)
+    SetGlobal("Iagemgained","GLOBAL",1)
+    GiveItemCreate("S!misc21",LastTrigger,0,0,0)
+    AddexperienceParty(30000)
+    SetInterrupt(TRUE)
+END
+
+IF
+  Clicked([ANYONE])
+  Range(LastTrigger,10)
+  Global("DragonWell","AR1202",0)
+THEN
+  RESPONSE #100
+    DisplayString(Myself,40849)  // ~This ancient well seems to still be in working order.  If you wanted you could winch up the water pail.~
+    SetGlobal("DragonWell","AR1202",1)
+END
+
+IF
+  Clicked([ANYONE])
+  Range(LastTrigger,10)
+  Global("DragonWell","AR1202",1)
+THEN
+  RESPONSE #100
+    SetGlobal("DragonWell","AR1202",2)
+    CreateCreature("S!windm1",[1319.1305],9)
+END
+
+IF
+  Clicked([ANYONE])
+  !Range(LastTrigger,10)
+THEN
+  RESPONSE #100
+    DisplayString(Myself,14702)  // ~You are too far away to use that.~
+END

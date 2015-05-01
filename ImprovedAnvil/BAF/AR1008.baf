@@ -1,0 +1,373 @@
+IF
+  Global("Iaexit","AR1008",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR1008",1)
+    TriggerActivation("Cauldron",FALSE)
+END
+
+IF
+  Global("Iaexit","AR1008",1)
+  GlobalGT("ShangalarMove","AR1008",1)
+  Dead("HLVAXAL") //
+  Dead("HLLAYEN") //
+  Dead("HLSHANG") //
+  CombatCounter(0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR1008",2)
+    TriggerActivation("Cauldron",TRUE)
+END
+
+IF
+  Global("Iarestwish","AR1008",1)
+  Global("Ialayenthing","AR1008",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Ialayenthing","AR1008",1)
+    TakeItemReplace("S!layen2","S!layene","HLLAYEN")
+END
+
+IF
+  Global("Iap1hidden","AR1008",1)
+  GlobalLT("Iagtwists","AR1008",2)
+  !GlobalTimerNotExpired("Iapunish","AR1008")
+  Global("Iapcastts","GLOBAL",0)
+  Global("Iaexit","AR1008",1)
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iagtwists","AR1008",1)
+    SetGlobalTimer("Iapunish","AR1008",18)
+    CreateCreatureObjectDoor("S!gtwist",Player1,0,0,0)
+END
+
+IF
+   InMyArea(Player1)
+   StateCheck(Player1,STATE_SILENCED)
+   OR(3)
+    Class(Player1,MAGE_ALL)
+    Class(Player1,BARD_ALL)
+    CheckStat(Player1,1,SCRIPTINGSTATE16)
+   Global("Iadisabled1","AR1008",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled1","AR1008",1)
+      ActionOverride(Player1,ReallyForceSpellRES("spwii44",Myself))
+END
+
+IF
+   InMyArea(Player1)
+   !StateCheck(Player1,STATE_SILENCED)
+   Global("Iadisabled1","AR1008",1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled1","AR1008",0)
+END
+
+IF
+   InMyArea(Player2)
+   StateCheck(Player2,STATE_SILENCED)
+   OR(3)
+    Class(Player2,MAGE_ALL)
+    Class(Player2,BARD_ALL)
+    CheckStat(Player2,1,SCRIPTINGSTATE16)
+   Global("Iadisabled2","AR1008",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled2","AR1008",1)
+      ActionOverride(Player2,ReallyForceSpellRES("spwii44",Myself))
+END
+
+IF
+   InMyArea(Player2)
+   !StateCheck(Player2,STATE_SILENCED)
+   Global("Iadisabled2","AR1008",1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled2","AR1008",0)
+END
+
+IF
+   InMyArea(Player3)
+   StateCheck(Player3,STATE_SILENCED)
+   OR(3)
+    Class(Player3,MAGE_ALL)
+    Class(Player3,BARD_ALL)
+    CheckStat(Player3,1,SCRIPTINGSTATE16)
+   Global("Iadisabled3","AR1008",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled3","AR1008",1)
+      ActionOverride(Player3,ReallyForceSpellRES("spwii44",Myself))
+END
+
+IF
+   InMyArea(Player3)
+   !StateCheck(Player3,STATE_SILENCED)
+   Global("Iadisabled3","AR1008",1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled3","AR1008",0)
+END
+
+IF
+   InMyArea(Player4)
+   StateCheck(Player4,STATE_SILENCED)
+   OR(3)
+    Class(Player4,MAGE_ALL)
+    Class(Player4,BARD_ALL)
+    CheckStat(Player4,1,SCRIPTINGSTATE16)
+   Global("Iadisabled4","AR1008",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled4","AR1008",1)
+      ActionOverride(Player4,ReallyForceSpellRES("spwii44",Myself))
+END
+
+IF
+   InMyArea(Player4)
+   !StateCheck(Player4,STATE_SILENCED)
+   Global("Iadisabled4","AR1008",1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled4","AR1008",0)
+END
+
+IF
+   InMyArea(Player5)
+   StateCheck(Player5,STATE_SILENCED)
+   OR(3)
+    Class(Player5,MAGE_ALL)
+    Class(Player5,BARD_ALL)
+    CheckStat(Player5,1,SCRIPTINGSTATE16)
+   Global("Iadisabled5","AR1008",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled5","AR1008",1)
+      ActionOverride(Player5,ReallyForceSpellRES("spwii44",Myself))
+END
+
+IF
+   InMyArea(Player5)
+   !StateCheck(Player5,STATE_SILENCED)
+   Global("Iadisabled5","AR1008",1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled5","AR1008",0)
+END
+
+IF
+   InMyArea(Player6)
+   StateCheck(Player6,STATE_SILENCED)
+   OR(3)
+    Class(Player6,MAGE_ALL)
+    Class(Player6,BARD_ALL)
+    CheckStat(Player6,1,SCRIPTINGSTATE16)
+   Global("Iadisabled6","AR1008",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled6","AR1008",1)
+      ActionOverride(Player6,ReallyForceSpellRES("spwii44",Myself))
+END
+
+IF
+   InMyArea(Player6)
+   !StateCheck(Player6,STATE_SILENCED)
+   Global("Iadisabled6","AR1008",1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled6","AR1008",0)
+END
+
+IF
+  GlobalTimerNotExpired("Iasoftenp1","AR1008")
+  CheckStatGT(Player1,99,RESISTFIRE)
+THEN
+  RESPONSE #100
+    ReallyForceSpellRES("SPWII46",Player1)
+END
+
+IF
+  GlobalTimerNotExpired("Iasoftenp2","AR1008")
+  CheckStatGT(Player2,99,RESISTFIRE)
+THEN
+  RESPONSE #100
+    ReallyForceSpellRES("SPWII46",Player2)
+END
+
+IF
+  GlobalTimerNotExpired("Iasoftenp3","AR1008")
+  CheckStatGT(Player3,99,RESISTFIRE)
+THEN
+  RESPONSE #100
+    ReallyForceSpellRES("SPWII46",Player3)
+END
+
+IF
+  GlobalTimerNotExpired("Iasoftenp4","AR1008")
+  CheckStatGT(Player4,99,RESISTFIRE)
+THEN
+  RESPONSE #100
+    ReallyForceSpellRES("SPWII46",Player4)
+END
+
+IF
+  GlobalTimerNotExpired("Iasoftenp5","AR1008")
+  CheckStatGT(Player5,99,RESISTFIRE)
+THEN
+  RESPONSE #100
+    ReallyForceSpellRES("SPWII46",Player5)
+END
+
+IF
+  GlobalTimerNotExpired("Iasoftenp6","AR1008")
+  CheckStatGT(Player6,99,RESISTFIRE)
+THEN
+  RESPONSE #100
+    ReallyForceSpellRES("SPWII46",Player6)
+END
+
+IF
+  GlobalTimerNotExpired("Iasoftenp1","AR1008")
+  CheckStatGT(Player1,99,RESISTCOLD)
+THEN
+  RESPONSE #100
+    ReallyForceSpellRES("SPWII47",Player1)
+END
+
+IF
+  GlobalTimerNotExpired("Iasoftenp2","AR1008")
+  CheckStatGT(Player2,99,RESISTCOLD)
+THEN
+  RESPONSE #100
+    ReallyForceSpellRES("SPWII47",Player2)
+END
+
+IF
+  GlobalTimerNotExpired("Iasoftenp3","AR1008")
+  CheckStatGT(Player3,99,RESISTCOLD)
+THEN
+  RESPONSE #100
+    ReallyForceSpellRES("SPWII47",Player3)
+END
+
+IF
+  GlobalTimerNotExpired("Iasoftenp4","AR1008")
+  CheckStatGT(Player4,99,RESISTCOLD)
+THEN
+  RESPONSE #100
+    ReallyForceSpellRES("SPWII47",Player4)
+END
+
+IF
+  GlobalTimerNotExpired("Iasoftenp5","AR1008")
+  CheckStatGT(Player5,99,RESISTCOLD)
+THEN
+  RESPONSE #100
+    ReallyForceSpellRES("SPWII47",Player5)
+END
+
+IF
+  GlobalTimerNotExpired("Iasoftenp6","AR1008")
+  CheckStatGT(Player6,99,RESISTCOLD)
+THEN
+  RESPONSE #100
+    ReallyForceSpellRES("SPWII47",Player6)
+END
+
+IF
+  GlobalTimerNotExpired("Iasoftenp1","AR1008")
+  CheckStatGT(Player1,99,RESISTELECTRICITY)
+THEN
+  RESPONSE #100
+    ReallyForceSpellRES("SPWII48",Player1)
+END
+
+IF
+  GlobalTimerNotExpired("Iasoftenp2","AR1008")
+  CheckStatGT(Player2,99,RESISTELECTRICITY)
+THEN
+  RESPONSE #100
+    ReallyForceSpellRES("SPWII48",Player2)
+END
+
+IF
+  GlobalTimerNotExpired("Iasoftenp3","AR1008")
+  CheckStatGT(Player3,99,RESISTELECTRICITY)
+THEN
+  RESPONSE #100
+    ReallyForceSpellRES("SPWII48",Player3)
+END
+
+IF
+  GlobalTimerNotExpired("Iasoftenp4","AR1008")
+  CheckStatGT(Player4,99,RESISTELECTRICITY)
+THEN
+  RESPONSE #100
+    ReallyForceSpellRES("SPWII48",Player4)
+END
+
+IF
+  GlobalTimerNotExpired("Iasoftenp5","AR1008")
+  CheckStatGT(Player5,99,RESISTELECTRICITY)
+THEN
+  RESPONSE #100
+    ReallyForceSpellRES("SPWII48",Player5)
+END
+
+IF
+  GlobalTimerNotExpired("Iasoftenp6","AR1008")
+  CheckStatGT(Player6,99,RESISTELECTRICITY)
+THEN
+  RESPONSE #100
+    ReallyForceSpellRES("SPWII48",Player6)
+END
+
+IF
+  GlobalTimerNotExpired("Iasoftenp1","AR1008")
+  CheckStatGT(Player1,99,RESISTACID)
+THEN
+  RESPONSE #100
+    ReallyForceSpellRES("SPWII49",Player1)
+END
+
+IF
+  GlobalTimerNotExpired("Iasoftenp2","AR1008")
+  CheckStatGT(Player2,99,RESISTACID)
+THEN
+  RESPONSE #100
+    ReallyForceSpellRES("SPWII49",Player2)
+END
+
+IF
+  GlobalTimerNotExpired("Iasoftenp3","AR1008")
+  CheckStatGT(Player3,99,RESISTACID)
+THEN
+  RESPONSE #100
+    ReallyForceSpellRES("SPWII49",Player3)
+END
+
+IF
+  GlobalTimerNotExpired("Iasoftenp4","AR1008")
+  CheckStatGT(Player4,99,RESISTACID)
+THEN
+  RESPONSE #100
+    ReallyForceSpellRES("SPWII49",Player4)
+END
+
+IF
+  GlobalTimerNotExpired("Iasoftenp5","AR1008")
+  CheckStatGT(Player5,99,RESISTACID)
+THEN
+  RESPONSE #100
+    ReallyForceSpellRES("SPWII49",Player5)
+END
+
+IF
+  GlobalTimerNotExpired("Iasoftenp6","AR1008")
+  CheckStatGT(Player6,99,RESISTACID)
+THEN
+  RESPONSE #100
+    ReallyForceSpellRES("SPWII49",Player6)
+END

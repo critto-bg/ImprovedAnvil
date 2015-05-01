@@ -1,0 +1,131 @@
+IF
+  NumTimesTalkedTo(0)
+  Detect([PC])
+THEN
+  RESPONSE #100
+    StartDialogueNoSet([PC])
+END
+
+IF
+  Global("Iaswanmejob","GLOBAL",7)
+  Global("Farewell","LOCALS",0)
+  Global("Iapcastts","GLOBAL",0)
+  InMyArea(Player1)
+  !HPLT(Myself,1)
+THEN
+  RESPONSE #100
+    SetGlobal("Farewell","LOCALS",1)
+    MoveToObjectNoInterrupt(Player1)
+    StartDialogueNoSet(Player1)
+END
+
+IF
+  !Allegiance(Myself,GOODBUTBLUE)
+THEN
+  RESPONSE #100
+    ChangeEnemyAlly(Myself,GOODBUTBLUE)
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  Global("Iaswanmejob","GLOBAL",6)
+  Global("Iagolems","AR1100",1)
+  CheckStatLT(Myself,45,RESISTCRUSHING)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  !StateCheck(Myself,STATE_HELPLESS)
+  See(NearestEnemyOf(Player1))
+  GlobalLT("Iaauriel01","LOCALS",3)
+  Global("Iapcastts","GLOBAL",0)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iaauriel01","LOCALS",1)
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    ForceSpell(Myself,WARRIOR_HARDINESS)
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  Global("Iaswanmejob","GLOBAL",6)
+  Global("Iagolems","AR1100",1)
+  HPPercentLT(Myself,60)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  !StateCheck(Myself,STATE_HELPLESS)
+  See(NearestEnemyOf(Player1))
+  Global("Iaauriel02","LOCALS",0)
+  Global("Iapcastts","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaauriel02","LOCALS",1)
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    ForceSpellRES("SPCL211",Myself) //
+END
+
+IF
+  HPPercentLT(Myself,60)
+  Global("Iapcastts","GLOBAL",0)
+  Global("Iaswanmejob","GLOBAL",6)
+  Global("Iagolems","AR1100",1)
+  See(NearestEnemyOf(Player1))
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  HasItem("POTN55",Myself)  // ~Potion of Superior Healing~
+THEN
+  RESPONSE #100
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    DisplayStringHead(Myself,46150)  // ~quaffs a potion~
+    UseItem("POTN55",Myself)  // ~Potion of Superior Healing~
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  Global("Iaswanmejob","GLOBAL",6)
+  Global("Iagolems","AR1100",1)
+  Global("Iapcastts","GLOBAL",0)
+  HPPercentLT(Myself,90)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  !GlobalTimerNotExpired("cstrike","LOCALS")
+  !StateCheck(Myself,STATE_HELPLESS)
+  See(NearestEnemyOf(Player1))
+  Range(LastSeenBy(Myself),5)
+  GlobalLT("Iaauriel03","LOCALS",2)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iaauriel03","LOCALS",1)
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    SetGlobalTimer("cstrike","LOCALS",18)
+    ForceSpell(Myself,WARRIOR_CRITICAL_STRIKE)
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  Global("Iaswanmejob","GLOBAL",6)
+  Global("Iagolems","AR1100",1)
+  See(NearestEnemyOf(Player1))
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Player1))
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  Global("Iaswanmejob","GLOBAL",6)
+  Global("Iagolems","AR1100",1)
+  !See(NearestEnemyOf(Player1))
+  Dead("S!elego3")
+  Dead("S!elego4")
+  Dead("S!elego5")
+  Dead("S!ultgod")
+THEN
+  RESPONSE #100
+    SetGlobal("Iaswanmejob","GLOBAL",7)
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  Global("Iagolems","AR1100",1)
+  Global("Iaswanmejob","GLOBAL",6)
+  !See(NearestEnemyOf(Player1))
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END

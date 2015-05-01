@@ -1,0 +1,39 @@
+//De'Arnise Keep 1st Floor //
+
+IF
+   OR(2)
+    Global("Iaspidwfdead","GLOBAL",0)
+    Global("Iakpyuandead","GLOBAL",0)
+   PartyHasItem("blun14a")
+THEN
+   RESPONSE #100
+      TakePartyItem("blun14a")
+      DestroyItem("blun14a")
+END
+
+IF
+   Global("Iakpglaidead","GLOBAL",0)
+   PartyHasItem("blun14c")
+THEN
+   RESPONSE #100
+      TakePartyItem("blun14c")
+      DestroyItem("blun14c")
+END
+
+IF
+   Global("Iacreature","AR1302",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iacreature","AR1302",1)
+      CreateCreature("S!spider",[1912.764],13)  //
+END
+
+IF
+   Global("Iaitem","AR1302",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem","AR1302",1)
+      ActionOverride("Container 1",DestroyItem("blun14a")) //
+      ActionOverride("Container 5",DestroyItem("scrl6t")) //
+      ActionOverride("Container 14",DestroyItem("scrl6t")) //
+END

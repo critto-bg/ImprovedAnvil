@@ -1,0 +1,279 @@
+//Saladrex Hideout///
+
+IF
+  InMyArea(Player1)
+  !GlobalTimerNotExpired("DeadmagicTimer","AR3018")
+THEN
+  RESPONSE #100
+    ApplySpellRES("SPINI21",Player1)
+    SetGlobalTimer("DeadmagicTimer","AR3018",3)
+END
+
+IF
+  Global("Iaexit","AR3018",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR3018",2)
+    TriggerActivation("Tran3022",FALSE)
+END
+
+IF
+  Global("Iaexit","AR3018",2)
+  Dead("gorsal")
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR3018",3)
+    TriggerActivation("Tran3022",TRUE)
+END
+
+IF
+   InMyArea(Player1)
+   StateCheck(Player1,STATE_SILENCED)
+   OR(3)
+    Class(Player1,MAGE_ALL)
+    Class(Player1,BARD_ALL)
+    CheckStat(Player1,1,SCRIPTINGSTATE16)
+   Global("Iadisabled1","AR3018",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled1","AR3018",1)
+      ActionOverride(Player1,ReallyForceSpellRES("spwii44",Myself))
+END
+
+IF
+   InMyArea(Player1)
+   !StateCheck(Player1,STATE_SILENCED)
+   Global("Iadisabled1","AR3018",1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled1","AR3018",0)
+END
+
+IF
+   InMyArea(Player2)
+   StateCheck(Player2,STATE_SILENCED)
+   OR(3)
+    Class(Player2,MAGE_ALL)
+    Class(Player2,BARD_ALL)
+    CheckStat(Player2,1,SCRIPTINGSTATE16)
+   Global("Iadisabled2","AR3018",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled2","AR3018",1)
+      ActionOverride(Player2,ReallyForceSpellRES("spwii44",Myself))
+END
+
+IF
+   InMyArea(Player2)
+   !StateCheck(Player2,STATE_SILENCED)
+   Global("Iadisabled2","AR3018",1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled2","AR3018",0)
+END
+
+IF
+   InMyArea(Player3)
+   StateCheck(Player3,STATE_SILENCED)
+   OR(3)
+    Class(Player3,MAGE_ALL)
+    Class(Player3,BARD_ALL)
+    CheckStat(Player3,1,SCRIPTINGSTATE16)
+   Global("Iadisabled3","AR3018",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled3","AR3018",1)
+      ActionOverride(Player3,ReallyForceSpellRES("spwii44",Myself))
+END
+
+IF
+   InMyArea(Player3)
+   !StateCheck(Player3,STATE_SILENCED)
+   Global("Iadisabled3","AR3018",1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled3","AR3018",0)
+END
+
+IF
+   InMyArea(Player4)
+   StateCheck(Player4,STATE_SILENCED)
+   OR(3)
+    Class(Player4,MAGE_ALL)
+    Class(Player4,BARD_ALL)
+    CheckStat(Player4,1,SCRIPTINGSTATE16)
+   Global("Iadisabled4","AR3018",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled4","AR3018",1)
+      ActionOverride(Player4,ReallyForceSpellRES("spwii44",Myself))
+END
+
+IF
+   InMyArea(Player4)
+   !StateCheck(Player4,STATE_SILENCED)
+   Global("Iadisabled4","AR3018",1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled4","AR3018",0)
+END
+
+IF
+   InMyArea(Player5)
+   StateCheck(Player5,STATE_SILENCED)
+   OR(3)
+    Class(Player5,MAGE_ALL)
+    Class(Player5,BARD_ALL)
+    CheckStat(Player5,1,SCRIPTINGSTATE16)
+   Global("Iadisabled5","AR3018",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled5","AR3018",1)
+      ActionOverride(Player5,ReallyForceSpellRES("spwii44",Myself))
+END
+
+IF
+   InMyArea(Player5)
+   !StateCheck(Player5,STATE_SILENCED)
+   Global("Iadisabled5","AR3018",1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled5","AR3018",0)
+END
+
+IF
+   InMyArea(Player6)
+   StateCheck(Player6,STATE_SILENCED)
+   OR(3)
+    Class(Player6,MAGE_ALL)
+    Class(Player6,BARD_ALL)
+    CheckStat(Player6,1,SCRIPTINGSTATE16)
+   Global("Iadisabled6","AR3018",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled6","AR3018",1)
+      ActionOverride(Player6,ReallyForceSpellRES("spwii44",Myself))
+END
+
+IF
+   InMyArea(Player6)
+   !StateCheck(Player6,STATE_SILENCED)
+   Global("Iadisabled6","AR3018",1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadisabled6","AR3018",0)
+END
+
+IF
+  InMyArea(Player1)
+  OR(2)
+   SpellCast([PC],WIZARD_DEATH_FOG)
+   SpellCast([PC],WIZARD_CLOUDKILL)
+THEN
+  RESPONSE #100
+    SetGlobal("Iapccloud","AR3018",1)
+    SetGlobalTimer("Iacloudtime","AR3018",60)
+END
+
+IF
+  Global("Iapccloud","AR3018",1)
+  GlobalTimerExpired("Iacloudtime","AR3018")
+THEN
+  RESPONSE #100
+    SetGlobal("Iapccloud","AR3018",0)
+END
+
+IF
+  InMyArea(Player1)
+  SpellCast([PC],WIZARD_MIRROR_IMAGE)
+THEN
+  RESPONSE #100
+    SetGlobal("Iapcmimage","AR3018",1)
+    SetGlobalTimer("Iaimagetime","AR3018",138)
+END
+
+IF
+  Global("Iapcmimage","AR3018",1)
+  GlobalTimerExpired("Iaimagetime","AR3018")
+THEN
+  RESPONSE #100
+    SetGlobal("Iapcmimage","AR3018",0)
+END
+
+IF
+  Global("Iareaction","AR3018",0)
+  Global("Iaexit","AR3018",0)
+  InMyArea(Player1)
+  OR(26)
+    SpellCast([GOODCUTOFF],WIZARD_HASTE)
+    SpellCast([GOODCUTOFF],WIZARD_IMPROVED_HASTE)
+    SpellCast([GOODCUTOFF],WIZARD_PROTECTION_FROM_FIRE)
+    SpellCast([GOODCUTOFF],WIZARD_PROTECTION_FROM_ENERGY)
+    SpellCast([PC],WIZARD_SPIDER_SPAWN)
+    SpellCast([PC],WIZARD_MONSTER_SUMMONING_2)
+    SpellCast([PC],WIZARD_MONSTER_SUMMONING_3)
+    SpellCast([PC],WIZARD_SUMMON_DJINNI)
+    SpellCast([PC],WIZARD_SUMMON_EFREET)
+    GlobalGT("Iapcastts","GLOBAL",0)
+    SpellCast([PC],WIZARD_TIME_STOP)
+    SpellCastPriest([GOODCUTOFF],CLERIC_DRAW_UPON_HOLY_MIGHT)
+    SpellCastPriest([GOODCUTOFF],CLERIC_PROTECTION_FROM_FIRE)
+    SpellCastPriest([GOODCUTOFF],CLERIC_STRENGTH_OF_ONE)
+    SpellCastPriest([PC],CLERIC_CONJURE_EARTH_ELEMENTAL)
+    SpellCastPriest([PC],CLERIC_CONJURE_FIRE_ELEMENTAL)
+    SpellCastPriest([PC],CLERIC_ANIMAL_SUMMONING_3)
+    SpellCastPriest([PC],CLERIC_ANIMAL_SUMMONING_2)
+    SpellCastPriest([PC],CLERIC_AERIAL_SERVANT)
+    SpellCastPriest([PC],CLERIC_GATE)
+    SpellCastPriest([PC],CLERIC_ELEMENTAL_SWARM)
+    SpellCastInnate([GOODCUTOFF],SET_SNARE_TRAP)
+    SpellCastInnate([GOODCUTOFF],SET_SPECIAL_SNARE_TRAP)
+    SpellCastInnate([GOODCUTOFF],ROGUE_SET_SPIKE_TRAP)
+    SpellCastInnate([GOODCUTOFF],ROGUE_SET_EXPLODING_TRAP)
+    SpellCastInnate([GOODCUTOFF],ROGUE_SET_TIME_TRAP)
+THEN
+  RESPONSE #100
+    SetGlobal("Iareaction","AR3018",1)
+END
+
+IF
+   InMyArea(Player1)
+   Global("Iaexit","AR3018",2)
+   Global("Iadooncech","AR3018",0)
+   GlobalGT("Iapcastts","GLOBAL",0)
+   Global("Iats3018","AR3018",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadooncech","AR3018",1)
+      SetGlobal("Iats3018","AR3018",1)
+END
+
+IF
+   InMyArea(Player1)
+   Global("Iaexit","AR3018",2)
+   Global("Iadooncech","AR3018",0)
+   Global("Iapcastts","GLOBAL",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadooncech","AR3018",1)
+END
+
+IF
+   InMyArea(Player1)
+   Global("Iapcastts","GLOBAL",0)
+   Global("Iats3018","AR3018",1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iats3018","AR3018",2)
+END
+
+IF
+   InMyArea(Player1)
+   Global("Iats3018","AR3018",1)
+   GlobalGT("Iapcastts","GLOBAL",0)
+   !Global("Ianotreasure","AR3018",1)
+   HPPercentLT("gorsal",75)
+THEN
+   RESPONSE #100
+      SetGlobal("Ianotreasure","AR3018",1)
+END

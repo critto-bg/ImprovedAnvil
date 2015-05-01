@@ -1,0 +1,43 @@
+IF
+  Global("Iapcastts","GLOBAL",1)
+  Global("Iatsinvulner","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatsinvulner","LOCALS",1)
+    ApplySpellRES("SPINI70",Myself)
+END
+
+IF
+  Global("Iapcastts","GLOBAL",0)
+  Global("Iatsinvulner","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatsinvulner","LOCALS",0)
+    ApplySpellRES("SPINI71",Myself)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iapcastts","GLOBAL",0)
+  !HPLT(Myself,1)
+  !GlobalTimerNotExpired("Iacreategem","LOCALS")
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iacreategem","LOCALS",18)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    ForceSpellRES("SPWII21",Myself) //
+    CreateCreatureObject("S!ggem",Myself,0,0,0) //
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iapcastts","GLOBAL",0)
+  !HPLT(Myself,1)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    ForceSpellRES("SPWII21",Myself) //
+    CreateCreatureObject("S!gclay",Myself,0,0,0) //
+END

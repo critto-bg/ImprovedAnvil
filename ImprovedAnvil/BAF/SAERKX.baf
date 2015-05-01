@@ -1,0 +1,97 @@
+IF
+  OR(2)
+    Global("SaerkFights","LOCALS",1)
+    See(NearestEnemyOf(Myself))
+  Global("prep","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("prep","LOCALS",1)
+    ReallyForceSpell(Myself,CLERIC_PHYSICAL_MIRROR)
+    ReallyForceSpell(Myself,CLERIC_SHIELD_OF_THE_ARCHONS)
+    ReallyForceSpell(Myself,CLERIC_REGENERATE)
+    ReallyForceSpell(Myself,NPC_BLADE_BARRIER)
+END
+
+IF
+  OR(3)
+   StateCheck(Myself,STATE_HELPLESS)
+   StateCheck(Myself,STATE_STUNNED)
+   StateCheck(Myself,STATE_CHARMED)
+   Global("Iapcastts","GLOBAL",1)
+THEN
+  RESPONSE #100
+    NoAction()
+END
+
+IF
+  OR(2)
+   StateCheck(Myself,STATE_CONFUSED)
+   StateCheck(Myself,STATE_PANIC)
+THEN
+  RESPONSE #100
+    RandomWalk()
+END
+
+IF
+  HasItem("bull02",Myself)
+  OR(3)
+   CheckStatGT(Myself,0,SCRIPTINGSTATE9)
+   StateCheck(Myself,STATE_SILENCED)
+   StateCheck(Myself,STATE_POISONED)
+  See(NearestEnemyOf(Myself))
+  !Range(LastSeenBy(Myself),4)
+THEN
+  RESPONSE #100
+    EquipRanged()
+    AttackReevaluate(NearestEnemyOf(Myself),15)
+END
+
+IF
+  OR(3)
+   CheckStatGT(Myself,0,SCRIPTINGSTATE9)
+   StateCheck(Myself,STATE_SILENCED)
+   StateCheck(Myself,STATE_POISONED)
+  See(NearestEnemyOf(Myself))
+  OR(2)
+   !Range(LastSeenBy(Myself),4)
+   !HasItem("bull02",Myself)
+THEN
+  RESPONSE #100
+    EquipMostDamagingMelee()
+    AttackReevaluate(NearestEnemyOf(Myself),15)
+END
+
+IF
+  HPLT(Myself,40)
+  Global("Recoup","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Recoup","LOCALS",1)
+    ForceSpell(Myself,CLERIC_SANCTUARY)
+    ForceSpell(Myself,CLERIC_HEAL)
+    Spell(Myself,CLERIC_PROTECTION_FROM_FIRE)
+END
+
+IF
+  HPLT(Myself,20)
+  See(NearestEnemyOf(Myself))
+  HaveSpell(CLERIC_EARTHQUAKE)
+THEN
+  RESPONSE #100
+    Spell(Myself,CLERIC_EARTHQUAKE)
+END
+
+IF
+  HaveSpell(CLERIC_SILENCE_15_FOOT)
+  OR(2)
+    See(NearestEnemyOfType([0.0.0.MAGE_ALL]))
+    See(NearestEnemyOfType([0.0.0.CLERIC_ALL]))
+  !Range(LastSeenBy(Myself),15)
+  !HasItemEquiped("S!amul05",LastSeenBy(Myself))
+  !HasItemEquiped("S!amul06",LastSeenBy(Myself))
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE1)
+  !StateCheck(LastSeenBy(Myself),STATE_SILENCED)
+THEN
+  RESPONSE #100
+    Spell(LastSeenBy(Myself),CLERIC_SILENCE_15_FOOT)
+END

@@ -1,0 +1,34 @@
+IF
+  True()
+THEN
+  RESPONSE #100
+    CutSceneId(Player1)  // 
+    SetGlobal("DruidFight","AR1901",3)
+    StorePartyLocations()
+    TriggerActivation("THESOURCE",FALSE)
+    SetGlobal("SourceReactivate","AR1901",1)
+    FadeToColor([20.0],0)
+    Wait(2)
+    MoveViewPoint([1250.958],INSTANT)
+    ActionOverride("cefaldor",DestroySelf())
+    DropInventory()
+    JumpToPoint([1332.966])
+    Face(4)
+    ReallyForceSpellRES("SPINI14",Myself)
+    Wait(1)
+    CreateCreature("CEFALD01",[1173.964],12)  // ~Faldorn~
+    ActionOverride(Player2,MakeUnselectable(150000))
+    ActionOverride(Player3,MakeUnselectable(150000))
+    ActionOverride(Player4,MakeUnselectable(150000))
+    ActionOverride(Player5,MakeUnselectable(150000))
+    ActionOverride(Player6,MakeUnselectable(150000))
+    ApplySpellRES("SPINI23",Player2)
+    ApplySpellRES("SPINI23",Player3)
+    ApplySpellRES("SPINI23",Player4)
+    ApplySpellRES("SPINI23",Player5)
+    ApplySpellRES("SPINI23",Player6)
+    SetGlobal("Iapartyheld","AR1901",1)
+    FadeFromColor([20.0],0)
+    Wait(2)
+    EndCutSceneMode()
+END

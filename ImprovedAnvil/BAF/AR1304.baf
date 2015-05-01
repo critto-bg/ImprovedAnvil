@@ -1,0 +1,55 @@
+IF
+  Global("KeepPlot","GLOBAL",11)
+  Global("RoenallSpawn","AR1304",0)
+  Global("Iacreature","AR1304",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iacreature","AR1304",1)
+    CreateCreature("KPROEN02",[3835.2991],6)  // ~Roenall Guard~
+    CreateCreature("KPROEN02",[3946.2915],6)  // ~Roenall Guard~
+    CreateCreature("KPROEN05",[3931.2870],6)  // ~Roenall Soldier~
+    CreateCreature("KPROEN05",[3926.2847],6)  // ~Roenall Soldier~
+    CreateCreature("S!ROEGOL",[3932.2964],6)  //
+    CreateCreature("S!ROEGOL",[3954.2905],6)  //
+END
+
+IF
+  Global("Ianticheat","AR1304",0)
+  Global("Iacreature","AR1304",1)
+  Global("KeepPlot","GLOBAL",11)
+  Exists("KPROEN01") //
+  !Dead("KPROEN01") //
+  !Allegiance("KPROEN01",ENEMY)
+  HPPercentLT("KPROEN01",100)
+THEN
+  RESPONSE #100
+    SetGlobal("Ianticheat","AR1304",1)
+    ChangeEnemyAlly("KPROEN01",ENEMY)
+    ApplySpellRES("SPWII07","KPROEN01")
+END
+
+IF
+  Global("Iacreature","AR1304",1)
+  Global("Iadeactivate","AR1304",0)
+THEN
+   RESPONSE #100
+     SetGlobal("Iadeactivate","AR1304",1)
+     TriggerActivation("Tran1304sta",FALSE)
+     TriggerActivation("Tran1304stb",FALSE)
+     TriggerActivation("Tran1306a",FALSE)
+     TriggerActivation("Tran1306b",FALSE)
+     TriggerActivation("Tran1306c",FALSE)
+END
+
+IF
+  GlobalGT("KeepPlot","GLOBAL",11)
+  Global("Iadeactivate","AR1304",1)
+THEN
+   RESPONSE #100
+     SetGlobal("Iadeactivate","AR1304",2)
+     TriggerActivation("Tran1304sta",TRUE)
+     TriggerActivation("Tran1304stb",TRUE)
+     TriggerActivation("Tran1306a",TRUE)
+     TriggerActivation("Tran1306b",TRUE)
+     TriggerActivation("Tran1306c",TRUE)
+END

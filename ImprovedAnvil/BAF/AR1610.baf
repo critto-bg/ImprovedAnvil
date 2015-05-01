@@ -1,0 +1,240 @@
+//Brothel Prison //////////////
+
+IF
+   Global("Iaalarm","AR1610",1)
+THEN
+   RESPONSE #100
+     SetGlobal("Iaalarm","AR1610",2)
+     PlaySound("ALARM1")
+END
+
+IF
+  Global("Iaexit","AR1610",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR1610",1)
+    TriggerActivation("Tran1608",FALSE)
+END
+
+IF
+  OpenState("DOOR01",TRUE)
+  Global("Door1Opened","AR1610",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door1Opened","AR1610",1)
+END
+
+IF
+  OpenState("DOOR02",TRUE)
+  Global("Door2Opened","AR1610",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door2Opened","AR1610",1)
+END
+
+IF
+  OpenState("DOOR03",TRUE)
+  Global("Door3Opened","AR1610",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door3Opened","AR1610",1)
+END
+
+IF
+  OpenState("DOOR04",TRUE)
+  Global("Door4Opened","AR1610",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door4Opened","AR1610",1)
+END
+
+IF
+  OpenState("DOOR05",TRUE)
+  Global("Door5Opened","AR1610",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door5Opened","AR1610",1)
+END
+
+IF
+  OpenState("DOOR01",FALSE)
+  Global("Door1Opened","AR1610",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR01")
+END
+
+IF
+  OpenState("DOOR02",FALSE)
+  Global("Door2Opened","AR1610",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR02")
+END
+
+IF
+  OpenState("DOOR03",FALSE)
+  Global("Door3Opened","AR1610",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR03")
+END
+
+IF
+  OpenState("DOOR04",FALSE)
+  Global("Door4Opened","AR1610",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR04")
+END
+
+IF
+  OpenState("DOOR05",FALSE)
+  Global("Door5Opened","AR1610",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR05")
+END
+
+IF
+  Global("Iaexit","AR1610",1)
+  Dead("pirmur01")
+  Dead("pirmur07")
+  CombatCounter(0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR1610",2)
+    TriggerActivation("Tran1608",TRUE)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iasummons","AR1610",1)
+  Global("Iaexit","AR1610",1)
+  !GlobalTimerNotExpired("Iaguards","AR1610")
+  GlobalLT("Iacreature","AR1610",9)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iacreature","AR1610",1)
+    SetGlobalTimer("Iaguards","AR1610",6)
+    CreateCreature("S!pirmur",[469.573],5)  //
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iasummons","AR1610",2)
+  Global("Iaexit","AR1610",1)
+  !GlobalTimerNotExpired("Iaguards","AR1610")
+  GlobalLT("Iacreature","AR1610",6)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iacreature","AR1610",1)
+    SetGlobalTimer("Iaguards","AR1610",9)
+    CreateCreature("S!pirmur",[469.573],5)  //
+END
+
+IF
+  Global("Ianticheat1","AR1610",0)
+  Global("Iaexit","AR1610",1)
+  Exists("pirmur01") //
+  !Dead("pirmur01") //
+  !Allegiance("pirmur01",ENEMY)
+  HPPercentLT("pirmur01",100)
+THEN
+  RESPONSE #100
+    SetGlobal("Ianticheat1","AR1610",1)
+    ChangeEnemyAlly("pirmur01",ENEMY)
+    ApplySpellRES("SPWII07","pirmur01")
+END
+
+IF
+  Global("Ianticheat2","AR1610",0)
+  Global("Iaexit","AR1610",1)
+  Exists("pirmur07") //
+  !Dead("pirmur07") //
+  !Allegiance("pirmur07",ENEMY)
+  HPPercentLT("pirmur07",100)
+THEN
+  RESPONSE #100
+    SetGlobal("Ianticheat2","AR1610",1)
+    ChangeEnemyAlly("pirmur07",ENEMY)
+    ApplySpellRES("SPWII07","pirmur07")
+END
+
+IF
+   InMyArea(Player1)
+   NumInPartyGT(4)
+   Global("Iasingleswash","AR1610",0)
+   CheckStat(Player1,8,SCRIPTINGSTATE1)
+   !Class(Player1,FIGHTER_ALL)
+   !Class(Player1,CLERIC_ALL)
+   !Class(Player1,MAGE_ALL)
+THEN
+   RESPONSE #100
+      SetGlobal("Iasingleswash","AR1610",1)
+END
+
+IF
+   InMyArea(Player1)
+   NumInPartyGT(4)
+   Global("Iasingleswash","AR1610",0)
+   CheckStat(Player2,8,SCRIPTINGSTATE1)
+   !Class(Player2,FIGHTER_ALL)
+   !Class(Player2,CLERIC_ALL)
+   !Class(Player2,MAGE_ALL)
+THEN
+   RESPONSE #100
+      SetGlobal("Iasingleswash","AR1610",1)
+END
+
+IF
+   InMyArea(Player1)
+   NumInPartyGT(4)
+   Global("Iasingleswash","AR1610",0)
+   CheckStat(Player3,8,SCRIPTINGSTATE1)
+   !Class(Player3,FIGHTER_ALL)
+   !Class(Player3,CLERIC_ALL)
+   !Class(Player3,MAGE_ALL)
+THEN
+   RESPONSE #100
+      SetGlobal("Iasingleswash","AR1610",1)
+END
+
+IF
+   InMyArea(Player1)
+   NumInPartyGT(4)
+   Global("Iasingleswash","AR1610",0)
+   CheckStat(Player4,8,SCRIPTINGSTATE1)
+   !Class(Player4,FIGHTER_ALL)
+   !Class(Player4,CLERIC_ALL)
+   !Class(Player4,MAGE_ALL)
+THEN
+   RESPONSE #100
+      SetGlobal("Iasingleswash","AR1610",1)
+END
+
+IF
+   InMyArea(Player1)
+   NumInPartyGT(4)
+   Global("Iasingleswash","AR1610",0)
+   CheckStat(Player5,8,SCRIPTINGSTATE1)
+   !Class(Player5,FIGHTER_ALL)
+   !Class(Player5,CLERIC_ALL)
+   !Class(Player5,MAGE_ALL)
+THEN
+   RESPONSE #100
+      SetGlobal("Iasingleswash","AR1610",1)
+END
+
+IF
+   InMyArea(Player1)
+   NumInPartyGT(4)
+   Global("Iasingleswash","AR1610",0)
+   CheckStat(Player6,8,SCRIPTINGSTATE1)
+   !Class(Player6,FIGHTER_ALL)
+   !Class(Player6,CLERIC_ALL)
+   !Class(Player6,MAGE_ALL)
+THEN
+   RESPONSE #100
+      SetGlobal("Iasingleswash","AR1610",1)
+END

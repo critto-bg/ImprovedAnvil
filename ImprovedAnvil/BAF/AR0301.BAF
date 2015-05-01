@@ -1,0 +1,80 @@
+// Maevar's hideout  //
+
+IF
+  OpenState("Door02",TRUE)
+  Global("Door2Opened","AR0301",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door2Opened","AR0301",1)
+END
+
+IF
+  OpenState("Door03",TRUE)
+  Global("Door3Opened","AR0301",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door3Opened","AR0301",1)
+END
+
+IF
+  OpenState("Door04",TRUE)
+  Global("Door4Opened","AR0301",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door4Opened","AR0301",1)
+END
+
+IF
+  OpenState("Door02",FALSE)
+  Global("Door2Opened","AR0301",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door02")
+END
+
+IF
+  OpenState("Door03",FALSE)
+  Global("Door3Opened","AR0301",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door03")
+END
+
+IF
+  OpenState("Door04",FALSE)
+  Global("Door4Opened","AR0301",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door04")
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iaexit2","AR0301",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit2","AR0301",1)
+    TriggerActivation("Tran0300",FALSE)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iaexit","AR0301",0)
+  Global("Iamaevarfight","AR0301",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR0301",1)
+    TriggerActivation("Tran0301",FALSE)
+END
+
+IF
+   InMyArea(Player1)
+   Global("Iaexit","AR0301",1)
+   Dead("maevar")
+   CombatCounter(0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaexit","AR0301",2)
+      TriggerActivation("Tran0301",TRUE)
+      TriggerActivation("Tran0300",TRUE)
+END

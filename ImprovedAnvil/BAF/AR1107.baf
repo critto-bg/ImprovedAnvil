@@ -1,0 +1,50 @@
+// Ranger-Protector's Cabin //
+
+IF
+  Class(Player1,RANGER_ALL)
+  Global("Iarangerjob","GLOBAL",1)
+  Global("Iacreature","AR1107",0)
+  InMyArea(Player1)
+  Reputation(Player1,20)
+THEN
+  RESPONSE #100
+    SetGlobal("Iacreature","AR1107",1)
+    CreateCreatureObject("S!delon1",Player1,0,0,0) //
+END
+
+IF
+  Class(Player1,RANGER_ALL)
+  Global("Iarangerjob","GLOBAL",5)
+  Global("Iacreature2","AR1107",0)
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iacreature2","AR1107",1)
+    CreateCreatureObject("S!delon4",Player1,0,0,0) //
+END
+
+IF
+  Class(Player1,RANGER_ALL)
+  !Class(Player1,CLERIC_ALL)
+  Global("Iamvagrant","GLOBAL",1)
+  CheckStat(Player1,7,SCRIPTINGSTATE1)
+  GlobalGT("Iarangerjob","GLOBAL",11)
+  Global("Iacreature3","AR1107",0)
+  InMyArea(Player1)
+  Reputation(Player1,20)
+THEN
+  RESPONSE #100
+    SetGlobal("Iacreature3","AR1107",1)
+    CreateCreatureObject("S!swanme",Player1,0,0,0) //
+END
+
+IF
+   Global("Iaitem","AR1107",0)
+   Class(Player1,RANGER_ALL)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem","AR1107",1)
+      ActionOverride("Potion Table",CreateItem("potn55",0,0,0)) //
+      ActionOverride("Potion Table",CreateItem("potn35",0,0,0)) //
+      ActionOverride("Potion Table",CreateItem("potn43",0,0,0)) //
+END

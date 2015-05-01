@@ -1,0 +1,151 @@
+IF
+  Global("Iarandomanimal","GLOBAL",0)
+  General(Myself,ANIMAL)
+  Allegiance(Myself,NEUTRAL)
+  Detect([PC])
+  RandomNumLT(5,2)
+THEN
+  RESPONSE #100
+    SetGlobal("Iarandomanimal","GLOBAL",1)
+END
+
+IF
+  Global("Iarandomanimal","GLOBAL",0)
+  General(Myself,ANIMAL)
+  Allegiance(Myself,NEUTRAL)
+  Detect([PC])
+  RandomNumGT(4,3)
+THEN
+  RESPONSE #100
+    SetGlobal("Iarandomanimal","GLOBAL",2)
+END
+
+IF
+  Global("Iarandomanimal","GLOBAL",0)
+  General(Myself,ANIMAL)
+  Allegiance(Myself,NEUTRAL)
+  Detect([PC])
+  RandomNumLT(6,3)
+THEN
+  RESPONSE #100
+    SetGlobal("Iarandomanimal","GLOBAL",3)
+END
+
+IF
+  Global("Iarandomanimal","GLOBAL",0)
+  General(Myself,ANIMAL)
+  Allegiance(Myself,NEUTRAL)
+  Detect([PC])
+  RandomNumGT(4,2)
+THEN
+  RESPONSE #100
+    SetGlobal("Iarandomanimal","GLOBAL",4)
+END
+
+IF
+  Global("Iarandomanimal","GLOBAL",0)
+  General(Myself,ANIMAL)
+  Allegiance(Myself,NEUTRAL)
+  Detect([PC])
+THEN
+  RESPONSE #100
+    SetGlobal("Iarandomanimal","GLOBAL",5)
+END
+
+IF
+  CheckStat(Myself,2,SCRIPTINGSTATE3)
+  NumberOfTimesTalkedTo(0)
+  General(Myself,ANIMAL)
+  Allegiance(Myself,NEUTRAL)
+  GlobalGT("Iarandomanimal","GLOBAL",0)
+  See([PC])
+  OR(2)
+   Class(LastSeenBy(Myself),RANGER_ALL)
+   Class(LastSeenBy(Myself),DRUID_ALL)
+  !StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+  !StateCheck(LastSeenBy(Myself),STATE_SILENCED)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+  !StateCheck(LastSeenBy(Myself),STATE_PANIC)
+  !StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+THEN
+  RESPONSE #100
+    StartDialogNoSet(LastSeenBy(Myself))
+END
+
+IF
+  CheckStat(Myself,2,SCRIPTINGSTATE3)
+  NumberOfTimesTalkedTo(0)
+  General(Myself,ANIMAL)
+  Allegiance(Myself,NEUTRAL)
+  GlobalGT("Iarandomanimal","GLOBAL",0)
+  See(SecondNearest([PC]))
+  OR(2)
+   Class(LastSeenBy(Myself),RANGER_ALL)
+   Class(LastSeenBy(Myself),DRUID_ALL)
+  !StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+  !StateCheck(LastSeenBy(Myself),STATE_SILENCED)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+  !StateCheck(LastSeenBy(Myself),STATE_PANIC)
+  !StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+THEN
+  RESPONSE #100
+    StartDialogNoSet(LastSeenBy(Myself))
+END
+
+IF
+  CheckStat(Myself,2,SCRIPTINGSTATE3)
+  NumberOfTimesTalkedTo(0)
+  General(Myself,ANIMAL)
+  Allegiance(Myself,NEUTRAL)
+  GlobalGT("Iarandomanimal","GLOBAL",0)
+  See(ThirdNearest([PC]))
+  OR(2)
+   Class(LastSeenBy(Myself),RANGER_ALL)
+   Class(LastSeenBy(Myself),DRUID_ALL)
+  !StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+  !StateCheck(LastSeenBy(Myself),STATE_SILENCED)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+  !StateCheck(LastSeenBy(Myself),STATE_PANIC)
+  !StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+THEN
+  RESPONSE #100
+    StartDialogNoSet(LastSeenBy(Myself))
+END
+
+IF
+  CheckStat(Myself,2,SCRIPTINGSTATE3)
+  NumberOfTimesTalkedTo(0)
+  General(Myself,ANIMAL)
+  Allegiance(Myself,NEUTRAL)
+  GlobalGT("Iarandomanimal","GLOBAL",0)
+  See(FourthNearest([PC]))
+  OR(2)
+   Class(LastSeenBy(Myself),RANGER_ALL)
+   Class(LastSeenBy(Myself),DRUID_ALL)
+  !StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+  !StateCheck(LastSeenBy(Myself),STATE_SILENCED)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+  !StateCheck(LastSeenBy(Myself),STATE_PANIC)
+  !StateCheck(LastSeenBy(Myself),STATE_FEEBLEMINDED)
+THEN
+  RESPONSE #100
+    StartDialogNoSet(LastSeenBy(Myself))
+END
+
+IF
+  NumTimesTalkedToGT(0)
+  AttackedBy([GOODCUTOFF],DEFAULT)
+  Global("Iaexpectations","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexpectations","LOCALS",1)
+    ReputationInc(-1)
+END

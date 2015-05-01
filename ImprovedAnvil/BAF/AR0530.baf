@@ -1,0 +1,239 @@
+IF
+  InMyArea(Player1)
+  Global("Iaexit","AR0530",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR0530",1)
+    SetGlobalTimer("Iareopen","AR0530",12)
+    TriggerActivation("Tran0500",FALSE)
+    ContainerEnable("Chest 1",FALSE)
+    CreateCreature("S!demarc",[674.477],3)  //
+    CreateCreature("S!sqass4",[505.627],5)  //
+    CreateCreature("S!sqass5",[297.576],11)  //
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iamessage","AR0530",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iamessage","AR0530",2)
+    DisplayStringNoName(Player1,17864)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iaexit","AR0530",1)
+  GlobalTimerExpired("Iareopen","AR0530")
+  Dead("demmag")
+  Dead("dempri")
+  Dead("demfig01")
+  Dead("demfig02")
+  Dead("S!demarc")
+  Dead("S!sqass4")
+  Dead("S!sqass5")
+  CombatCounter(0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR0530",2)
+    SetGlobal("Iasquirjob","GLOBAL",7)
+    TriggerActivation("Tran0500",TRUE)
+    ContainerEnable("Chest 1",TRUE)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iaexit","AR0530",1)
+  Exists("demmag")
+  Exists("demfig01")
+  Exists("demfig02")
+  Exists("S!demarc")
+  Exists("S!sqass4")
+  Exists("S!sqass5")
+  !Dead("demmag")
+  !Dead("demfig01")
+  !Dead("demfig02")
+  !Dead("S!demarc")
+  !Dead("S!sqass4")
+  !Dead("S!sqass5")
+  OR(6)
+   HPLT("demmag",10)
+   HPLT("demfig01",10)
+   HPLT("demfig02",10)
+   HPLT("S!demarc",10)
+   HPLT("S!sqass4",10)
+   HPLT("S!sqass5",10)
+  Global("Iagrestore","AR0530",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iagrestore","AR0530",1)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iagrestore","AR0530",2)
+  Exists("demmag")
+  !Dead("demmag")
+  HasItem("bhaalhp1","demmag")
+THEN
+  RESPONSE #100
+    TakeItemReplace("S!trap","bhaalhp1","demmag")
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iagrestore","AR0530",2)
+  Exists("demfig01")
+  !Dead("demfig01")
+  HasItem("bhaalhp1","demfig01")
+THEN
+  RESPONSE #100
+    TakeItemReplace("S!trap","bhaalhp1","demfig01")
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iagrestore","AR0530",2)
+  Exists("demfig02")
+  !Dead("demfig02")
+  HasItem("bhaalhp1","demfig02")
+THEN
+  RESPONSE #100
+    TakeItemReplace("S!trap","bhaalhp1","demfig02")
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iagrestore","AR0530",2)
+  Exists("S!demarc")
+  !Dead("S!demarc")
+  HasItem("bhaalhp1","S!demarc")
+THEN
+  RESPONSE #100
+    TakeItemReplace("S!trap","bhaalhp1","S!demarc")
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iagrestore","AR0530",2)
+  Exists("S!sqass4")
+  !Dead("S!sqass4")
+  HasItem("bhaalhp1","S!sqass4")
+THEN
+  RESPONSE #100
+    TakeItemReplace("S!trap","bhaalhp1","S!sqass4")
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iagrestore","AR0530",2)
+  Exists("S!sqass5")
+  !Dead("S!sqass5")
+  HasItem("bhaalhp1","S!sqass5")
+THEN
+  RESPONSE #100
+    TakeItemReplace("S!trap","bhaalhp1","S!sqass5")
+END
+
+IF
+   InMyArea(Player1)
+   Global("Iaitem","AR0530",0)
+   Global("Iaexit","AR0530",2)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem","AR0530",1)
+      ActionOverride("Chest 1",CreateItem("S!misc48",0,0,0)) //
+END
+
+IF
+   InMyArea(Player1)
+   Global("Iatrap","AR0530",0)
+   HasItem("S!misc48",Player1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iatrap","AR0530",1)
+      DisplayString(Player1,14381)  // ~Trap Sprung~
+      PlaySound("AMB_D05C")
+      ActionOverride(Player1,ReallyForceSpellRES("SPWII43",Myself))
+END
+
+IF
+   InMyArea(Player1)
+   Global("Iatrap","AR0530",0)
+   HasItem("S!misc48",Player2)
+THEN
+   RESPONSE #100
+      SetGlobal("Iatrap","AR0530",1)
+      DisplayString(Player2,14381)  // ~Trap Sprung~
+      PlaySound("AMB_D05C")
+      ActionOverride(Player2,ReallyForceSpellRES("SPWII43",Myself))
+END
+
+IF
+   InMyArea(Player1)
+   Global("Iatrap","AR0530",0)
+   HasItem("S!misc48",Player3)
+THEN
+   RESPONSE #100
+      SetGlobal("Iatrap","AR0530",1)
+      DisplayString(Player3,14381)  // ~Trap Sprung~
+      PlaySound("AMB_D05C")
+      ActionOverride(Player3,ReallyForceSpellRES("SPWII43",Myself))
+END
+
+IF
+   InMyArea(Player1)
+   Global("Iatrap","AR0530",0)
+   HasItem("S!misc48",Player4)
+THEN
+   RESPONSE #100
+      SetGlobal("Iatrap","AR0530",1)
+      DisplayString(Player4,14381)  // ~Trap Sprung~
+      PlaySound("AMB_D05C")
+      ActionOverride(Player4,ReallyForceSpellRES("SPWII43",Myself))
+END
+
+IF
+   InMyArea(Player1)
+   Global("Iatrap","AR0530",0)
+   HasItem("S!misc48",Player5)
+THEN
+   RESPONSE #100
+      SetGlobal("Iatrap","AR0530",1)
+      DisplayString(Player5,14381)  // ~Trap Sprung~
+      PlaySound("AMB_D05C")
+      ActionOverride(Player5,ReallyForceSpellRES("SPWII43",Myself))
+END
+
+IF
+   InMyArea(Player1)
+   Global("Iatrap","AR0530",0)
+   HasItem("S!misc48",Player6)
+THEN
+   RESPONSE #100
+      SetGlobal("Iatrap","AR0530",1)
+      DisplayString(Player6,14381)  // ~Trap Sprung~
+      PlaySound("AMB_D05C")
+      ActionOverride(Player6,ReallyForceSpellRES("SPWII43",Myself))
+END
+
+IF
+  InMyArea(Player1)
+  OR(4)
+   SpellCast([PC],WIZARD_DEATH_FOG)
+   SpellCast([PC],WIZARD_CLOUDKILL)
+   SpellCast([PC],WIZARD_INCENDIARY_CLOUD)
+   SpellCast([PC],WIZARD_STINKING_CLOUD)
+THEN
+  RESPONSE #100
+    SetGlobal("Iapccloud","AR0530",1)
+    SetGlobalTimer("Iacloudtime","AR0530",60)
+END
+
+IF
+  Global("Iapccloud","AR0530",1)
+  GlobalTimerExpired("Iacloudtime","AR0530")
+THEN
+  RESPONSE #100
+    SetGlobal("Iapccloud","AR0530",0)
+END

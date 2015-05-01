@@ -1,0 +1,91 @@
+//Nyalee's Hideout //
+
+IF
+  InMyArea(Player1)
+  PartyHasItem("hgheart2")
+  Global("Iahordebegin","AR5202",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iahordebegin","AR5202",1)
+    SetGlobalTimer("Iahorde","AR5202",3)
+END
+
+IF
+  InMyArea(Player1)
+  OR(4)
+   SpellCast([PC],WIZARD_DEATH_FOG)
+   SpellCast([PC],WIZARD_CLOUDKILL)
+   SpellCast([PC],WIZARD_STINKING_CLOUD)
+   SpellCast([PC],WIZARD_INCENDIARY_CLOUD)
+THEN
+  RESPONSE #100
+    SetGlobal("Iapccloud","AR5202",1)
+    SetGlobalTimer("Iacloudtime","AR5202",60)
+END
+
+IF
+  Global("Iapccloud","AR5202",1)
+  GlobalTimerExpired("Iacloudtime","AR5202")
+THEN
+  RESPONSE #100
+    SetGlobal("Iapccloud","AR5202",0)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iahordebegin","AR5202",1)
+  GlobalLT("Iacreature","AR5202",19)
+  !GlobalTimerNotExpired("Iahorde","AR5202")
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iacreature","AR5202",1)
+    SetGlobalTimer("Iahorde","AR5202",18)
+    CreateVisualEffect("SPRAISED",[1882.1708])
+    CreateVisualEffect("SPRAISED",[1947.1656])
+    CreateVisualEffect("SPRAISED",[2003.1610])
+    CreateVisualEffect("SPRAISED",[2069.1560])
+    Wait(4)
+    CreateCreature("S!skel2",[1882.1708],12) //
+    CreateCreature("S!skel2",[1947.1656],13) //
+    CreateCreature("S!skel2",[2003.1610],14) //
+    CreateCreature("S!skel2",[2069.1560],0) //
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iahordebegin","AR5202",1)
+  Global("Iacreature","AR5202",19)
+  !GlobalTimerNotExpired("Iahorde","AR5202")
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iacreature","AR5202",1)
+    SetGlobalTimer("Iahorde","AR5202",18)
+    CreateVisualEffect("SPRAISED",[1882.1708])
+    CreateVisualEffect("SPRAISED",[1947.1656])
+    CreateVisualEffect("SPRAISED",[2003.1610])
+    CreateVisualEffect("SPRAISED",[2069.1560])
+    Wait(4)
+    CreateCreature("S!skelg1",[1882.1708],12) //
+    CreateCreature("S!skelg2",[1947.1656],13) //
+    CreateCreature("S!skelg3",[2003.1610],14) //
+    CreateCreature("S!skelg4",[2069.1560],0) //
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iahordebegin","AR5202",1)
+  Global("Iacreature","AR5202",20)
+  Dead("S!skelg1")
+  Dead("S!skelg2")
+  Dead("S!skelg3")
+  Dead("S!skelg4")
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iacreature","AR5202",1)
+    AddXPObject(Player1,25000)
+    AddXPObject(Player2,25000)
+    AddXPObject(Player3,25000)
+    AddXPObject(Player4,25000)
+    AddXPObject(Player5,25000)
+    AddXPObject(Player6,25000)
+END

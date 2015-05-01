@@ -1,0 +1,18 @@
+//Government District //////////////
+
+IF
+  Alignment(Player1,MASK_GOOD)
+  Reputation(Player1,20)
+  GlobalTimerExpired("Iavanyafir","GLOBAL")
+  InMyArea(Player1)
+  NumInPartyAliveGT(1)
+  !GlobalGT("Iap1notgood","GLOBAL",0)
+  OR(2)
+   Global("FirkraagDead","GLOBAL",1)
+   Dead("firkra02")
+  Global("Iamesvan","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iamesvan","GLOBAL",1)
+    CreateCreatureObjectOffScreen("S!messen",Player1,0,0,0) //
+END

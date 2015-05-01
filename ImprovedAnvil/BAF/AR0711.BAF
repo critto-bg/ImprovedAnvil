@@ -1,0 +1,284 @@
+//Hidden plot //////////////
+
+IF
+  OpenState("DOOR01",TRUE)
+  Global("Door1Opened","AR0711",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door1Opened","AR0711",1)
+END
+
+IF
+  OpenState("DOOR02",TRUE)
+  Global("Door2Opened","AR0711",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door2Opened","AR0711",1)
+END
+
+IF
+  OpenState("DOOR03",TRUE)
+  Global("Door3Opened","AR0711",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door3Opened","AR0711",1)
+END
+
+IF
+  OpenState("DOOR04",TRUE)
+  Global("Door4Opened","AR0711",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door4Opened","AR0711",1)
+END
+
+IF
+  OpenState("DOOR05",TRUE)
+  Global("Door5Opened","AR0711",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door5Opened","AR0711",1)
+END
+
+IF
+  OpenState("DOOR06",TRUE)
+  Global("Door6Opened","AR0711",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door6Opened","AR0711",1)
+END
+
+IF
+  OpenState("DOOR01",FALSE)
+  Global("Door1Opened","AR0711",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR01")
+END
+
+IF
+  OpenState("DOOR02",FALSE)
+  Global("Door2Opened","AR0711",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR02")
+END
+
+IF
+  OpenState("DOOR03",FALSE)
+  Global("Door3Opened","AR0711",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR03")
+END
+
+IF
+  OpenState("DOOR04",FALSE)
+  Global("Door4Opened","AR0711",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR04")
+END
+
+IF
+  OpenState("DOOR05",FALSE)
+  Global("Door5Opened","AR0711",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR05")
+END
+
+IF
+  OpenState("DOOR06",FALSE)
+  Global("Door6Opened","AR0711",1)
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR06")
+END
+
+IF
+  InMyArea(Player1)
+  OR(4)
+   SpellCast([PC],WIZARD_DEATH_FOG)
+   SpellCast([PC],WIZARD_CLOUDKILL)
+   SpellCast([PC],WIZARD_INCENDIARY_CLOUD)
+   SpellCast([PC],WIZARD_STINKING_CLOUD)
+THEN
+  RESPONSE #100
+    SetGlobal("Iapccloud","AR0711",1)
+    SetGlobalTimer("Iacloudtime","AR0711",60)
+END
+
+IF
+  Global("Iapccloud","AR0711",1)
+  GlobalTimerExpired("Iacloudtime","AR0711")
+THEN
+  RESPONSE #100
+    SetGlobal("Iapccloud","AR0711",0)
+END
+
+IF
+  Global("Iaexit","AR0711",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR0711",1)
+    TriggerActivation("Tran0701",FALSE)
+END
+
+IF
+  Global("Iaexit","AR0711",1)
+  Dead("mindal01")
+  Dead("S!elegoa")
+  CombatCounter(0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR0711",2)
+    TriggerActivation("Tran0701",TRUE)
+END
+
+IF
+   Global("Iaitem","AR0711",0)
+   !GlobalGT("Ianotreasure","AR0711",0)
+   Global("Iaexit","AR0711",2)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem","AR0711",1)
+      ActionOverride("Container 1",CreateItem("S!misc02",0,0,0)) //
+      ActionOverride("Container 1",CreateItem("scrl9d",0,0,0)) //
+      ActionOverride("Container 1",CreateItem("scrl58",0,0,0)) //
+      ActionOverride("Container 1",CreateItem("S!misc06",0,0,0)) //
+      ActionOverride("Container 1",CreateItem("clck09",0,0,0)) //
+      ActionOverride("Container 1",CreateItem("potn55",0,0,0)) //
+      ActionOverride("Container 1",CreateItem("potn33",0,0,0)) //
+      ActionOverride("Container 1",CreateItem("S!amul01",0,0,0)) //
+      ActionOverride("Container 1",CreateItem("scrl09",0,0,0)) //
+      ActionOverride("Container 1",CreateItem("misc23",0,0,0)) //
+      ActionOverride("Container 1",CreateItem("misc07",7500,0,0)) //
+END
+
+IF
+   Global("Iaitem2","AR0711",0)
+   Global("Iaperiaptplace","GLOBAL",2)
+   !GlobalGT("Ianotreasure","AR0711",0)
+   Global("Iaexit","AR0711",2)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem2","AR0711",1)
+      SetGlobal("Iaperiaptplace","GLOBAL",4)
+      ActionOverride("Container 1",CreateItem("amul22",0,0,0)) //
+END
+
+IF
+   Global("Iaitem3","AR0711",0)
+   Global("Iabowplace","GLOBAL",2)
+   !GlobalGT("Ianotreasure","AR0711",0)
+   Global("Iaexit","AR0711",2)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem3","AR0711",1)
+      SetGlobal("Iabowplace","GLOBAL",4)
+      ActionOverride("Container 1",CreateItem("bow15",0,0,0)) //
+END
+
+IF
+   Global("Iaitem4","AR0711",0)
+   Global("Iashaftplace","GLOBAL",2)
+   !GlobalGT("Ianotreasure","AR0711",0)
+   Global("Iaexit","AR0711",2)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem4","AR0711",1)
+      SetGlobal("Iashaftplace","GLOBAL",5)
+      ActionOverride("Container 1",CreateItem("BOW19A",0,0,0)) //
+END
+
+IF
+   Global("Iaitem5","AR0711",0)
+   Global("Iaring30place","GLOBAL",2)
+   !GlobalGT("Ianotreasure","AR0711",0)
+   Global("Iaexit","AR0711",2)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem5","AR0711",1)
+      SetGlobal("Iaring30place","GLOBAL",4)
+      ActionOverride("Container 1",CreateItem("ring30",0,0,0)) //
+END
+
+IF
+   Global("Iaitem6","AR0711",0)
+   Global("Ialeat03place","GLOBAL",2)
+   !GlobalGT("Ianotreasure","AR0711",0)
+   Global("Iaexit","AR0711",2)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem6","AR0711",1)
+      SetGlobal("Ialeat03place","GLOBAL",3)
+      ActionOverride("Container 1",CreateItem("leat03",0,0,0)) //
+END
+
+IF
+   Global("Iaitem7","AR0711",0)
+   Global("Iaring28place","GLOBAL",4)
+   !GlobalGT("Ianotreasure","AR0711",0)
+   Global("Iaexit","AR0711",2)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem7","AR0711",1)
+      SetGlobal("Iaring28place","GLOBAL",5)
+      ActionOverride("Container 1",CreateItem("ring28",1,1,1)) //
+END
+
+IF
+   Global("Iaitem8","AR0711",0)
+   Global("Iaring35place","GLOBAL",3)
+   !GlobalGT("Ianotreasure","AR0711",0)
+   Global("Iaexit","AR0711",2)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem8","AR0711",1)
+      SetGlobal("Iaring35place","GLOBAL",5)
+      ActionOverride("Container 1",CreateItem("ring35",0,0,0)) //
+END
+
+IF
+   Global("Iaitem9","AR0711",0)
+   Global("Iamalakplace","GLOBAL",2)
+   !GlobalGT("Ianotreasure","AR0711",0)
+   Global("Iaexit","AR0711",2)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem9","AR0711",1)
+      SetGlobal("Iamalakplace","GLOBAL",5)
+      ActionOverride("Container 1",CreateItem("sw1h45",0,0,0)) //
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iahlbattle","AR0711",0)
+  GlobalGT("Iapcastts","GLOBAL",0)
+  Global("Iacasttsoff","AR0711",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iacasttsoff","AR0711",1)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iahlbattle","AR0711",0)
+  Global("Iapcastts","GLOBAL",0)
+  Global("Iacasttsoff","AR0711",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iacasttsoff","AR0711",0)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iahlbattle","AR0711",1)
+  GlobalGT("Iapcastts","GLOBAL",0)
+  Global("Iacasttsoff","AR0711",1)
+  !Global("Ianotreasure","AR0711",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Ianotreasure","AR0711",1)
+END

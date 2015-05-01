@@ -1,0 +1,163 @@
+IF
+  See(NearestEnemyOf(Myself))
+  Global("prep","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("prep","LOCALS",1)
+    ReallyForceSpell(Myself,CLERIC_BARKSKIN)
+    ReallyForceSpell(Myself,CLERIC_IRONSKIN)
+    ReallyForceSpell(Myself,CLERIC_BLESS)
+    ReallyForceSpell(Myself,CLERIC_PHYSICAL_MIRROR)
+    ReallyForceSpell(Myself,CLERIC_PROTECTION_FROM_FIRE)
+    ReallyForceSpell(Myself,CLERIC_PROTECTION_FROM_LIGHTNING)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  CheckStatGT(Myself,0,SCRIPTINGSTATE9)
+THEN
+  RESPONSE #100
+    RunAwayFrom(NearestEnemyOf(Myself),90)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  OR(5)
+   StateCheck(Myself,STATE_CONFUSED)
+   StateCheck(Myself,STATE_HELPLESS)
+   StateCheck(Myself,STATE_PANIC)
+   StateCheck(Myself,STATE_STUNNED)
+   Global("Iapcastts","GLOBAL",1)
+THEN
+  RESPONSE #100
+    NoAction()
+END
+
+IF
+  !StateCheck(Myself,STATE_SILENCED)
+  See(NearestEnemyOf(Myself))
+  Global("Iaanimals","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaanimals","LOCALS",1)
+    SpellNoDec(Myself,CLERIC_CONJURE_ANIMALS)
+END
+
+IF
+  !StateCheck(Myself,STATE_SILENCED)
+  See(NearestEnemyOf(Myself))
+  OR(2)
+   StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+   StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  Global("Iatruesight","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatruesight","LOCALS",1)
+    SpellNoDec(Myself,CLERIC_TRUE_SIGHT)
+END
+
+IF
+  !StateCheck(Myself,STATE_SILENCED)
+  See(SecondNearestEnemyOf(Myself))
+  OR(2)
+   StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+   StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  Global("Iatruesight","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatruesight","LOCALS",1)
+    SpellNoDec(Myself,CLERIC_TRUE_SIGHT)
+END
+
+IF
+  !StateCheck(Myself,STATE_SILENCED)
+  See(NearestEnemyOf(Myself))
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  CheckStatLT(LastSeenBy(Myself),100,RESISTELECTRICITY)
+  !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  AreaType(OUTDOOR)
+  HaveSpell(CLERIC_CALL_LIGHTNING)
+  Global("didOnce","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("didOnce","LOCALS",1)
+    Spell(LastSeenBy(Myself),CLERIC_CALL_LIGHTNING)
+END
+
+IF
+  !StateCheck(Myself,STATE_SILENCED)
+  See(SecondNearestEnemyOf(Myself))
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  CheckStatLT(LastSeenBy(Myself),100,RESISTELECTRICITY)
+  !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  AreaType(OUTDOOR)
+  HaveSpell(CLERIC_CALL_LIGHTNING)
+  Global("didOnce","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("didOnce","LOCALS",1)
+    Spell(LastSeenBy(Myself),CLERIC_CALL_LIGHTNING)
+END
+
+IF
+  !StateCheck(Myself,STATE_SILENCED)
+  See(ThirdNearestEnemyOf(Myself))
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  CheckStatLT(LastSeenBy(Myself),100,RESISTELECTRICITY)
+  !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  AreaType(OUTDOOR)
+  HaveSpell(CLERIC_CALL_LIGHTNING)
+  Global("didOnce","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("didOnce","LOCALS",1)
+    Spell(LastSeenBy(Myself),CLERIC_CALL_LIGHTNING)
+END
+
+IF
+  !StateCheck(Myself,STATE_SILENCED)
+  See(NearestEnemyOf(Myself))
+  HaveSpell(CLERIC_ANIMAL_SUMMONING_2)
+THEN
+  RESPONSE #100
+    Spell(Myself,CLERIC_ANIMAL_SUMMONING_2)
+END
+
+IF
+  !StateCheck(Myself,STATE_SILENCED)
+  See(NearestEnemyOf(Myself))
+  HaveSpell(CLERIC_CALL_WOODLAND_BEINGS)
+THEN
+  RESPONSE #100
+    Spell(Myself,CLERIC_CALL_WOODLAND_BEINGS)
+END
+
+IF
+  !StateCheck(Myself,STATE_SILENCED)
+  Detect([PC])
+  !See([PC])
+  Global("Iatruesight","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatruesight","LOCALS",1)
+    SpellNoDec(Myself,CLERIC_TRUE_SIGHT)
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  HaveSpell(CLERIC_FLAME_BLADE)
+THEN
+  RESPONSE #100
+    Spell(Myself,CLERIC_FLAME_BLADE)
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END

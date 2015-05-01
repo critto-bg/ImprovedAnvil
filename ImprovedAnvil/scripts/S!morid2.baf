@@ -1,0 +1,26 @@
+IF
+  Global("Iamoridhurt","GLOBAL",0)
+  Global("quit","LOCALS",0)
+  AttackedBy([GOODCUTOFF],DEFAULT)
+THEN
+  RESPONSE #100
+    SetGlobal("quit","LOCALS",1)
+    SetGlobal("Iamoridhurt","GLOBAL",1)
+    DisplayStringHead(Myself,36515)
+    ReputationInc(-1)
+    DialogueInterrupt(FALSE)
+    ForceSpell(Myself,DRYAD_TELEPORT)
+END
+
+IF
+  OR(5)
+   Global("Iamoridhurt","GLOBAL",1)
+   !Class(Player1,MAGE_ALL)
+   Class(Player1,FIGHTER_ALL)
+   Class(Player1,CLERIC_ALL)
+   Class(Player1,THIEF_ALL)
+  Global("quit","LOCALS",0)
+THEN
+  RESPONSE #100
+    DestroySelf()
+END

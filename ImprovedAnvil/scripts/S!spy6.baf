@@ -1,0 +1,18 @@
+IF
+  Class(Player1,RANGER_ALL)
+  !Class(Player1,CLERIC_ALL)
+  CheckStat(Player1,7,SCRIPTINGSTATE1)
+  Global("Iamvagrant","GLOBAL",1)
+  !Global("Iap1notgood","GLOBAL",1)
+  Global("Iapcastts","GLOBAL",0)
+  See([PC])
+  Range(LastSeenBy(Myself),6)
+THEN
+  RESPONSE #100
+    SetGlobal("Iavisualeffect","AR2800",1)
+    SetGlobal("Iaspy6","AR2800",0)
+    SetGlobalTimer("Iaspy6timer","AR2800",60)
+    SetGlobalTimer("Iavisualstimer","AR2800",2)
+    DisplayStringNoName(LastSeenBy(Myself),26305)
+    DestroySelf()
+END

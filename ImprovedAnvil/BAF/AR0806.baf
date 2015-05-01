@@ -1,0 +1,39 @@
+//Crypt King  //////////////
+
+IF
+  Global("Iaexit","AR0806",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR0806",1)
+    TriggerActivation("Tran0800",FALSE)
+END
+
+IF
+  Global("Iaexit","AR0806",1)
+  Dead("BHCRYPT")
+  CombatCounter(0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR0806",2)
+    TriggerActivation("Tran0800",TRUE)
+END
+
+IF
+  Global("Iaqueen","AR0806",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaqueen","AR0806",2)
+    SetInterrupt(FALSE)
+    CreateVisualEffect("SPRAISED",[459.344])
+    Wait(4)
+    CreateCreature("S!crypt",[459.344],0) //
+    SetInterrupt(TRUE)
+END
+
+IF
+   Global("Iaitem","AR0806",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem","AR0806",1)
+      ActionOverride("Container 1",CreateItem("misc07",1000,0,0)) //
+END

@@ -1,0 +1,281 @@
+//Copper Coronet //
+
+IF
+  Global("CopperGuards","GLOBAL",0)
+  OR(2)
+   Dead("S!COPGU3")
+   Allegiance("S!COPGU3",ENEMY)
+THEN
+  RESPONSE #100
+    SetGlobal("CopperGuards","GLOBAL",1)
+END
+
+IF
+  Exists("beast")
+  !Dead("beast")
+  !Allegiance("beast",ENEMY)
+  OR(3)
+   HPPercentLT("beast",100)
+   HPPercentLT("Tabitha",100)
+   Dead("Tabitha")
+THEN
+  RESPONSE #100
+    ChangeEnemyAlly("beast",ENEMY)
+    ReallyForceSpellRES("SPWII07","beast")
+END
+
+IF
+  Exists("Tabitha")
+  !Dead("Tabitha")
+  !Allegiance("Tabitha",ENEMY)
+  OR(3)
+   HPPercentLT("beast",100)
+   HPPercentLT("Tabitha",100)
+   Dead("beast")
+THEN
+  RESPONSE #100
+    ChangeEnemyAlly("Tabitha",ENEMY)
+    ReallyForceSpellRES("SPWII07","Tabitha")
+END
+
+IF
+  OpenState("DOOR19",FALSE)
+  Global("beastOpenTheDoors","GLOBAL",1)
+  OR(2)
+   !Dead("BEAST") //
+   !Dead("TABITHA") //
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR19")
+END
+
+IF
+  OpenState("DOOR20",FALSE)
+  Global("beastOpenTheDoors","GLOBAL",1)
+  OR(2)
+   !Dead("BEAST") //
+   !Dead("TABITHA") //
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR20")
+END
+
+IF
+  OpenState("DOOR21",FALSE)
+  Global("beastOpenTheDoors","GLOBAL",1)
+  OR(2)
+   !Dead("BEAST") //
+   !Dead("TABITHA") //
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR21")
+END
+
+IF
+  OpenState("DOOR22",FALSE)
+  Global("beastOpenTheDoors","GLOBAL",1)
+  OR(2)
+   !Dead("BEAST") //
+   !Dead("TABITHA") //
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR22")
+END
+
+IF
+  OpenState("DOOR23",FALSE)
+  Global("beastOpenTheDoors","GLOBAL",1)
+  OR(2)
+   !Dead("BEAST") //
+   !Dead("TABITHA") //
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR23")
+END
+
+IF
+  OpenState("DOOR24",FALSE)
+  Global("beastOpenTheDoors","GLOBAL",1)
+  OR(2)
+   !Dead("BEAST") //
+   !Dead("TABITHA") //
+THEN
+  RESPONSE #100
+    OpenDoor("DOOR24")
+END
+
+IF
+  Global("Iaexit","AR0406",0)
+  Global("beastOpenTheDoors","GLOBAL",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR0406",1)
+    CreateCreature("S!block2",[2718.900],3) //
+END
+
+IF
+  Global("Iaexit","AR0406",1)
+  Dead("BEAST")
+  Dead("TABITHA")
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR0406",2)
+END
+
+IF
+  Allegiance("TABITHA",ENEMY)
+  HPPercentLT("TABITHA",80)
+  Exists("TABITHA")
+  Exists("BEAST")
+  !Dead("BEAST")
+  !Dead("TABITHA")
+  !GlobalTimerNotExpired("Iatabithahint","AR0406")
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iatabithahint","AR0406",18)
+    ReallyForceSpellRES("SPWII07","TABITHA")
+    DisplayStringNoName("TABITHA",2544)
+END
+
+IF
+  Allegiance("TABITHA",ENEMY)
+  HPPercentLT("TABITHA",80)
+  Exists("TABITHA")
+  Exists("BEAST")
+  !Dead("BEAST")
+  !Dead("TABITHA")
+THEN
+  RESPONSE #100
+    ReallyForceSpellRES("SPWII07","TABITHA")
+END
+
+IF
+  Allegiance("TABITHA",ENEMY)
+  Dead("BEAST")
+  Exists("TABITHA")
+  !Dead("TABITHA")
+  HasItem("bhaalhp1","TABITHA")
+THEN
+  RESPONSE #100
+    ReallyForceSpellRES("SPWII07","TABITHA")
+    TakeItemReplace("S!trap","bhaalhp1","TABITHA")
+END
+
+IF
+  InMyArea(Player1)
+  OR(4)
+   SpellCast([PC],WIZARD_DEATH_FOG)
+   SpellCast([PC],WIZARD_CLOUDKILL)
+   SpellCast([PC],WIZARD_INCENDIARY_CLOUD)
+   SpellCast([PC],WIZARD_STINKING_CLOUD)
+THEN
+  RESPONSE #100
+    SetGlobal("Iapccloud","AR0406",1)
+    SetGlobalTimer("Iacloudtime","AR0406",60)
+END
+
+IF
+  Global("Iapccloud","AR0406",1)
+  GlobalTimerExpired("Iacloudtime","AR0406")
+THEN
+  RESPONSE #100
+    SetGlobal("Iapccloud","AR0406",0)
+END
+
+IF
+   InParty("ANOMEN")
+   XPGT(Player1,1299999)
+   Global("Iahlanomen","AR0406",0)
+   NumInPartyGT(4)
+THEN
+   RESPONSE #100
+      SetGlobal("Iahlanomen","AR0406",1)
+      AddXPObject("ANOMEN",810000)
+END
+
+IF
+   InParty("ANOMEN")
+   XPGT(Player1,949999)
+   XPLT(Player1,1300000)
+   Global("Iahlanomen","AR0406",0)
+   NumInPartyGT(4)
+THEN
+   RESPONSE #100
+      SetGlobal("Iahlanomen","AR0406",1)
+      AddXPObject("ANOMEN",535000)
+END
+
+IF
+   InParty("ANOMEN")
+   XPGT(Player1,599999)
+   XPLT(Player1,950000)
+   Global("Iahlanomen","AR0406",0)
+   NumInPartyGT(4)
+THEN
+   RESPONSE #100
+      SetGlobal("Iahlanomen","AR0406",1)
+      AddXPObject("ANOMEN",260000)
+END
+
+IF
+   InParty("ANOMEN")
+   Global("Iahlanomen","AR0406",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iahlanomen","AR0406",1)
+END
+
+IF
+   InParty("KORGAN")
+   XPGT(Player1,1299999)
+   Global("Iahlkorgan","AR0406",0)
+   NumInPartyGT(4)
+THEN
+   RESPONSE #100
+      SetGlobal("Iahlkorgan","AR0406",1)
+      AddXPObject("KORGAN",940000)
+END
+
+IF
+   InParty("KORGAN")
+   XPGT(Player1,949999)
+   XPLT(Player1,1300000)
+   Global("Iahlkorgan","AR0406",0)
+   NumInPartyGT(4)
+THEN
+   RESPONSE #100
+      SetGlobal("Iahlkorgan","AR0406",1)
+      AddXPObject("KORGAN",640000)
+END
+
+IF
+   InParty("KORGAN")
+   XPGT(Player1,599999)
+   XPLT(Player1,950000)
+   Global("Iahlkorgan","AR0406",0)
+   NumInPartyGT(4)
+THEN
+   RESPONSE #100
+      SetGlobal("Iahlkorgan","AR0406",1)
+      AddXPObject("KORGAN",340000)
+END
+
+IF
+   InParty("KORGAN")
+   XPGT(Player1,299999)
+   XPLT(Player1,600000)
+   Global("Iahlkorgan","AR0406",0)
+   NumInPartyGT(4)
+THEN
+   RESPONSE #100
+      SetGlobal("Iahlkorgan","AR0406",1)
+      AddXPObject("KORGAN",190000)
+END
+
+IF
+   InParty("KORGAN")
+   Global("Iahlkorgan","AR0406",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iahlkorgan","AR0406",1)
+END

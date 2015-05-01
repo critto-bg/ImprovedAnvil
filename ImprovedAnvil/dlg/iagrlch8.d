@@ -1,0 +1,43 @@
+BEGIN ~IAGRLCH8~
+
+IF ~NumTimesTalkedTo(0)~ THEN BEGIN 0
+  SAY @4320
+  IF ~~ THEN GOTO 1
+END
+
+IF ~~ THEN BEGIN 1
+  SAY @4321
+  IF ~~ THEN REPLY @4322 GOTO 2
+  IF ~~ THEN REPLY @4323 GOTO 3
+END
+
+IF ~~ THEN BEGIN 2
+  SAY @4324
+  IF ~~ THEN DO ~Kill(Player1) DestroySelf()~ EXIT
+END
+
+IF ~~ THEN BEGIN 3
+  SAY @4325
+  IF ~~ THEN REPLY @4326 GOTO 4
+END
+
+IF ~~ THEN BEGIN 4
+  SAY @4327
+  IF ~~ THEN GOTO 5
+END
+
+IF ~~ THEN BEGIN 5
+  SAY @4328
+  IF ~~ THEN REPLY @4329 GOTO 6
+  IF ~~ THEN REPLY @4330 GOTO 7
+END
+
+IF ~~ THEN BEGIN 6
+  SAY @4331
+  IF ~~ THEN DO ~ChangeAlignment(Player1,LAWFUL_EVIL) ReputationInc(-18) DestroySelf()~ EXIT
+END
+
+IF ~~ THEN BEGIN 7
+  SAY @4332
+  IF ~~ THEN DO ~Kill(Player1) DestroySelf()~ EXIT
+END

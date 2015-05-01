@@ -1,0 +1,367 @@
+//Pocket Plane/////////
+
+IF
+  Global("Iaepicbattle","AR4500",1)
+  Global("Ianoexit","AR4500",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Ianoexit","AR4500",1)
+    TriggerActivation("LeavePocketPlane",FALSE)
+END
+
+IF
+   Global("Iapasha","AR4500",0)
+   Global("Iaepicbattle","AR4500",1)
+   Class(Player1,MAGE_ALL)
+   !Class(Player1,FIGHTER_ALL)
+   !Class(Player1,THIEF_ALL)
+   !Class(Player1,CLERIC_ALL)
+   Global("GypsyJob","GLOBAL",14)
+THEN
+   RESPONSE #100
+      SetGlobal("Iapasha","AR4500",1)
+      CreateCreatureObjectDoor("S!pasha2",Player1,0,0,0) //
+END
+
+IF
+   Global("Iacreature","AR4500",0)
+   Global("Iaepicbattle","AR4500",1)
+   !Global("Iapcastts","GLOBAL",1)
+   OR(5)
+    !Class(Player1,MAGE_ALL)
+    Class(Player1,FIGHTER_ALL)
+    Class(Player1,THIEF_ALL)
+    Class(Player1,CLERIC_ALL)
+    !Global("GypsyJob","GLOBAL",14)
+THEN
+   RESPONSE #100
+      ClearAllActions()
+      StartCutSceneMode()
+      Wait(1)
+      FadeToColor([30.0],0)
+      Wait(1)
+      MoveViewPoint([1936.1529],INSTANT)
+      ActionOverride(Player1,JumpToPoint([1936.1529]))
+      ActionOverride(Player2,JumpToPoint([1868.1625]))
+      ActionOverride(Player3,JumpToPoint([2014.1447]))
+      ActionOverride(Player4,JumpToPoint([1757.1546]))
+      ActionOverride(Player5,JumpToPoint([1880.1421]))
+      ActionOverride(Player6,JumpToPoint([2056.1567])
+      Wait(1)
+      FadeFromColor([30.0],0)
+      CreateCreatureDoor("S!rakp",[1860.1515],13)  //
+      Wait(3)
+      SetGlobal("Iacreature","AR4500",1)
+      EndCutSceneMode()
+END
+
+IF
+   Global("Iapasha","AR4500",2)
+   Global("Iacreature","AR4500",0)
+   !Global("Iapcastts","GLOBAL",1)
+   !GlobalTimerNotExpired("Iarakpspawn","AR4500")
+   Class(Player1,MAGE_ALL)
+   !Class(Player1,FIGHTER_ALL)
+   !Class(Player1,THIEF_ALL)
+   !Class(Player1,CLERIC_ALL)
+   Global("GypsyJob","GLOBAL",14)
+THEN
+   RESPONSE #100
+      ClearAllActions()
+      StartCutSceneMode()
+      Wait(1)
+      FadeToColor([30.0],0)
+      Wait(1)
+      MoveViewPoint([1936.1529],INSTANT)
+      ActionOverride(Player1,JumpToPoint([1936.1529]))
+      ActionOverride(Player2,JumpToPoint([1868.1625]))
+      ActionOverride(Player3,JumpToPoint([2014.1447]))
+      ActionOverride(Player4,JumpToPoint([1757.1546]))
+      ActionOverride(Player5,JumpToPoint([1880.1421]))
+      ActionOverride(Player6,JumpToPoint([2056.1567])
+      Wait(1)
+      FadeFromColor([30.0],0)
+      CreateCreatureDoor("S!rakp",[1860.1515],13)  //
+      Wait(3)
+      SetGlobal("Iacreature","AR4500",1)
+      EndCutSceneMode()
+END
+
+IF
+  Global("PartyPurged","AR4500",1)
+THEN
+  RESPONSE #100
+    SetGlobal("PartyPurged","AR4500",0)
+    ActionOverride(Player1,ReallyForceSpellRES("SPINI14",Myself))
+    ActionOverride(Player2,ReallyForceSpellRES("SPINI14",Myself))
+    ActionOverride(Player3,ReallyForceSpellRES("SPINI14",Myself))
+    ActionOverride(Player4,ReallyForceSpellRES("SPINI14",Myself))
+    ActionOverride(Player5,ReallyForceSpellRES("SPINI14",Myself))
+    ActionOverride(Player6,ReallyForceSpellRES("SPINI14",Myself))
+END
+
+IF
+   Global("Iawetlander","AR4500",1)
+   Global("Iammirrorjob","GLOBAL",6)
+   Class(Player1,RANGER_ALL)
+   !Class(Player1,CLERIC_ALL)
+   CheckStat(Player1,7,SCRIPTINGSTATE1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iawetlander","AR4500",2)
+      CreateCreatureObject("S!wetlan",Player1,0,0,0) //
+END
+
+IF
+  Global("Iaepicbattle","AR4500",4)
+  Global("Ianoexit","AR4500",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Ianoexit","AR4500",2)
+    TriggerActivation("LeavePocketPlane",TRUE)
+END
+
+IF
+  Global("Iaepicbattle","AR4500",0)
+  Global("Iajdmage","GLOBAL",0)
+  PartyHasItem("S!misc08")
+THEN
+  RESPONSE #100
+    TakePartyItem("S!misc08")
+    DestroyItem("S!misc08")
+END
+
+IF
+  Global("Iaepicbattle","AR4500",0)
+  Global("Iaancientdead","GLOBAL",0)
+  PartyHasItem("halb04")
+THEN
+  RESPONSE #100
+    TakePartyItem("halb04")
+    DestroyItem("halb04")
+END
+
+IF
+  Global("Iaepicbattle","AR4500",0)
+  Global("Iaorcusdead","GLOBAL",0)
+  PartyHasItem("S!misc29")
+THEN
+  RESPONSE #100
+    TakePartyItem("S!misc29")
+    DestroyItem("S!misc29")
+END
+
+IF
+  Global("Iaepicbattle","AR4500",0)
+  Global("Iagorchrdead","GLOBAL",0)
+  PartyHasItem("S!misc31")
+THEN
+  RESPONSE #100
+    TakePartyItem("S!misc31")
+    DestroyItem("S!misc31")
+END
+
+IF
+  Global("Iaepicbattle","AR4500",0)
+  OR(2)
+   Global("Iaefree2dead","GLOBAL",0)
+   Global("Ianoefbottle","GLOBAL",1)
+  PartyHasItem("misc3c")
+THEN
+  RESPONSE #100
+    TakePartyItem("misc3c")
+    DestroyItem("misc3c")
+END
+
+IF
+  Global("Iaepicbattle","AR4500",0)
+  OR(2)
+   GlobalLT("Ialeat04place","GLOBAL",3)
+   !Class(Player1,RANGER_ALL)
+  PartyHasItem("S!leat04")
+THEN
+  RESPONSE #100
+    TakePartyItem("S!leat04")
+    DestroyItem("S!leat04")
+END
+
+IF
+  Global("Iaepicbattle","AR4500",0)
+  OR(2)
+   Global("Iamvagrant","GLOBAL",2)
+   !Class(Player1,RANGER_ALL)
+  PartyHasItem("S!misc34")
+THEN
+  RESPONSE #100
+    TakePartyItem("S!misc34")
+    DestroyItem("S!misc34")
+END
+
+IF
+   Global("Iajdsspawn","GLOBAL",0)
+   PartyHasItem("S!sw04")
+   Global("Iajdplot","GLOBAL",2)
+THEN
+   RESPONSE #100
+      SetGlobal("Iajdsspawn","GLOBAL",1)
+      CreateCreatureObject("S!spy2",Player1,0,0,0) //
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iajdfled","GLOBAL",1)
+  Global("Ianojudgement","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Ianojudgement","GLOBAL",1)
+END
+
+IF
+  Global("Iaepicbattle","AR4500",0)
+  GlobalLT("Iabeltplace","GLOBAL",5)
+  PartyHasItem("belt10")
+THEN
+  RESPONSE #100
+    TakePartyItem("belt10")
+    DestroyItem("belt10")
+END
+
+IF
+  Global("Iaepicbattle","AR4500",0)
+  GlobalLT("Iaring28place","GLOBAL",5)
+  PartyHasItem("ring28")
+THEN
+  RESPONSE #100
+    TakePartyItem("ring28")
+    DestroyItem("ring28")
+END
+
+IF
+  Global("Iaepicbattle","AR4500",0)
+  Global("Iadraggrdead","GLOBAL",0)
+  PartyHasItem("S!scaleg")
+THEN
+  RESPONSE #100
+    TakePartyItem("S!scaleg")
+    DestroyItem("S!scaleg")
+END
+
+IF
+  Global("Iaepicbattle","AR4500",0)
+  Global("Iaancientdead","GLOBAL",0)
+  PartyHasItem("S!scaler")
+THEN
+  RESPONSE #100
+    TakePartyItem("S!scaler")
+    DestroyItem("S!scaler")
+END
+
+IF
+  Global("Iaepicbattle","AR4500",0)
+  Global("Iadraggrdead","GLOBAL",0)
+  PartyHasItem("S!boot03")
+THEN
+  RESPONSE #100
+    TakePartyItem("S!boot03")
+    DestroyItem("S!boot03")
+END
+
+IF
+  Global("Iaepicbattle","AR4500",0)
+  GlobalLT("Iablun24place","GLOBAL",4)
+  PartyHasItem("BLUN24")
+THEN
+  RESPONSE #100
+    TakePartyItem("BLUN24")
+    DestroyItem("BLUN24")
+END
+
+IF
+  Global("Iaepicbattle","AR4500",0)
+  GlobalLT("Iaavoidplace","GLOBAL",5)
+  PartyHasItem("BOOT04")
+THEN
+  RESPONSE #100
+    TakePartyItem("BOOT04")
+    DestroyItem("BOOT04")
+END
+
+IF
+  Global("Iaepicbattle","AR4500",0)
+  GlobalLT("Iaperiaptplace","GLOBAL",4)
+  PartyHasItem("amul22")
+THEN
+  RESPONSE #100
+    TakePartyItem("amul22")
+    DestroyItem("amul22")
+END
+
+IF
+  Global("Iaepicbattle","AR4500",0)
+  Global("Iakeepdagg21","GLOBAL",0)
+  PartyHasItem("dagg21")
+THEN
+  RESPONSE #100
+    TakePartyItem("dagg21")
+    DestroyItem("dagg21")
+END
+
+IF
+  Global("Iaepicbattle","AR4500",0)
+  Global("Iakeepdagg21","GLOBAL",0)
+  PartyHasItem("scrl07")
+THEN
+  RESPONSE #100
+    TakePartyItem("scrl07")
+    DestroyItem("scrl07")
+END
+
+IF
+  Global("Iaepicbattle","AR4500",0)
+  Global("EnteredAR0907","GLOBAL",0)
+  PartyHasItem("helm06")
+THEN
+  RESPONSE #100
+    TakePartyItem("helm06")
+    DestroyItem("helm06")
+END
+
+IF
+  Global("Iaepicbattle","AR4500",0)
+  Global("EnteredAR0907","GLOBAL",0)
+  PartyHasItem("sw1h38")
+THEN
+  RESPONSE #100
+    TakePartyItem("sw1h38")
+    DestroyItem("sw1h38")
+END
+
+IF
+  Global("Iaepicbattle","AR4500",0)
+  GlobalLT("Iaring35place","GLOBAL",5)
+  PartyHasItem("ring35")
+THEN
+  RESPONSE #100
+    TakePartyItem("ring35")
+    DestroyItem("ring35")
+END
+
+IF
+  Global("Iaepicbattle","AR4500",0)
+  GlobalLT("Iahelm04place","GLOBAL",4)
+  PartyHasItem("helm04")
+THEN
+  RESPONSE #100
+    TakePartyItem("helm04")
+    DestroyItem("helm04")
+END
+
+IF
+   Global("Ianaliaring","GLOBAL",1)
+   InMyArea("Nalia")
+   InParty("Nalia")
+THEN
+   RESPONSE #100
+      SetGlobal("Ianaliaring","GLOBAL",2)
+      TakeItemReplace("S!ring03","npring01","Nalia")
+END

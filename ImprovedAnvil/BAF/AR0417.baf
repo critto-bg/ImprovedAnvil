@@ -1,0 +1,54 @@
+//Borinall //////////////
+
+IF
+  Global("Iaexit","AR0417",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR0417",2)
+    TriggerActivation("Tran0400",FALSE)
+END
+
+IF
+   InMyArea(Player1)
+   !Global("Ianotreasure","AR0417",1)
+   Global("Iadooncech","AR0417",0)
+   GlobalGT("Iapcastts","GLOBAL",0)
+   GlobalGT("Iaexit","AR0417",1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadooncech","AR0417",1)
+      SetGlobal("Ianotreasure","AR0417",1)
+END
+
+IF
+   InMyArea(Player1)
+   GlobalGT("Iaexit","AR0417",1)
+   Global("Iadooncech","AR0417",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iadooncech","AR0417",1)
+END
+
+IF
+  Global("Iaexit","AR0417",2)
+  Dead("borinall")
+  Dead("S!amber4")
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR0417",3)
+    TriggerActivation("Tran0400",TRUE)
+END
+
+IF
+  Global("Ianticheat","AR0417",0)
+  Global("Iaexit","AR0417",0)
+  Exists("borinall") //
+  !Dead("borinall") //
+  !Allegiance("borinall",ENEMY)
+  HPPercentLT("borinall",100)
+THEN
+  RESPONSE #100
+    SetGlobal("Ianticheat","AR0417",1)
+    ChangeEnemyAlly("borinall",ENEMY)
+    ApplySpellRES("SPWII07","borinall")
+END

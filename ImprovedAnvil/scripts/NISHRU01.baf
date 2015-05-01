@@ -1,0 +1,75 @@
+IF
+  Allegiance(LastSummonerOf(Myself),ENEMY)
+  Global("npc","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("npc","LOCALS",1)
+    Enemy()
+END
+
+IF
+  !Allegiance(Myself,ENEMY)
+  AttackedBy([GOODCUTOFF],DEFAULT)
+THEN
+  RESPONSE #100
+    Enemy()
+END
+
+IF
+  !See([GOODCUTOFF])
+  Range(Player1,40)
+  Allegiance(Myself,ENEMY)
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  OR(2)
+   SpellCastOnMe([GOODCUTOFF],0)
+   SpellCastOnMe([EVILCUTOFF],0)
+THEN
+  RESPONSE #100
+    ApplySpell(Myself,CLERIC_CURE_LIGHT_WOUNDS)
+END
+
+IF
+  See(NearestEnemyOfType([0.0.0.MAGE_ALL]))
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(NearestEnemyOfType([0.0.0.BARD_ALL]))
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(NearestEnemyOfType([0.0.0.CLERIC_ALL]))
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(NearestEnemyOfType([0.0.0.DRUID_ALL]))
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+    AttackOneRound(LastSeenBy(Myself))
+END

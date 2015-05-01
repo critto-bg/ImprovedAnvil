@@ -1,0 +1,42 @@
+//Five Flagons Theater (Stronghold) //
+
+IF
+  Global("Iaexit","AR0523",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR0523",2)
+    TriggerActivation("Tran0522",FALSE)
+END
+
+IF
+  Global("Iaexit","AR0523",2)
+  Dead("bdturm03")
+  OR(2)
+   Dead("bdturm01")
+   Global("DidThisBar","AR0523",2)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR0523",3)
+    TriggerActivation("Tran0522",TRUE)
+END
+
+IF
+  InMyArea(Player1)
+  OR(4)
+   SpellCast([PC],WIZARD_DEATH_FOG)
+   SpellCast([PC],WIZARD_CLOUDKILL)
+   SpellCast([PC],WIZARD_INCENDIARY_CLOUD)
+   SpellCast([PC],WIZARD_STINKING_CLOUD)
+THEN
+  RESPONSE #100
+    SetGlobal("Iapccloud","AR0523",1)
+    SetGlobalTimer("Iacloudtime","AR0523",60)
+END
+
+IF
+  Global("Iapccloud","AR0523",1)
+  GlobalTimerExpired("Iacloudtime","AR0523")
+THEN
+  RESPONSE #100
+    SetGlobal("Iapccloud","AR0523",0)
+END

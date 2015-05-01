@@ -1,0 +1,122 @@
+IF
+  Allegiance(Myself,NEUTRAL)
+  HitBy([GOODCUTOFF],CRUSHING)
+THEN
+  RESPONSE #100
+    Enemy()
+    Shout(68)
+    Continue()
+END
+
+IF
+  Allegiance(Myself,ALLY)
+  HitBy([EVILCUTOFF],CRUSHING)
+  Global("Iashoutonce","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iashoutonce","LOCALS",1)
+    Shout(69)
+END
+
+IF
+  Allegiance(Myself,ALLY)
+  See([ANYONE])
+  Global("Iashoutonce","LOCALS",0)
+  ActionListEmpty()
+THEN
+  RESPONSE #100
+    SetGlobal("Iashoutonce","LOCALS",1)
+    Shout(69)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See([ANYONE])
+  Global("Iashoutonce","LOCALS",0)
+  ActionListEmpty()
+THEN
+  RESPONSE #100
+    SetGlobal("Iashoutonce","LOCALS",1)
+    Shout(68)
+END
+
+IF
+  Heard([ANYONE],69)
+  Allegiance(Myself,ALLY)
+  ActionListEmpty()
+  !See(NearestEnemyOf(Myself))
+  See(LastHeardBy(Myself))
+THEN
+  RESPONSE #100
+    MoveToObject(LastHeardBy(Myself))
+END
+
+IF
+  Allegiance(Myself,NEUTRAL)
+  Heard([ANYONE],69)
+  !See([ANYONE])
+  See(LastHeardBy(Myself))
+THEN
+  RESPONSE #100
+    MoveToObject(LastHeardBy(Myself))
+END
+
+IF
+  Allegiance(Myself,NEUTRAL)
+  Heard([ANYONE],69)
+  See([EVILCUTOFF])
+THEN
+  RESPONSE #100
+    AttackOneRound([EVILCUTOFF])
+    AttackOneRound([EVILCUTOFF])
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  HitBy([GOODCUTOFF],CRUSHING)
+  Global("Iashoutonce","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iashoutonce","LOCALS",1)
+    Shout(68)
+END
+
+IF
+  Allegiance(Myself,NEUTRAL)
+  HitBy([GOODCUTOFF],CRUSHING)
+  Global("Iashoutonce","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iashoutonce","LOCALS",1)
+    Shout(68)
+END
+
+IF
+  Heard([ANYONE],68)
+  Allegiance(Myself,NEUTRAL)
+  !Class(Myself,INNOCENT)
+  See(LastHeardBy(Myself))
+THEN
+  RESPONSE #100
+    Enemy()
+    MoveToObject(LastHeardBy(Myself))
+END
+
+IF
+  Heard([ANYONE],68)
+  Allegiance(Myself,NEUTRAL)
+THEN
+  RESPONSE #100
+    Enemy()
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  Heard([ANYONE],68)
+  !See(NearestEnemyOf(Myself))
+  See(LastHeardBy(Myself))
+THEN
+  RESPONSE #100
+    MoveToObject(LastHeardBy(Myself))
+    Continue()
+END

@@ -1,0 +1,93 @@
+IF
+  AttackedBy([GOODCUTOFF],DEFAULT)
+  !Allegiance(Myself,ENEMY)
+THEN
+  RESPONSE #100
+    Shout(151)
+    Enemy()
+END
+
+IF
+  HitBy([GOODCUTOFF],CRUSHING)
+  Global("Iashoutonce","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iashoutonce","LOCALS",1)
+    Shout(151)
+END
+
+IF
+  See([GOODCUTOFF])
+  Allegiance(Myself,ENEMY)
+  Global("Iashoutonce","LOCALS",0)
+  ActionListEmpty()
+THEN
+  RESPONSE #100
+    SetGlobal("Iashoutonce","LOCALS",1)
+    Shout(151)
+END
+
+IF
+  Heard([ANYONE],151)
+  InMyGroup(LastHeardBy(Myself))
+  See(LastHeardBy(Myself))
+  !Class(Myself,INNOCENT)
+  OR(2)
+    Allegiance(Myself,GOODBUTBLUE)
+    Allegiance(Myself,NEUTRAL)
+THEN
+  RESPONSE #100
+    Enemy()
+    MoveToObject(LastHeardBy(Myself))
+END
+
+IF
+  Heard([ANYONE],151)
+  InMyGroup(LastHeardBy(Myself))
+  OR(2)
+    Allegiance(Myself,GOODBUTBLUE)
+    Allegiance(Myself,NEUTRAL)
+THEN
+  RESPONSE #100
+    Enemy()
+END
+
+IF
+  !See(NearestEnemyOf(Myself))
+  Heard([EVILCUTOFF],151)
+  InMyGroup(LastHeardBy(Myself))
+  See(LastHeardBy(Myself))
+  !Class(Myself,INNOCENT)
+THEN
+  RESPONSE #100
+    MoveToObject(LastHeardBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  InMyArea(Player1)
+  Heard([EVILCUTOFF],151)
+  InMyGroup(LastHeardBy(Myself))
+  !Class(Myself,INNOCENT)
+  !See(NearestEnemyOf(Myself))
+  !See(LastHeardBy(Myself))
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  HitBy(Myself,CRUSHING)
+THEN
+  RESPONSE #100
+    RunAwayFrom(NearestEnemyOf(Myself),15)
+END
+
+IF
+  Global("attackSpellcaster","GLOBAL",1)
+  !Allegiance(Myself,ENEMY)
+THEN
+  RESPONSE #100
+    SetGlobal("attackSpellcaster","GLOBAL",0)
+    Enemy()
+END

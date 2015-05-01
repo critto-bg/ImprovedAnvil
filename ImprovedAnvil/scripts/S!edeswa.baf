@@ -1,0 +1,132 @@
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  Global("Iathethree","AR4500",1)
+  Dead("S!supgol")
+  Dead("S!ultgg1")
+  Dead("S!ultgg2")
+THEN
+  RESPONSE #100
+    SetGlobal("Iathethree","AR4500",2)
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  Global("Iathethree","AR4500",1)
+  See(NearestEnemyOf(Player1))
+  !HasItem("S!rakp",LastSeenBy(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  Global("Iathethree","AR4500",1)
+  See(SecondNearestEnemyOf(Player1))
+  !HasItem("S!rakp",LastSeenBy(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  Global("Iathethree","AR4500",1)
+  See(ThirdNearestEnemyOf(Player1))
+  !HasItem("S!rakp",LastSeenBy(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  Global("Iathethree","AR4500",1)
+  See(NearestEnemyOf(Player1))
+  HasItem("S!rakp",LastSeenBy(Myself))
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  Global("Iathethree","AR4500",2)
+  See(NearestEnemyOf(Player1))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  Global("Iathethree","AR4500",2)
+  See(SecondNearestEnemyOf(Player1))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  Global("Iathethree","AR4500",2)
+  See(ThirdNearestEnemyOf(Player1))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  Global("Iathethree","AR4500",2)
+  See(NearestEnemyOf(Player1))
+  OR(2)
+   !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+   !HasItem("S!rakp",LastSeenBy(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Player1))
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  Global("Iathethree","AR4500",2)
+  See(NearestEnemyOf(Player1))
+  CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  HasItem("S!rakp",LastSeenBy(Myself))
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  Global("Iaepicbattle","AR4500",4)
+THEN
+  RESPONSE #100
+    DestroySelf()
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  !See(NearestEnemyOf(Player1))
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  !Allegiance(Myself,GOODBUTBLUE)
+THEN
+  RESPONSE #100
+    ChangeEnemyAlly(Myself,GOODBUTBLUE)
+END

@@ -1,0 +1,179 @@
+IF
+  Global("Iaexit","AR3014",0)
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR3014",1)
+    TriggerActivation("Tran3015",FALSE)
+    TriggerActivation("Tran3007",FALSE)
+    SetGlobal("Iap1nr","GLOBAL",0)
+    SetGlobal("Iap2nr","GLOBAL",0)
+    SetGlobal("Iap3nr","GLOBAL",0)
+    SetGlobal("Iap4nr","GLOBAL",0)
+    SetGlobal("Iap5nr","GLOBAL",0)
+    SetGlobal("Iap6nr","GLOBAL",0)
+    SetGlobal("Iap1nb","GLOBAL",0)
+    SetGlobal("Iap2nb","GLOBAL",0)
+    SetGlobal("Iap3nb","GLOBAL",0)
+    SetGlobal("Iap4nb","GLOBAL",0)
+    SetGlobal("Iap5nb","GLOBAL",0)
+    SetGlobal("Iap6nb","GLOBAL",0)
+    ReallyForceSpellRES("SPINI14",Player1)
+    ReallyForceSpellRES("SPINI14",Player2)
+    ReallyForceSpellRES("SPINI14",Player3)
+    ReallyForceSpellRES("SPINI14",Player4)
+    ReallyForceSpellRES("SPINI14",Player5)
+    ReallyForceSpellRES("SPINI14",Player6)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iaskels","AR3014",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaskels","AR3014",1)
+    SetGlobalTimer("Iaskeltimer","AR3014",12)
+END
+
+IF
+  Global("Iaexit","AR3014",1)
+  Dead("TELWRAI")
+  CombatCounter(0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR3014",2)
+    TriggerActivation("Tran3015",TRUE)
+    TriggerActivation("Tran3007",TRUE)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iaskels","AR3014",1)
+  GlobalTimerExpired("Iaskeltimer","AR3014")
+THEN
+  RESPONSE #100
+    SetGlobal("Iaskels","AR3014",2)
+    CreateVisualEffect("SPRAISED",[414.638])
+    CreateVisualEffect("SPRAISED",[441.726])
+    CreateVisualEffect("SPRAISED",[560.547])
+    CreateVisualEffect("SPRAISED",[682.539])
+    CreateVisualEffect("SPRAISED",[810.536])
+    Wait(4)
+    CreateCreature("S!skelw2",[414.638],12) //
+    CreateCreature("S!skelw2",[441.726],13) //
+    CreateCreature("S!skelw2",[560.547],14) //
+    CreateCreature("S!skelw2",[682.539],0) //
+    CreateCreature("S!skelw2",[810.536],1) //
+END
+
+IF
+   Global("Iaitem","AR3014",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem","AR3014",1)
+      ActionOverride("Container 1",CreateItem("misc07",6000,0,0)) //
+END
+
+IF
+   Global("Iaitem2","AR3014",0)
+   Class(Player1,MAGE_ALL)
+  !Class(Player1,FIGHTER_ALL)
+  !Class(Player1,CLERIC_ALL)
+  !Class(Player1,THIEF_ALL)
+  CheckStat(Player1,6,SCRIPTINGSTATE1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem2","AR3014",1)
+      SetGlobal("Iabook01found","GLOBAL",1)
+      ActionOverride("Container 1",CreateItem("S!book01",0,0,0)) //
+END
+
+IF
+   InMyArea(Player1)
+   NumInPartyGT(4)
+   Global("Iaitem3","AR3014",0)
+   CheckStat(Player1,8,SCRIPTINGSTATE1)
+   !Class(Player1,FIGHTER_ALL)
+   !Class(Player1,CLERIC_ALL)
+   !Class(Player1,MAGE_ALL)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem3","AR3014",1)
+      SetGlobal("Iamisc60found","GLOBAL",1)
+      ActionOverride("Container 1",CreateItem("S!misc60",0,0,0)) //
+END
+
+IF
+   InMyArea(Player1)
+   NumInPartyGT(4)
+   Global("Iaitem3","AR3014",0)
+   CheckStat(Player2,8,SCRIPTINGSTATE1)
+   !Class(Player2,FIGHTER_ALL)
+   !Class(Player2,CLERIC_ALL)
+   !Class(Player2,MAGE_ALL)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem3","AR3014",1)
+      SetGlobal("Iamisc60found","GLOBAL",1)
+      ActionOverride("Container 1",CreateItem("S!misc60",0,0,0)) //
+END
+
+IF
+   InMyArea(Player1)
+   NumInPartyGT(4)
+   Global("Iaitem3","AR3014",0)
+   CheckStat(Player3,8,SCRIPTINGSTATE1)
+   !Class(Player3,FIGHTER_ALL)
+   !Class(Player3,CLERIC_ALL)
+   !Class(Player3,MAGE_ALL)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem3","AR3014",1)
+      SetGlobal("Iamisc60found","GLOBAL",1)
+      ActionOverride("Container 1",CreateItem("S!misc60",0,0,0)) //
+END
+
+IF
+   InMyArea(Player1)
+   NumInPartyGT(4)
+   Global("Iaitem3","AR3014",0)
+   CheckStat(Player4,8,SCRIPTINGSTATE1)
+   !Class(Player4,FIGHTER_ALL)
+   !Class(Player4,CLERIC_ALL)
+   !Class(Player4,MAGE_ALL)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem3","AR3014",1)
+      SetGlobal("Iamisc60found","GLOBAL",1)
+      ActionOverride("Container 1",CreateItem("S!misc60",0,0,0)) //
+END
+
+IF
+   InMyArea(Player1)
+   NumInPartyGT(4)
+   Global("Iaitem3","AR3014",0)
+   CheckStat(Player5,8,SCRIPTINGSTATE1)
+   !Class(Player5,FIGHTER_ALL)
+   !Class(Player5,CLERIC_ALL)
+   !Class(Player5,MAGE_ALL)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem3","AR3014",1)
+      SetGlobal("Iamisc60found","GLOBAL",1)
+      ActionOverride("Container 1",CreateItem("S!misc60",0,0,0)) //
+END
+
+IF
+   InMyArea(Player1)
+   NumInPartyGT(4)
+   Global("Iaitem3","AR3014",0)
+   CheckStat(Player6,8,SCRIPTINGSTATE1)
+   !Class(Player6,FIGHTER_ALL)
+   !Class(Player6,CLERIC_ALL)
+   !Class(Player6,MAGE_ALL)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem3","AR3014",1)
+      SetGlobal("Iamisc60found","GLOBAL",1)
+      ActionOverride("Container 1",CreateItem("S!misc60",0,0,0)) //
+END

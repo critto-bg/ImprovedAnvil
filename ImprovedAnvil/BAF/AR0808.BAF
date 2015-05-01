@@ -1,0 +1,67 @@
+//Bodhi's sons and daughters //////////////
+
+IF
+  InMyArea(Player1)
+  Global("Iaexit","AR0808",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR0808",1)
+    TriggerActivation("Tran0809",FALSE)
+    TriggerActivation("Tran0802",FALSE)
+    TriggerActivation("Tran0804",FALSE)
+    TriggerActivation("Tran0800",FALSE)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iaexit","AR0808",1)
+  Dead("C6Valen")
+  Dead("C6Tanov")
+  Dead("C6Harei")
+  Dead("C6Salia")
+  Dead("C6Mere")
+  Dead("C6BGUARD")
+  CombatCounter(0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR0808",2)
+    TriggerActivation("Tran0809",TRUE)
+    TriggerActivation("Tran0802",TRUE)
+    TriggerActivation("Tran0804",TRUE)
+    TriggerActivation("Tran0800",TRUE)
+END
+
+IF
+  InMyArea(Player1)
+  Global("BodhiDoor","AR0808",0)
+  Global("Iadoonetime","AR0808",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iadoonetime","AR0808",1)
+    SetGlobal("BodhiDoor","AR0808",2)
+END
+
+IF
+  InMyArea(Player1)
+  Global("BodhiDoor","AR0808",2)
+  Global("Iaexit","AR0808",2)
+THEN
+  RESPONSE #100
+    SetGlobal("BodhiDoor","AR0808",0)
+END
+
+IF
+  OpenState("Door03",TRUE)
+  Global("Door3Opened","AR0808",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door3Opened","AR0808",1)
+END
+
+IF
+  OpenState("Door03",FALSE)
+  Global("Door3Opened","AR0808",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door03")
+END

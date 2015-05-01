@@ -1,0 +1,261 @@
+IF
+  OR(2)
+    NumberOfTimesTalkedTo(0)
+    Global("SelfInit","LOCALS",1)
+  Detect([PC])
+  GlobalLT("SendaiSlaveFight","GLOBAL",4)
+  Global("Iapcastts","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("SelfInit","LOCALS",0)
+    DialogueInterrupt(TRUE)
+    StartDialogNoSet(Player1)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  Global("partyfled","LOCALS",1)
+  GlobalGT("SendaiSlaveFight","GLOBAL",3)
+THEN
+  RESPONSE #100
+    SetGlobal("partyfled","LOCALS",0)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  Global("EnemySeen","LOCALS",0)
+  GlobalGT("SendaiSlaveFight","GLOBAL",3)
+THEN
+  RESPONSE #100
+    SetGlobal("EnemySeen","LOCALS",1)
+    SetGlobalTimer("Iacreature","LOCALS",18)
+    CreateCreatureObjectDoor("S!slasp1",LastSeenBy(Myself),0,0,0) //
+    CreateCreatureObjectDoor("S!slasp1",Myself,0,0,0) //
+    CreateCreatureObjectDoor("S!slasp2",Myself,0,0,0) //
+    CreateCreatureObjectDoor("S!slasp2",Myself,0,0,0) //
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !HPLT(Myself,1)
+  GlobalGT("SendaiSlaveFight","GLOBAL",3)
+  See([PC])
+  !GlobalTimerNotExpired("Iacreature","LOCALS")
+  RandomNumGT(6,3)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iacreature","LOCALS",18)
+    CreateCreatureObjectDoor("S!slasp1",LastSeenBy(Myself),0,0,0) //
+    CreateCreatureObjectDoor("S!slasp2",Myself,0,0,0) //
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !HPLT(Myself,1)
+  GlobalGT("SendaiSlaveFight","GLOBAL",3)
+  See([PC])
+  !GlobalTimerNotExpired("Iacreature","LOCALS")
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iacreature","LOCALS",18)
+    CreateCreatureObjectDoor("S!slasp1",LastSeenBy(Myself),0,0,0) //
+    CreateCreatureObjectDoor("S!slasp1",Myself,0,0,0) //
+END
+
+IF
+  Global("Iapcastts","GLOBAL",1)
+  Global("Iatsinvulner","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatsinvulner","LOCALS",1)
+    ApplySpellRES("SPINI70",Myself)
+END
+
+IF
+  Global("Iapcastts","GLOBAL",0)
+  Global("Iatsinvulner","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatsinvulner","LOCALS",0)
+    ApplySpellRES("SPINI71",Myself)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  Global("Iapcastts","GLOBAL",1)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !CheckStatGT(Myself,0,SCRIPTINGSTATE9)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  HPPercentLT(Myself,75)
+  See([PC])
+  Global("Iahard","LOCALS",0)
+  GlobalGT("SendaiSlaveFight","GLOBAL",3)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iahard","LOCALS",1)
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    ForceSpell(Myself,WARRIOR_HARDINESS)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  HPPercentLT(Myself,50)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  HasItem("POTN55",Myself)  // ~Potion of Superior Healing~
+  GlobalGT("SendaiSlaveFight","GLOBAL",3)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    DisplayStringHead(Myself,46150)  // ~quaffs a potion~
+    UseItem("POTN55",Myself)  // ~Potion of Superior Healing~
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  HPPercentLT(Myself,50)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  HasItem("POTN52",Myself)  // ~Potion of Extra Healing~
+  GlobalGT("SendaiSlaveFight","GLOBAL",3)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    DisplayStringHead(Myself,46150)  // ~quaffs a potion~
+    UseItem("POTN52",Myself)  // ~Potion of Extra Healing~
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  Global("GiantStrengthPotion","LOCALS",0)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  HasItem("POTN07",Myself)  // ~Potion of Storm Giant Strength~
+  GlobalGT("SendaiSlaveFight","GLOBAL",3)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    SetGlobal("GiantStrengthPotion","LOCALS",1)
+    DisplayStringHead(Myself,46150)  // ~quaffs a potion~
+    UseItem("POTN07",Myself)  // ~Potion of Storm Giant Strength~
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !CheckStatGT(Myself,0,SCRIPTINGSTATE9)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  See([PC])
+  GlobalLT("Iarage","LOCALS",7)
+  GlobalGT("SendaiSlaveFight","GLOBAL",3)
+  !GlobalTimerNotExpired("Iaenrage","LOCALS")
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iarage","LOCALS",1)
+    SetGlobalTimer("Iaenrage","LOCALS",96)
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    ForceSpell(Myself,BERSERKER_RAGE)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  See([PC])
+  Range(LastSeenBy(Myself),5)
+  !CheckStatGT(LastSeenBy(Myself),1,SCRIPTINGSTATE6)
+  GlobalLT("Iahla","LOCALS",5)
+  GlobalGT("SendaiSlaveFight","GLOBAL",3)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iahla","LOCALS",1)
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    ForceSpell(Myself,WARRIOR_GREATER_WHIRLWIND)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  Global("EnemySeen","LOCALS",1)
+  Global("partyfled","LOCALS",0)
+  GlobalGT("SendaiSlaveFight","GLOBAL",3)
+  !See([GOODCUTOFF])
+  !See([PC])
+THEN
+  RESPONSE #100
+    SetGlobalTimer("chase","LOCALS",60)
+    SetGlobal("partyfled","LOCALS",1)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Global("partyfled","LOCALS",1)
+  GlobalGT("SendaiSlaveFight","GLOBAL",3)
+  GlobalTimerNotExpired("chase","LOCALS")
+  InMyArea(Player1)
+  Global("EnemySeen","LOCALS",1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Global("EnemySeen","LOCALS",1)
+  GlobalTimerExpired("chase","LOCALS")
+  Global("partyfled","LOCALS",1)
+  GlobalGT("SendaiSlaveFight","GLOBAL",3)
+  !HPLT(Myself,1)
+THEN
+  RESPONSE #100
+    SetGlobal("EnemySeen","LOCALS",0)
+    SetGlobal("Iahla","LOCALS",0)
+    SetGlobal("Iahard","LOCALS",0)
+    ReallyForceSpellRES("SPWII07",Myself)
+END
+
+IF
+  ActionListEmpty()
+  See(NearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),1,SCRIPTINGSTATE6)
+  GlobalGT("SendaiSlaveFight","GLOBAL",3)
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  ActionListEmpty()
+  See(SecondNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),1,SCRIPTINGSTATE6)
+  GlobalGT("SendaiSlaveFight","GLOBAL",3)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  ActionListEmpty()
+  See(ThirdNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),1,SCRIPTINGSTATE6)
+  GlobalGT("SendaiSlaveFight","GLOBAL",3)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  ActionListEmpty()
+  See(NearestEnemyOf(Myself))
+  GlobalGT("SendaiSlaveFight","GLOBAL",3)
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END

@@ -1,0 +1,29 @@
+//Windspear Hills //////////////
+
+IF
+  OnCreation()
+  Global("CloseTempleRuin","AR1200",0)
+THEN
+  RESPONSE #100
+    SetGlobal("CloseTempleRuin","AR1200",1)
+    TriggerActivation("TRAN1201",FALSE)
+END
+
+IF
+   Global("VanyaJob","GLOBAL",4)
+   InMyArea(Player1)
+   !GlobalTimerNotExpired("Iacreature","AR1200")
+THEN
+   RESPONSE #100
+      SetGlobalTimer("Iacreature","AR1200",18)
+      CreateCreatureObjectOffScreen("S!vipe3",Player1,0,0,0) //
+END
+
+IF
+   Global("VanyaJob","GLOBAL",1)
+   Global("Iawatcher","AR1200",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iawatcher","AR1200",1)
+      CreateCreature("S!runewa",[4270.750],3) //
+END

@@ -1,0 +1,46 @@
+IF
+  Allegiance(Myself,NEUTRAL)
+  Global("Iapfreed","AR1900",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iapfreed","AR1900",1)
+    EscapeArea()
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  Global("Iarenchanter","GLOBAL",2)
+THEN
+  RESPONSE #100
+    ChangeEnemyAlly(Myself,NEUTRAL)
+    DisplayStringHead(Myself,5773) //
+    Wait(1)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  Exists("S!enchan")
+  !Dead("S!enchan")
+  !Range("S!enchan",6)
+THEN
+  RESPONSE #100
+    MoveToObjectNoInterrupt("S!enchan")
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See([PC])
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+    AttackOneRound(LastSeenBy(Myself))
+END

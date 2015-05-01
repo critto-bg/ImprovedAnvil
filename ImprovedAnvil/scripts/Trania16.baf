@@ -1,0 +1,29 @@
+IF
+  Clicked([ANYONE])
+  Range(LastTrigger,10)
+  Global("Iapcastts","GLOBAL",0)
+THEN
+  RESPONSE #100
+    StartCutSceneMode()
+    Wait(1)
+    FadeToColor([20.0],0)
+    Wait(2)
+    ActionOverride(Player1,LeaveAreaLUAPanic("ARia16","",[446.1131],9))
+    ActionOverride(Player1,LeaveAreaLUA("ARia16","",[446.1131],9))
+    ActionOverride(Player2,LeaveAreaLUA("ARia16","",[393.1112],9))
+    ActionOverride(Player3,LeaveAreaLUA("ARia16","",[351.1085],9))
+    ActionOverride(Player4,LeaveAreaLUA("ARia16","",[486.1161],9))
+    ActionOverride(Player5,LeaveAreaLUA("ARia16","",[531.1184],9))
+    ActionOverride(Player6,LeaveAreaLUA("ARia16","",[397.1162],9))
+    MultiPlayerSync()
+    EndCutSceneMode()
+    FadeFromColor([20.0],0)
+END
+
+IF
+  Clicked([ANYONE])
+  !Range(LastTrigger,10)
+THEN
+  RESPONSE #100
+    DisplayString(Myself,14702)  // ~You are too far away to use that.~
+END

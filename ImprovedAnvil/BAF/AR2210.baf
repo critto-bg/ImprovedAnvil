@@ -1,0 +1,91 @@
+//Deirex's Cave //////////////
+
+IF
+  Global("Iaexit","AR2210",0)
+  PartyHasItem("misc3c")
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR2210",1)
+    SetGlobalTimer("Iaefreet","AR2210",12)
+    TriggerActivation("Tran2200a",FALSE)
+    TriggerActivation("Tran2200b",FALSE)
+END
+
+IF
+  Global("Iaexit","AR2210",1)
+  Global("Iacreature","AR2210",0)
+  GlobalTimerExpired("Iaefreet","AR2210")
+  PartyHasItem("misc3c")
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iacreature","AR2210",1)
+    CreateCreatureObjectDoor("S!efree2",Player1,0,0,0) //
+END
+
+IF
+  Global("Iaexit","AR2210",2)
+  Dead("S!efree2")
+  InMyArea(Player1)
+  GlobalLT("Chapter","GLOBAL",6)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR2210",3)
+    SetGlobal("Iaefree2dead","GLOBAL",1)
+END
+
+IF
+  Global("Iaexit","AR2210",3)
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR2210",4)
+    TriggerActivation("Tran2200a",TRUE)
+    TriggerActivation("Tran2200b",TRUE)
+END
+
+IF
+   InMyArea(Player1)
+   Global("Iaitem","AR2210",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem","AR2210",1)
+      ActionOverride("Container 1",CreateItem("misc3c",1,0,0)) //
+      ActionOverride("Container 1",DestroyItem("xbow13")) //
+END
+
+IF
+  Global("Ianticheat","AR2210",0)
+  Global("Iacreature","AR2210",1)
+  Global("Iaefree2dead","GLOBAL",0)
+  Exists("S!efree2") //
+  !Dead("S!efree2") //
+  !Allegiance("S!efree2",ENEMY)
+  HPPercentLT("S!efree2",100)
+THEN
+  RESPONSE #100
+    SetGlobal("Ianticheat","AR2210",1)
+    ChangeEnemyAlly("S!efree2",ENEMY)
+    ApplySpellRES("SPWII07","S!efree2")
+END
+
+IF
+  Global("Iaexit","AR2210",1)
+  Exists("S!efree2") //
+  !Dead("S!efree2") //
+  HPPercentLT("S!efree2",100)
+THEN
+  RESPONSE #100
+    ApplySpellRES("SPWII07","S!efree2")
+END
+
+IF
+   Global("Iakillcheat","AR2210",0)
+   InMyArea(Player1)
+   GlobalGT("Chapter","GLOBAL",5)
+THEN
+   RESPONSE #100
+      SetGlobal("Iakillcheat","AR2210",1)
+      Kill(Player1)
+END

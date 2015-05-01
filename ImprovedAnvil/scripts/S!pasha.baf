@@ -1,0 +1,329 @@
+IF
+  Global("Iapcastts","GLOBAL",0)
+  HPPercentLT(Myself,50)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  HasItem("POTN55",Myself)  // ~Potion of Superior Healing~
+THEN
+  RESPONSE #100
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    DisplayStringHead(Myself,46150)  // ~quaffs a potion~
+    UseItem("POTN55",Myself)  // ~Potion of Superior Healing~
+END
+
+IF
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  OR(2)
+   Global("Iapcastts","GLOBAL",1)
+   CheckStatGT(Myself,0,SCRIPTINGSTATE9)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  CheckStatLT(Myself,41,RESISTCRUSHING)
+  See(NearestEnemyOf(Player1))
+  GlobalLT("Iapasha04","LOCALS",3)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iapasha04","LOCALS",1)
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    ForceSpell(Myself,WARRIOR_HARDINESS)
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  !GlobalTimerNotExpired("gww","LOCALS")
+  See(NearestEnemyOf(Player1))
+  Range(LastSeenBy(Myself),5)
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  GlobalLT("Iapasha01","LOCALS",2)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iapasha01","LOCALS",1)
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    SetGlobalTimer("gww","LOCALS",18)
+    ForceSpell(Myself,WARRIOR_GREATER_WHIRLWIND)
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  !GlobalTimerNotExpired("cstrike","LOCALS")
+  See(NearestEnemyOf(Player1))
+  Range(LastSeenBy(Myself),5)
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  CheckStatLT(LastSeenBy(Myself),1,STONESKINS)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  GlobalLT("Iapasha02","LOCALS",2)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iapasha02","LOCALS",1)
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    SetGlobalTimer("cstrike","LOCALS",18)
+    ForceSpell(Myself,WARRIOR_CRITICAL_STRIKE)
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  !GlobalTimerNotExpired("gww","LOCALS")
+  See(NearestEnemyOf(Player1))
+  Range(LastSeenBy(Myself),5)
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  Global("Iapasha03","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iapasha03","LOCALS",1)
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    SetGlobalTimer("gww","LOCALS",18)
+    ForceSpell(Myself,WARRIOR_WHIRLWIND)
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  See(NearestEnemyOf(Player1))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Player1))
+    AttackOneRound(NearestEnemyOf(Player1))
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  See(SecondNearestEnemyOf(Player1))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(SecondNearestEnemyOf(Player1))
+    AttackOneRound(SecondNearestEnemyOf(Player1))
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  See(NearestEnemyOf(Player1))
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Player1))
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  Global("GypsyJob","GLOBAL",12)
+  !See(NearestEnemyOf(Player1))
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  Global("Iapcastts","GLOBAL",0)
+  Global("GypsyJob","GLOBAL",13)
+  Global("Farewell","LOCALS",0)
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    SetGlobal("Farewell","LOCALS",1)
+    MoveToObjectNoInterrupt(Player1)
+    StartDialogueNoSet(Player1)
+END
+
+IF
+  !Allegiance(Myself,GOODBUTBLUE)
+  Global("GypsyJob","GLOBAL",12)
+THEN
+  RESPONSE #100
+    ChangeEnemyAlly(Myself,GOODBUTBLUE)
+END
+
+IF
+  !Allegiance(Myself,ENEMY)
+  Global("GypsyJob","GLOBAL",10)
+THEN
+  RESPONSE #100
+    Enemy()
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  Global("EnemySeen","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("EnemySeen","LOCALS",1)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  Global("partyfled","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("partyfled","LOCALS",0)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  CheckStatLT(Myself,41,RESISTCRUSHING)
+  See(NearestEnemyOf(Myself))
+  Range(LastSeenBy(Myself),5)
+  GlobalLT("Iapasha04","LOCALS",3)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iapasha04","LOCALS",1)
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    ForceSpell(Myself,WARRIOR_HARDINESS)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  !GlobalTimerNotExpired("gww","LOCALS")
+  See(NearestEnemyOf(Myself))
+  Range(LastSeenBy(Myself),5)
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  GlobalLT("Iapasha01","LOCALS",2)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iapasha01","LOCALS",1)
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    SetGlobalTimer("gww","LOCALS",18)
+    ForceSpell(Myself,WARRIOR_GREATER_WHIRLWIND)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  !GlobalTimerNotExpired("cstrike","LOCALS")
+  See(NearestEnemyOf(Myself))
+  Range(LastSeenBy(Myself),5)
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  CheckStatLT(LastSeenBy(Myself),1,STONESKINS)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  GlobalLT("Iapasha02","LOCALS",2)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iapasha02","LOCALS",1)
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    SetGlobalTimer("cstrike","LOCALS",18)
+    ForceSpell(Myself,WARRIOR_CRITICAL_STRIKE)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  !GlobalTimerNotExpired("gww","LOCALS")
+  See(NearestEnemyOf(Myself))
+  Range(LastSeenBy(Myself),5)
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  Global("Iapasha03","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iapasha03","LOCALS",1)
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    SetGlobalTimer("gww","LOCALS",18)
+    ForceSpell(Myself,WARRIOR_WHIRLWIND)
+END
+
+IF
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Global("partyfled","LOCALS",0)
+  Allegiance(Myself,ENEMY)
+  Global("EnemySeen","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("chase","LOCALS",60)
+    SetGlobal("partyfled","LOCALS",1)
+END
+
+IF
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_STUNNED)
+  !StateCheck(Myself,STATE_PANIC)
+  !StateCheck(Myself,STATE_CHARMED)
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Global("partyfled","LOCALS",1)
+  GlobalTimerNotExpired("chase","LOCALS")
+  InMyArea(Player1)
+  Allegiance(Myself,ENEMY)
+  Global("EnemySeen","LOCALS",1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Allegiance(Myself,ENEMY)
+  Global("EnemySeen","LOCALS",1)
+  GlobalTimerExpired("chase","LOCALS")
+  Global("partyfled","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iapasha01","LOCALS",0)
+    SetGlobal("Iapasha02","LOCALS",0)
+    SetGlobal("Iapasha03","LOCALS",0)
+    SetGlobal("Iapasha04","LOCALS",0)
+    SetGlobal("EnemySeen","LOCALS",0)
+    ReallyForceSpellRES("SPWII07",Myself)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(SecondNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  RandomNumGT(6,4)
+  OR(2)
+   AttackedBy(LastSeenBy(Myself),MELEE)
+   Range(LastSeenBy(Myself),2)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(SecondNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(ThirdNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END

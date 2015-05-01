@@ -1,0 +1,174 @@
+IF
+  Global("Iaonce","LOCALS",0)
+  See("cefald01")  // ~Faldorn~
+THEN
+  RESPONSE #100
+    SetGlobal("Iaonce","LOCALS",1)
+    ApplySpellRES("SPINI28",Myself)
+END
+
+IF
+  !GlobalTimerNotExpired("Iaboost","LOCALS")
+  See("cefald01")  // ~Faldorn~
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iaboost","LOCALS",19)
+    ApplySpellRES("SPINI24",Myself)
+END
+
+IF
+  CheckStatLT(Myself,1,STONESKINS)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  See("cefald01")  // ~Faldorn~
+  GlobalLT("Iaskins","LOCALS",3)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iaskins","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDec(Myself,CLERIC_IRONSKIN)
+END
+
+IF
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  See("cefald01")  // ~Faldorn~
+  !HasItem("shille",Myself)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDec(Myself,CLERIC_SHILLELAGH)
+END
+
+IF
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  See("cefald01")  // ~Faldorn~
+  Global("Iamimage","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iamimage","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDecRES("SPPRI07",Myself)
+END
+
+IF
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  See("cefald01")  // ~Faldorn~
+  Global("Iabark","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iabark","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDec(Myself,CLERIC_BARKSKIN)
+END
+
+IF
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  See("cefald01")  // ~Faldorn~
+  HasItem("fblade",LastSeenBy(Myself))
+  Global("Iapfire","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iapfire","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDec(Myself,CLERIC_PROTECTION_FROM_FIRE)
+END
+
+IF
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  CheckStatLT(Myself,100,RESISTFIRE)
+  See("cefald01")  // ~Faldorn~
+  HasItem("fblade",LastSeenBy(Myself))
+  Global("Iarfire","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iarfire","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDec(Myself,CLERIC_RESIST_FIRE)
+END
+
+IF
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  See("cefald01")  // ~Faldorn~
+  Global("Iamiscast","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iamiscast","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDec("cefald01",CLERIC_MISCAST_MAGIC)
+END
+
+IF
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  See("cefald01")  // ~Faldorn~
+  Global("Iaarmor","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaarmor","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDec(Myself,CLERIC_ARMOR_OF_FAITH)
+END
+
+IF
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !GlobalTimerNotExpired("Iainsecttime","LOCALS")
+  See("cefald01")  // ~Faldorn~
+  GlobalLT("Iainsect","LOCALS",2)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iainsect","LOCALS",1)
+    SetGlobalTimer("Iainsecttime","LOCALS",42)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDec("cefald01",CLERIC_SUMMON_INSECTS)
+END
+
+IF
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  See("cefald01")  // ~Faldorn~
+  GlobalLT("Iafarrow","LOCALS",2)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iafarrow","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDecRES("SPPRI08","cefald01")
+END
+
+IF
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  HPPercentLT(Myself,75)
+  See("cefald01")  // ~Faldorn~
+  GlobalLT("Iacsw","LOCALS",4)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iacsw","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDec(Myself,CLERIC_CURE_SERIOUS_WOUNDS)
+END
+
+IF
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  HPPercentLT(Myself,80)
+  See("cefald01")  // ~Faldorn~
+  Global("Iaclw","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaclw","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDec(Myself,CLERIC_CURE_LIGHT_WOUNDS)
+END
+
+IF
+  HasItem("shille",Myself)
+  CheckStatGT(Myself,17,STR)
+  See("cefald01")  // ~Faldorn~
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  !See("cefald01")  // ~Faldorn~
+  Exists("cefald01")  // ~Faldorn~
+  !Dead("cefald01")  // ~Faldorn~
+THEN
+  RESPONSE #100
+    MoveToObject("cefald01")  // ~Faldorn~
+END
