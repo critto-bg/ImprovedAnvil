@@ -2,12 +2,56 @@ BACKUP ~ImprovedAnvil/backup~
 AUTHOR ~sikret_the_great@yahoo.com~
 
 LANGUAGE "English"
- ~ImprovedAnvil/Spanish/setup.tra~
+ ~ImprovedAnvil/English/~
  ~ImprovedAnvil/English/setup.tra~
 
 BEGIN @1
 
+REQUIRE_PREDICATE GAME_IS ~tob bg2ee~ @2 // Please install TOB and return!
+
+// copying stats.ids with custom scripting states //
+
 COPY ~ImprovedAnvil\ids\stats.ids~ ~override/stats.ids~
+
+// extra installation routines for ToB //
+
+ACTION_IF GAME_IS ~tob~ THEN BEGIN
+  // a copy of stats.ids for the compiler
+  COPY ~ImprovedAnvil\ids\stats.ids~ ~script compiler/stats.ids~
+
+  // a patch that eliminates the issue with the limit of summonned creatures
+  COPY bgmain.exe bgmain.exe
+    READ_ASCII 0x2B93DB target_bytes_1 ELSE 0 (0x16)
+
+    READ_LONG   (0x2B93DB + 0x000) var1
+    READ_LONG   (0x2B93DB + 0x004) var2
+    READ_LONG   (0x2B93DB + 0x008) var3
+    READ_LONG   (0x2B93DB + 0x00C) var4
+    READ_LONG   (0x2B93DB + 0x010) var5
+    READ_SHORT  (0x2B93DB + 0x014) var6
+
+    PATCH_IF (%var1% = 0x4D8B2574)
+      AND (%var2% = 0x8B118BF0)
+      AND (%var3% = 0x52FFF04D)
+      AND (%var4% = 0xD8458910)
+      AND (%var5% = 0x8AD8458B)
+      AND (%var6% = 0x1248)
+    THEN BEGIN
+      WRITE_LONG   (0x2B93DB + 0x000) 0xF8830574
+      WRITE_LONG   (0x2B93DB + 0x004) 0x8B297509
+      WRITE_LONG   (0x2B93DB + 0x008) 0x488BF045
+      WRITE_LONG   (0x2B93DB + 0x00C) 0x00F98312
+      WRITE_LONG   (0x2B93DB + 0x010) 0x13EB1E74
+      WRITE_SHORT  (0x2B93DB + 0x014) 0x9090
+    END
+  BUT_ONLY_IF_IT_CHANGES
+END
+
+// for BG2EE append a missing Ice Golem animation that is present in vanilla ToB //
+
+ACTION_IF GAME_IS ~BG2EE~ THEN BEGIN
+  APPEND ~animate.ids~ ~0xE0F0 IC_ICE_GOLEM~ UNLESS ~\bIC_ICE_GOLEM\b~
+END
 
 COPY_EXISTING ~tooltip.2da~  ~override/tooltip.2da~
   REPLACE_TEXTUALLY ~RING27.+3806.+12109.+12074~ ~RING27            12074        12109       -1~

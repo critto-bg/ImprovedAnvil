@@ -3,23 +3,23 @@
 
 For my daughter, Kiana!
 
-Author: Sikret 
+Author: Sikret
 (e-mail address: sikret_the_great@yahoo.com)
 
 Forum: http://forums.blackwyrmlair.net/index.php?showforum=99
 
-Improved Anvil is a mod for BG2 and TOB. It requires TOB.
+Improved Anvil is a mod for BG2 and TOB. It requires TOB or BG2EE.
 
 =====================
 What does this mod do?
 =====================
 
 1) Tactical challenges and Improved enemies
-   
+
 2) Many New quests and encounters
 
 3) New types of monsters
- 
+
 4) Fixes and tweaks:
    Improved Anvil applies several corrections and changes (including fixes and tweaks) to the
    original game. For details see the related document which is provided in the download package.
@@ -30,7 +30,7 @@ What does this mod do?
    Anvil, those items will be randomly (and sensibly) redistributed into new and difficult
    locations and/or in the inventory of improved and tough enemies. In other words, each time you
    play the game with this mod, each of those items may be in different places and you won't be
-   sure where to look for them.    
+   sure where to look for them.
 
 6) New item upgrades:
    Cromwell and Cespenar have 101 new item upgrade recipes most of which require brand new
@@ -56,10 +56,10 @@ http://dragonshoard.blackwyrmlair.net/table.php?all
 ============================
 Warnings and important notes:
 ============================
-(1) Improved Anvil is "The mod for the experienced players". It includes some really difficult 
+(1) Improved Anvil is "The mod for the experienced players". It includes some really difficult
     battles. If you do not have the required level of tactical knowledge, you will need to have
     patience and draw a learning curve for yourself and improve your skills gradually while
-    playing the mod. If you don't have the time or the patience for that, you may need to 
+    playing the mod. If you don't have the time or the patience for that, you may need to
     postpone playing this mod to a later time.
 
 (2) Never cheat during the game if you intend to play Improved Anvil. Cheating may look harmless
@@ -93,7 +93,7 @@ Eleven other separate .txt files are included in the download package of this mo
   - Document X-THAC0-tables.txt
   - Document XI-Terms-of-Use-and-Copyright
 
-The first one will give you information about the new items and the ingredients to make them. 
+The first one will give you information about the new items and the ingredients to make them.
 
 The second one presents general (not detailed) information about the tactical content of the mod
 as well as new quests and adventures.
@@ -127,6 +127,11 @@ Please see the text file "Installation.txt" presented in the "Documents" folder 
 ===============
 Version history:
 ===============
+
+Version 6.1:
+- New version of WeiDU compiler is adopted
+- Patches introduced to allow for compatibility with BG2EE
+- Readme files are updated to reflect changes made during the adaptation of the mod for BG2EE
 
 Version 6:
 - More fixes and tweaks are applied to the original game.
@@ -184,7 +189,7 @@ Version 4.0:
    play the mod the items may be with different opponents and you won't be sure where to look for
    each of them.
 8- Polygonal scripting system: It's an advanced scripting method devised for and used in Improved
-   Anvil. As a result, creatures can behave much more intelligently. 
+   Anvil. As a result, creatures can behave much more intelligently.
 9- Some of the items' prices in the shops are increased. Also, cheesy methods to make easy money
    (stealing items and selling them back) are blocked and will not work anymore.
 10- Some of the key items of the mod are made uncheatable and should only be gained or forged
@@ -228,7 +233,7 @@ Testing Team:
 
 I have had the advantage of working with the best BG2 players during preparing the mod and
 testing its various features:
- 
+
  - thetruth
  - Raven
  - Dago
@@ -237,7 +242,7 @@ testing its various features:
  - Critto
  - shadan
  - Nicoper
- 
+
 ========
 Credits:
 ========
