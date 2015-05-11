@@ -1,5 +1,6 @@
 BACKUP ~ImprovedAnvil/backup~
 AUTHOR ~sikret_the_great@yahoo.com~
+VERSION ~v6.1~
 
 LANGUAGE "English"
  ~ImprovedAnvil/English/~
@@ -19,8 +20,8 @@ ACTION_IF GAME_IS ~tob~ THEN BEGIN
   // a copy of stats.ids for the compiler
   COPY ~ImprovedAnvil\ids\stats.ids~ ~script compiler/stats.ids~
 
-  // a patch that eliminates the issue with the limit of summonned creatures
   COPY bgmain.exe bgmain.exe
+    // a patch that eliminates the issue with the limit of summonned creatures
     READ_ASCII 0x2B93DB target_bytes_1 ELSE 0 (0x16)
 
     READ_LONG   (0x2B93DB + 0x000) var1
@@ -44,6 +45,72 @@ ACTION_IF GAME_IS ~tob~ THEN BEGIN
       WRITE_LONG   (0x2B93DB + 0x010) 0x13EB1E74
       WRITE_SHORT  (0x2B93DB + 0x014) 0x9090
     END
+
+    // custom fist placement for monk
+    // solution adapted from Sword and Fist mod
+    SET "index" = 0
+    SET "block_one" = 0
+    SET "block_two" = 0
+    SET "offset" = 0x737094
+
+    WHILE ("%index%" < 33750) BEGIN // checks through 270,000 bytes; SoA starts at 6E8B00, ToB starts at 757FEC
+      SET "index" = ("%index%" + 1)
+      READ_ASCII ("%offset%" - 0x08 + ("%index%" * 0x08)) ~previous_value~
+      READ_ASCII ("%offset%" +        ("%index%" * 0x08)) ~current_value~
+      PATCH_IF (("%current_value%" STRING_COMPARE_CASE ~MFIST1~ = 0) AND NOT ("%previous_value%" STRING_COMPARE_CASE ~MFIST1~ = 0) AND "block_one" = 0) BEGIN
+        WRITE_ASCII ("%offset%" + 0x08 + ("%index%" * 0x08)) ~MFIST1~  #8 // level 2
+        WRITE_ASCII ("%offset%" + 0x10 + ("%index%" * 0x08)) ~MFIST2~  #8 // level 3
+        WRITE_ASCII ("%offset%" + 0x18 + ("%index%" * 0x08)) ~MFIST2~  #8 // level 4
+        WRITE_ASCII ("%offset%" + 0x20 + ("%index%" * 0x08)) ~MFIST2~  #8 // level 5
+        WRITE_ASCII ("%offset%" + 0x28 + ("%index%" * 0x08)) ~MFIST3~  #8 // level 6
+        WRITE_ASCII ("%offset%" + 0x30 + ("%index%" * 0x08)) ~MFIST3~  #8 // level 7
+        WRITE_ASCII ("%offset%" + 0x38 + ("%index%" * 0x08)) ~MFIST3~  #8 // level 8
+        WRITE_ASCII ("%offset%" + 0x40 + ("%index%" * 0x08)) ~MFIST4~  #8 // level 9
+        WRITE_ASCII ("%offset%" + 0x48 + ("%index%" * 0x08)) ~MFIST4~  #8 // level 10
+        WRITE_ASCII ("%offset%" + 0x50 + ("%index%" * 0x08)) ~MFIST4~  #8 // level 11
+        WRITE_ASCII ("%offset%" + 0x58 + ("%index%" * 0x08)) ~MFIST5~  #8 // level 12
+        WRITE_ASCII ("%offset%" + 0x60 + ("%index%" * 0x08)) ~MFIST5~  #8 // level 13
+        WRITE_ASCII ("%offset%" + 0x68 + ("%index%" * 0x08)) ~MFIST5~  #8 // level 14
+        WRITE_ASCII ("%offset%" + 0x70 + ("%index%" * 0x08)) ~MFIST6~  #8 // level 15
+        WRITE_ASCII ("%offset%" + 0x78 + ("%index%" * 0x08)) ~MFIST6~  #8 // level 16
+        WRITE_ASCII ("%offset%" + 0x80 + ("%index%" * 0x08)) ~MFIST6~  #8 // level 17
+        WRITE_ASCII ("%offset%" + 0x88 + ("%index%" * 0x08)) ~MFIST7~  #8 // level 18
+        SET "block_one" = 1
+      END
+      PATCH_IF (("%current_value%" STRING_COMPARE_CASE ~MFIST7~ = 0) AND ("%previous_value%" STRING_COMPARE_CASE ~MFIST6~ = 0) AND "block_two" = 0) BEGIN // ToB only entries
+        SET "index2" = "%index%"
+        WRITE_ASCII ("%offset%" + 0x08  + ("%index%" * 0x08)) ~MFIST7~  #8 // level 20
+        WRITE_ASCII ("%offset%" + 0x10  + ("%index%" * 0x08)) ~MFIST8~  #8 // level 21
+        WRITE_ASCII ("%offset%" + 0x18  + ("%index%" * 0x08)) ~MFIST8~  #8 // level 22
+        WRITE_ASCII ("%offset%" + 0x20  + ("%index%" * 0x08)) ~MFIST8~  #8 // level 23
+        WRITE_ASCII ("%offset%" + 0x28  + ("%index%" * 0x08)) ~MFIST8~  #8 // level 24
+        WRITE_ASCII ("%offset%" + 0x30  + ("%index%" * 0x08)) ~MFIST9~  #8 // level 25
+        WRITE_ASCII ("%offset%" + 0x38  + ("%index%" * 0x08)) ~MFIST9~  #8 // level 26
+        WRITE_ASCII ("%offset%" + 0x40  + ("%index%" * 0x08)) ~MFIST9~  #8 // level 27
+        WRITE_ASCII ("%offset%" + 0x48  + ("%index%" * 0x08)) ~MFIST9~ #8 // level 28
+        WRITE_ASCII ("%offset%" + 0x50  + ("%index%" * 0x08)) ~MFIST10~ #8 // level 29
+        WRITE_ASCII ("%offset%" + 0x58  + ("%index%" * 0x08)) ~MFIST10~ #8 // level 30
+        WRITE_ASCII ("%offset%" + 0x60  + ("%index%" * 0x08)) ~MFIST10~ #8 // level 31
+        WRITE_ASCII ("%offset%" + 0x68  + ("%index%" * 0x08)) ~MFIST10~ #8 // level 32
+        WRITE_ASCII ("%offset%" + 0x70  + ("%index%" * 0x08)) ~MFIST10~ #8 // level 33
+        WRITE_ASCII ("%offset%" + 0x78  + ("%index%" * 0x08)) ~MFIST10~ #8 // level 34
+        WRITE_ASCII ("%offset%" + 0x80  + ("%index%" * 0x08)) ~MFIST10~ #8 // level 35
+        WRITE_ASCII ("%offset%" + 0x88  + ("%index%" * 0x08)) ~MFIST10~ #8 // level 36
+        WRITE_ASCII ("%offset%" + 0x90  + ("%index%" * 0x08)) ~MFIST10~ #8 // level 37
+        WRITE_ASCII ("%offset%" + 0x98  + ("%index%" * 0x08)) ~MFIST10~ #8 // level 38
+        WRITE_ASCII ("%offset%" + 0xA0  + ("%index%" * 0x08)) ~MFIST10~ #8 // level 39
+        WRITE_ASCII ("%offset%" + 0xA8  + ("%index%" * 0x08)) ~MFIST10~ #8 // level 40
+        WRITE_ASCII ("%offset%" + 0xB0  + ("%index%" * 0x08)) ~MFIST10~ #8 // level 41
+        SET "block_two" = 1
+      END
+      PATCH_IF ("%block_two%" = 1) BEGIN
+        WRITE_ASCII ("%offset%" +         ("%index2%" * 0x08)) ~MFIST7~ #8 // level 19
+        SET "block_two" = 2
+      END
+      PATCH_IF ("%block_two%" = 2) BEGIN
+        SET "index" = 33750
+      END
+    END
   BUT_ONLY_IF_IT_CHANGES
 END
 
@@ -52,15 +119,6 @@ END
 ACTION_IF GAME_IS ~BG2EE~ THEN BEGIN
   APPEND ~animate.ids~ ~0xE0F0 IC_ICE_GOLEM~ UNLESS ~\bIC_ICE_GOLEM\b~
 END
-
-COPY_EXISTING ~tooltip.2da~  ~override/tooltip.2da~
-  REPLACE_TEXTUALLY ~RING27.+3806.+12109.+12074~ ~RING27            12074        12109       -1~
-  REPLACE_TEXTUALLY ~RING28.+3808.+12021.+-1~ ~RING28            29217        12021       -1~
-  REPLACE_TEXTUALLY ~RING29.+3809.+32393.+-1~ ~RING29            32393        -1          -1~
-  REPLACE_TEXTUALLY ~SW1H36.+3155.+12123.+-1~ ~SW1H36            3155         12114       -1~
-  REPLACE_TEXTUALLY ~MISC3A1.+12017.+4731.+-1~ ~MISC3A1           23790        4731        -1~
-  REPLACE_TEXTUALLY ~MISC3A2.+12023.+4731.+-1~ ~MISC3A2           22616        4731        -1~
-  REPLACE_TEXTUALLY ~MISC3A4.+38133.+4731.+-1~ ~MISC3A4           7571         4731        -1~
 
 //Copying items//
 
@@ -1686,7 +1744,7 @@ COPY_EXISTING ~amul09.itm~ ~override/amul17.itm~
 
 COPY_EXISTING ~sw1h02.itm~ ~override/sw1h37.itm~
 
-//Patching items//
+// Patching items //
 
 COPY_EXISTING ~wa2harp.itm~ ~override/wa2harp.itm~
   WRITE_LONG  0x34   56000 // price
@@ -2351,6 +2409,149 @@ COPY_EXISTING ~scrl2d.itm~ ~override/scrl7d.itm~
 COPY_EXISTING ~scrl1e.itm~ ~override/scrl6g.itm~
 
 COPY_EXISTING ~scrlam.itm~ ~override/scrl9j.itm~
+
+COPY_EXISTING ~mfist3.itm~ ~override/mfist3.itm~
+  SAY NAME1 @10190
+  SAY NAME2 @10190
+  WRITE_LONG  0x60 1 // +1 enchantment
+
+  READ_BYTE  0x18 "flags01"
+  WRITE_BYTE 0x18 ("%flags01%" BOR 0b01000000)  // adds magical flag
+
+  READ_LONG   0x64 "ability_offset"
+  READ_SHORT  0x68 "ability_num"
+  FOR (index = 0; index < ability_num; index = index + 1) BEGIN
+    READ_SHORT  ("%ability_offset%" + ("%index%" * 0x38)) "type"
+    PATCH_IF ("%type%" = 1) BEGIN // melee check
+      WRITE_SHORT ("%ability_offset%" + 0x14 + ("%index%" * 0x38)) 1  // THAC0 bonus
+      WRITE_SHORT ("%ability_offset%" + 0x1a + ("%index%" * 0x38)) 1  // damage bonus
+    END
+  END
+  BUT_ONLY_IF_IT_CHANGES
+
+COPY_EXISTING ~mfist4.itm~ ~override/mfist4.itm~
+  SAY NAME1 @10191
+  SAY NAME2 @10191
+  WRITE_LONG  0x60 2 // +2 enchantment
+
+  READ_LONG   0x64 "ability_offset"
+  READ_SHORT  0x68 "ability_num"
+  FOR (index = 0; index < ability_num; index = index + 1) BEGIN
+    READ_SHORT  ("%ability_offset%" + ("%index%" * 0x38)) "type"
+    PATCH_IF ("%type%" = 1) BEGIN // melee check
+      WRITE_SHORT ("%ability_offset%" + 0x16 + ("%index%" * 0x38)) 6  // Dice size
+      WRITE_SHORT ("%ability_offset%" + 0x18 + ("%index%" * 0x38)) 2  // Number of dice
+      WRITE_SHORT ("%ability_offset%" + 0x14 + ("%index%" * 0x38)) 2  // THAC0 bonus
+      WRITE_SHORT ("%ability_offset%" + 0x1a + ("%index%" * 0x38)) 2  // damage bonus
+    END
+  END
+  BUT_ONLY_IF_IT_CHANGES
+
+COPY_EXISTING ~mfist5.itm~ ~override/mfist5.itm~
+  SAY NAME1 @10192
+  SAY NAME2 @10192
+  WRITE_LONG  0x60 3 // +3 enchantment
+
+  READ_LONG   0x64 "ability_offset"
+  READ_SHORT  0x68 "ability_num"
+  FOR (index = 0; index < ability_num; index = index + 1) BEGIN
+    READ_SHORT  ("%ability_offset%" + ("%index%" * 0x38)) "type"
+    PATCH_IF ("%type%" = 1) BEGIN // melee check
+      WRITE_SHORT ("%ability_offset%" + 0x16 + ("%index%" * 0x38)) 6  // Dice size
+      WRITE_SHORT ("%ability_offset%" + 0x18 + ("%index%" * 0x38)) 2  // Number of dice
+      WRITE_SHORT ("%ability_offset%" + 0x14 + ("%index%" * 0x38)) 3  // THAC0 bonus
+      WRITE_SHORT ("%ability_offset%" + 0x1a + ("%index%" * 0x38)) 3  // damage bonus
+    END
+  END
+  BUT_ONLY_IF_IT_CHANGES
+
+COPY_EXISTING ~mfist6.itm~ ~override/mfist6.itm~
+  SAY NAME1 @10192
+  SAY NAME2 @10192
+  WRITE_LONG  0x60 3 // +3 enchantment
+
+  READ_LONG   0x64 "ability_offset"
+  READ_SHORT  0x68 "ability_num"
+  FOR (index = 0; index < ability_num; index = index + 1) BEGIN
+    READ_SHORT  ("%ability_offset%" + ("%index%" * 0x38)) "type"
+    PATCH_IF ("%type%" = 1) BEGIN // melee check
+      WRITE_SHORT ("%ability_offset%" + 0x16 + ("%index%" * 0x38)) 8  // Dice size
+      WRITE_SHORT ("%ability_offset%" + 0x18 + ("%index%" * 0x38)) 2  // Number of dice
+      WRITE_SHORT ("%ability_offset%" + 0x14 + ("%index%" * 0x38)) 3  // THAC0 bonus
+      WRITE_SHORT ("%ability_offset%" + 0x1a + ("%index%" * 0x38)) 3  // damage bonus
+    END
+  END
+  BUT_ONLY_IF_IT_CHANGES
+
+COPY_EXISTING ~mfist7.itm~ ~override/mfist7.itm~
+  SAY NAME1 @10193
+  SAY NAME2 @10193
+  WRITE_LONG  0x60 4 // +4 enchantment
+
+  READ_LONG   0x64 "ability_offset"
+  READ_SHORT  0x68 "ability_num"
+  FOR (index = 0; index < ability_num; index = index + 1) BEGIN
+    READ_SHORT  ("%ability_offset%" + ("%index%" * 0x38)) "type"
+    PATCH_IF ("%type%" = 1) BEGIN // melee check
+      WRITE_SHORT ("%ability_offset%" + 0x16 + ("%index%" * 0x38)) 8  // Dice size
+      WRITE_SHORT ("%ability_offset%" + 0x18 + ("%index%" * 0x38)) 2  // Number of dice
+      WRITE_SHORT ("%ability_offset%" + 0x14 + ("%index%" * 0x38)) 4  // THAC0 bonus
+      WRITE_SHORT ("%ability_offset%" + 0x1a + ("%index%" * 0x38)) 4  // damage bonus
+    END
+  END
+  BUT_ONLY_IF_IT_CHANGES
+
+COPY_EXISTING ~mfist8.itm~ ~override/mfist8.itm~
+  SAY NAME1 @10193
+  SAY NAME2 @10193
+  WRITE_LONG  0x60 4 // +4 enchantment
+
+  READ_LONG   0x64 "ability_offset"
+  READ_SHORT  0x68 "ability_num"
+  FOR (index = 0; index < ability_num; index = index + 1) BEGIN
+    READ_SHORT  ("%ability_offset%" + ("%index%" * 0x38)) "type"
+    PATCH_IF ("%type%" = 1) BEGIN // melee check
+      WRITE_SHORT ("%ability_offset%" + 0x16 + ("%index%" * 0x38)) 10  // Dice size
+      WRITE_SHORT ("%ability_offset%" + 0x18 + ("%index%" * 0x38)) 2  // Number of dice
+      WRITE_SHORT ("%ability_offset%" + 0x14 + ("%index%" * 0x38)) 4  // THAC0 bonus
+      WRITE_SHORT ("%ability_offset%" + 0x1a + ("%index%" * 0x38)) 4  // damage bonus
+    END
+  END
+  BUT_ONLY_IF_IT_CHANGES
+
+COPY_EXISTING ~mfist8.itm~ ~override/mfist9.itm~
+  SAY NAME1 @10194
+  SAY NAME2 @10194
+  WRITE_LONG  0x60 5 // +5 enchantment
+
+  READ_LONG   0x64 "ability_offset"
+  READ_SHORT  0x68 "ability_num"
+  FOR (index = 0; index < ability_num; index = index + 1) BEGIN
+    READ_SHORT  ("%ability_offset%" + ("%index%" * 0x38)) "type"
+    PATCH_IF ("%type%" = 1) BEGIN // melee check
+      WRITE_SHORT ("%ability_offset%" + 0x14 + ("%index%" * 0x38)) 5  // THAC0 bonus
+      WRITE_SHORT ("%ability_offset%" + 0x1a + ("%index%" * 0x38)) 5  // damage bonus
+    END
+  END
+  BUT_ONLY_IF_IT_CHANGES
+
+COPY_EXISTING ~mfist8.itm~ ~override/mfist10.itm~
+  SAY NAME1 @10194
+  SAY NAME2 @10194
+  WRITE_LONG  0x60 5 // +5 enchantment
+
+  READ_LONG   0x64 "ability_offset"
+  READ_SHORT  0x68 "ability_num"
+  FOR (index = 0; index < ability_num; index = index + 1) BEGIN
+    READ_SHORT  ("%ability_offset%" + ("%index%" * 0x38)) "type"
+    PATCH_IF ("%type%" = 1) BEGIN // melee check
+      WRITE_SHORT ("%ability_offset%" + 0x16 + ("%index%" * 0x38)) 8  // Dice size
+      WRITE_SHORT ("%ability_offset%" + 0x18 + ("%index%" * 0x38)) 3  // Number of dice
+      WRITE_SHORT ("%ability_offset%" + 0x14 + ("%index%" * 0x38)) 5  // THAC0 bonus
+      WRITE_SHORT ("%ability_offset%" + 0x1a + ("%index%" * 0x38)) 5  // damage bonus
+    END
+  END
+  BUT_ONLY_IF_IT_CHANGES
 
 //Copying creatures//
 
@@ -17076,6 +17277,9 @@ COPY ~ImprovedAnvil\spl\SPCLI16.spl~ ~override/SPCLI16.spl~
   SAY NAME1 @9583
   SAY UNIDENTIFIED_DESC @9584
 
+COPY ~ImprovedAnvil\spl\SPINI87.spl~ ~override/SPINI87.spl~
+  SAY NAME1 @10195
+
 COPY ~ImprovedAnvil\spl\SPINI04.spl~ ~override/SPINI04.spl~
 
 COPY ~ImprovedAnvil\spl\SPPRI01.spl~ ~override/SPPRI01.spl~
@@ -19675,7 +19879,7 @@ WRITE_LONG  0x18   30 // buy price markup
 COPY_EXISTING ~doghma.sto~ ~Override/doghma.sto~
 WRITE_LONG  0x14  165 // sell price markup
 
-//copying voice files//
+// copying voice files //
 
 COPY ~ImprovedAnvil\wav\S!vanya1.wav~ ~override/S!vanya1.wav~
 COPY ~ImprovedAnvil\wav\S!vanya2.wav~ ~override/S!vanya2.wav~
@@ -19709,7 +19913,7 @@ COPY_EXISTING ~SNAKE06.wav~  ~override/SNAKE06.wav~
 COPY_EXISTING ~SNAKE07.wav~  ~override/SNAKE07.wav~
 COPY_EXISTING ~ALARM1.wav~  ~override/ALARM1.wav~
 
-//copying areas //
+// copying areas //
 
 COPY ~ImprovedAnvil\are\AR2810.are~ ~override/AR2810.are~
 COPY ~ImprovedAnvil\are\aria01.are~ ~override/aria01.are~
@@ -19785,6 +19989,19 @@ COPY ~ImprovedAnvil/2da/rndmagic.2da~      ~override/rndmagic.2da~
 COPY ~ImprovedAnvil/2da/startare.2da~      ~override/startare.2da~
 COPY ~ImprovedAnvil/2da/xpbonus.2da~      ~override/xpbonus.2da~
 COPY ~ImprovedAnvil/2da/spawngrp.2da~      ~override/spawngrp.2da~
+COPY ~ImprovedAnvil/2da/monkfist.2da~      ~override/monkfist.2da~
+COPY ~ImprovedAnvil/2da/clabmo01.2da~      ~override/clabmo01.2da~
+COPY ~ImprovedAnvil/2da/clabmo02.2da~      ~override/clabmo02.2da~
+COPY ~ImprovedAnvil/2da/clabmo03.2da~      ~override/clabmo03.2da~
+
+COPY_EXISTING ~tooltip.2da~  ~override/tooltip.2da~
+  REPLACE_TEXTUALLY ~RING27.+3806.+12109.+12074~ ~RING27            12074        12109       -1~
+  REPLACE_TEXTUALLY ~RING28.+3808.+12021.+-1~ ~RING28            29217        12021       -1~
+  REPLACE_TEXTUALLY ~RING29.+3809.+32393.+-1~ ~RING29            32393        -1          -1~
+  REPLACE_TEXTUALLY ~SW1H36.+3155.+12123.+-1~ ~SW1H36            3155         12114       -1~
+  REPLACE_TEXTUALLY ~MISC3A1.+12017.+4731.+-1~ ~MISC3A1           23790        4731        -1~
+  REPLACE_TEXTUALLY ~MISC3A2.+12023.+4731.+-1~ ~MISC3A2           22616        4731        -1~
+  REPLACE_TEXTUALLY ~MISC3A4.+38133.+4731.+-1~ ~MISC3A4           7571         4731        -1~
 
 COPY_EXISTING ~splautop.2da~  ~override/splautop.2da~
   REPLACE_TEXTUALLY ~SPWI114~ ~tempora~
@@ -20238,5 +20455,6 @@ STRING_SET ~25948~ @10185
 STRING_SET ~26242~ @10186
 STRING_SET ~17534~ @10187
 STRING_SET ~38570~ @10188
+STRING_SET ~45867~ @10196
 
-AT_INTERACTIVE_EXIT ~notepad "ImprovedAnvil\Improved Anvil_readme.txt"~
+// AT_INTERACTIVE_EXIT ~VIEW "ImprovedAnvil/Improved Anvil_readme.txt"~

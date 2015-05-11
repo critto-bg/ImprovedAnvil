@@ -282,3 +282,6 @@ Credits:
 
 11- I also wish to thank the creators of WeiDu, Near Infinity, DLTCEP, Shadow Keeper, and ConText Editor for creating those
    excellent tools.
+
+12- Thanks to the authors of Sword and Fist mod for insights and useful knowledge on how to deal with peculiarities of
+    the monk's fist implementation in BG2 ToB
