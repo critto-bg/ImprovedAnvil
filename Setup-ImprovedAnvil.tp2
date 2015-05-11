@@ -17637,14 +17637,24 @@ COPY ~ImprovedAnvil\spl\SPPR724.spl~ ~override/SPPR724.spl~
 
 COPY ~ImprovedAnvil\spl\SPPR609.spl~ ~override/SPPR609.spl~
 
-//Patching spells//
+// Patching spells //
 
 COPY_EXISTING ~spin775.spl~ ~override/spin775.spl~
   SAY NAME1 @358
   WRITE_BYTE  0x27    0xb // secondary type
 
 COPY_EXISTING ~sppr506.spl~ ~override/sppr506.spl~
+  SAY UNIDENTIFIED_DESC @10189
   WRITE_BYTE  0x27      7 // secondary type
+
+  // patch casting time
+  READ_SHORT 0x68 "icount"
+  READ_LONG 0x64 "ioffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%icount%") BEGIN
+    WRITE_SHORT (%ioffset% + ("%it%" * 0x28) + 0x12) 1
+    "it" = "%it%" + 1
+  END
 
 COPY_EXISTING ~melstone.spl~ ~override/melstone.spl~
   WRITE_BYTE  0x27      7 // secondary type
@@ -17745,6 +17755,32 @@ COPY_EXISTING ~SPWI612.spl~ ~override/SPWI612.spl~
 COPY_EXISTING ~SPWI411.spl~ ~override/SPWI411.spl~
   READ_BYTE 0x19 "splflags"
   WRITE_BYTE 0x19 ("%splflags%" BOR 0b00000100)
+
+  // patch "wake on sleep" for Emotion
+  PATCH_IF GAME_IS ~bg2ee~ THEN BEGIN
+      READ_SHORT 0x68 "icount"
+      READ_LONG 0x64 "ioffset"
+      READ_LONG 0x6a "fbtoffset"
+      SET "it" = 0
+
+      WHILE ("%it%" < "%icount%") BEGIN
+        READ_SHORT (%ioffset% + ("%it%" * 0x28) + 0x1e) "fcount"
+        READ_SHORT (%ioffset% + ("%it%" * 0x28) + 0x20) "foffset"
+        SET "of" = 0
+
+        WHILE ("%of%" < "%fcount%") BEGIN
+          READ_SHORT (%fbtoffset% + %foffset% + ("%of%" * 0x30) + 0x00) opcode
+
+          PATCH_IF (opcode = 39) THEN BEGIN
+             WRITE_LONG (%fbtoffset% + %foffset% + ("%of%" * 0x30) + 0x08) 1
+          END
+
+          "of" = "%of%" + 1
+        END
+
+        "it" = "%it%" + 1
+      END
+  END
 
 COPY_EXISTING ~SPWI213.spl~ ~override/SPWI213.spl~
   READ_BYTE 0x19 "splflags"
@@ -19832,6 +19868,14 @@ COPY_EXISTING ~savecng.2da~  ~override/savecng.2da~
   REPLACE_TEXTUALLY ~3~ ~1~
   REPLACE_TEXTUALLY ~4~ ~1~
   REPLACE_TEXTUALLY ~5~ ~1~
+
+ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
+  COPY_EXISTING ~clearair.2da~ ~override/clearair.2da~
+    COUNT_2DA_COLS ~colcount~
+    COUNT_2DA_ROWS ~colcount~ ~rowcount~
+    INSERT_2DA_ROW ~rowcount~ ~colcount~ ~Fire_Storm 228~
+    PRETTY_PRINT_2DA
+END
 
 // Adding kits //
 
