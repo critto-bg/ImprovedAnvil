@@ -6947,7 +6947,7 @@ COPY_EXISTING ~ribald.cre~ ~override/ribald.cre~
    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00000010) // set Unstealable flag
   END
-END
+ END
 
 COPY_EXISTING ~tolger.cre~ ~override/tolger.cre~
  WRITE_ASCII 0x260 ~mage18d~ #8       // general script
@@ -18525,6 +18525,9 @@ PATCH_IF ("%curesoffset%" > "%itemsoffset%") BEGIN WRITE_LONG 0x70 ("%curesoffse
 END
 
 COPY_EXISTING ~ribald.sto~ ~Override/ribald.sto~
+PATCH_IF GAME_IS ~bg2ee~ BEGIN
+  ADD_STORE_ITEM ~BAG06~ LAST #1 #0 #0 ~IDENTIFIED&UNSTEALABLE~ #1
+END
 READ_LONG 0x38 "itemscount"
 PATCH_IF ("%itemscount%" > 0) BEGIN
   READ_LONG 0x2C "purchasedoffset"
@@ -18710,6 +18713,9 @@ PATCH_IF ("%curesoffset%" > "%itemsoffset%") BEGIN WRITE_LONG 0x70 ("%curesoffse
 END
 
 COPY_EXISTING ~roger.sto~ ~Override/roger.sto~
+PATCH_IF GAME_IS ~bg2ee~ BEGIN
+  ADD_STORE_ITEM ~BAG06~ LAST #1 #0 #0 ~IDENTIFIED&UNSTEALABLE~ #1
+END
 WRITE_LONG  0x14   165 // sell price markup
 READ_BYTE  0x10 "stoflags"
 WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
@@ -20091,6 +20097,13 @@ ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
     COUNT_2DA_COLS ~colcount~
     COUNT_2DA_ROWS ~colcount~ ~rowcount~
     INSERT_2DA_ROW ~rowcount~ ~colcount~ ~Fire_Storm 228~
+    INSERT_2DA_ROW ~rowcount~ ~colcount~ ~Incendiary_Cloud 277~
+    PRETTY_PRINT_2DA
+
+  COPY_EXISTING ~contingx.2da~ ~override/contingx.2da~
+    COUNT_2DA_COLS ~colcount~
+    COUNT_2DA_ROWS ~colcount~ ~rowcount~
+    SET_2DA_ENTRY 0 5 ~colcount~ ~SPWI510~
     PRETTY_PRINT_2DA
 END
 
