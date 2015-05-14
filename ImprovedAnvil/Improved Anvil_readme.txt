@@ -130,8 +130,12 @@ Version history:
 
 Version 6.1:
 - New version of WeiDU compiler is adopted
-- Patches introduced to allow for compatibility with BG2EE
-- Readme files are updated to reflect changes made during the adaptation of the mod for BG2EE
+- Numerous patches introduced to allow for compatibility with BG2EE
+- The monk class and its kits are further improved and rebalanced for better performance in IA
+- Neera, the BG2EE NPC, is rebalanced and has a different class assigned to her
+- Numerous bugs and exploits found in IAv6 are fixed
+- New spells and abilities are added to existing classes
+- Readme files are updated to reflect the order of installation for BG2EE
 
 Version 6:
 - More fixes and tweaks are applied to the original game.
