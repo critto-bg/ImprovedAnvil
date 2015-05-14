@@ -142,5 +142,5 @@ END
 
 IF ~~ THEN BEGIN 27
   SAY @4257
-  IF ~~ THEN DO ~SetGlobal("Iaoldonejob","GLOBAL",1) DestroySelf()~ EXIT
+  IF ~~ THEN DO ~SetGlobal("Iaoldonejob","GLOBAL",1) ActionOverride(Player1,Face(7)) DestroySelf()~ EXIT
 END
