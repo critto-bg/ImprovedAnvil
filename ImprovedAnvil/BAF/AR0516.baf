@@ -108,3 +108,30 @@ THEN
       ActionOverride("Moss 1",CreateItem("misc07",5678,0,0)) //
       ActionOverride("Moss 1",CreateItem("Staf15",0,10,20)) //
 END
+
+IF
+   InMyArea(Player1)
+   Global("Ialegacybook","GLOBAL",0)
+   Global("Iafmc","AR0516",0)
+   OR(6)
+     Class(Player1,FIGHTER_MAGE_CLERIC)
+     Class(Player2,FIGHTER_MAGE_CLERIC)
+     Class(Player3,FIGHTER_MAGE_CLERIC)
+     Class(Player4,FIGHTER_MAGE_CLERIC)
+     Class(Player5,FIGHTER_MAGE_CLERIC)
+     Class(Player6,FIGHTER_MAGE_CLERIC)
+THEN
+   RESPONSE #100
+      SetGlobal("Iafmc","AR0516",1)
+      SetGlobal("Ialegacybook","GLOBAL",1)
+END
+
+IF
+   InMyArea(Player1)
+   Global("Ialegacybook","GLOBAL",0)
+   Global("Iafmc","AR0516",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iafmc","AR0516",1)
+      SetGlobal("Ialegacybook","GLOBAL",2)
+END

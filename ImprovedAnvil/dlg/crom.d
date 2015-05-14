@@ -38,7 +38,7 @@ REPLACE WSMITH01
               PartyHasItem("belt02")~
       THEN REPLY @32 GOTO girdle
     IF ~OR(2) PartyHasItem("chan15")
-              PartyHasItem("chan10")~ 
+              PartyHasItem("chan10")~
       THEN REPLY @33 GOTO bard
     IF ~OR(4) PartyHasItem("amul20")
               PartyHasItem("amul22")
@@ -817,7 +817,7 @@ APPEND WSMITH01
           GiveItemCreate("S!boot02",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
-  
+
   IF ~~ THEN BEGIN dagg1
     SAY @83 IF ~~ THEN REPLY @2 GOTO 13
     IF ~NumItemsPartyGT("dagg02",1) PartyHasItem("misc42")
@@ -830,7 +830,7 @@ APPEND WSMITH01
           GiveItemCreate("dagg15",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
-  
+
   IF ~~ THEN BEGIN dagg2
     SAY @85 IF ~~ THEN REPLY @2 GOTO 13
     IF ~PartyHasItem("dagg15") PartyHasItem("scrl6m") PartyHasItem("S!misc02")
@@ -843,7 +843,7 @@ APPEND WSMITH01
           GiveItemCreate("dagg24",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
-  
+
   IF ~~ THEN BEGIN dagg3
     SAY @87 IF ~~ THEN REPLY @2 GOTO 13
     IF ~NumItemsPartyGT("dagg24",1) PartyHasItem("nebdag") PartyHasItem("S!misc06") NumItemsPartyGT("misc42",2)
@@ -860,7 +860,7 @@ APPEND WSMITH01
           GiveItemCreate("S!dagg01",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
-  
+
   IF ~~ THEN BEGIN dagg4
     SAY @89 IF ~~ THEN REPLY @2 GOTO 13
     IF ~Global("Iakeepdagg21","GLOBAL",1) Global("Iadagg02forged","GLOBAL",0) PartyHasItem("S!dagg01") PartyHasItem("dagg21") NumItemsPartyGT("misc42",3)
@@ -877,7 +877,7 @@ APPEND WSMITH01
           GiveItemCreate("S!dagg02",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
-  
+
   IF ~~ THEN BEGIN r5
     SAY @91 IF ~~ THEN REPLY @2 GOTO 13
     IF ~PartyHasItem("ring18") PartyHasItem("scrl8t") PartyHasItem("S!misc02")
@@ -890,7 +890,7 @@ APPEND WSMITH01
           GiveItemCreate("ring26",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
-  
+
   IF ~~ THEN BEGIN r6
     SAY @93 IF ~~ THEN REPLY @2 GOTO 13
     IF ~Global("Iaring04forged","GLOBAL",0) PartyHasItem("misc3c") PartyHasItem("plot03f") PartyHasItem("ring26") PartyHasItem("S!misc06") PartyHasItem("ring28")
@@ -906,7 +906,7 @@ APPEND WSMITH01
           GiveItemCreate("S!ring04",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
-  
+
   IF ~~ THEN BEGIN horn
     SAY @95 IF ~~ THEN REPLY @2 GOTO 13
     IF ~PartyHasItem("misc3k") NumItemsPartyGT("misc44",1) NumItemsPartyGT("misc42",1) PartyHasItem("dwdust")
@@ -922,7 +922,7 @@ APPEND WSMITH01
           GiveItemCreate("S!misc10",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
-  
+
   IF ~~ THEN BEGIN fla1
     SAY @97 IF ~~ THEN REPLY @2 GOTO 13
     IF ~NumItemsPartyGT("misc43",1) NumItemsPartyGT("blun03",1)
@@ -949,7 +949,7 @@ APPEND WSMITH01
           GiveItemCreate("blun32",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
-  
+
   IF ~~ THEN BEGIN tree
     SAY @501 IF ~~ THEN REPLY @2 GOTO 13
     IF ~PartyHasItem("scrl98") PartyHasItem("blun10") PartyHasItem("S!misc02") PartyHasItem("blun22")
@@ -995,7 +995,7 @@ APPEND WSMITH01
           GiveItemCreate("S!robe02",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
-  
+
   IF ~~ THEN BEGIN halb2
     SAY @507 IF ~~ THEN REPLY @2 GOTO 13
     IF ~PartyHasItem("halb03") PartyHasItem("scrl6m") PartyHasItem("S!misc02")
@@ -1008,7 +1008,7 @@ APPEND WSMITH01
           GiveItemCreate("halb12",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
-  
+
   IF ~~ THEN BEGIN halb3
     SAY @509 IF ~~ THEN REPLY @2 GOTO 13
     IF ~Global("Iakpvipedead","GLOBAL",1) PartyHasItem("halb12") PartyHasItem("halb08") PartyHasItem("halb09") PartyHasItem("ax1h13") PartyHasItem("scrl04") PartyHasItem("S!misc02") PartyHasItem("misc33") PartyHasItem("misc36") PartyHasItem("misc39")
@@ -1027,7 +1027,7 @@ APPEND WSMITH01
           GiveItemCreate("S!halb02",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
-  
+
   IF ~~ THEN BEGIN ioun
     SAY @511 IF ~~ THEN REPLY @2 GOTO 13
     IF ~PartyHasItem("helm18") PartyHasItem("helm19") PartyHasItem("helm20") NumItemsPartyGT("misc29",2) NumItemsPartyGT("misc26",2)
@@ -1046,7 +1046,7 @@ APPEND WSMITH01
           GiveItemCreate("S!helm01",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
-  
+
   IF ~~ THEN BEGIN helm
     SAY @513 IF ~~ THEN REPLY @2 GOTO 13
     IF ~Global("Iahelm04place","GLOBAL",4) PartyHasItem("helm21") PartyHasItem("helm04") NumItemsPartyGT("misc16",2)
@@ -1061,7 +1061,7 @@ APPEND WSMITH01
           GiveItemCreate("S!helm02",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
-  
+
   IF ~~ THEN BEGIN bastard
     SAY @515 IF ~~ THEN REPLY @2 GOTO 13
     IF ~PartyHasItem("sw1h42") PartyHasItem("scrl6m") PartyHasItem("S!misc02")
@@ -1074,7 +1074,7 @@ APPEND WSMITH01
           GiveItemCreate("sw1h72",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
-  
+
   IF ~~ THEN BEGIN cuts
     SAY @517 IF ~~ THEN REPLY @2 GOTO 13
     IF ~Global("Iasw13forged","GLOBAL",0) Global("Iagemgained","GLOBAL",1) Dead("S!vipe1") PartyHasItem("sw1h38") PartyHasItem("sw1h72") PartyHasItem("S!misc21")
@@ -1088,7 +1088,7 @@ APPEND WSMITH01
           GiveItemCreate("S!sw13",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
-  
+
   IF ~~ THEN BEGIN halb4
     SAY @519 IF ~~ THEN REPLY @2 GOTO 13
     IF ~NumItemsPartyGT("halb02",1) PartyHasItem("misc43")
@@ -1101,7 +1101,7 @@ APPEND WSMITH01
           GiveItemCreate("halb03",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
-  
+
   IF ~~ THEN BEGIN cloud
     SAY @521 IF ~~ THEN REPLY @2 GOTO 13
     IF ~PartyHasItem("S!misc13") PartyHasItem("S!misc02") NumItemsPartyGT("potn06",2) NumItemsPartyGT("misc21",2) PartyHasItem("belt01")
@@ -1120,7 +1120,7 @@ APPEND WSMITH01
           GiveItemCreate("S!belt02",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
-  
+
   IF ~~ THEN BEGIN lei
     SAY @523 IF ~~ THEN REPLY @2 GOTO 13
     IF ~PartyHasItem("S!amul01") PartyHasItem("S!misc14") NumItemsPartyGT("amul14",2) NumItemsPartyGT("amul05",2)
@@ -1138,7 +1138,7 @@ APPEND WSMITH01
           GiveItemCreate("S!amul03",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
-  
+
   IF ~~ THEN BEGIN circlet
     SAY @525 IF ~~ THEN REPLY @2 GOTO 13
     IF ~PartyHasItem("S!helm03") PartyHasItem("S!misc01") PartyHasItem("S!misc14")
@@ -1172,7 +1172,7 @@ APPEND WSMITH01
           GiveItemCreate("S!brac01",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
-  
+
   IF ~~ THEN BEGIN vorpal
     SAY @529 IF ~~ THEN REPLY @2 GOTO 13
     IF ~PartyHasItem("sw2h15") PartyHasItem("sw2h16") PartyHasItem("S!misc06") NumItemsPartyGT("sw2h20",2) NumItemsPartyGT("misc42",3)
@@ -1192,7 +1192,7 @@ APPEND WSMITH01
           GiveItemCreate("S!sw14",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
-  
+
   IF ~~ THEN BEGIN rimed
     SAY @531 IF ~~ THEN REPLY @2 GOTO 13
     IF ~PartyHasItem("blun31") PartyHasItem("plot03i") PartyHasItem("compon18") PartyHasItem("wand06") PartyHasItem("misc33")
@@ -1207,7 +1207,7 @@ APPEND WSMITH01
           GiveItemCreate("S!blun02",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
-  
+
   IF ~~ THEN BEGIN thsword
     SAY @533 IF ~~ THEN REPLY @2 GOTO 13
     IF ~PartyHasItem("sw2h11") PartyHasItem("scrl6m") PartyHasItem("S!misc02")
@@ -1220,7 +1220,7 @@ APPEND WSMITH01
           GiveItemCreate("sw2h20",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
-  
+
   IF ~~ THEN BEGIN ankheg
     SAY @535 IF ~~ THEN REPLY @2 GOTO 13
     IF ~PartyHasItem("plat06") PartyHasItem("S!misc12") PartyHasItem("plat13") NumItemsPartyGT("misc20",2) NumItemsPartyGT("misc16",2)
@@ -1239,7 +1239,7 @@ APPEND WSMITH01
           GiveItemCreate("S!plat03",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
-  
+
   IF ~~ THEN BEGIN potion
     SAY @537 IF ~~ THEN REPLY @2 GOTO 13
     IF ~PartyHasItem("S!misc15") PartyHasItem("S!misc06")
@@ -1251,7 +1251,7 @@ APPEND WSMITH01
           GiveItemCreate("S!potn01",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
-  
+
   IF ~~ THEN BEGIN r7
     SAY @539 IF ~~ THEN REPLY @2 GOTO 13
     IF ~PartyHasItem("ring35") PartyHasItem("brac17") PartyHasItem("ring36") PartyHasItem("ring06") NumItemsPartyGT("misc45",1)
@@ -1267,7 +1267,7 @@ APPEND WSMITH01
           GiveItemCreate("S!ring05",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
-  
+
   IF ~~ THEN BEGIN buckler
     SAY @541 IF ~~ THEN REPLY @2 GOTO 13
     IF ~NumItemsPartyGT("shld17",2) NumItemsPartyGT("misc45",2) NumItemsPartyGT("misc43",2) NumItemsPartyGT("misc33",2)
@@ -1289,7 +1289,7 @@ APPEND WSMITH01
           GiveItemCreate("S!shld03",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
-  
+
   IF ~~ THEN BEGIN ms1
     SAY @543 IF ~~ THEN REPLY @2 GOTO 13
     IF ~PartyHasItem("blun15") PartyHasItem("scrl6m") PartyHasItem("S!misc02")
@@ -1302,7 +1302,7 @@ APPEND WSMITH01
           GiveItemCreate("blun34",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
-  
+
   IF ~~ THEN BEGIN ms2
     SAY @545 IF ~~ THEN REPLY @2 GOTO 13
     IF ~NumItemsPartyGT("blun34",1) NumItemsPartyGT("potn07",2) PartyHasItem("S!misc02") PartyHasItem("blun19")
@@ -1320,7 +1320,7 @@ APPEND WSMITH01
           GiveItemCreate("S!blun03",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
-  
+
   IF ~~ THEN BEGIN cloak1
     SAY @547 IF ~~ THEN REPLY @2 GOTO 13
     IF ~NumItemsPartyGT("clck01",1) PartyHasItem("amul12")
@@ -1333,7 +1333,7 @@ APPEND WSMITH01
           GiveItemCreate("clck02",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
-  
+
   IF ~~ THEN BEGIN cloak2
     SAY @549 IF ~~ THEN REPLY @2 GOTO 13
     IF ~NumItemsPartyGT("clck02",1) NumItemsPartyGT("amul12",1)
@@ -1347,7 +1347,7 @@ APPEND WSMITH01
           GiveItemCreate("S!clck02",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
-  
+
   IF ~~ THEN BEGIN rod
     SAY @551 IF ~~ THEN REPLY @2 GOTO 13
     IF ~PartyHasItem("rods04") PartyHasItem("scrl5i") PartyHasItem("S!misc02") PartyHasItem("staf24") PartyHasItem("staf19") PartyHasItem("S!misc06") NumItemsPartyGT("S!scrl01",2)
@@ -1366,7 +1366,7 @@ APPEND WSMITH01
           GiveItemCreate("S!staf05",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
-  
+
   IF ~~ THEN BEGIN quarter
     SAY @553 IF ~~ THEN REPLY @2 GOTO 13
     IF ~PartyHasItem("staf18") PartyHasItem("scrl6m") PartyHasItem("S!misc02")
@@ -1379,10 +1379,10 @@ APPEND WSMITH01
           GiveItemCreate("staf24",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
-  
+
   IF ~~ THEN BEGIN elf
     SAY @555 IF ~~ THEN REPLY @2 GOTO 13
-    IF ~Class(Player1,FIGHTER_MAGE_CLERIC) PartyHasItem("S!misc16") PartyHasItem("S!misc06") NumItemsPartyGT("misc44",1)
+    IF ~Global("Ialegacybook","GLOBAL",1) PartyHasItem("S!misc16") PartyHasItem("S!misc06") NumItemsPartyGT("misc44",1)
         PartyGoldGT(49999)~
       THEN REPLY @3
       DO ~TakePartyGold(50000)      DestroyGold(50000)
@@ -1393,7 +1393,7 @@ APPEND WSMITH01
           GiveItemCreate("S!potn02",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
-  
+
   IF ~~ THEN BEGIN long
     SAY @557 IF ~~ THEN REPLY @2 GOTO 13
     IF ~PartyHasItem("sw1h41") PartyHasItem("S!misc02") PartyHasItem("scrl6m")
@@ -1426,7 +1426,7 @@ APPEND WSMITH01
           GiveItemCreate("S!helm05",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
-  
+
   IF ~~ THEN BEGIN janc
     SAY @561 IF ~~ THEN REPLY @2 GOTO 13
     IF ~PartyHasItem("xbow12") PartyHasItem("xbow06") PartyHasItem("scrl7r") PartyHasItem("S!misc02") NumItemsPartyGT("scrl95",1)
@@ -1442,7 +1442,7 @@ APPEND WSMITH01
           GiveItemCreate("S!janbow",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
-  
+
   IF ~~ THEN BEGIN throat
     SAY @563 IF ~~ THEN REPLY @2 GOTO 13
     IF ~PartyHasItem("sw1h28") PartyHasItem("sw1h25") PartyHasItem("sw1h74") PartyHasItem("sw1h73") NumItemsPartyGT("misc42",3) NumItemsPartyGT("misc20",3)
@@ -1464,7 +1464,7 @@ APPEND WSMITH01
           GiveItemCreate("S!sw15",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
-  
+
   IF ~~ THEN BEGIN spider
     SAY @565 IF ~~ THEN REPLY @2 GOTO 13
     IF ~Global("Iaspideqdead","GLOBAL",1) PartyHasItem("misc3e") PartyHasItem("S!misc18") PartyHasItem("S!misc06")
@@ -1508,7 +1508,7 @@ APPEND WSMITH01
           GiveItemCreate("S!potn03",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
-  
+
   IF ~~ THEN BEGIN ttruth
     SAY @571 IF ~~ THEN REPLY @2 GOTO 13
     IF ~Global("Iattforged","GLOBAL",0) PartyHasItem("S!misc30") PartyHasItem("S!misc31") PartyHasItem("S!misc06") PartyHasItem("misc6m")
@@ -1523,7 +1523,7 @@ APPEND WSMITH01
           GiveItemCreate("S!sw16",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
-  
+
   IF ~~ THEN BEGIN vagran
     SAY @573 IF ~~ THEN REPLY @2 GOTO 13
     IF ~Global("Iacoralforged","GLOBAL",0) Class(Player1,RANGER_ALL) Global("Iamvagrant","GLOBAL",1) PartyHasItem("S!leat04") PartyHasItem("S!misc34") PartyHasItem("S!clck03")
@@ -1537,7 +1537,7 @@ APPEND WSMITH01
           GiveItemCreate("S!leat05",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
-  
+
   IF ~~ THEN BEGIN keldorn
     SAY @575 IF ~~ THEN REPLY @2 GOTO 13
     IF ~Global("Iaplat04forged","GLOBAL",0) Reputation(Player1,20) PartyHasItem("npplat") PartyHasItem("belt10") PartyHasItem("plat17") PartyHasItem("S!misc06") NumItemsPartyGT("misc6z",2) NumItemsPartyGT("misc41",4)
@@ -1560,7 +1560,7 @@ APPEND WSMITH01
           GiveItemCreate("S!plat04",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
-  
+
   IF ~~ THEN BEGIN wyrm
     SAY @577 IF ~~ THEN REPLY @2 GOTO 13
     IF ~Global("Iagrplatforged","GLOBAL",0) PartyHasItem("S!scaleg") Dead("S!draggr") !Alignment(Player1,MASK_EVIL) !GlobalGT("Iap1notgood","GLOBAL",0) XPGT(Player1,4249999) GlobalGT("Iadraggrdead","GLOBAL",0)
@@ -1572,7 +1572,7 @@ APPEND WSMITH01
           GiveItemCreate("S!plat05",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
-  
+
   IF ~~ THEN BEGIN ancient
     SAY @579 IF ~~ THEN REPLY @2 GOTO 13
     IF ~Global("Iaplat06forged","GLOBAL",0) PartyHasItem("S!scaler") Dead("fsdragon") Global("Iaancientdead","GLOBAL",1)
@@ -1584,7 +1584,7 @@ APPEND WSMITH01
           GiveItemCreate("S!plat06",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
-  
+
   IF ~~ THEN BEGIN longf
     SAY @581 IF ~~ THEN REPLY @2 GOTO 13
     IF ~Global("Ialongfforged","GLOBAL",0) Global("Iaspideqdead","GLOBAL",1) Dead("S!spideq") GlobalGT("VanyaJob","GLOBAL",1) NumItemsPartyGT("sw1h73",2) PartyHasItem("scrla4") PartyHasItem("S!misc02") NumItemsPartyGT("S!scrl03",2)
@@ -1603,7 +1603,7 @@ APPEND WSMITH01
           GiveItemCreate("S!sw17",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
-  
+
   IF ~~ THEN BEGIN necro
     SAY @583 IF ~~ THEN REPLY @2 GOTO 13
     IF ~PartyHasItem("S!amul04") PartyHasItem("S!misc06") PartyHasItem("amul21") PartyHasItem("amul16") PartyHasItem("S!scrl21") PartyHasItem("S!misc02")
@@ -1619,7 +1619,7 @@ APPEND WSMITH01
           GiveItemCreate("S!amul05",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
-  
+
   IF ~~ THEN BEGIN hamm1
     SAY @585 IF ~~ THEN REPLY @2 GOTO 13
     IF ~PartyHasItem("hamm08") PartyHasItem("scrl6m") PartyHasItem("S!misc02")
@@ -1632,7 +1632,7 @@ APPEND WSMITH01
           GiveItemCreate("hamm12",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
-  
+
   IF ~~ THEN BEGIN staff1
     SAY @587 IF ~~ THEN REPLY @2 GOTO 13
     IF ~PartyHasItem("staf24") PartyHasItem("staf05") NumItemsPartyGT("potn12",2) PartyHasItem("S!misc02")
@@ -1648,7 +1648,7 @@ APPEND WSMITH01
           GiveItemCreate("S!staf06",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
-  
+
   IF ~~ THEN BEGIN staff2
     SAY @589 IF ~~ THEN REPLY @2 GOTO 13
     IF ~GlobalGT("Chapter","GLOBAL",5) Global("Iarynnplace","GLOBAL",5) Global("Iastaf07forged","GLOBAL",0) PartyHasItem("S!staf06") PartyHasItem("staf20") NumItemsPartyGT("dwdust",1) PartyHasItem("S!misc02") PartyHasItem("S!scrl07") PartyHasItem("scrlb2")
@@ -1666,7 +1666,7 @@ APPEND WSMITH01
           GiveItemCreate("S!staf07",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
-  
+
   IF ~~ THEN BEGIN arcane
     SAY @591 IF ~~ THEN REPLY @2 GOTO 13
     IF ~GlobalGT("Chapter","GLOBAL",5) GlobalGT("Iaoldonejob","GLOBAL",3) Dead("S!BOLICH") PartyHasItem("S!clck04") PartyHasItem("S!clck06") PartyHasItem("S!clck02")
@@ -1679,7 +1679,7 @@ APPEND WSMITH01
           GiveItemCreate("S!clck07",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
-  
+
   IF ~~ THEN BEGIN scarlet
     SAY @593 IF ~~ THEN REPLY @2 GOTO 13
     IF ~Global("Iahelm08forged","GLOBAL",0) GlobalGT("Chapter","GLOBAL",5) GlobalGT("Ialavokjob","GLOBAL",4) GlobalGT("Iaoldsquijob","GLOBAL",3) GlobalGT("Iasquirjob","GLOBAL",8) PartyHasItem("S!helm06") PartyHasItem("S!helm07") PartyHasItem("S!misc45")
@@ -1693,7 +1693,7 @@ APPEND WSMITH01
           GiveItemCreate("S!helm08",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
-  
+
   IF ~~ THEN BEGIN necro2
     SAY @595 IF ~~ THEN REPLY @2 GOTO 13
     IF ~Global("Iaamul06forged","GLOBAL",0) Class(Player1,MAGE_ALL) CheckStat(Player1,6,SCRIPTINGSTATE1) !Class(Player1,THIEF_ALL) !Class(Player1,FIGHTER_ALL) !Class(Player1,CLERIC_ALL) !Class(Player1,SORCERER) PartyHasItem("S!amul05") Global("Iahespforged","GLOBAL",0) Dead("S!orcus") GlobalGT("Iaorcusdead","GLOBAL",0) PartyHasItem("S!misc06") PartyHasItem("S!misc29")
@@ -1707,7 +1707,7 @@ APPEND WSMITH01
           GiveItemCreate("S!amul06",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
-  
+
   IF ~~ THEN BEGIN swash
     SAY @597 IF ~~ THEN REPLY @2 GOTO 13
     IF ~Global("Ialeat06forged","GLOBAL",0) Global("Iamisc60found","GLOBAL",1) Dead("TELWRAI") PartyHasItem("S!misc60") PartyHasItem("leat09") PartyHasItem("potn37") PartyHasItem("S!misc02")
