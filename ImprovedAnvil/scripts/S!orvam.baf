@@ -2,11 +2,13 @@ IF
   Allegiance(Myself,ENEMY)
   !HPLT(Myself,1)
   !GlobalTimerNotExpired("Iavamps","LOCALS")
+  GlobalLT("Iasummoned","LOCALS",4)
   See(NearestEnemyOf(Myself))
   RandomNumGT(4,2)
 THEN
   RESPONSE #100
     SetGlobalTimer("Iavamps","LOCALS",42)
+    IncrementGlobal("Iasummoned","LOCALS",1)
     CreateCreatureObject("nevm4",Myself,0,0,0) //
     CreateCreatureObject("nevm4",Myself,0,0,0) //
     CreateCreatureObject("nevm4",Myself,0,0,0) //
@@ -16,12 +18,42 @@ IF
   Allegiance(Myself,ENEMY)
   !HPLT(Myself,1)
   !GlobalTimerNotExpired("Iavamps","LOCALS")
+  GlobalLT("Iasummoned","LOCALS",4)
   See(NearestEnemyOf(Myself))
 THEN
   RESPONSE #100
     SetGlobalTimer("Iavamps","LOCALS",42)
+    IncrementGlobal("Iasummoned","LOCALS",1)
     CreateCreatureObject("nevm4",Myself,0,0,0) //
     CreateCreatureObject("nevm4",Myself,0,0,0) //
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !HPLT(Myself,1)
+  !GlobalTimerNotExpired("Iavamps","LOCALS")
+  Global("Iasummoned","LOCALS",4)
+  See(NearestEnemyOf(Myself))
+  RandomNumGT(4,2)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iavamps","LOCALS",42)
+    CreateCreatureObject("S!nevm1",Myself,0,0,0) //
+    CreateCreatureObject("S!nevm1",Myself,0,0,0) //
+    CreateCreatureObject("S!nevm1",Myself,0,0,0) //
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !HPLT(Myself,1)
+  !GlobalTimerNotExpired("Iavamps","LOCALS")
+  Global("Iasummoned","LOCALS",4)
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iavamps","LOCALS",42)
+    CreateCreatureObject("S!nevm1",Myself,0,0,0) //
+    CreateCreatureObject("S!nevm1",Myself,0,0,0) //
 END
 
 IF
@@ -49,7 +81,7 @@ IF
   !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
   !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE1)
   !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE4)
-  !HasItemEquiped("S!sw06",LastSeenBy(Myself))
+  !HasItemEquipedReal("S!sw06",LastSeenBy(Myself))
   !HasItemEquiped("S!skelsu",LastSeenBy(Myself))
   !HasItemEquiped("S!swansu",LastSeenBy(Myself))
   !HasItemEquiped("S!gswan",LastSeenBy(Myself))
@@ -74,7 +106,7 @@ IF
   !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
   !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE1)
   !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE4)
-  !HasItemEquiped("S!sw06",LastSeenBy(Myself))
+  !HasItemEquipedReal("S!sw06",LastSeenBy(Myself))
   !HasItemEquiped("S!skelsu",LastSeenBy(Myself))
   !HasItemEquiped("S!swansu",LastSeenBy(Myself))
   !HasItemEquiped("S!gswan",LastSeenBy(Myself))
@@ -96,7 +128,7 @@ IF
   !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
   !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE1)
   !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE4)
-  !HasItemEquiped("S!sw06",LastSeenBy(Myself))
+  !HasItemEquipedReal("S!sw06",LastSeenBy(Myself))
   !HasItemEquiped("S!skelsu",LastSeenBy(Myself))
   !HasItemEquiped("S!swansu",LastSeenBy(Myself))
   !HasItemEquiped("S!gswan",LastSeenBy(Myself))
@@ -118,7 +150,7 @@ IF
   !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
   !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE1)
   !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE4)
-  !HasItemEquiped("S!sw06",LastSeenBy(Myself))
+  !HasItemEquipedReal("S!sw06",LastSeenBy(Myself))
   !HasItemEquiped("S!skelsu",LastSeenBy(Myself))
   !HasItemEquiped("S!swansu",LastSeenBy(Myself))
   !HasItemEquiped("S!gswan",LastSeenBy(Myself))
