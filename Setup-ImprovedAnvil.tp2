@@ -120,7 +120,7 @@ ACTION_IF GAME_IS ~BG2EE~ THEN BEGIN
   APPEND ~animate.ids~ ~0xE0F0 IC_ICE_GOLEM~ UNLESS ~\bIC_ICE_GOLEM\b~
 END
 
-//Copying items//
+// Copying items //
 
 COPY ~ImprovedAnvil/itm/S!ring01.itm~      ~override/S!ring01.itm~
   SAY NAME2     @100
@@ -2553,7 +2553,7 @@ COPY_EXISTING ~mfist8.itm~ ~override/mfist10.itm~
   END
   BUT_ONLY_IF_IT_CHANGES
 
-//Copying creatures//
+// Copying creatures //
 
 COPY ~ImprovedAnvil/cre/S!djinn.cre~         ~override/S!djinn.cre~
   SAY NAME1     @400
@@ -4451,7 +4451,7 @@ COPY ~ImprovedAnvil/cre/S!blockm.cre~         ~override/S!blockm.cre~
 
 COPY ~ImprovedAnvil/cre/S!spy8.cre~         ~override/S!spy8.cre~
 
-//Patching creatures//
+// Patching creatures //
 
 COPY_EXISTING ~shadra01.cre~ ~override/shadra01.cre~
   WRITE_LONG  0x14   57500 // xp
@@ -5627,7 +5627,6 @@ END
     WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
    END
 END
-
 
 COPY_EXISTING ~sahpr2.cre~ ~override/sahpr2.cre~
   WRITE_LONG  0x14   17500 // xp
@@ -12674,7 +12673,164 @@ COPY_EXISTING ~elearg01.cre~ ~override/elearg01.cre~
   WRITE_LONG  0x14       0 // xp
   WRITE_BYTE  0x234     20 // level
 
-//Compiling scripts//
+ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
+    COPY_EXISTING ~neera8.cre~ ~Override/neera8.cre~
+      WRITE_SHORT 0x24 44 // current HP
+      WRITE_SHORT 0x26 44 // max HP
+      WRITE_BYTE  0x238 11 // strength
+      WRITE_BYTE  0x239 0 // strength % bonus
+      WRITE_BYTE  0x23a 10 // intelligence
+      WRITE_BYTE  0x23b 18 // wisdom
+      WRITE_BYTE  0x23c 14 // dexterity
+      WRITE_BYTE  0x23d 16 // constitution
+      WRITE_BYTE  0x23e 11 // charisma
+      WRITE_LONG 0x244 0x00 // no kit
+      WRITE_BYTE  0x273 0x13 // class sorcerer
+
+      REMOVE_KNOWN_SPELLS
+      REMOVE_MEMORIZED_SPELLS
+
+      ADD_KNOWN_SPELL ~SPWI110~ #0 ~wizard~
+      ADD_KNOWN_SPELL ~SPWI112~ #0 ~wizard~
+      ADD_KNOWN_SPELL ~SPWI118~ #0 ~wizard~
+      ADD_KNOWN_SPELL ~SPWI119~ #0 ~wizard~
+      ADD_KNOWN_SPELL ~SPWI124~ #0 ~wizard~
+      ADD_KNOWN_SPELL ~SPWI201~ #1 ~wizard~
+      ADD_KNOWN_SPELL ~SPWI207~ #1 ~wizard~
+      ADD_KNOWN_SPELL ~SPWI211~ #1 ~wizard~
+      ADD_KNOWN_SPELL ~SPWI212~ #1 ~wizard~
+      ADD_KNOWN_SPELL ~SPWI302~ #2 ~wizard~
+      ADD_KNOWN_SPELL ~SPWI303~ #2 ~wizard~
+      ADD_KNOWN_SPELL ~SPWI314~ #2 ~wizard~
+      ADD_KNOWN_SPELL ~SPWI408~ #3 ~wizard~
+      ADD_KNOWN_SPELL ~SPWI412~ #3 ~wizard~
+
+      ADD_MEMORIZED_SPELL ~SPWI110~ #0 ~wizard~ ( 6 )
+      ADD_MEMORIZED_SPELL ~SPWI112~ #0 ~wizard~ ( 6 )
+      ADD_MEMORIZED_SPELL ~SPWI118~ #0 ~wizard~ ( 6 )
+      ADD_MEMORIZED_SPELL ~SPWI119~ #0 ~wizard~ ( 6 )
+      ADD_MEMORIZED_SPELL ~SPWI124~ #0 ~wizard~ ( 6 )
+
+      ADD_MEMORIZED_SPELL ~SPWI201~ #1 ~wizard~ ( 6 )
+      ADD_MEMORIZED_SPELL ~SPWI207~ #1 ~wizard~ ( 6 )
+      ADD_MEMORIZED_SPELL ~SPWI211~ #1 ~wizard~ ( 6 )
+      ADD_MEMORIZED_SPELL ~SPWI212~ #1 ~wizard~ ( 6 )
+
+      ADD_MEMORIZED_SPELL ~SPWI302~ #2 ~wizard~ ( 6 )
+      ADD_MEMORIZED_SPELL ~SPWI303~ #2 ~wizard~ ( 6 )
+      ADD_MEMORIZED_SPELL ~SPWI314~ #2 ~wizard~ ( 6 )
+
+      ADD_MEMORIZED_SPELL ~SPWI408~ #3 ~wizard~ ( 4 )
+      ADD_MEMORIZED_SPELL ~SPWI412~ #3 ~wizard~ ( 4 )
+
+    COPY_EXISTING ~neera8.cre~ ~Override/neera10.cre~
+    COPY_EXISTING ~neera8.cre~ ~Override/neera11.cre~
+    COPY_EXISTING ~neera8.cre~ ~Override/neera12.cre~
+    COPY_EXISTING ~neera8.cre~ ~Override/neera13.cre~
+
+    COPY_EXISTING ~neera15.cre~ ~Override/neera15.cre~
+      WRITE_SHORT 0x24 51 // current HP
+      WRITE_SHORT 0x26 51 // max HP
+      WRITE_BYTE  0x238 11 // strength
+      WRITE_BYTE  0x239 0 // strength % bonus
+      WRITE_BYTE  0x23a 10 // intelligence
+      WRITE_BYTE  0x23b 18 // wisdom
+      WRITE_BYTE  0x23c 14 // dexterity
+      WRITE_BYTE  0x23d 16 // constitution
+      WRITE_BYTE  0x23e 11 // charisma
+      WRITE_LONG 0x244 0x00 // no kit
+      WRITE_BYTE  0x273 0x13 // class sorcerer
+
+      REMOVE_KNOWN_SPELLS
+      REMOVE_MEMORIZED_SPELLS
+
+      ADD_KNOWN_SPELL ~SPWI110~ #0 ~wizard~
+      ADD_KNOWN_SPELL ~SPWI112~ #0 ~wizard~
+      ADD_KNOWN_SPELL ~SPWI118~ #0 ~wizard~
+      ADD_KNOWN_SPELL ~SPWI119~ #0 ~wizard~
+      ADD_KNOWN_SPELL ~SPWI124~ #0 ~wizard~
+
+      ADD_KNOWN_SPELL ~SPWI201~ #1 ~wizard~
+      ADD_KNOWN_SPELL ~SPWI207~ #1 ~wizard~
+      ADD_KNOWN_SPELL ~SPWI210~ #1 ~wizard~
+      ADD_KNOWN_SPELL ~SPWI211~ #1 ~wizard~
+      ADD_KNOWN_SPELL ~SPWI212~ #1 ~wizard~
+
+      ADD_KNOWN_SPELL ~SPWI302~ #2 ~wizard~
+      ADD_KNOWN_SPELL ~SPWI303~ #2 ~wizard~
+      ADD_KNOWN_SPELL ~SPWI314~ #2 ~wizard~
+      ADD_KNOWN_SPELL ~SPWI319~ #2 ~wizard~
+
+      ADD_KNOWN_SPELL ~SPWI408~ #3 ~wizard~
+      ADD_KNOWN_SPELL ~SPWI412~ #3 ~wizard~
+      ADD_KNOWN_SPELL ~SPWI413~ #3 ~wizard~
+      ADD_KNOWN_SPELL ~SPWI420~ #3 ~wizard~
+
+      ADD_KNOWN_SPELL ~SPWI513~ #4 ~wizard~
+      ADD_KNOWN_SPELL ~SPWI510~ #4 ~wizard~
+      ADD_KNOWN_SPELL ~SPWI514~ #4 ~wizard~
+
+      ADD_KNOWN_SPELL ~SPWI613~ #5 ~wizard~
+      ADD_KNOWN_SPELL ~SPWI602~ #5 ~wizard~
+
+      ADD_MEMORIZED_SPELL ~SPWI110~ #0 ~wizard~ ( 6 )
+      ADD_MEMORIZED_SPELL ~SPWI112~ #0 ~wizard~ ( 6 )
+      ADD_MEMORIZED_SPELL ~SPWI118~ #0 ~wizard~ ( 6 )
+      ADD_MEMORIZED_SPELL ~SPWI119~ #0 ~wizard~ ( 6 )
+      ADD_MEMORIZED_SPELL ~SPWI124~ #0 ~wizard~ ( 6 )
+
+      ADD_MEMORIZED_SPELL ~SPWI201~ #1 ~wizard~ ( 6 )
+      ADD_MEMORIZED_SPELL ~SPWI207~ #1 ~wizard~ ( 6 )
+      ADD_MEMORIZED_SPELL ~SPWI210~ #1 ~wizard~ ( 6 )
+      ADD_MEMORIZED_SPELL ~SPWI211~ #1 ~wizard~ ( 6 )
+      ADD_MEMORIZED_SPELL ~SPWI212~ #1 ~wizard~ ( 6 )
+
+      ADD_MEMORIZED_SPELL ~SPWI302~ #2 ~wizard~ ( 6 )
+      ADD_MEMORIZED_SPELL ~SPWI303~ #2 ~wizard~ ( 6 )
+      ADD_MEMORIZED_SPELL ~SPWI314~ #2 ~wizard~ ( 6 )
+      ADD_MEMORIZED_SPELL ~SPWI319~ #2 ~wizard~ ( 6 )
+
+      ADD_MEMORIZED_SPELL ~SPWI408~ #3 ~wizard~ ( 6 )
+      ADD_MEMORIZED_SPELL ~SPWI412~ #3 ~wizard~ ( 6 )
+      ADD_MEMORIZED_SPELL ~SPWI413~ #3 ~wizard~ ( 6 )
+      ADD_MEMORIZED_SPELL ~SPWI420~ #3 ~wizard~ ( 6 )
+
+      ADD_MEMORIZED_SPELL ~SPWI513~ #4 ~wizard~ ( 6 )
+      ADD_MEMORIZED_SPELL ~SPWI510~ #4 ~wizard~ ( 6 )
+      ADD_MEMORIZED_SPELL ~SPWI514~ #4 ~wizard~ ( 6 )
+
+      ADD_MEMORIZED_SPELL ~SPWI613~ #5 ~wizard~ ( 4 )
+      ADD_MEMORIZED_SPELL ~SPWI602~ #5 ~wizard~ ( 4 )
+
+    COPY_EXISTING ~rasaad8.cre~ ~Override/rasaad8.cre~
+      WRITE_SHORT 0x24 80 // current HP
+      WRITE_SHORT 0x26 80 // max HP
+      WRITE_BYTE  0x238 18 // strength
+      WRITE_BYTE  0x239 0 // strength % bonus
+      WRITE_BYTE  0x23a 11 // intelligence
+      WRITE_BYTE  0x23b 12 // wisdom
+      WRITE_BYTE  0x23c 18 // dexterity
+      WRITE_BYTE  0x23d 17 // constitution
+      WRITE_BYTE  0x23e 12 // charisma
+
+    COPY_EXISTING ~rasaad8.cre~ ~Override/rasaad9.cre~
+    COPY_EXISTING ~rasaad8.cre~ ~Override/rasaad10.cre~
+    COPY_EXISTING ~rasaad8.cre~ ~Override/rasaad11.cre~
+    COPY_EXISTING ~rasaad8.cre~ ~Override/rasaad13.cre~
+
+    COPY_EXISTING ~rasaad12.cre~ ~Override/rasaad12.cre~
+      WRITE_SHORT 0x24 98 // current HP
+      WRITE_SHORT 0x26 98 // max HP
+      WRITE_BYTE  0x238 18 // strength
+      WRITE_BYTE  0x239 0 // strength % bonus
+      WRITE_BYTE  0x23a 11 // intelligence
+      WRITE_BYTE  0x23b 12 // wisdom
+      WRITE_BYTE  0x23c 18 // dexterity
+      WRITE_BYTE  0x23d 17 // constitution
+      WRITE_BYTE  0x23e 12 // charisma
+END
+
+// Compiling scripts //
 
 COMPILE ~ImprovedAnvil/scripts/ABAZDRAG.baf~
 COMPILE ~ImprovedAnvil/scripts/AERIEX.baf~
@@ -13867,7 +14023,7 @@ COPY_EXISTING ~mage16a.bcs~ ~override/gpmage1.bcs~
 
 COPY_EXISTING ~mage20a.bcs~ ~override/hellgen.bcs~
 
-//Patching areas//
+// Patching areas //
 
 EXTEND_BOTTOM ~AR0028.BCS~ ~ImprovedAnvil\BAF\AR0028.BAF~
 EXTEND_BOTTOM ~AR0329.BCS~ ~ImprovedAnvil\BAF\AR0329.BAF~
@@ -13952,6 +14108,7 @@ EXTEND_TOP ~AR0903.BCS~ ~ImprovedAnvil\BAF\AR0903.BAF~
 EXTEND_TOP ~AR1004.BCS~ ~ImprovedAnvil\BAF\AR1004.BAF~
 EXTEND_TOP ~AR1200.BCS~ ~ImprovedAnvil\BAF\AR1200.BAF~
 EXTEND_TOP ~AR1301.BCS~ ~ImprovedAnvil\BAF\AR1301.BAF~
+EXTEND_TOP ~AR1303.BCS~ ~ImprovedAnvil\BAF\AR1303.BAF~
 EXTEND_TOP ~AR1304.BCS~ ~ImprovedAnvil\BAF\AR1304.BAF~
 EXTEND_TOP ~AR1401.BCS~ ~ImprovedAnvil\BAF\AR1401.BAF~
 EXTEND_TOP ~AR1404.BCS~ ~ImprovedAnvil\BAF\AR1404.BAF~
@@ -15128,7 +15285,6 @@ END
    END
 "it" = "%it%" + 1
 END
-EXTEND_TOP ~AR1303.BCS~ ~ImprovedAnvil\BAF\AR1303.BAF~
 
 COPY_EXISTING ~ar1305.are~ ~override/ar1305.are~
   READ_LONG 0xC0 "interroffset"
