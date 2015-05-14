@@ -1409,13 +1409,15 @@ APPEND WSMITH01
 
   IF ~~ THEN BEGIN charm
     SAY @559 IF ~~ THEN REPLY @2 GOTO 13
-    IF ~Global("Iahelm05forged","GLOBAL",0) Global("EnteredAR0907","GLOBAL",1) PartyHasItem("helm06") PartyHasItem("S!misc02")  PartyHasItem("S!misc36") NumItemsPartyGT("scrl5f",5)
-        PartyGoldGT(19999)~
+    IF ~Global("Iahelm05forged","GLOBAL",0) Global("EnteredAR0907","GLOBAL",1) PartyHasItem("helm06") PartyHasItem("S!misc02")  PartyHasItem("S!misc36") PartyHasItem("potn33") PartyHasItem("S!helm06") NumItemsPartyGT("scrl5f",5)
+        PartyGoldGT(59999)~
       THEN REPLY @3
-      DO ~TakePartyGold(20000)      DestroyGold(20000)
+      DO ~TakePartyGold(60000)      DestroyGold(60000)
           TakePartyItemNum("helm06",1)   DestroyItem("helm06")
           TakePartyItemNum("S!misc02",1)   DestroyItem("S!misc02")
           TakePartyItemNum("S!misc36",1)   DestroyItem("S!misc36")
+          TakePartyItemNum("potn33",1)   DestroyItem("potn33")
+          TakePartyItemNum("S!helm06",1)   DestroyItem("S!helm06")
           TakePartyItemNum("scrl5f",1)   DestroyItem("scrl5f")
           TakePartyItemNum("scrl5f",1)   DestroyItem("scrl5f")
           TakePartyItemNum("scrl5f",1)   DestroyItem("scrl5f")
