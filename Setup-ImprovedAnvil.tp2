@@ -1145,6 +1145,10 @@ COPY ~ImprovedAnvil/itm/S!helm09.itm~      ~override/S!helm09.itm~
   SAY NAME2     @11097
   SAY DESC      @11098
 
+COPY ~ImprovedAnvil/itm/S!scrl30.itm~      ~override/S!scrl30.itm~
+  SAY NAME2     @11105
+  SAY DESC      @11106
+
 COPY ~ImprovedAnvil/itm/blun35.itm~      ~override/blun35.itm~
 
 COPY ~ImprovedAnvil/itm/misc3a3.itm~      ~override/misc3a3.itm~
@@ -16789,6 +16793,7 @@ COPY ~ImprovedAnvil\eff/S!spih8.eff~      ~override/S!vamh8.eff~
 COPY ~ImprovedAnvil\eff/S!spid8.eff~      ~override/S!vamd8.eff~
 COPY ~ImprovedAnvil\eff/S!disrup.eff~      ~override/S!disrup.eff~
 COPY ~ImprovedAnvil\eff/S!disru2.eff~      ~override/S!disru2.eff~
+COPY ~ImprovedAnvil\eff/S!disru3.eff~      ~override/S!disru3.eff~
 COPY ~ImprovedAnvil\eff/S!tlkani.eff~      ~override/S!tlkani.eff~
 COPY ~ImprovedAnvil\eff/S!tlkan2.eff~      ~override/S!tlkan2.eff~
 COPY ~ImprovedAnvil\eff/S!riskbr.eff~      ~override/S!riskbr.eff~
@@ -17027,6 +17032,9 @@ COPY ~ImprovedAnvil\bam\S!leatin.bam~ ~override/S!leatin.bam~
 COPY ~ImprovedAnvil\bam\S!starin.bam~ ~override/S!starin.bam~
 COPY ~ImprovedAnvil\bam\SPCLI16b.bam~ ~override/SPCLI16b.bam~
 COPY ~ImprovedAnvil\bam\S!helm09.bam~ ~override/S!helm09.bam~
+COPY ~ImprovedAnvil\bam\SPWI424a.bam~ ~override/SPWI424a.bam~
+COPY ~ImprovedAnvil\bam\SPWI424b.bam~ ~override/SPWI424b.bam~
+COPY ~ImprovedAnvil\bam\SPWI424c.bam~ ~override/SPWI424c.bam~
 
 //Copying spells//
 
@@ -17470,6 +17478,14 @@ COPY ~ImprovedAnvil\spl\SPCLI16.spl~ ~override/SPCLI16.spl~
 
 COPY ~ImprovedAnvil\spl\SPINI87.spl~ ~override/SPINI87.spl~
   SAY NAME1 @10195
+
+COPY ~ImprovedAnvil\spl\SPWI424.spl~ ~override/SPWI424.spl~
+  SAY NAME1 @11105
+  SAY UNIDENTIFIED_DESC @11106
+
+COPY ~ImprovedAnvil\spl\SPPR415.spl~ ~override/SPPR415.spl~
+  SAY NAME1 @11105
+  SAY UNIDENTIFIED_DESC @11107
 
 COPY ~ImprovedAnvil\spl\SPINI04.spl~ ~override/SPINI04.spl~
 
@@ -19343,6 +19359,7 @@ PATCH_IF ("%itemscount%" > 0) BEGIN
   WHILE ("%cnt%" >= 0) BEGIN
     READ_ASCII ("%itemsoffset%" + "%cnt%"*28) "itemname"
     PATCH_IF (("%itemname%" STRING_COMPARE_CASE "scrl09" = 0) OR
+              ("%itemname%" STRING_COMPARE_CASE "scrlaj" = 0) OR
               ("%itemname%" STRING_COMPARE_CASE "scrl6t" = 0))
    BEGIN
    DELETE_BYTES ("%itemsoffset%" + ("%cnt%"*28)) 28
@@ -19884,6 +19901,7 @@ PATCH_IF ("%itemscount%" > 0) BEGIN
               ("%itemname%" STRING_COMPARE_CASE "scrl6s" = 0) OR
               ("%itemname%" STRING_COMPARE_CASE "scrl6t" = 0) OR
               ("%itemname%" STRING_COMPARE_CASE "scrl7q" = 0) OR
+              ("%itemname%" STRING_COMPARE_CASE "scrlaq" = 0) OR
               ("%itemname%" STRING_COMPARE_CASE "clck16" = 0))
    BEGIN
    DELETE_BYTES ("%itemsoffset%" + ("%cnt%"*28)) 28
@@ -19938,6 +19956,8 @@ PATCH_IF ("%itemscount%" > 0) BEGIN
               ("%itemname%" STRING_COMPARE_CASE "scrl6s" = 0) OR
               ("%itemname%" STRING_COMPARE_CASE "scrl6t" = 0) OR
               ("%itemname%" STRING_COMPARE_CASE "scrl7q" = 0) OR
+              ("%itemname%" STRING_COMPARE_CASE "scrlaj" = 0) OR
+              ("%itemname%" STRING_COMPARE_CASE "scrlaq" = 0) OR
               ("%itemname%" STRING_COMPARE_CASE "clck16" = 0))
    BEGIN
    DELETE_BYTES ("%itemsoffset%" + ("%cnt%"*28)) 28
