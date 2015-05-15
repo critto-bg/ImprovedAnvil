@@ -20185,6 +20185,7 @@ COPY ~ImprovedAnvil\are\aria27.are~ ~override/aria27.are~
 
 // Copying portraits //
 
+// BG1-style portrait for Imoen
 COPY_EXISTING ~IMOENL.BMP~ ~Override/MALBARS.BMP~
 COPY_EXISTING ~IMOENM.BMP~ ~Override/MARVELS.BMP~
 COPY_EXISTING ~IMOENS.BMP~ ~Override/LOOKERS.BMP~
@@ -20194,6 +20195,8 @@ COPY_EXISTING ~NIMOENS.BMP~ ~Override/IMOENS.BMP~
 COPY_EXISTING ~MALBARS.BMP~ ~Override/NIMOENL.BMP~
 COPY_EXISTING ~MARVELS.BMP~ ~Override/NIMOENM.BMP~
 COPY_EXISTING ~LOOKERS.BMP~ ~Override/NIMOENS.BMP~
+
+// new portraits for IA NPCs
 COPY ~ImprovedAnvil\pics\MALBARS.BMP~ ~override/MALBARS.BMP~
 COPY ~ImprovedAnvil\pics\MARVELS.BMP~ ~override/MARVELS.BMP~
 COPY ~ImprovedAnvil\pics\LOOKERS.BMP~ ~override/LOOKERS.BMP~
@@ -20234,6 +20237,7 @@ COPY ~ImprovedAnvil/2da/clabmo01.2da~      ~override/clabmo01.2da~
 COPY ~ImprovedAnvil/2da/clabmo02.2da~      ~override/clabmo02.2da~
 COPY ~ImprovedAnvil/2da/clabmo03.2da~      ~override/clabmo03.2da~
 
+// set up custom tooltips for certain items with special abilities
 COPY_EXISTING ~tooltip.2da~  ~override/tooltip.2da~
   REPLACE_TEXTUALLY ~RING27.+3806.+12109.+12074~ ~RING27            12074        12109       -1~
   REPLACE_TEXTUALLY ~RING28.+3808.+12021.+-1~ ~RING28            29217        12021       -1~
@@ -20243,6 +20247,7 @@ COPY_EXISTING ~tooltip.2da~  ~override/tooltip.2da~
   REPLACE_TEXTUALLY ~MISC3A2.+12023.+4731.+-1~ ~MISC3A2           22616        4731        -1~
   REPLACE_TEXTUALLY ~MISC3A4.+38133.+4731.+-1~ ~MISC3A4           7571         4731        -1~
 
+// spell choices for "Pick for me" button at character generation screen
 COPY_EXISTING ~splautop.2da~  ~override/splautop.2da~
   REPLACE_TEXTUALLY ~SPWI114~ ~tempora~
   REPLACE_TEXTUALLY ~SPWI118~ ~SPWI114~
@@ -20260,6 +20265,7 @@ COPY_EXISTING ~splautop.2da~  ~override/splautop.2da~
   REPLACE_TEXTUALLY ~SPWI607~ ~SPWI619~
   REPLACE_TEXTUALLY ~SPWI703~ ~SPWI702~
 
+// customize table for scrolls generated as random treasure
 COPY_EXISTING ~rndscrol.2da~  ~override/rndscrol.2da~
   REPLACE_TEXTUALLY ~SCRL8M~ ~SCRL79~
   REPLACE_TEXTUALLY ~SCRL9L~ ~SCRL75~
@@ -20294,15 +20300,18 @@ COPY_EXISTING ~rndscrol.2da~  ~override/rndscrol.2da~
   REPLACE_TEXTUALLY ~SCRL7K~ ~SCRL70~
   REPLACE_TEXTUALLY ~SCRL7J~ ~SCRL1E~
 
+// prevent certain treasures from appearing as random treasure
 COPY_EXISTING ~rndtreas.2da~  ~override/rndtreas.2da~
   REPLACE_TEXTUALLY ~AMUL05~ ~AMUL09~
   REPLACE_TEXTUALLY ~AMUL12~ ~AMUL10~
   REPLACE_TEXTUALLY ~MISC29~ ~MISC22~
   REPLACE_TEXTUALLY ~MISC26~ ~MISC25~
 
+// remove a spell from gainable abilities for Stalker class
 COPY_EXISTING ~clabrn03.2da~  ~override/clabrn03.2da~
   REPLACE_TEXTUALLY ~GA_SPRA302~ ~****      ~
 
+// prevent certain options for dual-classing
 COPY_EXISTING ~dualclas.2da~  ~override/dualclas.2da~
   REPLACE_TEXTUALLY ~WIZARD_SLAYER.+0.+1.+1.+1.+1.+0~ ~WIZARD_SLAYER           0       1       0       0       1       0~
   REPLACE_TEXTUALLY ~ABJURER.+1.+1.+0.+1.+0.+0~ ~ABJURER                 0       0       0       0       0       0~
@@ -20314,12 +20323,14 @@ COPY_EXISTING ~dualclas.2da~  ~override/dualclas.2da~
   REPLACE_TEXTUALLY ~NECROMANCER.+1.+1.+0.+1.+0.+0~ ~NECROMANCER             0       0       0       0       0       0~
   REPLACE_TEXTUALLY ~TRANSMUTER.+1.+1.+0.+1.+0.+0~ ~TRANSMUTER              0       0       0       0       0       0~
 
+// tone down saving throws for Dwarves and Halflings
 COPY_EXISTING ~savecndh.2da~  ~override/savecndh.2da~
   REPLACE_TEXTUALLY ~2~ ~1~
   REPLACE_TEXTUALLY ~3~ ~1~
   REPLACE_TEXTUALLY ~4~ ~1~
   REPLACE_TEXTUALLY ~5~ ~1~
 
+// tone down saving throws for Gnomes
 COPY_EXISTING ~savecng.2da~  ~override/savecng.2da~
   REPLACE_TEXTUALLY ~2~ ~1~
   REPLACE_TEXTUALLY ~3~ ~1~
@@ -20327,6 +20338,7 @@ COPY_EXISTING ~savecng.2da~  ~override/savecng.2da~
   REPLACE_TEXTUALLY ~5~ ~1~
 
 ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
+  // allow ZoSA to dispel certain projectiles
   COPY_EXISTING ~clearair.2da~ ~override/clearair.2da~
     COUNT_2DA_COLS ~colcount~
     COUNT_2DA_ROWS ~colcount~ ~rowcount~
@@ -20334,6 +20346,7 @@ ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
     INSERT_2DA_ROW ~rowcount~ ~colcount~ ~Incendiary_Cloud 277~
     PRETTY_PRINT_2DA
 
+  // prevent SI from being used in Chain Contingency
   COPY_EXISTING ~contingx.2da~ ~override/contingx.2da~
     COUNT_2DA_COLS ~colcount~
     COUNT_2DA_ROWS ~colcount~ ~rowcount~
