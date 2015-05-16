@@ -2567,6 +2567,103 @@ COPY_EXISTING ~mfist8.itm~ ~override/mfist10.itm~
   END
   BUT_ONLY_IF_IT_CHANGES
 
+ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
+  // Adoy's belt
+  COPY_EXISTING ~nebelt01.itm~ ~override/nebelt01.itm~
+  SAY DESC @10198
+  READ_LONG   0x6a "feature_offset"
+  READ_SHORT  0x70 "feature_num"
+  FOR (index = 0; index < feature_num; index = index + 1) BEGIN
+    READ_SHORT  ("%feature_offset%" + ("%index%" * 0x30)) "opcode"
+    PATCH_IF ("%opcode%" = 35) BEGIN // save vs. polymorph
+      WRITE_LONG ("%feature_offset%" + 0x04 + ("%index%" * 0x30)) 2  // THAC0 bonus
+    END
+  END
+  BUT_ONLY_IF_IT_CHANGES
+
+  // Robe of Invocation
+  COPY_EXISTING ~ohnrobe2.itm~ ~override/ohnrobe2.itm~
+    SAY DESC @10202
+    PATCH_FOR_EACH ~opcode_number~ IN ~27~ ~28~ ~29~ ~30~ BEGIN
+      LAUNCH_PATCH_FUNCTION ~ALTER_ITEM_EFFECT~ INT_VAR
+        check_globals = 1
+        match_opcode = ~%opcode_number%~
+        parameter1 = 10
+      END
+    END
+  BUT_ONLY_IF_IT_CHANGES
+
+  // Tunic of Blindeye
+  COPY_EXISTING ~ohnrobe3.itm~ ~override/ohnrobe3.itm~
+  SAY DESC @10199
+  READ_LONG   0x6a "feature_offset"
+  READ_SHORT  0x70 "feature_num"
+  FOR (index = 0; index < feature_num; index = index + 1) BEGIN
+    READ_SHORT  ("%feature_offset%" + ("%index%" * 0x30)) "opcode"
+    PATCH_IF ("%opcode%" = 126) BEGIN // movement rate bonus
+      WRITE_LONG ("%feature_offset%" + 0x04 + ("%index%" * 0x30)) 1
+    END
+    PATCH_IF ("%opcode%" = 31) BEGIN // MR% bonus
+      WRITE_LONG ("%feature_offset%" + 0x04 + ("%index%" * 0x30)) 5
+    END
+  END
+  BUT_ONLY_IF_IT_CHANGES
+
+  // Wooden Horse Neclace
+  COPY_EXISTING ~ohnamul2.itm~ ~override/ohnamul2.itm~
+  SAY DESC @10200
+  READ_LONG   0x6a "feature_offset"
+  READ_SHORT  0x70 "feature_num"
+  FOR (index = 0; index < feature_num; index = index + 1) BEGIN
+    READ_SHORT  ("%feature_offset%" + ("%index%" * 0x30)) "opcode"
+    PATCH_IF ("%opcode%" = 0) BEGIN // AC bonus
+      WRITE_LONG ("%feature_offset%" + 0x04 + ("%index%" * 0x30)) 1
+    END
+    PATCH_IF ("%opcode%" = 33) BEGIN // save vs. death bonus
+      WRITE_LONG ("%feature_offset%" + 0x04 + ("%index%" * 0x30)) 1
+    END
+    PATCH_IF ("%opcode%" = 34) BEGIN // save vs. wand bonus
+      WRITE_LONG ("%feature_offset%" + 0x04 + ("%index%" * 0x30)) 1
+    END
+    PATCH_IF ("%opcode%" = 35) BEGIN // save vs. polymorph bonus
+      WRITE_LONG ("%feature_offset%" + 0x04 + ("%index%" * 0x30)) 1
+    END
+    PATCH_IF ("%opcode%" = 36) BEGIN // save vs. breath bonus
+      WRITE_LONG ("%feature_offset%" + 0x04 + ("%index%" * 0x30)) 1
+    END
+    PATCH_IF ("%opcode%" = 37) BEGIN // save vs. spell bonus
+      WRITE_LONG ("%feature_offset%" + 0x04 + ("%index%" * 0x30)) 1
+    END
+  END
+  BUT_ONLY_IF_IT_CHANGES
+
+  // Shield of Fyrus Khal +2
+  COPY_EXISTING ~ohnshld1.itm~ ~override/ohnshld1.itm~
+      SAY DESC @10201
+
+      LAUNCH_PATCH_FUNCTION ~DELETE_ITEM_HEADER~ INT_VAR
+        "header_type" = 3 // Magical
+      END
+
+      LAUNCH_PATCH_FUNCTION ~DELETE_ITEM_EQEFFECT~ INT_VAR
+        "opcode_to_delete" = 272 // Apply repeating EFF
+      END
+
+      LAUNCH_PATCH_FUNCTION ~ALTER_ITEM_EFFECT~ INT_VAR
+        "check_globals" = 1
+        "match_opcode" = 0 // AC bonus
+        "parameter1" = 1
+      END
+
+  // The Brick +2
+  COPY_EXISTING ~ohnhamm1.itm~ ~override/ohnhamm1.itm~
+      SAY DESC @10203
+
+      LAUNCH_PATCH_FUNCTION ~DELETE_ITEM_EFFECT~ INT_VAR
+        "opcode_to_delete" = 60 // Casting failure
+      END
+END
+
 // Copying creatures //
 
 COPY ~ImprovedAnvil/cre/S!djinn.cre~         ~override/S!djinn.cre~
@@ -6960,6 +7057,7 @@ COPY_EXISTING ~wyvernsu.cre~ ~override/wyvernsu.cre~
    END
 END
 
+// Ribald
 COPY_EXISTING ~ribald.cre~ ~override/ribald.cre~
  READ_LONG 0x2bc "itm_off"
  READ_LONG 0x2c0 "itm_num"
@@ -12713,6 +12811,95 @@ COPY_EXISTING ~RIFTCR02.cre~ ~override/RIFTCR02.cre~
 END
 
 ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
+    // Panther, OH6000, rest spawn
+    COPY_EXISTING ~CATJAG01.cre~ ~override/CATJAG01.cre~
+      WRITE_LONG  0x14 0 // xp
+
+    // Amanis Khal
+    COPY_EXISTING ~ohnamani.cre~ ~override/ohnamani.cre~
+      WRITE_LONG  0x14 1000 // xp
+      LAUNCH_PATCH_FUNCTION ~SET_CRE_ITEM_FLAGS~ STR_VAR
+        item_to_change = ~clck10~
+        flags = ~UNSTEALABLE&UNDROPPABLE~
+      END
+
+    // Hayes
+    COPY_EXISTING ~ohntelan.cre~ ~override/ohntelan.cre~
+      WRITE_LONG  0x14 2000 // xp
+
+    // Telana
+    COPY_EXISTING ~ohnhayes.cre~ ~override/ohnhayes.cre~
+      WRITE_LONG  0x14 2000 // xp
+
+    // Gul Dukeem
+    COPY_EXISTING ~ohngduke.cre~ ~override/ohngduke.cre~
+      WRITE_LONG  0x14 2000 // xp
+
+    // "King" Gramm
+    COPY_EXISTING ~ohnking.cre~ ~override/ohnking.cre~
+      WRITE_LONG  0x14 1000 // xp
+      LAUNCH_PATCH_FUNCTION ~SET_CRE_ITEM_FLAGS~ STR_VAR
+        item_to_change = ~clck10~
+        flags = ~UNSTEALABLE&UNDROPPABLE~
+      END
+
+    // Potion Merchant, Red Wizard Enclave
+    COPY_EXISTING ~ohnpotme.cre~ ~override/ohnpotme.cre~
+      WRITE_LONG  0x14 1000 // xp
+
+    // Scroll Merchant, Red Wizard Enclave
+    COPY_EXISTING ~ohnscrme.cre~ ~override/ohnscrme.cre~
+      WRITE_LONG  0x14 1000 // xp
+
+    // Wand Merchant, Red Wizard Enclave
+    COPY_EXISTING ~ohnwanme.cre~ ~override/ohnwanme.cre~
+      WRITE_LONG  0x14 1000 // xp
+
+    // Fadell Ironeye
+    COPY_EXISTING ~ohnfadel.cre~ ~override/ohnfadel.cre~
+      WRITE_LONG  0x14 4000 // xp
+
+      SPRINT ~flags~ ~UNDROPPABLE&UNSTEALABLE~
+      PATCH_FOR_EACH ~item_to_change~ IN ~potn52~ ~potn05~ BEGIN
+        LAUNCH_PATCH_MACRO ~SET_CRE_ITEM_FLAGS~
+      END
+
+    // Lanneth
+    COPY_EXISTING ~ohnlanne.cre~ ~override/ohnlanne.cre~
+      SPRINT ~flags~ ~UNDROPPABLE&UNSTEALABLE~
+      PATCH_FOR_EACH ~item_to_change~ IN ~amul14~ BEGIN
+        LAUNCH_PATCH_MACRO ~SET_CRE_ITEM_FLAGS~
+      END
+
+    // Thayan Mercenaries, Wizards & Guards, Red Wizard Enclave
+    COPY_EXISTING ~OHNRWME2.cre~ ~override/OHNRWME2.cre~
+                  ~ohnmmer1.cre~ ~override/ohnmmer1.cre~
+                  ~ohnfmer1.cre~ ~override/ohnfmer1.cre~
+                  ~ohnguar1.cre~ ~override/ohnguar1.cre~
+                  ~OHNRWME1.cre~ ~override/OHNRWME1.cre~
+                  ~ohnredw.cre~  ~override/ohnredw.cre~
+                  ~ohnmerc1.cre~ ~override/ohnmerc1.cre~
+                  ~ohnmerc2.cre~ ~override/ohnmerc2.cre~
+                  ~ohnmerc3.cre~ ~override/ohnmerc3.cre~
+                  ~ohnredw1.cre~  ~override/ohnredw1.cre~
+                  ~ohnredw2.cre~  ~override/ohnredw2.cre~
+                  ~ohnredw3.cre~  ~override/ohnredw3.cre~
+                  ~ohnredw4.cre~  ~override/ohnredw4.cre~
+                  ~ohnredw5.cre~  ~override/ohnredw5.cre~
+                  ~ohnredw6.cre~  ~override/ohnredw6.cre~
+                  ~ohnredw7.cre~  ~override/ohnredw7.cre~
+                  ~ohnredw8.cre~  ~override/ohnredw8.cre~
+                  ~ohnthfi1.cre~  ~override/ohnthfi1.cre~
+                  ~ohnthkni.cre~  ~override/ohnthkni.cre~
+
+      WRITE_LONG  0x14 1000 // xp
+
+      SPRINT ~flags~ ~UNDROPPABLE&UNSTEALABLE~
+      PATCH_FOR_EACH ~item_to_change~ IN ~potn52~ ~potn14~ ~clck10~ ~scrl5o~ ~scrla7~ ~potn11~ BEGIN
+        LAUNCH_PATCH_MACRO ~SET_CRE_ITEM_FLAGS~
+      END
+
+    // Neera
     COPY_EXISTING ~neera8.cre~ ~Override/neera8.cre~
       WRITE_SHORT 0x24 44 // current HP
       WRITE_SHORT 0x26 44 // max HP
@@ -12767,6 +12954,7 @@ ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
     COPY_EXISTING ~neera8.cre~ ~Override/neera12.cre~
     COPY_EXISTING ~neera8.cre~ ~Override/neera13.cre~
 
+    // Neera, ToB
     COPY_EXISTING ~neera15.cre~ ~Override/neera15.cre~
       WRITE_SHORT 0x24 51 // current HP
       WRITE_SHORT 0x26 51 // max HP
@@ -12841,6 +13029,7 @@ ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
       ADD_MEMORIZED_SPELL ~SPWI613~ #5 ~wizard~ ( 4 )
       ADD_MEMORIZED_SPELL ~SPWI602~ #5 ~wizard~ ( 4 )
 
+    // Rasaad
     COPY_EXISTING ~rasaad8.cre~ ~Override/rasaad8.cre~
       WRITE_SHORT 0x24 80 // current HP
       WRITE_SHORT 0x26 80 // max HP
@@ -12857,6 +13046,7 @@ ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
     COPY_EXISTING ~rasaad8.cre~ ~Override/rasaad11.cre~
     COPY_EXISTING ~rasaad8.cre~ ~Override/rasaad13.cre~
 
+    // Rasaad, ToB
     COPY_EXISTING ~rasaad12.cre~ ~Override/rasaad12.cre~
       WRITE_SHORT 0x24 98 // current HP
       WRITE_SHORT 0x26 98 // max HP
@@ -16732,6 +16922,14 @@ COPY_EXISTING ~AR0500.ARE~ ~override/AR0500.ARE~
 "it" = "%it%" + 1
 END
 
+ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
+  // Red Wizard Enclave
+  COPY_EXISTING ~OH6300.ARE~ ~override/OH6300.ARE~
+    PATCH_FOR_EACH ~item_to_delete~ IN ~clck01~ ~misc45~ ~wand06~ ~scrl7s~ ~scrl8r~ BEGIN
+      LAUNCH_PATCH_MACRO ~DELETE_AREA_ITEM~
+    END
+END
+
 //Copying bs files//
 
 COPY ~ImprovedAnvil\bs/AGEN.BS~      ~scripts/AGEN.BS~
@@ -18672,152 +18870,52 @@ COPY_EXISTING ~HENDAK.DLG~ ~override~
  REPLACE_TEXTUALLY ~GiveItemCreate("SW1H03",LastTalkedToBy,0,0,0)~ ~GiveItemCreate("SW1H03",LastTalkedToBy,0,0,0) GiveItemCreate("POTN45",LastTalkedToBy,4,0,0) GiveItemCreate("POTN11",LastTalkedToBy,4,0,0) GiveItemCreate("POTN52",LastTalkedToBy,4,0,0) GiveItemCreate("POTN37",LastTalkedToBy,4,0,0) GiveItemCreate("POTN35",LastTalkedToBy,0,0,0)~
  COMPILE_D_TO_DLG
 
-//patching stores//
+// patching stores //
 
+// Sister Garlena
 COPY_EXISTING ~garlena.sto~ ~Override/garlena.sto~
 WRITE_LONG  0x14   165 // sell price markup
-READ_LONG 0x38 "itemscount"
-PATCH_IF ("%itemscount%" > 0) BEGIN
-  READ_LONG 0x2C "purchasedoffset"
-  READ_LONG 0x34 "itemsoffset"
-  READ_LONG 0x4C "drinksoffset"
-  READ_LONG 0x70 "curesoffset"
-  SET "removeditems" = 0
-  SET "cnt" = "%itemscount%" - 1
-  WHILE ("%cnt%" >= 0) BEGIN
-    READ_ASCII ("%itemsoffset%" + "%cnt%"*28) "itemname"
-    PATCH_IF ("%itemname%" STRING_COMPARE_CASE "sw1h58" = 0)
-   BEGIN
-   DELETE_BYTES ("%itemsoffset%" + ("%cnt%"*28)) 28
-   SET "removeditems" = "%removeditems%" + 1
-   END
-  SET "cnt" = "%cnt%" - 1
-END
-WRITE_LONG 0x38 ("%itemscount%" - "%removeditems%")
-PATCH_IF ("%purchasedoffset%" > "%itemsoffset%") BEGIN WRITE_LONG 0x2C ("%purchasedoffset%" - ("%removeditems%" * 28)) END
-PATCH_IF ("%drinksoffset%" > "%itemsoffset%") BEGIN WRITE_LONG 0x4C ("%drinksoffset%" - ("%removeditems%" * 28)) END
-PATCH_IF ("%curesoffset%" > "%itemsoffset%") BEGIN WRITE_LONG 0x70 ("%curesoffset%" - ("%removeditems%" * 28)) END
-END
+REMOVE_STORE_ITEM ~sw1h58~
 
+// Joluv
 COPY_EXISTING ~wmart1.sto~ ~Override/wmart1.sto~
 WRITE_LONG  0x14   165 // sell price markup
-READ_LONG 0x38 "itemscount"
-PATCH_IF ("%itemscount%" > 0) BEGIN
-  READ_LONG 0x2C "purchasedoffset"
-  READ_LONG 0x34 "itemsoffset"
-  READ_LONG 0x4C "drinksoffset"
-  READ_LONG 0x70 "curesoffset"
-  SET "removeditems" = 0
-  SET "cnt" = "%itemscount%" - 1
-  WHILE ("%cnt%" >= 0) BEGIN
-    READ_ASCII ("%itemsoffset%" + "%cnt%"*28) "itemname"
-    PATCH_IF (("%itemname%" STRING_COMPARE_CASE "waninja" = 0) OR
-              ("%itemname%" STRING_COMPARE_CASE "waflail" = 0) OR
-              ("%itemname%" STRING_COMPARE_CASE "wawak" = 0) OR
-              ("%itemname%" STRING_COMPARE_CASE "wasling" = 0) OR
-              ("%itemname%" STRING_COMPARE_CASE "waaxe" = 0))
-   BEGIN
-   DELETE_BYTES ("%itemsoffset%" + ("%cnt%"*28)) 28
-   SET "removeditems" = "%removeditems%" + 1
-   END
-  SET "cnt" = "%cnt%" - 1
-END
-WRITE_LONG 0x38 ("%itemscount%" - "%removeditems%")
-PATCH_IF ("%purchasedoffset%" > "%itemsoffset%") BEGIN WRITE_LONG 0x2C ("%purchasedoffset%" - ("%removeditems%" * 28)) END
-PATCH_IF ("%drinksoffset%" > "%itemsoffset%") BEGIN WRITE_LONG 0x4C ("%drinksoffset%" - ("%removeditems%" * 28)) END
-PATCH_IF ("%curesoffset%" > "%itemsoffset%") BEGIN WRITE_LONG 0x70 ("%curesoffset%" - ("%removeditems%" * 28)) END
-END
+REMOVE_STORE_ITEM ~waninja~
+REMOVE_STORE_ITEM ~waflail~
+REMOVE_STORE_ITEM ~wawak~
+REMOVE_STORE_ITEM ~wasling~
+REMOVE_STORE_ITEM ~waaxe~
 
+// Deidre
 COPY_EXISTING ~wmart2.sto~ ~Override/wmart2.sto~
 WRITE_LONG  0x14   165 // sell price markup
-READ_LONG 0x38 "itemscount"
-PATCH_IF ("%itemscount%" > 0) BEGIN
-  READ_LONG 0x2C "purchasedoffset"
-  READ_LONG 0x34 "itemsoffset"
-  READ_LONG 0x4C "drinksoffset"
-  READ_LONG 0x70 "curesoffset"
-  SET "removeditems" = 0
-  SET "cnt" = "%itemscount%" - 1
-  WHILE ("%cnt%" >= 0) BEGIN
-    READ_ASCII ("%itemsoffset%" + "%cnt%"*28) "itemname"
-    PATCH_IF (("%itemname%" STRING_COMPARE_CASE "wa2robe" = 0) OR
-              ("%itemname%" STRING_COMPARE_CASE "wa2shiel" = 0))
-   BEGIN
-   DELETE_BYTES ("%itemsoffset%" + ("%cnt%"*28)) 28
-   SET "removeditems" = "%removeditems%" + 1
-   END
-  SET "cnt" = "%cnt%" - 1
-END
-WRITE_LONG 0x38 ("%itemscount%" - "%removeditems%")
-PATCH_IF ("%purchasedoffset%" > "%itemsoffset%") BEGIN WRITE_LONG 0x2C ("%purchasedoffset%" - ("%removeditems%" * 28)) END
-PATCH_IF ("%drinksoffset%" > "%itemsoffset%") BEGIN WRITE_LONG 0x4C ("%drinksoffset%" - ("%removeditems%" * 28)) END
-PATCH_IF ("%curesoffset%" > "%itemsoffset%") BEGIN WRITE_LONG 0x70 ("%curesoffset%" - ("%removeditems%" * 28)) END
-END
+REMOVE_STORE_ITEM ~wa2robe~
+REMOVE_STORE_ITEM ~wa2shiel~
 
+// Adventurer's Mart, before chapter 6
 COPY_EXISTING ~ribald.sto~ ~Override/ribald.sto~
 PATCH_IF GAME_IS ~bg2ee~ BEGIN
   ADD_STORE_ITEM ~BAG06~ LAST #1 #0 #0 ~IDENTIFIED&UNSTEALABLE~ #1
 END
-READ_LONG 0x38 "itemscount"
-PATCH_IF ("%itemscount%" > 0) BEGIN
-  READ_LONG 0x2C "purchasedoffset"
-  READ_LONG 0x34 "itemsoffset"
-  READ_LONG 0x4C "drinksoffset"
-  READ_LONG 0x70 "curesoffset"
-  SET "removeditems" = 0
-  SET "cnt" = "%itemscount%" - 1
-  WHILE ("%cnt%" >= 0) BEGIN
-    READ_ASCII ("%itemsoffset%" + "%cnt%"*28) "itemname"
-    PATCH_IF (("%itemname%" STRING_COMPARE_CASE "staf20" = 0) OR
-              ("%itemname%" STRING_COMPARE_CASE "belt06" = 0) OR
-              ("%itemname%" STRING_COMPARE_CASE "scrl09" = 0) OR
-              ("%itemname%" STRING_COMPARE_CASE "ring28" = 0) OR
-              ("%itemname%" STRING_COMPARE_CASE "ring03" = 0) OR
-              ("%itemname%" STRING_COMPARE_CASE "scrl07" = 0) OR
-              ("%itemname%" STRING_COMPARE_CASE "leat20" = 0) OR
-              ("%itemname%" STRING_COMPARE_CASE "shld24" = 0) OR
-              ("%itemname%" STRING_COMPARE_CASE "rods03" = 0) OR
-              ("%itemname%" STRING_COMPARE_CASE "hamm08" = 0) OR
-              ("%itemname%" STRING_COMPARE_CASE "leat09" = 0) OR
-              ("%itemname%" STRING_COMPARE_CASE "hamm05" = 0))
-   BEGIN
-   DELETE_BYTES ("%itemsoffset%" + ("%cnt%"*28)) 28
-   SET "removeditems" = "%removeditems%" + 1
-   END
-  SET "cnt" = "%cnt%" - 1
-END
-WRITE_LONG 0x38 ("%itemscount%" - "%removeditems%")
-PATCH_IF ("%purchasedoffset%" > "%itemsoffset%") BEGIN WRITE_LONG 0x2C ("%purchasedoffset%" - ("%removeditems%" * 28)) END
-PATCH_IF ("%drinksoffset%" > "%itemsoffset%") BEGIN WRITE_LONG 0x4C ("%drinksoffset%" - ("%removeditems%" * 28)) END
-PATCH_IF ("%curesoffset%" > "%itemsoffset%") BEGIN WRITE_LONG 0x70 ("%curesoffset%" - ("%removeditems%" * 28)) END
-END
+REMOVE_STORE_ITEM ~staf20~
+REMOVE_STORE_ITEM ~belt06~
+REMOVE_STORE_ITEM ~scrl09~
+REMOVE_STORE_ITEM ~ring28~
+REMOVE_STORE_ITEM ~ring03~
+REMOVE_STORE_ITEM ~scrl07~
+REMOVE_STORE_ITEM ~leat20~
+REMOVE_STORE_ITEM ~shld24~
+REMOVE_STORE_ITEM ~rods03~
+REMOVE_STORE_ITEM ~hamm08~
+REMOVE_STORE_ITEM ~leat09~
+REMOVE_STORE_ITEM ~hamm05~
 
+// Adventurer's Mart, chapter 6
 COPY_EXISTING ~ribald3.sto~ ~Override/ribald3.sto~
 WRITE_LONG  0x18   30 // buy price markup
-READ_LONG 0x38 "itemscount"
-PATCH_IF ("%itemscount%" > 0) BEGIN
-  READ_LONG 0x2C "purchasedoffset"
-  READ_LONG 0x34 "itemsoffset"
-  READ_LONG 0x4C "drinksoffset"
-  READ_LONG 0x70 "curesoffset"
-  SET "removeditems" = 0
-  SET "cnt" = "%itemscount%" - 1
-  WHILE ("%cnt%" >= 0) BEGIN
-    READ_ASCII ("%itemsoffset%" + "%cnt%"*28) "itemname"
-    PATCH_IF (("%itemname%" STRING_COMPARE_CASE "chan11" = 0) OR
-              ("%itemname%" STRING_COMPARE_CASE "scrl9l" = 0) OR
-              ("%itemname%" STRING_COMPARE_CASE "scrl9r" = 0))
-   BEGIN
-   DELETE_BYTES ("%itemsoffset%" + ("%cnt%"*28)) 28
-   SET "removeditems" = "%removeditems%" + 1
-   END
-  SET "cnt" = "%cnt%" - 1
-END
-WRITE_LONG 0x38 ("%itemscount%" - "%removeditems%")
-PATCH_IF ("%purchasedoffset%" > "%itemsoffset%") BEGIN WRITE_LONG 0x2C ("%purchasedoffset%" - ("%removeditems%" * 28)) END
-PATCH_IF ("%drinksoffset%" > "%itemsoffset%") BEGIN WRITE_LONG 0x4C ("%drinksoffset%" - ("%removeditems%" * 28)) END
-PATCH_IF ("%curesoffset%" > "%itemsoffset%") BEGIN WRITE_LONG 0x70 ("%curesoffset%" - ("%removeditems%" * 28)) END
-END
+REMOVE_STORE_ITEM ~chan11~
+REMOVE_STORE_ITEM ~scrl9l~
+REMOVE_STORE_ITEM ~scrl9r~
 
 COPY_EXISTING ~bmthief.sto~ ~Override/bmthief.sto~
 WRITE_LONG  0x14   165 // sell price markup
@@ -18942,6 +19040,7 @@ PATCH_IF ("%drinksoffset%" > "%itemsoffset%") BEGIN WRITE_LONG 0x4C ("%drinksoff
 PATCH_IF ("%curesoffset%" > "%itemsoffset%") BEGIN WRITE_LONG 0x70 ("%curesoffset%" - ("%removeditems%" * 28)) END
 END
 
+// Roger the Fence
 COPY_EXISTING ~roger.sto~ ~Override/roger.sto~
 PATCH_IF GAME_IS ~bg2ee~ BEGIN
   ADD_STORE_ITEM ~BAG06~ LAST #1 #0 #0 ~IDENTIFIED&UNSTEALABLE~ #1
@@ -18949,28 +19048,7 @@ END
 WRITE_LONG  0x14   165 // sell price markup
 READ_BYTE  0x10 "stoflags"
 WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
-READ_LONG 0x38 "itemscount"
-PATCH_IF ("%itemscount%" > 0) BEGIN
-  READ_LONG 0x2C "purchasedoffset"
-  READ_LONG 0x34 "itemsoffset"
-  READ_LONG 0x4C "drinksoffset"
-  READ_LONG 0x70 "curesoffset"
-  SET "removeditems" = 0
-  SET "cnt" = "%itemscount%" - 1
-  WHILE ("%cnt%" >= 0) BEGIN
-    READ_ASCII ("%itemsoffset%" + "%cnt%"*28) "itemname"
-    PATCH_IF ("%itemname%" STRING_COMPARE_CASE "potn40" = 0)
-   BEGIN
-   DELETE_BYTES ("%itemsoffset%" + ("%cnt%"*28)) 28
-   SET "removeditems" = "%removeditems%" + 1
-   END
-  SET "cnt" = "%cnt%" - 1
-END
-WRITE_LONG 0x38 ("%itemscount%" - "%removeditems%")
-PATCH_IF ("%purchasedoffset%" > "%itemsoffset%") BEGIN WRITE_LONG 0x2C ("%purchasedoffset%" - ("%removeditems%" * 28)) END
-PATCH_IF ("%drinksoffset%" > "%itemsoffset%") BEGIN WRITE_LONG 0x4C ("%drinksoffset%" - ("%removeditems%" * 28)) END
-PATCH_IF ("%curesoffset%" > "%itemsoffset%") BEGIN WRITE_LONG 0x70 ("%curesoffset%" - ("%removeditems%" * 28)) END
-END
+REMOVE_STORE_ITEM ~potn40~
 
 COPY_EXISTING ~shthstor.sto~ ~Override/shthstor.sto~
 WRITE_LONG  0x14   165 // sell price markup
@@ -19008,128 +19086,69 @@ PATCH_IF ("%drinksoffset%" > "%itemsoffset%") BEGIN WRITE_LONG 0x4C ("%drinksoff
 PATCH_IF ("%curesoffset%" > "%itemsoffset%") BEGIN WRITE_LONG 0x70 ("%curesoffset%" - ("%removeditems%" * 28)) END
 END
 
+// Arledrian
 COPY_EXISTING ~arled.sto~ ~Override/arled.sto~
 WRITE_LONG  0x14   165 // sell price markup
 READ_BYTE  0x10 "stoflags"
 WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
 
+// Bernard, slave aren't freed
 COPY_EXISTING ~bernard.sto~ ~Override/bernard.sto~
 WRITE_LONG  0x14   165 // sell price markup
 READ_BYTE  0x10 "stoflags"
 WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
 
+// Smuggler, Amkethran
 COPY_EXISTING ~amsmug01.sto~ ~Override/amsmug01.sto~
 WRITE_LONG  0x14  165 // sell price markup
 WRITE_LONG  0x18   30 // buy price markup
-READ_LONG 0x38 "itemscount"
-PATCH_IF ("%itemscount%" > 0) BEGIN
-  READ_LONG 0x2C "purchasedoffset"
-  READ_LONG 0x34 "itemsoffset"
-  READ_LONG 0x4C "drinksoffset"
-  READ_LONG 0x70 "curesoffset"
-  SET "removeditems" = 0
-  SET "cnt" = "%itemscount%" - 1
-  WHILE ("%cnt%" >= 0) BEGIN
-    READ_ASCII ("%itemsoffset%" + "%cnt%"*28) "itemname"
-    PATCH_IF (("%itemname%" STRING_COMPARE_CASE "slng10" = 0) OR
-              ("%itemname%" STRING_COMPARE_CASE "ax1h17" = 0) OR
-              ("%itemname%" STRING_COMPARE_CASE "dagg24" = 0) OR
-              ("%itemname%" STRING_COMPARE_CASE "sw2h20" = 0) OR
-              ("%itemname%" STRING_COMPARE_CASE "sw1h75" = 0) OR
-              ("%itemname%" STRING_COMPARE_CASE "sw1h74" = 0) OR
-              ("%itemname%" STRING_COMPARE_CASE "sw1h73" = 0) OR
-              ("%itemname%" STRING_COMPARE_CASE "sw1h72" = 0) OR
-              ("%itemname%" STRING_COMPARE_CASE "hamm12" = 0) OR
-              ("%itemname%" STRING_COMPARE_CASE "halb12" = 0) OR
-              ("%itemname%" STRING_COMPARE_CASE "sper06" = 0) OR
-              ("%itemname%" STRING_COMPARE_CASE "blun34" = 0) OR
-              ("%itemname%" STRING_COMPARE_CASE "blun33" = 0) OR
-              ("%itemname%" STRING_COMPARE_CASE "blun31" = 0) OR
-              ("%itemname%" STRING_COMPARE_CASE "blun32" = 0))
-   BEGIN
-   DELETE_BYTES ("%itemsoffset%" + ("%cnt%"*28)) 28
-   SET "removeditems" = "%removeditems%" + 1
-   END
-  SET "cnt" = "%cnt%" - 1
-END
-WRITE_LONG 0x38 ("%itemscount%" - "%removeditems%")
-PATCH_IF ("%purchasedoffset%" > "%itemsoffset%") BEGIN WRITE_LONG 0x2C ("%purchasedoffset%" - ("%removeditems%" * 28)) END
-PATCH_IF ("%drinksoffset%" > "%itemsoffset%") BEGIN WRITE_LONG 0x4C ("%drinksoffset%" - ("%removeditems%" * 28)) END
-PATCH_IF ("%curesoffset%" > "%itemsoffset%") BEGIN WRITE_LONG 0x70 ("%curesoffset%" - ("%removeditems%" * 28)) END
-END
+REMOVE_STORE_ITEM ~slng10~
+REMOVE_STORE_ITEM ~ax1h17~
+REMOVE_STORE_ITEM ~dagg24~
+REMOVE_STORE_ITEM ~sw2h20~
+REMOVE_STORE_ITEM ~sw1h75~
+REMOVE_STORE_ITEM ~sw1h74~
+REMOVE_STORE_ITEM ~sw1h73~
+REMOVE_STORE_ITEM ~sw1h72~
+REMOVE_STORE_ITEM ~hamm12~
+REMOVE_STORE_ITEM ~halb12~
+REMOVE_STORE_ITEM ~sper06~
+REMOVE_STORE_ITEM ~blun34~
+REMOVE_STORE_ITEM ~blun33~
+REMOVE_STORE_ITEM ~blun31~
+REMOVE_STORE_ITEM ~blun32~
 
+// Smuggler, Amkethran
 COPY_EXISTING ~amsmug02.sto~ ~Override/amsmug02.sto~
 WRITE_LONG  0x14  165 // sell price markup
 WRITE_LONG  0x18   30 // buy price markup
-READ_LONG 0x38 "itemscount"
-PATCH_IF ("%itemscount%" > 0) BEGIN
-  READ_LONG 0x2C "purchasedoffset"
-  READ_LONG 0x34 "itemsoffset"
-  READ_LONG 0x4C "drinksoffset"
-  READ_LONG 0x70 "curesoffset"
-  SET "removeditems" = 0
-  SET "cnt" = "%itemscount%" - 1
-  WHILE ("%cnt%" >= 0) BEGIN
-    READ_ASCII ("%itemsoffset%" + "%cnt%"*28) "itemname"
-    PATCH_IF (("%itemname%" STRING_COMPARE_CASE "slng10" = 0) OR
-              ("%itemname%" STRING_COMPARE_CASE "ax1h17" = 0) OR
-              ("%itemname%" STRING_COMPARE_CASE "dagg24" = 0) OR
-              ("%itemname%" STRING_COMPARE_CASE "sw2h20" = 0) OR
-              ("%itemname%" STRING_COMPARE_CASE "sw1h75" = 0) OR
-              ("%itemname%" STRING_COMPARE_CASE "sw1h74" = 0) OR
-              ("%itemname%" STRING_COMPARE_CASE "sw1h73" = 0) OR
-              ("%itemname%" STRING_COMPARE_CASE "sw1h72" = 0) OR
-              ("%itemname%" STRING_COMPARE_CASE "hamm12" = 0) OR
-              ("%itemname%" STRING_COMPARE_CASE "halb12" = 0) OR
-              ("%itemname%" STRING_COMPARE_CASE "sper06" = 0) OR
-              ("%itemname%" STRING_COMPARE_CASE "blun34" = 0) OR
-              ("%itemname%" STRING_COMPARE_CASE "blun33" = 0) OR
-              ("%itemname%" STRING_COMPARE_CASE "boot12" = 0) OR
-              ("%itemname%" STRING_COMPARE_CASE "plat21" = 0) OR
-              ("%itemname%" STRING_COMPARE_CASE "blun32" = 0))
-   BEGIN
-   DELETE_BYTES ("%itemsoffset%" + ("%cnt%"*28)) 28
-   SET "removeditems" = "%removeditems%" + 1
-   END
-  SET "cnt" = "%cnt%" - 1
-END
-WRITE_LONG 0x38 ("%itemscount%" - "%removeditems%")
-PATCH_IF ("%purchasedoffset%" > "%itemsoffset%") BEGIN WRITE_LONG 0x2C ("%purchasedoffset%" - ("%removeditems%" * 28)) END
-PATCH_IF ("%drinksoffset%" > "%itemsoffset%") BEGIN WRITE_LONG 0x4C ("%drinksoffset%" - ("%removeditems%" * 28)) END
-PATCH_IF ("%curesoffset%" > "%itemsoffset%") BEGIN WRITE_LONG 0x70 ("%curesoffset%" - ("%removeditems%" * 28)) END
-END
+REMOVE_STORE_ITEM ~slng10~
+REMOVE_STORE_ITEM ~ax1h17~
+REMOVE_STORE_ITEM ~dagg24~
+REMOVE_STORE_ITEM ~sw2h20~
+REMOVE_STORE_ITEM ~sw1h75~
+REMOVE_STORE_ITEM ~sw1h74~
+REMOVE_STORE_ITEM ~sw1h73~
+REMOVE_STORE_ITEM ~sw1h72~
+REMOVE_STORE_ITEM ~hamm12~
+REMOVE_STORE_ITEM ~halb12~
+REMOVE_STORE_ITEM ~sper06~
+REMOVE_STORE_ITEM ~blun34~
+REMOVE_STORE_ITEM ~blun33~
+REMOVE_STORE_ITEM ~blun31~
+REMOVE_STORE_ITEM ~blun32~
 
+// Bernard, slaves are freed
 COPY_EXISTING ~bernard2.sto~ ~Override/bernard2.sto~
 WRITE_LONG  0x14   110 // sell price markup
 WRITE_LONG  0x18   20 // buy price markup
 READ_BYTE  0x10 "stoflags"
 WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
-READ_LONG 0x38 "itemscount"
-PATCH_IF ("%itemscount%" > 0) BEGIN
-  READ_LONG 0x2C "purchasedoffset"
-  READ_LONG 0x34 "itemsoffset"
-  READ_LONG 0x4C "drinksoffset"
-  READ_LONG 0x70 "curesoffset"
-  SET "removeditems" = 0
-  SET "cnt" = "%itemscount%" - 1
-  WHILE ("%cnt%" >= 0) BEGIN
-    READ_ASCII ("%itemsoffset%" + "%cnt%"*28) "itemname"
-    PATCH_IF (("%itemname%" STRING_COMPARE_CASE "sw1h40" = 0) OR
-              ("%itemname%" STRING_COMPARE_CASE "ax1h12" = 0) OR
-              ("%itemname%" STRING_COMPARE_CASE "slng07" = 0) OR
-              ("%itemname%" STRING_COMPARE_CASE "scrl9b" = 0) OR
-              ("%itemname%" STRING_COMPARE_CASE "ax1h10" = 0))
-   BEGIN
-   DELETE_BYTES ("%itemsoffset%" + ("%cnt%"*28)) 28
-   SET "removeditems" = "%removeditems%" + 1
-   END
-  SET "cnt" = "%cnt%" - 1
-END
-WRITE_LONG 0x38 ("%itemscount%" - "%removeditems%")
-PATCH_IF ("%purchasedoffset%" > "%itemsoffset%") BEGIN WRITE_LONG 0x2C ("%purchasedoffset%" - ("%removeditems%" * 28)) END
-PATCH_IF ("%drinksoffset%" > "%itemsoffset%") BEGIN WRITE_LONG 0x4C ("%drinksoffset%" - ("%removeditems%" * 28)) END
-PATCH_IF ("%curesoffset%" > "%itemsoffset%") BEGIN WRITE_LONG 0x70 ("%curesoffset%" - ("%removeditems%" * 28)) END
-END
+REMOVE_STORE_ITEM ~sw1h40~
+REMOVE_STORE_ITEM ~ax1h12~
+REMOVE_STORE_ITEM ~slng07~
+REMOVE_STORE_ITEM ~scrl9b~
+REMOVE_STORE_ITEM ~ax1h10~
 
 COPY_EXISTING ~bhelm.sto~ ~Override/bhelm.sto~
 WRITE_LONG  0x14  165 // sell price markup
@@ -19156,30 +19175,10 @@ PATCH_IF ("%drinksoffset%" > "%itemsoffset%") BEGIN WRITE_LONG 0x4C ("%drinksoff
 PATCH_IF ("%curesoffset%" > "%itemsoffset%") BEGIN WRITE_LONG 0x70 ("%curesoffset%" - ("%removeditems%" * 28)) END
 END
 
+// Dawnmaster Kreel
 COPY_EXISTING ~dawnmas.sto~ ~Override/dawnmas.sto~
 WRITE_LONG  0x14  165 // sell price markup
-READ_LONG 0x38 "itemscount"
-PATCH_IF ("%itemscount%" > 0) BEGIN
-  READ_LONG 0x2C "purchasedoffset"
-  READ_LONG 0x34 "itemsoffset"
-  READ_LONG 0x4C "drinksoffset"
-  READ_LONG 0x70 "curesoffset"
-  SET "removeditems" = 0
-  SET "cnt" = "%itemscount%" - 1
-  WHILE ("%cnt%" >= 0) BEGIN
-    READ_ASCII ("%itemsoffset%" + "%cnt%"*28) "itemname"
-    PATCH_IF ("%itemname%" STRING_COMPARE_CASE "scrl09" = 0)
-   BEGIN
-   DELETE_BYTES ("%itemsoffset%" + ("%cnt%"*28)) 28
-   SET "removeditems" = "%removeditems%" + 1
-   END
-  SET "cnt" = "%cnt%" - 1
-END
-WRITE_LONG 0x38 ("%itemscount%" - "%removeditems%")
-PATCH_IF ("%purchasedoffset%" > "%itemsoffset%") BEGIN WRITE_LONG 0x2C ("%purchasedoffset%" - ("%removeditems%" * 28)) END
-PATCH_IF ("%drinksoffset%" > "%itemsoffset%") BEGIN WRITE_LONG 0x4C ("%drinksoffset%" - ("%removeditems%" * 28)) END
-PATCH_IF ("%curesoffset%" > "%itemsoffset%") BEGIN WRITE_LONG 0x70 ("%curesoffset%" - ("%removeditems%" * 28)) END
-END
+REMOVE_STORE_ITEM ~scrl09~
 
 COPY_EXISTING ~dmark1.sto~ ~Override/dmark1.sto~
 WRITE_LONG  0x14  165 // sell price markup
@@ -19361,34 +19360,14 @@ PATCH_IF ("%drinksoffset%" > "%itemsoffset%") BEGIN WRITE_LONG 0x4C ("%drinksoff
 PATCH_IF ("%curesoffset%" > "%itemsoffset%") BEGIN WRITE_LONG 0x70 ("%curesoffset%" - ("%removeditems%" * 28)) END
 END
 
+// Lady Yuth
 COPY_EXISTING ~scrolls.sto~ ~Override/scrolls.sto~
 WRITE_LONG  0x14  165 // sell price markup
 READ_BYTE  0x10 "stoflags"
 WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
-READ_LONG 0x38 "itemscount"
-PATCH_IF ("%itemscount%" > 0) BEGIN
-  READ_LONG 0x2C "purchasedoffset"
-  READ_LONG 0x34 "itemsoffset"
-  READ_LONG 0x4C "drinksoffset"
-  READ_LONG 0x70 "curesoffset"
-  SET "removeditems" = 0
-  SET "cnt" = "%itemscount%" - 1
-  WHILE ("%cnt%" >= 0) BEGIN
-    READ_ASCII ("%itemsoffset%" + "%cnt%"*28) "itemname"
-    PATCH_IF (("%itemname%" STRING_COMPARE_CASE "scrl09" = 0) OR
-              ("%itemname%" STRING_COMPARE_CASE "scrlaj" = 0) OR
-              ("%itemname%" STRING_COMPARE_CASE "scrl6t" = 0))
-   BEGIN
-   DELETE_BYTES ("%itemsoffset%" + ("%cnt%"*28)) 28
-   SET "removeditems" = "%removeditems%" + 1
-   END
-  SET "cnt" = "%cnt%" - 1
-END
-WRITE_LONG 0x38 ("%itemscount%" - "%removeditems%")
-PATCH_IF ("%purchasedoffset%" > "%itemsoffset%") BEGIN WRITE_LONG 0x2C ("%purchasedoffset%" - ("%removeditems%" * 28)) END
-PATCH_IF ("%drinksoffset%" > "%itemsoffset%") BEGIN WRITE_LONG 0x4C ("%drinksoffset%" - ("%removeditems%" * 28)) END
-PATCH_IF ("%curesoffset%" > "%itemsoffset%") BEGIN WRITE_LONG 0x70 ("%curesoffset%" - ("%removeditems%" * 28)) END
-END
+REMOVE_STORE_ITEM ~scrl09~
+REMOVE_STORE_ITEM ~scrlaj~
+REMOVE_STORE_ITEM ~scrl6t~
 
 COPY_EXISTING ~shop01.sto~ ~Override/shop01.sto~
 WRITE_LONG  0x14  165 // sell price markup
@@ -20118,6 +20097,54 @@ WRITE_LONG  0x18   30 // buy price markup
 
 COPY_EXISTING ~doghma.sto~ ~Override/doghma.sto~
 WRITE_LONG  0x14  165 // sell price markup
+
+ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
+  // Gul Dukeem
+  COPY_EXISTING ~ohngduke.sto~ ~Override/ohngduke.sto~
+    WRITE_LONG  0x14  165 // sell price markup
+    WRITE_LONG  0x18   30 // buy price markup
+    REMOVE_STORE_ITEM ~clck16~
+    REMOVE_STORE_ITEM ~staf05~
+
+  // Potion Merchant, Red Wizard Enclave
+  COPY_EXISTING ~ohnpotme.sto~ ~Override/ohnpotme.sto~
+    WRITE_LONG  0x14  165 // sell price markup
+    WRITE_LONG  0x18   30 // buy price markup
+    READ_BYTE  0x10 "stoflags"
+    WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+    REMOVE_STORE_ITEM ~potn04~
+    REMOVE_STORE_ITEM ~potn05~
+    REMOVE_STORE_ITEM ~potn06~
+    REMOVE_STORE_ITEM ~potn07~
+    REMOVE_STORE_ITEM ~potn34~
+    REMOVE_STORE_ITEM ~potn35~
+    REMOVE_STORE_ITEM ~potn40~
+
+  // Scroll Merchant, Red Wizard Enclave
+  COPY_EXISTING ~ohnscrme.sto~ ~Override/ohnscrme.sto~
+    WRITE_LONG  0x14  165 // sell price markup
+    WRITE_LONG  0x18   30 // buy price markup
+    READ_BYTE  0x10 "stoflags"
+    WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+    REMOVE_STORE_ITEM ~scrl6p~
+    REMOVE_STORE_ITEM ~scrl6s~
+    REMOVE_STORE_ITEM ~scrl7f~
+    REMOVE_STORE_ITEM ~scrl7j~
+    REMOVE_STORE_ITEM ~scrl7k~
+    REMOVE_STORE_ITEM ~scrl7u~
+    REMOVE_STORE_ITEM ~scrl8g~
+    REMOVE_STORE_ITEM ~scrl8j~
+    REMOVE_STORE_ITEM ~scrl8r~
+
+  // Wand Merchant, Red Wizard Enclave
+  COPY_EXISTING ~ohnwanme.sto~ ~Override/ohnwanme.sto~
+    WRITE_LONG  0x14  165 // sell price markup
+    WRITE_LONG  0x18   30 // buy price markup
+    READ_BYTE  0x10 "stoflags"
+    WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+    REMOVE_STORE_ITEM ~wand06~
+    REMOVE_STORE_ITEM ~wand18~
+END
 
 // copying voice files //
 
