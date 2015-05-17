@@ -12811,9 +12811,30 @@ COPY_EXISTING ~RIFTCR02.cre~ ~override/RIFTCR02.cre~
 END
 
 ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
-    // Panther, OH6000, rest spawn
+    // various creature spawns
     COPY_EXISTING ~CATJAG01.cre~ ~override/CATJAG01.cre~
+                  ~BEARBR01.cre~ ~override/BEARBR01.cre~
+                  ~BEARPO01.cre~ ~override/BEARPO01.cre~
+                  ~WOLFVA01.cre~ ~override/WOLFVA01.cre~
+                  ~WOLFDR01.cre~ ~override/WOLFDR01.cre~
+                  ~BEARCA01.cre~ ~override/BEARCA01.cre~
+                  ~WOLFWI01.cre~ ~override/WOLFWI01.cre~
+                  ~OHRSHASS.cre~ ~override/OHRSHASS.cre~
+                  ~OHRSHMRC.cre~ ~override/OHRSHMRC.cre~
+                  ~OHRSHDMK.cre~ ~override/OHRSHDMK.cre~
+                  ~OHRSHRAM.cre~ ~override/OHRSHRAM.cre~
+                  ~OHRSHAD1.cre~ ~override/OHRSHAD1.cre~
+                  ~WOLFDI.cre~ ~override/WOLFDI.cre~
+                  ~OHBGREST.cre~ ~override/OHBGREST.cre~
       WRITE_LONG  0x14 0 // xp
+      SPRINT ~flags~ ~UNDROPPABLE&UNSTEALABLE~
+      PATCH_FOR_EACH ~item_to_change~ IN ~misc01~
+                                         ~potn10~
+                                         ~potn52~
+                                         ~impinvis~
+      BEGIN
+        LAUNCH_PATCH_MACRO ~SET_CRE_ITEM_FLAGS~
+      END
 
     // Amanis Khal
     COPY_EXISTING ~ohnamani.cre~ ~override/ohnamani.cre~
@@ -16928,6 +16949,48 @@ ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
     PATCH_FOR_EACH ~item_to_delete~ IN ~clck01~ ~misc45~ ~wand06~ ~scrl7s~ ~scrl8r~ BEGIN
       LAUNCH_PATCH_MACRO ~DELETE_AREA_ITEM~
     END
+
+  // Deepstone Clanhold, Exterior
+  COPY_EXISTING ~OH4200.ARE~ ~override/OH4200.ARE~
+    PATCH_FOR_EACH ~item_to_delete~ IN ~potn11~ ~potn35~ BEGIN
+      LAUNCH_PATCH_MACRO ~DELETE_AREA_ITEM~
+    END
+
+  // Deepstone Clanhold
+  COPY_EXISTING ~OH4210.ARE~ ~override/OH4210.ARE~
+    PATCH_FOR_EACH ~item_to_delete~ IN ~potn04~ BEGIN
+      LAUNCH_PATCH_MACRO ~DELETE_AREA_ITEM~
+    END
+
+  // Deepstone Mines
+  COPY_EXISTING ~OH4220.ARE~ ~override/OH4220.ARE~
+      READ_LONG 0xC0 "interroffset"
+      WRITE_ASCII ("%interroffset%" + 72) ~S!umbhu2~ #8
+      WRITE_ASCII ("%interroffset%" + 80) ~S!umbhu2~ #8
+
+  // Dragomir's Tomb
+  COPY_EXISTING ~OH7000.ARE~ ~override/OH7000.ARE~
+      PATCH_FOR_EACH ~item_to_delete~ IN ~scrl09~ BEGIN
+        LAUNCH_PATCH_MACRO ~DELETE_AREA_ITEM~
+      END
+
+  // Crypt of Durkon
+  COPY_EXISTING ~OH7100.ARE~ ~override/OH7100.ARE~
+      PATCH_FOR_EACH ~item_to_delete~ IN ~amul23~ BEGIN
+        LAUNCH_PATCH_MACRO ~DELETE_AREA_ITEM~
+      END
+
+  // Tomb of the Unproved
+  COPY_EXISTING ~OH7200.ARE~ ~override/OH7200.ARE~
+      PATCH_FOR_EACH ~item_to_delete~ IN ~boot07~ BEGIN
+        LAUNCH_PATCH_MACRO ~DELETE_AREA_ITEM~
+      END
+
+  // Korkorran's Lair
+  COPY_EXISTING ~OH7300.ARE~ ~override/OH7300.ARE~
+      PATCH_FOR_EACH ~item_to_delete~ IN ~potn55~ BEGIN
+        LAUNCH_PATCH_MACRO ~DELETE_AREA_ITEM~
+      END
 END
 
 //Copying bs files//
