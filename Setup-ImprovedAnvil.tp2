@@ -12851,10 +12851,6 @@ ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
       END
 
     // Hayes
-    COPY_EXISTING ~ohntelan.cre~ ~override/ohntelan.cre~
-      WRITE_LONG  0x14 2000 // xp
-
-    // Telana
     COPY_EXISTING ~ohnhayes.cre~ ~override/ohnhayes.cre~
       WRITE_LONG  0x14 2000 // xp
 
@@ -12870,6 +12866,14 @@ ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
         flags = ~UNSTEALABLE&UNDROPPABLE~
       END
 
+    // Feldrak
+    COPY_EXISTING ~ohnfeldr.cre~ ~override/ohnfeldr.cre~
+      WRITE_LONG  0x14 3000 // xp
+      LAUNCH_PATCH_FUNCTION ~SET_CRE_ITEM_FLAGS~ STR_VAR
+        item_to_change = ~brac17~ ~clck06~ ~potn03~
+        flags = ~UNSTEALABLE&UNDROPPABLE~
+      END
+
     // Potion Merchant, Red Wizard Enclave
     COPY_EXISTING ~ohnpotme.cre~ ~override/ohnpotme.cre~
       WRITE_LONG  0x14 1000 // xp
@@ -12882,12 +12886,32 @@ ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
     COPY_EXISTING ~ohnwanme.cre~ ~override/ohnwanme.cre~
       WRITE_LONG  0x14 1000 // xp
 
+    // Magical Item Merchant
+    COPY_EXISTING ~ohnimim.cre~ ~override/ohnimim.cre~
+      WRITE_LONG  0x14 1000 // xp
+
+    // Weapon Merchant
+    COPY_EXISTING ~ohnsdwm.cre~ ~override/ohnsdwm.cre~
+      SPRINT ~flags~ ~UNDROPPABLE&UNSTEALABLE~
+      PATCH_FOR_EACH ~item_to_change~ IN ~ring27~ BEGIN
+        LAUNCH_PATCH_MACRO ~SET_CRE_ITEM_FLAGS~
+      END
+
     // Fadell Ironeye
     COPY_EXISTING ~ohnfadel.cre~ ~override/ohnfadel.cre~
       WRITE_LONG  0x14 4000 // xp
 
       SPRINT ~flags~ ~UNDROPPABLE&UNSTEALABLE~
       PATCH_FOR_EACH ~item_to_change~ IN ~potn52~ ~potn05~ BEGIN
+        LAUNCH_PATCH_MACRO ~SET_CRE_ITEM_FLAGS~
+      END
+
+    // Szass Tam
+    COPY_EXISTING ~ohnszass.cre~ ~override/ohnszass.cre~
+      WRITE_LONG  0x14 6000 // xp
+
+      SPRINT ~flags~ ~UNDROPPABLE&UNSTEALABLE~
+      PATCH_FOR_EACH ~item_to_change~ IN ~clck17~ ~staf12~ ~clck02~ ~wand18~ ~scrl9l~ ~scrl9m~ BEGIN
         LAUNCH_PATCH_MACRO ~SET_CRE_ITEM_FLAGS~
       END
 
@@ -12898,7 +12922,31 @@ ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
         LAUNCH_PATCH_MACRO ~SET_CRE_ITEM_FLAGS~
       END
 
-    // Thayan Mercenaries, Wizards & Guards, Red Wizard Enclave
+    // Lea Gosh'Aar
+    COPY_EXISTING ~ohnlea.cre~ ~override/ohnlea.cre~
+      WRITE_LONG  0x14 4000 // xp
+      SPRINT ~flags~ ~UNDROPPABLE&UNSTEALABLE~
+      PATCH_FOR_EACH ~item_to_change~ IN ~helm20~ ~amul23~ ~chan13~ ~boot04~ ~sw1h23~ ~potn55~ ~potn35~ BEGIN
+        LAUNCH_PATCH_MACRO ~SET_CRE_ITEM_FLAGS~
+      END
+
+    // Vicross
+    COPY_EXISTING ~ohnvicro.cre~ ~override/ohnvicro.cre~
+      WRITE_LONG  0x14 4000 // xp
+      SPRINT ~flags~ ~UNDROPPABLE&UNSTEALABLE~
+      PATCH_FOR_EACH ~item_to_change~ IN ~clck17~ ~ring06~ ~potn55~ ~wand18~ ~scrl9m~ ~potn52~ BEGIN
+        LAUNCH_PATCH_MACRO ~SET_CRE_ITEM_FLAGS~
+      END
+
+    // Voghiln the Last
+    COPY_EXISTING ~ohnvoghi.cre~ ~override/ohnvoghi.cre~
+      WRITE_LONG  0x14 4000 // xp
+      SPRINT ~flags~ ~UNDROPPABLE&UNSTEALABLE~
+      PATCH_FOR_EACH ~item_to_change~ IN ~chan15~ ~belt07~ ~ax1h08~ ~clck02~ BEGIN
+        LAUNCH_PATCH_MACRO ~SET_CRE_ITEM_FLAGS~
+      END
+
+    // Thayan Mercenaries, Wizards & Guards, etc.
     COPY_EXISTING ~OHNRWME2.cre~ ~override/OHNRWME2.cre~
                   ~ohnmmer1.cre~ ~override/ohnmmer1.cre~
                   ~ohnfmer1.cre~ ~override/ohnfmer1.cre~
@@ -12918,11 +12966,25 @@ ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
                   ~ohnredw8.cre~  ~override/ohnredw8.cre~
                   ~ohnthfi1.cre~  ~override/ohnthfi1.cre~
                   ~ohnthkni.cre~  ~override/ohnthkni.cre~
-
+                  ~ohnthkn1.cre~  ~override/ohnthkn1.cre~
+                  ~ohnthkn2.cre~  ~override/ohnthkn2.cre~
+                  ~ohnamns.cre~ ~override/ohnamns.cre~
+                  ~ohnrwbou.cre~ ~override/ohnrwbou.cre~
+                  ~ohnrwt1.cre~ ~override/ohnrwt1.cre~
+                  ~ohnvg01.cre~ ~override/ohnvg01.cre~
+                  ~ohnvgb.cre~ ~override/ohnvgb.cre~
+                  ~ohnvgc.cre~ ~override/ohnvgc.cre~
+                  ~ohnvgk.cre~ ~override/ohnvgk.cre~
+                  ~ohnvrw1.cre~ ~override/ohnvrw1.cre~
+                  ~ohnyuan.cre~ ~override/ohnyuan.cre~
       WRITE_LONG  0x14 1000 // xp
 
       SPRINT ~flags~ ~UNDROPPABLE&UNSTEALABLE~
-      PATCH_FOR_EACH ~item_to_change~ IN ~potn52~ ~potn14~ ~clck10~ ~scrl5o~ ~scrla7~ ~potn11~ BEGIN
+      PATCH_FOR_EACH ~item_to_change~ IN ~potn52~ ~potn14~ ~clck10~ ~scrl5o~ ~scrla7~ ~potn11~
+                                         ~clck10~ ~ring06~ ~potn35~ ~potn34~ ~clck11~ ~clck09~
+                                         ~sw1h41~ ~potn05~ ~sw2h11~ ~potn55~ ~rods06~ ~plat19~
+                                         ~sw1h76~ ~sw1h73~
+      BEGIN
         LAUNCH_PATCH_MACRO ~SET_CRE_ITEM_FLAGS~
       END
 
@@ -13052,6 +13114,230 @@ ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
                                          ~sw2h11~
                                          ~potn52~
                                          ~potn05~
+      BEGIN
+        LAUNCH_PATCH_MACRO ~SET_CRE_ITEM_FLAGS~
+      END
+
+    // Hexxat's content //
+
+    // Daxxii
+    COPY_EXISTING ~ohhaunt.cre~ ~override/ohhaunt.cre~
+      WRITE_LONG  0x14 2000 // xp
+      SPRINT ~flags~ ~UNDROPPABLE&UNSTEALABLE~
+      PATCH_FOR_EACH ~item_to_change~ IN ~clck01~ ~potn55~
+      BEGIN
+        LAUNCH_PATCH_MACRO ~SET_CRE_ITEM_FLAGS~
+      END
+
+    // Rabi'ah, Statue, Yi Niu, Amanis Khal
+    COPY_EXISTING ~ohhayesh.cre~ ~override/ohhayesh.cre~
+                  ~ohhwiz.cre~ ~override/ohhwiz.cre~
+                  ~ohhyiniu.cre~ ~override/ohhyiniu.cre~
+      WRITE_LONG  0x14 1000 // xp
+      SPRINT ~flags~ ~UNDROPPABLE&UNSTEALABLE~
+      PATCH_FOR_EACH ~item_to_change~ IN ~potn55~ ~clck10~
+      BEGIN
+        LAUNCH_PATCH_MACRO ~SET_CRE_ITEM_FLAGS~
+      END
+
+    // Borok
+    COPY_EXISTING ~ohhborok.cre~ ~override/ohhborok.cre~
+      WRITE_LONG  0x14 2000 // xp
+
+    // Culak, Liches, Korkorran, Umolex
+    COPY_EXISTING ~ohhculak.cre~ ~override/ohhculak.cre~
+                  ~ohhdecoy.cre~ ~override/ohhdecoy.cre~
+                  ~ohhgprst.cre~ ~override/ohhgprst.cre~
+                  ~ohhkork.cre~ ~override/ohhkork.cre~
+                  ~ohhumol.cre~ ~override/ohhumol.cre~
+      WRITE_LONG  0x14 10000 // xp
+      SPRINT ~flags~ ~UNDROPPABLE&UNSTEALABLE~
+      PATCH_FOR_EACH ~item_to_change~ IN ~clck10~ ~ring09~ ~belt06~
+                                         ~clck17~ ~ring46~ ~potn55~
+      BEGIN
+        LAUNCH_PATCH_MACRO ~SET_CRE_ITEM_FLAGS~
+      END
+
+    // Furious Djinni
+    COPY_EXISTING ~ohhdjinn.cre~ ~override/ohhdjinn.cre~
+      WRITE_LONG  0x14 2500 // xp
+      SPRINT ~flags~ ~UNDROPPABLE&UNSTEALABLE~
+      PATCH_FOR_EACH ~item_to_change~ IN ~sw1h23~
+      BEGIN
+        LAUNCH_PATCH_MACRO ~SET_CRE_ITEM_FLAGS~
+      END
+
+    // Dragomir the Red
+    COPY_EXISTING ~ohhdrago.cre~ ~override/ohhdrago.cre~
+      WRITE_LONG  0x14 3000 // xp
+      SPRINT ~flags~ ~UNDROPPABLE&UNSTEALABLE~
+      PATCH_FOR_EACH ~item_to_change~ IN ~sw2h11~
+      BEGIN
+        LAUNCH_PATCH_MACRO ~SET_CRE_ITEM_FLAGS~
+      END
+
+    // various enemies
+    COPY_EXISTING ~ohhghuf.cre~ ~override/ohhghuf.cre~
+                  ~ohhgm01.cre~ ~override/ohhgm01.cre~
+                  ~ohhgm02.cre~ ~override/ohhgm02.cre~
+                  ~ohhgm03.cre~ ~override/ohhgm03.cre~
+                  ~ohhgmonk.cre~ ~override/ohhgmonk.cre~
+                  ~ohhhafiz.cre~ ~override/ohhhafiz.cre~
+                  ~ohhiqbal.cre~ ~override/ohhiqbal.cre~
+                  ~ohhjiang.cre~ ~override/ohhjiang.cre~
+                  ~ohhkeno.cre~ ~override/ohhkeno.cre~
+                  ~ohhkichi.cre~ ~override/ohhkichi.cre~
+                  ~ohhkwon.cre~ ~override/ohhkwon.cre~
+                  ~ohhqais.cre~ ~override/ohhqais.cre~
+                  ~ohhweimi.cre~ ~override/ohhweimi.cre~
+      WRITE_LONG  0x14 3000 // xp
+      SPRINT ~flags~ ~UNDROPPABLE&UNSTEALABLE~
+      PATCH_FOR_EACH ~item_to_change~ IN ~potn55~ ~blun21~
+      BEGIN
+        LAUNCH_PATCH_MACRO ~SET_CRE_ITEM_FLAGS~
+      END
+
+    // Bilqis, Aminah
+    COPY_EXISTING ~ohhhafsa.cre~ ~override/ohhhafsa.cre~
+                  ~ohhmirri.cre~ ~override/ohhmirri.cre~
+      WRITE_LONG  0x14 3000 // xp
+      SPRINT ~flags~ ~UNDROPPABLE&UNSTEALABLE~
+      PATCH_FOR_EACH ~item_to_change~ IN ~leat12~ ~bow26~ ~potn55~ ~sw2h11~
+      BEGIN
+        LAUNCH_PATCH_MACRO ~SET_CRE_ITEM_FLAGS~
+      END
+
+    // Phreya
+    COPY_EXISTING ~ohhphrey.cre~ ~override/ohhphrey.cre~
+      WRITE_LONG  0x14 10000 // xp
+      SPRINT ~flags~ ~UNDROPPABLE&UNSTEALABLE~
+      PATCH_FOR_EACH ~item_to_change~ IN ~leat24~ ~ring05~ ~ring21~ ~potn55~
+      BEGIN
+        LAUNCH_PATCH_MACRO ~SET_CRE_ITEM_FLAGS~
+      END
+
+    // Rasaad's content //
+
+    // Overseer Akuda, Aldun, Azmadi, Ovidiu, Razvan
+    COPY_EXISTING ~ohrakuda.cre~ ~override/ohrakuda.cre~
+                  ~ohraldun.cre~ ~override/ohraldun.cre~
+                  ~ohroazma.cre~ ~override/ohroazma.cre~
+                  ~ohrovidi.cre~ ~override/ohrovidi.cre~
+                  ~ohrrazva.cre~ ~override/ohrrazva.cre~
+      WRITE_LONG  0x14 2000 // xp
+      SPRINT ~flags~ ~UNDROPPABLE&UNSTEALABLE~
+      PATCH_FOR_EACH ~item_to_change~ IN ~blun13~ ~potn55~ ~potn52~ ~bow24~ ~arow06~
+      BEGIN
+        LAUNCH_PATCH_MACRO ~SET_CRE_ITEM_FLAGS~
+      END
+
+    // Danys, Assassins, Inquisitor, Sephos, Yxtrazzal
+    COPY_EXISTING ~ohrdanys.cre~ ~override/ohrdanys.cre~
+                  ~ohrfass2.cre~ ~override/ohrfass2.cre~
+                  ~ohrmass2.cre~ ~override/ohrmass2.cre~
+                  ~ohrmassa.cre~ ~override/ohrmassa.cre~
+                  ~ohrmurun.cre~ ~override/ohrmurun.cre~
+                  ~ohrsepho.cre~ ~override/ohrsepho.cre~
+                  ~ohryxtra.cre~ ~override/ohryxtra.cre~
+      WRITE_LONG  0x14 7000 // xp
+      SPRINT ~flags~ ~UNDROPPABLE&UNSTEALABLE~
+      PATCH_FOR_EACH ~item_to_change~ IN ~leat08~ ~sw1h74~ ~potn55~ ~potn52~ ~plat23~ ~blun34~
+                                         ~sw1h74~ ~sw1h73~ ~scaleb~
+      BEGIN
+        LAUNCH_PATCH_MACRO ~SET_CRE_ITEM_FLAGS~
+      END
+
+    // Alorgoth, Braitenbach, Collus, Cuddy, Jassar, Meems
+    // Master of Combat, Sharran Sorcerer, Shani, Dark Moon Monk
+    // Taddaus, Theyeredahl, Torcadahl
+    COPY_EXISTING ~ohralor.cre~ ~override/ohralor.cre~
+                  ~ohralor2.cre~ ~override/ohralor2.cre~
+                  ~ohrbrait.cre~ ~override/ohrbrait.cre~
+                  ~ohrcollu.cre~ ~override/ohrcollu.cre~
+                  ~ohrcuddy.cre~ ~override/ohrcuddy.cre~
+                  ~ohrjassa.cre~ ~override/ohrjassa.cre~
+                  ~ohrmeems.cre~ ~override/ohrmeems.cre~
+                  ~ohrmocom.cre~ ~override/ohrmocom.cre~
+                  ~ohrsdg1.cre~ ~override/ohrsdg1.cre~
+                  ~ohrsdg2.cre~ ~override/ohrsdg2.cre~
+                  ~ohrsgma1.cre~ ~override/ohrsgma1.cre~
+                  ~ohrsgma2.cre~ ~override/ohrsgma2.cre~
+                  ~ohrsgua1.cre~ ~override/ohrsgua1.cre~
+                  ~ohrsgua2.cre~ ~override/ohrsgua2.cre~
+                  ~ohrshani.cre~ ~override/ohrshani.cre~
+                  ~ohrshm9.cre~ ~override/ohrshm9.cre~
+                  ~ohrshmer.cre~ ~override/ohrshmer.cre~
+                  ~ohrshmon.cre~ ~override/ohrshmon.cre~
+                  ~ohrshr11.cre~ ~override/ohrshr11.cre~
+                  ~ohrshr12.cre~ ~override/ohrshr12.cre~
+                  ~ohrshr20.cre~ ~override/ohrshr20.cre~
+                  ~ohrshr21.cre~ ~override/ohrshr21.cre~
+                  ~ohrshr22.cre~ ~override/ohrshr22.cre~
+                  ~ohrshr23.cre~ ~override/ohrshr23.cre~
+                  ~ohrshr30.cre~ ~override/ohrshr30.cre~
+                  ~ohrshr31.cre~ ~override/ohrshr31.cre~
+                  ~ohrshr32.cre~ ~override/ohrshr32.cre~
+                  ~ohrtadda.cre~ ~override/ohrtadda.cre~
+                  ~ohrtallu.cre~ ~override/ohrtallu.cre~
+                  ~ohrtheye.cre~ ~override/ohrtheye.cre~
+                  ~ohrtorca.cre~ ~override/ohrtorca.cre~
+                  ~ohrtreya.cre~ ~override/ohrtreya.cre~
+      WRITE_LONG  0x14 4000 // xp
+      SPRINT ~flags~ ~UNDROPPABLE&UNSTEALABLE~
+      PATCH_FOR_EACH ~item_to_change~ IN ~potn55~ ~potn05~ ~plat19~ ~sw2h20~ ~potn52~
+                                         ~clck01~ ~potn34~ ~clck10~ ~ring06~ ~potn06~
+                                         ~halb03~ ~potn11~ ~scrl9m~ ~ax1h17~ ~sw1h74~
+                                         ~blun34~ ~shld19~ ~shld29~ ~blun15~ ~blun13~
+                                         ~sw2h11~ ~sw1h74~
+      BEGIN
+        LAUNCH_PATCH_MACRO ~SET_CRE_ITEM_FLAGS~
+      END
+
+    // Various enemies
+    COPY_EXISTING ~ohramb.cre~ ~override/ohramb.cre~
+                  ~ohramphi.cre~ ~override/ohramphi.cre~
+                  ~ohrbull1.cre~ ~override/ohrbull1.cre~
+                  ~ohrbull2.cre~ ~override/ohrbull2.cre~
+                  ~ohrcless.cre~ ~override/ohrcless.cre~
+                  ~ohrdaltn.cre~ ~override/ohrdaltn.cre~
+                  ~ohrgeld.cre~ ~override/ohrgeld.cre~
+                  ~ohrghell.cre~ ~override/ohrghell.cre~
+                  ~ohrhaldo.cre~ ~override/ohrhaldo.cre~
+                  ~ohrhdeep.cre~ ~override/ohrhdeep.cre~
+                  ~ohrhgua1.cre~ ~override/ohrhgua1.cre~
+                  ~ohrhgua2.cre~ ~override/ohrhgua2.cre~
+                  ~ohrhgua3.cre~ ~override/ohrhgua3.cre~
+                  ~ohrhhelm.cre~ ~override/ohrhhelm.cre~
+                  ~ohrhojar.cre~ ~override/ohrhojar.cre~
+                  ~ohrjaden.cre~ ~override/ohrjaden.cre~
+                  ~ohrjolst.cre~ ~override/ohrjolst.cre~
+                  ~ohrlemp.cre~ ~override/ohrlemp.cre~
+                  ~ohrlemze.cre~ ~override/ohrlemze.cre~
+                  ~ohrovs1.cre~ ~override/ohrovs1.cre~
+                  ~ohrovs2.cre~ ~override/ohrovs2.cre~
+                  ~ohrovs9.cre~ ~override/ohrovs9.cre~
+                  ~ohrovsm.cre~ ~override/ohrovsm.cre~
+                  ~ohrovsw.cre~ ~override/ohrovsw.cre~
+                  ~ohrsahan.cre~ ~override/ohrsahan.cre~
+                  ~ohrsbg.cre~ ~override/ohrsbg.cre~
+                  ~ohrshcru.cre~ ~override/ohrshcru.cre~
+                  ~ohrshdm9.cre~ ~override/ohrshdm9.cre~
+                  ~ohrshdmm.cre~ ~override/ohrshdmm.cre~
+                  ~ohrshg01.cre~ ~override/ohrshg01.cre~
+                  ~ohrshg02.cre~ ~override/ohrshg02.cre~
+                  ~ohrshrn1.cre~ ~override/ohrshrn1.cre~
+                  ~ohrshrn2.cre~ ~override/ohrshrn2.cre~
+                  ~ohrshrn3.cre~ ~override/ohrshrn3.cre~
+                  ~ohrshrn4.cre~ ~override/ohrshrn4.cre~
+                  ~ohrshrn5.cre~ ~override/ohrshrn5.cre~
+                  ~ohrshrn6.cre~ ~override/ohrshrn6.cre~
+                  ~ohrshsor.cre~ ~override/ohrshsor.cre~
+                  ~ohrshsos.cre~ ~override/ohrshsos.cre~
+                  ~ohrsscar.cre~ ~override/ohrsscar.cre~
+      WRITE_LONG  0x14 2000 // xp
+      SPRINT ~flags~ ~UNDROPPABLE&UNSTEALABLE~
+      PATCH_FOR_EACH ~item_to_change~ IN ~potn55~ ~potn52~ ~potn11~ ~ax1h17~ ~potn05~ ~chan21~
+                                         ~shld19~ ~blun34~ ~clck01~ ~potn15~ ~potn34~
       BEGIN
         LAUNCH_PATCH_MACRO ~SET_CRE_ITEM_FLAGS~
       END
