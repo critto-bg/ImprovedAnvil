@@ -12811,6 +12811,10 @@ COPY_EXISTING ~RIFTCR02.cre~ ~override/RIFTCR02.cre~
 END
 
 ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
+    // one of the anti-paladins that are present with the Supreme Leader
+    // replace the Beamdog creature with our default one to avoid patching the area
+    COPY_EXISTING ~gith03.cre~ ~override/ohgith03.cre~
+
     // various creature spawns
     COPY_EXISTING ~CATJAG01.cre~ ~override/CATJAG01.cre~
                   ~BEARBR01.cre~ ~override/BEARBR01.cre~
@@ -12835,6 +12839,8 @@ ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
       BEGIN
         LAUNCH_PATCH_MACRO ~SET_CRE_ITEM_FLAGS~
       END
+
+    // Neera's content //
 
     // Amanis Khal
     COPY_EXISTING ~ohnamani.cre~ ~override/ohnamani.cre~
@@ -12919,6 +12925,138 @@ ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
       PATCH_FOR_EACH ~item_to_change~ IN ~potn52~ ~potn14~ ~clck10~ ~scrl5o~ ~scrla7~ ~potn11~ BEGIN
         LAUNCH_PATCH_MACRO ~SET_CRE_ITEM_FLAGS~
       END
+
+    // Dorn's content //
+
+    // Azothet
+    COPY_EXISTING ~ohdazot1.cre~ ~override/ohdazot1.cre~
+                  ~ohdazoth.cre~ ~override/ohdazoth.cre~
+      WRITE_LONG  0x14 10000 // xp
+      SPRINT ~flags~ ~UNDROPPABLE&UNSTEALABLE~
+      PATCH_FOR_EACH ~item_to_change~ IN ~sw1h52~
+      BEGIN
+        LAUNCH_PATCH_MACRO ~SET_CRE_ITEM_FLAGS~
+      END
+
+    // Baldwin
+    COPY_EXISTING ~ohdbald.cre~ ~override/ohdbald.cre~
+      SPRINT ~flags~ ~UNDROPPABLE&UNSTEALABLE~
+      PATCH_FOR_EACH ~item_to_change~ IN ~staf08~
+      BEGIN
+        LAUNCH_PATCH_MACRO ~SET_CRE_ITEM_FLAGS~
+      END
+
+    // Crusaders, Paladins of Tyr, Priests of Tyr, etc.
+    COPY_EXISTING ~ohdcrcut.cre~ ~override/ohdcrcut.cre~
+                  ~ohdcru01.cre~ ~override/ohdcru01.cre~
+                  ~ohdcru02.cre~ ~override/ohdcru02.cre~
+                  ~ohdcru03.cre~ ~override/ohdcru03.cre~
+                  ~ohdcru04.cre~ ~override/ohdcru04.cre~
+                  ~ohddef01.cre~ ~override/ohddef01.cre~
+                  ~ohddef02.cre~ ~override/ohddef02.cre~
+                  ~ohddef03.cre~ ~override/ohddef03.cre~
+                  ~ohdlufcl.cre~ ~override/ohdlufcl.cre~
+                  ~ohdlufpl.cre~ ~override/ohdlufpl.cre~
+                  ~ohdlumcl.cre~ ~override/ohdlumcl.cre~
+                  ~ohdlumpl.cre~ ~override/ohdlumpl.cre~
+                  ~ohdneo01.cre~ ~override/ohdneo01.cre~
+                  ~ohdneo02.cre~ ~override/ohdneo02.cre~
+                  ~ohdneo03.cre~ ~override/ohdneo03.cre~
+                  ~ohdneo04.cre~ ~override/ohdneo04.cre~
+                  ~ohdppal.cre~ ~override/ohdppal.cre~
+                  ~ohdppe02.cre~ ~override/ohdppe02.cre~
+                  ~ohdppe01.cre~ ~override/ohdppe01.cre~
+                  ~ohdppet.cre~ ~override/ohdppet.cre~
+                  ~ohdrdef.cre~ ~override/ohdrdef.cre~
+                  ~ohdtree0.cre~ ~override/ohdtree0.cre~
+                  ~ohdtree1.cre~ ~override/ohdtree1.cre~
+                  ~ohdtree2.cre~ ~override/ohdtree2.cre~
+                  ~ohdtree3.cre~ ~override/ohdtree3.cre~
+      WRITE_LONG  0x14 2000 // xp
+      SPRINT ~flags~ ~UNDROPPABLE&UNSTEALABLE~
+      PATCH_FOR_EACH ~item_to_change~ IN ~plat23~
+                                         ~hamm12~
+                                         ~chan07~
+                                         ~staf19~
+                                         ~plat02~
+                                         ~plat04~
+                                         ~plat19~
+                                         ~ohdhswd~
+                                         ~sw1h73~
+                                         ~sw2h20~
+                                         ~ring06~
+                                         ~blun34~
+                                         ~slng10~
+                                         ~amul14~
+                                         ~sper06~
+                                         ~blun31~
+                                         ~dagg24~
+                                         ~blun33~
+      BEGIN
+        LAUNCH_PATCH_MACRO ~SET_CRE_ITEM_FLAGS~
+      END
+
+    // Planetars
+    COPY_EXISTING ~ohdplanb.cre~ ~override/ohdplanb.cre~
+                  ~ohdplanj.cre~ ~override/ohdplanj.cre~
+                  ~ohdplanl.cre~ ~override/ohdplanl.cre~
+                  ~ohdpplan.cre~ ~override/ohdpplan.cre~
+                  ~ohdsolar.cre~ ~override/ohdsolar.cre~
+                  ~ohdsplan.cre~ ~override/ohdsplan.cre~
+      WRITE_LONG  0x14 5000 // xp
+
+    // Saemon Havarian
+    COPY_EXISTING ~ohdsaem.cre~ ~override/ohdsaem.cre~
+      WRITE_LONG  0x14 5000 // xp
+      SPRINT ~flags~ ~UNDROPPABLE&UNSTEALABLE~
+      PATCH_FOR_EACH ~item_to_change~ IN ~sw1h52~ ~potn55~
+      BEGIN
+        LAUNCH_PATCH_MACRO ~SET_CRE_ITEM_FLAGS~
+      END
+
+    // Dolrassa, Ixthezzys, Ur-Gothoz
+    COPY_EXISTING ~ohdddolr.cre~ ~override/ohdddolr.cre~
+                  ~ohddixth.cre~ ~override/ohddixth.cre~
+                  ~ohduggut.cre~ ~override/ohduggut.cre~
+      WRITE_LONG  0x14 20000 // xp
+      SPRINT ~flags~ ~UNDROPPABLE&UNSTEALABLE~
+      PATCH_FOR_EACH ~item_to_change~ IN ~ohdscale~
+      BEGIN
+        LAUNCH_PATCH_MACRO ~SET_CRE_ITEM_FLAGS~
+      END
+
+    // various NPCs that drop powerul stuff and give too much XP
+    COPY_EXISTING ~ohdbald.cre~ ~override/ohdbald.cre~
+                  ~ohdby02.cre~ ~override/ohdby02.cre~
+                  ~ohdchan1.cre~ ~override/ohdchan1.cre~
+                  ~ohdchan2.cre~ ~override/ohdchan2.cre~
+                  ~ohdchan3.cre~ ~override/ohdchan3.cre~
+                  ~ohdham01.cre~ ~override/ohdham01.cre~
+                  ~ohdham02.cre~ ~override/ohdham02.cre~
+                  ~ohdham03.cre~ ~override/ohdham03.cre~
+                  ~ohdhokk.cre~ ~override/ohdhokk.cre~
+                  ~ohdkryll.cre~ ~override/ohdkryll.cre~
+                  ~ohdnaima.cre~ ~override/ohdnaima.cre~
+                  ~ohdterp.cre~ ~override/ohdterp.cre~
+                  ~ohdtragg.cre~ ~override/ohdtragg.cre~
+      WRITE_LONG  0x14 1000 // xp
+      SPRINT ~flags~ ~UNDROPPABLE&UNSTEALABLE~
+      PATCH_FOR_EACH ~item_to_change~ IN ~chan21~
+                                         ~potn52~
+                                         ~blun21~
+                                         ~helm03~
+                                         ~clck01~
+                                         ~ring06~
+                                         ~amul25~
+                                         ~blun13~
+                                         ~sw2h11~
+                                         ~potn52~
+                                         ~potn05~
+      BEGIN
+        LAUNCH_PATCH_MACRO ~SET_CRE_ITEM_FLAGS~
+      END
+
+    // Joinable NPCs //
 
     // Neera
     COPY_EXISTING ~neera8.cre~ ~Override/neera8.cre~
