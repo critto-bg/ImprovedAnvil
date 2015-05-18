@@ -1123,7 +1123,11 @@ APPEND WSMITH01
 
   IF ~~ THEN BEGIN lei
     SAY @523 IF ~~ THEN REPLY @2 GOTO 13
-    IF ~PartyHasItem("S!amul01") PartyHasItem("S!misc14") NumItemsPartyGT("amul14",2) NumItemsPartyGT("amul05",2)
+    IF ~PartyHasItem("S!amul01")
+        PartyHasItem("S!misc14")
+        NumItemsPartyGT("amul14",2)
+        NumItemsPartyGT("amul05",2)
+        NumItemsPartyGT("potn37",2)
         PartyGoldGT(74999)~
       THEN REPLY @3
       DO ~TakePartyGold(75000)      DestroyGold(75000)
@@ -1135,6 +1139,9 @@ APPEND WSMITH01
           TakePartyItemNum("amul05",1)   DestroyItem("amul05")
           TakePartyItemNum("amul05",1)   DestroyItem("amul05")
           TakePartyItemNum("amul05",1)   DestroyItem("amul05")
+          TakePartyItemNum("potn37",1)   DestroyItem("potn37")
+          TakePartyItemNum("potn37",1)   DestroyItem("potn37")
+          TakePartyItemNum("potn37",1)   DestroyItem("potn37")
           GiveItemCreate("S!amul03",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
