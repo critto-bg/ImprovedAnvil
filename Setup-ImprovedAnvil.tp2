@@ -19094,6 +19094,21 @@ COPY_EXISTING ~SPWI912.spl~ ~override/SPWI912.spl~
 COPY_EXISTING ~METSWARM.pro~ ~override/METSWARM.pro~
   WRITE_BYTE 0x216      4
 
+
+ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
+  // DD, defensive stance
+  COPY_EXISTING ~spdwd02.spl~ ~override/spdwd02.spl~
+    SAY UNIDENTIFIED_DESC @10216
+    PATCH_FOR_EACH ~opcode_number~ IN ~86~ ~87~ ~88~ ~89~ BEGIN
+      LAUNCH_PATCH_FUNCTION ~ALTER_SPELL_EFFECT~ INT_VAR
+        check_headers = 1
+        header_type = 1
+        match_opcode = ~%opcode_number%~
+        parameter1 = 25
+      END
+    END
+END
+
 //Compiling dialogue files//
 
 COMPILE ~ImprovedAnvil/dlg/cespfix.d~
@@ -20976,5 +20991,9 @@ STRING_SET ~65410~ @11094
 STRING_SET ~5020~ @11095
 STRING_SET ~10850~ @11096
 STRING_SET ~22429~ @11115
+
+ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
+  STRING_SET ~74301~ @10217
+END
 
 // AT_INTERACTIVE_EXIT ~VIEW "ImprovedAnvil/Improved Anvil_readme.txt"~
