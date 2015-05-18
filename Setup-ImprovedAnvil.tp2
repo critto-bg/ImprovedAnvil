@@ -2662,6 +2662,137 @@ ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
       LAUNCH_PATCH_FUNCTION ~DELETE_ITEM_EFFECT~ INT_VAR
         "opcode_to_delete" = 60 // Casting failure
       END
+
+  // The Visage
+  COPY_EXISTING ~ohdmask.itm~ ~override/ohdmask.itm~
+      SAY DESC @10204
+
+      LAUNCH_PATCH_FUNCTION ~DELETE_ITEM_EFFECT~ INT_VAR
+        "opcode_to_delete" = 60 // Casting failure
+      END
+
+      LAUNCH_PATCH_FUNCTION ~DELETE_ITEM_EQEFFECT~ INT_VAR
+        "opcode_to_delete" = 101 // Immunity to effect
+      END
+
+      LAUNCH_PATCH_FUNCTION ~DELETE_ITEM_EQEFFECT~ INT_VAR
+        "opcode_to_delete" = 169 // Prevent portrait icon
+      END
+
+      LAUNCH_PATCH_FUNCTION ~DELETE_ITEM_EQEFFECT~ INT_VAR
+        "opcode_to_delete" = 267 // Disable display string
+      END
+
+      LAUNCH_PATCH_FUNCTION ~DELETE_ITEM_EQEFFECT~ INT_VAR
+        "opcode_to_delete" = 296 // Immunity to specific animation
+      END
+
+      LAUNCH_PATCH_FUNCTION ~DELETE_ITEM_EQEFFECT~ INT_VAR
+        "opcode_to_delete" = 23 // Reset morale
+      END
+
+      LAUNCH_PATCH_FUNCTION ~DELETE_ITEM_EQEFFECT~ INT_VAR
+        "opcode_to_delete" = 161 // Remove fear
+      END
+
+      LAUNCH_PATCH_FUNCTION ~DELETE_ITEM_EQEFFECT~ INT_VAR
+        "opcode_to_delete" = 106 // Morale break
+      END
+
+      LAUNCH_PATCH_FUNCTION ~DELETE_ITEM_EQEFFECT~ INT_VAR
+        "opcode_to_delete" = 240 // Remove portrait icon
+      END
+
+  // The Jade Fang
+  COPY_EXISTING ~ohhdag01.itm~ ~override/ohhdag01.itm~
+      SAY DESC @10205
+      WRITE_LONG 0x60 2 // Enchantment
+
+      LAUNCH_PATCH_FUNCTION ~ALTER_ITEM_HEADER~ INT_VAR
+        "header_type" = 1
+        "damage_bonus" = 2
+        "thac0_bonus" = 2
+      END
+
+  // Gauntlets of Ain Zekk
+  COPY_EXISTING ~ohrbrac1.itm~ ~override/ohrbrac1.itm~
+      SAY DESC @10206
+
+      LAUNCH_PATCH_FUNCTION ~DELETE_ITEM_EQEFFECT~ INT_VAR
+        "opcode_to_delete" = 289 // Fist damage bonus
+      END
+
+  // Cloak of the Dark Moon
+  COPY_EXISTING ~ohrclck4.itm~ ~override/ohrclck4.itm~
+      SAY DESC @10207
+
+      LAUNCH_PATCH_FUNCTION ~DELETE_ITEM_HEADER~ INT_VAR
+        "header_type" = 3 // Magical
+      END
+
+      LAUNCH_PATCH_FUNCTION ~DELETE_ITEM_EQEFFECT~ INT_VAR
+        "opcode_to_delete" = 232 // Cast spell on condition
+      END
+
+  // Headband of the Devout
+  COPY_EXISTING ~ohrhelm1.itm~ ~override/ohrhelm1.itm~
+      SAY DESC @10208
+
+      LAUNCH_PATCH_FUNCTION ~DELETE_ITEM_HEADER~ INT_VAR
+        "header_type" = 3 // Magical
+      END
+
+  // Ring of Duplication
+  COPY_EXISTING ~ohrring1.itm~ ~override/ohrring1.itm~
+      SAY DESC @10209
+
+      LAUNCH_PATCH_FUNCTION ~DELETE_ITEM_HEADER~ INT_VAR
+        "header_type" = 3 // Magical
+      END
+
+  // Abyssal Blade #1
+  COPY_EXISTING ~ohdsw2ha.itm~ ~override/ohdsw2ha.itm~
+      SAY DESC @10210
+      WRITE_LONG 0x60 2 // Enchantment
+
+      LAUNCH_PATCH_FUNCTION ~ALTER_ITEM_HEADER~ INT_VAR
+        "header_type" = 1
+        "damage_bonus" = 2
+        "thac0_bonus" = 2
+      END
+
+  // Abyssal Blade #2
+  COPY_EXISTING ~ohdsw2hb.itm~ ~override/ohdsw2hb.itm~
+      SAY DESC @10211
+      WRITE_LONG 0x60 2 // Enchantment
+
+      LAUNCH_PATCH_FUNCTION ~ALTER_ITEM_HEADER~ INT_VAR
+        "header_type" = 1
+        "damage_bonus" = 2
+        "thac0_bonus" = 2
+      END
+
+  // Abyssal Blade #3
+  COPY_EXISTING ~ohdsw2hc.itm~ ~override/ohdsw2hc.itm~
+      SAY DESC @10212
+      WRITE_LONG 0x60 2 // Enchantment
+
+      LAUNCH_PATCH_FUNCTION ~ALTER_ITEM_HEADER~ INT_VAR
+        "header_type" = 1
+        "damage_bonus" = 2
+        "thac0_bonus" = 2
+      END
+
+  // Abyssal Blade #4
+  COPY_EXISTING ~ohdsw2hd.itm~ ~override/ohdsw2hd.itm~
+      SAY DESC @10213
+      WRITE_LONG 0x60 2 // Enchantment
+
+      LAUNCH_PATCH_FUNCTION ~ALTER_ITEM_HEADER~ INT_VAR
+        "header_type" = 1
+        "damage_bonus" = 2
+        "thac0_bonus" = 2
+      END
 END
 
 // Copying creatures //
@@ -9265,7 +9396,11 @@ COPY_EXISTING ~jaga3.cre~ ~override/jaga3.cre~
   PATCH_IF ("%item%" STRING_COMPARE_CASE "ring08" = 0) BEGIN // find old item
     WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~ring06~ #8 // write new item
   END
-END
+ END
+ LAUNCH_PATCH_FUNCTION ~SET_CRE_ITEM_FLAGS~ STR_VAR
+   item_to_change = ~ohringwi~
+   flags = ~UNSTEALABLE&UNDROPPABLE~
+ END
 
 COPY_EXISTING ~ppmind01.cre~ ~override/ppmind01.cre~
  WRITE_LONG  0x14    4000 // xp
@@ -14697,6 +14832,24 @@ COPY_EXISTING ~mage16a.bcs~ ~override/gpmage1.bcs~
 
 COPY_EXISTING ~mage20a.bcs~ ~override/hellgen.bcs~
 
+ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
+  COPY_EXISTING ~HEXXAT.BCS~ ~override~
+    DECOMPILE_BCS_TO_BAF
+    REPLACE_TEXTUALLY ~22000~ ~4000~
+    REPLACE_TEXTUALLY ~AddexperienceParty(15000)~ ~AddexperienceParty(5000)~
+    COMPILE_BAF_TO_BCS
+
+  COPY_EXISTING ~OHDCUT05.BCS~ ~override~
+    DECOMPILE_BCS_TO_BAF
+    REPLACE_TEXTUALLY ~AddexperienceParty(24000)~ ~AddexperienceParty(6000)~
+    COMPILE_BAF_TO_BCS
+
+  COPY_EXISTING ~oh4100.BCS~ ~override~
+    DECOMPILE_BCS_TO_BAF
+    REPLACE_TEXTUALLY ~10000~ ~2000~
+    COMPILE_BAF_TO_BCS
+END
+
 // Patching areas //
 
 EXTEND_BOTTOM ~AR0028.BCS~ ~ImprovedAnvil\BAF\AR0028.BAF~
@@ -19356,6 +19509,23 @@ COPY_EXISTING ~HENDAK.DLG~ ~override~
  DECOMPILE_DLG_TO_D
  REPLACE_TEXTUALLY ~GiveItemCreate("SW1H03",LastTalkedToBy,0,0,0)~ ~GiveItemCreate("SW1H03",LastTalkedToBy,0,0,0) GiveItemCreate("POTN45",LastTalkedToBy,4,0,0) GiveItemCreate("POTN11",LastTalkedToBy,4,0,0) GiveItemCreate("POTN52",LastTalkedToBy,4,0,0) GiveItemCreate("POTN37",LastTalkedToBy,4,0,0) GiveItemCreate("POTN35",LastTalkedToBy,0,0,0)~
  COMPILE_D_TO_DLG
+
+ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
+  COPY_EXISTING ~DORNJ.DLG~ ~override~
+   DECOMPILE_DLG_TO_D
+   REPLACE_TEXTUALLY ~AddexperienceParty(24000)~ ~AddexperienceParty(6000)~
+   COMPILE_D_TO_DLG
+
+  COPY_EXISTING ~NEERAJ.DLG~ ~override~
+   DECOMPILE_DLG_TO_D
+   REPLACE_TEXTUALLY ~AddexperienceParty(24000)~ ~AddexperienceParty(6000)~
+   COMPILE_D_TO_DLG
+
+  COPY_EXISTING ~OHNTELAN.DLG~ ~override~
+   DECOMPILE_DLG_TO_D
+   REPLACE_TEXTUALLY ~10000~ ~2000~
+   COMPILE_D_TO_DLG
+END
 
 // patching stores //
 
