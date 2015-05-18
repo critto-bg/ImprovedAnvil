@@ -138,6 +138,7 @@ REPLACE WSMITH01
     IF ~PartyHasItem("S!helm07") GlobalGT("Iaoldsquijob","GLOBAL",3) GlobalGT("Iasquirjob","GLOBAL",8) Class(Player1,MAGE_ALL)~ THEN REPLY @592 GOTO scarlet
     IF ~PartyHasItem("S!amul05") Class(Player1,MAGE_ALL) CheckStat(Player1,6,SCRIPTINGSTATE1) !Class(Player1,THIEF_ALL) !Class(Player1,FIGHTER_ALL) !Class(Player1,CLERIC_ALL) !Class(Player1,SORCERER)~ THEN REPLY @594 GOTO necro2
     IF ~PartyHasItem("leat09")~ THEN REPLY @596 GOTO swash
+    IF ~GlobalGT("Chapter","GLOBAL",5) PartyHasItem("ohnmbird") PartyHasItem("ohnrobe2")~ THEN REPLY @598 GOTO neera
     IF ~~ THEN REPLY #992 EXIT
   END
 END
@@ -1729,6 +1730,32 @@ APPEND WSMITH01
           TakePartyItemNum("potn37",1)   DestroyItem("potn37")
           SetGlobal("Ialeat06forged","GLOBAL",1)
           GiveItemCreate("S!leat06",Player1,1,1,1)
+          CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
+  END
+
+  IF ~~ THEN BEGIN neera
+    SAY @599
+    IF ~~ THEN REPLY @2 GOTO 13
+    IF ~Global("Iarobe03forged","GLOBAL",0)
+        GlobalGT("Chapter","GLOBAL",5)
+        PartyHasItem("ohnrobe2")
+        PartyHasItem("ohnrobe3")
+        PartyHasItem("ohnmbird")
+        PartyHasItem("S!misc33")
+        NumItemsPartyGT("S!misc01",1)
+        PartyHasItem("scrl8e")
+        PartyGoldGT(74999)~
+      THEN REPLY @3
+      DO ~TakePartyGold(75000)      DestroyGold(75000)
+          TakePartyItemNum("ohnrobe2",1)   DestroyItem("ohnrobe2")
+          TakePartyItemNum("ohnrobe3",1)   DestroyItem("ohnrobe3")
+          TakePartyItemNum("ohnmbird",1)   DestroyItem("ohnmbird")
+          TakePartyItemNum("S!misc01",1)   DestroyItem("S!misc01")
+          TakePartyItemNum("S!misc01",1)   DestroyItem("S!misc01")
+          TakePartyItemNum("S!misc33",1)   DestroyItem("S!misc33")
+          TakePartyItemNum("scrl8e",1)   DestroyItem("scrl8e")
+          SetGlobal("Iarobe03forged","GLOBAL",1)
+          GiveItemCreate("S!robe03",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
 

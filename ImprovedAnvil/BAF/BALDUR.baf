@@ -1298,6 +1298,23 @@ THEN
 END
 
 IF
+  OR(6)
+   HasItemEquiped("S!robe03",Player1)
+   HasItemEquiped("S!robe03",Player2)
+   HasItemEquiped("S!robe03",Player3)
+   HasItemEquiped("S!robe03",Player4)
+   HasItemEquiped("S!robe03",Player5)
+   HasItemEquiped("S!robe03",Player6)
+  Global("Iarobe03forged","GLOBAL",0)
+THEN
+  RESPONSE #100
+    TakePartyItem("S!robe03")
+    DestroyItem("S!robe03")
+END
+
+// enforce item restrictions for certain npcs and/or classes //
+
+IF
   HasItemEquiped("S!staf04",Player1)
 THEN
   RESPONSE #100
@@ -3864,6 +3881,92 @@ THEN
   RESPONSE #100
     TakePartyItem("S!sw18")
     DestroyItem("S!sw18")
+END
+
+// Greater Robe of Invocation
+IF
+  HasItemEquiped("S!robe03",Player1)
+THEN
+  RESPONSE #100
+    TakePartyItem("S!robe03")
+    DestroyItem("S!robe03")
+    Wait(2)
+    GiveItemCreate("S!robe03",Player1,1,1,1)
+END
+
+IF
+  HasItemEquiped("S!robe03",Player2)
+  OR(4)
+   Class(Player2,THIEF_ALL)
+   Class(Player2,BARD_ALL)
+   !InPartyAllowDead("NEERA")
+   !HasItemEquiped("S!robe03","NEERA")
+THEN
+  RESPONSE #100
+    TakePartyItem("S!robe03")
+    DestroyItem("S!robe03")
+    Wait(2)
+    GiveItemCreate("S!robe03",Player1,1,1,1)
+END
+
+IF
+  HasItemEquiped("S!robe03",Player3)
+  OR(4)
+   Class(Player3,THIEF_ALL)
+   Class(Player3,BARD_ALL)
+   !InPartyAllowDead("NEERA")
+   !HasItemEquiped("S!robe03","NEERA")
+THEN
+  RESPONSE #100
+    TakePartyItem("S!robe03")
+    DestroyItem("S!robe03")
+    Wait(2)
+    GiveItemCreate("S!robe03",Player1,1,1,1)
+END
+
+IF
+  HasItemEquiped("S!robe03",Player4)
+  OR(4)
+   Class(Player4,THIEF_ALL)
+   Class(Player4,BARD_ALL)
+   !InPartyAllowDead("NEERA")
+   !HasItemEquiped("S!robe03","NEERA")
+THEN
+  RESPONSE #100
+    TakePartyItem("S!robe03")
+    DestroyItem("S!robe03")
+    Wait(2)
+    GiveItemCreate("S!robe03",Player1,1,1,1)
+END
+
+IF
+  HasItemEquiped("S!robe03",Player5)
+  OR(4)
+   Class(Player5,THIEF_ALL)
+   Class(Player5,BARD_ALL)
+   !InPartyAllowDead("NEERA")
+   !HasItemEquiped("S!robe03","NEERA")
+THEN
+  RESPONSE #100
+    TakePartyItem("S!robe03")
+    DestroyItem("S!robe03")
+    Wait(2)
+    GiveItemCreate("S!robe03",Player1,1,1,1)
+END
+
+IF
+  HasItemEquiped("S!robe03",Player6)
+  OR(4)
+   Class(Player6,THIEF_ALL)
+   Class(Player6,BARD_ALL)
+   !InPartyAllowDead("NEERA")
+   !HasItemEquiped("S!robe03","NEERA")
+THEN
+  RESPONSE #100
+    TakePartyItem("S!robe03")
+    DestroyItem("S!robe03")
+    Wait(2)
+    GiveItemCreate("S!robe03",Player1,1,1,1)
 END
 
 IF

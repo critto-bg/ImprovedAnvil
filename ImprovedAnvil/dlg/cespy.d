@@ -137,6 +137,7 @@ REPLACE BOTSMITH
     IF ~PartyHasItem("leat09")~ THEN REPLY @596 GOTO swash
     IF ~PartyHasItem("S!staf04")~ THEN REPLY @598 GOTO oak2
     IF ~PartyHasItem("S!sw17") Global("Ialongfforged","GLOBAL",1)~ THEN REPLY @702 GOTO swash2
+    IF ~PartyHasItem("ohnmbird") PartyHasItem("ohnrobe2")~ THEN REPLY @752 GOTO neera
     IF ~~ THEN REPLY #992 EXIT
   END
 END
@@ -1701,6 +1702,31 @@ APPEND BOTSMITH
           TakePartyItemNum("S!sw15",1)   DestroyItem("S!sw15")
           SetGlobal("Iasw18forged","GLOBAL",1)
           GiveItemCreate("S!sw18",Player1,1,1,1)
+          CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
+  END
+
+  IF ~~ THEN BEGIN neera
+    SAY @753
+    IF ~~ THEN REPLY @2 GOTO 4
+    IF ~Global("Iarobe03forged","GLOBAL",0)
+        PartyHasItem("ohnrobe2")
+        PartyHasItem("ohnrobe3")
+        PartyHasItem("ohnmbird")
+        PartyHasItem("S!misc33")
+        NumItemsPartyGT("S!misc01",1)
+        PartyHasItem("scrl8e")
+        PartyGoldGT(74999)~
+      THEN REPLY @3
+      DO ~TakePartyGold(75000)      DestroyGold(75000)
+          TakePartyItemNum("ohnrobe2",1)   DestroyItem("ohnrobe2")
+          TakePartyItemNum("ohnrobe3",1)   DestroyItem("ohnrobe3")
+          TakePartyItemNum("ohnmbird",1)   DestroyItem("ohnmbird")
+          TakePartyItemNum("S!misc01",1)   DestroyItem("S!misc01")
+          TakePartyItemNum("S!misc01",1)   DestroyItem("S!misc01")
+          TakePartyItemNum("S!misc33",1)   DestroyItem("S!misc33")
+          TakePartyItemNum("scrl8e",1)   DestroyItem("scrl8e")
+          SetGlobal("Iarobe03forged","GLOBAL",1)
+          GiveItemCreate("S!robe03",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
 
