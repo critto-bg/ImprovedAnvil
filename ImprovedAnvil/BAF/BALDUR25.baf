@@ -1311,6 +1311,21 @@ THEN
     DestroyItem("S!robe03")
 END
 
+IF
+  OR(6)
+   HasItemEquiped("S!boot04",Player1)
+   HasItemEquiped("S!boot04",Player2)
+   HasItemEquiped("S!boot04",Player3)
+   HasItemEquiped("S!boot04",Player4)
+   HasItemEquiped("S!boot04",Player5)
+   HasItemEquiped("S!boot04",Player6)
+  Global("Iaboot04forged","GLOBAL",0)
+THEN
+  RESPONSE #100
+    TakePartyItem("S!boot04")
+    DestroyItem("S!boot04")
+END
+
 // enforce item restrictions for certain npcs and/or classes //
 
 IF
@@ -4131,6 +4146,92 @@ THEN
     DestroyItem("S!robe03")
     Wait(2)
     GiveItemCreate("S!robe03",Player1,1,1,1)
+END
+
+// Gracious Steps
+IF
+  HasItemEquiped("S!boot04",Player1)
+THEN
+  RESPONSE #100
+    TakePartyItem("S!boot04")
+    DestroyItem("S!boot04")
+    Wait(2)
+    GiveItemCreate("S!boot04",Player1,1,1,1)
+END
+
+IF
+  HasItemEquiped("S!boot04",Player2)
+  OR(4)
+   Class(Player2,THIEF_ALL)
+   Class(Player2,BARD_ALL)
+   !InPartyAllowDead("RASAAD")
+   !HasItemEquiped("S!boot04","RASAAD")
+THEN
+  RESPONSE #100
+    TakePartyItem("S!boot04")
+    DestroyItem("S!boot04")
+    Wait(2)
+    GiveItemCreate("S!boot04",Player1,1,1,1)
+END
+
+IF
+  HasItemEquiped("S!boot04",Player3)
+  OR(4)
+   Class(Player3,THIEF_ALL)
+   Class(Player3,BARD_ALL)
+   !InPartyAllowDead("RASAAD")
+   !HasItemEquiped("S!boot04","RASAAD")
+THEN
+  RESPONSE #100
+    TakePartyItem("S!boot04")
+    DestroyItem("S!boot04")
+    Wait(2)
+    GiveItemCreate("S!boot04",Player1,1,1,1)
+END
+
+IF
+  HasItemEquiped("S!boot04",Player4)
+  OR(4)
+   Class(Player4,THIEF_ALL)
+   Class(Player4,BARD_ALL)
+   !InPartyAllowDead("RASAAD")
+   !HasItemEquiped("S!boot04","RASAAD")
+THEN
+  RESPONSE #100
+    TakePartyItem("S!boot04")
+    DestroyItem("S!boot04")
+    Wait(2)
+    GiveItemCreate("S!boot04",Player1,1,1,1)
+END
+
+IF
+  HasItemEquiped("S!boot04",Player5)
+  OR(4)
+   Class(Player5,THIEF_ALL)
+   Class(Player5,BARD_ALL)
+   !InPartyAllowDead("RASAAD")
+   !HasItemEquiped("S!boot04","RASAAD")
+THEN
+  RESPONSE #100
+    TakePartyItem("S!boot04")
+    DestroyItem("S!boot04")
+    Wait(2)
+    GiveItemCreate("S!boot04",Player1,1,1,1)
+END
+
+IF
+  HasItemEquiped("S!boot04",Player6)
+  OR(4)
+   Class(Player6,THIEF_ALL)
+   Class(Player6,BARD_ALL)
+   !InPartyAllowDead("RASAAD")
+   !HasItemEquiped("S!boot04","RASAAD")
+THEN
+  RESPONSE #100
+    TakePartyItem("S!boot04")
+    DestroyItem("S!boot04")
+    Wait(2)
+    GiveItemCreate("S!boot04",Player1,1,1,1)
 END
 
 IF

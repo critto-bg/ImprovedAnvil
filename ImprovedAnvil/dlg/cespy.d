@@ -138,6 +138,7 @@ REPLACE BOTSMITH
     IF ~PartyHasItem("S!staf04")~ THEN REPLY @598 GOTO oak2
     IF ~PartyHasItem("S!sw17") Global("Ialongfforged","GLOBAL",1)~ THEN REPLY @702 GOTO swash2
     IF ~PartyHasItem("ohnmbird") PartyHasItem("ohnrobe2")~ THEN REPLY @752 GOTO neera
+    IF ~PartyHasItem("rsboot")~ THEN REPLY @754 GOTO rasaad
     IF ~~ THEN REPLY #992 EXIT
   END
 END
@@ -1727,6 +1728,34 @@ APPEND BOTSMITH
           TakePartyItemNum("scrl8e",1)   DestroyItem("scrl8e")
           SetGlobal("Iarobe03forged","GLOBAL",1)
           GiveItemCreate("S!robe03",Player1,1,1,1)
+          CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
+  END
+
+  IF ~~ THEN BEGIN rasaad
+    SAY @755
+    IF ~~ THEN REPLY @2 GOTO 13
+    IF ~Global("Iaboot04forged","GLOBAL",0)
+        PartyHasItem("rsboot")
+        PartyHasItem("key23")
+        PartyHasItem("ohramul1")
+        PartyHasItem("ohrclck3")
+        PartyHasItem("ohreyeb")
+        PartyHasItem("S!misc06")
+        NumItemsPartyGT("S!scrl03",2)
+        PartyGoldGT(74999)~
+      THEN REPLY @3
+      DO ~TakePartyGold(75000)      DestroyGold(75000)
+          TakePartyItemNum("rsboot",1)   DestroyItem("rsboot")
+          TakePartyItemNum("key23",1)   DestroyItem("key23")
+          TakePartyItemNum("ohramul1",1)   DestroyItem("ohramul1")
+          TakePartyItemNum("ohrclck3",1)   DestroyItem("ohrclck3")
+          TakePartyItemNum("ohreyeb",1)   DestroyItem("ohreyeb")
+          TakePartyItemNum("S!misc06",1)   DestroyItem("S!misc06")
+          TakePartyItemNum("S!scrl03",1)   DestroyItem("S!scrl03")
+          TakePartyItemNum("S!scrl03",1)   DestroyItem("S!scrl03")
+          TakePartyItemNum("S!scrl03",1)   DestroyItem("S!scrl03")
+          SetGlobal("Iaboot04forged","GLOBAL",1)
+          GiveItemCreate("S!boot04",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
 

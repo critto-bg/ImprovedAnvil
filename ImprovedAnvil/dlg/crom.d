@@ -139,6 +139,7 @@ REPLACE WSMITH01
     IF ~PartyHasItem("S!amul05") Class(Player1,MAGE_ALL) CheckStat(Player1,6,SCRIPTINGSTATE1) !Class(Player1,THIEF_ALL) !Class(Player1,FIGHTER_ALL) !Class(Player1,CLERIC_ALL) !Class(Player1,SORCERER)~ THEN REPLY @594 GOTO necro2
     IF ~PartyHasItem("leat09")~ THEN REPLY @596 GOTO swash
     IF ~GlobalGT("Chapter","GLOBAL",5) PartyHasItem("ohnmbird") PartyHasItem("ohnrobe2")~ THEN REPLY @598 GOTO neera
+    IF ~GlobalGT("Chapter","GLOBAL",5) PartyHasItem("rsboot")~ THEN REPLY @600 GOTO rasaad
     IF ~~ THEN REPLY #992 EXIT
   END
 END
@@ -1756,6 +1757,35 @@ APPEND WSMITH01
           TakePartyItemNum("scrl8e",1)   DestroyItem("scrl8e")
           SetGlobal("Iarobe03forged","GLOBAL",1)
           GiveItemCreate("S!robe03",Player1,1,1,1)
+          CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
+  END
+
+  IF ~~ THEN BEGIN rasaad
+    SAY @601
+    IF ~~ THEN REPLY @2 GOTO 13
+    IF ~Global("Iaboot04forged","GLOBAL",0)
+        GlobalGT("Chapter","GLOBAL",5)
+        PartyHasItem("rsboot")
+        PartyHasItem("key23")
+        PartyHasItem("ohramul1")
+        PartyHasItem("ohrclck3")
+        PartyHasItem("ohreyeb")
+        PartyHasItem("S!misc06")
+        NumItemsPartyGT("S!scrl03",2)
+        PartyGoldGT(74999)~
+      THEN REPLY @3
+      DO ~TakePartyGold(75000)      DestroyGold(75000)
+          TakePartyItemNum("rsboot",1)   DestroyItem("rsboot")
+          TakePartyItemNum("key23",1)   DestroyItem("key23")
+          TakePartyItemNum("ohramul1",1)   DestroyItem("ohramul1")
+          TakePartyItemNum("ohrclck3",1)   DestroyItem("ohrclck3")
+          TakePartyItemNum("ohreyeb",1)   DestroyItem("ohreyeb")
+          TakePartyItemNum("S!misc06",1)   DestroyItem("S!misc06")
+          TakePartyItemNum("S!scrl03",1)   DestroyItem("S!scrl03")
+          TakePartyItemNum("S!scrl03",1)   DestroyItem("S!scrl03")
+          TakePartyItemNum("S!scrl03",1)   DestroyItem("S!scrl03")
+          SetGlobal("Iaboot04forged","GLOBAL",1)
+          GiveItemCreate("S!boot04",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
 
