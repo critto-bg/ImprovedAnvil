@@ -1,5 +1,5 @@
                          Improved Anvil mod for BG2 & TOB
-			           VERSION 6
+			           VERSION 6.1
 
 For my daughter, Kiana!
 
@@ -129,13 +129,15 @@ Version history:
 ===============
 
 Version 6.1:
-- New version of WeiDU compiler is adopted
-- Numerous patches introduced to allow for compatibility with BG2EE
-- The monk class and its kits are further improved and rebalanced for better performance in IA
-- Neera, the BG2EE NPC, is rebalanced and has a different class assigned to her
-- Numerous bugs and exploits found in IAv6 are fixed
-- New spells and abilities are added to existing classes
-- Readme files are updated to reflect the order of installation for BG2EE
+- New version of WeiDU compiler is adopted.
+- Numerous patches introduced to allow for compatibility with BG2EE.
+- The monk class and its kits are further improved and rebalanced for better performance in IA.
+- Neera, the BG2EE NPC, is rebalanced and has a different class assigned to her.
+- Numerous bugs and exploits found in IAv6 are fixed.
+- New spells and abilities are added to existing classes.
+- Two new item upgrades, designed specifically for the new BG2EE NPCs, are added to the game.
+- Readme files are updated to reflect the order of installation for BG2EE.
+- A new section is added to the Fixes & Tweaks readme file, detailing bugs and issues that still may exist in the game.
 
 Version 6:
 - More fixes and tweaks are applied to the original game.
