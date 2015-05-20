@@ -15052,6 +15052,11 @@ EXTEND_TOP ~SUAVATAR.BCS~ ~ImprovedAnvil\BAF\SUAVATAR.BAF~
 EXTEND_TOP ~UDMAGE.BCS~ ~ImprovedAnvil\BAF\UDMAGE.BAF~
 EXTEND_TOP ~KAYL1.BCS~ ~ImprovedAnvil\BAF\KAYL1.BAF~
 
+ACTION_IF GAME_IS ~bg2ee~ BEGIN
+  // patch doubling of kit bonuses for BG2EE
+  EXTEND_BOTTOM ~AR2009.BCS~ ~ImprovedAnvil\BAF\CRNDPTCH.BAF~
+END
+
 COPY_EXISTING ~ar0021.are~ ~override/ar0021.are~
   READ_SHORT 0x5A "icount"
   READ_LONG 0x5C "ioffset"
@@ -15952,6 +15957,7 @@ COPY_EXISTING ~ar1101.are~ ~override/ar1101.are~
   EXTEND_BOTTOM ~AR1101.BCS~ ~ImprovedAnvil\BAF\AR1101.BAF~
 
 ACTION_IF GAME_IS ~bg2ee~ BEGIN
+  // patch doubling of kit bonuses for BG2EE
   COPY_EXISTING ~ar1101.are~ ~override/ar1101.are~
     EXTEND_BOTTOM ~AR1101.BCS~ ~ImprovedAnvil\BAF\VLGPATCH.BAF~
 END
@@ -18985,6 +18991,8 @@ COPY ~ImprovedAnvil\spl\SPPR730D.spl~ ~override/SPPR730D.spl~
 COPY ~ImprovedAnvil\spl\LEAT23A.spl~ ~override/LEAT23A.spl~
 
 COPY ~ImprovedAnvil\spl\s!valy.spl~ ~override/s!valy.spl~
+
+COPY ~ImprovedAnvil\spl\s!cernd.spl~ ~override/s!cernd.spl~
 
 // Patching spells //
 

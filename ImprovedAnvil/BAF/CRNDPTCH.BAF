@@ -1,0 +1,12 @@
+// High Merchant Prison //
+
+// this patch negates double gain of casting speed bonus and spell/level bonuses for Cernd
+// when he joins the party for the first time
+IF
+   InParty("CERND")
+   Global("Iaeecerndbug","GLOBAL",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaeecerndbug","GLOBAL",1)
+      ActionOverride("Cernd",ReallyForceSpellRES("S!cernd",Myself))
+END
