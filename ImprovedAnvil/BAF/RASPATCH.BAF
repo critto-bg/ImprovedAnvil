@@ -1,0 +1,12 @@
+// Trademeet //
+
+// this patch negates double gain of numerous kit bonuses for Rasaad
+// when he joins the party for the first time
+IF
+   InParty("RASAAD")
+   Global("Iaeerasaadbug","GLOBAL",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaeerasaadbug","GLOBAL",1)
+      ActionOverride("Rasaad",ReallyForceSpellRES("S!rasaad",Myself))
+END
