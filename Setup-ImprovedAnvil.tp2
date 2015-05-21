@@ -5092,7 +5092,6 @@ COPY_EXISTING ~rock.cre~ ~override/rock.cre~
   WRITE_BYTE  0x240      1 // morale Break
   WRITE_BYTE  0x242      1 // morale Recovery
   WRITE_BYTE  0x273     0x2 // class fighter
-  ADD_CRE_ITEM ~amul05~ #0 #0 #0 ~UNSTEALABLE~ ~INV8~
   ADD_CRE_ITEM ~misc30~ #0 #0 #0 ~UNSTEALABLE~ ~INV10~
   ADD_CRE_ITEM ~S!rock~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~RRING~
   ADD_CRE_ITEM ~miscai~ #0 #0 #0 ~UNSTEALABLE~ ~BOOTS~
@@ -17630,7 +17629,7 @@ ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
 
   // Crypt of Durkon
   COPY_EXISTING ~OH7100.ARE~ ~override/OH7100.ARE~
-      PATCH_FOR_EACH ~item_to_delete~ IN ~amul23~ BEGIN
+      PATCH_FOR_EACH ~item_to_delete~ IN ~amul23~ ~amul05~ BEGIN
         LAUNCH_PATCH_MACRO ~DELETE_AREA_ITEM~
       END
 
