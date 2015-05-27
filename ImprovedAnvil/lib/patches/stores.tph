@@ -1,0 +1,837 @@
+// patch existing stores //
+
+// Sister Garlena
+COPY_EXISTING ~garlena.sto~ ~Override/garlena.sto~
+WRITE_LONG  0x14   165 // sell price markup
+REMOVE_STORE_ITEM ~sw1h58~
+
+// Joluv
+COPY_EXISTING ~wmart1.sto~ ~Override/wmart1.sto~
+WRITE_LONG  0x14   165 // sell price markup
+REMOVE_STORE_ITEM ~waninja~
+REMOVE_STORE_ITEM ~waflail~
+REMOVE_STORE_ITEM ~wawak~
+REMOVE_STORE_ITEM ~wasling~
+REMOVE_STORE_ITEM ~waaxe~
+
+// Deidre
+COPY_EXISTING ~wmart2.sto~ ~Override/wmart2.sto~
+WRITE_LONG  0x14   165 // sell price markup
+REMOVE_STORE_ITEM ~wa2robe~
+REMOVE_STORE_ITEM ~wa2shiel~
+
+// Adventurer's Mart, before chapter 6
+COPY_EXISTING ~ribald.sto~ ~Override/ribald.sto~
+PATCH_IF GAME_IS ~bg2ee~ BEGIN
+  ADD_STORE_ITEM ~BAG06~ LAST #1 #0 #0 ~IDENTIFIED&UNSTEALABLE~ #1
+END
+REMOVE_STORE_ITEM ~staf20~
+REMOVE_STORE_ITEM ~belt06~
+REMOVE_STORE_ITEM ~scrl09~
+REMOVE_STORE_ITEM ~ring28~
+REMOVE_STORE_ITEM ~ring03~
+REMOVE_STORE_ITEM ~scrl07~
+REMOVE_STORE_ITEM ~leat20~
+REMOVE_STORE_ITEM ~shld24~
+REMOVE_STORE_ITEM ~rods03~
+REMOVE_STORE_ITEM ~hamm08~
+REMOVE_STORE_ITEM ~leat09~
+REMOVE_STORE_ITEM ~hamm05~
+
+// Adventurer's Mart, chapter 6
+COPY_EXISTING ~ribald3.sto~ ~Override/ribald3.sto~
+WRITE_LONG  0x18   30 // buy price markup
+REMOVE_STORE_ITEM ~chan11~
+REMOVE_STORE_ITEM ~scrl9l~
+REMOVE_STORE_ITEM ~scrl9r~
+
+// Black Market Thief
+COPY_EXISTING ~bmthief.sto~ ~Override/bmthief.sto~
+WRITE_LONG  0x14   165 // sell price markup
+READ_BYTE  0x10 "stoflags"
+WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+
+// Cutpurse
+COPY_EXISTING ~bshop01.sto~ ~Override/bshop01.sto~
+WRITE_LONG  0x14   165 // sell price markup
+READ_BYTE  0x10 "stoflags"
+WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+READ_BYTE  0x11 "stoflags"
+WRITE_BYTE 0x11 ("%stoflags%" BAND 0b11101111) // clear Buy Fenced bit
+REMOVE_STORE_ITEM ~scrl7q~
+REMOVE_STORE_ITEM ~scrl6s~
+
+// Storekeep
+COPY_EXISTING ~bshop02.sto~ ~Override/bshop02.sto~
+WRITE_LONG  0x14   165 // sell price markup
+READ_BYTE  0x10 "stoflags"
+WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+READ_BYTE  0x11 "stoflags"
+WRITE_BYTE 0x11 ("%stoflags%" BAND 0b11101111) // clear Buy Fenced bit
+REMOVE_STORE_ITEM ~gberry~
+
+// Gorch
+COPY_EXISTING ~gorch.sto~ ~Override/gorch.sto~
+WRITE_LONG  0x14   165 // sell price markup
+READ_BYTE  0x10 "stoflags"
+WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+READ_BYTE  0x11 "stoflags"
+WRITE_BYTE 0x11 ("%stoflags%" BAND 0b11101111) // clear Buy Fenced bit
+REMOVE_STORE_ITEM ~blun21~
+
+// Jayes
+COPY_EXISTING ~jayes.sto~ ~Override/jayes.sto~
+WRITE_LONG  0x14   165 // sell price markup
+READ_BYTE  0x10 "stoflags"
+WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+READ_BYTE  0x11 "stoflags"
+WRITE_BYTE 0x11 ("%stoflags%" BAND 0b11101111) // clear Buy Fenced bit
+REMOVE_STORE_ITEM ~scrl7d~
+REMOVE_STORE_ITEM ~clck09~
+
+// Roger the Fence
+COPY_EXISTING ~roger.sto~ ~Override/roger.sto~
+PATCH_IF GAME_IS ~bg2ee~ BEGIN
+  ADD_STORE_ITEM ~BAG06~ LAST #1 #0 #0 ~IDENTIFIED&UNSTEALABLE~ #1
+END
+WRITE_LONG  0x14   165 // sell price markup
+READ_BYTE  0x10 "stoflags"
+WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+REMOVE_STORE_ITEM ~potn40~
+
+// Rattell
+COPY_EXISTING ~shthstor.sto~ ~Override/shthstor.sto~
+WRITE_LONG  0x14   165 // sell price markup
+READ_BYTE  0x10 "stoflags"
+WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+READ_BYTE  0x11 "stoflags"
+WRITE_BYTE 0x11 ("%stoflags%" BAND 0b11101111) // clear Buy Fenced bit
+
+// Duergar
+COPY_EXISTING ~udduer02.sto~ ~Override/udduer02.sto~
+READ_BYTE  0x10 "stoflags"
+WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+READ_BYTE  0x11 "stoflags"
+WRITE_BYTE 0x11 ("%stoflags%" BAND 0b11101111) // clear Buy Fenced bit
+REMOVE_STORE_ITEM ~scrla4~
+REMOVE_STORE_ITEM ~scrl6s~
+
+// Arledrian
+COPY_EXISTING ~arled.sto~ ~Override/arled.sto~
+WRITE_LONG  0x14   165 // sell price markup
+READ_BYTE  0x10 "stoflags"
+WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+
+// Bernard, slave aren't freed
+COPY_EXISTING ~bernard.sto~ ~Override/bernard.sto~
+WRITE_LONG  0x14   165 // sell price markup
+READ_BYTE  0x10 "stoflags"
+WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+
+// Smuggler, Amkethran
+COPY_EXISTING ~amsmug01.sto~ ~Override/amsmug01.sto~
+WRITE_LONG  0x14  165 // sell price markup
+WRITE_LONG  0x18   30 // buy price markup
+REMOVE_STORE_ITEM ~slng10~
+REMOVE_STORE_ITEM ~ax1h17~
+REMOVE_STORE_ITEM ~dagg24~
+REMOVE_STORE_ITEM ~sw2h20~
+REMOVE_STORE_ITEM ~sw1h75~
+REMOVE_STORE_ITEM ~sw1h74~
+REMOVE_STORE_ITEM ~sw1h73~
+REMOVE_STORE_ITEM ~sw1h72~
+REMOVE_STORE_ITEM ~hamm12~
+REMOVE_STORE_ITEM ~halb12~
+REMOVE_STORE_ITEM ~sper06~
+REMOVE_STORE_ITEM ~blun34~
+REMOVE_STORE_ITEM ~blun33~
+REMOVE_STORE_ITEM ~blun31~
+REMOVE_STORE_ITEM ~blun32~
+
+// Smuggler, Amkethran
+COPY_EXISTING ~amsmug02.sto~ ~Override/amsmug02.sto~
+WRITE_LONG  0x14  165 // sell price markup
+WRITE_LONG  0x18   30 // buy price markup
+REMOVE_STORE_ITEM ~slng10~
+REMOVE_STORE_ITEM ~ax1h17~
+REMOVE_STORE_ITEM ~dagg24~
+REMOVE_STORE_ITEM ~sw2h20~
+REMOVE_STORE_ITEM ~sw1h75~
+REMOVE_STORE_ITEM ~sw1h74~
+REMOVE_STORE_ITEM ~sw1h73~
+REMOVE_STORE_ITEM ~sw1h72~
+REMOVE_STORE_ITEM ~hamm12~
+REMOVE_STORE_ITEM ~halb12~
+REMOVE_STORE_ITEM ~sper06~
+REMOVE_STORE_ITEM ~blun34~
+REMOVE_STORE_ITEM ~blun33~
+REMOVE_STORE_ITEM ~blun31~
+REMOVE_STORE_ITEM ~blun32~
+
+// Bernard, slaves are freed
+COPY_EXISTING ~bernard2.sto~ ~Override/bernard2.sto~
+WRITE_LONG  0x14   110 // sell price markup
+WRITE_LONG  0x18   20 // buy price markup
+READ_BYTE  0x10 "stoflags"
+WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+REMOVE_STORE_ITEM ~sw1h40~
+REMOVE_STORE_ITEM ~ax1h12~
+REMOVE_STORE_ITEM ~slng07~
+REMOVE_STORE_ITEM ~scrl9b~
+REMOVE_STORE_ITEM ~ax1h10~
+
+// Guardian Vottnar
+COPY_EXISTING ~bhelm.sto~ ~Override/bhelm.sto~
+WRITE_LONG  0x14  165 // sell price markup
+REMOVE_STORE_ITEM ~scrl09~
+
+// Dawnmaster Kreel
+COPY_EXISTING ~dawnmas.sto~ ~Override/dawnmas.sto~
+WRITE_LONG  0x14  165 // sell price markup
+REMOVE_STORE_ITEM ~scrl09~
+
+// Fovem
+COPY_EXISTING ~dmark1.sto~ ~Override/dmark1.sto~
+WRITE_LONG  0x14  165 // sell price markup
+READ_BYTE  0x10 "stoflags"
+WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+
+// Ikert
+COPY_EXISTING ~dshop01.sto~ ~Override/dshop01.sto~
+WRITE_LONG  0x14   165 // sell price markup
+READ_BYTE  0x10 "stoflags"
+WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+
+// Jahaboam
+COPY_EXISTING ~dshop02.sto~ ~Override/dshop02.sto~
+WRITE_LONG  0x14   165 // sell price markup
+READ_BYTE  0x10 "stoflags"
+WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+
+// Karthis al-Hezzar
+COPY_EXISTING ~hgkar01.sto~ ~Override/hgkar01.sto~
+WRITE_LONG  0x14  165 // sell price markup
+WRITE_LONG  0x18   30 // buy price markup
+READ_BYTE  0x10 "stoflags"
+WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+REMOVE_STORE_ITEM ~scrl7k~
+REMOVE_STORE_ITEM ~rods03~
+REMOVE_STORE_ITEM ~staf24~
+REMOVE_STORE_ITEM ~hamm08~
+
+// Bel Dalemark
+COPY_EXISTING ~merchant.sto~ ~Override/merchant.sto~
+WRITE_LONG  0x14  165 // sell price markup
+READ_BYTE  0x10 "stoflags"
+WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+
+// Missus Cragmoon
+COPY_EXISTING ~murcrag.sto~ ~Override/murcrag.sto~
+WRITE_LONG  0x14  165 // sell price markup
+READ_BYTE  0x10 "stoflags"
+WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+REMOVE_STORE_ITEM ~potn46~
+REMOVE_STORE_ITEM ~potn41~
+
+// Storekeep
+COPY_EXISTING ~ppstor01.sto~ ~Override/ppstor01.sto~
+WRITE_LONG  0x14  165 // sell price markup
+READ_BYTE  0x10 "stoflags"
+WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+REMOVE_STORE_ITEM ~scrl6t~
+
+// Priestess of Umberlee
+COPY_EXISTING ~ppumb01.sto~ ~Override/ppumb01.sto~
+WRITE_LONG  0x14  165 // sell price markup
+REMOVE_STORE_ITEM ~scrl09~
+
+// Pyrgam Aleson
+COPY_EXISTING ~sarbar01.sto~ ~Override/sarbar01.sto~
+WRITE_LONG  0x14  165 // sell price markup
+WRITE_LONG  0x18   30 // buy price markup
+READ_BYTE  0x10 "stoflags"
+WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+REMOVE_STORE_ITEM ~boot01~
+REMOVE_STORE_ITEM ~bull06~
+REMOVE_STORE_ITEM ~slng10~
+REMOVE_STORE_ITEM ~ax1h17~
+REMOVE_STORE_ITEM ~dagg24~
+REMOVE_STORE_ITEM ~sw2h20~
+REMOVE_STORE_ITEM ~sw1h75~
+REMOVE_STORE_ITEM ~sw1h76~
+REMOVE_STORE_ITEM ~sw1h74~
+REMOVE_STORE_ITEM ~sw1h73~
+REMOVE_STORE_ITEM ~sw1h72~
+REMOVE_STORE_ITEM ~sw1h66~
+REMOVE_STORE_ITEM ~hamm12~
+REMOVE_STORE_ITEM ~halb12~
+REMOVE_STORE_ITEM ~sper06~
+REMOVE_STORE_ITEM ~staf19~
+REMOVE_STORE_ITEM ~staf24~
+REMOVE_STORE_ITEM ~blun34~
+REMOVE_STORE_ITEM ~blun33~
+REMOVE_STORE_ITEM ~blun31~
+REMOVE_STORE_ITEM ~hamm08~
+REMOVE_STORE_ITEM ~blun32~
+
+// Lady Yuth
+COPY_EXISTING ~scrolls.sto~ ~Override/scrolls.sto~
+WRITE_LONG  0x14  165 // sell price markup
+READ_BYTE  0x10 "stoflags"
+WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+REMOVE_STORE_ITEM ~scrl09~
+REMOVE_STORE_ITEM ~scrlaj~
+REMOVE_STORE_ITEM ~scrl6t~
+
+// Mira
+COPY_EXISTING ~shop01.sto~ ~Override/shop01.sto~
+WRITE_LONG  0x14  165 // sell price markup
+READ_BYTE  0x10 "stoflags"
+WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+
+// Arnolinus
+COPY_EXISTING ~shop02.sto~ ~Override/shop02.sto~
+WRITE_LONG  0x14  165 // sell price markup
+READ_BYTE  0x10 "stoflags"
+WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+
+// Maheer
+COPY_EXISTING ~shop03.sto~ ~Override/shop03.sto~
+WRITE_LONG  0x14  165 // sell price markup
+READ_BYTE  0x10 "stoflags"
+WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+
+// Enge
+COPY_EXISTING ~shop04.sto~ ~Override/shop04.sto~
+WRITE_LONG  0x14  165 // sell price markup
+READ_BYTE  0x10 "stoflags"
+WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+
+// Perter
+COPY_EXISTING ~shop05.sto~ ~Override/shop05.sto~
+WRITE_LONG  0x14  165 // sell price markup
+READ_BYTE  0x10 "stoflags"
+WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+REMOVE_STORE_ITEM ~arow07~
+
+// Hes
+COPY_EXISTING ~shop06.sto~ ~Override/shop06.sto~
+WRITE_LONG  0x14  165 // sell price markup
+READ_BYTE  0x10 "stoflags"
+WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+
+// Storekeep
+COPY_EXISTING ~shop07.sto~ ~Override/shop07.sto~
+WRITE_LONG  0x14  165 // sell price markup
+READ_BYTE  0x10 "stoflags"
+WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+
+// Merchant
+COPY_EXISTING ~shop08.sto~ ~Override/shop08.sto~
+WRITE_LONG  0x14  165 // sell price markup
+READ_BYTE  0x10 "stoflags"
+WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+REMOVE_STORE_ITEM ~scrl09~
+
+// Priest of Ilmater
+COPY_EXISTING ~slilmat.sto~ ~Override/slilmat.sto~
+WRITE_LONG  0x14  165 // sell price markup
+REMOVE_STORE_ITEM ~scrl09~
+
+// Black Market Thief
+COPY_EXISTING ~slshop01.sto~ ~Override/slshop01.sto~
+WRITE_LONG  0x14  165 // sell price markup
+READ_BYTE  0x10 "stoflags"
+WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+
+// Storekeep
+COPY_EXISTING ~slshop02.sto~ ~Override/slshop02.sto~
+WRITE_LONG  0x14  165 // sell price markup
+READ_BYTE  0x10 "stoflags"
+WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+
+// Mistress Ada
+COPY_EXISTING ~talmiss.sto~ ~Override/talmiss.sto~
+WRITE_LONG  0x14  165 // sell price markup
+REMOVE_STORE_ITEM ~scrl09~
+
+// Temple of Helm
+COPY_EXISTING ~temhelm.sto~ ~Override/temhelm.sto~
+WRITE_LONG  0x14  165 // sell price markup
+REMOVE_STORE_ITEM ~scrl09~
+REMOVE_STORE_ITEM ~hamm08~
+
+// Temple of Talos
+COPY_EXISTING ~temtalos.sto~ ~Override/temtalos.sto~
+WRITE_LONG  0x14  165 // sell price markup
+REMOVE_STORE_ITEM ~scrl09~
+
+// Caravan Merchant
+COPY_EXISTING ~trcar04.sto~ ~Override/trcar04.sto~
+WRITE_LONG  0x14  165 // sell price markup
+READ_BYTE  0x10 "stoflags"
+WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+REMOVE_STORE_ITEM ~scrl7q~
+REMOVE_STORE_ITEM ~scrl6s~
+
+// Peddler
+COPY_EXISTING ~trmer01.sto~ ~Override/trmer01.sto~
+WRITE_LONG  0x14  165 // sell price markup
+READ_BYTE  0x10 "stoflags"
+WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+
+// Merchant
+COPY_EXISTING ~trmer02.sto~ ~Override/trmer02.sto~
+WRITE_LONG  0x14  165 // sell price markup
+READ_BYTE  0x10 "stoflags"
+WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+REMOVE_STORE_ITEM ~bow15~
+REMOVE_STORE_ITEM ~belt10~
+
+// Fletcher
+COPY_EXISTING ~trmer03.sto~ ~Override/trmer03.sto~
+WRITE_LONG  0x14  165 // sell price markup
+WRITE_LONG  0x18   30 // buy price markup
+READ_BYTE  0x10 "stoflags"
+WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+
+// Adratha
+COPY_EXISTING ~trrak01.sto~ ~Override/trrak01.sto~
+WRITE_LONG  0x14  165 // sell price markup
+REMOVE_STORE_ITEM ~potn46~
+REMOVE_STORE_ITEM ~potn41~
+
+// Items for sale
+COPY_EXISTING ~type1.sto~ ~Override/type1.sto~
+WRITE_LONG  0x14  165 // sell price markup
+READ_BYTE  0x10 "stoflags"
+WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+
+// Copper Coronet
+COPY_EXISTING ~type3.sto~ ~Override/type3.sto~
+WRITE_LONG  0x14  165 // sell price markup
+READ_BYTE  0x10 "stoflags"
+WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+REMOVE_STORE_ITEM ~scrl9n~
+REMOVE_STORE_ITEM ~scrl9l~
+REMOVE_STORE_ITEM ~scrl8n~
+REMOVE_STORE_ITEM ~scrl8f~
+REMOVE_STORE_ITEM ~scrl9r~
+
+// Drow
+COPY_EXISTING ~uddrow23.sto~ ~Override/uddrow23.sto~
+READ_BYTE  0x10 "stoflags"
+WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+REMOVE_STORE_ITEM ~staf16~
+
+// Drow
+COPY_EXISTING ~uddrow24.sto~ ~Override/uddrow24.sto~
+WRITE_LONG  0x14  165 // sell price markup
+READ_BYTE  0x10 "stoflags"
+WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+REMOVE_STORE_ITEM ~amul20~
+REMOVE_STORE_ITEM ~potn40~
+
+// Drow
+COPY_EXISTING ~uddrow25.sto~ ~Override/uddrow25.sto~
+READ_BYTE  0x10 "stoflags"
+WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+REMOVE_STORE_ITEM ~scrl8i~
+REMOVE_STORE_ITEM ~scrl9b~
+REMOVE_STORE_ITEM ~scrl7d~
+REMOVE_STORE_ITEM ~scrl6s~
+REMOVE_STORE_ITEM ~scrl8t~
+
+// Carlig
+COPY_EXISTING ~udduer01.sto~ ~Override/udduer01.sto~
+READ_BYTE  0x10 "stoflags"
+WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+REMOVE_STORE_ITEM ~scrl7q~
+
+// Therndle Daglefodd
+COPY_EXISTING ~udsvir05.sto~ ~Override/udsvir05.sto~
+WRITE_LONG  0x14  165 // sell price markup
+WRITE_LONG  0x18   30 // buy price markup
+READ_BYTE  0x10 "stoflags"
+WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+REMOVE_STORE_ITEM ~scrl6s~
+
+// Elence Fielding
+COPY_EXISTING ~uhmer01.sto~ ~Override/uhmer01.sto~
+WRITE_LONG  0x14  165 // sell price markup
+READ_BYTE  0x10 "stoflags"
+WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+
+// Min Minling
+COPY_EXISTING ~uhmer02.sto~ ~Override/uhmer02.sto~
+WRITE_LONG  0x14  165 // sell price markup
+READ_BYTE  0x10 "stoflags"
+WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+
+// Beherant Diir
+COPY_EXISTING ~uhmer03.sto~ ~Override/uhmer03.sto~
+WRITE_LONG  0x14  165 // sell price markup
+READ_BYTE  0x10 "stoflags"
+WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+
+// Wallace
+COPY_EXISTING ~wallace.sto~ ~Override/wallace.sto~
+WRITE_LONG  0x14  165 // sell price markup
+READ_BYTE  0x10 "stoflags"
+WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+
+// Wallace
+COPY_EXISTING ~wallace2.sto~ ~Override/wallace2.sto~
+WRITE_LONG  0x14  165 // sell price markup
+WRITE_LONG  0x18   30 // buy price markup
+READ_BYTE  0x10 "stoflags"
+WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+
+// Lazarus Librarius
+COPY_EXISTING ~25spell.sto~ ~Override/25spell.sto~
+WRITE_LONG  0x14  165 // sell price markup
+READ_BYTE  0x10 "stoflags"
+WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+REMOVE_STORE_ITEM ~boot01~
+REMOVE_STORE_ITEM ~ring02~
+REMOVE_STORE_ITEM ~scrl09~
+REMOVE_STORE_ITEM ~scrl9x~
+REMOVE_STORE_ITEM ~scrl9r~
+REMOVE_STORE_ITEM ~scrl8i~
+REMOVE_STORE_ITEM ~scrlb4~
+REMOVE_STORE_ITEM ~scrlb2~
+REMOVE_STORE_ITEM ~scrl9n~
+REMOVE_STORE_ITEM ~potn06~
+REMOVE_STORE_ITEM ~clck09~
+REMOVE_STORE_ITEM ~clck10~
+REMOVE_STORE_ITEM ~clck11~
+REMOVE_STORE_ITEM ~scrlar~
+REMOVE_STORE_ITEM ~scrl9b~
+REMOVE_STORE_ITEM ~scrl9l~
+REMOVE_STORE_ITEM ~scrl7k~
+REMOVE_STORE_ITEM ~scrl7d~
+REMOVE_STORE_ITEM ~scrl6g~
+REMOVE_STORE_ITEM ~scrlao~
+REMOVE_STORE_ITEM ~scrl8n~
+REMOVE_STORE_ITEM ~scrl8f~
+REMOVE_STORE_ITEM ~scrl7v~
+REMOVE_STORE_ITEM ~scrl6s~
+REMOVE_STORE_ITEM ~scrl6t~
+REMOVE_STORE_ITEM ~scrl7q~
+REMOVE_STORE_ITEM ~scrlaq~
+REMOVE_STORE_ITEM ~clck16~
+
+// Lazarus Librarius
+COPY_EXISTING ~25spell2.sto~ ~Override/25spell2.sto~
+WRITE_LONG  0x14  165 // sell price markup
+READ_BYTE  0x10 "stoflags"
+WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+REMOVE_STORE_ITEM ~scrl09~
+REMOVE_STORE_ITEM ~scrl5f~
+REMOVE_STORE_ITEM ~scrl9x~
+REMOVE_STORE_ITEM ~scrl9r~
+REMOVE_STORE_ITEM ~scrl8i~
+REMOVE_STORE_ITEM ~scrlb4~
+REMOVE_STORE_ITEM ~scrlb2~
+REMOVE_STORE_ITEM ~scrl5a~
+REMOVE_STORE_ITEM ~scrl9n~
+REMOVE_STORE_ITEM ~potn06~
+REMOVE_STORE_ITEM ~ring02~
+REMOVE_STORE_ITEM ~clck09~
+REMOVE_STORE_ITEM ~clck10~
+REMOVE_STORE_ITEM ~clck11~
+REMOVE_STORE_ITEM ~scrlar~
+REMOVE_STORE_ITEM ~scrl9b~
+REMOVE_STORE_ITEM ~scrl9l~
+REMOVE_STORE_ITEM ~scrl7k~
+REMOVE_STORE_ITEM ~scrl7d~
+REMOVE_STORE_ITEM ~scrl6g~
+REMOVE_STORE_ITEM ~scrlao~
+REMOVE_STORE_ITEM ~scrl8n~
+REMOVE_STORE_ITEM ~scrl8f~
+REMOVE_STORE_ITEM ~scrl7v~
+REMOVE_STORE_ITEM ~scrl6s~
+REMOVE_STORE_ITEM ~scrl6t~
+REMOVE_STORE_ITEM ~scrl7q~
+REMOVE_STORE_ITEM ~scrlaj~
+REMOVE_STORE_ITEM ~scrlaq~
+REMOVE_STORE_ITEM ~clck16~
+
+// Zakee Rafeha
+COPY_EXISTING ~ambar01.sto~ ~Override/ambar01.sto~
+WRITE_LONG  0x14  165 // sell price markup
+READ_BYTE  0x10 "stoflags"
+WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+
+// Kich
+COPY_EXISTING ~trthf02.sto~ ~Override/trthf02.sto~
+WRITE_LONG  0x14  165 // sell price markup
+READ_BYTE  0x11 "stoflags"
+WRITE_BYTE 0x11 ("%stoflags%" BAND 0b11101111) // clear Buy Fenced bit
+REMOVE_STORE_ITEM ~scrl6t~
+
+// Royal High Priestess
+COPY_EXISTING ~sahpr1.sto~ ~Override/sahpr1.sto~
+WRITE_LONG  0x14  165 // sell price markup
+WRITE_LONG  0x18   30 // buy price markup
+
+// Sister Farielle
+COPY_EXISTING ~sartem01.sto~ ~Override/sartem01.sto~
+WRITE_LONG  0x14  165 // sell price markup
+WRITE_LONG  0x18   30 // buy price markup
+
+// Temple of Lathander
+COPY_EXISTING ~temlath.sto~ ~Override/temlath.sto~
+WRITE_LONG  0x14  165 // sell price markup
+REMOVE_STORE_ITEM ~boot05~
+REMOVE_STORE_ITEM ~scrl09~
+REMOVE_STORE_ITEM ~staf05~
+REMOVE_STORE_ITEM ~helm06~
+
+// Bolumir
+COPY_EXISTING ~kpchap01.sto~ ~Override/kpchap01.sto~
+WRITE_LONG  0x14  165 // sell price markup
+REMOVE_STORE_ITEM ~boot05~
+REMOVE_STORE_ITEM ~scrl09~
+REMOVE_STORE_ITEM ~staf05~
+REMOVE_STORE_ITEM ~helm06~
+
+// Blacksmith
+COPY_EXISTING ~trmer04.sto~ ~Override/trmer04.sto~
+REMOVE_STORE_ITEM ~scrl6t~
+
+// Reirra
+COPY_EXISTING ~suelf10.sto~ ~Override/suelf10.sto~
+WRITE_LONG  0x14  165 // sell price markup
+WRITE_LONG  0x18   30 // buy price markup
+
+// Chyil
+COPY_EXISTING ~amcler02.sto~ ~Override/amcler02.sto~
+WRITE_LONG  0x14  165 // sell price markup
+WRITE_LONG  0x18   30 // buy price markup
+
+// Priest of Oghma
+COPY_EXISTING ~doghma.sto~ ~Override/doghma.sto~
+WRITE_LONG  0x14  165 // sell price markup
+
+ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
+  // Gul Dukeem
+  COPY_EXISTING ~ohngduke.sto~ ~Override/ohngduke.sto~
+    WRITE_LONG  0x14  165 // sell price markup
+    WRITE_LONG  0x18   30 // buy price markup
+    REMOVE_STORE_ITEM ~clck16~
+    REMOVE_STORE_ITEM ~staf05~
+
+  // Potion Merchant, Red Wizard Enclave
+  COPY_EXISTING ~ohnpotme.sto~ ~Override/ohnpotme.sto~
+    WRITE_LONG  0x14  165 // sell price markup
+    WRITE_LONG  0x18   30 // buy price markup
+    READ_BYTE  0x10 "stoflags"
+    WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+    REMOVE_STORE_ITEM ~potn04~
+    REMOVE_STORE_ITEM ~potn05~
+    REMOVE_STORE_ITEM ~potn06~
+    REMOVE_STORE_ITEM ~potn07~
+    REMOVE_STORE_ITEM ~potn34~
+    REMOVE_STORE_ITEM ~potn35~
+    REMOVE_STORE_ITEM ~potn40~
+
+  // Molzahn of Tymora
+  COPY_EXISTING ~ohnprie1.sto~ ~Override/ohnprie1.sto~
+    WRITE_LONG  0x14  165 // sell price markup
+    WRITE_LONG  0x18   30 // buy price markup
+    READ_BYTE  0x10 "stoflags"
+    WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+    REMOVE_STORE_ITEM ~scrl15~
+
+  // Scroll Merchant, Red Wizard Enclave
+  COPY_EXISTING ~ohnscrme.sto~ ~Override/ohnscrme.sto~
+    WRITE_LONG  0x14  165 // sell price markup
+    WRITE_LONG  0x18   30 // buy price markup
+    READ_BYTE  0x10 "stoflags"
+    WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+    REMOVE_STORE_ITEM ~scrl6p~
+    REMOVE_STORE_ITEM ~scrl6s~
+    REMOVE_STORE_ITEM ~scrl7f~
+    REMOVE_STORE_ITEM ~scrl7j~
+    REMOVE_STORE_ITEM ~scrl7k~
+    REMOVE_STORE_ITEM ~scrl7u~
+    REMOVE_STORE_ITEM ~scrl8g~
+    REMOVE_STORE_ITEM ~scrl8j~
+    REMOVE_STORE_ITEM ~scrl8r~
+
+  // Wand Merchant, Red Wizard Enclave
+  COPY_EXISTING ~ohnwanme.sto~ ~Override/ohnwanme.sto~
+    WRITE_LONG  0x14  165 // sell price markup
+    WRITE_LONG  0x18   30 // buy price markup
+    READ_BYTE  0x10 "stoflags"
+    WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+    REMOVE_STORE_ITEM ~wand06~
+    REMOVE_STORE_ITEM ~wand18~
+
+  // Helmite Sentry
+  COPY_EXISTING ~ohdhsen.sto~ ~Override/ohdhsen.sto~
+    WRITE_LONG  0x14  165 // sell price markup
+    READ_BYTE  0x10 "stoflags"
+    WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+    REMOVE_STORE_ITEM ~scrl09~
+    REMOVE_STORE_ITEM ~scrl15~
+
+  // Summerheigh
+  COPY_EXISTING ~ohdsumm.sto~ ~Override/ohdsumm.sto~
+    WRITE_LONG  0x14  165 // sell price markup
+    WRITE_LONG  0x18   30 // buy price markup
+    READ_BYTE  0x10 "stoflags"
+    WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+
+  // Bartender
+  COPY_EXISTING ~ohnbarke.sto~ ~Override/ohnbarke.sto~
+    WRITE_LONG  0x14  165 // sell price markup
+    WRITE_LONG  0x18   30 // buy price markup
+    READ_BYTE  0x10 "stoflags"
+    WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+
+  // The Concoctor
+  COPY_EXISTING ~ohnconco.sto~ ~Override/ohnconco.sto~
+    WRITE_LONG  0x14  165 // sell price markup
+    WRITE_LONG  0x18   30 // buy price markup
+    READ_BYTE  0x10 "stoflags"
+    WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+    REMOVE_STORE_ITEM ~potn02~
+    REMOVE_STORE_ITEM ~potn03~
+    REMOVE_STORE_ITEM ~potn04~
+    REMOVE_STORE_ITEM ~potn05~
+    REMOVE_STORE_ITEM ~potn06~
+    REMOVE_STORE_ITEM ~potn07~
+    REMOVE_STORE_ITEM ~potn11~
+    REMOVE_STORE_ITEM ~potn12~
+    REMOVE_STORE_ITEM ~potn33~
+    REMOVE_STORE_ITEM ~potn34~
+    REMOVE_STORE_ITEM ~potn35~
+    REMOVE_STORE_ITEM ~potn37~
+    REMOVE_STORE_ITEM ~potn52~
+    REMOVE_STORE_ITEM ~potn55~
+
+  // Merchant
+  COPY_EXISTING ~ohnsdwm.sto~ ~Override/ohnsdwm.sto~
+    WRITE_LONG  0x14  165 // sell price markup
+    WRITE_LONG  0x18   30 // buy price markup
+    READ_BYTE  0x10 "stoflags"
+    WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+    REMOVE_STORE_ITEM ~arow06~
+    REMOVE_STORE_ITEM ~arow15~
+    REMOVE_STORE_ITEM ~ax1h17~
+    REMOVE_STORE_ITEM ~blun13~
+    REMOVE_STORE_ITEM ~blun15~
+    REMOVE_STORE_ITEM ~blun31~
+    REMOVE_STORE_ITEM ~blun32~
+    REMOVE_STORE_ITEM ~blun33~
+    REMOVE_STORE_ITEM ~blun34~
+    REMOVE_STORE_ITEM ~bow24~
+    REMOVE_STORE_ITEM ~bow25~
+    REMOVE_STORE_ITEM ~bow26~
+    REMOVE_STORE_ITEM ~bull05~
+    REMOVE_STORE_ITEM ~bull06~
+    REMOVE_STORE_ITEM ~dagg24~
+    REMOVE_STORE_ITEM ~halb07~
+    REMOVE_STORE_ITEM ~halb12~
+    REMOVE_STORE_ITEM ~hamm08~
+    REMOVE_STORE_ITEM ~hamm12~
+    REMOVE_STORE_ITEM ~ohblun51~
+    REMOVE_STORE_ITEM ~ohsw1h52~
+    REMOVE_STORE_ITEM ~ohsw1h54~
+    REMOVE_STORE_ITEM ~slng10~
+    REMOVE_STORE_ITEM ~sper06~
+    REMOVE_STORE_ITEM ~staf07~
+    REMOVE_STORE_ITEM ~staf24~
+    REMOVE_STORE_ITEM ~sw1h72~
+    REMOVE_STORE_ITEM ~sw1h73~
+    REMOVE_STORE_ITEM ~sw1h74~
+    REMOVE_STORE_ITEM ~sw1h75~
+    REMOVE_STORE_ITEM ~sw1h76~
+    REMOVE_STORE_ITEM ~sw2h20~
+    REMOVE_STORE_ITEM ~xbow17~
+    REMOVE_STORE_ITEM ~xbow19~
+
+  // Hue Greenleaf
+  COPY_EXISTING ~ohnhuegr.sto~ ~Override/ohnhuegr.sto~
+    WRITE_LONG  0x14  165 // sell price markup
+    WRITE_LONG  0x18   30 // buy price markup
+    READ_BYTE  0x10 "stoflags"
+    WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+    REMOVE_STORE_ITEM ~chan07~
+    REMOVE_STORE_ITEM ~chan12~
+    REMOVE_STORE_ITEM ~chan13~
+    REMOVE_STORE_ITEM ~leat12~
+    REMOVE_STORE_ITEM ~ohleat53~
+    REMOVE_STORE_ITEM ~plat02~
+    REMOVE_STORE_ITEM ~plat04~
+    REMOVE_STORE_ITEM ~plat14~
+    REMOVE_STORE_ITEM ~plat23~
+
+  // Merchant
+  COPY_EXISTING ~ohnimim.sto~ ~Override/ohnimim.sto~
+    WRITE_LONG  0x14  165 // sell price markup
+    WRITE_LONG  0x18   30 // buy price markup
+    READ_BYTE  0x10 "stoflags"
+    WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+    REMOVE_STORE_ITEM ~amul14~
+    REMOVE_STORE_ITEM ~amul19~
+    REMOVE_STORE_ITEM ~belt02~
+    REMOVE_STORE_ITEM ~belt03~
+    REMOVE_STORE_ITEM ~belt04~
+    REMOVE_STORE_ITEM ~brac09~
+    REMOVE_STORE_ITEM ~clck01~
+    REMOVE_STORE_ITEM ~clck09~
+    REMOVE_STORE_ITEM ~clck10~
+    REMOVE_STORE_ITEM ~clck11~
+    REMOVE_STORE_ITEM ~ring03~
+    REMOVE_STORE_ITEM ~ring05~
+    REMOVE_STORE_ITEM ~ring06~
+    REMOVE_STORE_ITEM ~ring21~
+    REMOVE_STORE_ITEM ~ring31~
+    REMOVE_STORE_ITEM ~wand06~
+    REMOVE_STORE_ITEM ~wand07~
+    REMOVE_STORE_ITEM ~wand12~
+    REMOVE_STORE_ITEM ~wand13~
+
+  // Book Merchant
+  COPY_EXISTING ~ohnmhsm.sto~ ~Override/ohnmhsm.sto~
+    WRITE_LONG  0x14  165 // sell price markup
+    WRITE_LONG  0x18   30 // buy price markup
+    READ_BYTE  0x10 "stoflags"
+    WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+    REMOVE_STORE_ITEM ~scrl6p~
+    REMOVE_STORE_ITEM ~scrl6s~
+    REMOVE_STORE_ITEM ~scrl73~
+    REMOVE_STORE_ITEM ~scrl7f~
+    REMOVE_STORE_ITEM ~scrl7g~
+    REMOVE_STORE_ITEM ~scrl7j~
+    REMOVE_STORE_ITEM ~scrl7k~
+    REMOVE_STORE_ITEM ~scrl7q~
+    REMOVE_STORE_ITEM ~scrl7s~
+    REMOVE_STORE_ITEM ~scrl7u~
+    REMOVE_STORE_ITEM ~scrl8d~
+    REMOVE_STORE_ITEM ~scrl8e~
+    REMOVE_STORE_ITEM ~scrl8g~
+    REMOVE_STORE_ITEM ~scrl8h~
+    REMOVE_STORE_ITEM ~scrl8i~
+    REMOVE_STORE_ITEM ~scrl8l~
+    REMOVE_STORE_ITEM ~scrl8r~
+    REMOVE_STORE_ITEM ~scrl8y~
+    REMOVE_STORE_ITEM ~scrl8z~
+    REMOVE_STORE_ITEM ~scrl9b~
+    REMOVE_STORE_ITEM ~scrl9c~
+    REMOVE_STORE_ITEM ~scrl9d~
+    REMOVE_STORE_ITEM ~scrl9g~
+    REMOVE_STORE_ITEM ~scrl9l~
+    REMOVE_STORE_ITEM ~scrl9m~
+    REMOVE_STORE_ITEM ~scrla7~
+    REMOVE_STORE_ITEM ~scrl9n~
+    REMOVE_STORE_ITEM ~scrl9p~
+    REMOVE_STORE_ITEM ~scrl9q~
+    REMOVE_STORE_ITEM ~scrl9r~
+    REMOVE_STORE_ITEM ~scrlb1~
+    REMOVE_STORE_ITEM ~scrlb2~
+    REMOVE_STORE_ITEM ~scrlb4~
+END
