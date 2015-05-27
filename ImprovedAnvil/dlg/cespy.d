@@ -139,6 +139,7 @@ REPLACE BOTSMITH
     IF ~PartyHasItem("S!sw17") Global("Ialongfforged","GLOBAL",1)~ THEN REPLY @702 GOTO swash2
     IF ~PartyHasItem("ohnmbird") PartyHasItem("ohnrobe2")~ THEN REPLY @752 GOTO neera
     IF ~PartyHasItem("rsboot")~ THEN REPLY @754 GOTO rasaad
+    IF ~PartyHasItem("sper02")~ THEN REPLY @756 GOTO spear1
     IF ~~ THEN REPLY #992 EXIT
   END
 END
@@ -1756,6 +1757,19 @@ APPEND BOTSMITH
           TakePartyItemNum("S!scrl03",1)   DestroyItem("S!scrl03")
           SetGlobal("Iaboot04forged","GLOBAL",1)
           GiveItemCreate("S!boot04",Player1,1,1,1)
+          CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
+  END
+
+  IF ~~ THEN BEGIN spear1
+    SAY @757 IF ~~ THEN REPLY @2 GOTO 13
+    IF ~NumItemsPartyGT("sper02",1) PartyHasItem("misc43")
+        PartyGoldGT(9999)~
+      THEN REPLY @3
+      DO ~TakePartyGold(10000)      DestroyGold(10000)
+          TakePartyItemNum("sper02",1)   DestroyItem("sper02")
+          TakePartyItemNum("sper02",1)   DestroyItem("sper02")
+          TakePartyItemNum("misc43",1)   DestroyItem("misc43")
+          GiveItemCreate("sper05",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
 
