@@ -115,7 +115,7 @@ REPLACE BOTSMITH
     IF ~PartyHasItem("staf18")~ THEN REPLY @552 GOTO quarter
     IF ~PartyHasItem("S!misc16")~ THEN REPLY @554 GOTO elf
     IF ~PartyHasItem("sw1h41")~ THEN REPLY @556 GOTO long
-    IF ~PartyHasItem("S!misc36") Class(Player1,DRUID_ALL) Global("Iahelm05forged","GLOBAL",0)~ THEN REPLY @558 GOTO charm
+    IF ~PartyHasItem("S!misc36") Global("Iahelm05forged","GLOBAL",0)~ THEN REPLY @558 GOTO charm
     IF ~PartyHasItem("xbow12")~ THEN REPLY @560 GOTO janc
     IF ~PartyHasItem("sw1h28")~ THEN REPLY @562 GOTO throat
     IF ~PartyHasItem("misc3e")~ THEN REPLY @564 GOTO spider
