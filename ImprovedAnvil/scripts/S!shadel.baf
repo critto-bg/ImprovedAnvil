@@ -98,6 +98,19 @@ END
 
 IF
   Allegiance(Myself,ENEMY)
+  Detect([PC])
+  Global("Iatreasure","LOCALS",0)
+  Global("Iashld23place","GLOBAL",2)
+  Global("Iapcastts","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iashld23place","GLOBAL",4)
+    SetGlobal("Iatreasure","LOCALS",1)
+    GiveItemCreate("shld23",Myself,0,0,0) //
+END
+
+IF
+  Allegiance(Myself,ENEMY)
   HPPercentLT(Myself,50)
   !HPLT(Myself,1)
   See([PC])

@@ -1,5 +1,18 @@
 IF
   Allegiance(Myself,ENEMY)
+  Detect([PC])
+  Global("Iatreasure","LOCALS",0)
+  Global("Iashld23place","GLOBAL",3)
+  Global("Iapcastts","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iashld23place","GLOBAL",4)
+    SetGlobal("Iatreasure","LOCALS",1)
+    GiveItemCreate("shld23",Myself,0,0,0) //
+END
+
+IF
+  Allegiance(Myself,ENEMY)
   See(NearestEnemyOf(Myself))
   Global("EnemySeen","LOCALS",0)
 THEN
