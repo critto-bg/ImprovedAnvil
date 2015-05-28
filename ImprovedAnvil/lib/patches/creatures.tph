@@ -7877,6 +7877,9 @@ COPY_EXISTING ~yssold14.cre~ ~override/yssold14.cre~
   WRITE_ASCII 0x260 ~~ #8       // removes general script
   ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
   ADD_CRE_ITEM ~S!immune~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~AMULET~
+  SPRINT ~flags~ ~UNDROPPABLE&UNSTEALABLE~
+  SPRINT ~item_to_change~ ~staf07~
+  LAUNCH_PATCH_MACRO ~SET_CRE_ITEM_FLAGS~
 
 COPY_EXISTING ~yssold16.cre~ ~override/yssold16.cre~
   WRITE_LONG  0x14    3000 // xp
@@ -8250,6 +8253,11 @@ COPY_EXISTING ~GROMG04.cre~ ~override/GROMG04.cre~
   BEGIN
     LAUNCH_PATCH_MACRO ~SET_CRE_ITEM_FLAGS~
   END
+
+COPY_EXISTING ~LYROS.cre~ ~override/LYROS.cre~
+              ~xzar.cre~ ~override/xzar.cre~
+  REMOVE_CRE_ITEM ~staf07~
+  ADD_CRE_ITEM ~staf02~ #0 #0 #0 ~IDENTIFIED&UNSTEALABLE~ ~weapon1~
 
 ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
     // one of the anti-paladins that are present with the Supreme Leader
