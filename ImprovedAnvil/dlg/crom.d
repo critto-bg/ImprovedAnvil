@@ -142,6 +142,7 @@ REPLACE WSMITH01
     IF ~GlobalGT("Chapter","GLOBAL",5) PartyHasItem("rsboot")~ THEN REPLY @600 GOTO rasaad
     IF ~PartyHasItem("sper02")~ THEN REPLY @602 GOTO spear1
     IF ~PartyHasItem("sper05")~ THEN REPLY @604 GOTO spear2
+    IF ~PartyHasItem("sper08") Global("Iasper01forged","GLOBAL",0)~ THEN REPLY @606 GOTO spear3
     IF ~~ THEN REPLY #992 EXIT
   END
 END
@@ -1814,6 +1815,28 @@ APPEND WSMITH01
           TakePartyItemNum("scrl6m",1)   DestroyItem("scrl6m")
           TakePartyItemNum("S!misc02",1)   DestroyItem("S!misc02")
           GiveItemCreate("sper06",Player1,1,1,1)
+          CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
+  END
+
+  IF ~~ THEN BEGIN spear3
+    SAY @607 IF ~~ THEN REPLY @2 GOTO 13
+    IF ~PartyHasItem("sper08") PartyHasItem("sper06") PartyHasItem("staf07")
+        PartyHasItem("PLOT03H") PartyHasItem("S!misc02") PartyGoldGT(149999)
+        PartyHasItem("scrl03") NumItemsPartyGT("scrl95",2)
+        Global("Iasper01forged","GLOBAL",0)~
+      THEN REPLY @3
+      DO ~SetGlobal("Iasper01forged","GLOBAL",1)
+          TakePartyGold(150000)      DestroyGold(150000)
+          TakePartyItemNum("sper08",1)   DestroyItem("sper08")
+          TakePartyItemNum("sper06",1)   DestroyItem("sper06")
+          TakePartyItemNum("staf07",1)   DestroyItem("staf07")
+          TakePartyItemNum("S!misc02",1)   DestroyItem("S!misc02")
+          TakePartyItemNum("PLOT03H",1)   DestroyItem("PLOT03H")
+          TakePartyItemNum("scrl95",1)   DestroyItem("scrl95")
+          TakePartyItemNum("scrl95",1)   DestroyItem("scrl95")
+          TakePartyItemNum("scrl95",1)   DestroyItem("scrl95")
+          TakePartyItemNum("scrl03",1)   DestroyItem("scrl03")
+          GiveItemCreate("s!sper01",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
 
