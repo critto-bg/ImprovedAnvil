@@ -125,6 +125,21 @@ END
 
 IF
   Allegiance(Myself,ENEMY)
+  AreaCheck("AR0417")
+  Detect([PC])
+  Global("Iatreasure2","LOCALS",0)
+  Global("Iasw1h52place","GLOBAL",1)
+  Global("Iapcastts","GLOBAL",0)
+  !Global("Ianotreasure","AR0417",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iasw1h52place","GLOBAL",4)
+    SetGlobal("Iatreasure2","LOCALS",1)
+    GiveItemCreate("sw1h52",Myself,0,0,0) //
+END
+
+IF
+  Allegiance(Myself,ENEMY)
   See([PC])
   Range(LastSeenBy(Myself),5)
   Global("Iaborina03","LOCALS",0)

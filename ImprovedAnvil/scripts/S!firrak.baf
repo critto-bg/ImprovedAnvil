@@ -109,6 +109,19 @@ END
 
 IF
   Allegiance(Myself,ENEMY)
+  Global("Iapcastts","GLOBAL",0)
+  Detect([PC])
+  Global("Iatreasure2","LOCALS",0)
+  Global("Iasw1h52place","GLOBAL",3)
+THEN
+  RESPONSE #100
+    SetGlobal("Iasw1h52place","GLOBAL",4)
+    SetGlobal("Iatreasure2","LOCALS",1)
+    GiveItemCreate("sw1h52",Myself,0,0,0) //
+END
+
+IF
+  Allegiance(Myself,ENEMY)
   !GlobalTimerNotExpired("Iaspell","LOCALS")
   See(NearestEnemyOfType([GOODCUTOFF.0.0.0.0.SUMMONED]))
   OR(3)
