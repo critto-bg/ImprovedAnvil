@@ -8241,6 +8241,16 @@ COPY_EXISTING ~RIFTCR02.cre~ ~override/RIFTCR02.cre~
    END
 END
 
+COPY_EXISTING ~GROMG04.cre~ ~override/GROMG04.cre~
+              ~GROMG12.cre~ ~override/GROMG12.cre~
+              ~KUOWAR20.cre~ ~override/KUOWAR20.cre~
+              ~YARMY01.cre~ ~override/YARMY01.cre~
+  SPRINT ~flags~ ~UNDROPPABLE&UNSTEALABLE~
+  PATCH_FOR_EACH ~item_to_change~ IN ~sper06~
+  BEGIN
+    LAUNCH_PATCH_MACRO ~SET_CRE_ITEM_FLAGS~
+  END
+
 ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
     // one of the anti-paladins that are present with the Supreme Leader
     // replace the Beamdog creature with our default one to avoid patching the area

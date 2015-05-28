@@ -850,22 +850,29 @@ COPY_EXISTING ~AR0808.ARE~ ~override/AR0808.are~
    END
 END
 
+// Guarded Compound, level 2
 COPY_EXISTING ~AR0907.ARE~ ~override/AR0907.are~
-READ_SHORT 0x5A "icount"
-READ_LONG 0x5C "ioffset"
-SET "it" = 0
-WHILE ("%it%" < "%icount%") BEGIN
- READ_ASCII ("%ioffset%" + "%it%" * 196) "iname" (9)
- PATCH_IF (("%iname%" STRING_COMPARE_CASE "Tran0906a" = 0) OR
-	  ("%iname%" STRING_COMPARE_CASE "Tran0906b" = 0)) BEGIN
-  READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-  WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-  READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) "areflags"
-  WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) ("%areflags%" BOR 0b00000010) // set NPCs Cannot Pass bit
- END
-"it" = "%it%" + 1
-END
-EXTEND_TOP ~AR0907.BCS~ ~ImprovedAnvil\BAF\AR0907.BAF~
+  READ_SHORT 0x5A "icount"
+  READ_LONG 0x5C "ioffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%icount%") BEGIN
+    READ_ASCII ("%ioffset%" + "%it%" * 196) "iname" (9)
+    PATCH_IF (("%iname%" STRING_COMPARE_CASE "Tran0906a" = 0) OR
+              ("%iname%" STRING_COMPARE_CASE "Tran0906b" = 0))
+    BEGIN
+      READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
+      WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
+      READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) "areflags"
+      WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) ("%areflags%" BOR 0b00000010) // set NPCs Cannot Pass bit
+    END
+    "it" = "%it%" + 1
+  END
+
+  PATCH_FOR_EACH ~item_to_delete~ IN ~sper06~ BEGIN
+    LAUNCH_PATCH_MACRO ~DELETE_AREA_ITEM~
+  END
+
+  EXTEND_TOP ~AR0907.BCS~ ~ImprovedAnvil\BAF\AR0907.BAF~
 
 COPY_EXISTING ~ar1100.are~ ~override/ar1100.are~
   READ_SHORT 0x5A "icount"
@@ -1262,39 +1269,49 @@ END
 "it" = "%it%" + 1
 END
 
+// Spellhold, level 2
 COPY_EXISTING ~AR1512.ARE~ ~override/AR1512.ARE~
   READ_SHORT 0x64 "spcount"
   READ_LONG 0x60 "spoffset"
   SET "it" = 0
+
   WHILE ("%it%" < "%spcount%") BEGIN
-   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
-   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 1" = 0) BEGIN
-    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~RDSPID5~ #8
-    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 116) 1
-   END
-"it" = "%it%" + 1
-END
+    READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+    PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 1" = 0) BEGIN
+      WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~RDSPID5~ #8
+      WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 116) 1
+    END
+    "it" = "%it%" + 1
+  END
+
   READ_SHORT 0x64 "spcount"
   READ_LONG 0x60 "spoffset"
   SET "it" = 0
+
   WHILE ("%it%" < "%spcount%") BEGIN
-   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
-   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 2" = 0) BEGIN
-    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~RDKEEP~ #8
-   END
-"it" = "%it%" + 1
-END
+    READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+    PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 2" = 0) BEGIN
+      WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~RDKEEP~ #8
+    END
+    "it" = "%it%" + 1
+  END
+
   READ_SHORT 0x64 "spcount"
   READ_LONG 0x60 "spoffset"
   SET "it" = 0
+
   WHILE ("%it%" < "%spcount%") BEGIN
-   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
-   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 3" = 0) BEGIN
-    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~S!spyran~ #8
-    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
-   END
-"it" = "%it%" + 1
-END
+    READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+    PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 3" = 0) BEGIN
+      WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~S!spyran~ #8
+      WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+    END
+    "it" = "%it%" + 1
+  END
+
+  PATCH_FOR_EACH ~item_to_delete~ IN ~sper06~ BEGIN
+    LAUNCH_PATCH_MACRO ~DELETE_AREA_ITEM~
+  END
 
 COPY_EXISTING ~AR1513.ARE~ ~override/AR1513.ARE~
   READ_SHORT 0x64 "spcount"
@@ -1605,23 +1622,29 @@ COPY_EXISTING ~AR2200.ARE~ ~override/ar2200.are~
 END
 EXTEND_BOTTOM ~AR2200.BCS~ ~ImprovedAnvil\BAF\AR2200.BAF~
 
+// Deirex's Cave
 COPY_EXISTING ~AR2210.ARE~ ~override/ar2210.are~
   WRITE_ASCII 0x94 ~ar2210~ #8 // Area Script reference
   READ_SHORT 0x5A "icount"
   READ_LONG 0x5C "ioffset"
   SET "it" = 0
   WHILE ("%it%" < "%icount%") BEGIN
-   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname" (9)
-   PATCH_IF (("%iname%" STRING_COMPARE_CASE "Tran2200a" = 0) OR
-	    ("%iname%" STRING_COMPARE_CASE "Tran2200b" = 0)) BEGIN
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) ("%areflags%" BOR 0b00000010) // set NPCs Cannot Pass bit
-   END
-"it" = "%it%" + 1
-END
-EXTEND_BOTTOM ~AR2210.BCS~ ~ImprovedAnvil\BAF\AR2210.BAF~
+    READ_ASCII ("%ioffset%" + "%it%" * 196) "iname" (9)
+    PATCH_IF (("%iname%" STRING_COMPARE_CASE "Tran2200a" = 0) OR
+              ("%iname%" STRING_COMPARE_CASE "Tran2200b" = 0)) BEGIN
+      READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
+      WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
+      READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) "areflags"
+      WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) ("%areflags%" BOR 0b00000010) // set NPCs Cannot Pass bit
+    END
+    "it" = "%it%" + 1
+  END
+
+  PATCH_FOR_EACH ~item_to_delete~ IN ~sper06~ BEGIN
+    LAUNCH_PATCH_MACRO ~DELETE_AREA_ITEM~
+  END
+
+  EXTEND_BOTTOM ~AR2210.BCS~ ~ImprovedAnvil\BAF\AR2210.BAF~
 
 COPY_EXISTING ~AR2300.ARE~ ~override/AR2300.ARE~
   READ_SHORT 0x64 "spcount"
