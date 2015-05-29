@@ -142,6 +142,7 @@ REPLACE BOTSMITH
     IF ~PartyHasItem("sper02")~ THEN REPLY @756 GOTO spear1
     IF ~PartyHasItem("sper05")~ THEN REPLY @758 GOTO spear2
     IF ~PartyHasItem("sper08") Global("Iasper01forged","GLOBAL",0)~ THEN REPLY @760 GOTO spear3
+    IF ~PartyHasItem("misc5x") Global("Iaharperforged","GLOBAL",0)~ THEN REPLY @762 GOTO jaheir
     IF ~~ THEN REPLY #992 EXIT
   END
 END
@@ -1807,6 +1808,26 @@ APPEND BOTSMITH
           TakePartyItemNum("scrl95",1)   DestroyItem("scrl95")
           TakePartyItemNum("scrl03",1)   DestroyItem("scrl03")
           GiveItemCreate("s!sper01",Player1,1,1,1)
+          CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
+  END
+
+  IF ~~ THEN BEGIN jaheir
+    SAY @763 IF ~~ THEN REPLY @2 GOTO 13
+    IF ~PartyHasItem("misc5x") PartyHasItem("misc5e") NumItemsPartyGT("amul14",1)
+        NumItemsPartyGT("potn31",2) PartyGoldGT(74999) PartyHasItem("s!misc01")
+        Global("Iaharperforged","GLOBAL",0)~
+      THEN REPLY @3
+      DO ~SetGlobal("Iaharperforged","GLOBAL",1)
+          TakePartyGold(75000)      DestroyGold(75000)
+          TakePartyItemNum("misc5x",1)   DestroyItem("misc5x")
+          TakePartyItemNum("misc5e",1)   DestroyItem("misc5e")
+          TakePartyItemNum("amul14",1)   DestroyItem("amul14")
+          TakePartyItemNum("amul14",1)   DestroyItem("amul14")
+          TakePartyItemNum("potn31",1)   DestroyItem("potn31")
+          TakePartyItemNum("potn31",1)   DestroyItem("potn31")
+          TakePartyItemNum("potn31",1)   DestroyItem("potn31")
+          TakePartyItemNum("s!misc01",1)   DestroyItem("s!misc01")
+          GiveItemCreate("s!amul07",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
 

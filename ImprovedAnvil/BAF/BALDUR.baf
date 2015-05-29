@@ -1,4 +1,4 @@
-// Baldur ///////
+// Baldur //
 
 IF
   OR(6)
@@ -1341,6 +1341,21 @@ THEN
   RESPONSE #100
     TakePartyItem("S!sper01")
     DestroyItem("S!sper01")
+END
+
+IF
+  OR(6)
+   HasItemEquiped("S!amul07",Player1)
+   HasItemEquiped("S!amul07",Player2)
+   HasItemEquiped("S!amul07",Player3)
+   HasItemEquiped("S!amul07",Player4)
+   HasItemEquiped("S!amul07",Player5)
+   HasItemEquiped("S!amul07",Player6)
+  Global("Iaharperforged","GLOBAL",0)
+THEN
+  RESPONSE #100
+    TakePartyItem("S!amul07")
+    DestroyItem("S!amul07")
 END
 
 // enforce item restrictions for certain npcs and/or classes //
@@ -4074,6 +4089,92 @@ THEN
     DestroyItem("S!boot04")
     Wait(2)
     GiveItemCreate("S!boot04",Player1,1,1,1)
+END
+
+// Harper's Ward
+IF
+  HasItemEquiped("S!amul07",Player1)
+THEN
+  RESPONSE #100
+    TakePartyItem("S!amul07")
+    DestroyItem("S!amul07")
+    Wait(2)
+    GiveItemCreate("S!amul07",Player1,1,1,1)
+END
+
+IF
+  HasItemEquiped("S!amul07",Player2)
+  OR(4)
+   Class(Player2,THIEF_ALL)
+   Class(Player2,BARD_ALL)
+   !InPartyAllowDead("JAHEIRA")
+   !HasItemEquiped("S!amul07","JAHEIRA")
+THEN
+  RESPONSE #100
+    TakePartyItem("S!amul07")
+    DestroyItem("S!amul07")
+    Wait(2)
+    GiveItemCreate("S!amul07",Player1,1,1,1)
+END
+
+IF
+  HasItemEquiped("S!amul07",Player3)
+  OR(4)
+   Class(Player3,THIEF_ALL)
+   Class(Player3,BARD_ALL)
+   !InPartyAllowDead("JAHEIRA")
+   !HasItemEquiped("S!amul07","JAHEIRA")
+THEN
+  RESPONSE #100
+    TakePartyItem("S!amul07")
+    DestroyItem("S!amul07")
+    Wait(2)
+    GiveItemCreate("S!amul07",Player1,1,1,1)
+END
+
+IF
+  HasItemEquiped("S!amul07",Player4)
+  OR(4)
+   Class(Player4,THIEF_ALL)
+   Class(Player4,BARD_ALL)
+   !InPartyAllowDead("JAHEIRA")
+   !HasItemEquiped("S!amul07","JAHEIRA")
+THEN
+  RESPONSE #100
+    TakePartyItem("S!amul07")
+    DestroyItem("S!amul07")
+    Wait(2)
+    GiveItemCreate("S!amul07",Player1,1,1,1)
+END
+
+IF
+  HasItemEquiped("S!amul07",Player5)
+  OR(4)
+   Class(Player5,THIEF_ALL)
+   Class(Player5,BARD_ALL)
+   !InPartyAllowDead("JAHEIRA")
+   !HasItemEquiped("S!amul07","JAHEIRA")
+THEN
+  RESPONSE #100
+    TakePartyItem("S!amul07")
+    DestroyItem("S!amul07")
+    Wait(2)
+    GiveItemCreate("S!amul07",Player1,1,1,1)
+END
+
+IF
+  HasItemEquiped("S!amul07",Player6)
+  OR(4)
+   Class(Player6,THIEF_ALL)
+   Class(Player6,BARD_ALL)
+   !InPartyAllowDead("JAHEIRA")
+   !HasItemEquiped("S!amul07","JAHEIRA")
+THEN
+  RESPONSE #100
+    TakePartyItem("S!amul07")
+    DestroyItem("S!amul07")
+    Wait(2)
+    GiveItemCreate("S!amul07",Player1,1,1,1)
 END
 
 IF
