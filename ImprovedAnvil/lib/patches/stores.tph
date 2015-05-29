@@ -331,12 +331,14 @@ WRITE_LONG  0x14  165 // sell price markup
 READ_BYTE  0x10 "stoflags"
 WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
 
-// Merchant
+// Galoomp the Bookkeeper
 COPY_EXISTING ~shop08.sto~ ~Override/shop08.sto~
-WRITE_LONG  0x14  165 // sell price markup
-READ_BYTE  0x10 "stoflags"
-WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
-REMOVE_STORE_ITEM ~scrl09~
+  WRITE_LONG  0x14  165 // sell price markup
+  READ_BYTE  0x10 "stoflags"
+  WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+  REMOVE_STORE_ITEM ~scrl09~
+  REMOVE_STORE_ITEM ~scrl5h~
+  ADD_STORE_ITEM ~scrl5h~ BEFORE ~bag03d~ #0 #0 #0 ~IDENTIFIED&UNSTEALABLE~ #2
 
 // Priest of Ilmater
 COPY_EXISTING ~slilmat.sto~ ~Override/slilmat.sto~
