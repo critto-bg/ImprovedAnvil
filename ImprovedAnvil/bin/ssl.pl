@@ -5,7 +5,7 @@ my $scsline = "";
 my $defaultlibraryfile = "ssl/libraries/main.slb";
 # my $autolibfile="scsII/ssl/autolib.slb";
 my $sslfiles   = "./ssl/conf/build_list.txt";
-my $outputroot = "out";
+my $outputroot = "./ssl/out";
 my $location   = "none";
 my @scsarray   = ();
 my @trigger    = ();
@@ -181,11 +181,12 @@ sub work_out_outputfile {
             $outputres         = $outputarray[ $outputarraylength - 1 ];
             $outputarray[ $outputarraylength - 1 ] = $outputroot;
             $outputdir = join( "\/", @outputarray );
-            $outputfile = join( "\/", $outputdir, $outputres );
-            if ( -e $outputdir ne "1" ) {
-                print "$outputdir \n";
-                system "mkdir $outputdir";
-            }
+            $outputfile = join("\/", $outputroot, $outputres);
+
+            #if ( -e $outputdir ne "1" ) {
+            #    print "$outputdir \n";
+            #    system "mkdir $outputdir";
+            #}
         }
     }
 
