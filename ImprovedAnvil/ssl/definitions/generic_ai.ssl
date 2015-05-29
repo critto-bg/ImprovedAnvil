@@ -1,0 +1,35 @@
+/// generic combat AI ///
+
+// basic attack
+BEGIN_ACTION_DEFINITION
+    Name(BasicAttack)
+	TRIGGER
+        Allegiance(Myself,ENEMY)
+	ACTION
+		RESPONSE #scsprob1
+			AttackOneRound(LastSeenBy(Myself))
+END
+
+// drink a potion
+BEGIN_ACTION_DEFINITION
+    Name(DrinkPotion)
+	TRIGGER
+        !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+        HasItem(scsargument1,Myself)
+	ACTION
+		RESPONSE #scsprob1
+            SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+            DisplayStringHead(Myself,46150) // ~quaffs a potion~
+            UseItem(scsargument1,Myself)
+END
+
+// skip drinking a potion
+BEGIN_ACTION_DEFINITION
+    Name(SkipDrinkingPotion)
+	TRIGGER
+        Allegiance(Myself,ENEMY)
+        !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+	ACTION
+		RESPONSE #scsprob1
+            SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+END

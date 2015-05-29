@@ -1,15 +1,15 @@
 IF
-  See(NearestEnemyOf(Myself))
   Global("partyfled","LOCALS",1)
+  See(NearestEnemyOf(Myself))
 THEN
   RESPONSE #100
     SetGlobal("partyfled","LOCALS",0)
 END
 
 IF
-  See(NearestEnemyOf(Myself))
   Global("EnemySeen","LOCALS",0)
   InMyArea(Player1)
+  See(NearestEnemyOf(Myself))
 THEN
   RESPONSE #100
     SetGlobal("EnemySeen","LOCALS",1)
@@ -20,37 +20,37 @@ IF
   Allegiance(Myself,ENEMY)
   !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
   OR(4)
-   StateCheck(Myself,STATE_CONFUSED)
-   StateCheck(Myself,STATE_HELPLESS)
-   StateCheck(Myself,STATE_STUNNED)
-   Global("Iapcastts","GLOBAL",1)
+    StateCheck(Myself,STATE_CONFUSED)
+    StateCheck(Myself,STATE_HELPLESS)
+    StateCheck(Myself,STATE_STUNNED)
+    Global("Iapcastts","GLOBAL",1)
 THEN
   RESPONSE #100
     SetGlobalTimer("DrankPotionTimer","LOCALS",6)
 END
 
 IF
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  HasItem("POTN21",Myself)
   See(NearestEnemyOf(Myself))
   Global("Prep","LOCALS",0)
-  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
-  HasItem("POTN21",Myself) //
 THEN
   RESPONSE #100
-    SetGlobal("Prep","LOCALS",1)
     SetGlobalTimer("DrankPotionTimer","LOCALS",6)
-    DisplayStringHead(Myself,46150) // ~quaffs a potion~
-    UseItem("POTN21",Myself) //
+    DisplayStringHead(Myself,46150)
+    UseItem("POTN21",Myself)
+    SetGlobal("Prep","LOCALS",1)
 END
 
 IF
-  HPPercentLT(Myself,70)
   !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
-  HasItem("POTN52",Myself) //
+  HasItem("POTN52",Myself)
+  HPPercentLT(Myself,70)
 THEN
   RESPONSE #100
     SetGlobalTimer("DrankPotionTimer","LOCALS",6)
-    DisplayStringHead(Myself,46150) // ~quaffs a potion~
-    UseItem("POTN52",Myself) //
+    DisplayStringHead(Myself,46150)
+    UseItem("POTN52",Myself)
 END
 
 IF
@@ -71,7 +71,7 @@ IF
   !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
 THEN
   RESPONSE #100
-    AttackOneRound(NearestEnemyOf(Myself))
+    AttackOneRound(LastSeenBy(Myself))
 END
 
 IF
@@ -88,7 +88,7 @@ IF
   See(NearestEnemyOf(Myself))
 THEN
   RESPONSE #100
-    AttackOneRound(NearestEnemyOf(Myself))
+    AttackOneRound(LastSeenBy(Myself))
 END
 
 IF

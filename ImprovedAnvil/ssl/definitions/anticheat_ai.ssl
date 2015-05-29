@@ -1,0 +1,82 @@
+/// actions directed at countering cheaty and cheesy behavior of players ///
+
+// set EnemySeen flag and shout an alert
+BEGIN_ACTION_DEFINITION
+    Name(AlertEnemySeen)
+	TRIGGER
+        Global("EnemySeen","LOCALS",0)
+        InMyArea(Player1)
+	ACTION
+		RESPONSE #scsprob1
+            SetGlobal("EnemySeen","LOCALS",1)
+            Shout(ALERT)
+END
+
+// respond to an alert shout
+BEGIN_ACTION_DEFINITION
+    Name(RespondEnemySeenAlert)
+	TRIGGER
+        Heard([EVILCUTOFF],ALERT)
+        InMyGroup(LastHeardBy(Myself))
+        !See([GOODCUTOFF])
+        InMyArea(Player1)
+	ACTION
+		RESPONSE #scsprob1
+            MoveToObject(Player1)
+END
+
+// activate the flag for party fleeing the immediate area
+BEGIN_ACTION_DEFINITION
+    Name(SetPartyFled)
+	TRIGGER
+        Global("EnemySeen","LOCALS",1)
+        Global("partyfled","LOCALS",0)
+        !See([GOODCUTOFF])
+        !See([PC])
+	ACTION
+		RESPONSE #scsprob1
+            SetGlobalTimer("chase","LOCALS",60)
+            SetGlobal("partyfled","LOCALS",1)
+END
+
+// reset the flag for party fleeing the immediate area
+BEGIN_ACTION_DEFINITION
+    Name(ResetPartyFled)
+	TRIGGER
+        Global("partyfled","LOCALS",1)
+	ACTION
+		RESPONSE #scsprob1
+			SetGlobal("partyfled","LOCALS",0)
+END
+
+// chase the enemy until the timer is not over
+BEGIN_ACTION_DEFINITION
+    Name(ChaseParty)
+	TRIGGER
+        !See([PC])
+        !See([GOODCUTOFF])
+        Global("partyfled","LOCALS",1)
+        GlobalTimerNotExpired("chase","LOCALS")
+        InMyArea(Player1)
+        Global("EnemySeen","LOCALS",1)
+	ACTION
+		RESPONSE #scsprob1
+			MoveToObject(Player1)
+END
+
+// the chase timer ran out, heal the creature as an anticheat measure
+BEGIN_ACTION_DEFINITION
+    Name(StopeChasingAndHeal)
+	TRIGGER
+        !See([PC])
+        !See([GOODCUTOFF])
+        InMyArea(Player1)
+        Global("EnemySeen","LOCALS",1)
+        GlobalTimerExpired("chase","LOCALS")
+        Global("partyfled","LOCALS",1)
+	ACTION
+		RESPONSE #scsprob1
+            SetGlobal("EnemySeen","LOCALS",0)
+            ReallyForceSpellRES("SPWII07",Myself)
+            MoveToObject(Player1)
+END

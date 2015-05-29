@@ -1,0 +1,89 @@
+/// Suna Seni AI script ///
+
+INCLUDE FILE(ssl/definitions/anticheat_ai.ssl)
+INCLUDE FILE(ssl/definitions/generic_ai.ssl)
+
+IF TRIGGER
+  Target(NearestEnemyOf(Myself))
+THEN DO
+  Action(ResetPartyFled)
+END
+
+IF TRIGGER
+  Target(NearestEnemyOf(Myself))
+THEN DO
+  Action(AlertEnemySeen)
+END
+
+IF TRIGGER
+  Target(NODEFINEDTARGET)
+  OR(4)
+   StateCheck(Myself,STATE_CONFUSED)
+   StateCheck(Myself,STATE_HELPLESS)
+   StateCheck(Myself,STATE_STUNNED)
+   Global("Iapcastts","GLOBAL",1)
+THEN DO
+  Action(SkipDrinkingPotion)
+END
+
+IF TRIGGER
+  Target(NearestEnemyOf(Myself))
+  Global("Prep","LOCALS",0)
+THEN DO
+  SetGlobal("Prep","LOCALS",1)
+  Action(DrinkPotion,"POTN21")
+END
+
+IF TRIGGER
+  Target(NODEFINEDTARGET)
+  HPPercentLT(Myself,70)
+THEN DO
+  Action(DrinkPotion,"POTN52")
+END
+
+IF TRIGGER
+  Target(SecondNearestEnemyOf(Myself))
+  CheckStatLT(LastSeenBy(Myself),90,RESISTPIERCING)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  RandomNumGT(6,4)
+  Range(LastSeenBy(Myself),2)
+THEN DO
+  Action(BasicAttack)
+END
+
+IF TRIGGER
+  TargetBlock(TwoNearestEnemies)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+THEN DO
+  Action(BasicAttack)
+END
+
+IF TRIGGER
+  Target(NearestEnemyOf(Myself))
+THEN DO
+  Action(BasicAttack)
+END
+
+IF TRIGGER
+  Target(NODEFINEDTARGET)
+THEN DO
+  Action(RespondEnemySeenAlert)
+END
+
+IF TRIGGER
+  Target(NODEFINEDTARGET)
+THEN DO
+  Action(SetPartyFled)
+END
+
+IF TRIGGER
+  Target(NODEFINEDTARGET)
+THEN DO
+  Action(ChaseParty)
+END
+
+IF TRIGGER
+  Target(NODEFINEDTARGET)
+THEN DO
+  Action(StopeChasingAndHeal)
+END
