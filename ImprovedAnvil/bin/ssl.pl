@@ -958,7 +958,7 @@ sub process_include_blocks {
 
             extract_from_brackets;
             $scsline =~ s/\\/\//g;
-            print "attempting to open file $scsline ...";
+            print "  attempting to open file $scsline ...";
             unless ( open( infile, lc $scsline ) ) {
                 die
 "FATAL ERROR (SSL cannot find file requested [$scsline] at line $linenum)";
@@ -1077,7 +1077,7 @@ foreach (@filelist) {
     work_out_outputfile();
 
     $inputfile =~ s/\\/\//g;
-    print "\n \n Input file is $inputfile \n";
+    print "\n\nInput file is $inputfile \n";
     read_input();
 
     work_out_outer_loops();
@@ -1187,10 +1187,10 @@ foreach (@filelist) {
         }
     }
     if ( $outputexists eq "Yes" ) {
-        print "\n Output file is $outputfile \n";
+        print "\n  Output file is $outputfile \n";
         write_output();
     }
     else {
-        print "\n No output file for this input file ";
+        print "\n  No output file for this input file ";
     }
 }
