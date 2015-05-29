@@ -290,4 +290,4 @@ Credits:
    excellent tools.
 
 12- Thanks to the authors of Sword and Fist mod for insights and useful knowledge on how to deal with peculiarities of
-    the monk's fist implementation in BG2 ToB
+    the monk's fist implementation in BG2 ToB.
