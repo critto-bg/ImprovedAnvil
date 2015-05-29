@@ -19112,27 +19112,10 @@ COPY_EXISTING ~SPWI411.spl~ ~override/SPWI411.spl~
 
   // patch "wake on sleep" for Emotion
   PATCH_IF GAME_IS ~bg2ee~ THEN BEGIN
-      READ_SHORT 0x68 "icount"
-      READ_LONG 0x64 "ioffset"
-      READ_LONG 0x6a "fbtoffset"
-      SET "it" = 0
-
-      WHILE ("%it%" < "%icount%") BEGIN
-        READ_SHORT (%ioffset% + ("%it%" * 0x28) + 0x1e) "fcount"
-        READ_SHORT (%ioffset% + ("%it%" * 0x28) + 0x20) "foffset"
-        SET "of" = 0
-
-        WHILE ("%of%" < "%fcount%") BEGIN
-          READ_SHORT (%fbtoffset% + %foffset% + ("%of%" * 0x30) + 0x00) opcode
-
-          PATCH_IF (opcode = 39) THEN BEGIN
-             WRITE_LONG (%fbtoffset% + %foffset% + ("%of%" * 0x30) + 0x08) 1
-          END
-
-          "of" = "%of%" + 1
-        END
-
-        "it" = "%it%" + 1
+      LAUNCH_PATCH_FUNCTION ~ALTER_SPELL_EFFECT~ INT_VAR
+        check_headers = 1
+        match_opcode = 39
+        parameter2 = 1
       END
   END
 
