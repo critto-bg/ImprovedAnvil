@@ -2,10 +2,10 @@
 
 my $scsline = "";
 
-# my $defaultlibraryfile="scsII/ssl/library.slb";
+my $defaultlibraryfile = "ssl/libraries/main.slb";
 # my $autolibfile="scsII/ssl/autolib.slb";
 my $sslfiles   = "./ssl/conf/build_list.txt";
-my $outputroot = "./ssl/out";
+my $outputroot = "out";
 my $location   = "none";
 my @scsarray   = ();
 my @trigger    = ();
@@ -111,8 +111,7 @@ sub get_files {
 
 #####################################################
 sub read_library {
-
-    # push @librarylist, $defaultlibraryfile,$autolibfile;
+    push @librarylist, $defaultlibraryfile; #,$autolibfile;
 
     foreach $1 (@librarylist) {
         $libraryfile = $1;
