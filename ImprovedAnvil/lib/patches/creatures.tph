@@ -3236,64 +3236,84 @@ ADD_KNOWN_SPELL ~SPPR317~ #2 ~priest~
 ADD_KNOWN_SPELL ~SPPR403~ #3 ~priest~
 
 COPY_EXISTING ~jaheir7.cre~ ~Override/jaheir7.cre~
-READ_LONG 0x2A0 "knownsploffset"
-READ_LONG 0x2A4 "knownsplcount"
-PATCH_IF ("%knownsplcount%" > 0) BEGIN
-  READ_LONG 0x2A8 "smioffset"
-  READ_LONG 0x2B0 "msoffset"
-  READ_LONG 0x2B8 "isoffset"
-  READ_LONG 0x2BC "ioffset"
-  READ_LONG 0x2C4 "effoffset"
-  SET "erasedspells" = 0
-  SET "cnt" = "%knownsplcount%" - 1
-  WHILE ("%cnt%" >= 0) BEGIN
-    READ_ASCII ("%knownsploffset%" + "%cnt%"*12) "splresref"
-    PATCH_IF ("%splresref%" STRING_COMPARE_CASE "SPPR405" = 0)
-   BEGIN
-   DELETE_BYTES ("%knownsploffset%" + ("%cnt%"*12)) 12
-   SET "erasedspells" = "%erasedspells%" + 1
-   END
-  SET "cnt" = "%cnt%" - 1
+  WRITE_SHORT 0x24 72 // current HP
+  WRITE_SHORT 0x26 72 // max HP
+  WRITE_BYTE  0x52 16 // THAC0
+  WRITE_BYTE  0x238 17 // strength
+  WRITE_BYTE  0x239 0 // strength % bonus
+  WRITE_BYTE  0x23a 10 // intelligence
+  WRITE_BYTE  0x23b 18 // wisdom
+  WRITE_BYTE  0x23c 17 // dexterity
+  WRITE_BYTE  0x23d 16 // constitution
+  WRITE_BYTE  0x23e 12 // charisma
+  WRITE_BYTE  0x234 9 // level
+  WRITE_BYTE  0x235 0 // level
+  WRITE_BYTE  0x236 0 // level
+  WRITE_LONG 0x244 0x40120000 // avenger
+  WRITE_BYTE  0x273 0xb // class druid
+
+  REMOVE_KNOWN_SPELL ~SPPR405~
+  REMOVE_KNOWN_SPELL ~SPPR415~
+
+  ADD_KNOWN_SPELL ~SPDR101~ #0 ~priest~
+  ADD_KNOWN_SPELL ~SPPR214~ #1 ~priest~
+  ADD_KNOWN_SPELL ~SPPR215~ #1 ~priest~
+  ADD_KNOWN_SPELL ~SPDR302~ #2 ~priest~
+  ADD_KNOWN_SPELL ~SPPR412~ #3 ~priest~
+  ADD_KNOWN_SPELL ~SPPR513~ #4 ~priest~
+
+  SPRINT ~opcode_to_delete~ ~233~
+  LAUNCH_PATCH_MACRO ~DELETE_CRE_EFFECT~
+
+  PATCH_FOR_EACH ~prof_code~ IN ~98~ ~102~ ~111~ BEGIN
+    LPF ~ADD_CRE_EFFECT~ INT_VAR
+      opcode = 233
+      timing = 9
+      target = 1
+      parameter1 = 2
+      parameter2 = ~prof_code~
+    END
   END
-WRITE_LONG 0x2A4 ("%knownsplcount%" - "%erasedspells%")
-PATCH_IF ("%smioffset%" > "%knownsploffset%") BEGIN WRITE_LONG 0x2A8 ("%smioffset%" - ("%erasedspells%" * 12)) END
-PATCH_IF ("%msoffset%" > "%knownsploffset%") BEGIN WRITE_LONG 0x2B0 ("%msoffset%" - ("%erasedspells%" * 12)) END
-PATCH_IF ("%isoffset%" > "%knownsploffset%") BEGIN WRITE_LONG 0x2B8 ("%isoffset%" - ("%erasedspells%" * 12)) END
-PATCH_IF ("%ioffset%" > "%knownsploffset%") BEGIN WRITE_LONG 0x2BC ("%ioffset%" - ("%erasedspells%" * 12)) END
-PATCH_IF ("%effoffset%" > "%knownsploffset%") BEGIN WRITE_LONG 0x2C4 ("%effoffset%" - ("%erasedspells%" * 12)) END
-END
-ADD_KNOWN_SPELL ~SPPR215~ #1 ~priest~
-ADD_KNOWN_SPELL ~SPPR403~ #3 ~priest~
 
 COPY_EXISTING ~jaheir8.cre~ ~Override/jaheir8.cre~
-READ_LONG 0x2A0 "knownsploffset"
-READ_LONG 0x2A4 "knownsplcount"
-PATCH_IF ("%knownsplcount%" > 0) BEGIN
-  READ_LONG 0x2A8 "smioffset"
-  READ_LONG 0x2B0 "msoffset"
-  READ_LONG 0x2B8 "isoffset"
-  READ_LONG 0x2BC "ioffset"
-  READ_LONG 0x2C4 "effoffset"
-  SET "erasedspells" = 0
-  SET "cnt" = "%knownsplcount%" - 1
-  WHILE ("%cnt%" >= 0) BEGIN
-    READ_ASCII ("%knownsploffset%" + "%cnt%"*12) "splresref"
-    PATCH_IF ("%splresref%" STRING_COMPARE_CASE "SPPR405" = 0)
-   BEGIN
-   DELETE_BYTES ("%knownsploffset%" + ("%cnt%"*12)) 12
-   SET "erasedspells" = "%erasedspells%" + 1
-   END
-  SET "cnt" = "%cnt%" - 1
+  WRITE_SHORT 0x24 74 // current HP
+  WRITE_SHORT 0x26 74 // max HP
+  WRITE_BYTE  0x52 14 // THAC0
+  WRITE_BYTE  0x238 17 // strength
+  WRITE_BYTE  0x239 0 // strength % bonus
+  WRITE_BYTE  0x23a 10 // intelligence
+  WRITE_BYTE  0x23b 18 // wisdom
+  WRITE_BYTE  0x23c 17 // dexterity
+  WRITE_BYTE  0x23d 16 // constitution
+  WRITE_BYTE  0x23e 12 // charisma
+  WRITE_BYTE  0x234 102 // level
+  WRITE_BYTE  0x235 0 // level
+  WRITE_BYTE  0x236 0 // level
+  WRITE_LONG 0x244 0x40120000 // avenger
+  WRITE_BYTE  0x273 0xb // class druid
+
+  REMOVE_KNOWN_SPELL ~SPPR405~
+  REMOVE_KNOWN_SPELL ~SPPR415~
+
+  ADD_KNOWN_SPELL ~SPDR101~ #0 ~priest~
+  ADD_KNOWN_SPELL ~SPPR214~ #1 ~priest~
+  ADD_KNOWN_SPELL ~SPPR215~ #1 ~priest~
+  ADD_KNOWN_SPELL ~SPDR302~ #2 ~priest~
+  ADD_KNOWN_SPELL ~SPPR412~ #3 ~priest~
+  ADD_KNOWN_SPELL ~SPPR513~ #4 ~priest~
+
+  SPRINT ~opcode_to_delete~ ~233~
+  LAUNCH_PATCH_MACRO ~DELETE_CRE_EFFECT~
+
+  PATCH_FOR_EACH ~prof_code~ IN ~98~ ~102~ ~111~ BEGIN
+    LPF ~ADD_CRE_EFFECT~ INT_VAR
+      opcode = 233
+      timing = 9
+      target = 1
+      parameter1 = 2
+      parameter2 = ~prof_code~
+    END
   END
-WRITE_LONG 0x2A4 ("%knownsplcount%" - "%erasedspells%")
-PATCH_IF ("%smioffset%" > "%knownsploffset%") BEGIN WRITE_LONG 0x2A8 ("%smioffset%" - ("%erasedspells%" * 12)) END
-PATCH_IF ("%msoffset%" > "%knownsploffset%") BEGIN WRITE_LONG 0x2B0 ("%msoffset%" - ("%erasedspells%" * 12)) END
-PATCH_IF ("%isoffset%" > "%knownsploffset%") BEGIN WRITE_LONG 0x2B8 ("%isoffset%" - ("%erasedspells%" * 12)) END
-PATCH_IF ("%ioffset%" > "%knownsploffset%") BEGIN WRITE_LONG 0x2BC ("%ioffset%" - ("%erasedspells%" * 12)) END
-PATCH_IF ("%effoffset%" > "%knownsploffset%") BEGIN WRITE_LONG 0x2C4 ("%effoffset%" - ("%erasedspells%" * 12)) END
-END
-ADD_KNOWN_SPELL ~SPPR215~ #1 ~priest~
-ADD_KNOWN_SPELL ~SPPR403~ #3 ~priest~
 
 COPY_EXISTING ~jaheir8.cre~ ~Override/jaheir11.cre~
 
