@@ -1,6 +1,6 @@
 /// generic combat AI ///
 
-// basic attack
+// basic attack for 1 round
 BEGIN_ACTION_DEFINITION
     Name(BasicAttack)
 	TRIGGER
@@ -8,6 +8,17 @@ BEGIN_ACTION_DEFINITION
 	ACTION
 		RESPONSE #scsprob1
 			AttackOneRound(LastSeenBy(Myself))
+END
+
+// basic attack for 2 rounds
+BEGIN_ACTION_DEFINITION
+    Name(BasicAttack2Rounds)
+	TRIGGER
+        Allegiance(Myself,ENEMY)
+	ACTION
+		RESPONSE #scsprob1
+            AttackOneRound(LastSeenBy(Myself))
+            AttackOneRound(LastSeenBy(Myself))
 END
 
 // drink a potion

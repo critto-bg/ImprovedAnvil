@@ -80,3 +80,27 @@ BEGIN_ACTION_DEFINITION
             ReallyForceSpellRES("SPWII07",Myself)
             MoveToObject(Player1)
 END
+
+// PC casts timestop, apply protection from everything
+BEGIN_ACTION_DEFINITION
+    Name(StartAntiTS)
+	TRIGGER
+        Global("Iapcastts","GLOBAL",1)
+        Global("Iatsinvulner","LOCALS",0)
+	ACTION
+		RESPONSE #scsprob1
+            SetGlobal("Iatsinvulner","LOCALS",1)
+            ApplySpellRES("SPINI70",Myself)
+END
+
+// PC finished timestop, remove protections
+BEGIN_ACTION_DEFINITION
+    Name(StopAntiTS)
+	TRIGGER
+        Global("Iapcastts","GLOBAL",0)
+        Global("Iatsinvulner","LOCALS",1)
+	ACTION
+		RESPONSE #scsprob1
+            SetGlobal("Iatsinvulner","LOCALS",0)
+            ApplySpellRES("SPINI71",Myself)
+END

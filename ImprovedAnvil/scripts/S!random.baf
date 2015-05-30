@@ -17,17 +17,17 @@ THEN
 END
 
 IF
-  See(NearestEnemyOf(Myself))
   Global("partyfled","LOCALS",1)
+  See(NearestEnemyOf(Myself))
 THEN
   RESPONSE #100
     SetGlobal("partyfled","LOCALS",0)
 END
 
 IF
-  See(NearestEnemyOf(Myself))
   Global("EnemySeen","LOCALS",0)
   InMyArea(Player1)
+  See(NearestEnemyOf(Myself))
 THEN
   RESPONSE #100
     SetGlobal("EnemySeen","LOCALS",1)
@@ -36,8 +36,8 @@ END
 
 IF
   Allegiance(Myself,ENEMY)
-  HasItemEquiped("S!shadow",Myself)
   See(SecondNearestEnemyOf(Myself))
+  HasItemEquiped("S!shadow",Myself)
   CheckStatLT(LastSeenBy(Myself),90,RESISTPIERCING)
   !CheckStatGT(LastSeenBy(Myself),1,SCRIPTINGSTATE6)
   RandomNumGT(6,4)
@@ -50,8 +50,8 @@ END
 
 IF
   Allegiance(Myself,ENEMY)
-  HasItemEquiped("ax1h17",Myself)
   See(SecondNearestEnemyOf(Myself))
+  HasItemEquiped("ax1h17",Myself)
   CheckStatLT(LastSeenBy(Myself),90,RESISTSLASHING)
   !CheckStatGT(LastSeenBy(Myself),1,SCRIPTINGSTATE6)
   RandomNumGT(6,4)
@@ -64,8 +64,8 @@ END
 
 IF
   Allegiance(Myself,ENEMY)
-  HasItemEquiped("sw2h02",Myself)
   See(SecondNearestEnemyOf(Myself))
+  HasItemEquiped("sw2h02",Myself)
   CheckStatLT(LastSeenBy(Myself),90,RESISTSLASHING)
   !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
   RandomNumGT(6,4)
@@ -78,8 +78,8 @@ END
 
 IF
   Allegiance(Myself,ENEMY)
-  HasItemEquiped("blun03",Myself)
   See(SecondNearestEnemyOf(Myself))
+  HasItemEquiped("blun03",Myself)
   CheckStatLT(LastSeenBy(Myself),90,RESISTCRUSHING)
   !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
   RandomNumGT(6,4)
@@ -92,23 +92,23 @@ END
 
 IF
   Allegiance(Myself,ENEMY)
-  OR(2)
-   HasItemEquiped("S!shadow",Myself)
-   HasItemEquiped("ax1h17",Myself)
   See(NearestEnemyOf(Myself))
   !CheckStatGT(LastSeenBy(Myself),1,SCRIPTINGSTATE6)
+  OR(2)
+    HasItemEquiped("S!shadow",Myself)
+    HasItemEquiped("ax1h17",Myself)
 THEN
   RESPONSE #100
-    AttackOneRound(NearestEnemyOf(Myself))
+    AttackOneRound(LastSeenBy(Myself))
 END
 
 IF
   Allegiance(Myself,ENEMY)
-  OR(2)
-   HasItemEquiped("S!shadow",Myself)
-   HasItemEquiped("ax1h17",Myself)
   See(SecondNearestEnemyOf(Myself))
   !CheckStatGT(LastSeenBy(Myself),1,SCRIPTINGSTATE6)
+  OR(2)
+    HasItemEquiped("S!shadow",Myself)
+    HasItemEquiped("ax1h17",Myself)
 THEN
   RESPONSE #100
     AttackOneRound(LastSeenBy(Myself))
@@ -116,11 +116,11 @@ END
 
 IF
   Allegiance(Myself,ENEMY)
-  OR(2)
-   HasItemEquiped("S!shadow",Myself)
-   HasItemEquiped("ax1h17",Myself)
   See(ThirdNearestEnemyOf(Myself))
   !CheckStatGT(LastSeenBy(Myself),1,SCRIPTINGSTATE6)
+  OR(2)
+    HasItemEquiped("S!shadow",Myself)
+    HasItemEquiped("ax1h17",Myself)
 THEN
   RESPONSE #100
     AttackOneRound(LastSeenBy(Myself))
@@ -128,23 +128,23 @@ END
 
 IF
   Allegiance(Myself,ENEMY)
-  OR(2)
-   HasItemEquiped("sw2h02",Myself)
-   HasItemEquiped("blun03",Myself)
   See(NearestEnemyOf(Myself))
   !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  OR(2)
+    HasItemEquiped("sw2h02",Myself)
+    HasItemEquiped("blun03",Myself)
 THEN
   RESPONSE #100
-    AttackOneRound(NearestEnemyOf(Myself))
+    AttackOneRound(LastSeenBy(Myself))
 END
 
 IF
   Allegiance(Myself,ENEMY)
-  OR(2)
-   HasItemEquiped("sw2h02",Myself)
-   HasItemEquiped("blun03",Myself)
   See(SecondNearestEnemyOf(Myself))
   !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  OR(2)
+    HasItemEquiped("sw2h02",Myself)
+    HasItemEquiped("blun03",Myself)
 THEN
   RESPONSE #100
     AttackOneRound(LastSeenBy(Myself))
@@ -152,11 +152,11 @@ END
 
 IF
   Allegiance(Myself,ENEMY)
-  OR(2)
-   HasItemEquiped("sw2h02",Myself)
-   HasItemEquiped("blun03",Myself)
   See(ThirdNearestEnemyOf(Myself))
   !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  OR(2)
+    HasItemEquiped("sw2h02",Myself)
+    HasItemEquiped("blun03",Myself)
 THEN
   RESPONSE #100
     AttackOneRound(LastSeenBy(Myself))
@@ -167,7 +167,7 @@ IF
   See(NearestEnemyOf(Myself))
 THEN
   RESPONSE #100
-    AttackOneRound(NearestEnemyOf(Myself))
+    AttackOneRound(LastSeenBy(Myself))
 END
 
 IF
@@ -192,8 +192,8 @@ THEN
 END
 
 IF
-  !See([GOODCUTOFF])
   !See([PC])
+  !See([GOODCUTOFF])
   Global("partyfled","LOCALS",1)
   GlobalTimerNotExpired("chase","LOCALS")
   InMyArea(Player1)
@@ -204,8 +204,8 @@ THEN
 END
 
 IF
-  !See([GOODCUTOFF])
   !See([PC])
+  !See([GOODCUTOFF])
   InMyArea(Player1)
   Global("EnemySeen","LOCALS",1)
   GlobalTimerExpired("chase","LOCALS")
