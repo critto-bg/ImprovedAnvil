@@ -258,23 +258,24 @@ sub extract_from_brackets {
     $lastbracket = rindex $scsline, ")";
     $size        = $lastbracket - $firstbracket;
     $scsline     = substr $scsline, $firstbracket, $size;
-
 }
 
 ###############################################################
 sub extract_targets {
-
     $arg1 = @_[0];
 
     @targetsubarray = ();
     @temparray      = split( '\*', $arg1 );
     @targetexclude  = split( '&', $temparray[1] );
     @targetconsider = split( '&', $temparray[0] );
+
     foreach $8 (@targetconsider) {
         $label = 0;
+
         if ( $targethash{$8}[0] eq "" ) {
             die "Unrecognised TargetBlock ($8) near line $linenum";
         }
+
         while ( $targethash{$8}[$label] ne "" ) {
             $inexclude = 0;
             foreach $7 (@targetexclude) {
@@ -618,13 +619,13 @@ sub streamline_trigger {
     }
 
     @trigger = @starray;
-
 }
 
 ##############################################################################
 sub get_combine_top {
     %combinehash      = ();
     $firsttimethrough = "Yes";
+
     foreach $forcombine (@action) {
         @temp       = split( '\|', $forcombine );
         @actionargs = split( ',',  $temp[0] );
@@ -686,6 +687,7 @@ sub get_combine_top {
         }
     }
 }
+
 ###########################################################################
 sub process_block {
 
@@ -694,6 +696,7 @@ sub process_block {
     }
 
     streamline_trigger();
+
     if ( $combine eq "Yes" ) {
         get_combine_top();
         @triggertop = ();
@@ -711,9 +714,11 @@ sub process_block {
         @target          = ('LastSeenBy(Myself)');
         @targetcondition = ();
     }
+
     if ( scalar @action eq 0 ) {
         push @action, "Literal";
     }
+
     foreach $2 (@action) {
         @actionsplit = ();
         @actionsplit = split( '\|', $2 );
@@ -738,9 +743,9 @@ sub process_block {
         block_print();
     }
 }
+
 ############################################################################
 sub make_action {
-
     @triggertop    = ();
     @actiontop     = ();
     @randomreplace = ();
@@ -749,6 +754,7 @@ sub make_action {
         @triggertop = @{ $definetrigger{ $actionargs[0] } };
         @actiontop  = @{ $defineaction{ $actionargs[0] } };
         $statelabel = 0;
+
         if ( $randomaction{ $actionargs[0] } ne "" ) {
             $replacelabel =
               join( '', "scsargument", $randomaction{ $actionargs[0] } );
@@ -765,28 +771,36 @@ sub make_action {
                 }
             }
         }
+
         foreach $replace (@actionargs) {
             $replacelabel = join( '', "scsargument", $statelabel );
             $triggerlabel = 0;
+
             foreach (@triggertop) {
                 $triggertop[$triggerlabel] =~
                   s/$replacelabel/$actionargs[$statelabel]/g;
                 $triggerlabel = $triggerlabel + 1;
             }
+
             $actionlabel = 0;
+
             foreach (@actiontop) {
                 $actiontop[$actionlabel] =~
                   s/$replacelabel/$actionargs[$statelabel]/g;
                 $actionlabel = $actionlabel + 1;
             }
+
             $statelabel = $statelabel + 1;
         }
+
         $replacelabel = "scsprob1";
         $actionlabel  = 0;
+
         foreach (@actiontop) {
             $actiontop[$actionlabel] =~ s/$replacelabel/$prob1/g;
             $actionlabel = $actionlabel + 1;
         }
+
         push @actiontop, @alwaysaction;
     }
 
@@ -813,12 +827,15 @@ sub make_action {
     elsif ( $actionargs[0] eq "Literal" ) {
         $actiontop[0] = "RESPONSE #$prob1";
         @temparray = split( '&', $actionargs[1] );
+
         foreach $11 (@temparray) {
             $temp = $11;
             $temp =~ s/\\/,/g;
             push @actiontop, $temp;
         }
+
         push @actiontop, @alwaysaction;
+
         if ( $actionargs[2] ne "" ) {
             @temparray = split( '&', $actionargs[2] );
             foreach $11 (@temparray) {
@@ -831,17 +848,19 @@ sub make_action {
     elsif ( $actionargs[0] eq "LiteralRandomTarget" ) {
         @literalactionarray = ();
         @temparray = split( '&', $actionargs[1] );
+
         foreach $11 (@temparray) {
             $temp = $11;
             $temp =~ s/\\/,/g;
             push @literalactionarray, $temp;
         }
+
         if ( $actionargs[2] ne "" ) {
             @temparray = split( '&', $actionargs[2] );
-        }
-        else {
+        } else {
             @temparray = ();
         }
+
         foreach $11 (@temparray) {
             $temp = $11;
             $temp =~ s/\\/,/g;
@@ -850,6 +869,7 @@ sub make_action {
 
         $label = 0;
         extract_targets( $actionargs[3] );
+
         foreach $8 (@targetsubarray) {
             push @actiontop, "RESPONSE #$prob1";
             foreach $9 (@literalactionarray) {
@@ -861,11 +881,10 @@ sub make_action {
 
         }
         push @triggertop, @literalconditionarray;
-    }
-
-    else {
+    } else {
         die "unrecognised Action : $actionargs[0], near line $linenum";
     }
+
     if ( $prob2 ne "0" ) {
         push @actiontop, "RESPONSE #$prob2";
         push @actiontop, @continueaction;
@@ -893,15 +912,15 @@ sub block_print {
         push @output, "IF";
         push @output, @defaulttrigger;
 
-        foreach $4 (@triggertop) {
-            push @output, sub_target( $4, $3 );
-        }
-
         if (    $combine ne "Yes"
             and $3 ne "LastSeenBy(Myself)"
             and $3 ne "NODEFINEDTARGET" )
         {
             push @output, "See($3)";
+        }
+
+        foreach $4 (@triggertop) {
+            push @output, sub_target( $4, $3 );
         }
 
         if ( $condition ne "" ) {
