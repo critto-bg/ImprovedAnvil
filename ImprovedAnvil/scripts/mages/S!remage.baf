@@ -1,11 +1,3 @@
-// Tenth level mage: //
-// First level spells (4): Magic Missile x2, Shield, Burning Hands //
-// Second level spells (4): Mirror Image, Blur, Melf's Acid Arrow, Ray of Enfeeblement //
-// Third level spells (3): Protection from Fire, Slow, Protection from Nomal Missiles//
-// Fourth level spells (2): Stoneskin, Minor Globe of Invulnerability //
-// Fifth level spells (2): Spell Immunity, Chaos//
-// Scrolls: Breach x2, Vocalize x2, Domination //
-
 IF
   Detect([PC])
   Global("prep","LOCALS",0)
@@ -45,12 +37,12 @@ END
 IF
   Allegiance(Myself,ENEMY)
   OR(6)
-   CheckStatGT(Myself,0,SCRIPTINGSTATE9)
-   StateCheck(Myself,STATE_CONFUSED)
-   StateCheck(Myself,STATE_HELPLESS)
-   StateCheck(Myself,STATE_PANIC)
-   StateCheck(Myself,STATE_STUNNED)
-   Global("Iapcastts","GLOBAL",1)
+    CheckStatGT(Myself,0,SCRIPTINGSTATE9)
+    StateCheck(Myself,STATE_CONFUSED)
+    StateCheck(Myself,STATE_HELPLESS)
+    StateCheck(Myself,STATE_PANIC)
+    StateCheck(Myself,STATE_STUNNED)
+    Global("Iapcastts","GLOBAL",1)
 THEN
   RESPONSE #100
     NoAction()
@@ -65,29 +57,29 @@ THEN
 END
 
 IF
-  !StateCheck(Myself,STATE_SILENCED)
-  HasItem("scrl5n",Myself) //
   See(NearestEnemyOfType([GOODCUTOFF.0.0.0.0.SUMMONED]))
+  !StateCheck(Myself,STATE_SILENCED)
   !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-  !HasItemEquiped("morsword",LastSeenBy(Myself))
-  CheckStatLT(LastSeenBy(Myself),90,RESISTMAGIC)
-  !HasItemEquiped("ring95",LastSeenBy(Myself))
   !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
   !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  CheckStatLT(LastSeenBy(Myself),90,RESISTMAGIC)
+  !HasItemEquiped("morsword",LastSeenBy(Myself))
+  !HasItemEquiped("ring95",LastSeenBy(Myself))
+  HasItem("scrl5n",Myself)
   Global("Iadominate","LOCALS",0)
   !GlobalTimerExpired("Iauseitem","LOCALS")
 THEN
   RESPONSE #100
     SetGlobal("Iadominate","LOCALS",1)
     SetGlobalTimer("Iauseitem","LOCALS",6)
-    DisplayStringHead(Myself,46153) //
-    UseItem("scrl5n",LastSeenBy(Myself)) //
+    DisplayStringHead(Myself,46153)
+    UseItem("scrl5n",LastSeenBy(Myself))
 END
 
 IF
-  Allegiance(Myself,ENEMY)
-  !StateCheck(Myself,STATE_SILENCED)
   See([PC])
+  Allegiance(Myself,ENEMY)
+  !StateCheck(Myself,STATE_SILENCED)
   !StateCheck(LastSeenBy(Myself),STATE_STUNNED)
   !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
   !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
@@ -108,9 +100,9 @@ THEN
 END
 
 IF
-  Allegiance(Myself,ENEMY)
-  !StateCheck(Myself,STATE_SILENCED)
   See(SecondNearest([PC]))
+  Allegiance(Myself,ENEMY)
+  !StateCheck(Myself,STATE_SILENCED)
   !StateCheck(LastSeenBy(Myself),STATE_STUNNED)
   !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
   !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
@@ -131,9 +123,9 @@ THEN
 END
 
 IF
-  Allegiance(Myself,ENEMY)
-  !StateCheck(Myself,STATE_SILENCED)
   See(ThirdNearest([PC]))
+  Allegiance(Myself,ENEMY)
+  !StateCheck(Myself,STATE_SILENCED)
   !StateCheck(LastSeenBy(Myself),STATE_STUNNED)
   !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
   !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
@@ -154,9 +146,9 @@ THEN
 END
 
 IF
-  Allegiance(Myself,ENEMY)
-  !StateCheck(Myself,STATE_SILENCED)
   See(FourthNearest([PC]))
+  Allegiance(Myself,ENEMY)
+  !StateCheck(Myself,STATE_SILENCED)
   !StateCheck(LastSeenBy(Myself),STATE_STUNNED)
   !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
   !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
@@ -177,9 +169,9 @@ THEN
 END
 
 IF
-  Allegiance(Myself,ENEMY)
-  !StateCheck(Myself,STATE_SILENCED)
   See(FifthNearest([PC]))
+  Allegiance(Myself,ENEMY)
+  !StateCheck(Myself,STATE_SILENCED)
   !StateCheck(LastSeenBy(Myself),STATE_STUNNED)
   !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
   !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
@@ -200,9 +192,9 @@ THEN
 END
 
 IF
+  See(SixthNearest([PC]))
   Allegiance(Myself,ENEMY)
   !StateCheck(Myself,STATE_SILENCED)
-  See(SixthNearest([PC]))
   !StateCheck(LastSeenBy(Myself),STATE_STUNNED)
   !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
   !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
@@ -253,9 +245,9 @@ THEN
 END
 
 IF
+  See(Player1)
   Allegiance(Myself,ENEMY)
   !StateCheck(Myself,STATE_SILENCED)
-  See(Player1)
   HasItem("scrl6u",Myself)
   !StateCheck(Player1,STATE_IMPROVEDINVISIBILITY)
   !CheckStat(Player1,1,SCRIPTINGSTATE7)
@@ -265,16 +257,16 @@ IF
 THEN
   RESPONSE #100
     IncrementGlobal("Iacastbreach","LOCALS",1)
+    DisplayStringHead(Myself,46153)
+    UseItem("scrl6u",Player1)
     SetGlobalTimer("Iauseitem","LOCALS",6)
     SetGlobal("Iap1nb","GLOBAL",0)
-    DisplayStringHead(Myself,46153) //
-    UseItem("scrl6u",Player1) //
 END
 
 IF
+  See(Player2)
   Allegiance(Myself,ENEMY)
   !StateCheck(Myself,STATE_SILENCED)
-  See(Player2)
   HasItem("scrl6u",Myself)
   !StateCheck(Player2,STATE_IMPROVEDINVISIBILITY)
   !CheckStat(Player2,1,SCRIPTINGSTATE7)
@@ -284,16 +276,16 @@ IF
 THEN
   RESPONSE #100
     IncrementGlobal("Iacastbreach","LOCALS",1)
+    DisplayStringHead(Myself,46153)
+    UseItem("scrl6u",Player2)
     SetGlobalTimer("Iauseitem","LOCALS",6)
     SetGlobal("Iap2nb","GLOBAL",0)
-    DisplayStringHead(Myself,46153) //
-    UseItem("scrl6u",Player2) //
 END
 
 IF
+  See(Player3)
   Allegiance(Myself,ENEMY)
   !StateCheck(Myself,STATE_SILENCED)
-  See(Player3)
   HasItem("scrl6u",Myself)
   !StateCheck(Player3,STATE_IMPROVEDINVISIBILITY)
   !CheckStat(Player3,1,SCRIPTINGSTATE7)
@@ -303,16 +295,16 @@ IF
 THEN
   RESPONSE #100
     IncrementGlobal("Iacastbreach","LOCALS",1)
+    DisplayStringHead(Myself,46153)
+    UseItem("scrl6u",Player3)
     SetGlobalTimer("Iauseitem","LOCALS",6)
     SetGlobal("Iap3nb","GLOBAL",0)
-    DisplayStringHead(Myself,46153) //
-    UseItem("scrl6u",Player3) //
 END
 
 IF
+  See(Player4)
   Allegiance(Myself,ENEMY)
   !StateCheck(Myself,STATE_SILENCED)
-  See(Player4)
   HasItem("scrl6u",Myself)
   !StateCheck(Player4,STATE_IMPROVEDINVISIBILITY)
   !CheckStat(Player4,1,SCRIPTINGSTATE7)
@@ -322,16 +314,16 @@ IF
 THEN
   RESPONSE #100
     IncrementGlobal("Iacastbreach","LOCALS",1)
+    DisplayStringHead(Myself,46153)
+    UseItem("scrl6u",Player4)
     SetGlobalTimer("Iauseitem","LOCALS",6)
     SetGlobal("Iap4nb","GLOBAL",0)
-    DisplayStringHead(Myself,46153) //
-    UseItem("scrl6u",Player4) //
 END
 
 IF
+  See(Player5)
   Allegiance(Myself,ENEMY)
   !StateCheck(Myself,STATE_SILENCED)
-  See(Player5)
   HasItem("scrl6u",Myself)
   !StateCheck(Player5,STATE_IMPROVEDINVISIBILITY)
   !CheckStat(Player5,1,SCRIPTINGSTATE7)
@@ -341,16 +333,16 @@ IF
 THEN
   RESPONSE #100
     IncrementGlobal("Iacastbreach","LOCALS",1)
+    DisplayStringHead(Myself,46153)
+    UseItem("scrl6u",Player5)
     SetGlobalTimer("Iauseitem","LOCALS",6)
     SetGlobal("Iap5nb","GLOBAL",0)
-    DisplayStringHead(Myself,46153) //
-    UseItem("scrl6u",Player5) //
 END
 
 IF
+  See(Player6)
   Allegiance(Myself,ENEMY)
   !StateCheck(Myself,STATE_SILENCED)
-  See(Player6)
   HasItem("scrl6u",Myself)
   !StateCheck(Player6,STATE_IMPROVEDINVISIBILITY)
   !CheckStat(Player6,1,SCRIPTINGSTATE7)
@@ -360,16 +352,16 @@ IF
 THEN
   RESPONSE #100
     IncrementGlobal("Iacastbreach","LOCALS",1)
+    DisplayStringHead(Myself,46153)
+    UseItem("scrl6u",Player6)
     SetGlobalTimer("Iauseitem","LOCALS",6)
     SetGlobal("Iap6nb","GLOBAL",0)
-    DisplayStringHead(Myself,46153) //
-    UseItem("scrl6u",Player6) //
 END
 
 IF
-  Allegiance(Myself,ENEMY)
-  !StateCheck(Myself,STATE_SILENCED)
   See([PC])
+  Allegiance(Myself,ENEMY)
+  !StateCheck(Myself,STATE_SILENCED)
   !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
   !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
   !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
@@ -384,9 +376,9 @@ THEN
 END
 
 IF
-  Allegiance(Myself,ENEMY)
-  !StateCheck(Myself,STATE_SILENCED)
   See(SecondNearest([PC]))
+  Allegiance(Myself,ENEMY)
+  !StateCheck(Myself,STATE_SILENCED)
   !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
   !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
   !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
@@ -401,9 +393,9 @@ THEN
 END
 
 IF
-  Allegiance(Myself,ENEMY)
-  !StateCheck(Myself,STATE_SILENCED)
   See(ThirdNearest([PC]))
+  Allegiance(Myself,ENEMY)
+  !StateCheck(Myself,STATE_SILENCED)
   !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
   !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
   !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
@@ -418,60 +410,60 @@ THEN
 END
 
 IF
-  !StateCheck(Myself,STATE_SILENCED)
   See(ThirdNearestEnemyOf(Myself))
-  Global("Iamelf","LOCALS",0)
+  !StateCheck(Myself,STATE_SILENCED)
   !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
   CheckStatLT(LastSeenBy(Myself),100,RESISTACID)
   !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
   !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE7)
   CheckStatLT(LastSeenBy(Myself),75,RESISTMAGIC)
+  Global("Iamelf","LOCALS",0)
 THEN
   RESPONSE #100
-    SetGlobal("Iamelf","LOCALS",1)
     SpellNoDec(LastSeenBy(Myself),WIZARD_MELF_ACID_ARROW)
+    SetGlobal("Iamelf","LOCALS",1)
 END
 
 IF
-  !StateCheck(Myself,STATE_SILENCED)
   See(SecondNearestEnemyOf(Myself))
-  Global("Iamelf","LOCALS",0)
+  !StateCheck(Myself,STATE_SILENCED)
   !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
   CheckStatLT(LastSeenBy(Myself),100,RESISTACID)
   !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
   !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE7)
   CheckStatLT(LastSeenBy(Myself),75,RESISTMAGIC)
+  Global("Iamelf","LOCALS",0)
 THEN
   RESPONSE #100
-    SetGlobal("Iamelf","LOCALS",1)
     SpellNoDec(LastSeenBy(Myself),WIZARD_MELF_ACID_ARROW)
+    SetGlobal("Iamelf","LOCALS",1)
 END
 
 IF
-  !StateCheck(Myself,STATE_SILENCED)
   See(NearestEnemyOf(Myself))
-  Global("Iamelf","LOCALS",0)
+  !StateCheck(Myself,STATE_SILENCED)
   !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
   CheckStatLT(LastSeenBy(Myself),100,RESISTACID)
   !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
   !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE7)
   CheckStatLT(LastSeenBy(Myself),75,RESISTMAGIC)
+  Global("Iamelf","LOCALS",0)
 THEN
   RESPONSE #100
-    SetGlobal("Iamelf","LOCALS",1)
     SpellNoDec(LastSeenBy(Myself),WIZARD_MELF_ACID_ARROW)
+    SetGlobal("Iamelf","LOCALS",1)
 END
 
 IF
-  !StateCheck(Myself,STATE_SILENCED)
   See(NearestEnemyOf(Myself))
+  !StateCheck(Myself,STATE_SILENCED)
   GlobalLT("Iamissile","LOCALS",2)
   !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
   CheckStatLT(LastSeenBy(Myself),100,MAGICDAMAGERESISTANCE)
   !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
-  !HasItemEquiped("morsword",LastSeenBy(Myself))
   CheckStatLT(LastSeenBy(Myself),75,RESISTMAGIC)
   !CheckStat(LastSeenBy(Myself),4,SCRIPTINGSTATE7)
+  !HasItemEquiped("morsword",LastSeenBy(Myself))
 THEN
   RESPONSE #100
     IncrementGlobal("Iamissile","LOCALS",1)
@@ -479,15 +471,15 @@ THEN
 END
 
 IF
-  !StateCheck(Myself,STATE_SILENCED)
   See(SecondNearestEnemyOf(Myself))
+  !StateCheck(Myself,STATE_SILENCED)
   GlobalLT("Iamissile","LOCALS",2)
   !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
   CheckStatLT(LastSeenBy(Myself),100,MAGICDAMAGERESISTANCE)
   !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
-  !HasItemEquiped("morsword",LastSeenBy(Myself))
   CheckStatLT(LastSeenBy(Myself),75,RESISTMAGIC)
   !CheckStat(LastSeenBy(Myself),4,SCRIPTINGSTATE7)
+  !HasItemEquiped("morsword",LastSeenBy(Myself))
 THEN
   RESPONSE #100
     IncrementGlobal("Iamissile","LOCALS",1)
@@ -495,15 +487,15 @@ THEN
 END
 
 IF
-  !StateCheck(Myself,STATE_SILENCED)
   See(ThirdNearestEnemyOf(Myself))
+  !StateCheck(Myself,STATE_SILENCED)
   GlobalLT("Iamissile","LOCALS",2)
   !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
   CheckStatLT(LastSeenBy(Myself),100,MAGICDAMAGERESISTANCE)
   !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
-  !HasItemEquiped("morsword",LastSeenBy(Myself))
   CheckStatLT(LastSeenBy(Myself),75,RESISTMAGIC)
   !CheckStat(LastSeenBy(Myself),4,SCRIPTINGSTATE7)
+  !HasItemEquiped("morsword",LastSeenBy(Myself))
 THEN
   RESPONSE #100
     IncrementGlobal("Iamissile","LOCALS",1)
@@ -511,11 +503,11 @@ THEN
 END
 
 IF
-  !See([PC])
-  !See([GOODCUTOFF])
   Global("partyfled","LOCALS",0)
-  Allegiance(Myself,ENEMY)
+  !See([GOODCUTOFF])
+  !See([PC])
   Global("prep","LOCALS",1)
+  Allegiance(Myself,ENEMY)
 THEN
   RESPONSE #100
     SetGlobalTimer("chase","LOCALS",60)
@@ -523,16 +515,16 @@ THEN
 END
 
 IF
-  !StateCheck(Myself,STATE_HELPLESS)
-  !StateCheck(Myself,STATE_CONFUSED)
-  !StateCheck(Myself,STATE_STUNNED)
-  !StateCheck(Myself,STATE_PANIC)
-  !StateCheck(Myself,STATE_CHARMED)
   !See([PC])
   !See([GOODCUTOFF])
   Global("partyfled","LOCALS",1)
   GlobalTimerNotExpired("chase","LOCALS")
   InMyArea(Player1)
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_STUNNED)
+  !StateCheck(Myself,STATE_PANIC)
+  !StateCheck(Myself,STATE_CHARMED)
   Allegiance(Myself,ENEMY)
   Global("prep","LOCALS",1)
 THEN
@@ -543,12 +535,14 @@ END
 IF
   !See([PC])
   !See([GOODCUTOFF])
-  Allegiance(Myself,ENEMY)
+  InMyArea(Player1)
   GlobalTimerExpired("chase","LOCALS")
   Global("partyfled","LOCALS",1)
+  Allegiance(Myself,ENEMY)
   Global("prep","LOCALS",1)
 THEN
   RESPONSE #100
+    ReallyForceSpellRES("SPWII07",Myself)
     SetGlobal("prep","LOCALS",0)
     SetGlobal("Iaburn","LOCALS",0)
     SetGlobal("Iachaos","LOCALS",0)
@@ -556,21 +550,12 @@ THEN
     SetGlobal("Iaenfeeble","LOCALS",0)
     SetGlobal("Iamelf","LOCALS",0)
     SetGlobal("Iamissile","LOCALS",0)
-    ReallyForceSpellRES("SPWII07",Myself)
 END
 
 IF
-  ActionListEmpty()
   See(NearestEnemyOf(Myself))
-  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
-THEN
-  RESPONSE #100
-    AttackOneRound(NearestEnemyOf(Myself))
-END
-
-IF
+  Allegiance(Myself,ENEMY)
   ActionListEmpty()
-  See(SecondNearestEnemyOf(Myself))
   !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
 THEN
   RESPONSE #100
@@ -578,11 +563,22 @@ THEN
 END
 
 IF
+  See(SecondNearestEnemyOf(Myself))
+  Allegiance(Myself,ENEMY)
   ActionListEmpty()
-  See(NearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
 THEN
   RESPONSE #100
-    AttackOneRound(NearestEnemyOf(Myself))
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  Allegiance(Myself,ENEMY)
+  ActionListEmpty()
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
 END
 
 IF
