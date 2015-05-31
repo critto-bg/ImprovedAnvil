@@ -417,6 +417,11 @@ COPY_EXISTING ~mage16a.bcs~ ~override/gpmage1.bcs~
 COPY_EXISTING ~mage20a.bcs~ ~override/hellgen.bcs~
 
 ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
+  COPY_EXISTING ~MOVIE02A.BCS~ ~override/movie02a.bcs~
+    DECOMPILE_BCS_TO_BAF
+    REPLACE_TEXTUALLY ~ApplySpellRES("OHNOPRTY",Player1)~ ~~
+    COMPILE_BAF_TO_BCS
+
   COPY_EXISTING ~HEXXAT.BCS~ ~override~
     DECOMPILE_BCS_TO_BAF
     REPLACE_TEXTUALLY ~22000~ ~4000~
