@@ -801,7 +801,12 @@ sub make_action {
             $actionlabel = $actionlabel + 1;
         }
 
-        push @actiontop, @alwaysaction;
+        # this is a hack to put the lines from IF TRIGGER block
+        # before the code of a custom-defined action
+        $response = shift @actiontop;
+
+        unshift @actiontop, @alwaysaction;
+        unshift @actiontop, $response;
     }
 
     elsif ( $actionargs[0] eq "SpellReplaceRandom" ) {
@@ -819,8 +824,8 @@ sub make_action {
             $actiontop[$labelB] = "SpellNoDec(scstarget,$actionargs[$label])";
             push @actiontop, @alwaysaction;
             $labelB =    #$actiontop;
-              $labelB = $labelB + 1;
-            $label    = $label + 1;
+            $labelB = $labelB + 1;
+            $label  = $label + 1;
         }
     }
 
@@ -997,9 +1002,9 @@ sub process_include_blocks {
 ###################################################################
 
 sub work_out_outer_loops {
-
     $linenum   = 0;
     $loopdepth = 0;
+
     while ( $linenum < scalar @scsarray ) {
         $scsline = $scsarray[$linenum];
         if ( $therearevars == "Yes" ) {
@@ -1068,13 +1073,14 @@ sub work_out_outer_loops {
                 }
 
             }
+
             $linenum = $linenum + 1;
         }
     }
+
     if ( $loopdepth ne 0 ) {
         die "SYNTAX ERROR: unclosed outer loops";
     }
-
 }
 
 ###################################################################
