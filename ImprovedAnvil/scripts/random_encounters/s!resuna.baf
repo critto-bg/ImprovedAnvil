@@ -1,15 +1,15 @@
 IF
-  Global("partyfled","LOCALS",1)
   See(NearestEnemyOf(Myself))
+  Global("partyfled","LOCALS",1)
 THEN
   RESPONSE #100
     SetGlobal("partyfled","LOCALS",0)
 END
 
 IF
+  See(NearestEnemyOf(Myself))
   Global("EnemySeen","LOCALS",0)
   InMyArea(Player1)
-  See(NearestEnemyOf(Myself))
 THEN
   RESPONSE #100
     SetGlobal("EnemySeen","LOCALS",1)
@@ -30,9 +30,9 @@ THEN
 END
 
 IF
+  See(NearestEnemyOf(Myself))
   !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
   HasItem("POTN21",Myself)
-  See(NearestEnemyOf(Myself))
   Global("Prep","LOCALS",0)
 THEN
   RESPONSE #100
@@ -54,8 +54,8 @@ THEN
 END
 
 IF
-  Allegiance(Myself,ENEMY)
   See(SecondNearestEnemyOf(Myself))
+  Allegiance(Myself,ENEMY)
   CheckStatLT(LastSeenBy(Myself),90,RESISTPIERCING)
   !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
   RandomNumGT(6,4)
@@ -66,8 +66,8 @@ THEN
 END
 
 IF
-  Allegiance(Myself,ENEMY)
   See(NearestEnemyOf(Myself))
+  Allegiance(Myself,ENEMY)
   !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
 THEN
   RESPONSE #100
@@ -75,8 +75,8 @@ THEN
 END
 
 IF
-  Allegiance(Myself,ENEMY)
   See(SecondNearestEnemyOf(Myself))
+  Allegiance(Myself,ENEMY)
   !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
 THEN
   RESPONSE #100
@@ -84,8 +84,8 @@ THEN
 END
 
 IF
-  Allegiance(Myself,ENEMY)
   See(NearestEnemyOf(Myself))
+  Allegiance(Myself,ENEMY)
 THEN
   RESPONSE #100
     AttackOneRound(LastSeenBy(Myself))
@@ -102,10 +102,10 @@ THEN
 END
 
 IF
-  Global("EnemySeen","LOCALS",1)
   Global("partyfled","LOCALS",0)
   !See([GOODCUTOFF])
   !See([PC])
+  Global("EnemySeen","LOCALS",1)
 THEN
   RESPONSE #100
     SetGlobalTimer("chase","LOCALS",60)
@@ -128,12 +128,12 @@ IF
   !See([PC])
   !See([GOODCUTOFF])
   InMyArea(Player1)
-  Global("EnemySeen","LOCALS",1)
   GlobalTimerExpired("chase","LOCALS")
   Global("partyfled","LOCALS",1)
+  Global("EnemySeen","LOCALS",1)
 THEN
   RESPONSE #100
-    SetGlobal("EnemySeen","LOCALS",0)
     ReallyForceSpellRES("SPWII07",Myself)
+    SetGlobal("EnemySeen","LOCALS",0)
     MoveToObject(Player1)
 END

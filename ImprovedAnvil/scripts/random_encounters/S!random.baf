@@ -17,17 +17,17 @@ THEN
 END
 
 IF
-  Global("partyfled","LOCALS",1)
   See(NearestEnemyOf(Myself))
+  Global("partyfled","LOCALS",1)
 THEN
   RESPONSE #100
     SetGlobal("partyfled","LOCALS",0)
 END
 
 IF
+  See(NearestEnemyOf(Myself))
   Global("EnemySeen","LOCALS",0)
   InMyArea(Player1)
-  See(NearestEnemyOf(Myself))
 THEN
   RESPONSE #100
     SetGlobal("EnemySeen","LOCALS",1)
@@ -35,8 +35,8 @@ THEN
 END
 
 IF
-  Allegiance(Myself,ENEMY)
   See(SecondNearestEnemyOf(Myself))
+  Allegiance(Myself,ENEMY)
   HasItemEquiped("S!shadow",Myself)
   CheckStatLT(LastSeenBy(Myself),90,RESISTPIERCING)
   !CheckStatGT(LastSeenBy(Myself),1,SCRIPTINGSTATE6)
@@ -49,8 +49,8 @@ THEN
 END
 
 IF
-  Allegiance(Myself,ENEMY)
   See(SecondNearestEnemyOf(Myself))
+  Allegiance(Myself,ENEMY)
   HasItemEquiped("ax1h17",Myself)
   CheckStatLT(LastSeenBy(Myself),90,RESISTSLASHING)
   !CheckStatGT(LastSeenBy(Myself),1,SCRIPTINGSTATE6)
@@ -63,8 +63,8 @@ THEN
 END
 
 IF
-  Allegiance(Myself,ENEMY)
   See(SecondNearestEnemyOf(Myself))
+  Allegiance(Myself,ENEMY)
   HasItemEquiped("sw2h02",Myself)
   CheckStatLT(LastSeenBy(Myself),90,RESISTSLASHING)
   !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
@@ -77,8 +77,8 @@ THEN
 END
 
 IF
-  Allegiance(Myself,ENEMY)
   See(SecondNearestEnemyOf(Myself))
+  Allegiance(Myself,ENEMY)
   HasItemEquiped("blun03",Myself)
   CheckStatLT(LastSeenBy(Myself),90,RESISTCRUSHING)
   !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
@@ -91,8 +91,8 @@ THEN
 END
 
 IF
-  Allegiance(Myself,ENEMY)
   See(NearestEnemyOf(Myself))
+  Allegiance(Myself,ENEMY)
   !CheckStatGT(LastSeenBy(Myself),1,SCRIPTINGSTATE6)
   OR(2)
     HasItemEquiped("S!shadow",Myself)
@@ -103,8 +103,8 @@ THEN
 END
 
 IF
-  Allegiance(Myself,ENEMY)
   See(SecondNearestEnemyOf(Myself))
+  Allegiance(Myself,ENEMY)
   !CheckStatGT(LastSeenBy(Myself),1,SCRIPTINGSTATE6)
   OR(2)
     HasItemEquiped("S!shadow",Myself)
@@ -115,8 +115,8 @@ THEN
 END
 
 IF
-  Allegiance(Myself,ENEMY)
   See(ThirdNearestEnemyOf(Myself))
+  Allegiance(Myself,ENEMY)
   !CheckStatGT(LastSeenBy(Myself),1,SCRIPTINGSTATE6)
   OR(2)
     HasItemEquiped("S!shadow",Myself)
@@ -127,8 +127,8 @@ THEN
 END
 
 IF
-  Allegiance(Myself,ENEMY)
   See(NearestEnemyOf(Myself))
+  Allegiance(Myself,ENEMY)
   !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
   OR(2)
     HasItemEquiped("sw2h02",Myself)
@@ -139,8 +139,8 @@ THEN
 END
 
 IF
-  Allegiance(Myself,ENEMY)
   See(SecondNearestEnemyOf(Myself))
+  Allegiance(Myself,ENEMY)
   !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
   OR(2)
     HasItemEquiped("sw2h02",Myself)
@@ -151,8 +151,8 @@ THEN
 END
 
 IF
-  Allegiance(Myself,ENEMY)
   See(ThirdNearestEnemyOf(Myself))
+  Allegiance(Myself,ENEMY)
   !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
   OR(2)
     HasItemEquiped("sw2h02",Myself)
@@ -163,8 +163,8 @@ THEN
 END
 
 IF
-  Allegiance(Myself,ENEMY)
   See(NearestEnemyOf(Myself))
+  Allegiance(Myself,ENEMY)
 THEN
   RESPONSE #100
     AttackOneRound(LastSeenBy(Myself))
@@ -181,10 +181,10 @@ THEN
 END
 
 IF
-  Global("EnemySeen","LOCALS",1)
   Global("partyfled","LOCALS",0)
   !See([GOODCUTOFF])
   !See([PC])
+  Global("EnemySeen","LOCALS",1)
 THEN
   RESPONSE #100
     SetGlobalTimer("chase","LOCALS",60)
@@ -207,12 +207,12 @@ IF
   !See([PC])
   !See([GOODCUTOFF])
   InMyArea(Player1)
-  Global("EnemySeen","LOCALS",1)
   GlobalTimerExpired("chase","LOCALS")
   Global("partyfled","LOCALS",1)
+  Global("EnemySeen","LOCALS",1)
 THEN
   RESPONSE #100
-    SetGlobal("EnemySeen","LOCALS",0)
     ReallyForceSpellRES("SPWII07",Myself)
+    SetGlobal("EnemySeen","LOCALS",0)
     MoveToObject(Player1)
 END
