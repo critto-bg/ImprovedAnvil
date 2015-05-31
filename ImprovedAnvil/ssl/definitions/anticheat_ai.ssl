@@ -29,7 +29,6 @@ END
 BEGIN_ACTION_DEFINITION
     Name(SetPartyFled)
 	TRIGGER
-        Global("EnemySeen","LOCALS",1)
         Global("partyfled","LOCALS",0)
         !See([GOODCUTOFF])
         !See([PC])
@@ -58,7 +57,6 @@ BEGIN_ACTION_DEFINITION
         Global("partyfled","LOCALS",1)
         GlobalTimerNotExpired("chase","LOCALS")
         InMyArea(Player1)
-        Global("EnemySeen","LOCALS",1)
 	ACTION
 		RESPONSE #scsprob1
 			MoveToObject(Player1)
@@ -71,14 +69,11 @@ BEGIN_ACTION_DEFINITION
         !See([PC])
         !See([GOODCUTOFF])
         InMyArea(Player1)
-        Global("EnemySeen","LOCALS",1)
         GlobalTimerExpired("chase","LOCALS")
         Global("partyfled","LOCALS",1)
 	ACTION
 		RESPONSE #scsprob1
-            SetGlobal("EnemySeen","LOCALS",0)
             ReallyForceSpellRES("SPWII07",Myself)
-            MoveToObject(Player1)
 END
 
 // PC casts timestop, apply protection from everything

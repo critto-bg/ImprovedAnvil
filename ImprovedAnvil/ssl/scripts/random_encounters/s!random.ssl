@@ -105,18 +105,23 @@ END
 
 IF TRIGGER
   Target(NODEFINEDTARGET)
+  Global("EnemySeen","LOCALS",1)
 THEN DO
   Action(SetPartyFled)
 END
 
 IF TRIGGER
   Target(NODEFINEDTARGET)
+  Global("EnemySeen","LOCALS",1)
 THEN DO
   Action(ChaseParty)
 END
 
 IF TRIGGER
   Target(NODEFINEDTARGET)
+  Global("EnemySeen","LOCALS",1)
 THEN DO
   Action(StopeChasingAndHeal)
+  SetGlobal("EnemySeen","LOCALS",0)
+  MoveToObject(Player1)
 END

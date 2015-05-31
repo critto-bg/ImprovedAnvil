@@ -1,5 +1,22 @@
 /// generic combat AI ///
 
+// skip action when mentally or physically bound
+BEGIN_ACTION_DEFINITION
+    Name(SkipAction)
+	TRIGGER
+        Allegiance(Myself,ENEMY)
+        OR(6)
+            CheckStatGT(Myself,0,SCRIPTINGSTATE9)
+            StateCheck(Myself,STATE_CONFUSED)
+            StateCheck(Myself,STATE_HELPLESS)
+            StateCheck(Myself,STATE_PANIC)
+            StateCheck(Myself,STATE_STUNNED)
+            Global("Iapcastts","GLOBAL",1)
+	ACTION
+		RESPONSE #scsprob1
+            NoAction()
+END
+
 // basic attack for 1 round
 BEGIN_ACTION_DEFINITION
     Name(BasicAttack)
