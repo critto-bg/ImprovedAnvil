@@ -1,0 +1,187 @@
+// Eleventh level cleric: //
+// First level spells (7): Armor of Faith, Doom, Command x5 //
+// Second level spells (6): Aid, Hold Person x5 //
+// Third level spells (5): Protection from fire, CMW, Rigid thinking x3 //
+// Fourth level spells: (3): Free action, Holy power, protection from lightning //
+// Fifth level spells: (2): Greater command, True seeing //
+// Sixth level spells (1): Phsysical mirror //
+
+INCLUDE FILE(ssl/definitions/anticheat_ai.ssl)
+INCLUDE FILE(ssl/definitions/generic_ai.ssl)
+INCLUDE FILE(ssl/definitions/cleric_ai.ssl)
+
+VARIABLE(HoldVar=Iahold)
+VARIABLE(HoldAmount=5)
+VARIABLE(RigidVar=Iarigid)
+VARIABLE(RigidAmount=3)
+VARIABLE(CommandVar=Iacommand)
+VARIABLE(CommandAmount=5)
+
+IF
+  Detect([PC])
+  Global("prep","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("prep","LOCALS",1)
+    ReallyForceSpell(Myself,CLERIC_ARMOR_OF_FAITH)
+    ReallyForceSpell(Myself,CLERIC_AID)
+    ReallyForceSpell(Myself,CLERIC_PROTECTION_FROM_FIRE)
+    ReallyForceSpell(Myself,CLERIC_PROTECTION_FROM_LIGHTNING)
+    ReallyForceSpell(Myself,CLERIC_FREE_ACTION)
+    ReallyForceSpell(Myself,CLERIC_PHYSICAL_MIRROR)
+    ReallyForceSpell(Myself,CLERIC_HOLY_POWER)
+END
+
+IF TRIGGER
+  Target(NearestEnemyOf(Myself))
+THEN DO
+  Action(ResetPartyFled)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  StateCheck(Myself,STATE_SILENCED)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iaspell","LOCALS",6)
+END
+
+IF TRIGGER
+  Target(NODEFINEDTARGET)
+THEN DO
+  Action(SkipAction)
+END
+
+IF TRIGGER
+  TargetBlock(ThreeNearestPCsOrderedDesc)
+  Global("Iagreater","LOCALS",0)
+THEN DO
+  SetGlobal("Iagreater","LOCALS",1)
+  Action(CastGreaterCommand)
+END
+
+IF TRIGGER
+  Target(NODEFINEDTARGET)
+THEN DO
+  Action(CastCureMediumWounds)
+END
+
+IF TRIGGER
+  Global("Iatruesight","LOCALS",0)
+  TargetBlock(TwoNearestPCsOrdered)
+THEN DO
+  SetGlobal("Iatruesight","LOCALS",1)
+  Action(CastTrueSight)
+END
+
+IF
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  Global("Iatruesight","LOCALS",0)
+  Detect([PC])
+  !See([PC])
+THEN
+  RESPONSE #100
+    SetGlobal("Iatruesight","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDec(Myself,CLERIC_TRUE_SIGHT)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  See([PC])
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3) // no Potion of Magic Shielding
+  !HasBounceEffects(LastSeenBy(Myself))
+  Global("Iadoom","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iadoom","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDec(LastSeenBy(Myself),CLERIC_DOOM)
+END
+
+IF TRIGGER
+  TargetBlock(NearestPCsOrdered)
+THEN DO
+  Action(CastHold)
+END
+
+IF TRIGGER
+  TargetBlock(FiveNearestPCsOrderedDesc)
+  RandomNumGT(6,3)
+THEN DO
+  Action(CastRigidThinking)
+END
+
+IF TRIGGER
+  Target([PC])
+THEN DO
+  Action(CastRigidThinking)
+END
+
+IF TRIGGER
+  TargetBlock(ThreeNearestEnemiesDesc)
+THEN DO
+  Action(CastCommand)
+END
+
+IF TRIGGER
+  Target(NODEFINEDTARGET)
+  Global("prep","LOCALS",1)
+  Allegiance(Myself,ENEMY)
+THEN DO
+  Action(SetPartyFled)
+END
+
+IF TRIGGER
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_STUNNED)
+  !StateCheck(Myself,STATE_PANIC)
+  !StateCheck(Myself,STATE_CHARMED)
+  Allegiance(Myself,ENEMY)
+  Global("prep","LOCALS",1)
+  Target(NODEFINEDTARGET)
+THEN DO
+  Action(ChaseParty)
+END
+
+IF TRIGGER
+  Target(NODEFINEDTARGET)
+  Allegiance(Myself,ENEMY)
+  Global("prep","LOCALS",1)
+THEN DO
+  Action(StopeChasingAndHeal)
+  SetGlobal("prep","LOCALS",0)
+  SetGlobal("Iagreater","LOCALS",0)
+  SetGlobal("Iatruesight","LOCALS",0)
+  SetGlobal("Iacommand","LOCALS",0)
+  SetGlobal("Iahold","LOCALS",0)
+  SetGlobal("Iarigid","LOCALS",0)
+  SetGlobal("Iacure","LOCALS",0)
+  SetGlobal("Iadoom","LOCALS",0)
+END
+
+IF TRIGGER
+  TargetBlock(TwoNearestEnemies)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+THEN DO
+  Action(BasicAttack)
+END
+
+IF TRIGGER
+  Target(NearestEnemyOf(Myself))
+THEN DO
+  Action(BasicAttack)
+END
+
+IF
+  !See([GOODCUTOFF])
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
