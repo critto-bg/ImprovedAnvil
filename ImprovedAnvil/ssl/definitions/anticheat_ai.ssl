@@ -5,7 +5,6 @@ BEGIN_ACTION_DEFINITION
     Name(AlertEnemySeen)
 	TRIGGER
         Global("EnemySeen","LOCALS",0)
-        InMyArea(Player1)
 	ACTION
 		RESPONSE #scsprob1
             SetGlobal("EnemySeen","LOCALS",1)
@@ -48,14 +47,45 @@ BEGIN_ACTION_DEFINITION
 			SetGlobal("partyfled","LOCALS",0)
 END
 
+// initialise anticheese chasing
+BEGIN_ACTION_DEFINITION
+    Name(InitAntiCheeseChase)
+	TRIGGER
+        Allegiance(Myself,ENEMY)
+        !See([PC])
+        !See([GOODCUTOFF])
+        Global("EnemySeen","LOCALS",0)
+        Global("anticheese","LOCALS",0)
+        OR(2)
+          AttackedBy([GOODCUTOFF],DEFAULT)
+          HPPercentLT(Myself,100)
+        InMyArea(Player1)
+	ACTION
+		RESPONSE #scsprob1
+            SetGlobal("anticheese","LOCALS",1)
+            SetGlobalTimer("chase2","LOCALS",12)
+END
+
+// anticheese chasing timer ran out, heal the creature
+BEGIN_ACTION_DEFINITION
+    Name(AntiCheeseHeal)
+	TRIGGER
+        Allegiance(Myself,ENEMY)
+        GlobalTimerExpired("chase2","LOCALS")
+        Global("anticheese","LOCALS",1)
+	ACTION
+		RESPONSE #scsprob1
+            SetGlobal("anticheese","LOCALS",0)
+            ReallyForceSpellRES("SPWII07",Myself)
+END
+
 // chase the enemy until the timer is not over
 BEGIN_ACTION_DEFINITION
     Name(ChaseParty)
 	TRIGGER
         !See([PC])
         !See([GOODCUTOFF])
-        Global("partyfled","LOCALS",1)
-        GlobalTimerNotExpired("chase","LOCALS")
+        GlobalTimerNotExpired("ChaseTimer","LOCALS")
         InMyArea(Player1)
 	ACTION
 		RESPONSE #scsprob1
@@ -68,7 +98,6 @@ BEGIN_ACTION_DEFINITION
 	TRIGGER
         !See([PC])
         !See([GOODCUTOFF])
-        InMyArea(Player1)
         GlobalTimerExpired("chase","LOCALS")
         Global("partyfled","LOCALS",1)
 	ACTION
@@ -98,4 +127,16 @@ BEGIN_ACTION_DEFINITION
 		RESPONSE #scsprob1
             SetGlobal("Iatsinvulner","LOCALS",0)
             ApplySpellRES("SPINI71",Myself)
+END
+
+// someone attacked the creature, turn hostile
+BEGIN_ACTION_DEFINITION
+    Name(TurnHostile)
+	TRIGGER
+        AttackedBy([GOODCUTOFF],DEFAULT)
+        !Allegiance(Myself,ENEMY)
+	ACTION
+		RESPONSE #scsprob1
+            Enemy()
+            Shout(ALERT)
 END

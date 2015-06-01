@@ -6,16 +6,17 @@
 // Fifth level spells: (2): Greater command, True seeing //
 // Sixth level spells (1): Phsysical mirror //
 
-INCLUDE FILE(ssl/definitions/anticheat_ai.ssl)
-INCLUDE FILE(ssl/definitions/generic_ai.ssl)
-INCLUDE FILE(ssl/definitions/cleric_ai.ssl)
-
 VARIABLE(HoldVar=Iahold)
 VARIABLE(HoldAmount=5)
 VARIABLE(RigidVar=Iarigid)
 VARIABLE(RigidAmount=3)
 VARIABLE(CommandVar=Iacommand)
 VARIABLE(CommandAmount=5)
+VARIABLE(ChaseTimer=chase)
+
+INCLUDE FILE(ssl/definitions/anticheat_ai.ssl)
+INCLUDE FILE(ssl/definitions/generic_ai.ssl)
+INCLUDE FILE(ssl/definitions/cleric_ai.ssl)
 
 IF
   Detect([PC])
@@ -144,6 +145,7 @@ IF TRIGGER
   !StateCheck(Myself,STATE_CHARMED)
   Allegiance(Myself,ENEMY)
   Global("prep","LOCALS",1)
+  Global("partyfled","LOCALS",1)
   Target(NODEFINEDTARGET)
 THEN DO
   Action(ChaseParty)
@@ -152,6 +154,7 @@ END
 IF TRIGGER
   Target(NODEFINEDTARGET)
   Allegiance(Myself,ENEMY)
+  InMyArea(Player1)
   Global("prep","LOCALS",1)
 THEN DO
   Action(StopeChasingAndHeal)

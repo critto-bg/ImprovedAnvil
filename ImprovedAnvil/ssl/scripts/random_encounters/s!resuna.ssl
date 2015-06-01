@@ -1,5 +1,7 @@
 /// Suna Seni AI script ///
 
+VARIABLE(ChaseTimer=chase)
+
 INCLUDE FILE(ssl/definitions/anticheat_ai.ssl)
 INCLUDE FILE(ssl/definitions/generic_ai.ssl)
 
@@ -11,6 +13,7 @@ END
 
 IF TRIGGER
   Target(NearestEnemyOf(Myself))
+  InMyArea(Player1)
 THEN DO
   Action(AlertEnemySeen)
 END
@@ -80,6 +83,7 @@ END
 IF TRIGGER
   Target(NODEFINEDTARGET)
   Global("EnemySeen","LOCALS",1)
+  Global("partyfled","LOCALS",1)
 THEN DO
   Action(ChaseParty)
 END
@@ -87,6 +91,7 @@ END
 IF TRIGGER
   Target(NODEFINEDTARGET)
   Global("EnemySeen","LOCALS",1)
+  InMyArea(Player1)
 THEN DO
   Action(StopeChasingAndHeal)
   SetGlobal("EnemySeen","LOCALS",0)

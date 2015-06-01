@@ -10,6 +10,7 @@
 
 VARIABLE(BreachAmount=2)
 VARIABLE(MMAmount=2)
+VARIABLE(ChaseTimer=chase)
 
 INCLUDE FILE(ssl/definitions/anticheat_ai.ssl)
 INCLUDE FILE(ssl/definitions/generic_ai.ssl)
@@ -166,6 +167,7 @@ IF TRIGGER
   !StateCheck(Myself,STATE_CHARMED)
   Allegiance(Myself,ENEMY)
   Global("prep","LOCALS",1)
+  Global("partyfled","LOCALS",1)
   Target(NODEFINEDTARGET)
 THEN DO
   Action(ChaseParty)
@@ -174,6 +176,7 @@ END
 IF TRIGGER
   Target(NODEFINEDTARGET)
   Allegiance(Myself,ENEMY)
+  InMyArea(Player1)
   Global("prep","LOCALS",1)
 THEN DO
   Action(StopeChasingAndHeal)
