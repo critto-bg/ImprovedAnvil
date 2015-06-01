@@ -362,16 +362,22 @@ COPY_EXISTING ~ar0317.are~ ~override/ar0317.are~
   READ_LONG 0x5C "ioffset"
   SET "it" = 0
   WHILE ("%it%" < "%icount%") BEGIN
-   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname"
-   PATCH_IF ("%iname%" STRING_COMPARE_CASE "Tran0316" = 0) BEGIN
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) ("%areflags%" BOR 0b00000010) // set NPCs Cannot Pass bit
-   END
-"it" = "%it%" + 1
-END
-EXTEND_BOTTOM ~AR0317.BCS~ ~ImprovedAnvil\BAF\AR0317.BAF~
+    READ_ASCII ("%ioffset%" + "%it%" * 196) "iname"
+    PATCH_IF ("%iname%" STRING_COMPARE_CASE "Tran0316" = 0) BEGIN
+      READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
+      WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
+      READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) "areflags"
+      WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) ("%areflags%" BOR 0b00000010) // set NPCs Cannot Pass bit
+    END
+    "it" = "%it%" + 1
+  END
+
+  LAUNCH_PATCH_FUNCTION ~REPLACE_AREA_ITEM~ STR_VAR
+    old_item = ~SCRL7K~
+    new_item = ~SCRL7S~
+  END
+
+  EXTEND_BOTTOM ~AR0317.BCS~ ~ImprovedAnvil\BAF\AR0317.BAF~
 
 COPY_EXISTING ~ar0325.are~ ~override/ar0325.are~
   READ_SHORT 0x5A "icount"
