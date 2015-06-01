@@ -1,0 +1,103 @@
+/// common anticheat AI ///
+
+VARIABLE(TimerName=chase)
+
+INCLUDE FILE(ssl/definitions/anticheat_ai.ssl)
+
+IF TRIGGER
+  Allegiance(Myself,ENEMY)
+  Target(NearestEnemyOf(Myself))
+THEN DO
+  Action(AlertEnemySeen)
+END
+
+IF TRIGGER
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  Target(NODEFINEDTARGET)
+THEN DO
+  Action(ResetPartyFled)
+  Shout(ALERT)
+END
+
+IF TRIGGER
+  Allegiance(Myself,ENEMY)
+  Global("EnemySeen","LOCALS",1)
+  Target(NODEFINEDTARGET)
+THEN DO
+  Action(SetPartyFled)
+END
+
+IF TRIGGER
+  Allegiance(Myself,ENEMY)
+  Target(NODEFINEDTARGET)
+  Global("EnemySeen","LOCALS",1)
+  Global("partyfled","LOCALS",1)
+THEN DO
+  Action(ChaseParty)
+END
+
+IF TRIGGER
+  Allegiance(Myself,ENEMY)
+  Target(NODEFINEDTARGET)
+  Global("EnemySeen","LOCALS",1)
+THEN DO
+  SetGlobal("EnemySeen","LOCALS",0)
+  Action(StopeChasingAndHeal)
+END
+
+IF TRIGGER
+  Target(NODEFINEDTARGET)
+THEN DO
+  Action(InitAntiCheeseChase)
+  Shout(ALERT)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  GlobalTimerNotExpired("chase2","LOCALS")
+  Global("anticheese","LOCALS",1)
+  Global("EnemySeen","LOCALS",0)
+  !See([PC])
+  !See([GOODCUTOFF])
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF TRIGGER
+  Target(NODEFINEDTARGET)
+  Global("EnemySeen","LOCALS",0)
+THEN DO
+  Action(AntiCheeseHeal)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  Heard([ANYONE],ALERT)
+  Global("EnemySeen","LOCALS",0)
+  !See([PC])
+  !See([GOODCUTOFF])
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  Heard([ANYONE],ALERT)
+  Global("EnemySeen","LOCALS",0)
+  !See([GOODCUTOFF])
+  See(LastHeardBy(Myself))
+THEN
+  RESPONSE #100
+    MoveToObject(LastHeardBy(Myself))
+END
+
+IF TRIGGER
+  Target(NODEFINEDTARGET)
+THEN DO
+  Action(TurnHostile)
+END

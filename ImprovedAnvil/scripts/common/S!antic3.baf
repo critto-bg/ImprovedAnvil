@@ -1,7 +1,7 @@
 IF
-  Allegiance(Myself,ENEMY)
   See(NearestEnemyOf(Myself))
   Global("EnemySeen","LOCALS",0)
+  Allegiance(Myself,ENEMY)
 THEN
   RESPONSE #100
     SetGlobal("EnemySeen","LOCALS",1)
@@ -9,21 +9,21 @@ THEN
 END
 
 IF
+  Global("partyfled","LOCALS",1)
   Allegiance(Myself,ENEMY)
   See(NearestEnemyOf(Myself))
-  Global("partyfled","LOCALS",1)
 THEN
   RESPONSE #100
-    SetGlobal("partyfled","LOCALS",0)
     Shout(ALERT)
+    SetGlobal("partyfled","LOCALS",0)
 END
 
 IF
-  Allegiance(Myself,ENEMY)
-  Global("EnemySeen","LOCALS",1)
   Global("partyfled","LOCALS",0)
   !See([GOODCUTOFF])
   !See([PC])
+  Allegiance(Myself,ENEMY)
+  Global("EnemySeen","LOCALS",1)
 THEN
   RESPONSE #100
     SetGlobalTimer("chase","LOCALS",60)
@@ -31,25 +31,25 @@ THEN
 END
 
 IF
-  Allegiance(Myself,ENEMY)
-  !See([GOODCUTOFF])
   !See([PC])
-  Global("partyfled","LOCALS",1)
+  !See([GOODCUTOFF])
   GlobalTimerNotExpired("chase","LOCALS")
   InMyArea(Player1)
+  Allegiance(Myself,ENEMY)
   Global("EnemySeen","LOCALS",1)
+  Global("partyfled","LOCALS",1)
 THEN
   RESPONSE #100
     MoveToObject(Player1)
 END
 
 IF
-  Allegiance(Myself,ENEMY)
-  !See([GOODCUTOFF])
   !See([PC])
-  Global("EnemySeen","LOCALS",1)
+  !See([GOODCUTOFF])
   GlobalTimerExpired("chase","LOCALS")
   Global("partyfled","LOCALS",1)
+  Allegiance(Myself,ENEMY)
+  Global("EnemySeen","LOCALS",1)
 THEN
   RESPONSE #100
     SetGlobal("EnemySeen","LOCALS",0)
@@ -63,14 +63,14 @@ IF
   Global("EnemySeen","LOCALS",0)
   Global("anticheese","LOCALS",0)
   OR(2)
-   AttackedBy([GOODCUTOFF],DEFAULT)
-   HPPercentLT(Myself,100)
+    AttackedBy([GOODCUTOFF],DEFAULT)
+    HPPercentLT(Myself,100)
   InMyArea(Player1)
 THEN
   RESPONSE #100
+    Shout(ALERT)
     SetGlobal("anticheese","LOCALS",1)
     SetGlobalTimer("chase2","LOCALS",12)
-    Shout(ALERT)
 END
 
 IF
