@@ -177,6 +177,31 @@ COPY_EXISTING ~SPWI617.spl~ ~override/SPDR702.spl~
   WRITE_SHORT 0x1c 2 // spell type
   WRITE_LONG 0x34 7 // spell level
 
+// Mass Chaotic Commands for Avenger's Perform Ritual
+COPY_EXISTING ~SPPR508.spl~ ~override/sppri25.spl~
+  LAUNCH_PATCH_FUNCTION ~ALTER_SPELL_EFFECT~ INT_VAR
+    check_headers = 1
+    header_type = 1
+    target = 6 // caster group
+  END
+
+// Mass Protection from the Elements for Avenger's Perform Ritual
+COPY_EXISTING ~SPWI702.spl~ ~override/sppri26.spl~
+  LAUNCH_PATCH_FUNCTION ~ALTER_SPELL_EFFECT~ INT_VAR
+    check_headers = 1
+    header_type = 1
+    target = 6 // caster group
+  END
+
+// Modified Partial Tenser's Transformation for Avenger's Perform Ritual
+COPY_EXISTING ~SPWI804.spl~ ~override/sppri27.spl~
+  LAUNCH_PATCH_FUNCTION ~ALTER_SPELL_EFFECT~ INT_VAR
+    check_headers = 1
+    header_type = 1
+    match_opcode = 54
+    parameter1 = 3 // THAC0 value
+  END
+
 ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
   // DD, defensive stance
   COPY_EXISTING ~spdwd02.spl~ ~override/spdwd02.spl~
