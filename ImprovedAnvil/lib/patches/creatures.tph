@@ -8309,6 +8309,33 @@ COPY_EXISTING ~RERAK01.cre~ ~override/RERAK01.cre~
               ~SURAKW4.cre~ ~override/SURAKW4.cre~
   REPLACE_CRE_ITEM ~scrl7s~ #0 #0 #0 ~NONE~ ~qitem1~
 
+// patch all golems to have protection from petrification
+COPY_EXISTING_REGEXP GLOB ~.*\.cre~ ~override~
+  PATCH_IF BYTE_AT 0x272=144 BEGIN
+    // prevent display of "petrified" string
+    LPF ~ADD_CRE_EFFECT~ INT_VAR
+      opcode = 267
+      target = 1
+      timing = 9
+      parameter1 = 14665
+      resist_dispel = 0
+      duration = 0
+      power = 0
+    END
+
+    // the immunity itself
+    LPF ~ADD_CRE_EFFECT~ INT_VAR
+      opcode = 101
+      target = 1
+      timing = 9
+      parameter2 = 134
+      resist_dispel = 0
+      duration = 0
+      power = 0
+    END
+  END
+  BUT_ONLY
+
 ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
     // one of the anti-paladins that are present with the Supreme Leader
     // replace the Beamdog creature with our default one to avoid patching the area
