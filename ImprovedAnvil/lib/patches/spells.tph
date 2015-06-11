@@ -215,6 +215,14 @@ ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
       parameter2 = 1
     END
 
+  // patch DUHM spells not to activate SCRIPTINGSTATE6 on a character
+  COPY_EXISTING ~BHAAL2A.spl~ ~override/BHAAL2A.spl~
+                ~SPIN103.spl~ ~override/SPIN103.spl~
+                ~SPPR214.spl~ ~override/SPPR214.spl~
+    LAUNCH_PATCH_FUNCTION ~DELETE_SPELL_EFFECT~ INT_VAR
+      opcode_to_delete = 282
+    END
+
   // DD, defensive stance
   COPY_EXISTING ~spdwd02.spl~ ~override/spdwd02.spl~
     SAY UNIDENTIFIED_DESC @10216
