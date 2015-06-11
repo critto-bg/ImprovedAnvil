@@ -215,6 +215,15 @@ ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
     PRETTY_PRINT_2DA
 END
 
+ACTION_IF GAME_IS ~tob~ THEN BEGIN
+  // swap strrefs for Spell Turning and PfME character sheet icons
+  COPY_EXISTING ~statdesc.2da~ ~override~
+    PRETTY_PRINT_2DA
+    REPLACE_TEXTUALLY ~^\(73[%tab% ]+\)[0-9]+~ ~\126228~
+    REPLACE_TEXTUALLY ~^\(123[%tab% ]+\)[0-9]+~ ~\18286~
+    BUT_ONLY_IF_IT_CHANGES
+END
+
 // patch ids files //
 
 APPEND ~SPELL.IDS~ ~1418 CLERIC_ACID_SHIELD~
