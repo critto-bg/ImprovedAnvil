@@ -1045,3 +1045,113 @@ COPY ~ImprovedAnvil\spl\spcli20.spl~ ~override/spcli20.spl~
 
 COPY ~ImprovedAnvil\spl\spini90.spl~ ~override/spini90.spl~
   SAY NAME1 @10230
+
+COPY ~ImprovedAnvil\spl\SPPR953D.spl~ ~override/SPPR953D.spl~
+  SAY NAME1 @10233
+  SAY UNIDENTIFIED_DESC @10234
+
+// spells added via patching the existing ones //
+
+// Protection from Cold
+COPY_EXISTING ~SPWI320.spl~ ~override/SPDR302.spl~
+  WRITE_SHORT 0x1c 2 // spell type
+
+// Giant Strength
+COPY_EXISTING ~SPWI607.spl~ ~override/SPDR603.spl~
+  WRITE_SHORT 0x1c 2 // spell type
+  WRITE_LONG 0x34 6 // spell level
+
+// Contigency
+COPY_EXISTING ~SPWI617.spl~ ~override/SPDR702.spl~
+  SAY UNIDENTIFIED_DESC @10222
+  WRITE_SHORT 0x1c 2 // spell type
+  WRITE_LONG 0x34 7 // spell level
+
+// Mass Chaotic Commands for Avenger's Perform Ritual
+COPY_EXISTING ~SPPR508.spl~ ~override/sppri25.spl~
+  LAUNCH_PATCH_FUNCTION ~ALTER_SPELL_EFFECT~ INT_VAR
+    check_headers = 1
+    header_type = 1
+    target = 6 // caster group
+  END
+
+// Mass Protection from the Elements for Avenger's Perform Ritual
+COPY_EXISTING ~SPWI702.spl~ ~override/sppri26.spl~
+  LAUNCH_PATCH_FUNCTION ~ALTER_SPELL_EFFECT~ INT_VAR
+    check_headers = 1
+    header_type = 1
+    target = 6 // caster group
+  END
+
+// Modified Partial Tenser's Transformation for Avenger's Perform Ritual
+COPY_EXISTING ~SPWI804.spl~ ~override/sppri27.spl~
+  LAUNCH_PATCH_FUNCTION ~ALTER_SPELL_EFFECT~ INT_VAR
+    check_headers = 1
+    header_type = 1
+    match_opcode = 54
+    parameter1 = 3 // THAC0 value
+  END
+
+// Acid Shield
+COPY_EXISTING ~SPWI418.spl~ ~override/sppr418.spl~
+  SAY NAME1 @10233
+  SAY UNIDENTIFIED_DESC @10234
+
+  WRITE_SHORT 0x1c 2 // spell type
+  WRITE_BYTE  0x1f 0b00000000 // reset old exclusion
+  WRITE_BYTE  0x21 0b01000000 // add new exclusion
+  WRITE_ASCII 0x3a "SPPR418C"
+
+  // fire res -> acid res
+  LAUNCH_PATCH_FUNCTION ~ALTER_SPELL_EFFECT~ INT_VAR
+    check_headers = 1
+    header_type = 1
+    match_opcode = 30
+    new_opcode = 27
+  END
+
+  // remove magical fire res.
+  LAUNCH_PATCH_FUNCTION ~DELETE_SPELL_EFFECT~ INT_VAR
+    opcode_to_delete = 84
+  END
+
+  // portrait icon -> prot. from acid
+  LAUNCH_PATCH_FUNCTION ~ALTER_SPELL_EFFECT~ INT_VAR
+    check_headers = 1
+    header_type = 1
+    match_opcode = 142
+    parameter2 = 24
+  END
+
+  // cast spell on condition
+  LAUNCH_PATCH_FUNCTION ~ALTER_SPELL_EFFECT~
+    INT_VAR
+      check_headers = 1
+      header_type = 1
+      match_opcode = 232
+    STR_VAR
+      resource = "SPPR953D"
+  END
+
+  // modify "play spell animation" abilities
+  // there's no nice way to do this via macros
+  READ_LONG  0x64 "abil_off"
+  READ_SHORT 0x68 "abil_num"
+  READ_LONG  0x6a "fx_off"
+  FOR (index = 0; index < abil_num; index = index + 1) BEGIN
+  	READ_SHORT ("%abil_off%" + 0x1e + (0x28 * "%index%")) "abil_fx_num"
+  	READ_SHORT ("%abil_off%" + 0x20 + (0x28 * "%index%")) "abil_fx_idx"
+
+    WRITE_ASCII ("%abil_off%" + 0x04 + (0x28 * "%index%")) "SPPR418B"
+
+    FOR (index2 = 0; index2 < abil_fx_num; index2 = index2 + 1) BEGIN
+  	  READ_SHORT ("%fx_off%" +	  	  (0x30 * ("%abil_fx_idx%" + "%index2%"))) "opcode"
+  	  READ_ASCII ("%fx_off%" + 0x14 + (0x30 * ("%abil_fx_idx%" + "%index2%"))) "resource" (8)
+  	  PATCH_IF (("%opcode%" = 215) AND ("%resource%" STRING_EQUAL "SPFIRESR")) BEGIN
+  		WRITE_ASCII ("%fx_off%" + 0x14 + (0x30 * ("%abil_fx_idx%" + "%index2%"))) "S!acshdr" #8
+  	  END
+  	  PATCH_IF (("%opcode%" = 215) AND ("%resource%" STRING_EQUAL "SPFIREST")) BEGIN
+  		WRITE_ASCII ("%fx_off%" + 0x14 + (0x30 * ("%abil_fx_idx%" + "%index2%"))) "S!acshdt" #8
+  	  END
+  	END
+  END

@@ -157,46 +157,6 @@ COPY_EXISTING ~SPWI912.spl~ ~override/SPWI912.spl~
 COPY_EXISTING ~METSWARM.pro~ ~override/METSWARM.pro~
   WRITE_BYTE 0x216 4
 
-// Protection from Cold
-COPY_EXISTING ~SPWI320.spl~ ~override/SPDR302.spl~
-  WRITE_SHORT 0x1c 2 // spell type
-
-// Giant Strength
-COPY_EXISTING ~SPWI607.spl~ ~override/SPDR603.spl~
-  WRITE_SHORT 0x1c 2 // spell type
-  WRITE_LONG 0x34 6 // spell level
-
-// Contigency
-COPY_EXISTING ~SPWI617.spl~ ~override/SPDR702.spl~
-  SAY UNIDENTIFIED_DESC @10222
-  WRITE_SHORT 0x1c 2 // spell type
-  WRITE_LONG 0x34 7 // spell level
-
-// Mass Chaotic Commands for Avenger's Perform Ritual
-COPY_EXISTING ~SPPR508.spl~ ~override/sppri25.spl~
-  LAUNCH_PATCH_FUNCTION ~ALTER_SPELL_EFFECT~ INT_VAR
-    check_headers = 1
-    header_type = 1
-    target = 6 // caster group
-  END
-
-// Mass Protection from the Elements for Avenger's Perform Ritual
-COPY_EXISTING ~SPWI702.spl~ ~override/sppri26.spl~
-  LAUNCH_PATCH_FUNCTION ~ALTER_SPELL_EFFECT~ INT_VAR
-    check_headers = 1
-    header_type = 1
-    target = 6 // caster group
-  END
-
-// Modified Partial Tenser's Transformation for Avenger's Perform Ritual
-COPY_EXISTING ~SPWI804.spl~ ~override/sppri27.spl~
-  LAUNCH_PATCH_FUNCTION ~ALTER_SPELL_EFFECT~ INT_VAR
-    check_headers = 1
-    header_type = 1
-    match_opcode = 54
-    parameter1 = 3 // THAC0 value
-  END
-
 // remove penalty to saving-throws for display string effect, Ray of Enfeeb.
 COPY_EXISTING ~SPWI221.spl~ ~override/spwi221.spl~
   LAUNCH_PATCH_FUNCTION ~ALTER_SPELL_EFFECT~ INT_VAR
