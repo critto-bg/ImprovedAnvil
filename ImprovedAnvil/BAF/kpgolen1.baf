@@ -1,0 +1,25 @@
+/// turn the keep golems hostile if one of them is attacked ///
+
+// if the creature has turned enemy by means of direct attack
+// set the flag for other golems to respond to
+IF
+  Allegiance(Myself,ENEMY)
+  !PartyHasItem("AX1H13")
+  AttackedBy([GOODCUTOFF],DEFAULT)
+  Global("Iaprovoked","AR1303",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaturnenemy","LOCALS",1)
+    SetGlobal("Iaprovoked","AR1303",1)
+END
+
+// the other golem was attacked directly, turn hostile
+IF
+  Allegiance(Myself,NEUTRAL)
+  Global("Iaprovoked","AR1303",1)
+  Global("Iaturnenemy","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaturnenemy","LOCALS",1)
+    Enemy()
+END
