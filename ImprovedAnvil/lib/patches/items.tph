@@ -1102,4 +1102,21 @@ ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
         "damage_bonus" = 2
         "thac0_bonus" = 2
       END
+
+  // Brooch of Vagrant Blades
+  COPY_EXISTING ~ohramul1.itm~ ~override/ohramul1.itm~
+    SAY DESC @10236
+
+    LAUNCH_PATCH_FUNCTION ~DELETE_ITEM_EQEFFECT~ INT_VAR
+      opcode_to_delete = "-1"
+    END
+
+    LAUNCH_PATCH_FUNCTION ~ADD_ITEM_EQEFFECT~ INT_VAR
+      opcode = 0
+      parameter1 = 1
+      parameter2 = 0
+      target = 1
+      timing = 2
+      resist_dispel = 0
+    END
 END
