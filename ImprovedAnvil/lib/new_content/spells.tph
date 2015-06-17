@@ -1045,10 +1045,14 @@ COPY ~ImprovedAnvil\spl\spcli20.spl~ ~override/spcli20.spl~
 
 COPY ~ImprovedAnvil\spl\spini90.spl~ ~override/spini90.spl~
   SAY NAME1 @10230
+  SAY UNIDENTIFIED_DESC @10237
 
 COPY ~ImprovedAnvil\spl\SPPR953D.spl~ ~override/SPPR953D.spl~
   SAY NAME1 @10233
   SAY UNIDENTIFIED_DESC @10234
+
+// Modified Partial Tenser's Transformation for Avenger's Perform Ritual
+COPY ~ImprovedAnvil\spl\sppri27.spl~ ~override/sppri27.spl~
 
 // spells added via patching the existing ones //
 
@@ -1082,15 +1086,6 @@ COPY_EXISTING ~SPWI702.spl~ ~override/sppri26.spl~
     check_headers = 1
     header_type = 1
     target = 6 // caster group
-  END
-
-// Modified Partial Tenser's Transformation for Avenger's Perform Ritual
-COPY_EXISTING ~SPWI804.spl~ ~override/sppri27.spl~
-  LAUNCH_PATCH_FUNCTION ~ALTER_SPELL_EFFECT~ INT_VAR
-    check_headers = 1
-    header_type = 1
-    match_opcode = 54
-    parameter1 = 3 // THAC0 value
   END
 
 // Acid Shield
