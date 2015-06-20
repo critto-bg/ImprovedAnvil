@@ -119,7 +119,9 @@ END
 
 IF
    Global("Iaexit","AR0412",1)
-   Dead("tolger2")  //
+   OR(2)
+     Dead("tolger2")
+     Dead("TOLGER")
    CombatCounter(0)
    InMyArea(Player1)
 THEN
@@ -128,6 +130,7 @@ THEN
       TriggerActivation("Tran0411",TRUE)
 END
 
+// BG2EE version
 IF
   Global("Ianticheat","AR0412",0)
   Exists("tolger2") //
@@ -139,4 +142,18 @@ THEN
     SetGlobal("Ianticheat","AR0412",1)
     ChangeEnemyAlly("tolger2",ENEMY)
     ApplySpellRES("SPWII07","tolger2")
+END
+
+// vanilla version
+IF
+  Global("Ianticheat","AR0412",0)
+  Exists("TOLGER") //
+  !Dead("TOLGER") //
+  !Allegiance("TOLGER",ENEMY)
+  HPPercentLT("TOLGER",100)
+THEN
+  RESPONSE #100
+    SetGlobal("Ianticheat","AR0412",1)
+    ChangeEnemyAlly("TOLGER",ENEMY)
+    ApplySpellRES("SPWII07","TOLGER")
 END
