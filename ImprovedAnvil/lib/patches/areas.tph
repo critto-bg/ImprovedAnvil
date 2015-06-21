@@ -728,16 +728,22 @@ COPY_EXISTING ~ar0705.are~ ~override/ar0705.are~
  READ_LONG 0x5C "ioffset"
  SET "it" = 0
  WHILE ("%it%" < "%icount%") BEGIN
-  READ_ASCII ("%ioffset%" + "%it%" * 196) "iname" (15)
-  PATCH_IF ("%iname%" STRING_COMPARE_CASE "Trigger Point 4" = 0) BEGIN
-   WRITE_LONG ("%ioffset%" + ("%it%" * 196) + 52) 28
-   WRITE_LONG ("%ioffset%" + ("%it%" * 196) + 100) (BNOT 0)
-   WRITE_ASCII ("%ioffset%" + ("%it%" * 196) + 124) ~Trania20~
-   SET "it" = "%icount%"
-  END
- "it" = "%it%" + 1
-END
-EXTEND_TOP ~AR0705.BCS~ ~ImprovedAnvil\BAF\AR0705.BAF~
+   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname" (15)
+   PATCH_IF ("%iname%" STRING_COMPARE_CASE "Trigger Point 4" = 0) BEGIN
+     WRITE_LONG ("%ioffset%" + ("%it%" * 196) + 52) 28
+     WRITE_LONG ("%ioffset%" + ("%it%" * 196) + 100) (BNOT 0)
+     WRITE_ASCII ("%ioffset%" + ("%it%" * 196) + 124) ~Trania20~
+     SET "it" = "%icount%"
+   END
+   "it" = "%it%" + 1
+ END
+
+ LAUNCH_PATCH_FUNCTION ~REPLACE_AREA_ITEM~ STR_VAR
+   old_item = ~SCRL7V~
+   new_item = ~SCRL7M~
+ END
+
+ EXTEND_TOP ~AR0705.BCS~ ~ImprovedAnvil\BAF\AR0705.BAF~
 
 COPY_EXISTING ~ar0712.are~ ~override/ar0712.are~
   WRITE_ASCII 0x94 ~ar0712~ #8 // Area Script reference
