@@ -1060,10 +1060,6 @@ COPY ~ImprovedAnvil/itm/S!amul07.itm~      ~override/S!amul07.itm~
   SAY NAME2     @10225
   SAY DESC      @10226
 
-COPY ~ImprovedAnvil/itm/S!sw19.itm~      ~override/S!sw19.itm~
-  SAY NAME2     @10227
-  SAY DESC      @10228
-
 COPY ~ImprovedAnvil/itm/blun35.itm~      ~override/blun35.itm~
 
 COPY ~ImprovedAnvil/itm/misc3a3.itm~      ~override/misc3a3.itm~
@@ -1215,6 +1211,7 @@ COPY ~ImprovedAnvil/itm/S!salam.itm~      ~override/S!salam.itm~
 COPY ~ImprovedAnvil/itm/harm.itm~      ~override/harm.itm~
 
 COPY ~ImprovedAnvil/itm/S!bag01.itm~      ~override/S!bag01.itm~
+
 COPY ~ImprovedAnvil/itm/S!bag01.sto~      ~override/S!bag01.sto~
 
 COPY ~ImprovedAnvil/itm/S!mitgol.itm~      ~override/S!mitgol.itm~
@@ -1640,3 +1637,39 @@ COPY ~ImprovedAnvil/itm/S!webgol.itm~      ~override/S!webgol.itm~
 COPY ~ImprovedAnvil/itm/elemogre.itm~      ~override/elemogre.itm~
 
 COPY ~ImprovedAnvil/itm/sw1h06.itm~      ~override/sw1h06.itm~
+
+// new items created via patching the existing ones //
+
+COPY_EXISTING ~sw1h52.itm~ ~override/S!sw19.itm~
+  SAY NAME2     @10227
+  SAY DESC      @10228
+
+  WRITE_LONG 0x60 4 // +4 enchantment
+
+  // change thac0 and damage bonus
+  LAUNCH_PATCH_FUNCTION ~ALTER_ITEM_HEADER~ INT_VAR
+    header_type = 1
+    thac0_bonus = 4
+    damage_bonus = 4
+  END
+
+  // add poison damage
+  LAUNCH_PATCH_FUNCTION ~ADD_ITEM_EFFECT~ INT_VAR
+    type = 1
+    opcode = 12
+    target = 2
+    parameter1 = 3
+    parameter2 = 2097152
+    timing = 1
+  END
+
+  // add APR bonus
+  LAUNCH_PATCH_FUNCTION ~ADD_ITEM_EQEFFECT~ INT_VAR
+    opcode = 1
+    target = 1
+    parameter1 = 1
+    parameter2 = 0
+    timing = 2
+  END
+
+  BUT_ONLY
