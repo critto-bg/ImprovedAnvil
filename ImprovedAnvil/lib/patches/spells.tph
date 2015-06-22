@@ -166,6 +166,15 @@ COPY_EXISTING ~SPWI221.spl~ ~override/spwi221.spl~
     savebonus = 0
   END
 
+// remove bonus to saving-throws for play visual effect, Dire Charm
+COPY_EXISTING ~SPWI316.spl~ ~override/SPWI316.spl~
+  LAUNCH_PATCH_FUNCTION ~ALTER_SPELL_EFFECT~ INT_VAR
+    check_headers = 1
+    header_type = 1
+    match_opcode = 215
+    savebonus = 0
+  END
+
 // patch the display portrait icon value for PfME to point to the proper icon
 // Spell Shield is hardcoded to display 73, PfME points there by default as well
 // states.bam and states2.bam are provided with proper icons at both frames
