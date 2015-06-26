@@ -2688,14 +2688,15 @@ COPY_EXISTING ~senpri01.cre~ ~override/senpri01.cre~
 END
 
 COPY_EXISTING ~kalah2.cre~ ~override/kalah2.cre~
- READ_LONG  0x2bc "itm_off"
- READ_LONG  0x2c0 "itm_num"
- FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-  READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-  PATCH_IF ("%item%" STRING_COMPARE_CASE "ring30" = 0) BEGIN // find old item
-    WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~RING10~ #8 // write new item
+  READ_LONG  0x2bc "itm_off"
+  READ_LONG  0x2c0 "itm_num"
+  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
+    READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
+    PATCH_IF ("%item%" STRING_COMPARE_CASE "ring30" = 0) BEGIN // find old item
+      WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~RING10~ #8 // write new item
+    END
   END
-END
+  REPLACE_CRE_ITEM ~scrl1v~ #0 #0 #0 ~NONE~ ~INV6~
 
 COPY_EXISTING ~bhcapt01.cre~ ~override/bhcapt01.cre~
  READ_LONG  0x2bc "itm_off"
