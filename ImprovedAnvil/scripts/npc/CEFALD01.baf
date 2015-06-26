@@ -2,7 +2,7 @@
 // First Level Spells (8): CLW x5, Armor of Faith x3 //
 // Second Level Spells (8): Flame Blade x 8 //
 // Third Level Spells (7): CMW x6, Summon insects //
-// Fourth Level Spells (6): Call woodland beings x2, CSW x4 //
+// Fourth Level Spells (6): Call woodland beings x2, CSW x3, acid shield //
 // Fifth Level Spells (3): Iron skins x2, CCW //
 // Sixth Level Spells (2): conjure Animals x2 //
 // Seventh Level Spells (1): Creeping Doom //
@@ -69,6 +69,20 @@ THEN
     IncrementGlobal("Iafblade","LOCALS",1)
     SetGlobalTimer("Iaspell","LOCALS",6)
     SpellNoDec(Myself,CLERIC_FLAME_BLADE)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  OR(2)
+    See(NearestEnemyOfType([0.0.0.DRUID_ALL]))
+    See("Cernd")  // Cernd
+  Global("Iashld","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iashld","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDec(Myself,CLERIC_ACID_SHIELD)
 END
 
 IF
@@ -313,7 +327,7 @@ IF
     See("Cernd")  // Cernd
   !GlobalTimerNotExpired("Iaspell","LOCALS")
   HPPercentLT(Myself,75)
-  GlobalLT("Iacsw","LOCALS",4)
+  GlobalLT("Iacsw","LOCALS",3)
 THEN
   RESPONSE #100
     IncrementGlobal("Iacsw","LOCALS",1)
@@ -333,7 +347,7 @@ THEN
   RESPONSE #100
     IncrementGlobal("Iawbeing","LOCALS",1)
     SetGlobalTimer("Iaspell","LOCALS",6)
-    SpellNoDec(Myself,CLERIC_CURE_SERIOUS_WOUNDS)
+    SpellNoDec(Myself,CLERIC_CALL_WOODLAND_BEINGS)
 END
 
 IF
@@ -398,6 +412,21 @@ THEN
     IncrementGlobal("Iaskins","LOCALS",1)
     SetGlobalTimer("Iaspell","LOCALS",6)
     SpellNoDec(Myself,CLERIC_IRONSKIN)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  See(NearestEnemyOf(Myself))
+  !Class(LastSeenBy(Myself),DRUID_ALL)
+  !Class(LastSeenBy(Myself),MAGE_ALL)
+  !Class(LastSeenBy(Myself),BARD_ALL)
+  Global("Iashld","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iashld","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDec(Myself,CLERIC_ACID_SHIELD)
 END
 
 IF
@@ -527,7 +556,7 @@ IF
   !Class(LastSeenBy(Myself),DRUID_ALL)
   !GlobalTimerNotExpired("Iaspell","LOCALS")
   HPPercentLT(Myself,75)
-  GlobalLT("Iacsw","LOCALS",4)
+  GlobalLT("Iacsw","LOCALS",3)
 THEN
   RESPONSE #100
     IncrementGlobal("Iacsw","LOCALS",1)

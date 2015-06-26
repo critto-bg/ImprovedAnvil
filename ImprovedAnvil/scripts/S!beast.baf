@@ -5,7 +5,7 @@
 // Third Level Spells (7): Zone of Sweet Air x3, Dispel Magic, Miscast Magic x2 //
 //                         CMW //
 // Fourth Level Spells (6): Call woodland beings x2, CSW, Animal Summoning 1 x2 //
-//                          Pro lightning //
+//                          Pro lightning, acid shield //
 // Fifth Level Spells (3): Iron skins, True seeing, Insect Plague //
 // Sixth Level Spells (2): Heal, Physical Mirror //
 // Seventh Level Spells (1): Creeping Doom //
@@ -97,6 +97,7 @@ THEN
     ReallyForceSpell(Myself,CLERIC_PROTECTION_FROM_LIGHTNING)
     ReallyForceSpell(Myself,CLERIC_ARMOR_OF_FAITH)
     ReallyForceSpell(Myself,CLERIC_PHYSICAL_MIRROR)
+    ReallyForceSpell(Myself,CLERIC_ACID_SHIELD)
 END
 
 IF
@@ -835,7 +836,7 @@ IF
   !StateCheck(Myself,STATE_SILENCED)
   !GlobalTimerNotExpired("Iaspell","LOCALS")
   See(NearestEnemyOf(Myself))
-  GlobalLT("Iabeast08","LOCALS",2)
+  Global("Iabeast08","LOCALS",0)
 THEN
   RESPONSE #100
     IncrementGlobal("Iabeast08","LOCALS",1)
