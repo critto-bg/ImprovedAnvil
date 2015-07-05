@@ -8273,8 +8273,11 @@ COPY_EXISTING ~RERAK01.cre~ ~override/RERAK01.cre~
               ~SURAKW4.cre~ ~override/SURAKW4.cre~
   REPLACE_CRE_ITEM ~scrl7s~ #0 #0 #0 ~NONE~ ~qitem1~
 
-// patch all golems to have protection from petrification
+COPY_EXISTING ~KAYPAL02.CRE~ ~override/KAYPAL02.CRE~
+  REMOVE_CRE_ITEM ~boot06~
+
 COPY_EXISTING_REGEXP GLOB ~.*\.cre~ ~override~
+  // patch all golems to have protection from petrification
   PATCH_IF BYTE_AT 0x272=144 BEGIN
     // prevent display of "petrified" string
     LPF ~ADD_CRE_EFFECT~ INT_VAR
