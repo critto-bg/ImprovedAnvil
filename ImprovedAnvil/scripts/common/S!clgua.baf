@@ -1,0 +1,181 @@
+IF
+	AttackedBy([GOODCUTOFF],DEFAULT)
+	!Allegiance(Myself,ENEMY)
+THEN
+	RESPONSE #100
+		Enemy()
+END
+
+IF
+    ActionListEmpty()
+	Global("Iamoving","LOCALS",1)
+	See(NearestEnemyOf(Myself))
+THEN
+	RESPONSE #100
+		SetGlobal("Iamoving","LOCALS",0)
+END
+
+IF
+    ActionListEmpty()
+	!Allegiance(Myself,ENEMY)
+	Global("Iamoving","LOCALS",1)
+	CombatCounter(0)
+	See([PC])
+	Range(LastSeenBy(Myself),6)
+THEN
+	RESPONSE #100
+		SetGlobal("Iamoving","LOCALS",0)
+END
+
+IF
+	!Allegiance(Myself,ENEMY)
+	!StateCheck(Myself,STATE_SILENCED)
+	!StateCheck(Myself,STATE_HELPLESS)
+	!StateCheck(Myself,STATE_PANIC)
+	!StateCheck(Myself,STATE_STUNNED)
+	!CheckStatGT(Myself,0,SCRIPTINGSTATE9)
+    ActionListEmpty()
+	!GlobalTimerNotExpired("Iaspell","LOCALS")
+	See(NearestEnemyOf(Myself))
+	CheckStatLT(Myself,1,STONESKINS)
+    HaveSpell(CLERIC_IRONSKIN)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("Iaspell","LOCALS",6)
+		Spell(Myself,CLERIC_IRONSKIN) // SPPR506.SPL (Iron Skins)
+END
+
+IF
+  !Allegiance(Myself,ENEMY)
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_PANIC)
+  !StateCheck(Myself,STATE_STUNNED)
+  ActionListEmpty()
+  Global("Iapcastts","GLOBAL",0)
+  HPPercentLT(Myself,30)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  HasItem("POTN55",Myself)  // ~Potion of Extra Healing~
+THEN
+  RESPONSE #100
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    DisplayStringHead(Myself,46150)  // ~quaffs a potion~
+    UseItem("POTN55",Myself)
+END
+
+IF
+  !Allegiance(Myself,ENEMY)
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_PANIC)
+  !StateCheck(Myself,STATE_STUNNED)
+  Global("Iapcastts","GLOBAL",0)
+  ActionListEmpty()
+  HPPercentLT(Myself,60)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  HasItem("POTN52",Myself)  // ~Potion of Extra Healing~
+THEN
+  RESPONSE #100
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    DisplayStringHead(Myself,46150)  // ~quaffs a potion~
+    UseItem("POTN52",Myself)  // ~Potion of Extra Healing~
+END
+
+IF
+    !Allegiance(Myself,ENEMY)
+    !StateCheck(Myself,STATE_SILENCED)
+    !StateCheck(Myself,STATE_HELPLESS)
+    !StateCheck(Myself,STATE_PANIC)
+    !StateCheck(Myself,STATE_STUNNED)
+    !CheckStatGT(Myself,0,SCRIPTINGSTATE9)
+    ActionListEmpty()
+	!GlobalTimerNotExpired("Iaspell","LOCALS")
+    !GlobalTimerNotExpired("Iasppr604","LOCALS")
+	See(NearestEnemyOf(Myself))
+    HaveSpell(CLERIC_CONJURE_ANIMALS)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("Iaspell","LOCALS",6)
+        SetGlobalTimer("Iasppr604","LOCALS",12)
+		SpellNoDec(Myself,CLERIC_CONJURE_ANIMALS) // SPPR604.SPL (Conjure Animals)
+END
+
+IF
+	ActionListEmpty()
+	See(SecondNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),1,SCRIPTINGSTATE6)
+	RandomNumGT(6,4)
+	Range(LastSeenBy(Myself),2)
+THEN
+	RESPONSE #100
+		AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+	ActionListEmpty()
+	See(NearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),1,SCRIPTINGSTATE6)
+THEN
+	RESPONSE #100
+		AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+	ActionListEmpty()
+	See(SecondNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),1,SCRIPTINGSTATE6)
+	Range(LastSeenBy(Myself),2)
+THEN
+	RESPONSE #100
+		AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+	ActionListEmpty()
+	See(ThirdNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),1,SCRIPTINGSTATE6)
+	Range(LastSeenBy(Myself),2)
+THEN
+	RESPONSE #100
+		AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+	ActionListEmpty()
+	See(NearestEnemyOf(Myself))
+THEN
+	RESPONSE #100
+		AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+	ActionListEmpty()
+	Global("Iamoving","LOCALS",0)
+	!See(NearestEnemyOf(Myself))
+	InMyArea(Player1)
+THEN
+	RESPONSE #100
+		SetGlobal("Iamoving","LOCALS",1)
+END
+
+IF
+	!Allegiance(Myself,ENEMY)
+	ActionListEmpty()
+	Global("Iamoving","LOCALS",0)
+	CombatCounter(0)
+	!Detect(Player1)
+	!Detect([PC])
+THEN
+	RESPONSE #100
+		SetGlobal("Iamoving","LOCALS",1)
+END
+
+IF
+	ActionListEmpty()
+	Global("Iamoving","LOCALS",1)
+	!See(NearestEnemyOf(Myself))
+	InMyArea(Player1)
+THEN
+	RESPONSE #100
+		MoveToObject(Player1)
+END
