@@ -23,9 +23,6 @@ REMOVE_STORE_ITEM ~wa2shiel~
 
 // Adventurer's Mart, before chapter 6
 COPY_EXISTING ~ribald.sto~ ~Override/ribald.sto~
-PATCH_IF GAME_IS ~bg2ee~ BEGIN
-  ADD_STORE_ITEM ~BAG06~ LAST #1 #0 #0 ~IDENTIFIED&UNSTEALABLE~ #1
-END
 REMOVE_STORE_ITEM ~staf20~
 REMOVE_STORE_ITEM ~belt06~
 REMOVE_STORE_ITEM ~scrl09~
@@ -96,13 +93,10 @@ REMOVE_STORE_ITEM ~clck09~
 
 // Roger the Fence
 COPY_EXISTING ~roger.sto~ ~Override/roger.sto~
-PATCH_IF GAME_IS ~bg2ee~ BEGIN
-  ADD_STORE_ITEM ~BAG06~ LAST #1 #0 #0 ~IDENTIFIED&UNSTEALABLE~ #1
-END
-WRITE_LONG  0x14   165 // sell price markup
-READ_BYTE  0x10 "stoflags"
-WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
-REMOVE_STORE_ITEM ~potn40~
+  WRITE_LONG  0x14   165 // sell price markup
+  READ_BYTE  0x10 "stoflags"
+  WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+  REMOVE_STORE_ITEM ~potn40~
 
 // Rattell
 COPY_EXISTING ~shthstor.sto~ ~Override/shthstor.sto~
