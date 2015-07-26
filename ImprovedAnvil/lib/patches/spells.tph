@@ -216,4 +216,14 @@ ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
         parameter1 = 25
       END
     END
+
+  // In EE, II already has a +4 bonus to saving-throws embedded into the opcode
+  // therefore, remove the extra bonuses from the spell file
+  COPY_EXISTING ~SPWI405.spl~ ~override/SPWI405.spl~
+    PATCH_FOR_EACH ~opcode_number~ IN ~33~ ~34~ ~35~ ~36~ ~37~ BEGIN
+      LAUNCH_PATCH_FUNCTION ~DELETE_SPELL_EFFECT~ INT_VAR
+        opcode_to_delete = ~%opcode_number%~
+      END
+    END
+    BUT_ONLY
 END
