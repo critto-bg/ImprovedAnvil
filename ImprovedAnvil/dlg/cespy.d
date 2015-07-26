@@ -64,7 +64,7 @@ REPLACE BOTSMITH
     IF ~PartyHasItem("dagg15")~ THEN REPLY @84 GOTO dagg2
     IF ~PartyHasItem("dagg24")~ THEN REPLY @86 GOTO dagg3
     IF ~PartyHasItem("S!dagg01") Global("Iadagg02forged","GLOBAL",0)~ THEN REPLY @88 GOTO dagg4
-    IF ~PartyHasItem("ring18")~ THEN REPLY @90 GOTO r5
+    IF ~PartyHasItem("ring18") Global("Iadjinniforged","GLOBAL",0)~ THEN REPLY @90 GOTO r5
     IF ~OR(2) PartyHasItem("ring26")
               PartyHasItem("misc3c")~
       THEN REPLY @92 GOTO r6
@@ -876,6 +876,7 @@ APPEND BOTSMITH
           TakePartyItemNum("ring18",1)   DestroyItem("ring18")
           TakePartyItemNum("scrl8t",1)   DestroyItem("scrl8t")
           TakePartyItemNum("S!misc02",1)   DestroyItem("S!misc02")
+          SetGlobal("Iadjinniforged","GLOBAL",1)
           GiveItemCreate("ring26",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
