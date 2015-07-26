@@ -1123,7 +1123,7 @@ APPEND WSMITH01
           TakePartyItemNum("misc21",1)   DestroyItem("misc21")
           TakePartyItemNum("misc21",1)   DestroyItem("misc21")
           TakePartyItemNum("misc21",1)   DestroyItem("misc21")
-          TakePartyItemNum("belt011",1)   DestroyItem("belt01")
+          TakePartyItemNum("belt01",1)   DestroyItem("belt01")
           GiveItemCreate("S!belt02",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
