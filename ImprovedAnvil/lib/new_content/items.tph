@@ -1645,12 +1645,16 @@ COPY_EXISTING ~sw1h52.itm~ ~override/S!sw19.itm~
   SAY DESC      @10228
 
   WRITE_LONG 0x60 4 // +4 enchantment
+  WRITE_ASCII 0x003a ~S!SW19~ #8
 
   // change thac0 and damage bonus
-  LAUNCH_PATCH_FUNCTION ~ALTER_ITEM_HEADER~ INT_VAR
-    header_type = 1
-    thac0_bonus = 4
-    damage_bonus = 4
+  LAUNCH_PATCH_FUNCTION ~ALTER_ITEM_HEADER~
+    INT_VAR
+      header_type = 1
+      thac0_bonus = 4
+      damage_bonus = 4
+    STR_VAR
+      icon = ~S!SW19~
   END
 
   // add poison damage
