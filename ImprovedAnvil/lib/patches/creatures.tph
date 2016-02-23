@@ -2978,36 +2978,10 @@ PATCH_IF ("%isoffset%" > "%effoffset%") BEGIN WRITE_LONG 0x2B8 ("%isoffset%" - (
 PATCH_IF ("%ioffset%" > "%effoffset%") BEGIN WRITE_LONG 0x2BC ("%ioffset%" - ("%erasedeffects%" * 264) + 1320) END
 
 COPY_EXISTING ~nalia18.cre~ ~Override/nalia18.cre~
-WRITE_BYTE  0x69     80 // Find traps
-WRITE_BYTE  0x6a      0 // Pick pockets
-READ_LONG 0x2A0 "knownsploffset"
-READ_LONG 0x2A4 "knownsplcount"
-PATCH_IF ("%knownsplcount%" > 0) BEGIN
-  READ_LONG 0x2A8 "smioffset"
-  READ_LONG 0x2B0 "msoffset"
-  READ_LONG 0x2B8 "isoffset"
-  READ_LONG 0x2BC "ioffset"
-  READ_LONG 0x2C4 "effoffset"
-  SET "erasedspells" = 0
-  SET "cnt" = "%knownsplcount%" - 1
-  WHILE ("%cnt%" >= 0) BEGIN
-    READ_ASCII ("%knownsploffset%" + "%cnt%"*12) "splresref"
-    PATCH_IF (("%splresref%" STRING_COMPARE_CASE "SPWI511" = 0) OR
-	      ("%splresref%" STRING_COMPARE_CASE "SPWI703" = 0) OR
-              ("%splresref%" STRING_COMPARE_CASE "SPWI712" = 0))
-   BEGIN
-   DELETE_BYTES ("%knownsploffset%" + ("%cnt%"*12)) 12
-   SET "erasedspells" = "%erasedspells%" + 1
-   END
-  SET "cnt" = "%cnt%" - 1
-  END
-WRITE_LONG 0x2A4 ("%knownsplcount%" - "%erasedspells%")
-PATCH_IF ("%smioffset%" > "%knownsploffset%") BEGIN WRITE_LONG 0x2A8 ("%smioffset%" - ("%erasedspells%" * 12)) END
-PATCH_IF ("%msoffset%" > "%knownsploffset%") BEGIN WRITE_LONG 0x2B0 ("%msoffset%" - ("%erasedspells%" * 12)) END
-PATCH_IF ("%isoffset%" > "%knownsploffset%") BEGIN WRITE_LONG 0x2B8 ("%isoffset%" - ("%erasedspells%" * 12)) END
-PATCH_IF ("%ioffset%" > "%knownsploffset%") BEGIN WRITE_LONG 0x2BC ("%ioffset%" - ("%erasedspells%" * 12)) END
-PATCH_IF ("%effoffset%" > "%knownsploffset%") BEGIN WRITE_LONG 0x2C4 ("%effoffset%" - ("%erasedspells%" * 12)) END
-END
+  WRITE_BYTE  0x69     80 // Find traps
+  WRITE_BYTE  0x6a      0 // Pick pockets
+  REMOVE_KNOWN_SPELL ~SPWI511~
+  REMOVE_KNOWN_SPELL ~SPWI712~
 
 COPY_EXISTING ~nalia8.cre~ ~Override/nalia8.cre~
 WRITE_BYTE  0x69     80 // Find traps
@@ -3103,68 +3077,14 @@ COPY_EXISTING ~nalia10.cre~ ~Override/nalia15.cre~
 COPY_EXISTING ~jan8.cre~ ~Override/jan8.cre~
   WRITE_BYTE  0x55       8 // save vs wands
   WRITE_BYTE  0x58       9 // save vs spell
-READ_LONG 0x2A0 "knownsploffset"
-READ_LONG 0x2A4 "knownsplcount"
-PATCH_IF ("%knownsplcount%" > 0) BEGIN
-  READ_LONG 0x2A8 "smioffset"
-  READ_LONG 0x2B0 "msoffset"
-  READ_LONG 0x2B8 "isoffset"
-  READ_LONG 0x2BC "ioffset"
-  READ_LONG 0x2C4 "effoffset"
-  SET "erasedspells" = 0
-  SET "cnt" = "%knownsplcount%" - 1
-  WHILE ("%cnt%" >= 0) BEGIN
-    READ_ASCII ("%knownsploffset%" + "%cnt%"*12) "splresref"
-    PATCH_IF (("%splresref%" STRING_COMPARE_CASE "SPWI703" = 0) OR
-	      ("%splresref%" STRING_COMPARE_CASE "SPWI607" = 0) OR
-              ("%splresref%" STRING_COMPARE_CASE "SPWI302" = 0))
-   BEGIN
-   DELETE_BYTES ("%knownsploffset%" + ("%cnt%"*12)) 12
-   SET "erasedspells" = "%erasedspells%" + 1
-   END
-  SET "cnt" = "%cnt%" - 1
-  END
-WRITE_LONG 0x2A4 ("%knownsplcount%" - "%erasedspells%")
-PATCH_IF ("%smioffset%" > "%knownsploffset%") BEGIN WRITE_LONG 0x2A8 ("%smioffset%" - ("%erasedspells%" * 12)) END
-PATCH_IF ("%msoffset%" > "%knownsploffset%") BEGIN WRITE_LONG 0x2B0 ("%msoffset%" - ("%erasedspells%" * 12)) END
-PATCH_IF ("%isoffset%" > "%knownsploffset%") BEGIN WRITE_LONG 0x2B8 ("%isoffset%" - ("%erasedspells%" * 12)) END
-PATCH_IF ("%ioffset%" > "%knownsploffset%") BEGIN WRITE_LONG 0x2BC ("%ioffset%" - ("%erasedspells%" * 12)) END
-PATCH_IF ("%effoffset%" > "%knownsploffset%") BEGIN WRITE_LONG 0x2C4 ("%effoffset%" - ("%erasedspells%" * 12)) END
-END
+  REMOVE_KNOWN_SPELL ~SPWI703~
+  REMOVE_KNOWN_SPELL ~SPWI302~
 
 COPY_EXISTING ~jan15.cre~ ~Override/jan15.cre~
   WRITE_BYTE  0x55       6 // save vs wands
   WRITE_BYTE  0x58       7 // save vs spell
-READ_LONG 0x2A0 "knownsploffset"
-READ_LONG 0x2A4 "knownsplcount"
-PATCH_IF ("%knownsplcount%" > 0) BEGIN
-  READ_LONG 0x2A8 "smioffset"
-  READ_LONG 0x2B0 "msoffset"
-  READ_LONG 0x2B8 "isoffset"
-  READ_LONG 0x2BC "ioffset"
-  READ_LONG 0x2C4 "effoffset"
-  SET "erasedspells" = 0
-  SET "cnt" = "%knownsplcount%" - 1
-  WHILE ("%cnt%" >= 0) BEGIN
-    READ_ASCII ("%knownsploffset%" + "%cnt%"*12) "splresref"
-    PATCH_IF (("%splresref%" STRING_COMPARE_CASE "SPWI703" = 0) OR
-	      ("%splresref%" STRING_COMPARE_CASE "SPWI607" = 0) OR
-	      ("%splresref%" STRING_COMPARE_CASE "SPWI302" = 0) OR
-	      ("%splresref%" STRING_COMPARE_CASE "SPWI804" = 0) OR
-              ("%splresref%" STRING_COMPARE_CASE "SPWI613" = 0))
-   BEGIN
-   DELETE_BYTES ("%knownsploffset%" + ("%cnt%"*12)) 12
-   SET "erasedspells" = "%erasedspells%" + 1
-   END
-  SET "cnt" = "%cnt%" - 1
-  END
-WRITE_LONG 0x2A4 ("%knownsplcount%" - "%erasedspells%")
-PATCH_IF ("%smioffset%" > "%knownsploffset%") BEGIN WRITE_LONG 0x2A8 ("%smioffset%" - ("%erasedspells%" * 12)) END
-PATCH_IF ("%msoffset%" > "%knownsploffset%") BEGIN WRITE_LONG 0x2B0 ("%msoffset%" - ("%erasedspells%" * 12)) END
-PATCH_IF ("%isoffset%" > "%knownsploffset%") BEGIN WRITE_LONG 0x2B8 ("%isoffset%" - ("%erasedspells%" * 12)) END
-PATCH_IF ("%ioffset%" > "%knownsploffset%") BEGIN WRITE_LONG 0x2BC ("%ioffset%" - ("%erasedspells%" * 12)) END
-PATCH_IF ("%effoffset%" > "%knownsploffset%") BEGIN WRITE_LONG 0x2C4 ("%effoffset%" - ("%erasedspells%" * 12)) END
-END
+  REMOVE_KNOWN_SPELL ~SPWI703~
+  REMOVE_KNOWN_SPELL ~SPWI613~
 
 COPY_EXISTING ~jan8.cre~ ~Override/jan10.cre~
 
@@ -3178,6 +3098,7 @@ COPY_EXISTING ~cernd10.cre~ ~Override/cernd10.cre~
 
   ADD_KNOWN_SPELL ~SPPR215~ #1 ~priest~
   ADD_KNOWN_SPELL ~SPPR317~ #2 ~priest~
+  ADD_KNOWN_SPELL ~SPPR318~ #2 ~priest~
   ADD_KNOWN_SPELL ~SPPR403~ #3 ~priest~
   ADD_KNOWN_SPELL ~SPPR418~ #3 ~priest~
 
@@ -3187,6 +3108,7 @@ COPY_EXISTING ~cernd14.cre~ ~Override/cernd14.cre~
 
   ADD_KNOWN_SPELL ~SPPR215~ #1 ~priest~
   ADD_KNOWN_SPELL ~SPPR317~ #2 ~priest~
+  ADD_KNOWN_SPELL ~SPPR318~ #2 ~priest~
   ADD_KNOWN_SPELL ~SPPR403~ #3 ~priest~
   ADD_KNOWN_SPELL ~SPPR418~ #3 ~priest~
 
