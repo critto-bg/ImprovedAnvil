@@ -97,9 +97,34 @@ COPY_EXISTING ~ar0334.are~ ~override/ar0334.are~
 END
 EXTEND_TOP ~AR0334.BCS~ ~ImprovedAnvil\BAF\AR0334.BAF~
 
+COPY_EXISTING ~ar0502.are~ ~override/ar0502.are~
+  LAUNCH_PATCH_FUNCTION ~ALTER_AREA_REGION~ 
+  INT_VAR
+    "flag_party_required" = 1
+	"flag_impassable_npc" = 1
+  STR_VAR
+    "region_name" = ~Tran0503~
+  END
+
 COPY_EXISTING ~ar0503.are~ ~override/ar0503.are~
   WRITE_ASCII 0x94 ~ar0503~ #8 // Area Script reference
-EXTEND_BOTTOM ~AR0503.BCS~ ~ImprovedAnvil\BAF\AR0503.BAF~
+  
+  READ_LONG 0x54 "actoroffset"
+  READ_SHORT 0x58 "actorcount"
+  SET "updated" = 0
+  
+  FOR (i = 0; i < "%actorcount%"; i = i+1) BEGIN
+    READ_ASCII ("%actoroffset%" + 272 * "%i%" + 128) "creresref"
+	
+    PATCH_IF (("%creresref%" STRING_COMPARE_CASE "GHAST01") = 0) AND ("updated" = 0) BEGIN
+	  WRITE_ASCII ("%actoroffset%" + 272 * "%i%") "Grotesque" #9
+	  WRITE_LONG ("%actoroffset%" + 272 * "%i%" + 0x30) 29953
+      WRITE_ASCII ("%actoroffset%" + 272 * "%i%" + 0x80) "S!TANNCR" #8
+	  SET "updated" = 1
+    END
+  END
+  
+  EXTEND_BOTTOM ~AR0503.BCS~ ~ImprovedAnvil\BAF\AR0503.BAF~
 
 COPY_EXISTING ~ar1203.are~ ~override/ar1203.are~
   WRITE_ASCII 0x94 ~ar1203~ #8 // Area Script reference

@@ -1,4 +1,21 @@
-//Tanner's Hideout Dock //////////////
+// Tanner's Hideout Dock //
+
+IF
+  Global("Iaexit","AR0503",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR0503",1)
+    TriggerActivation("Tran0502",FALSE)
+END
+
+IF
+  Global("Iaexit","AR0503",1)
+  Dead("S!TANNCR")
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR0503",2)
+    TriggerActivation("Tran0502",TRUE)
+END
 
 IF
    Global("Iaitem","AR0503",0)
@@ -9,12 +26,12 @@ THEN
 END
 
 IF
-   Global("Iapotion","AR0503",0)
+  Global("Iapotion","AR0503",0)
 THEN
-   RESPONSE #100
-      SetGlobal("Iapotion","AR0503",1)
-      ActionOverride("Container 1",CreateItem("potn08",0,0,0)) //
-      ActionOverride("Container 1",CreateItem("potn52",0,0,0)) //
-      ActionOverride("Container 1",CreateItem("potn17",0,0,0)) //
-      ActionOverride("Container 1",CreateItem("potn20",0,0,0)) //
+  RESPONSE #100
+     SetGlobal("Iapotion","AR0503",1)
+     ActionOverride("Container 1",CreateItem("potn08",0,0,0)) //
+     ActionOverride("Container 1",CreateItem("potn52",0,0,0)) //
+     ActionOverride("Container 1",CreateItem("potn17",0,0,0)) //
+     ActionOverride("Container 1",CreateItem("potn20",0,0,0)) //
 END
