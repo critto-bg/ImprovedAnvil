@@ -247,11 +247,16 @@ WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
 
 // Missus Cragmoon
 COPY_EXISTING ~murcrag.sto~ ~Override/murcrag.sto~
-WRITE_LONG  0x14  165 // sell price markup
-READ_BYTE  0x10 "stoflags"
-WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
-REMOVE_STORE_ITEM ~potn46~
-REMOVE_STORE_ITEM ~potn41~
+  WRITE_LONG  0x14  165 // sell price markup
+  READ_BYTE  0x10 "stoflags"
+  WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+  REMOVE_STORE_ITEM ~potn46~
+  REMOVE_STORE_ITEM ~potn41~
+
+  LAUNCH_PATCH_FUNCTION ~REPLACE_STORE_ITEM~ STR_VAR
+    old_item = ~POTN40~
+    new_item = ~POTN11~
+  END
 
 // Storekeep
 COPY_EXISTING ~ppstor01.sto~ ~Override/ppstor01.sto~
@@ -431,9 +436,14 @@ WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
 
 // Adratha
 COPY_EXISTING ~trrak01.sto~ ~Override/trrak01.sto~
-WRITE_LONG  0x14  165 // sell price markup
-REMOVE_STORE_ITEM ~potn46~
-REMOVE_STORE_ITEM ~potn41~
+  WRITE_LONG  0x14  165 // sell price markup
+  REMOVE_STORE_ITEM ~potn46~
+  REMOVE_STORE_ITEM ~potn41~
+  
+  LAUNCH_PATCH_FUNCTION ~REPLACE_STORE_ITEM~ STR_VAR
+    old_item = ~POTN40~
+    new_item = ~POTN11~
+  END
 
 // Items for sale
 COPY_EXISTING ~type1.sto~ ~Override/type1.sto~
