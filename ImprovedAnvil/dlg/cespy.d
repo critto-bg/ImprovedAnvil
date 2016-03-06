@@ -1365,7 +1365,8 @@ APPEND BOTSMITH
 
   IF ~~ THEN BEGIN elf
     SAY @655 IF ~~ THEN REPLY @2 GOTO 4
-    IF ~Global("Ialegacybook","GLOBAL",1) PartyHasItem("S!misc16") PartyHasItem("S!misc06") NumItemsPartyGT("misc44",1)
+    IF ~GlobalGT("Ialegacybook","GLOBAL",0) GlobalLT("Ialegacybook","GLOBAL",4) 
+        PartyHasItem("S!misc16") PartyHasItem("S!misc06") NumItemsPartyGT("misc44",1)
         PartyGoldGT(49999)~
       THEN REPLY @3
       DO ~TakePartyGold(50000)      DestroyGold(50000)
