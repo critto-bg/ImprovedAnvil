@@ -1071,18 +1071,6 @@ COPY ~ImprovedAnvil/itm/S!brac02.itm~      ~override/S!brac02.itm~
 COPY ~ImprovedAnvil/itm/S!brac03.itm~      ~override/S!brac03.itm~
   SAY NAME2     @10247
   SAY DESC      @10248
-  
-COPY ~ImprovedAnvil/itm/S!staf09.itm~      ~override/S!staf09.itm~
-  SAY NAME2     @10239
-  
-COPY ~ImprovedAnvil/itm/S!sper02.itm~      ~override/S!sper02.itm~
-  SAY NAME2     @10241
-  
-COPY ~ImprovedAnvil/itm/S!staf10.itm~      ~override/S!staf10.itm~
-  SAY NAME2     @10251
-
-COPY ~ImprovedAnvil/itm/S!sper03.itm~      ~override/S!sper03.itm~
-  SAY NAME2     @10252
 	
 COPY ~ImprovedAnvil/itm/blun35.itm~      ~override/blun35.itm~
 
@@ -1666,6 +1654,7 @@ COPY ~ImprovedAnvil/itm/S!tanncr.itm~      ~override/S!tanncr.itm~
 
 // new items created via patching the existing ones //
 
+// Water's Edge +4
 COPY_EXISTING ~sw1h52.itm~ ~override/S!sw19.itm~
   SAY NAME2     @10227
   SAY DESC      @10228
@@ -1702,4 +1691,68 @@ COPY_EXISTING ~sw1h52.itm~ ~override/S!sw19.itm~
     timing = 2
   END
 
+  BUT_ONLY
+  
+// Quarterstaff +4
+COPY_EXISTING ~staf24.itm~      ~override/S!staf09.itm~
+  SAY NAME2     @10239
+  
+  WRITE_LONG 0x60 4 // +4 enchantment
+  
+  // change thac0 and damage bonus
+  LAUNCH_PATCH_FUNCTION ~ALTER_ITEM_HEADER~
+    INT_VAR
+      header_type = 1
+      thac0_bonus = 4
+      damage_bonus = 4
+  END
+  
+  BUT_ONLY
+  
+// Quarterstaff +5
+COPY_EXISTING ~staf24.itm~      ~override/S!staf10.itm~
+  SAY NAME2     @10251
+  
+  WRITE_LONG 0x60 5 // +5 enchantment
+  
+  // change thac0 and damage bonus
+  LAUNCH_PATCH_FUNCTION ~ALTER_ITEM_HEADER~
+    INT_VAR
+      header_type = 1
+      thac0_bonus = 5
+      damage_bonus = 5
+  END
+  
+  BUT_ONLY
+
+// Spear +4
+COPY_EXISTING ~sper06.itm~      ~override/S!sper02.itm~
+  SAY NAME2     @10241
+  
+  WRITE_LONG 0x60 4 // +4 enchantment
+  
+  // change thac0 and damage bonus
+  LAUNCH_PATCH_FUNCTION ~ALTER_ITEM_HEADER~
+    INT_VAR
+      header_type = 1
+      thac0_bonus = 4
+      damage_bonus = 4
+  END
+  
+  BUT_ONLY
+  
+// Spear +5
+COPY_EXISTING ~sper06.itm~      ~override/S!sper03.itm~
+  SAY NAME2     @10252
+  
+  WRITE_LONG 0x60 5 // +5 enchantment
+  
+  // change thac0 and damage bonus
+  LAUNCH_PATCH_FUNCTION ~ALTER_ITEM_HEADER~
+    INT_VAR
+      header_type = 1
+      thac0_bonus = 5
+      damage_bonus = 5
+  END
+  
   BUT_ONLY
