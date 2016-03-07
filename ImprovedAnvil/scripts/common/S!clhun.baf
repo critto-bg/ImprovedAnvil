@@ -1,12 +1,4 @@
 IF
-	AttackedBy([GOODCUTOFF],DEFAULT)
-	!Allegiance(Myself,ENEMY)
-THEN
-	RESPONSE #100
-		Enemy()
-END
-
-IF
 	Global("Iamoving","LOCALS",1)
 	See(NearestEnemyOf(Myself))
     ActionListEmpty()
@@ -35,72 +27,14 @@ IF
 	!StateCheck(Myself,STATE_STUNNED)
 	!CheckStatGT(Myself,0,SCRIPTINGSTATE9)
 	!GlobalTimerNotExpired("Iaspell","LOCALS")
-    ActionListEmpty()
+  ActionListEmpty()
 	See(NearestEnemyOf(Myself))
 	CheckStatLT(Myself,1,STONESKINS)
-    HaveSpell(CLERIC_IRONSKIN)
+  HaveSpell(CLERIC_IRONSKIN)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("Iaspell","LOCALS",6)
 		Spell(Myself,CLERIC_IRONSKIN) // SPPR506.SPL (Iron Skins)
-END
-
-IF
-  !Allegiance(Myself,ENEMY)
-  !StateCheck(Myself,STATE_CONFUSED)
-  !StateCheck(Myself,STATE_HELPLESS)
-  !StateCheck(Myself,STATE_PANIC)
-  !StateCheck(Myself,STATE_STUNNED)
-  ActionListEmpty()
-  Global("Iapcastts","GLOBAL",0)
-  HPPercentLT(Myself,60)
-  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
-  HasItem("POTN52",Myself)  // ~Potion of Extra Healing~
-THEN
-  RESPONSE #100
-    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
-    DisplayStringHead(Myself,46150)  // ~quaffs a potion~
-    UseItem("POTN52",Myself)  // ~Potion of Extra Healing~
-END
-
-IF
-    !Allegiance(Myself,ENEMY)
-    !StateCheck(Myself,STATE_SILENCED)
-    !StateCheck(Myself,STATE_HELPLESS)
-    !StateCheck(Myself,STATE_PANIC)
-    !StateCheck(Myself,STATE_STUNNED)
-    !CheckStatGT(Myself,0,SCRIPTINGSTATE9)
-    ActionListEmpty()
-	!GlobalTimerNotExpired("Iaspell","LOCALS")
-    !GlobalTimerNotExpired("Iasppr604","LOCALS")
-	See(NearestEnemyOf(Myself))
-    HaveSpell(CLERIC_CONJURE_ANIMALS)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("Iaspell","LOCALS",6)
-        SetGlobalTimer("Iasppr604","LOCALS",12)
-		SpellNoDec(Myself,CLERIC_CONJURE_ANIMALS) // SPPR604.SPL (Conjure Animals)
-END
-
-IF
-    !Allegiance(Myself,ENEMY)
-    !StateCheck(Myself,STATE_SILENCED)
-    !StateCheck(Myself,STATE_HELPLESS)
-    !StateCheck(Myself,STATE_PANIC)
-    !StateCheck(Myself,STATE_STUNNED)
-    !CheckStatGT(Myself,0,SCRIPTINGSTATE9)
-    ActionListEmpty()
-	!GlobalTimerNotExpired("Iaspell","LOCALS")
-	See(NearestEnemyOf(Myself))
-    HaveSpell(CLERIC_WONDROUS_RECALL)
-    OR(3)
-        !HaveSpell(CLERIC_IRONSKIN)
-        !HaveSpell(CLERIC_PROTECTION_FROM_LIGHTNING)
-        !HaveSpell(CLERIC_CONJURE_ANIMALS)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("Iaspell","LOCALS",6)
-		SpellNoDec(Myself,CLERIC_WONDROUS_RECALL) // SPPR611.SPL (Wondrous Recall)
 END
 
 IF
