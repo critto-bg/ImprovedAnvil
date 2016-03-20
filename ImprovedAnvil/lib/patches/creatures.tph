@@ -4253,11 +4253,45 @@ COPY_EXISTING ~korgan8.CRE~ ~override/korgan8.CRE~
   WRITE_BYTE  0x54       9 // save vs death
   WRITE_BYTE  0x55      11 // save vs wands
   WRITE_BYTE  0x58      12 // save vs spell
+  WRITE_BYTE  0x23c     17 // dexterity
+  WRITE_BYTE  0x23a     10 // intelligence
+  
+  SPRINT ~opcode_to_delete~ ~233~
+  LAUNCH_PATCH_MACRO ~DELETE_CRE_EFFECT~
+  
+  // axes
+  LPF ~ADD_CRE_EFFECT~ INT_VAR
+    opcode = 233
+    timing = 9
+    target = 1
+    parameter1 = 3
+    parameter2 = 92
+  END
+  
+  // war hammers
+  LPF ~ADD_CRE_EFFECT~ INT_VAR
+    opcode = 233
+    timing = 9
+    target = 1
+    parameter1 = 1
+    parameter2 = 97
+  END
+  
+  // dual-wielding
+  LPF ~ADD_CRE_EFFECT~ INT_VAR
+    opcode = 233
+    timing = 9
+    target = 1
+    parameter1 = 2
+    parameter2 = 114
+  END
 
 COPY_EXISTING ~korgan15.CRE~ ~override/korgan15.CRE~
   WRITE_BYTE  0x54       6 // save vs death
   WRITE_BYTE  0x55       8 // save vs wands
   WRITE_BYTE  0x58       9 // save vs spell
+  WRITE_BYTE  0x23c     17 // dexterity
+  WRITE_BYTE  0x23a     10 // intelligence
 
 COPY_EXISTING ~minsc7.cre~ ~Override/minsc7.cre~
               ~minsc8.cre~ ~Override/minsc8.cre~
