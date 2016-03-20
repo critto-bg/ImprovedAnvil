@@ -1,5 +1,6 @@
-//Watcher's Keep //////////////
+/// Watcher's Keep ///
 
+// Spawn Demon Lord if party has killed Supreme Leader and received Angurvadal //
 IF
    Global("Iacreature","AR3000",0)
    !Class(Player1,THIEF_ALL)
@@ -18,6 +19,7 @@ THEN
       CreateCreature("S!dlord",[2361.1207],0)  //
 END
 
+// the Demon Lord is defeated, advance the JD plot variable to the next stage //
 IF
    Global("Iacreature","AR3000",1)
    Global("Iajdplot","GLOBAL",0)
@@ -30,6 +32,7 @@ THEN
       SetGlobal("Iajdplot","GLOBAL",1)
 END
 
+// The party has forged Judgement Day, it's SoA, create demon prince //
 IF
    InMyArea(Player1)
    Global("Iacreature","AR3000",1)
@@ -44,6 +47,7 @@ THEN
       CreateCreatureObjectOffScreen("S!demgod",Player1,0,0,0) //
 END
 
+// The party has forged Judgement Day, it's ToB, create demon prince, apply dispel for extra challenge //
 IF
    InMyArea(Player1)
    Global("Iacreature","AR3000",1)
@@ -98,6 +102,7 @@ THEN
       FadeFromColor([30.0],0)
 END
 
+// the party has defeated the demon prince in time, set the global variable //
 IF
    Global("Iacreature","AR3000",2)
    Global("Iademgoddead","GLOBAL",0)
@@ -109,6 +114,7 @@ THEN
       SetGlobal("Iajdstalk","GLOBAL",2)
 END
 
+// demon lord is spawned, disable entrances //
 IF
   Global("Iaexit1","AR3000",1)
 THEN
@@ -118,6 +124,7 @@ THEN
     TriggerActivation("Tran3000b",FALSE)
 END
 
+// demon lord is defeated, re-enable entrances //
 IF
   Global("Iaexit1","AR3000",2)
   Dead("S!dlord")
@@ -128,6 +135,7 @@ THEN
     TriggerActivation("Tran3000b",TRUE)
 END
 
+// demon prince is spawned, disable entrances //
 IF
   Global("Iaexit2","AR3000",1)
 THEN
@@ -142,6 +150,7 @@ THEN
     TriggerActivation("Tran3020",FALSE)
 END
 
+// if the fight with the prince has begun, enable anti-cheese variable for fleeing the area //
 IF
   Global("Iaexit2","AR3000",2)
   Global("Iajdfled","GLOBAL",0)
@@ -151,6 +160,7 @@ THEN
     SetGlobal("Iajdfled","GLOBAL",1)
 END
 
+// demon prince is defeated, re-enable entrances //
 IF
   Global("Iaexit2","AR3000",2)
   Dead("S!demgod")
@@ -166,6 +176,7 @@ THEN
     TriggerActivation("Tran3020",TRUE)
 END
 
+// disable the anti-cheese variable if the demon prince was defeated //
 IF
   Global("Iaexit2","AR3000",3)
   Global("Iajdfled","GLOBAL",1)
@@ -174,6 +185,7 @@ THEN
     SetGlobal("Iajdfled","GLOBAL",2)
 END
 
+// anti-cheese, force demon prince into the enemy state and heal when attacked //
 IF
   Global("Ianticheat","AR3000",0)
   Global("Iacreature","AR3000",2)
@@ -186,4 +198,53 @@ THEN
     SetGlobal("Ianticheat","AR3000",1)
     ChangeEnemyAlly("S!demgod",ENEMY)
     ApplySpellRES("SPWII07","S!demgod")
+END
+
+// block the entrances when the demogorgon is spawned //
+IF
+  Global("Iaexit3","AR3000",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit3","AR3000",2)
+    TriggerActivation("Tran3000a",FALSE)
+    TriggerActivation("Tran3000b",FALSE)
+    TriggerActivation("Tran3011",FALSE)
+    TriggerActivation("Tran3016",FALSE)
+    TriggerActivation("Tran3017",FALSE)
+    TriggerActivation("Tran3019",FALSE)
+    TriggerActivation("Tran3020",FALSE)
+END
+
+// re-enable the entrances when demogorgon and his friends are dead //
+IF
+  Global("Iaexit3","AR3000",2)
+  Global("DemoGorgonIsDead","GLOBAL",1)
+  Dead("S!Belch")
+  Dead("S!Kazuul")
+  Dead("S!Kargot")
+  Dead("S!Rozvan")
+  Dead("S!Nulong")
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit3","AR3000",3)
+    TriggerActivation("Tran3000a",TRUE)
+    TriggerActivation("Tran3000b",TRUE)
+    TriggerActivation("Tran3011",TRUE)
+    TriggerActivation("Tran3016",TRUE)
+    TriggerActivation("Tran3017",TRUE)
+    TriggerActivation("Tran3019",TRUE)
+    TriggerActivation("Tran3020",TRUE)
+END
+
+// time to spawn the demogorgon, start the cutscene //
+IF
+  InMyArea(Player1)
+	Global("DemogorgonChange","GLOBAL",1)
+  Global("Iacut","AR3000",0)
+THEN
+	RESPONSE #100
+    SetGlobal("Iacut","AR3000",1)
+    ClearAllActions()
+    StartCutSceneMode()
+    StartCutScene("S!cutdmo")
 END
