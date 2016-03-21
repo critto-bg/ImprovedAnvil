@@ -4056,121 +4056,101 @@ COPY_EXISTING ~MAZZY9.CRE~ ~override/MAZZY9.CRE~
   WRITE_BYTE  0x54       7 // save vs death
   WRITE_BYTE  0x55       9 // save vs wands
   WRITE_BYTE  0x58      10 // save vs spell
-READ_LONG 0x2A0 "knownsploffset"
-READ_LONG 0x2A4 "knownsplcount"
-READ_LONG 0x2A8 "smioffset"
-READ_LONG 0x2B0 "msoffset"
-READ_LONG 0x2B8 "isoffset"
-READ_LONG 0x2BC "ioffset"
-READ_LONG 0x2C4 "effoffset"
-READ_LONG 0x2C8 "effcount"
-SET "erasedeffects" = 0
-WHILE ("%erasedeffects%" < "%effcount%") BEGIN
- DELETE_BYTES "%effoffset%" 264
- SET "erasedeffects" = "%erasedeffects%" + 1
-END
-SET "moffset" = "%effoffset%"
-INSERT_BYTES  "%moffset%" 264
-WRITE_LONG  ("%moffset%"+ 8) 233
-WRITE_LONG  ("%moffset%"+ 20) 1
-WRITE_LONG  ("%moffset%"+ 24) 105
-WRITE_LONG  ("%moffset%"+ 28) 9
-WRITE_SHORT ("%moffset%"+ 36) 100
-SET "moffset" = "%moffset%" + 264
-INSERT_BYTES  "%moffset%" 264
-WRITE_LONG  ("%moffset%"+ 8) 233
-WRITE_LONG  ("%moffset%"+ 20) 3
-WRITE_LONG  ("%moffset%"+ 24) 91
-WRITE_LONG  ("%moffset%"+ 28) 9
-WRITE_SHORT ("%moffset%"+ 36) 100
-SET "moffset" = "%moffset%" + 264
-INSERT_BYTES  "%moffset%" 264
-WRITE_LONG  ("%moffset%"+ 8) 233
-WRITE_LONG  ("%moffset%"+ 20) 1
-WRITE_LONG  ("%moffset%"+ 24) 114
-WRITE_LONG  ("%moffset%"+ 28) 9
-WRITE_SHORT ("%moffset%"+ 36) 100
-SET "moffset" = "%moffset%" + 264
-INSERT_BYTES  "%moffset%" 264
-WRITE_LONG  ("%moffset%"+ 8) 233
-WRITE_LONG  ("%moffset%"+ 20) 1
-WRITE_LONG  ("%moffset%"+ 24) 92
-WRITE_LONG  ("%moffset%"+ 28) 9
-WRITE_SHORT ("%moffset%"+ 36) 100
-SET "moffset" = "%moffset%" + 264
-INSERT_BYTES  "%moffset%" 264
-WRITE_LONG  ("%moffset%"+ 8) 233
-WRITE_LONG  ("%moffset%"+ 20) 1
-WRITE_LONG  ("%moffset%"+ 24) 97
-WRITE_LONG  ("%moffset%"+ 28) 9
-WRITE_SHORT ("%moffset%"+ 36) 100
-SET "moffset" = "%moffset%" + 264
-WRITE_LONG 0x2C8 5
-PATCH_IF ("%knownsploffset%" > "%effoffset%") BEGIN WRITE_LONG 0x2A0 ("%knownsploffset%" - ("%erasedeffects%" * 264) + 1320) END
-PATCH_IF ("%smioffset%" > "%effoffset%") BEGIN WRITE_LONG 0x2A8 ("%smioffset%" - ("%erasedeffects%" * 264) + 1320) END
-PATCH_IF ("%msoffset%" > "%effoffset%") BEGIN WRITE_LONG 0x2B0 ("%msoffset%" - ("%erasedeffects%" * 264) + 1320) END
-PATCH_IF ("%isoffset%" > "%effoffset%") BEGIN WRITE_LONG 0x2B8 ("%isoffset%" - ("%erasedeffects%" * 264) + 1320) END
-PATCH_IF ("%ioffset%" > "%effoffset%") BEGIN WRITE_LONG 0x2BC ("%ioffset%" - ("%erasedeffects%" * 264) + 1320) END
+  WRITE_SHORT 0x0024    90 // current HP
+  WRITE_SHORT 0x0026    90 // maximum HP
+  WRITE_BYTE  0x238     17 // strength
+  WRITE_LONG  0x244 0x40030000 // kensai kit
+  WRITE_BYTE  0x273    0x2 // fighter class
+  
+  REMOVE_CRE_ITEM ~chan01~
+  
+  SPRINT ~opcode_to_delete~ ~233~
+  LAUNCH_PATCH_MACRO ~DELETE_CRE_EFFECT~
+    
+  // flails
+  LPF ~ADD_CRE_EFFECT~ INT_VAR
+    opcode = 233
+    timing = 9
+    target = 1
+    parameter1 = 2
+    parameter2 = 100
+  END
+  
+  // dual-wielding
+  LPF ~ADD_CRE_EFFECT~ INT_VAR
+    opcode = 233
+    timing = 9
+    target = 1
+    parameter1 = 2
+    parameter2 = 114
+  END
+  
+  // short bow
+  LPF ~ADD_CRE_EFFECT~ INT_VAR
+    opcode = 233
+    timing = 9
+    target = 1
+    parameter1 = 1
+    parameter2 = 105
+  END
+  
+  // short sword
+  LPF ~ADD_CRE_EFFECT~ INT_VAR
+    opcode = 233
+    timing = 9
+    target = 1
+    parameter1 = 2
+    parameter2 = 91
+  END
 
 COPY_EXISTING ~MAZZY15.CRE~ ~override/MAZZY15.CRE~
   WRITE_BYTE  0x54       6 // save vs death
   WRITE_BYTE  0x55       8 // save vs wands
   WRITE_BYTE  0x58       9 // save vs spell
-READ_LONG 0x2A0 "knownsploffset"
-READ_LONG 0x2A4 "knownsplcount"
-READ_LONG 0x2A8 "smioffset"
-READ_LONG 0x2B0 "msoffset"
-READ_LONG 0x2B8 "isoffset"
-READ_LONG 0x2BC "ioffset"
-READ_LONG 0x2C4 "effoffset"
-READ_LONG 0x2C8 "effcount"
-SET "erasedeffects" = 0
-WHILE ("%erasedeffects%" < "%effcount%") BEGIN
- DELETE_BYTES "%effoffset%" 264
- SET "erasedeffects" = "%erasedeffects%" + 1
-END
-SET "moffset" = "%effoffset%"
-INSERT_BYTES  "%moffset%" 264
-WRITE_LONG  ("%moffset%"+ 8) 233
-WRITE_LONG  ("%moffset%"+ 20) 1
-WRITE_LONG  ("%moffset%"+ 24) 105
-WRITE_LONG  ("%moffset%"+ 28) 9
-WRITE_SHORT ("%moffset%"+ 36) 100
-SET "moffset" = "%moffset%" + 264
-INSERT_BYTES  "%moffset%" 264
-WRITE_LONG  ("%moffset%"+ 8) 233
-WRITE_LONG  ("%moffset%"+ 20) 4
-WRITE_LONG  ("%moffset%"+ 24) 91
-WRITE_LONG  ("%moffset%"+ 28) 9
-WRITE_SHORT ("%moffset%"+ 36) 100
-SET "moffset" = "%moffset%" + 264
-INSERT_BYTES  "%moffset%" 264
-WRITE_LONG  ("%moffset%"+ 8) 233
-WRITE_LONG  ("%moffset%"+ 20) 2
-WRITE_LONG  ("%moffset%"+ 24) 114
-WRITE_LONG  ("%moffset%"+ 28) 9
-WRITE_SHORT ("%moffset%"+ 36) 100
-SET "moffset" = "%moffset%" + 264
-INSERT_BYTES  "%moffset%" 264
-WRITE_LONG  ("%moffset%"+ 8) 233
-WRITE_LONG  ("%moffset%"+ 20) 1
-WRITE_LONG  ("%moffset%"+ 24) 92
-WRITE_LONG  ("%moffset%"+ 28) 9
-WRITE_SHORT ("%moffset%"+ 36) 100
-SET "moffset" = "%moffset%" + 264
-INSERT_BYTES  "%moffset%" 264
-WRITE_LONG  ("%moffset%"+ 8) 233
-WRITE_LONG  ("%moffset%"+ 20) 1
-WRITE_LONG  ("%moffset%"+ 24) 97
-WRITE_LONG  ("%moffset%"+ 28) 9
-WRITE_SHORT ("%moffset%"+ 36) 100
-SET "moffset" = "%moffset%" + 264
-WRITE_LONG 0x2C8 5
-PATCH_IF ("%knownsploffset%" > "%effoffset%") BEGIN WRITE_LONG 0x2A0 ("%knownsploffset%" - ("%erasedeffects%" * 264) + 1320) END
-PATCH_IF ("%smioffset%" > "%effoffset%") BEGIN WRITE_LONG 0x2A8 ("%smioffset%" - ("%erasedeffects%" * 264) + 1320) END
-PATCH_IF ("%msoffset%" > "%effoffset%") BEGIN WRITE_LONG 0x2B0 ("%msoffset%" - ("%erasedeffects%" * 264) + 1320) END
-PATCH_IF ("%isoffset%" > "%effoffset%") BEGIN WRITE_LONG 0x2B8 ("%isoffset%" - ("%erasedeffects%" * 264) + 1320) END
-PATCH_IF ("%ioffset%" > "%effoffset%") BEGIN WRITE_LONG 0x2BC ("%ioffset%" - ("%erasedeffects%" * 264) + 1320) END
+  WRITE_BYTE  0x238     17 // strength
+  WRITE_LONG  0x244 0x40030000 // kensai kit
+  WRITE_BYTE  0x273    0x2 // fighter class
+  
+  REMOVE_CRE_ITEM ~chan08~
+  
+  SPRINT ~opcode_to_delete~ ~233~
+  LAUNCH_PATCH_MACRO ~DELETE_CRE_EFFECT~
+  
+  // flails
+  LPF ~ADD_CRE_EFFECT~ INT_VAR
+    opcode = 233
+    timing = 9
+    target = 1
+    parameter1 = 3
+    parameter2 = 100
+  END
+  
+  // dual-wielding
+  LPF ~ADD_CRE_EFFECT~ INT_VAR
+    opcode = 233
+    timing = 9
+    target = 1
+    parameter1 = 2
+    parameter2 = 114
+  END
+  
+  // short bow
+  LPF ~ADD_CRE_EFFECT~ INT_VAR
+    opcode = 233
+    timing = 9
+    target = 1
+    parameter1 = 1
+    parameter2 = 105
+  END
+  
+  // short sword
+  LPF ~ADD_CRE_EFFECT~ INT_VAR
+    opcode = 233
+    timing = 9
+    target = 1
+    parameter1 = 3
+    parameter2 = 91
+  END
 
 COPY_EXISTING ~korgan8.CRE~ ~override/korgan8.CRE~
   WRITE_BYTE  0x54       9 // save vs death
