@@ -291,3 +291,6 @@ Credits:
 
 12- Thanks to the authors of Sword and Fist mod for insights and useful knowledge on how to deal with peculiarities of
     the monk's fist implementation in BG2 ToB.
+    
+13- Thanks to Nicoper and SparrowJacek for their help in testing and many great contributions (ideas, graphic material and so on) to IAV6.x 
+    and the upcoming IAv7.
