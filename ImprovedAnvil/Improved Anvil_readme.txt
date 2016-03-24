@@ -248,6 +248,7 @@ testing its various features:
  - Critto
  - shadan
  - Nicoper
+ - SparrowJacek
 
 ========
 Credits:
@@ -295,3 +296,6 @@ Credits:
 13- Thanks to Nicoper and SparrowJacek for testing IAV6.x and the upcoming IAv7, contributing many important ideas and helping to make the mod better.
 
 14- Extra special thanks to SparrowJacek for his superb work on improving and expanding the graphic material used in IA.
+
+15- Thanks to the owner of the http://mikesrpgcenter.com/ for providing a source of fabulous graphic material and developers of Arcanum 
+    for producing said material in the first place.
