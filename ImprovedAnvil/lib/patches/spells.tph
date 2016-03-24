@@ -187,6 +187,14 @@ COPY_EXISTING ~SPWI606.spl~ ~override/spwi606.spl~
   END
   BUT_ONLY
 
+// patch projectile type for Wish:Rest option from Invisible Travelling (79) to None (1)
+COPY_EXISTING ~SPWISH16.spl~ ~override/SPWISH16.spl~
+  LAUNCH_PATCH_FUNCTION ~ALTER_SPELL_HEADER~ INT_VAR
+    header = 1
+    projectile = 1
+  END
+  BUT_ONLY
+
 ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
   // patch "wake on sleep" for Command and Greater Command
   COPY_EXISTING ~SPPR102.spl~ ~override/SPPR102.spl~
