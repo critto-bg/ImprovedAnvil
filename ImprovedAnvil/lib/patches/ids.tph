@@ -16,3 +16,22 @@ APPEND ~SPELL.IDS~ ~1418 CLERIC_ACID_SHIELD~
 ACTION_IF GAME_IS ~BG2EE~ THEN BEGIN
   APPEND ~animate.ids~ ~0xE0F0 IC_ICE_GOLEM~ UNLESS ~\bIC_ICE_GOLEM\b~
 END
+
+// new animations //
+
+// for ToB, append missing records for unused animation slots 
+ACTION_IF GAME_IS ~tob~ THEN BEGIN
+  APPEND ~animate.ids~ ~0xE010 KAZUUL~
+  APPEND ~anisnd.ids~ ~0xE010 METN     CGAMEANIMATIONTYPE_KAZUUL~
+END
+
+// for EE, replace the entries with the appropriate names
+ACTION_IF GAME_IS ~BG2EE~ THEN BEGIN
+  COPY_EXISTING ~animate.ids~ ~override~
+    REPLACE_TEXTUALLY ~0xE010 ETTIN~ ~0xE010 KAZUUL~
+    BUT_ONLY
+    
+  COPY_EXISTING ~anisnd.ids~ ~override~
+    REPLACE_TEXTUALLY ~0xE010 METN     CGAMEANIMATIONTYPE_ETTIN~ ~0xE010 METN     CGAMEANIMATIONTYPE_KAZUUL~
+    BUT_ONLY
+END
