@@ -17,9 +17,10 @@ REMOVE_STORE_ITEM ~waaxe~
 
 // Deidre
 COPY_EXISTING ~wmart2.sto~ ~Override/wmart2.sto~
-WRITE_LONG  0x14   165 // sell price markup
-REMOVE_STORE_ITEM ~wa2robe~
-REMOVE_STORE_ITEM ~wa2shiel~
+  WRITE_LONG  0x14   165 // sell price markup
+  REMOVE_STORE_ITEM ~wa2robe~
+  REMOVE_STORE_ITEM ~wa2shiel~
+  REMOVE_STORE_ITEM ~wa2dak~
 
 // Adventurer's Mart, before chapter 6
 COPY_EXISTING ~ribald.sto~ ~Override/ribald.sto~
@@ -488,11 +489,14 @@ REMOVE_STORE_ITEM ~staf16~
 
 // Drow
 COPY_EXISTING ~uddrow24.sto~ ~Override/uddrow24.sto~
-WRITE_LONG  0x14  165 // sell price markup
-READ_BYTE  0x10 "stoflags"
-WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
-REMOVE_STORE_ITEM ~amul20~
-REMOVE_STORE_ITEM ~potn40~
+  WRITE_LONG  0x14  165 // sell price markup
+  READ_BYTE  0x10 "stoflags"
+  WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
+  
+  REMOVE_STORE_ITEM ~amul20~
+  REMOVE_STORE_ITEM ~potn40~
+  
+  ADD_STORE_ITEM ~S!SW20~ AFTER ~RODS04~ #0 #0 #0 ~IDENTIFIED&UNSTEALABLE~ #1
 
 // Drow
 COPY_EXISTING ~uddrow25.sto~ ~Override/uddrow25.sto~
