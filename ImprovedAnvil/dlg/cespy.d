@@ -144,6 +144,7 @@ REPLACE BOTSMITH
     IF ~PartyHasItem("sper08") Global("Iasper01forged","GLOBAL",0)~ THEN REPLY @760 GOTO spear3
     IF ~PartyHasItem("misc5x") Global("Iaharperforged","GLOBAL",0)~ THEN REPLY @762 GOTO jaheir
     IF ~PartyHasItem("sw1h52") Global("Iasw19forged","GLOBAL",0)~ THEN REPLY @764 GOTO water
+    IF ~PartyHasItem("wa2dak") Global("Iadakkonforged","GLOBAL",0)~ THEN REPLY @766 GOTO dakkon
     IF ~~ THEN REPLY #992 EXIT
   END
 END
@@ -1847,6 +1848,28 @@ APPEND BOTSMITH
           TakePartyItemNum("s!misc06",1)   DestroyItem("s!misc06")
           GiveItemCreate("s!sw19",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
+  END
+  
+  IF ~~ THEN BEGIN dakkon
+    SAY @767 IF ~~ THEN REPLY @2 GOTO 13
+    IF ~PartyHasItem("wa2dak") PartyHasItem("s!sw20") PartyHasItem("s!sw21") 
+        PartyHasItem("gith") PartyHasItem("S!misc02") PartyHasItem("S!misc01")
+        NumItemsPartyGT("misc9y",2) PartyGoldGT(74999) Global("Iadakkonforged","GLOBAL",0)~ 
+      THEN REPLY @3
+      DO ~SetGlobal("Iadakkonforged","GLOBAL",1)
+          TakePartyGold(75000)      DestroyGold(75000)
+          TakePartyItemNum("wa2dak",1)   DestroyItem("wa2dak")
+          TakePartyItemNum("s!sw20",1)   DestroyItem("s!sw20")
+          TakePartyItemNum("s!sw21",1)   DestroyItem("s!sw21")
+          TakePartyItemNum("gith",1)   DestroyItem("gith")
+          TakePartyItemNum("s!misc02",1)   DestroyItem("s!misc02")
+          TakePartyItemNum("s!misc01",1)   DestroyItem("s!misc01")
+          TakePartyItemNum("misc9y",1)   DestroyItem("misc9y")
+          TakePartyItemNum("misc9y",1)   DestroyItem("misc9y")
+          TakePartyItemNum("misc9y",1)   DestroyItem("misc9y")
+          GiveItemCreate("s!sw22",Player1,1,1,1)
+          CreateVisualEffect("spcrtwpn",[401.348])~
+      EXIT
   END
 
   IF ~~ THEN BEGIN regular
