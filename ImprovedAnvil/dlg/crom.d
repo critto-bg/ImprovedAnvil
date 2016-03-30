@@ -1828,12 +1828,12 @@ APPEND WSMITH01
   IF ~~ THEN BEGIN spear3
     SAY @607 IF ~~ THEN REPLY @2 GOTO 13
     IF ~PartyHasItem("sper08") PartyHasItem("sper06") PartyHasItem("staf07")
-        PartyHasItem("PLOT03H") PartyHasItem("S!misc02") PartyGoldGT(149999)
+        PartyHasItem("PLOT03H") PartyHasItem("S!misc02") PartyGoldGT(74999)
         PartyHasItem("scrl03") NumItemsPartyGT("scrl95",2)
         Global("Iasper01forged","GLOBAL",0)~
       THEN REPLY @3
       DO ~SetGlobal("Iasper01forged","GLOBAL",1)
-          TakePartyGold(150000)      DestroyGold(150000)
+          TakePartyGold(75000)      DestroyGold(75000)
           TakePartyItemNum("sper08",1)   DestroyItem("sper08")
           TakePartyItemNum("sper06",1)   DestroyItem("sper06")
           TakePartyItemNum("staf07",1)   DestroyItem("staf07")
