@@ -39,6 +39,156 @@ THEN
     ReallyForceSpellRES("SPWII07",Myself)
 END
 
+/// Summon vargoulles, first casting is always forced ///
+
+// first check if protag is necro or auramaster
+IF
+  Allegiance(Myself,ENEMY)
+  See(Player1)
+  OR(2)
+    CheckStat(Player1,6,SCRIPTINGSTATE1)
+    CheckStat(Player1,1,SCRIPTINGSTATE1)
+  !GlobalTimerNotExpired("Iacreature","LOCALS")
+  !HPLT(Myself,1)
+  Global("Iaonce","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaonce","LOCALS",1)
+    SetGlobalTimer("Iacreature","LOCALS",30)
+    DisplayStringHead(Myself,70998) // Come, my minions!
+    CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
+    CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
+    CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
+END
+
+// then check for Cernd
+IF
+  Allegiance(Myself,ENEMY)
+  See("Cernd")
+  InParty("Cernd")
+  !Dead("Cernd")
+  !GlobalTimerNotExpired("Iacreature","LOCALS")
+  !HPLT(Myself,1)
+  Global("Iaonce","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaonce","LOCALS",1)
+    SetGlobalTimer("Iacreature","LOCALS",30)
+    DisplayStringHead(Myself,70998) // Come, my minions!
+    CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
+    CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
+    CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
+END
+
+// then for Neera
+IF
+  Allegiance(Myself,ENEMY)
+  See("Neera")
+  InParty("Neera")
+  !Dead("Neera")
+  !GlobalTimerNotExpired("Iacreature","LOCALS")
+  !HPLT(Myself,1)
+  Global("Iaonce","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaonce","LOCALS",1)
+    SetGlobalTimer("Iacreature","LOCALS",30)
+    DisplayStringHead(Myself,70998) // Come, my minions!
+    CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
+    CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
+    CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
+END
+
+// Nearest enemies, caster types 
+IF
+  Allegiance(Myself,ENEMY)
+	See(NearestEnemyOf(Myself))
+	OR(5)
+		Class(LastSeenBy(Myself),DRUID_ALL)
+		Class(LastSeenBy(Myself),CLERIC_ALL)
+		Class(LastSeenBy(Myself),MAGE_ALL)
+    Class(LastSeenBy(Myself),SORCERER)
+    CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE1)
+  !GlobalTimerNotExpired("Iacreature","LOCALS")
+  !HPLT(Myself,1)
+  Global("Iaonce","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaonce","LOCALS",1)
+    SetGlobalTimer("Iacreature","LOCALS",30)
+    DisplayStringHead(Myself,70998) // Come, my minions!
+    CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
+    CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
+    CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+	See(SecondNearestEnemyOf(Myself))
+	OR(5)
+		Class(LastSeenBy(Myself),DRUID_ALL)
+		Class(LastSeenBy(Myself),CLERIC_ALL)
+		Class(LastSeenBy(Myself),MAGE_ALL)
+    Class(LastSeenBy(Myself),SORCERER)
+    CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE1)
+  !GlobalTimerNotExpired("Iacreature","LOCALS")
+  !HPLT(Myself,1)
+  Global("Iaonce","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaonce","LOCALS",1)
+    SetGlobalTimer("Iacreature","LOCALS",30)
+    DisplayStringHead(Myself,70998) // Come, my minions!
+    CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
+    CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
+    CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+	See(ThirdNearestEnemyOf(Myself))
+	OR(5)
+		Class(LastSeenBy(Myself),DRUID_ALL)
+		Class(LastSeenBy(Myself),CLERIC_ALL)
+		Class(LastSeenBy(Myself),MAGE_ALL)
+    Class(LastSeenBy(Myself),SORCERER)
+    CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE1)
+  !GlobalTimerNotExpired("Iacreature","LOCALS")
+  !HPLT(Myself,1)
+  Global("Iaonce","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaonce","LOCALS",1)
+    SetGlobalTimer("Iacreature","LOCALS",30)
+    DisplayStringHead(Myself,70998) // Come, my minions!
+    CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
+    CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
+    CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+	See(FourthNearestEnemyOf(Myself))
+	OR(5)
+		Class(LastSeenBy(Myself),DRUID_ALL)
+		Class(LastSeenBy(Myself),CLERIC_ALL)
+		Class(LastSeenBy(Myself),MAGE_ALL)
+    Class(LastSeenBy(Myself),SORCERER)
+    CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE1)
+  !GlobalTimerNotExpired("Iacreature","LOCALS")
+  !HPLT(Myself,1)
+  Global("Iaonce","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaonce","LOCALS",1)
+    SetGlobalTimer("Iacreature","LOCALS",30)
+    DisplayStringHead(Myself,70998) // Come, my minions!
+    CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
+    CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
+    CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
+END
+
+// finally, just summon at the nearest enemy
 IF
   Allegiance(Myself,ENEMY)
   See(NearestEnemyOf(Myself))
@@ -48,19 +198,25 @@ IF
 THEN
   RESPONSE #100
     SetGlobal("Iaonce","LOCALS",1)
-    SetGlobalTimer("Iacreature","LOCALS",60)
+    SetGlobalTimer("Iacreature","LOCALS",30)
     DisplayStringHead(Myself,70998) // Come, my minions!
     CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
     CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
     CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
 END
 
+/// Summon vargoulles, next castings are random ///
+
+// first check if protag is necro or auramaster
 IF
   Allegiance(Myself,ENEMY)
-  Global("Iaonce","LOCALS",1)
-  See(NearestEnemyOf(Myself))
+  See(Player1)
+  OR(2)
+    CheckStat(Player1,6,SCRIPTINGSTATE1)
+    CheckStat(Player1,1,SCRIPTINGSTATE1)
   !GlobalTimerNotExpired("Iacreature","LOCALS")
   !HPLT(Myself,1)
+  Global("Iaonce","LOCALS",1)
   RandomNumLT(4,3)
 THEN
   RESPONSE #100
@@ -71,6 +227,151 @@ THEN
     CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
 END
 
+// then check for Cernd
+IF
+  Allegiance(Myself,ENEMY)
+  See("Cernd")
+  InParty("Cernd")
+  !Dead("Cernd")
+  !GlobalTimerNotExpired("Iacreature","LOCALS")
+  !HPLT(Myself,1)
+  Global("Iaonce","LOCALS",1)
+  RandomNumLT(4,3)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iacreature","LOCALS",30)
+    DisplayStringHead(Myself,70998) // Come, my minions!
+    CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
+    CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
+    CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
+END
+
+// then for Neera
+IF
+  Allegiance(Myself,ENEMY)
+  See("Neera")
+  InParty("Neera")
+  !Dead("Neera")
+  !GlobalTimerNotExpired("Iacreature","LOCALS")
+  !HPLT(Myself,1)
+  Global("Iaonce","LOCALS",1)
+  RandomNumLT(4,3)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iacreature","LOCALS",30)
+    DisplayStringHead(Myself,70998) // Come, my minions!
+    CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
+    CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
+    CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
+END
+
+// Nearest enemies, caster types 
+IF
+  Allegiance(Myself,ENEMY)
+	See(NearestEnemyOf(Myself))
+	OR(5)
+		Class(LastSeenBy(Myself),DRUID_ALL)
+		Class(LastSeenBy(Myself),CLERIC_ALL)
+		Class(LastSeenBy(Myself),MAGE_ALL)
+    Class(LastSeenBy(Myself),SORCERER)
+    CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE1)
+  !GlobalTimerNotExpired("Iacreature","LOCALS")
+  !HPLT(Myself,1)
+  Global("Iaonce","LOCALS",1)
+  RandomNumLT(4,3)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iacreature","LOCALS",30)
+    DisplayStringHead(Myself,70998) // Come, my minions!
+    CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
+    CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
+    CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+	See(SecondNearestEnemyOf(Myself))
+	OR(5)
+		Class(LastSeenBy(Myself),DRUID_ALL)
+		Class(LastSeenBy(Myself),CLERIC_ALL)
+		Class(LastSeenBy(Myself),MAGE_ALL)
+    Class(LastSeenBy(Myself),SORCERER)
+    CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE1)
+  !GlobalTimerNotExpired("Iacreature","LOCALS")
+  !HPLT(Myself,1)
+  Global("Iaonce","LOCALS",1)
+  RandomNumLT(4,3)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iacreature","LOCALS",30)
+    DisplayStringHead(Myself,70998) // Come, my minions!
+    CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
+    CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
+    CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+	See(ThirdNearestEnemyOf(Myself))
+	OR(5)
+		Class(LastSeenBy(Myself),DRUID_ALL)
+		Class(LastSeenBy(Myself),CLERIC_ALL)
+		Class(LastSeenBy(Myself),MAGE_ALL)
+    Class(LastSeenBy(Myself),SORCERER)
+    CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE1)
+  !GlobalTimerNotExpired("Iacreature","LOCALS")
+  !HPLT(Myself,1)
+  Global("Iaonce","LOCALS",1)
+  RandomNumLT(4,3)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iacreature","LOCALS",30)
+    DisplayStringHead(Myself,70998) // Come, my minions!
+    CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
+    CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
+    CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+	See(FourthNearestEnemyOf(Myself))
+	OR(5)
+		Class(LastSeenBy(Myself),DRUID_ALL)
+		Class(LastSeenBy(Myself),CLERIC_ALL)
+		Class(LastSeenBy(Myself),MAGE_ALL)
+    Class(LastSeenBy(Myself),SORCERER)
+    CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE1)
+  !GlobalTimerNotExpired("Iacreature","LOCALS")
+  !HPLT(Myself,1)
+  Global("Iaonce","LOCALS",1)
+  RandomNumLT(4,3)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iacreature","LOCALS",30)
+    DisplayStringHead(Myself,70998) // Come, my minions!
+    CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
+    CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
+    CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
+END
+
+// finally, just summon at the nearest enemy
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  !GlobalTimerNotExpired("Iacreature","LOCALS")
+  !HPLT(Myself,1)
+  Global("Iaonce","LOCALS",1)
+  RandomNumLT(4,3)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iacreature","LOCALS",30)
+    DisplayStringHead(Myself,70998) // Come, my minions!
+    CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
+    CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
+    CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
+END
+
+/// Spell trigger ///
 IF
   Allegiance(Myself,ENEMY)
   !GlobalTimerNotExpired("Iaspell","LOCALS")
