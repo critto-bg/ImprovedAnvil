@@ -64,8 +64,7 @@ END
 IF
   Allegiance(Myself,ENEMY)
   See(NearestEnemyOf(Myself))
-  HPPercentLT(Myself,90)
-  GlobalLT("Iakazuul05","LOCALS",4)
+  GlobalLT("Iakazuul05","LOCALS",8)
   CheckStatLT(Myself,71,RESISTCRUSHING)
   !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
 THEN
@@ -79,6 +78,7 @@ IF
   Allegiance(Myself,ENEMY)
   See(NearestEnemyOf(Myself))
   HPPercentLT(Myself,60)
+  CheckStatLT(Myself,71,RESISTCRUSHING)
   HasItem("potn55",Myself)
   !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
 THEN
@@ -108,6 +108,24 @@ END
 
 IF
   Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iacstrike","LOCALS")
+  See(NearestEnemyOf(Myself))
+  Range(LastSeenBy(Myself),5)
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  CheckStatLT(LastSeenBy(Myself),1,STONESKINS)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  GlobalLT("Iakazuul03","LOCALS",8)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iakazuul03","LOCALS",1)
+    SetGlobalTimer("Iacstrike","LOCALS",18)
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    ForceSpell(Myself,WARRIOR_CRITICAL_STRIKE)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
   !GlobalTimerNotExpired("Iagww","LOCALS")
   See(NearestEnemyOf(Myself))
   Range(LastSeenBy(Myself),5)
@@ -120,24 +138,6 @@ THEN
     SetGlobalTimer("Iagww","LOCALS",12)
     SetGlobalTimer("DrankPotionTimer","LOCALS",6)
     ForceSpell(Myself,WARRIOR_GREATER_WHIRLWIND)
-END
-
-IF
-  Allegiance(Myself,ENEMY)
-  !GlobalTimerNotExpired("Iacstrike","LOCALS")
-  See(NearestEnemyOf(Myself))
-  Range(LastSeenBy(Myself),5)
-  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
-  CheckStatLT(LastSeenBy(Myself),1,STONESKINS)
-  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-  GlobalLT("Iakazuul03","LOCALS",5)
-  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
-THEN
-  RESPONSE #100
-    IncrementGlobal("Iakazuul03","LOCALS",1)
-    SetGlobalTimer("Iacstrike","LOCALS",18)
-    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
-    ForceSpell(Myself,WARRIOR_CRITICAL_STRIKE)
 END
 
 IF
