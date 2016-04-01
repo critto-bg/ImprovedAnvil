@@ -2,9 +2,9 @@
 // First Level Spells (8): Magic Missile, Shield, Armor //
 // Second Level Spells (8): Acid Arrow, BLUR //
 // Third Level Spells (8): remove magic, flame arrow, MMM x4 //
-// Fourth Level Spells (8): Stoneskin x5, fire shield, minor globe, imp invis //
+// Fourth Level Spells (8): Stoneskin x7, fire shield //
 // Fifth Level Spells (8): Spell Immunity, Breach, Lower Res, Larloch Interrupter //
-// Sixth Level Spells (9): True sight, pfmw x8, Death Spell x8 //
+// Sixth Level Spells (9): True sight, Globe of Inv, ST, pfmw x6, Death Spell x6 //
 // Seventh Level Spells (9): Ruby Ray x9 //
 // Eighth Level Spells (9): ADHW x8, tpt, foreknowledge //
 // Ninth Level Spells (8): improved alacrity, comet, pwkill //
@@ -32,20 +32,22 @@ THEN
     SetGlobal("Ia7thlevel","LOCALS",0)
     SetGlobal("Ia8thlevel","LOCALS",0)
     SetGlobal("Ia9thlevel","LOCALS",0)
-    ReallyForceSpell(Myself,WIZARD_STONE_SKIN)
-    ReallyForceSpell(Myself,WIZARD_SHIELD)
-    ReallyForceSpell(Myself,WIZARD_ARMOR)
-    ReallyForceSpell(Myself,WIZARD_FIRE_SHIELD_BLUE)
-    ReallyForceSpellRES("SPWI804",Myself) //
-    ReallyForceSpellRES("SPWI807",Myself)
-    ReallyForceSpell(Myself,WIZARD_MELF_METEOR)
-    ReallyForceSpell(Myself,WIZARD_PROTECTION_FROM_MAGIC_WEAPONS)
-    ReallyForceSpell(Myself,WIZARD_TRUE_SIGHT)
-    ReallyForceSpellRES("SPWII41",Myself)
-    ReallyForceSpell(Myself,WIZARD_SPELL_IMMUNITY_DIVINATION)
-    ReallyForceSpell(Myself,WIZARD_BLUR)
-    ReallyForceSpell(Myself,WIZARD_MINOR_GLOBE_OF_INVULNERABILITY)
-    ReallyForceSpellRES("SPWI921",Myself)
+    SetGlobal("Iasequencer","LOCALS",0)
+    SetGlobal("Iarefreshsi","LOCALS",0)
+    ReallyForceSpell(Myself,WIZARD_SHIELD) // shield
+    ReallyForceSpell(Myself,WIZARD_ARMOR) // armor
+    ReallyForceSpell(Myself,WIZARD_BLUR) // Blur
+    ReallyForceSpell(Myself,WIZARD_MELF_METEOR) // Melf's Meteors
+    ReallyForceSpell(Myself,WIZARD_STONE_SKIN) // stone skin
+    ReallyForceSpell(Myself,WIZARD_FIRE_SHIELD_BLUE) // fire shield
+    ReallyForceSpell(Myself,WIZARD_SPELL_IMMUNITY_ABJURATION)
+    ReallyForceSpell(Myself,WIZARD_TRUE_SIGHT) // True Sight
+    ReallyForceSpell(Myself,WIZARD_GLOBE_OF_INVULNERABILITY) // Globe of Inv.
+    ReallyForceSpell(Myself,WIZARD_PROTECTION_FROM_MAGIC_WEAPONS) // PfMW
+    ReallyForceSpell(Myself,WIZARD_SPELL_TURNING) // Spell Turning
+    ReallyForceSpellRES("SPWI804",Myself) // Tenser's Partial Transformation
+    ReallyForceSpellRES("SPWI807",Myself) // Foreknowledge
+    ReallyForceSpellRES("SPWI921",Myself) // Improved Alacrity
 END
 
 IF
@@ -197,7 +199,7 @@ IF
    !GlobalTimerNotExpired("pfmw","LOCALS")
    CheckStat(Myself,0,SCRIPTINGSTATE6)
   See(NearestEnemyOf(Myself))
-  GlobalLT("Ia6thlevel","LOCALS",8)
+  GlobalLT("Ia6thlevel","LOCALS",6)
 THEN
   RESPONSE #100
     IncrementGlobal("Ia6thlevel","LOCALS",1)
@@ -213,7 +215,7 @@ IF
    !GlobalTimerNotExpired("pfmw","LOCALS")
    CheckStat(Myself,0,SCRIPTINGSTATE6)
   See(NearestEnemyOf(Myself))
-  GlobalLT("Ia6thlevel","LOCALS",8)
+  GlobalLT("Ia6thlevel","LOCALS",6)
 THEN
   RESPONSE #100
     IncrementGlobal("Ia6thlevel","LOCALS",1)
@@ -255,7 +257,7 @@ IF
   !CheckStatGT(Myself,0,AURACLEANSING)
   See(NearestEnemyOf(Myself))
   CheckStatLT(Myself,1,STONESKINS)
-  GlobalLT("Ia4thlevel","LOCALS",5)
+  GlobalLT("Ia4thlevel","LOCALS",7)
 THEN
   RESPONSE #100
     IncrementGlobal("Ia4thlevel","LOCALS",1)
@@ -269,7 +271,7 @@ IF
   !CheckStatGT(Myself,0,AURACLEANSING)
   See(NearestEnemyOf(Myself))
   CheckStatLT(Myself,1,STONESKINS)
-  GlobalLT("Ia4thlevel","LOCALS",5)
+  GlobalLT("Ia4thlevel","LOCALS",7)
 THEN
   RESPONSE #100
     IncrementGlobal("Ia4thlevel","LOCALS",1)
@@ -1113,8 +1115,9 @@ THEN
     SpellNoDec(Player6,WIZARD_POWER_WORD_KILL)
 END
 
-// SI:Div //
+/// SI:Abj ///
 
+// refresh when naturally expired
 IF
   Allegiance(Myself,ENEMY)
   GlobalGT("Prep","LOCALS",0)
@@ -1129,7 +1132,7 @@ THEN
   RESPONSE #100
     SetGlobal("Iarefreshsi","LOCALS",1)
     SetGlobalTimer("Iaspell","LOCALS",6)
-    SpellNoDec(Myself,WIZARD_SPELL_IMMUNITY_DIVINATION)
+    SpellNoDec(Myself,WIZARD_SPELL_IMMUNITY_ABJURATION)
 END
 
 IF
@@ -1147,7 +1150,7 @@ THEN
   RESPONSE #100
     SetGlobal("Iarefreshsi","LOCALS",1)
     SetGlobalTimer("Iaspell","LOCALS",6)
-    SpellNoDec(Myself,WIZARD_SPELL_IMMUNITY_DIVINATION)
+    SpellNoDec(Myself,WIZARD_SPELL_IMMUNITY_ABJURATION)
 END
 
 // Spell sequencer //
@@ -1157,16 +1160,15 @@ IF
   Global("Iarefreshsi","LOCALS",1)
   !GlobalTimerNotExpired("Iaspell","LOCALS")
   Global("Iapcastts","GLOBAL",0)
-  !StateCheck(Myself,STATE_IMPROVEDINVISIBILITY)
-  Global("Iainvis","LOCALS",0)
+  Global("Iasequencer","LOCALS",0)
 THEN
   RESPONSE #100
-    SetGlobal("Iainvis","LOCALS",1)
+    SetGlobal("Iasequencer","LOCALS",1)
     SetGlobalTimer("Iaspell","LOCALS",6)
     DisplayString(Myself,39969)  // ~Spell Sequencer - Fired~
-    ReallyForceSpellRES("SPWII41",Myself)
-    ReallyForceSpell(Myself,WIZARD_FIRE_SHIELD_BLUE)
-    ReallyForceSpell(Myself,WIZARD_BLUR)
+    ReallyForceSpell(Myself,WIZARD_MINOR_GLOBE_OF_INVULNERABILITY)
+    ReallyForceSpell(Myself,WIZARD_FIRE_SHIELD_RED)
+    ReallyForceSpell(Myself,WIZARD_STONE_SKIN)
 END
 
 // Melf's Acid Arrow //
@@ -2225,7 +2227,7 @@ IF
   !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
   !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
   !StateCheck(LastSeenBy(Myself),STATE_PANIC)
-  GlobalLT("Ia3rdlevel","LOCALS",8)
+  GlobalLT("Ia3rdlevel","LOCALS",7)
 THEN
   RESPONSE #100
     IncrementGlobal("Ia3rdlevel","LOCALS",1)
@@ -2245,7 +2247,7 @@ IF
   !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
   !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
   !StateCheck(LastSeenBy(Myself),STATE_PANIC)
-  GlobalLT("Ia3rdlevel","LOCALS",8)
+  GlobalLT("Ia3rdlevel","LOCALS",7)
 THEN
   RESPONSE #100
     IncrementGlobal("Ia3rdlevel","LOCALS",1)
@@ -2265,7 +2267,7 @@ IF
   !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
   !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
   !StateCheck(LastSeenBy(Myself),STATE_PANIC)
-  GlobalLT("Ia3rdlevel","LOCALS",8)
+  GlobalLT("Ia3rdlevel","LOCALS",7)
 THEN
   RESPONSE #100
     IncrementGlobal("Ia3rdlevel","LOCALS",1)
@@ -2592,10 +2594,10 @@ IF
   !GlobalTimerNotExpired("Iaspell","LOCALS")
   See([PC])
   !CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE7)
-  Global("Iagmalison","LOCALS",0)
+  Global("Iasequencer","LOCALS",0)
 THEN
   RESPONSE #100
-    SetGlobal("Iagmalison","LOCALS",1)
+    SetGlobal("Iasequencer","LOCALS",1)
     SetGlobalTimer("Iaspell","LOCALS",6)
     DisplayString(Myself,39969)  //
     ReallyForceSpell(LastSeenBy(Myself),WIZARD_GREATER_MALISON)
@@ -2608,10 +2610,10 @@ IF
   !GlobalTimerNotExpired("Iaspell","LOCALS")
   See(SecondNearest([PC]))
   !CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE7)
-  Global("Iagmalison","LOCALS",0)
+  Global("Iasequencer","LOCALS",0)
 THEN
   RESPONSE #100
-    SetGlobal("Iagmalison","LOCALS",1)
+    SetGlobal("Iasequencer","LOCALS",1)
     SetGlobalTimer("Iaspell","LOCALS",6)
     DisplayString(Myself,39969)  //
     ReallyForceSpell(LastSeenBy(Myself),WIZARD_GREATER_MALISON)
@@ -2733,7 +2735,7 @@ IF
    LevelGT(LastSeenBy(Myself),8)
    CheckStat(LastSeenBy(Myself),95,RESISTPIERCING)
    CheckStatGT(LastSeenBy(Myself),89,RESISTMAGIC)
-  GlobalLT("Ia6thlevel","LOCALS",8)
+  GlobalLT("Ia6thlevel","LOCALS",6)
 THEN
   RESPONSE #100
     IncrementGlobal("Ia6thlevel","LOCALS",1)
@@ -2756,7 +2758,7 @@ IF
   !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
   CheckStatLT(LastSeenBy(Myself),30,RESISTMAGIC)
   !HasBounceEffects(LastSeenBy(Myself))
-  GlobalLT("Ia3rdlevel","LOCALS",6)
+  GlobalLT("Ia3rdlevel","LOCALS",7)
 THEN
   RESPONSE #100
     IncrementGlobal("Ia3rdlevel","LOCALS",1)
@@ -2778,7 +2780,7 @@ IF
   !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
   CheckStatLT(LastSeenBy(Myself),30,RESISTMAGIC)
   !HasBounceEffects(LastSeenBy(Myself))
-  GlobalLT("Ia3rdlevel","LOCALS",6)
+  GlobalLT("Ia3rdlevel","LOCALS",7)
 THEN
   RESPONSE #100
     IncrementGlobal("Ia3rdlevel","LOCALS",1)
@@ -2848,7 +2850,7 @@ IF
   !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
   CheckStatLT(LastSeenBy(Myself),30,RESISTMAGIC)
   !HasBounceEffects(LastSeenBy(Myself))
-  GlobalLT("Ia3rdlevel","LOCALS",6)
+  GlobalLT("Ia3rdlevel","LOCALS",7)
 THEN
   RESPONSE #100
     IncrementGlobal("Ia3rdlevel","LOCALS",1)
