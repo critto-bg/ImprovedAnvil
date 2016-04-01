@@ -191,6 +191,53 @@ THEN
     ReallyForceSpell(LastSeenBy(Myself),WIZARD_ABI_DALZIMS_HORRID_WILTING)
 END
 
+// SI:Abj //
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  GlobalGT("Prep","LOCALS",0)
+  CheckStatGT(Myself,0,AURACLEANSING)
+  OR(2)
+    !GlobalTimerNotExpired("Iasiduration","LOCALS")
+    CheckStat(Myself,0,SCRIPTINGSTATE7)
+  OR(3)
+   CheckStatGT(Myself,0,SCRIPTINGSTATE6)
+   CheckStatGT(Myself,0,STONESKINS)
+   !Range(LastSeenBy(Myself),4)
+  GlobalLT("Ia5thlevel","LOCALS",7)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Ia5thlevel","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SetGlobalTimer("Iasiduration","LOCALS",123)
+    SetGlobal("Iarefreshsi","LOCALS",1)
+    SpellNoDec(Myself,WIZARD_SPELL_IMMUNITY_ABJURATION)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  GlobalGT("Prep","LOCALS",0)
+  !CheckStatGT(Myself,0,AURACLEANSING)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  OR(2)
+    !GlobalTimerNotExpired("Iasiduration","LOCALS")
+    CheckStat(Myself,0,SCRIPTINGSTATE7)
+  OR(3)
+   CheckStatGT(Myself,0,SCRIPTINGSTATE6)
+   CheckStatGT(Myself,0,STONESKINS)
+   !Range(LastSeenBy(Myself),4)
+  GlobalLT("Ia5thlevel","LOCALS",7)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Ia5thlevel","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SetGlobalTimer("Iasiduration","LOCALS",123)
+    SetGlobal("Iarefreshsi","LOCALS",1)
+    SpellNoDec(Myself,WIZARD_SPELL_IMMUNITY_ABJURATION)
+END
+
 // PfMW //
 
 IF
@@ -253,10 +300,10 @@ END
 // Stoneskin //
 
 IF
-  GlobalTimerNotExpired("Iaspell","LOCALS")
-  !CheckStatGT(Myself,0,AURACLEANSING)
+  CheckStatGT(Myself,0,AURACLEANSING)
   See(NearestEnemyOf(Myself))
   CheckStatLT(Myself,1,STONESKINS)
+  CheckStat(Myself,0,SCRIPTINGSTATE6)
   GlobalLT("Ia4thlevel","LOCALS",7)
 THEN
   RESPONSE #100
@@ -266,11 +313,11 @@ THEN
 END
 
 IF
-  Allegiance(Myself,ENEMY)
   !GlobalTimerNotExpired("Iaspell","LOCALS")
   !CheckStatGT(Myself,0,AURACLEANSING)
   See(NearestEnemyOf(Myself))
   CheckStatLT(Myself,1,STONESKINS)
+  CheckStat(Myself,0,SCRIPTINGSTATE6)
   GlobalLT("Ia4thlevel","LOCALS",7)
 THEN
   RESPONSE #100
@@ -1115,49 +1162,13 @@ THEN
     SpellNoDec(Player6,WIZARD_POWER_WORD_KILL)
 END
 
-/// SI:Abj ///
-
-// refresh when naturally expired
-IF
-  Allegiance(Myself,ENEMY)
-  GlobalGT("Prep","LOCALS",0)
-  !GlobalTimerNotExpired("Iasiduration","LOCALS")
-  CheckStatGT(Myself,0,AURACLEANSING)
-  See(NearestEnemyOf(Myself))
-  OR(2)
-   CheckStatGT(Myself,0,SCRIPTINGSTATE6)
-   !Range(LastSeenBy(Myself),4)
-  Global("Iarefreshsi","LOCALS",0)
-THEN
-  RESPONSE #100
-    SetGlobal("Iarefreshsi","LOCALS",1)
-    SetGlobalTimer("Iaspell","LOCALS",6)
-    SpellNoDec(Myself,WIZARD_SPELL_IMMUNITY_ABJURATION)
-END
-
-IF
-  Allegiance(Myself,ENEMY)
-  GlobalGT("Prep","LOCALS",0)
-  !CheckStatGT(Myself,0,AURACLEANSING)
-  !GlobalTimerNotExpired("Iaspell","LOCALS")
-  !GlobalTimerNotExpired("Iasiduration","LOCALS")
-  See(NearestEnemyOf(Myself))
-  OR(2)
-   CheckStatGT(Myself,0,SCRIPTINGSTATE6)
-   !Range(LastSeenBy(Myself),4)
-  Global("Iarefreshsi","LOCALS",0)
-THEN
-  RESPONSE #100
-    SetGlobal("Iarefreshsi","LOCALS",1)
-    SetGlobalTimer("Iaspell","LOCALS",6)
-    SpellNoDec(Myself,WIZARD_SPELL_IMMUNITY_ABJURATION)
-END
-
 // Spell sequencer //
 
 IF
   Allegiance(Myself,ENEMY)
   Global("Iarefreshsi","LOCALS",1)
+  CheckStat(Myself,0,SCRIPTINGSTATE6)
+  CheckStatLT(Myself,1,STONESKINS)
   !GlobalTimerNotExpired("Iaspell","LOCALS")
   Global("Iapcastts","GLOBAL",0)
   Global("Iasequencer","LOCALS",0)
