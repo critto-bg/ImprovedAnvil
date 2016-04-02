@@ -236,15 +236,12 @@ THEN
     TriggerActivation("Tran3020",TRUE)
 END
 
-// time to spawn the demogorgon, start the cutscene //
+// this will block the vanilla route of Demogorgon appearing outside of the keep //
+// the player has to investigate what had happened to the knights and face the demon inside //
 IF
   InMyArea(Player1)
-	Global("DemogorgonChange","GLOBAL",1)
-  Global("Iacut","AR3000",0)
+	Global("SpawnDemogorgon","AR3000",0)
 THEN
 	RESPONSE #100
-    SetGlobal("Iacut","AR3000",1)
-    ClearAllActions()
-    StartCutSceneMode()
-    StartCutScene("S!cutdmo")
+    SetGlobal("SpawnDemogorgon","AR3000",1)
 END
