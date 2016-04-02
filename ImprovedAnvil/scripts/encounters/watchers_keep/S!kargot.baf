@@ -6,6 +6,7 @@ IF
 THEN
   RESPONSE #100
     SetGlobal("Prep","LOCALS",1)
+    SetGlobalTimer("Iasiduration","LOCALS",123)
     ReallyForceSpell(Myself,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
     ReallyForceSpell(Myself,WIZARD_PROTECTION_FROM_ELECTRICITY)
     ReallyForceSpell(Myself,WIZARD_SPELL_TURNING)
@@ -31,6 +32,7 @@ THEN
     SetGlobal("IaDeathKnight08","LOCALS",0)
     SetGlobal("IaDeathKnight09","LOCALS",0)
     SetGlobal("IaDeathKnight10","LOCALS",0)
+    SetGlobal("IaDeathKnight11","LOCALS",0)
     SetGlobal("Prep","LOCALS",0)
     SetGlobal("Iaremove","LOCALS",0)
     SetGlobal("Iacastbreach","LOCALS",0)
@@ -102,9 +104,33 @@ THEN
     SetGlobalTimer("Iaspell","LOCALS",6)
 END
 
+// SI:Abj //
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  GlobalGT("Prep","LOCALS",0)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  OR(2)
+    !GlobalTimerNotExpired("Iasiduration","LOCALS")
+    CheckStat(Myself,0,SCRIPTINGSTATE7)
+  OR(3)
+   CheckStatGT(Myself,0,SCRIPTINGSTATE6)
+   CheckStatGT(Myself,0,STONESKINS)
+   !Range(LastSeenBy(Myself),4)
+  GlobalLT("IaDeathKnight11","LOCALS",3)
+THEN
+  RESPONSE #100
+    IncrementGlobal("IaDeathKnight11","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SetGlobalTimer("Iasiduration","LOCALS",123)
+    ForceSpell(Myself,WIZARD_SPELL_IMMUNITY_ABJURATION)
+END
+
+// PfMW //
+
 IF
   See(NearestEnemyOf(Myself))
-  HPPercentLT(Myself,90)
   OR(2)
    !GlobalTimerNotExpired("IaPfmwTimer","LOCALS")
    CheckStat(Myself,0,SCRIPTINGSTATE6)
@@ -120,11 +146,10 @@ END
 
 IF
   See(NearestEnemyOf(Myself))
-  GlobalLT("IaDeathKnight08","LOCALS",4)
-  CheckStatLT(Myself,56,RESISTCRUSHING)
+  GlobalLT("IaDeathKnight08","LOCALS",5)
+  CheckStatLT(Myself,76,RESISTCRUSHING)
   CheckStat(Myself,0,SCRIPTINGSTATE6)
   !GlobalTimerNotExpired("Iaspell","LOCALS")
-  HPPercentLT(Myself,90)
 THEN
   RESPONSE #100
     IncrementGlobal("IaDeathKnight08","LOCALS",1)
@@ -1068,6 +1093,7 @@ THEN
     SetGlobal("IaDeathKnight08","LOCALS",0)
     SetGlobal("IaDeathKnight09","LOCALS",0)
     SetGlobal("IaDeathKnight10","LOCALS",0)
+    SetGlobal("IaDeathKnight11","LOCALS",0)
     SetGlobal("Prep","LOCALS",0)
     SetGlobal("Iaremove","LOCALS",0)
     SetGlobal("Iacastbreach","LOCALS",0)
@@ -1091,6 +1117,7 @@ THEN
     SetGlobal("IaDeathKnight08","LOCALS",0)
     SetGlobal("IaDeathKnight09","LOCALS",0)
     SetGlobal("IaDeathKnight10","LOCALS",0)
+    SetGlobal("IaDeathKnight11","LOCALS",0)
     SetGlobal("Prep","LOCALS",0)
     SetGlobal("Iaremove","LOCALS",0)
     SetGlobal("Iacastbreach","LOCALS",0)
