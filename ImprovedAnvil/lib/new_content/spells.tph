@@ -1071,7 +1071,7 @@ COPY ~ImprovedAnvil\spl\spin676.spl~ ~override/spin676.spl~
   
 COPY ~ImprovedAnvil\spl\S!SW02.spl~ ~override/S!SW02.spl~
 
-// spells added via patching the existing ones //
+/// spells added via patching the existing ones ///
 
 // Protection from Cold
 COPY_EXISTING ~SPWI320.spl~ ~override/SPDR302.spl~
@@ -1150,4 +1150,13 @@ COPY_EXISTING ~SPWI418.spl~ ~override/sppr418.spl~
   		WRITE_ASCII ("%fx_off%" + 0x14 + (0x30 * ("%abil_fx_idx%" + "%index2%"))) "S!acshdt" #8
   	  END
   	END
+  END
+  
+// Death Wish - Nulonga's dummy spell to show the player that he casts this ability at the start of the combat
+COPY_EXISTING ~SPIN117.spl~ ~override/S!nulong.spl~
+  SAY NAME1 @10267
+
+  // remove all effects
+  LAUNCH_PATCH_FUNCTION ~DELETE_SPELL_EFFECT~ STR_VAR
+    opcode_to_delete = "-1"
   END
