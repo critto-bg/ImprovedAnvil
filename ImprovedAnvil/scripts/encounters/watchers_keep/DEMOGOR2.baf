@@ -1,13 +1,5 @@
 /// Demogorgon ///
 
-IF
-	AreaCheck("AR3020")
-	Global("Destroy3020Demo","GLOBAL",1)
-THEN
-	RESPONSE #100
-		DestroySelf()
-END
-
 // initial pre-buff, reset variables //
 
 IF
@@ -86,16 +78,6 @@ THEN
 		SetGlobal("SPRITE_IS_DEADDEMOGOR2","GLOBAL",1)
 		EndCutSceneMode()
 		DestroySelf()
-END
-
-// disable all exits if Demogorgon appears outside the Watcher's Keep // 
-IF
-  AreaCheck("AR3000")
-  See(NearestEnemyOf(Myself))
-  Global("Iaexit3","AR3000",0)
-THEN
-  RESPONSE #100
-    SetGlobal("Iaexit3","AR3000",1)
 END
 
 // summon demons //
