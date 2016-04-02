@@ -89,27 +89,14 @@ END
 IF
   Allegiance(Myself,ENEMY)
 	See(NearestEnemyOf(Myself))
-  AreaCheck("AR3000")
 	Global("Iadaemons","LOCALS",0)
 THEN
 	RESPONSE #100
 		SetGlobal("Iadaemons","LOCALS",1)
-		SetGlobalTimer("Iareinf","LOCALS",9)
+		SetGlobalTimer("Iareinf","LOCALS",15)
 		DisplayStringHead(Myself,70999) // Now you will pay, foolish mortals!
-		ReallyForceSpell(NearestEnemyOf(Myself),SUMMON_INFERNAL_HOST) // SPIN549.SPL (Summon the Infernal Host)
-END
-
-IF
-  Allegiance(Myself,ENEMY)
-	See(NearestEnemyOf(Myself))
-  AreaCheck("AR3020")
-	Global("Iadaemons","LOCALS",0)
-THEN
-	RESPONSE #100
-		SetGlobal("Iadaemons","LOCALS",1)
-		SetGlobalTimer("Iareinf","LOCALS",9)
-		DisplayStringHead(Myself,70999) // Now you will pay, foolish mortals!
-		ReallyForceSpell(NearestEnemyOf(Myself),DEMOGORGON_GATE) // SPIN548.SPL (Gate)
+    CreateCreature("S!ladyde",[389.837],0)
+    CreateCreature("S!ladyde",[755.484],0)
 END
 
 IF
@@ -117,12 +104,11 @@ IF
 	See(NearestEnemyOf(Myself))
   Global("Iadaemons","LOCALS",1)
   Global("Iaprebuf","LOCALS",1)
-	NumCreatureVsParty("S!LADYDE",0)
 	!GlobalTimerNotExpired("Iareinf","LOCALS")
   !GlobalTimerNotExpired("Iaspell","LOCALS")
 THEN
 	RESPONSE #100
-		SetGlobalTimer("Iareinf","LOCALS",9)
+		SetGlobalTimer("Iareinf","LOCALS",15)
     SetGlobalTimer("Iaspell","LOCALS",3)
 		DisplayStringHead(Myself,70998) // Come, my minions!
 		ForceSpell(Myself,DEMOGORGON_GATE) // SPIN548.SPL (Gate)
