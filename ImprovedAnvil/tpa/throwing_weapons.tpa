@@ -1,0 +1,46 @@
+// This function creates melee-only and full, identified versions of a throwing weapon (axe or hammer) //
+// The player activates a magical ability, located under the backpack icon of the quick access panel //
+// The original item is replaced with a melee-only copy, such item has the "M" suffix //
+// The melee-only item afterwards is replaced with a full (ranged and melee) copy that is identifed //
+// Thanks to the authors of Item Revisions for the idea //
+
+DEFINE_ACTION_FUNCTION throwing_weapons
+STR_VAR
+  remove_ranged_header = "" // if this is set, the code will remove ranged header
+  item_name = ""             // the original file to be used as a template
+  new_item_name = ""         // the name of the new file
+  old_item_name = ""         // the code of the item to replace new item with, when the item ability is used
+BEGIN
+  COPY_EXISTING ~%item_name%.itm~      ~override/%new_item_name%.itm~
+
+    WRITE_SHORT 0x042 0 // Lore to ID
+
+    // remove "ranged" header
+    PATCH_IF ~%remove_ranged_header%~ STRING_EQUAL ~1~ THEN BEGIN
+      LAUNCH_PATCH_FUNCTION ~DELETE_ITEM_HEADER~
+        INT_VAR
+          header_type = 2
+      END
+    END
+
+    // change item codes for magical header
+    LAUNCH_PATCH_FUNCTION ~ALTER_ITEM_EFFECT~
+      INT_VAR
+        check_headers = 1
+        header_type = 3
+        match_opcode = 123
+      STR_VAR
+        resource = EVALUATE_BUFFER ~%new_item_name%~
+    END
+
+    LAUNCH_PATCH_FUNCTION ~ALTER_ITEM_EFFECT~
+      INT_VAR
+        check_headers = 1
+        header_type = 3
+        match_opcode = 122
+      STR_VAR
+        resource = EVALUATE_BUFFER ~%old_item_name%~
+    END
+
+    BUT_ONLY
+END
