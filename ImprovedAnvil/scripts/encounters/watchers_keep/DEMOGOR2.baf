@@ -183,7 +183,7 @@ IF
   !HasItemEquiped("S!sw12",LastSeenBy(Myself))
   !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
   Global("Iaprebuf","LOCALS",1)
-  RandomNum(2,1)
+  RandomNum(3,1)
 THEN
   RESPONSE #100
     SetGlobalTimer("Iaspell","LOCALS",3)
@@ -224,7 +224,7 @@ IF
   !HasItemEquiped("S!sw12",LastSeenBy(Myself))
   !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
   Global("Iaprebuf","LOCALS",1)
-  RandomNum(2,1)
+  RandomNum(3,1)
 THEN
   RESPONSE #100
     SetGlobalTimer("Iaspell","LOCALS",3)
@@ -265,7 +265,7 @@ IF
   !HasItemEquiped("S!sw12",LastSeenBy(Myself))
   !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
   Global("Iaprebuf","LOCALS",1)
-  RandomNum(2,1)
+  RandomNum(3,1)
 THEN
   RESPONSE #100
     SetGlobalTimer("Iaspell","LOCALS",3)
@@ -1051,6 +1051,64 @@ THEN
     ReallyForceSpell(Myself,WIZARD_TRUE_SIGHT)
 END
 
+// Lower Fire Resistance //
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !GlobalTimerNotExpired("Iafireres","LOCALS")
+  Global("Iaprebuf","LOCALS",1)
+  See([PC])
+  CheckStatGT(LastSeenBy(Myself),49,RESISTFIRE)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iaspell","LOCALS",3)
+    SetGlobalTimer("Iafireres","LOCALS",6)
+    ForceSpell(LastSeenBy(Myself),DRAGON_LOWER_FIRE)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !GlobalTimerNotExpired("Iafireres","LOCALS")
+  Global("Iaprebuf","LOCALS",1)
+  See(SecondNearest([PC]))
+  CheckStatGT(LastSeenBy(Myself),49,RESISTFIRE)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iaspell","LOCALS",3)
+    SetGlobalTimer("Iafireres","LOCALS",6)
+    ForceSpell(LastSeenBy(Myself),DRAGON_LOWER_FIRE)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !GlobalTimerNotExpired("Iafireres","LOCALS")
+  Global("Iaprebuf","LOCALS",1)
+  See(ThirdNearest([PC]))
+  CheckStatGT(LastSeenBy(Myself),49,RESISTFIRE)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iaspell","LOCALS",3)
+    SetGlobalTimer("Iafireres","LOCALS",6)
+    ForceSpell(LastSeenBy(Myself),DRAGON_LOWER_FIRE)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !GlobalTimerNotExpired("Iafireres","LOCALS")
+  Global("Iaprebuf","LOCALS",1)
+  See(FourthNearest([PC]))
+  CheckStatGT(LastSeenBy(Myself),49,RESISTFIRE)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iaspell","LOCALS",3)
+    SetGlobalTimer("Iafireres","LOCALS",6)
+    ForceSpell(LastSeenBy(Myself),DRAGON_LOWER_FIRE)
+END
+
 // Firestorm + Implosion //
 
 IF
@@ -1065,7 +1123,7 @@ IF
 THEN
   RESPONSE #100
     SetGlobalTimer("Iaspell","LOCALS",3)
-    SetGlobalTimer("Iastorm","LOCALS",12)
+    SetGlobalTimer("Iastorm","LOCALS",9)
     ReallyForceSpell(LastSeenBy(Myself),CLERIC_FIRE_STORM)
 END
 
@@ -1081,7 +1139,7 @@ IF
 THEN
   RESPONSE #100
     SetGlobalTimer("Iaspell","LOCALS",3)
-    SetGlobalTimer("Iastorm","LOCALS",12)
+    SetGlobalTimer("Iastorm","LOCALS",9)
     ReallyForceSpell(LastSeenBy(Myself),CLERIC_FIRE_STORM)
 END
 
@@ -1097,7 +1155,7 @@ IF
 THEN
   RESPONSE #100
     SetGlobalTimer("Iaspell","LOCALS",3)
-    SetGlobalTimer("Iastorm","LOCALS",12)
+    SetGlobalTimer("Iastorm","LOCALS",9)
     ReallyForceSpell(LastSeenBy(Myself),CLERIC_FIRE_STORM)
 END
 
@@ -1112,12 +1170,13 @@ IF
   OR(2)
     CheckStatLT(LastSeenBy(Myself),60,RESISTFIRE)
     CheckStatLT(LastSeenBy(Myself),60,RESISTCRUSHING)
+    CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE12)
   Global("Iaprebuf","LOCALS",1)
   RandomNumGT(3,1)
 THEN
   RESPONSE #100
     SetGlobalTimer("Iaspell","LOCALS",3)
-    SetGlobalTimer("Iaimplosion","LOCALS",9)
+    SetGlobalTimer("Iaimplosion","LOCALS",6)
     ReallyForceSpell(LastSeenBy(Myself),CLERIC_IMPLOSION)
 END
 
