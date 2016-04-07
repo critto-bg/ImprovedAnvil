@@ -148,6 +148,10 @@ REPLACE WSMITH01
     IF ~PartyHasItem("s!misc61") Global("Iabrac02forged","GLOBAL",0)~ THEN REPLY @612 GOTO misc61
     IF ~PartyHasItem("s!brac02") Global("Iabrac03forged","GLOBAL",0)~ THEN REPLY @614 GOTO brac03
     IF ~PartyHasItem("wa2dak") Global("Iadakkonforged","GLOBAL",0)~ THEN REPLY @616 GOTO dakkon
+    IF ~OR(3) PartyHasItem("Ax1h16")
+              PartyHasItem("Ax1h16m")
+              PartyHasItem("Ax1h16f")~
+      THEN REPLY @618 GOTO rage
     IF ~~ THEN REPLY #992 EXIT
   END
 END
@@ -1400,7 +1404,7 @@ APPEND WSMITH01
 
   IF ~~ THEN BEGIN elf
     SAY @555 IF ~~ THEN REPLY @2 GOTO 13
-    IF ~GlobalGT("Ialegacybook","GLOBAL",0) GlobalLT("Ialegacybook","GLOBAL",4) 
+    IF ~GlobalGT("Ialegacybook","GLOBAL",0) GlobalLT("Ialegacybook","GLOBAL",4)
         PartyHasItem("S!misc16") PartyHasItem("S!misc06") NumItemsPartyGT("misc44",1)
         PartyGoldGT(49999)~
       THEN REPLY @3
@@ -1881,14 +1885,14 @@ APPEND WSMITH01
           GiveItemCreate("s!sw19",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
-  
+
   IF ~~ THEN BEGIN misc61
     SAY @613 IF ~~ THEN REPLY @2 GOTO 13
   END
-  
+
   IF ~~ THEN BEGIN brac03
     SAY @615 IF ~~ THEN REPLY @2 GOTO 13
-    IF ~PartyHasItem("s!brac02") PartyHasItem("s!misc02") NumItemsPartyGT("potn14",2) PartyGoldGT(29999) Global("Iabrac03forged","GLOBAL",0)~ 
+    IF ~PartyHasItem("s!brac02") PartyHasItem("s!misc02") NumItemsPartyGT("potn14",2) PartyGoldGT(29999) Global("Iabrac03forged","GLOBAL",0)~
       THEN REPLY @3
       DO ~SetGlobal("Iabrac03forged","GLOBAL",1)
           TakePartyGold(30000)      DestroyGold(30000)
@@ -1901,12 +1905,12 @@ APPEND WSMITH01
           CreateVisualEffect("spcrtwpn",[401.348])~
       EXIT
   END
-  
+
   IF ~~ THEN BEGIN dakkon
     SAY @617 IF ~~ THEN REPLY @2 GOTO 13
-    IF ~PartyHasItem("wa2dak") PartyHasItem("s!sw20") PartyHasItem("s!sw21") 
+    IF ~PartyHasItem("wa2dak") PartyHasItem("s!sw20") PartyHasItem("s!sw21")
         PartyHasItem("gith") PartyHasItem("S!misc02") PartyHasItem("S!misc01")
-        NumItemsPartyGT("misc9y",2) PartyGoldGT(74999) Global("Iadakkonforged","GLOBAL",0)~ 
+        NumItemsPartyGT("misc9y",2) PartyGoldGT(74999) Global("Iadakkonforged","GLOBAL",0)~
       THEN REPLY @3
       DO ~SetGlobal("Iadakkonforged","GLOBAL",1)
           TakePartyGold(75000)      DestroyGold(75000)
@@ -1920,6 +1924,34 @@ APPEND WSMITH01
           TakePartyItemNum("misc9y",1)   DestroyItem("misc9y")
           TakePartyItemNum("misc9y",1)   DestroyItem("misc9y")
           GiveItemCreate("s!sw22",Player1,1,1,1)
+          CreateVisualEffect("spcrtwpn",[401.348])~
+      EXIT
+  END
+
+  IF ~~ THEN BEGIN rage
+    SAY @619 IF ~~ THEN REPLY @2 GOTO 13
+    IF ~PartyHasItem("SW2H03") PartyHasItem("BLUN09") NumItemsPartyGT("potn33",2)
+        NumItemsPartyGT("potn28",2) NumItemsPartyGT("potn05",2) PartyGoldGT(74999)
+        PartyHasItem("S!MISC02")
+        OR(3) PartyHasItem("Ax1h16") PartyHasItem("Ax1h16m") PartyHasItem("Ax1h16f")~
+      THEN REPLY @3
+      DO ~TakePartyGold(75000)      DestroyGold(75000)
+          TakePartyItemNum("Ax1h16",1)   DestroyItem("Ax1h16")
+          TakePartyItemNum("Ax1h16f",1)   DestroyItem("Ax1h16f")
+          TakePartyItemNum("Ax1h16m",1)   DestroyItem("Ax1h16m")
+          TakePartyItemNum("SW2H03",1)   DestroyItem("SW2H03")
+          TakePartyItemNum("BLUN09",1)   DestroyItem("BLUN09")
+          TakePartyItemNum("potn33",1)   DestroyItem("potn33")
+          TakePartyItemNum("potn33",1)   DestroyItem("potn33")
+          TakePartyItemNum("potn33",1)   DestroyItem("potn33")
+          TakePartyItemNum("potn28",1)   DestroyItem("potn28")
+          TakePartyItemNum("potn28",1)   DestroyItem("potn28")
+          TakePartyItemNum("potn28",1)   DestroyItem("potn28")
+          TakePartyItemNum("potn05",1)   DestroyItem("potn05")
+          TakePartyItemNum("potn05",1)   DestroyItem("potn05")
+          TakePartyItemNum("potn05",1)   DestroyItem("potn05")
+          TakePartyItemNum("S!MISC02",1)   DestroyItem("S!MISC02")
+          GiveItemCreate("s!axe04",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~
       EXIT
   END
