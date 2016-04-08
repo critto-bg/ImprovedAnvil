@@ -6,7 +6,7 @@
 // Fifth Level Spells (8): Spell Immunity, Breach, Lower Res, Larloch Interrupter //
 // Sixth Level Spells (9): True sight, Globe of Inv, ST, pfmw x6, Death Spell x6 //
 // Seventh Level Spells (9): Ruby Ray x9 //
-// Eighth Level Spells (9): ADHW x8, tpt, foreknowledge //
+// Eighth Level Spells (9): ADHW x3, Pierce Shield x5, TPT, Foreknowledge //
 // Ninth Level Spells (8): improved alacrity, comet, pwkill //
 
 // initial pre-buff //
@@ -34,6 +34,8 @@ THEN
     SetGlobal("Ia9thlevel","LOCALS",0)
     SetGlobal("Iasequencer","LOCALS",0)
     SetGlobal("Iarefreshsi","LOCALS",0)
+    SetGlobal("Iaadhw","LOCALS",0)
+    SetGlobal("Iapierceshld","LOCALS",0)
     ReallyForceSpell(Myself,WIZARD_SHIELD) // shield
     ReallyForceSpell(Myself,WIZARD_ARMOR) // armor
     ReallyForceSpell(Myself,WIZARD_BLUR) // Blur
@@ -49,13 +51,13 @@ THEN
     ReallyForceSpellRES("SPWI807",Myself) // Foreknowledge
     ReallyForceSpellRES("SPWI921",Myself) // Improved Alacrity
     ReallyForceSpellRES("S!nulong",Myself) // Death Wish
-    DisplayStringHead(Myself,2778) // Death With
+    DisplayStringHead(Myself,2778) // Death Wish
 END
 
 IF
   Detect([GOODCUTOFF])
   See(NearestEnemyOf(Myself))
-  Global("Prep","LOCALS",1)
+  GlobalGT("Prep","LOCALS",0)
   GlobalTimerExpired("Iademorest","GLOBAL")
 THEN
   RESPONSE #100
@@ -1548,7 +1550,6 @@ END
 
 IF
   Allegiance(Myself,ENEMY)
-  !HasItem("S!mom",Myself)
   CheckStatGT(Myself,0,AURACLEANSING)
   See(NearestEnemyOfType([PC.0.0.MAGE_ALL]))
   !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
@@ -2634,6 +2635,68 @@ THEN
     ReallyForceSpell(LastSeenBy(Myself),WIZARD_SLOW)
 END
 
+// Pierce Shield //
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  See([PC])
+  OR(2)
+    CheckStatGT(LastSeenBy(Myself),49,RESISTMAGIC)
+    CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE7)
+  GlobalLT("Ia8thlevel","LOCALS",8)
+  GlobalLT("Iapierceshld","LOCALS",5)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Ia8thlevel","LOCALS",1)
+    IncrementGlobal("Iapierceshld","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDec(LastSeenBy(Myself),WIZARD_PIERCE_SHIELD)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  See(SecondNearest([PC]))
+  OR(2)
+    CheckStatGT(LastSeenBy(Myself),49,RESISTMAGIC)
+    CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE7)
+  GlobalLT("Ia8thlevel","LOCALS",8)
+  GlobalLT("Iapierceshld","LOCALS",5)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Ia8thlevel","LOCALS",1)
+    IncrementGlobal("Iapierceshld","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDec(LastSeenBy(Myself),WIZARD_PIERCE_SHIELD)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  See(ThirdNearest([PC]))
+  OR(2)
+    CheckStatGT(LastSeenBy(Myself),49,RESISTMAGIC)
+    CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE7)
+  GlobalLT("Ia8thlevel","LOCALS",8)
+  GlobalLT("Iapierceshld","LOCALS",5)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Ia8thlevel","LOCALS",1)
+    IncrementGlobal("Iapierceshld","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDec(LastSeenBy(Myself),WIZARD_PIERCE_SHIELD)
+END
+
 // Comet //
 
 IF
@@ -2694,9 +2757,11 @@ IF
   !CheckStat(LastSeenBy(Myself),5,SCRIPTINGSTATE7)
   !HasItemEquiped("S!halb02",LastSeenBy(Myself))
   GlobalLT("Ia8thlevel","LOCALS",8)
+  GlobalLT("Iaadhw","LOCALS",3)
 THEN
   RESPONSE #100
     IncrementGlobal("Ia8thlevel","LOCALS",1)
+    IncrementGlobal("Iaadhw","LOCALS",1)
     SetGlobalTimer("Iaspell","LOCALS",6)
     SpellNoDec(LastSeenBy(Myself),WIZARD_ABI_DALZIMS_HORRID_WILTING)
 END
@@ -2712,9 +2777,11 @@ IF
   !CheckStat(LastSeenBy(Myself),5,SCRIPTINGSTATE7)
   !HasItemEquiped("S!halb02",LastSeenBy(Myself))
   GlobalLT("Ia8thlevel","LOCALS",8)
+  GlobalLT("Iaadhw","LOCALS",3)
 THEN
   RESPONSE #100
     IncrementGlobal("Ia8thlevel","LOCALS",1)
+    IncrementGlobal("Iaadhw","LOCALS",1)
     SetGlobalTimer("Iaspell","LOCALS",6)
     SpellNoDec(LastSeenBy(Myself),WIZARD_ABI_DALZIMS_HORRID_WILTING)
 END
@@ -2730,9 +2797,11 @@ IF
   !CheckStat(LastSeenBy(Myself),5,SCRIPTINGSTATE7)
   !HasItemEquiped("S!halb02",LastSeenBy(Myself))
   GlobalLT("Ia8thlevel","LOCALS",8)
+  GlobalLT("Iaadhw","LOCALS",3)
 THEN
   RESPONSE #100
     IncrementGlobal("Ia8thlevel","LOCALS",1)
+    IncrementGlobal("Iaadhw","LOCALS",1)
     SetGlobalTimer("Iaspell","LOCALS",6)
     SpellNoDec(LastSeenBy(Myself),WIZARD_ABI_DALZIMS_HORRID_WILTING)
 END
@@ -2997,7 +3066,7 @@ END
 IF
   Detect([GOODCUTOFF])
   See(NearestEnemyOf(Myself))
-  Global("Prep","LOCALS",1)
+  GlobalGT("Prep","LOCALS",0)
   GlobalTimerExpired("Iademorest","GLOBAL")
 THEN
   RESPONSE #100
