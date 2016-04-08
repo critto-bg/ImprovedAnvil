@@ -2,9 +2,9 @@
 // First Level Spells (8): Magic Missile, Shield, Armor //
 // Second Level Spells (8): Acid Arrow, BLUR //
 // Third Level Spells (8): remove magic, flame arrow, MMM x4 //
-// Fourth Level Spells (8): Stoneskin x7, fire shield //
+// Fourth Level Spells (8): Stoneskin x5, fire shield //
 // Fifth Level Spells (8): Spell Immunity, Breach, Lower Res, Larloch Interrupter //
-// Sixth Level Spells (9): True sight, Globe of Inv, ST, pfmw x6, Death Spell x6 //
+// Sixth Level Spells (9): True sight, Globe of Inv, ST, pfmw x3, PW:Silence x3, Death Spell x6 //
 // Seventh Level Spells (9): Ruby Ray x9 //
 // Eighth Level Spells (9): ADHW x3, Pierce Shield x5, TPT, Foreknowledge //
 // Ninth Level Spells (8): improved alacrity, comet, pwkill //
@@ -36,6 +36,8 @@ THEN
     SetGlobal("Iarefreshsi","LOCALS",0)
     SetGlobal("Iaadhw","LOCALS",0)
     SetGlobal("Iapierceshld","LOCALS",0)
+    SetGlobal("Iapfmw","LOCALS",0)
+    SetGlobal("Iasilence","LOCALS",0)
     ReallyForceSpell(Myself,WIZARD_SHIELD) // shield
     ReallyForceSpell(Myself,WIZARD_ARMOR) // armor
     ReallyForceSpell(Myself,WIZARD_BLUR) // Blur
@@ -251,9 +253,11 @@ IF
    CheckStat(Myself,0,SCRIPTINGSTATE6)
   See(NearestEnemyOf(Myself))
   GlobalLT("Ia6thlevel","LOCALS",6)
+  GlobalLT("Iapfmw","LOCALS",3)
 THEN
   RESPONSE #100
     IncrementGlobal("Ia6thlevel","LOCALS",1)
+    IncrementGlobal("Iapfmw","LOCALS",1)
     SetGlobalTimer("pfmw","LOCALS",24)
     SetGlobalTimer("Iaspell","LOCALS",6)
     SpellNoDec(Myself,WIZARD_PROTECTION_FROM_MAGIC_WEAPONS)
@@ -267,9 +271,11 @@ IF
    CheckStat(Myself,0,SCRIPTINGSTATE6)
   See(NearestEnemyOf(Myself))
   GlobalLT("Ia6thlevel","LOCALS",6)
+  GlobalLT("Iapfmw","LOCALS",3)
 THEN
   RESPONSE #100
     IncrementGlobal("Ia6thlevel","LOCALS",1)
+    IncrementGlobal("Iapfmw","LOCALS",1)
     SetGlobalTimer("pfmw","LOCALS",24)
     SetGlobalTimer("Iaspell","LOCALS",6)
     SpellNoDec(Myself,WIZARD_PROTECTION_FROM_MAGIC_WEAPONS)
@@ -308,7 +314,7 @@ IF
   See(NearestEnemyOf(Myself))
   CheckStatLT(Myself,1,STONESKINS)
   CheckStat(Myself,0,SCRIPTINGSTATE6)
-  GlobalLT("Ia4thlevel","LOCALS",7)
+  GlobalLT("Ia4thlevel","LOCALS",5)
 THEN
   RESPONSE #100
     IncrementGlobal("Ia4thlevel","LOCALS",1)
@@ -322,7 +328,7 @@ IF
   See(NearestEnemyOf(Myself))
   CheckStatLT(Myself,1,STONESKINS)
   CheckStat(Myself,0,SCRIPTINGSTATE6)
-  GlobalLT("Ia4thlevel","LOCALS",7)
+  GlobalLT("Ia4thlevel","LOCALS",5)
 THEN
   RESPONSE #100
     IncrementGlobal("Ia4thlevel","LOCALS",1)
@@ -1164,6 +1170,179 @@ THEN
     IncrementGlobal("Ia9thlevel","LOCALS",1)
     SetGlobalTimer("Iaspell","LOCALS",6)
     SpellNoDec(Player6,WIZARD_POWER_WORD_KILL)
+END
+
+// Power Word: Silence //
+
+IF
+  Allegiance(Myself,ENEMY)
+  CheckStatGT(Myself,0,AURACLEANSING)
+  OR(2)
+    See(NearestEnemyOfType([PC.0.0.MAGE_ALL]))
+    See(NearestEnemyOfType([PC.0.0.SORCERER]))
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+  !StateCheck(LastSeenBy(Myself),STATE_SILENCED)
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE7)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE9)
+  !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+  !CheckStatGT(LastSeenBy(Myself),0,AURACLEANSING)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE20)
+  !HasItemEquiped("amul21",LastSeenBy(Myself))
+  !HasItemEquiped("S!amul05",LastSeenBy(Myself))
+  !HasItemEquiped("S!amul06",LastSeenBy(Myself))
+  GlobalLT("Ia6thlevel","LOCALS",6)
+  GlobalLT("Iasilence","LOCALS",3)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Ia6thlevel","LOCALS",1)
+    IncrementGlobal("Iasilence","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDec(LastSeenBy(Myself),WIZARD_POWER_WORD_SILENCE)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !CheckStatGT(Myself,0,AURACLEANSING)
+  OR(2)
+    See(NearestEnemyOfType([PC.0.0.MAGE_ALL]))
+    See(NearestEnemyOfType([PC.0.0.SORCERER]))
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+  !StateCheck(LastSeenBy(Myself),STATE_SILENCED)
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE7)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE9)
+  !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+  !CheckStatGT(LastSeenBy(Myself),0,AURACLEANSING)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE20)
+  !HasItemEquiped("amul21",LastSeenBy(Myself))
+  !HasItemEquiped("S!amul05",LastSeenBy(Myself))
+  !HasItemEquiped("S!amul06",LastSeenBy(Myself))
+  GlobalLT("Ia6thlevel","LOCALS",6)
+  GlobalLT("Iasilence","LOCALS",3)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Ia6thlevel","LOCALS",1)
+    IncrementGlobal("Iasilence","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDec(LastSeenBy(Myself),WIZARD_POWER_WORD_SILENCE)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  CheckStatGT(Myself,0,AURACLEANSING)
+  OR(2)
+    See(SecondNearestEnemyOfType([PC.0.0.MAGE_ALL]))
+    See(SecondNearestEnemyOfType([PC.0.0.SORCERER]))
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+  !StateCheck(LastSeenBy(Myself),STATE_SILENCED)
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE7)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE9)
+  !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+  !CheckStatGT(LastSeenBy(Myself),0,AURACLEANSING)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE20)
+  !HasItemEquiped("amul21",LastSeenBy(Myself))
+  !HasItemEquiped("S!amul05",LastSeenBy(Myself))
+  !HasItemEquiped("S!amul06",LastSeenBy(Myself))
+  GlobalLT("Ia6thlevel","LOCALS",6)
+  GlobalLT("Iasilence","LOCALS",3)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Ia6thlevel","LOCALS",1)
+    IncrementGlobal("Iasilence","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDec(LastSeenBy(Myself),WIZARD_POWER_WORD_SILENCE)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !CheckStatGT(Myself,0,AURACLEANSING)
+  OR(2)
+    See(SecondNearestEnemyOfType([PC.0.0.MAGE_ALL]))
+    See(SecondNearestEnemyOfType([PC.0.0.SORCERER]))
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+  !StateCheck(LastSeenBy(Myself),STATE_SILENCED)
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE7)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE9)
+  !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+  !CheckStatGT(LastSeenBy(Myself),0,AURACLEANSING)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE20)
+  !HasItemEquiped("amul21",LastSeenBy(Myself))
+  !HasItemEquiped("S!amul05",LastSeenBy(Myself))
+  !HasItemEquiped("S!amul06",LastSeenBy(Myself))
+  GlobalLT("Ia6thlevel","LOCALS",6)
+  GlobalLT("Iasilence","LOCALS",3)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Ia6thlevel","LOCALS",1)
+    IncrementGlobal("Iasilence","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDec(LastSeenBy(Myself),WIZARD_POWER_WORD_SILENCE)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  CheckStatGT(Myself,0,AURACLEANSING)
+  OR(2)
+    See(ThirdNearestEnemyOfType([PC.0.0.MAGE_ALL]))
+    See(ThirdNearestEnemyOfType([PC.0.0.SORCERER]))
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+  !StateCheck(LastSeenBy(Myself),STATE_SILENCED)
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE7)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE9)
+  !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+  !CheckStatGT(LastSeenBy(Myself),0,AURACLEANSING)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE20)
+  !HasItemEquiped("amul21",LastSeenBy(Myself))
+  !HasItemEquiped("S!amul05",LastSeenBy(Myself))
+  !HasItemEquiped("S!amul06",LastSeenBy(Myself))
+  GlobalLT("Ia6thlevel","LOCALS",6)
+  GlobalLT("Iasilence","LOCALS",3)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Ia6thlevel","LOCALS",1)
+    IncrementGlobal("Iasilence","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDec(LastSeenBy(Myself),WIZARD_POWER_WORD_SILENCE)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !CheckStatGT(Myself,0,AURACLEANSING)
+  OR(2)
+    See(ThirdNearestEnemyOfType([PC.0.0.MAGE_ALL]))
+    See(ThirdNearestEnemyOfType([PC.0.0.SORCERER]))
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+  !StateCheck(LastSeenBy(Myself),STATE_SILENCED)
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE7)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE9)
+  !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+  !CheckStatGT(LastSeenBy(Myself),0,AURACLEANSING)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE20)
+  !HasItemEquiped("amul21",LastSeenBy(Myself))
+  !HasItemEquiped("S!amul05",LastSeenBy(Myself))
+  !HasItemEquiped("S!amul06",LastSeenBy(Myself))
+  GlobalLT("Ia6thlevel","LOCALS",6)
+  GlobalLT("Iasilence","LOCALS",3)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Ia6thlevel","LOCALS",1)
+    IncrementGlobal("Iasilence","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDec(LastSeenBy(Myself),WIZARD_POWER_WORD_SILENCE)
 END
 
 // Spell sequencer //
