@@ -1,3 +1,14 @@
+// On-death condition //
+
+IF
+  Die()
+THEN
+	RESPONSE #100
+    ReallyForceSpellDeadRES("SPINI93",Myself)
+END
+
+// Init & pre-buff //
+
 IF
   See(NearestEnemyOf(Myself))
   Global("Iabalor01","LOCALS",0)
@@ -6,13 +17,13 @@ THEN
     SetGlobal("Iabalor01","LOCALS",1)
     SetGlobalTimer("Iabalorrest","GLOBAL",2100)
     ReallyForceSpell(Myself,DRAGON_STONE_SKIN)
-    ReallyForceSpell(Myself,WIZARD_FIRE_SHIELD_RED)
-    ReallyForceSpell(Myself,WIZARD_FIRE_SHIELD_BLUE)
     ReallyForceSpell(Myself,WIZARD_IMPROVED_HASTE)
     ReallyForceSpell(Myself,WIZARD_SPELL_IMMUNITY_ABJURATION)
+    ReallyForceSpell(Myself,WIZARD_PROTECTION_FROM_MAGIC_WEAPONS) // PfMW
     ReallyForceSpellRES("SPWII02",Myself) //
     ReallyForceSpellRES("SPWII03",Myself) //
     ReallyForceSpellRES("jwglobe",Myself) //
+    ReallyForceSpellRES("SPINI94",Myself) // Flaming Body
 END
 
 IF
@@ -32,7 +43,7 @@ THEN
     SetGlobal("Iabalor07","LOCALS",0)
     SetGlobal("Iabalor08","LOCALS",0)
     SetGlobal("Iabalor09","LOCALS",0)
-    SetGlobal("Iabalor10","LOCALS",0)
+    SetGlobal("Iabalor10","LOCALS",0) // unused
     SetGlobal("Iabalor11","LOCALS",0)
     SetGlobal("Iabalor12","LOCALS",0)
     SetGlobal("Ianoward","LOCALS",0)
@@ -41,6 +52,8 @@ THEN
     SetGlobal("Iaconting","LOCALS",0)
     ReallyForceSpellRES("SPWII07",Myself)
 END
+
+// Contingency: FoD //
 
 IF
   Allegiance(Myself,ENEMY)
@@ -504,6 +517,8 @@ THEN
     ReallyForceSpell(Player6,WIZARD_FINGER_OF_DEATH)
 END
 
+// reset anticheat //
+
 IF
   See(NearestEnemyOf(Myself))
   Global("partyfled","LOCALS",1)
@@ -511,6 +526,8 @@ THEN
   RESPONSE #100
     SetGlobal("partyfled","LOCALS",0)
 END
+
+// True Sight, anti-illusions //
 
 IF
   !GlobalTimerNotExpired("Iaspell","LOCALS")
@@ -608,7 +625,8 @@ THEN
     ReallyForceSpell(LastSeenBy(Myself),WIZARD_DISPEL_MAGIC)
 END
 
-// Contingency (PfMW / Stoneskin / Spell Shield)
+// Contingency (PfMW / Stoneskin / Spell Shield) //
+
 IF
   See(NearestEnemyOf(Myself))
   !GlobalTimerNotExpired("Iaspell","LOCALS")
@@ -626,6 +644,8 @@ THEN
     ReallyForceSpell(Myself,DRAGON_STONE_SKIN)
 END
 
+// PfMW //
+
 IF
   See(NearestEnemyOf(Myself))
   Range(LastSeenBy(Myself),5)
@@ -640,6 +660,8 @@ THEN
     ReallyForceSpell(Myself,PROTECTION_MAGIC_WEAPON_NOEFF)
 END
 
+// Stoneskin //
+
 IF
   See(NearestEnemyOf(Myself))
   Range(LastSeenBy(Myself),5)
@@ -653,6 +675,8 @@ THEN
     SetGlobalTimer("Iaspell","LOCALS",6)
     ReallyForceSpell(Myself,DRAGON_STONE_SKIN)
 END
+
+// Remove Magic //
 
 IF
   Allegiance(Myself,ENEMY)
@@ -750,6 +774,8 @@ THEN
     ReallyForceSpell(LastSeenBy(Myself),WIZARD_DISPEL_MAGIC)
 END
 
+// Greater Doom //
+
 IF
   Allegiance(Myself,ENEMY)
   Global("Iapcastts","GLOBAL",0)
@@ -760,7 +786,9 @@ IF
   !CheckStatGT(Player1,0,SCRIPTINGSTATE2)
   !StateCheck(Player1,STATE_MIRRORIMAGE)
   CheckStatLT(Player1,51,RESISTMAGIC)
-  CheckStatLT(Player1,9,SAVEVSDEATH)
+  OR(2)
+    CheckStatLT(Player6,9,SAVEVSDEATH)
+    CheckStatLT(Player6,9,SAVEVSSPELL)
   !CheckStat(Player1,2,SCRIPTINGSTATE3)
   !HasBounceEffects(Player1)
   !GlobalTimerNotExpired("Iagdoom","LOCALS")
@@ -783,7 +811,9 @@ IF
   !CheckStatGT(Player2,0,SCRIPTINGSTATE2)
   !StateCheck(Player2,STATE_MIRRORIMAGE)
   CheckStatLT(Player2,51,RESISTMAGIC)
-  CheckStatLT(Player2,9,SAVEVSDEATH)
+  OR(2)
+    CheckStatLT(Player6,9,SAVEVSDEATH)
+    CheckStatLT(Player6,9,SAVEVSSPELL)
   !CheckStat(Player2,2,SCRIPTINGSTATE3)
   !HasBounceEffects(Player2)
   !GlobalTimerNotExpired("Iagdoom","LOCALS")
@@ -806,7 +836,9 @@ IF
   !CheckStatGT(Player3,0,SCRIPTINGSTATE2)
   !StateCheck(Player3,STATE_MIRRORIMAGE)
   CheckStatLT(Player3,51,RESISTMAGIC)
-  CheckStatLT(Player3,9,SAVEVSDEATH)
+  OR(2)
+    CheckStatLT(Player6,9,SAVEVSDEATH)
+    CheckStatLT(Player6,9,SAVEVSSPELL)
   !CheckStat(Player3,2,SCRIPTINGSTATE3)
   !HasBounceEffects(Player3)
   !GlobalTimerNotExpired("Iagdoom","LOCALS")
@@ -829,7 +861,9 @@ IF
   !CheckStatGT(Player4,0,SCRIPTINGSTATE2)
   !StateCheck(Player4,STATE_MIRRORIMAGE)
   CheckStatLT(Player4,51,RESISTMAGIC)
-  CheckStatLT(Player4,9,SAVEVSDEATH)
+  OR(2)
+    CheckStatLT(Player6,9,SAVEVSDEATH)
+    CheckStatLT(Player6,9,SAVEVSSPELL)
   !CheckStat(Player4,2,SCRIPTINGSTATE3)
   !HasBounceEffects(Player4)
   !GlobalTimerNotExpired("Iagdoom","LOCALS")
@@ -852,7 +886,9 @@ IF
   !CheckStatGT(Player5,0,SCRIPTINGSTATE2)
   !StateCheck(Player5,STATE_MIRRORIMAGE)
   CheckStatLT(Player5,51,RESISTMAGIC)
-  CheckStatLT(Player5,9,SAVEVSDEATH)
+  OR(2)
+    CheckStatLT(Player6,9,SAVEVSDEATH)
+    CheckStatLT(Player6,9,SAVEVSSPELL)
   !CheckStat(Player5,2,SCRIPTINGSTATE3)
   !HasBounceEffects(Player5)
   !GlobalTimerNotExpired("Iagdoom","LOCALS")
@@ -875,7 +911,9 @@ IF
   !CheckStatGT(Player6,0,SCRIPTINGSTATE2)
   !StateCheck(Player6,STATE_MIRRORIMAGE)
   CheckStatLT(Player6,51,RESISTMAGIC)
-  CheckStatLT(Player6,9,SAVEVSDEATH)
+  OR(2)
+    CheckStatLT(Player6,9,SAVEVSDEATH)
+    CheckStatLT(Player6,9,SAVEVSSPELL)
   !CheckStat(Player6,2,SCRIPTINGSTATE3)
   !HasBounceEffects(Player6)
   !GlobalTimerNotExpired("Iagdoom","LOCALS")
@@ -887,6 +925,66 @@ THEN
     SetGlobalTimer("Iaspell","LOCALS",6)
     ReallyForceSpellRES("SPINI68",Player6)
 END
+
+// Lower Fire Resistance //
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  See([PC])
+  CheckStatGT(LastSeenBy(Myself),49,RESISTFIRE)
+  GlobalLT("Iabalor07","LOCALS",5)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iabalor07","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    ForceSpell(LastSeenBy(Myself),DRAGON_LOWER_FIRE)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  See(SecondNearest([PC]))
+  CheckStatGT(LastSeenBy(Myself),49,RESISTFIRE)
+  GlobalLT("Iabalor07","LOCALS",5)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iabalor07","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    ForceSpell(LastSeenBy(Myself),DRAGON_LOWER_FIRE)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  See(ThirdNearest([PC]))
+  CheckStatGT(LastSeenBy(Myself),49,RESISTFIRE)
+  GlobalLT("Iabalor07","LOCALS",5)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iabalor07","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    ForceSpell(LastSeenBy(Myself),DRAGON_LOWER_FIRE)
+END
+
+// Death Throes //
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !GlobalTimerNotExpired("Iasunf","LOCALS")
+  See([PC])
+  Range(LastSeenBy(Myself),7)
+  !CheckStat(LastSeenBy(Myself),4,SCRIPTINGSTATE7)
+  CheckStatLT(LastSeenBy(Myself),75,RESISTFIRE)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iasunf","LOCALS",12)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    ReallyForceSpellRES("SPINI93",Myself)
+END
+
+// RRoR & Breach //
 
 IF
   Allegiance(Myself,ENEMY)
@@ -1476,6 +1574,8 @@ THEN
     ReallyForceSpell(Player6,WIZARD_RUBY_RAY_OF_REVERSAL)
 END
 
+// Lower Resistance //
+
 IF
   Allegiance(Myself,ENEMY)
   !GlobalTimerNotExpired("Iaspell","LOCALS")
@@ -1572,6 +1672,8 @@ THEN
     ReallyForceSpell(LastSeenBy(Myself),WIZARD_LOWER_RESISTANCE)
 END
 
+// Greater Malison //
+
 IF
   Allegiance(Myself,ENEMY)
   !GlobalTimerNotExpired("Iaspell","LOCALS")
@@ -1600,6 +1702,8 @@ THEN
     ReallyForceSpell(LastSeenBy(Myself),WIZARD_GREATER_MALISON)
 END
 
+// Remove Magic //
+
 IF
   Allegiance(Myself,ENEMY)
   !GlobalTimerNotExpired("Iaspell","LOCALS")
@@ -1614,6 +1718,8 @@ THEN
     SetGlobalTimer("Iaspell","LOCALS",6)
     ReallyForceSpell(LastSeenBy(Myself),WIZARD_DISPEL_MAGIC)
 END
+
+// Paralyze //
 
 IF
   Allegiance(Myself,ENEMY)
@@ -1639,78 +1745,7 @@ THEN
     ForceSpell(LastSeenBy(Myself),TANARI_PARALYZE)
 END
 
-IF
-  Allegiance(Myself,ENEMY)
-  !GlobalTimerNotExpired("Iaspell","LOCALS")
-  See([PC])
-  CheckStatGT(LastSeenBy(Myself),49,RESISTFIRE)
-  GlobalLT("Iabalor07","LOCALS",3)
-THEN
-  RESPONSE #100
-    IncrementGlobal("Iabalor07","LOCALS",1)
-    SetGlobalTimer("Iaspell","LOCALS",6)
-    ForceSpell(LastSeenBy(Myself),DRAGON_LOWER_FIRE)
-END
-
-IF
-  Allegiance(Myself,ENEMY)
-  !GlobalTimerNotExpired("Iaspell","LOCALS")
-  See(SecondNearest([PC]))
-  CheckStatGT(LastSeenBy(Myself),49,RESISTFIRE)
-  GlobalLT("Iabalor07","LOCALS",3)
-THEN
-  RESPONSE #100
-    IncrementGlobal("Iabalor07","LOCALS",1)
-    SetGlobalTimer("Iaspell","LOCALS",6)
-    ForceSpell(LastSeenBy(Myself),DRAGON_LOWER_FIRE)
-END
-
-IF
-  Allegiance(Myself,ENEMY)
-  !GlobalTimerNotExpired("Iaspell","LOCALS")
-  See(ThirdNearest([PC]))
-  CheckStatGT(LastSeenBy(Myself),49,RESISTFIRE)
-  GlobalLT("Iabalor07","LOCALS",3)
-THEN
-  RESPONSE #100
-    IncrementGlobal("Iabalor07","LOCALS",1)
-    SetGlobalTimer("Iaspell","LOCALS",6)
-    ForceSpell(LastSeenBy(Myself),DRAGON_LOWER_FIRE)
-END
-
-IF
-  Allegiance(Myself,ENEMY)
-  !GlobalTimerNotExpired("Iaspell","LOCALS")
-  !GlobalTimerNotExpired("Iasunf","LOCALS")
-  See([PC])
-  Range(LastSeenBy(Myself),7)
-  !CheckStat(LastSeenBy(Myself),4,SCRIPTINGSTATE7)
-  CheckStatLT(LastSeenBy(Myself),50,RESISTFIRE)
-  GlobalLT("Iabalor10","LOCALS",5)
-THEN
-  RESPONSE #100
-    IncrementGlobal("Iabalor10","LOCALS",1)
-    SetGlobalTimer("Iasunf","LOCALS",30)
-    SetGlobalTimer("Iaspell","LOCALS",6)
-    ReallyForceSpell(Myself,WIZARD_SUN_FIRE)
-END
-
-IF
-  Allegiance(Myself,ENEMY)
-  !GlobalTimerNotExpired("Iaspell","LOCALS")
-  !GlobalTimerNotExpired("Iasunf","LOCALS")
-  See(SecondNearest([PC]))
-  Range(LastSeenBy(Myself),7)
-  !CheckStat(LastSeenBy(Myself),4,SCRIPTINGSTATE7)
-  CheckStatLT(LastSeenBy(Myself),50,RESISTFIRE)
-  GlobalLT("Iabalor10","LOCALS",5)
-THEN
-  RESPONSE #100
-    IncrementGlobal("Iabalor10","LOCALS",1)
-    SetGlobalTimer("Iasunf","LOCALS",30)
-    SetGlobalTimer("Iaspell","LOCALS",6)
-    ReallyForceSpell(Myself,WIZARD_SUN_FIRE)
-END
+// Fireball //
 
 IF
   Allegiance(Myself,ENEMY)
@@ -1727,7 +1762,7 @@ THEN
     IncrementGlobal("Iabalor11","LOCALS",1)
     SetGlobalTimer("Iafireb","LOCALS",24)
     SetGlobalTimer("Iaspell","LOCALS",6)
-    ReallyForceSpell(LastSeenBy(Myself),WIZARD_FIREBALL)
+    ReallyForceSpell(LastSeenBy(Myself),WIZARD_METEOR_SWARM)
 END
 
 IF
@@ -1745,7 +1780,7 @@ THEN
     IncrementGlobal("Iabalor11","LOCALS",1)
     SetGlobalTimer("Iafireb","LOCALS",24)
     SetGlobalTimer("Iaspell","LOCALS",6)
-    ReallyForceSpell(LastSeenBy(Myself),WIZARD_FIREBALL)
+    ReallyForceSpell(LastSeenBy(Myself),WIZARD_METEOR_SWARM)
 END
 
 IF
@@ -1763,8 +1798,10 @@ THEN
     IncrementGlobal("Iabalor11","LOCALS",1)
     SetGlobalTimer("Iafireb","LOCALS",24)
     SetGlobalTimer("Iaspell","LOCALS",6)
-    ReallyForceSpell(LastSeenBy(Myself),WIZARD_FIREBALL)
+    ReallyForceSpell(LastSeenBy(Myself),WIZARD_METEOR_SWARM)
 END
+
+// Chaos //
 
 IF
   Allegiance(Myself,ENEMY)
@@ -1836,6 +1873,8 @@ THEN
     ReallyForceSpell(LastSeenBy(Myself),WIZARD_CHAOS)
 END
 
+// Incendiary Cloud //
+
 IF
   Allegiance(Myself,ENEMY)
   !GlobalTimerNotExpired("Iaspell","LOCALS")
@@ -1874,6 +1913,8 @@ THEN
     SetGlobalTimer("Iaspell","LOCALS",6)
     ReallyForceSpell(LastSeenBy(Myself),WIZARD_INCENDIARY_CLOUD)
 END
+
+// anticheat //
 
 IF
   !Detect([PC])
@@ -1923,7 +1964,7 @@ THEN
     SetGlobal("Iabalor07","LOCALS",0)
     SetGlobal("Iabalor08","LOCALS",0)
     SetGlobal("Iabalor09","LOCALS",0)
-    SetGlobal("Iabalor10","LOCALS",0)
+    SetGlobal("Iabalor10","LOCALS",0) // unused
     SetGlobal("Iabalor11","LOCALS",0)
     SetGlobal("Iabalor12","LOCALS",0)
     SetGlobal("Ianoward","LOCALS",0)
@@ -1931,6 +1972,8 @@ THEN
     SetGlobal("Iaremove","LOCALS",0)
     ReallyForceSpellRES("SPWII07",Myself)
 END
+
+// General attacks //
 
 IF
   Allegiance(Myself,ENEMY)
