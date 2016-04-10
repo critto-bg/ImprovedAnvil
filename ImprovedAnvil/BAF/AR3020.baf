@@ -15,6 +15,45 @@ THEN
 		SoundActivate("PortalR",FALSE)
 END
 
+// Periodic spawning of bombers while Rozvankee is alive //
+
+IF
+  InMyArea(Player1)
+  Global("DemogorgonChange","GLOBAL",1)
+  Global("IaInitBombers","AR3020",0)
+  Exists("S!rozvan")
+  !Dead("S!rozvan")
+THEN
+	RESPONSE #100
+    SetGlobal("IaInitBombers","AR3020",1)
+    SetGlobalTimer("IaBombers","AR3020",8)
+END
+
+IF
+  InMyArea(Player1)
+  Global("DemogorgonChange","GLOBAL",1)
+  Global("IaInitBombers","AR3020",1)
+  Exists("S!rozvan")
+  Dead("S!rozvan")
+THEN
+	RESPONSE #100
+    SetGlobal("IaInitBombers","AR3020",2)
+END
+
+IF
+  InMyArea(Player1)
+  Global("DemogorgonChange","GLOBAL",1)
+  Global("IaInitBombers","AR3020",1)
+  GlobalTimerExpired("IaBombers","AR3020")
+THEN
+	RESPONSE #100
+    SetGlobalTimer("IaBombers","AR3020",8)
+    DisplayStringHead("S!rozvan",70998) // Come, my minions!
+    CreateCreature("S!dembom",[1287.1118],0)
+    CreateCreature("S!dembom",[663.1150],0)
+    CreateCreature("S!dembom",[795.771],0)
+END
+
 // init variables for Nulonga's resurrection ability //
 
 IF
