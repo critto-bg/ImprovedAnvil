@@ -275,6 +275,65 @@ THEN
 		ReallyForceSpellRES("insanity",LastSeenBy(Myself)) // Insanity Gaze
 END
 
+// Lower Fire Resistance //
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !GlobalTimerNotExpired("Iafireres","LOCALS")
+  Global("Iaprebuf","LOCALS",1)
+  See([PC])
+  CheckStatGT(LastSeenBy(Myself),49,RESISTFIRE)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iaspell","LOCALS",3)
+    SetGlobalTimer("Iafireres","LOCALS",6)
+    ForceSpell(LastSeenBy(Myself),DRAGON_LOWER_FIRE)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !GlobalTimerNotExpired("Iafireres","LOCALS")
+  Global("Iaprebuf","LOCALS",1)
+  See(SecondNearest([PC]))
+  CheckStatGT(LastSeenBy(Myself),49,RESISTFIRE)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iaspell","LOCALS",3)
+    SetGlobalTimer("Iafireres","LOCALS",6)
+    ForceSpell(LastSeenBy(Myself),DRAGON_LOWER_FIRE)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !GlobalTimerNotExpired("Iafireres","LOCALS")
+  Global("Iaprebuf","LOCALS",1)
+  See(ThirdNearest([PC]))
+  CheckStatGT(LastSeenBy(Myself),49,RESISTFIRE)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iaspell","LOCALS",3)
+    SetGlobalTimer("Iafireres","LOCALS",6)
+    ForceSpell(LastSeenBy(Myself),DRAGON_LOWER_FIRE)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !GlobalTimerNotExpired("Iafireres","LOCALS")
+  Global("Iaprebuf","LOCALS",1)
+  See(FourthNearest([PC]))
+  CheckStatGT(LastSeenBy(Myself),49,RESISTFIRE)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iaspell","LOCALS",3)
+    SetGlobalTimer("Iafireres","LOCALS",6)
+    ForceSpell(LastSeenBy(Myself),DRAGON_LOWER_FIRE)
+END
+
+
 // Beguiling gaze //
 
 IF
@@ -1049,64 +1108,6 @@ THEN
     SetGlobalTimer("truesight","LOCALS",60)
     SetGlobalTimer("Iaspell","LOCALS",3)
     ReallyForceSpell(Myself,WIZARD_TRUE_SIGHT)
-END
-
-// Lower Fire Resistance //
-
-IF
-  Allegiance(Myself,ENEMY)
-  !GlobalTimerNotExpired("Iaspell","LOCALS")
-  !GlobalTimerNotExpired("Iafireres","LOCALS")
-  Global("Iaprebuf","LOCALS",1)
-  See([PC])
-  CheckStatGT(LastSeenBy(Myself),49,RESISTFIRE)
-THEN
-  RESPONSE #100
-    SetGlobalTimer("Iaspell","LOCALS",3)
-    SetGlobalTimer("Iafireres","LOCALS",6)
-    ForceSpell(LastSeenBy(Myself),DRAGON_LOWER_FIRE)
-END
-
-IF
-  Allegiance(Myself,ENEMY)
-  !GlobalTimerNotExpired("Iaspell","LOCALS")
-  !GlobalTimerNotExpired("Iafireres","LOCALS")
-  Global("Iaprebuf","LOCALS",1)
-  See(SecondNearest([PC]))
-  CheckStatGT(LastSeenBy(Myself),49,RESISTFIRE)
-THEN
-  RESPONSE #100
-    SetGlobalTimer("Iaspell","LOCALS",3)
-    SetGlobalTimer("Iafireres","LOCALS",6)
-    ForceSpell(LastSeenBy(Myself),DRAGON_LOWER_FIRE)
-END
-
-IF
-  Allegiance(Myself,ENEMY)
-  !GlobalTimerNotExpired("Iaspell","LOCALS")
-  !GlobalTimerNotExpired("Iafireres","LOCALS")
-  Global("Iaprebuf","LOCALS",1)
-  See(ThirdNearest([PC]))
-  CheckStatGT(LastSeenBy(Myself),49,RESISTFIRE)
-THEN
-  RESPONSE #100
-    SetGlobalTimer("Iaspell","LOCALS",3)
-    SetGlobalTimer("Iafireres","LOCALS",6)
-    ForceSpell(LastSeenBy(Myself),DRAGON_LOWER_FIRE)
-END
-
-IF
-  Allegiance(Myself,ENEMY)
-  !GlobalTimerNotExpired("Iaspell","LOCALS")
-  !GlobalTimerNotExpired("Iafireres","LOCALS")
-  Global("Iaprebuf","LOCALS",1)
-  See(FourthNearest([PC]))
-  CheckStatGT(LastSeenBy(Myself),49,RESISTFIRE)
-THEN
-  RESPONSE #100
-    SetGlobalTimer("Iaspell","LOCALS",3)
-    SetGlobalTimer("Iafireres","LOCALS",6)
-    ForceSpell(LastSeenBy(Myself),DRAGON_LOWER_FIRE)
 END
 
 // Firestorm + Implosion //
