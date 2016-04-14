@@ -105,11 +105,12 @@ IF
   See(NearestEnemyOf(Myself))
   Global("Prep","LOCALS",1)
   Global("IaCastSpell","LOCALS",0)
+  !GlobalTimerNotExpired("IaActionTypeCheck","LOCALS")
   RandomNumGT(6,4)
 THEN
   RESPONSE #100
     SetGlobal("IaCastSpell","LOCALS",1)
-    Continue()
+    SetGlobalTimer("IaActionTypeCheck","LOCALS",6)
 END
 
 // if she ran out of melee abilities, cast spells every round //
@@ -123,7 +124,6 @@ IF
 THEN
   RESPONSE #100
     SetGlobal("IaCastSpell","LOCALS",1)
-    Continue()
 END
 
 /// Summon vargoulles, first casting is always forced ///
