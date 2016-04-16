@@ -1,3 +1,18 @@
+// Prep //
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  Global("Prep","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Prep","LOCALS",1)
+    SetGlobalTimer("IaAura","LOCALS",24)
+    ReallyForceSpellRES("SPINI96",Myself) // Aura of Despair
+END
+
+// Anti Time Stop //
+
 IF
   Global("Iapcastts","GLOBAL",1)
   Global("Iatsinvulner","LOCALS",0)
@@ -16,23 +31,16 @@ THEN
     ApplySpellRES("SPINI71",Myself)
 END
 
-IF
-  Allegiance(Myself,ENEMY)
-  See(NearestEnemyOf(Myself))
-  Global("Iakazuul01","LOCALS",0)
-THEN
-  RESPONSE #100
-    SetGlobal("Iakazuul01","LOCALS",1)
-END
+// Rest //
 
 IF
   Allegiance(Myself,ENEMY)
   See(NearestEnemyOf(Myself))
   GlobalTimerExpired("Iademorest","GLOBAL")
-  Global("Iakazuul01","LOCALS",1)
+  Global("Prep","LOCALS",1)
 THEN
   RESPONSE #100
-    SetGlobal("Iakazuul01","LOCALS",0)
+    SetGlobal("Prep","LOCALS",0)
     SetGlobal("Iakazuul02","LOCALS",0)
     SetGlobal("Iakazuul03","LOCALS",0)
     SetGlobal("Iakazuul04","LOCALS",0)
@@ -40,6 +48,8 @@ THEN
     SetGlobal("Iakazuul06","LOCALS",0)
     ReallyForceSpellRES("SPWII07",Myself)
 END
+
+// Anti-cheese //
 
 IF
   Allegiance(Myself,ENEMY)
@@ -52,6 +62,8 @@ THEN
     SetGlobal("partyfled","LOCALS",0)
 END
 
+// Timestop //
+
 IF
   Allegiance(Myself,ENEMY)
   !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
@@ -60,6 +72,8 @@ THEN
   RESPONSE #100
     SetGlobalTimer("DrankPotionTimer","LOCALS",6)
 END
+
+// Hardiness //
 
 IF
   Allegiance(Myself,ENEMY)
@@ -73,6 +87,8 @@ THEN
     SetGlobalTimer("DrankPotionTimer","LOCALS",6)
     ForceSpell(Myself,WARRIOR_HARDINESS)
 END
+
+// Healing potion //
 
 IF
   Allegiance(Myself,ENEMY)
@@ -88,23 +104,21 @@ THEN
     UseItem("potn55",Myself)
 END
 
+// Aura of Despair //
+
 IF
   Allegiance(Myself,ENEMY)
-  !GlobalTimerNotExpired("Iacstrike","LOCALS")
   See(NearestEnemyOf(Myself))
-  Range(LastSeenBy(Myself),5)
-  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
-  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE8)
-  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-  Global("Iakazuul02","LOCALS",0)
   !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  GlobalTimerExpired("IaAura","LOCALS")
 THEN
   RESPONSE #100
-    SetGlobal("Iakazuul02","LOCALS",1)
-    SetGlobalTimer("Iacstrike","LOCALS",18)
-    SetGlobalTimer("DrankPotionTimer","LOCALS",12)
-    ForceSpell(Myself,WARRIOR_SMITE)
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    SetGlobalTimer("IaAura","LOCALS",24)
+    ReallyForceSpellRES("SPINI96",Myself) // Aura of Despair
 END
+
+// Critical Strike //
 
 IF
   Allegiance(Myself,ENEMY)
@@ -179,7 +193,7 @@ IF
   !Detect([GOODCUTOFF])
   Global("partyfled","LOCALS",0)
   Allegiance(Myself,ENEMY)
-  GlobalGT("Iakazuul01","LOCALS",0)
+  GlobalGT("Prep","LOCALS",0)
 THEN
   RESPONSE #100
     SetGlobalTimer("chase","LOCALS",90)
@@ -198,7 +212,7 @@ IF
   GlobalTimerNotExpired("chase","LOCALS")
   InMyArea(Player1)
   Allegiance(Myself,ENEMY)
-  GlobalGT("Iakazuul01","LOCALS",0)
+  GlobalGT("Prep","LOCALS",0)
 THEN
   RESPONSE #100
     MoveToObject(Player1)
@@ -210,10 +224,10 @@ IF
   Allegiance(Myself,ENEMY)
   GlobalTimerExpired("chase","LOCALS")
   Global("partyfled","LOCALS",1)
-  GlobalGT("Iakazuul01","LOCALS",0)
+  GlobalGT("Prep","LOCALS",0)
 THEN
   RESPONSE #100
-    SetGlobal("Iakazuul01","LOCALS",0)
+    SetGlobal("Prep","LOCALS",0)
     SetGlobal("Iakazuul02","LOCALS",0)
     SetGlobal("Iakazuul03","LOCALS",0)
     SetGlobal("Iakazuul04","LOCALS",0)
@@ -225,14 +239,13 @@ END
 IF
   Allegiance(Myself,ENEMY)
   See(SecondNearestEnemyOf(Myself))
-  CheckStatLT(LastSeenBy(Myself),90,RESISTPIERCING)
+  CheckStatLT(LastSeenBy(Myself),90,RESISTCRUSHING)
   !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
   RandomNumGT(6,4)
   Range(LastSeenBy(Myself),4)
 THEN
   RESPONSE #100
-    AttackOneRound(LastSeenBy(Myself))
-    AttackOneRound(LastSeenBy(Myself))
+    AttackReevaluate(LastSeenBy(Myself),30)
 END
 
 IF
@@ -241,7 +254,7 @@ IF
   !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
 THEN
   RESPONSE #100
-    AttackOneRound(NearestEnemyOf(Myself))
+    AttackReevaluate(NearestEnemyOf(Myself),30)
 END
 
 IF
@@ -250,7 +263,7 @@ IF
   !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
 THEN
   RESPONSE #100
-    AttackOneRound(LastSeenBy(Myself))
+    AttackReevaluate(LastSeenBy(Myself),30)
 END
 
 IF
@@ -259,7 +272,7 @@ IF
   !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
 THEN
   RESPONSE #100
-    AttackOneRound(LastSeenBy(Myself))
+    AttackReevaluate(LastSeenBy(Myself),30)
 END
 
 IF
@@ -267,5 +280,5 @@ IF
   See(NearestEnemyOf(Myself))
 THEN
   RESPONSE #100
-    AttackOneRound(NearestEnemyOf(Myself))
+    AttackReevaluate(NearestEnemyOf(Myself),30)
 END
