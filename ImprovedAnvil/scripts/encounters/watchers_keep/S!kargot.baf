@@ -7,13 +7,15 @@ THEN
   RESPONSE #100
     SetGlobal("Prep","LOCALS",1)
     SetGlobalTimer("Iasiduration","LOCALS",123)
+    SetGlobalTimer("Iabladeduration","LOCALS",107)
     ReallyForceSpell(Myself,WIZARD_PROTECTION_FROM_MAGIC_ENERGY)
     ReallyForceSpell(Myself,WIZARD_PROTECTION_FROM_ELECTRICITY)
     ReallyForceSpell(Myself,WIZARD_SPELL_TURNING)
     ReallyForceSpell(Myself,WIZARD_GLOBE_OF_INVULNERABILITY)
     ReallyForceSpell(Myself,WIZARD_SPELL_IMMUNITY_ABJURATION)
     ReallyForceSpell(Myself,PROTECTION_MAGIC_WEAPON_NOEFF)
-    ReallyForceSpell(Myself,WIZARD_FIRE_SHIELD_BLUE)
+    ReallyForceSpell(Myself,WIZARD_BLACK_BLADE_OF_DISASTER)
+    ReallyForceSpellRES("SPINI97",Myself) // Aura of Darkness
 END
 
 IF
@@ -33,12 +35,15 @@ THEN
     SetGlobal("IaDeathKnight09","LOCALS",0)
     SetGlobal("IaDeathKnight10","LOCALS",0)
     SetGlobal("IaDeathKnight11","LOCALS",0)
+    SetGlobal("Iaturning","LOCALS",0)
     SetGlobal("Prep","LOCALS",0)
     SetGlobal("Iaremove","LOCALS",0)
     SetGlobal("Iacastbreach","LOCALS",0)
     SetGlobal("Iareversal","LOCALS",0)
     ReallyForceSpellRES("SPWII07",Myself)
 END
+
+// Chain Contingency //
 
 IF
   HPPercentLT(Myself,50)
@@ -66,6 +71,8 @@ THEN
     ReallyForceSpell(LastSeenBy(Myself),WIZARD_INCENDIARY_CLOUD)
 END
 
+// Anti-cheat //
+
 IF
   Allegiance(Myself,ENEMY)
   Global("partyfled","LOCALS",1)
@@ -74,6 +81,8 @@ THEN
   RESPONSE #100
     SetGlobal("partyfled","LOCALS",0)
 END
+
+// Anti Time Stop //
 
 IF
   Global("Iapcastts","GLOBAL",1)
@@ -92,6 +101,8 @@ THEN
     SetGlobal("Iatsinvulner","LOCALS",0)
     ApplySpellRES("SPINI71",Myself)
 END
+
+// Time stop //
 
 IF
   Allegiance(Myself,ENEMY)
@@ -144,6 +155,8 @@ THEN
     ForceSpell(Myself,PROTECTION_MAGIC_WEAPON_NOEFF)
 END
 
+// Hardiness //
+
 IF
   See(NearestEnemyOf(Myself))
   GlobalLT("IaDeathKnight08","LOCALS",5)
@@ -157,6 +170,27 @@ THEN
     ForceSpell(Myself,WARRIOR_HARDINESS)
 END
 
+// Black Blade of Disaster //
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  GlobalGT("Prep","LOCALS",0)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !GlobalTimerNotExpired("Iabladeduration","LOCALS")
+  OR(3)
+   CheckStatGT(Myself,0,SCRIPTINGSTATE6)
+   CheckStatGT(Myself,0,STONESKINS)
+   !Range(LastSeenBy(Myself),4)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SetGlobalTimer("Iabladeduration","LOCALS",107)
+    ReallyForceSpell(Myself,WIZARD_BLACK_BLADE_OF_DISASTER)
+END
+
+// True Sight //
+
 IF
   Allegiance(Myself,ENEMY)
   !GlobalTimerNotExpired("truesight","LOCALS")
@@ -205,6 +239,8 @@ THEN
     SpellNoDec(Myself,WIZARD_TRUE_SIGHT)
 END
 
+// Remove Magic //
+
 IF
   Allegiance(Myself,ENEMY)
   Global("Iaremove","LOCALS",0)
@@ -267,6 +303,218 @@ THEN
     SetGlobalTimer("Iaspell","LOCALS",6)
     SpellNoDec(LastSeenBy(Myself),WIZARD_DISPEL_MAGIC)
 END
+
+// Lower Fire Resistance //
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  See([PC])
+  CheckStatGT(LastSeenBy(Myself),49,RESISTFIRE)
+  GlobalLT("IaDeathKnight06","LOCALS",3)
+THEN
+  RESPONSE #100
+    IncrementGlobal("IaDeathKnight06","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    ForceSpell(LastSeenBy(Myself),DRAGON_LOWER_FIRE)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  See(SecondNearest([PC]))
+  CheckStatGT(LastSeenBy(Myself),49,RESISTFIRE)
+  GlobalLT("IaDeathKnight06","LOCALS",3)
+THEN
+  RESPONSE #100
+    IncrementGlobal("IaDeathKnight06","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    ForceSpell(LastSeenBy(Myself),DRAGON_LOWER_FIRE)
+END
+
+// Paladin Turning //
+
+// first, the protagonist
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !GlobalTimerNotExpired("Iaturntime","LOCALS")
+  GlobalLT("Iaturning","LOCALS",3)
+  See(Player1)
+  LevelLT(Player1,37)
+  Class(Player1,PALADIN_ALL)
+  Range(Player1,12)
+  !StateCheck(Player1,STATE_PANIC)
+  !StateCheck(Player1,STATE_CONFUSED)
+  !StateCheck(Player1,STATE_HELPLESS)
+  !StateCheck(Player1,STATE_STUNNED)
+  !StateCheck(Player1,STATE_CHARMED)
+  !HasItemEquiped("hamm11",Player1)
+  !HasItemEquiped("sw1h32",Player1)
+  !HasItemEquiped("S!sw04",Player1)
+  !HasItemEquiped("S!sw11",Player1)
+  !HasItemEquiped("S!halb01",Player1)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iaturning","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SetGlobalTimer("Isturning","LOCALS",6)
+    ApplySpellRES("SPINI66",Player1)
+    Turn()
+END
+
+// next, Keldorn
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !GlobalTimerNotExpired("Iaturntime","LOCALS")
+  GlobalLT("Iaturning","LOCALS",3)
+  See("keldorn")
+  !Dead("keldorn")
+  LevelLT("keldorn",37)
+  Class("keldorn",PALADIN_ALL)
+  Range("keldorn",12)
+  !StateCheck("keldorn",STATE_PANIC)
+  !StateCheck("keldorn",STATE_CONFUSED)
+  !StateCheck("keldorn",STATE_HELPLESS)
+  !StateCheck("keldorn",STATE_STUNNED)
+  !HasItemEquiped("hamm11","keldorn")
+  !HasItemEquiped("sw1h32","keldorn")
+  !HasItemEquiped("S!sw04","keldorn")
+  !HasItemEquiped("S!sw11","keldorn")
+  !HasItemEquiped("S!halb01","keldorn")
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iaturning","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SetGlobalTimer("Isturning","LOCALS",6)
+    ApplySpellRES("SPINI66","keldorn")
+    Turn()
+END
+
+// next, a nearest party's paladin
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !GlobalTimerNotExpired("Iaturntime","LOCALS")
+  GlobalLT("Iaturning","LOCALS",3)
+  See(NearestEnemyOfType([PC.0.0.PALADIN_ALL]))
+  LevelLT(LastSeenBy(Myself),37)
+  Range(LastSeenBy(Myself),12)
+  !StateCheck(LastSeenBy(Myself),STATE_PANIC)
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+  !StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+  !HasItemEquiped("hamm11",LastSeenBy(Myself))
+  !HasItemEquiped("sw1h32",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw04",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw11",LastSeenBy(Myself))
+  !HasItemEquiped("S!halb01",LastSeenBy(Myself))
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iaturning","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SetGlobalTimer("Isturning","LOCALS",6)
+    ApplySpellRES("SPINI66",LastSeenBy(Myself))
+    Turn()
+END
+
+// second nearest paladin
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !GlobalTimerNotExpired("Iaturntime","LOCALS")
+  GlobalLT("Iaturning","LOCALS",3)
+  See(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]))
+  LevelLT(LastSeenBy(Myself),37)
+  Range(LastSeenBy(Myself),12)
+  !StateCheck(LastSeenBy(Myself),STATE_PANIC)
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+  !StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+  !HasItemEquiped("hamm11",LastSeenBy(Myself))
+  !HasItemEquiped("sw1h32",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw04",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw11",LastSeenBy(Myself))
+  !HasItemEquiped("S!halb01",LastSeenBy(Myself))
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iaturning","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SetGlobalTimer("Isturning","LOCALS",6)
+    ApplySpellRES("SPINI66",LastSeenBy(Myself))
+    Turn()
+END
+
+// summoned skeletons
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !GlobalTimerNotExpired("Iaturntime","LOCALS")
+  GlobalLT("Iaturning","LOCALS",3)
+  See(NearestEnemyOfType([GOODCUTOFF.0.0.SKELETON_WARRIOR.0.SUMMONED]))
+  Range(LastSeenBy(Myself),12)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iaturning","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SetGlobalTimer("Isturning","LOCALS",6)
+    Turn()
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !GlobalTimerNotExpired("Iaturntime","LOCALS")
+  GlobalLT("Iaturning","LOCALS",3)
+  See(NearestEnemyOfType([GOODCUTOFF.0.SKELETON.SKELETON.0.SUMMONED]))
+  Range(LastSeenBy(Myself),12)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iaturning","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SetGlobalTimer("Isturning","LOCALS",6)
+    Turn()
+END
+
+// reset the ability
+IF
+  Allegiance(Myself,ENEMY)
+  Global("Iaturning","LOCALS",3)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iaturntime","LOCALS",24)
+    SetGlobal("Iaturning","LOCALS",0)
+END
+
+// Fire Based attacks //
+
+IF
+  See(NearestEnemyOf(Myself))
+  CheckStatLT(LastSeenBy(Myself),100,RESISTFIRE)
+  !CheckStat(LastSeenBy(Myself),4,SCRIPTINGSTATE7)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !GlobalTimerNotExpired("Iafire","LOCALS")
+  RandomNumGT(6,3)
+THEN
+  RESPONSE #25
+    SetGlobalTimer("Iafire","LOCALS",6)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDec(LastSeenBy(Myself),WIZARD_INCENDIARY_CLOUD)
+  RESPONSE #50
+    SetGlobalTimer("Iafire","LOCALS",6)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDec(LastSeenBy(Myself),WIZARD_METEOR_SWARM)
+  RESPONSE #25
+    SetGlobalTimer("Iafire","LOCALS",6)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDec(LastSeenBy(Myself),WIZARD_FIREBALL)
+END
+
+// RRoR & Breach //
 
 IF
   Allegiance(Myself,ENEMY)
@@ -682,6 +930,8 @@ THEN
     SpellNoDec(Player6,WIZARD_BREACH)
 END
 
+// Remove Magic //
+
 IF
   Allegiance(Myself,ENEMY)
   !GlobalTimerNotExpired("Iaspell","LOCALS")
@@ -759,6 +1009,8 @@ THEN
     SetGlobalTimer("Iaspell","LOCALS",6)
     SpellNoDec(LastSeenBy(Myself),WIZARD_DISPEL_MAGIC)
 END
+
+// Anti Illusions //
 
 IF
   !GlobalTimerNotExpired("Iaspell","LOCALS")
@@ -782,31 +1034,7 @@ THEN
     SpellNoDec(LastSeenBy(Myself),WIZARD_DISPEL_MAGIC)
 END
 
-IF
-  Allegiance(Myself,ENEMY)
-  !GlobalTimerNotExpired("Iaspell","LOCALS")
-  See([PC])
-  CheckStatGT(LastSeenBy(Myself),49,RESISTFIRE)
-  GlobalLT("IaDeathKnight06","LOCALS",3)
-THEN
-  RESPONSE #100
-    IncrementGlobal("IaDeathKnight06","LOCALS",1)
-    SetGlobalTimer("Iaspell","LOCALS",6)
-    ForceSpell(LastSeenBy(Myself),DRAGON_LOWER_FIRE)
-END
-
-IF
-  Allegiance(Myself,ENEMY)
-  !GlobalTimerNotExpired("Iaspell","LOCALS")
-  See(SecondNearest([PC]))
-  CheckStatGT(LastSeenBy(Myself),49,RESISTFIRE)
-  GlobalLT("IaDeathKnight06","LOCALS",3)
-THEN
-  RESPONSE #100
-    IncrementGlobal("IaDeathKnight06","LOCALS",1)
-    SetGlobalTimer("Iaspell","LOCALS",6)
-    ForceSpell(LastSeenBy(Myself),DRAGON_LOWER_FIRE)
-END
+// Spell Trigger //
 
 IF
   Allegiance(Myself,ENEMY)
@@ -870,6 +1098,8 @@ THEN
     ReallyForceSpell(LastSeenBy(Myself),WIZARD_CHAIN_LIGHTNING)
 END
 
+// Critical Strike //
+
 IF
   Allegiance(Myself,ENEMY)
   !GlobalTimerNotExpired("Iaspell","LOCALS")
@@ -887,6 +1117,8 @@ THEN
     ForceSpell(Myself,WARRIOR_CRITICAL_STRIKE)
 END
 
+// Greater Whirlwind //
+
 IF
   Allegiance(Myself,ENEMY)
   !GlobalTimerNotExpired("Iaspell","LOCALS")
@@ -900,6 +1132,8 @@ THEN
     SetGlobalTimer("Iaspell","LOCALS",6)
     ForceSpell(Myself,WARRIOR_GREATER_WHIRLWIND)
 END
+
+// Slow & Horror //
 
 IF
   Allegiance(Myself,ENEMY)
@@ -924,6 +1158,8 @@ THEN
     SpellNoDec(LastSeenBy(Myself),WIZARD_HORROR)
 END
 
+// Smite //
+
 IF
   Allegiance(Myself,ENEMY)
   !GlobalTimerNotExpired("Iaspell","LOCALS")
@@ -941,6 +1177,8 @@ THEN
     ForceSpell(Myself,WARRIOR_SMITE)
 END
 
+// Critical Strike //
+
 IF
   Allegiance(Myself,ENEMY)
   !GlobalTimerNotExpired("Iaspell","LOCALS")
@@ -957,27 +1195,7 @@ THEN
     ForceSpell(Myself,WARRIOR_CRITICAL_STRIKE)
 END
 
-IF
-  See(NearestEnemyOf(Myself))
-  CheckStatLT(LastSeenBy(Myself),100,RESISTFIRE)
-  !CheckStat(LastSeenBy(Myself),4,SCRIPTINGSTATE7)
-  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-  !GlobalTimerNotExpired("Iaspell","LOCALS")
-  GlobalLT("IaDeathKnight07","LOCALS",3)
-THEN
-  RESPONSE #25
-    IncrementGlobal("IaDeathKnight07","LOCALS",1)
-    SetGlobalTimer("Iaspell","LOCALS",6)
-    SpellNoDec(LastSeenBy(Myself),WIZARD_INCENDIARY_CLOUD)
-  RESPONSE #50
-    IncrementGlobal("IaDeathKnight07","LOCALS",1)
-    SetGlobalTimer("Iaspell","LOCALS",6)
-    SpellNoDec(LastSeenBy(Myself),WIZARD_METEOR_SWARM)
-  RESPONSE #25
-    IncrementGlobal("IaDeathKnight07","LOCALS",1)
-    SetGlobalTimer("Iaspell","LOCALS",6)
-    SpellNoDec(LastSeenBy(Myself),WIZARD_FIREBALL)
-END
+// Chaos //
 
 IF
   Allegiance(Myself,ENEMY)
@@ -1125,42 +1343,7 @@ THEN
     ReallyForceSpellRES("SPWII07",Myself)
 END
 
-// general attack //
-
-IF
-  Allegiance(Myself,ENEMY)
-  See(NearestEnemyOf(Myself))
-  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
-THEN
-  RESPONSE #100
-    AttackOneRound(NearestEnemyOf(Myself))
-END
-
-IF
-  Allegiance(Myself,ENEMY)
-  See(SecondNearestEnemyOf(Myself))
-  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
-THEN
-  RESPONSE #100
-    AttackOneRound(LastSeenBy(Myself))
-END
-
-IF
-  Allegiance(Myself,ENEMY)
-  See(ThirdNearestEnemyOf(Myself))
-  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
-THEN
-  RESPONSE #100
-    AttackOneRound(LastSeenBy(Myself))
-END
-
-IF
-  Allegiance(Myself,ENEMY)
-  See(NearestEnemyOf(Myself))
-THEN
-  RESPONSE #100
-    AttackOneRound(NearestEnemyOf(Myself))
-END
+// Movement //
 
 IF
   !Detect([PC])
@@ -1170,4 +1353,644 @@ IF
 THEN
   RESPONSE #100
     MoveToObject(Player1)
+END
+
+// general attack (when not turning) //
+
+IF
+  ActionListEmpty()
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  !GlobalTimerNotExpired("Isturning","LOCALS")
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  ActionListEmpty()
+  Allegiance(Myself,ENEMY)
+  See(SecondNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  !GlobalTimerNotExpired("Isturning","LOCALS")
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  ActionListEmpty()
+  Allegiance(Myself,ENEMY)
+  See(ThirdNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  !GlobalTimerNotExpired("Isturning","LOCALS")
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  ActionListEmpty()
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  !GlobalTimerNotExpired("Isturning","LOCALS")
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+// General attack (turned paladins excluded) //
+
+IF
+  ActionListEmpty()
+  GlobalTimerNotExpired("Isturning","LOCALS")
+  !See(NearestEnemyOfType([GOODCUTOFF.0.0.SKELETON_WARRIOR.0.SUMMONED]))
+  !See(NearestEnemyOfType([GOODCUTOFF.0.SKELETON.SKELETON.0.SUMMONED]))
+  OR(9)
+   !See(Player1)
+   !Class(Player1,PALADIN_ALL)
+   !Range(Player1,12)
+   StateCheck(Player1,STATE_PANIC)
+   StateCheck(Player1,STATE_CONFUSED)
+   StateCheck(Player1,STATE_HELPLESS)
+   StateCheck(Player1,STATE_STUNNED)
+   StateCheck(Player1,STATE_CHARMED)
+   LevelGT(Player1,36)
+  OR(8)
+   !InParty("keldorn")
+   !See("keldorn")
+   !Range("keldorn",12)
+   StateCheck("keldorn",STATE_PANIC)
+   StateCheck("keldorn",STATE_CONFUSED)
+   StateCheck("keldorn",STATE_HELPLESS)
+   StateCheck("keldorn",STATE_STUNNED)
+   LevelGT("keldorn",36)
+  OR(8)
+   !See(NearestEnemyOfType([PC.0.0.PALADIN_ALL]))
+   !Range(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),12)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_PANIC)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_CONFUSED)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_HELPLESS)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_STUNNED)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_CHARMED)
+   LevelGT(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),36)
+  OR(8)
+   !See(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]))
+   !Range(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),12)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_PANIC)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_CONFUSED)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_HELPLESS)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_STUNNED)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_CHARMED)
+   LevelGT(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),36)
+  See(NearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  ActionListEmpty()
+  GlobalTimerNotExpired("Isturning","LOCALS")
+  !See(NearestEnemyOfType([GOODCUTOFF.0.0.SKELETON_WARRIOR.0.SUMMONED]))
+  See(NearestEnemyOfType([GOODCUTOFF.0.SKELETON.SKELETON.0.SUMMONED]))
+  !Range(LastSeenBy(Myself),12)
+  OR(9)
+   !See(Player1)
+   !Class(Player1,PALADIN_ALL)
+   !Range(Player1,12)
+   StateCheck(Player1,STATE_PANIC)
+   StateCheck(Player1,STATE_CONFUSED)
+   StateCheck(Player1,STATE_HELPLESS)
+   StateCheck(Player1,STATE_STUNNED)
+   StateCheck(Player1,STATE_CHARMED)
+   LevelGT(Player1,36)
+  OR(8)
+   !InParty("keldorn")
+   !See("keldorn")
+   !Range("keldorn",12)
+   StateCheck("keldorn",STATE_PANIC)
+   StateCheck("keldorn",STATE_CONFUSED)
+   StateCheck("keldorn",STATE_HELPLESS)
+   StateCheck("keldorn",STATE_STUNNED)
+   LevelGT("keldorn",36)
+  OR(8)
+   !See(NearestEnemyOfType([PC.0.0.PALADIN_ALL]))
+   !Range(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),12)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_PANIC)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_CONFUSED)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_HELPLESS)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_STUNNED)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_CHARMED)
+   LevelGT(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),36)
+  OR(8)
+   !See(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]))
+   !Range(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),12)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_PANIC)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_CONFUSED)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_HELPLESS)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_STUNNED)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_CHARMED)
+   LevelGT(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),36)
+  See(NearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  ActionListEmpty()
+  GlobalTimerNotExpired("Isturning","LOCALS")
+  !See(NearestEnemyOfType([GOODCUTOFF.0.SKELETON.SKELETON.0.SUMMONED]))
+  See(NearestEnemyOfType([GOODCUTOFF.0.0.SKELETON_WARRIOR.0.SUMMONED]))
+  !Range(LastSeenBy(Myself),12)
+  OR(9)
+   !See(Player1)
+   !Class(Player1,PALADIN_ALL)
+   !Range(Player1,12)
+   StateCheck(Player1,STATE_PANIC)
+   StateCheck(Player1,STATE_CONFUSED)
+   StateCheck(Player1,STATE_HELPLESS)
+   StateCheck(Player1,STATE_STUNNED)
+   StateCheck(Player1,STATE_CHARMED)
+   LevelGT(Player1,36)
+  OR(8)
+   !InParty("keldorn")
+   !See("keldorn")
+   !Range("keldorn",12)
+   StateCheck("keldorn",STATE_PANIC)
+   StateCheck("keldorn",STATE_CONFUSED)
+   StateCheck("keldorn",STATE_HELPLESS)
+   StateCheck("keldorn",STATE_STUNNED)
+   LevelGT("keldorn",36)
+  OR(8)
+   !See(NearestEnemyOfType([PC.0.0.PALADIN_ALL]))
+   !Range(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),12)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_PANIC)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_CONFUSED)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_HELPLESS)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_STUNNED)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_CHARMED)
+   LevelGT(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),36)
+  OR(8)
+   !See(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]))
+   !Range(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),12)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_PANIC)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_CONFUSED)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_HELPLESS)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_STUNNED)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_CHARMED)
+   LevelGT(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),36)
+  See(NearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  ActionListEmpty()
+  GlobalTimerNotExpired("Isturning","LOCALS")
+  !See(NearestEnemyOfType([GOODCUTOFF.0.0.SKELETON_WARRIOR.0.SUMMONED]))
+  !See(NearestEnemyOfType([GOODCUTOFF.0.SKELETON.SKELETON.0.SUMMONED]))
+  OR(9)
+   !See(Player1)
+   !Class(Player1,PALADIN_ALL)
+   !Range(Player1,12)
+   StateCheck(Player1,STATE_PANIC)
+   StateCheck(Player1,STATE_CONFUSED)
+   StateCheck(Player1,STATE_HELPLESS)
+   StateCheck(Player1,STATE_STUNNED)
+   StateCheck(Player1,STATE_CHARMED)
+   LevelGT(Player1,36)
+  OR(8)
+   !InParty("keldorn")
+   !See("keldorn")
+   !Range("keldorn",12)
+   StateCheck("keldorn",STATE_PANIC)
+   StateCheck("keldorn",STATE_CONFUSED)
+   StateCheck("keldorn",STATE_HELPLESS)
+   StateCheck("keldorn",STATE_STUNNED)
+   LevelGT("keldorn",36)
+  OR(8)
+   !See(NearestEnemyOfType([PC.0.0.PALADIN_ALL]))
+   !Range(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),12)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_PANIC)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_CONFUSED)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_HELPLESS)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_STUNNED)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_CHARMED)
+   LevelGT(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),36)
+  OR(8)
+   !See(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]))
+   !Range(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),12)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_PANIC)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_CONFUSED)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_HELPLESS)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_STUNNED)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_CHARMED)
+   LevelGT(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),36)
+  See(SecondNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  ActionListEmpty()
+  GlobalTimerNotExpired("Isturning","LOCALS")
+  !See(NearestEnemyOfType([GOODCUTOFF.0.0.SKELETON_WARRIOR.0.SUMMONED]))
+  See(NearestEnemyOfType([GOODCUTOFF.0.SKELETON.SKELETON.0.SUMMONED]))
+  !Range(LastSeenBy(Myself),12)
+  OR(9)
+   !See(Player1)
+   !Class(Player1,PALADIN_ALL)
+   !Range(Player1,12)
+   StateCheck(Player1,STATE_PANIC)
+   StateCheck(Player1,STATE_CONFUSED)
+   StateCheck(Player1,STATE_HELPLESS)
+   StateCheck(Player1,STATE_STUNNED)
+   StateCheck(Player1,STATE_CHARMED)
+   LevelGT(Player1,36)
+  OR(8)
+   !InParty("keldorn")
+   !See("keldorn")
+   !Range("keldorn",12)
+   StateCheck("keldorn",STATE_PANIC)
+   StateCheck("keldorn",STATE_CONFUSED)
+   StateCheck("keldorn",STATE_HELPLESS)
+   StateCheck("keldorn",STATE_STUNNED)
+   LevelGT("keldorn",36)
+  OR(8)
+   !See(NearestEnemyOfType([PC.0.0.PALADIN_ALL]))
+   !Range(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),12)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_PANIC)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_CONFUSED)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_HELPLESS)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_STUNNED)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_CHARMED)
+   LevelGT(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),36)
+  OR(8)
+   !See(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]))
+   !Range(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),12)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_PANIC)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_CONFUSED)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_HELPLESS)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_STUNNED)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_CHARMED)
+   LevelGT(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),36)
+  See(SecondNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  ActionListEmpty()
+  GlobalTimerNotExpired("Isturning","LOCALS")
+  !See(NearestEnemyOfType([GOODCUTOFF.0.SKELETON.SKELETON.0.SUMMONED]))
+  See(NearestEnemyOfType([GOODCUTOFF.0.0.SKELETON_WARRIOR.0.SUMMONED]))
+  !Range(LastSeenBy(Myself),12)
+  OR(9)
+   !See(Player1)
+   !Class(Player1,PALADIN_ALL)
+   !Range(Player1,12)
+   StateCheck(Player1,STATE_PANIC)
+   StateCheck(Player1,STATE_CONFUSED)
+   StateCheck(Player1,STATE_HELPLESS)
+   StateCheck(Player1,STATE_STUNNED)
+   StateCheck(Player1,STATE_CHARMED)
+   LevelGT(Player1,36)
+  OR(8)
+   !InParty("keldorn")
+   !See("keldorn")
+   !Range("keldorn",12)
+   StateCheck("keldorn",STATE_PANIC)
+   StateCheck("keldorn",STATE_CONFUSED)
+   StateCheck("keldorn",STATE_HELPLESS)
+   StateCheck("keldorn",STATE_STUNNED)
+   LevelGT("keldorn",36)
+  OR(8)
+   !See(NearestEnemyOfType([PC.0.0.PALADIN_ALL]))
+   !Range(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),12)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_PANIC)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_CONFUSED)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_HELPLESS)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_STUNNED)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_CHARMED)
+   LevelGT(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),36)
+  OR(8)
+   !See(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]))
+   !Range(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),12)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_PANIC)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_CONFUSED)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_HELPLESS)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_STUNNED)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_CHARMED)
+   LevelGT(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),36)
+  See(SecondNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  ActionListEmpty()
+  GlobalTimerNotExpired("Isturning","LOCALS")
+  !See(NearestEnemyOfType([GOODCUTOFF.0.0.SKELETON_WARRIOR.0.SUMMONED]))
+  !See(NearestEnemyOfType([GOODCUTOFF.0.SKELETON.SKELETON.0.SUMMONED]))
+  OR(9)
+   !See(Player1)
+   !Class(Player1,PALADIN_ALL)
+   !Range(Player1,12)
+   StateCheck(Player1,STATE_PANIC)
+   StateCheck(Player1,STATE_CONFUSED)
+   StateCheck(Player1,STATE_HELPLESS)
+   StateCheck(Player1,STATE_STUNNED)
+   StateCheck(Player1,STATE_CHARMED)
+   LevelGT(Player1,36)
+  OR(8)
+   !InParty("keldorn")
+   !See("keldorn")
+   !Range("keldorn",12)
+   StateCheck("keldorn",STATE_PANIC)
+   StateCheck("keldorn",STATE_CONFUSED)
+   StateCheck("keldorn",STATE_HELPLESS)
+   StateCheck("keldorn",STATE_STUNNED)
+   LevelGT("keldorn",36)
+  OR(8)
+   !See(NearestEnemyOfType([PC.0.0.PALADIN_ALL]))
+   !Range(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),12)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_PANIC)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_CONFUSED)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_HELPLESS)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_STUNNED)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_CHARMED)
+   LevelGT(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),36)
+  OR(8)
+   !See(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]))
+   !Range(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),12)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_PANIC)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_CONFUSED)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_HELPLESS)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_STUNNED)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_CHARMED)
+   LevelGT(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),36)
+  See(ThirdNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  ActionListEmpty()
+  GlobalTimerNotExpired("Isturning","LOCALS")
+  !See(NearestEnemyOfType([GOODCUTOFF.0.0.SKELETON_WARRIOR.0.SUMMONED]))
+  See(NearestEnemyOfType([GOODCUTOFF.0.SKELETON.SKELETON.0.SUMMONED]))
+  !Range(LastSeenBy(Myself),12)
+  OR(9)
+   !See(Player1)
+   !Class(Player1,PALADIN_ALL)
+   !Range(Player1,12)
+   StateCheck(Player1,STATE_PANIC)
+   StateCheck(Player1,STATE_CONFUSED)
+   StateCheck(Player1,STATE_HELPLESS)
+   StateCheck(Player1,STATE_STUNNED)
+   StateCheck(Player1,STATE_CHARMED)
+   LevelGT(Player1,36)
+  OR(8)
+   !InParty("keldorn")
+   !See("keldorn")
+   !Range("keldorn",12)
+   StateCheck("keldorn",STATE_PANIC)
+   StateCheck("keldorn",STATE_CONFUSED)
+   StateCheck("keldorn",STATE_HELPLESS)
+   StateCheck("keldorn",STATE_STUNNED)
+   LevelGT("keldorn",36)
+  OR(8)
+   !See(NearestEnemyOfType([PC.0.0.PALADIN_ALL]))
+   !Range(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),12)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_PANIC)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_CONFUSED)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_HELPLESS)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_STUNNED)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_CHARMED)
+   LevelGT(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),36)
+  OR(8)
+   !See(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]))
+   !Range(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),12)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_PANIC)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_CONFUSED)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_HELPLESS)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_STUNNED)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_CHARMED)
+   LevelGT(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),36)
+  See(ThirdNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  ActionListEmpty()
+  GlobalTimerNotExpired("Isturning","LOCALS")
+  !See(NearestEnemyOfType([GOODCUTOFF.0.SKELETON.SKELETON.0.SUMMONED]))
+  See(NearestEnemyOfType([GOODCUTOFF.0.0.SKELETON_WARRIOR.0.SUMMONED]))
+  !Range(LastSeenBy(Myself),12)
+  OR(9)
+   !See(Player1)
+   !Class(Player1,PALADIN_ALL)
+   !Range(Player1,12)
+   StateCheck(Player1,STATE_PANIC)
+   StateCheck(Player1,STATE_CONFUSED)
+   StateCheck(Player1,STATE_HELPLESS)
+   StateCheck(Player1,STATE_STUNNED)
+   StateCheck(Player1,STATE_CHARMED)
+   LevelGT(Player1,36)
+  OR(8)
+   !InParty("keldorn")
+   !See("keldorn")
+   !Range("keldorn",12)
+   StateCheck("keldorn",STATE_PANIC)
+   StateCheck("keldorn",STATE_CONFUSED)
+   StateCheck("keldorn",STATE_HELPLESS)
+   StateCheck("keldorn",STATE_STUNNED)
+   LevelGT("keldorn",36)
+  OR(8)
+   !See(NearestEnemyOfType([PC.0.0.PALADIN_ALL]))
+   !Range(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),12)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_PANIC)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_CONFUSED)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_HELPLESS)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_STUNNED)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_CHARMED)
+   LevelGT(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),36)
+  OR(8)
+   !See(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]))
+   !Range(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),12)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_PANIC)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_CONFUSED)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_HELPLESS)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_STUNNED)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_CHARMED)
+   LevelGT(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),36)
+  See(ThirdNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  ActionListEmpty()
+  GlobalTimerNotExpired("Isturning","LOCALS")
+  !See(NearestEnemyOfType([GOODCUTOFF.0.0.SKELETON_WARRIOR.0.SUMMONED]))
+  !See(NearestEnemyOfType([GOODCUTOFF.0.SKELETON.SKELETON.0.SUMMONED]))
+  OR(9)
+   !See(Player1)
+   !Class(Player1,PALADIN_ALL)
+   !Range(Player1,12)
+   StateCheck(Player1,STATE_PANIC)
+   StateCheck(Player1,STATE_CONFUSED)
+   StateCheck(Player1,STATE_HELPLESS)
+   StateCheck(Player1,STATE_STUNNED)
+   StateCheck(Player1,STATE_CHARMED)
+   LevelGT(Player1,36)
+  OR(8)
+   !InParty("keldorn")
+   !See("keldorn")
+   !Range("keldorn",12)
+   StateCheck("keldorn",STATE_PANIC)
+   StateCheck("keldorn",STATE_CONFUSED)
+   StateCheck("keldorn",STATE_HELPLESS)
+   StateCheck("keldorn",STATE_STUNNED)
+   LevelGT("keldorn",36)
+  OR(8)
+   !See(NearestEnemyOfType([PC.0.0.PALADIN_ALL]))
+   !Range(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),12)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_PANIC)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_CONFUSED)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_HELPLESS)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_STUNNED)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_CHARMED)
+   LevelGT(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),36)
+  OR(8)
+   !See(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]))
+   !Range(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),12)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_PANIC)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_CONFUSED)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_HELPLESS)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_STUNNED)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_CHARMED)
+   LevelGT(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),36)
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  ActionListEmpty()
+  GlobalTimerNotExpired("Isturning","LOCALS")
+  !See(NearestEnemyOfType([GOODCUTOFF.0.0.SKELETON_WARRIOR.0.SUMMONED]))
+  See(NearestEnemyOfType([GOODCUTOFF.0.SKELETON.SKELETON.0.SUMMONED]))
+  !Range(LastSeenBy(Myself),12)
+  OR(9)
+   !See(Player1)
+   !Class(Player1,PALADIN_ALL)
+   !Range(Player1,12)
+   StateCheck(Player1,STATE_PANIC)
+   StateCheck(Player1,STATE_CONFUSED)
+   StateCheck(Player1,STATE_HELPLESS)
+   StateCheck(Player1,STATE_STUNNED)
+   StateCheck(Player1,STATE_CHARMED)
+   LevelGT(Player1,36)
+  OR(8)
+   !InParty("keldorn")
+   !See("keldorn")
+   !Range("keldorn",12)
+   StateCheck("keldorn",STATE_PANIC)
+   StateCheck("keldorn",STATE_CONFUSED)
+   StateCheck("keldorn",STATE_HELPLESS)
+   StateCheck("keldorn",STATE_STUNNED)
+   LevelGT("keldorn",36)
+  OR(8)
+   !See(NearestEnemyOfType([PC.0.0.PALADIN_ALL]))
+   !Range(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),12)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_PANIC)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_CONFUSED)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_HELPLESS)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_STUNNED)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_CHARMED)
+   LevelGT(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),36)
+  OR(8)
+   !See(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]))
+   !Range(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),12)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_PANIC)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_CONFUSED)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_HELPLESS)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_STUNNED)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_CHARMED)
+   LevelGT(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),36)
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  ActionListEmpty()
+  GlobalTimerNotExpired("Isturning","LOCALS")
+  !See(NearestEnemyOfType([GOODCUTOFF.0.SKELETON.SKELETON.0.SUMMONED]))
+  See(NearestEnemyOfType([GOODCUTOFF.0.0.SKELETON_WARRIOR.0.SUMMONED]))
+  !Range(LastSeenBy(Myself),12)
+  OR(9)
+   !See(Player1)
+   !Class(Player1,PALADIN_ALL)
+   !Range(Player1,12)
+   StateCheck(Player1,STATE_PANIC)
+   StateCheck(Player1,STATE_CONFUSED)
+   StateCheck(Player1,STATE_HELPLESS)
+   StateCheck(Player1,STATE_STUNNED)
+   StateCheck(Player1,STATE_CHARMED)
+   LevelGT(Player1,36)
+  OR(8)
+   !InParty("keldorn")
+   !See("keldorn")
+   !Range("keldorn",12)
+   StateCheck("keldorn",STATE_PANIC)
+   StateCheck("keldorn",STATE_CONFUSED)
+   StateCheck("keldorn",STATE_HELPLESS)
+   StateCheck("keldorn",STATE_STUNNED)
+   LevelGT("keldorn",36)
+  OR(8)
+   !See(NearestEnemyOfType([PC.0.0.PALADIN_ALL]))
+   !Range(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),12)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_PANIC)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_CONFUSED)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_HELPLESS)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_STUNNED)
+   StateCheck(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_CHARMED)
+   LevelGT(NearestEnemyOfType([PC.0.0.PALADIN_ALL]),36)
+  OR(8)
+   !See(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]))
+   !Range(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),12)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_PANIC)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_CONFUSED)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_HELPLESS)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_STUNNED)
+   StateCheck(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),STATE_CHARMED)
+   LevelGT(SecondNearestEnemyOfType([PC.0.0.PALADIN_ALL]),36)
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
 END
