@@ -30,7 +30,7 @@ COPY_EXISTING ~ar0082.are~ ~override/ar0082.are~
    END
 "it" = "%it%" + 1
 END
-EXTEND_BOTTOM ~AR0082.BCS~ ~ImprovedAnvil\BAF\AR0082.BAF~
+EXTEND_BOTTOM ~AR0082.BCS~ ~ImprovedAnvil\scripts\areas\AR0082.BAF~
 
 COPY_EXISTING ~ar0300.are~ ~override/ar0300.are~
   READ_SHORT 0x5A "icount"
@@ -47,7 +47,7 @@ COPY_EXISTING ~ar0300.are~ ~override/ar0300.are~
    END
 "it" = "%it%" + 1
 END
-EXTEND_BOTTOM ~AR0300.BCS~ ~ImprovedAnvil\BAF\AR0300.BAF~
+EXTEND_BOTTOM ~AR0300.BCS~ ~ImprovedAnvil\scripts\areas\AR0300.BAF~
 
 COPY_EXISTING ~ar0301.are~ ~override/ar0301.are~
   READ_SHORT 0x5A "icount"
@@ -64,7 +64,7 @@ COPY_EXISTING ~ar0301.are~ ~override/ar0301.are~
    END
 "it" = "%it%" + 1
 END
-EXTEND_TOP ~AR0301.BCS~ ~ImprovedAnvil\BAF\AR0301.BAF~
+EXTEND_TOP ~AR0301.BCS~ ~ImprovedAnvil\scripts\areas\AR0301.BAF~
 
 COPY_EXISTING ~ar0302.are~ ~override/ar0302.are~
   READ_SHORT 0x5A "icount"
@@ -95,10 +95,10 @@ COPY_EXISTING ~ar0334.are~ ~override/ar0334.are~
    END
 "it" = "%it%" + 1
 END
-EXTEND_TOP ~AR0334.BCS~ ~ImprovedAnvil\BAF\AR0334.BAF~
+EXTEND_TOP ~AR0334.BCS~ ~ImprovedAnvil\scripts\areas\AR0334.BAF~
 
 COPY_EXISTING ~ar0502.are~ ~override/ar0502.are~
-  LAUNCH_PATCH_FUNCTION ~ALTER_AREA_REGION~ 
+  LAUNCH_PATCH_FUNCTION ~ALTER_AREA_REGION~
   INT_VAR
     "flag_party_required" = 1
 	"flag_impassable_npc" = 1
@@ -108,14 +108,14 @@ COPY_EXISTING ~ar0502.are~ ~override/ar0502.are~
 
 COPY_EXISTING ~ar0503.are~ ~override/ar0503.are~
   WRITE_ASCII 0x94 ~ar0503~ #8 // Area Script reference
-  
+
   READ_LONG 0x54 "actoroffset"
   READ_SHORT 0x58 "actorcount"
   SET "updated" = 0
-  
+
   FOR (i = 0; i < "%actorcount%"; i = i+1) BEGIN
     READ_ASCII ("%actoroffset%" + 272 * "%i%" + 128) "creresref"
-	
+
     PATCH_IF (("%creresref%" STRING_COMPARE_CASE "GHAST01") = 0) AND ("updated" = 0) BEGIN
 	  WRITE_ASCII ("%actoroffset%" + 272 * "%i%") "Grotesque" #9
 	  WRITE_LONG ("%actoroffset%" + 272 * "%i%" + 0x30) 29953
@@ -123,12 +123,12 @@ COPY_EXISTING ~ar0503.are~ ~override/ar0503.are~
 	  SET "updated" = 1
     END
   END
-  
-  EXTEND_BOTTOM ~AR0503.BCS~ ~ImprovedAnvil\BAF\AR0503.BAF~
+
+  EXTEND_BOTTOM ~AR0503.BCS~ ~ImprovedAnvil\scripts\areas\AR0503.BAF~
 
 COPY_EXISTING ~ar1203.are~ ~override/ar1203.are~
   WRITE_ASCII 0x94 ~ar1203~ #8 // Area Script reference
-EXTEND_BOTTOM ~AR1203.BCS~ ~ImprovedAnvil\BAF\AR1203.BAF~
+EXTEND_BOTTOM ~AR1203.BCS~ ~ImprovedAnvil\scripts\areas\AR1203.BAF~
 
 COPY_EXISTING ~ar1201.are~ ~override/ar1201.are~
   WRITE_ASCII 0x94 ~ar1201~ #8 // Area Script reference
@@ -182,11 +182,11 @@ END
    END
 "it" = "%it%" + 1
 END
-EXTEND_BOTTOM ~AR1201.BCS~ ~ImprovedAnvil\BAF\AR1201.BAF~
+EXTEND_BOTTOM ~AR1201.BCS~ ~ImprovedAnvil\scripts\areas\AR1201.BAF~
 
 COPY_EXISTING ~ar1610.are~ ~override/ar1610.are~
   WRITE_ASCII 0x94 ~ar1610~ #8 // Area Script reference
-EXTEND_BOTTOM ~AR1610.BCS~ ~ImprovedAnvil\BAF\AR1610.BAF~
+EXTEND_BOTTOM ~AR1610.BCS~ ~ImprovedAnvil\scripts\areas\AR1610.BAF~
 
 COPY_EXISTING ~AR0201.ARE~ ~override/AR0201.ARE~
   READ_LONG 0xC0 "interroffset"
@@ -329,11 +329,11 @@ END
    END
   "it" = "%it%" + 1
 END
-EXTEND_BOTTOM ~AR0206.BCS~ ~ImprovedAnvil\BAF\AR0206.BAF~
+EXTEND_BOTTOM ~AR0206.BCS~ ~ImprovedAnvil\scripts\areas\AR0206.BAF~
 
 COPY_EXISTING ~ar0303.are~ ~override/ar0303.are~
   WRITE_ASCII 0x94 ~ar0303~ #8 // Area Script reference
-EXTEND_BOTTOM ~AR0303.BCS~ ~ImprovedAnvil\BAF\AR0303.BAF~
+EXTEND_BOTTOM ~AR0303.BCS~ ~ImprovedAnvil\scripts\areas\AR0303.BAF~
 
 COPY_EXISTING ~ar0310.are~ ~override/ar0310.are~
   WRITE_ASCII 0x94 ~ar0310~ #8 // Area Script reference
@@ -350,7 +350,7 @@ COPY_EXISTING ~ar0310.are~ ~override/ar0310.are~
    END
 "it" = "%it%" + 1
 END
-EXTEND_BOTTOM ~AR0310.BCS~ ~ImprovedAnvil\BAF\AR0310.BAF~
+EXTEND_BOTTOM ~AR0310.BCS~ ~ImprovedAnvil\scripts\areas\AR0310.BAF~
 
 COPY_EXISTING ~ar0313.are~ ~override/ar0313.are~
   READ_SHORT 0x5A "icount"
@@ -402,7 +402,7 @@ COPY_EXISTING ~ar0317.are~ ~override/ar0317.are~
     new_item = ~SCRL7S~
   END
 
-  EXTEND_BOTTOM ~AR0317.BCS~ ~ImprovedAnvil\BAF\AR0317.BAF~
+  EXTEND_BOTTOM ~AR0317.BCS~ ~ImprovedAnvil\scripts\areas\AR0317.BAF~
 
 COPY_EXISTING ~ar0325.are~ ~override/ar0325.are~
   READ_SHORT 0x5A "icount"
@@ -433,7 +433,7 @@ COPY_EXISTING ~ar0326.are~ ~override/ar0326.are~
    END
 "it" = "%it%" + 1
 END
-EXTEND_BOTTOM ~AR0326.BCS~ ~ImprovedAnvil\BAF\AR0326.BAF~
+EXTEND_BOTTOM ~AR0326.BCS~ ~ImprovedAnvil\scripts\areas\AR0326.BAF~
 
 // Slums
 COPY_EXISTING ~ar0400.are~ ~override/ar0400.are~
@@ -479,7 +479,7 @@ COPY_EXISTING ~ar0405.are~ ~override/ar0405.are~
    END
 "it" = "%it%" + 1
 END
-EXTEND_BOTTOM ~AR0405.BCS~ ~ImprovedAnvil\BAF\AR0405.BAF~
+EXTEND_BOTTOM ~AR0405.BCS~ ~ImprovedAnvil\scripts\areas\AR0405.BAF~
 
 COPY_EXISTING ~ar0411.are~ ~override/ar0411.are~
  READ_SHORT 0x5A "icount"
@@ -524,7 +524,7 @@ COPY_EXISTING ~ar0417.are~ ~override/ar0417.are~
    END
 "it" = "%it%" + 1
 END
-EXTEND_BOTTOM ~AR0417.BCS~ ~ImprovedAnvil\BAF\AR0417.BAF~
+EXTEND_BOTTOM ~AR0417.BCS~ ~ImprovedAnvil\scripts\areas\AR0417.BAF~
 
 // Bridge district
 COPY_EXISTING ~AR0500.ARE~ ~override/AR0500.ARE~
@@ -554,7 +554,7 @@ COPY_EXISTING ~AR0506.ARE~ ~override/AR0506.ARE~
    END
 "it" = "%it%" + 1
 END
-EXTEND_BOTTOM ~AR0506.BCS~ ~ImprovedAnvil\BAF\AR0506.BAF~
+EXTEND_BOTTOM ~AR0506.BCS~ ~ImprovedAnvil\scripts\areas\AR0506.BAF~
 
 COPY_EXISTING ~AR0511.ARE~ ~override/AR0511.ARE~
   READ_SHORT 0x5A "icount"
@@ -609,7 +609,7 @@ COPY_EXISTING ~ar0526.are~ ~override/ar0526.are~
    END
 "it" = "%it%" + 1
 END
-EXTEND_BOTTOM ~AR0526.BCS~ ~ImprovedAnvil\BAF\AR0526.BAF~
+EXTEND_BOTTOM ~AR0526.BCS~ ~ImprovedAnvil\scripts\areas\AR0526.BAF~
 
 COPY_EXISTING ~ar0530.are~ ~override/ar0530.are~
   READ_LONG 0xBC "song-offset"
@@ -629,7 +629,7 @@ COPY_EXISTING ~ar0530.are~ ~override/ar0530.are~
    END
 "it" = "%it%" + 1
 END
-EXTEND_BOTTOM ~AR0530.BCS~ ~ImprovedAnvil\BAF\AR0530.BAF~
+EXTEND_BOTTOM ~AR0530.BCS~ ~ImprovedAnvil\scripts\areas\AR0530.BAF~
 
 COPY_EXISTING ~AR0602.ARE~ ~override/AR0602.ARE~
   READ_SHORT 0x64 "spcount"
@@ -768,7 +768,7 @@ COPY_EXISTING ~ar0705.are~ ~override/ar0705.are~
    new_item = ~SCRL7M~
  END
 
- EXTEND_TOP ~AR0705.BCS~ ~ImprovedAnvil\BAF\AR0705.BAF~
+ EXTEND_TOP ~AR0705.BCS~ ~ImprovedAnvil\scripts\areas\AR0705.BAF~
 
 COPY_EXISTING ~ar0712.are~ ~override/ar0712.are~
   WRITE_ASCII 0x94 ~ar0712~ #8 // Area Script reference
@@ -785,7 +785,7 @@ COPY_EXISTING ~ar0712.are~ ~override/ar0712.are~
    END
 "it" = "%it%" + 1
 END
-EXTEND_TOP ~AR0712.BCS~ ~ImprovedAnvil\BAF\AR0712.BAF~
+EXTEND_TOP ~AR0712.BCS~ ~ImprovedAnvil\scripts\areas\AR0712.BAF~
 
 COPY_EXISTING ~ar0800.are~ ~override/ar0800.are~
   READ_SHORT 0x5A "icount"
@@ -881,7 +881,7 @@ COPY_EXISTING ~ar0806.are~ ~override/ar0806.are~
    END
 "it" = "%it%" + 1
 END
-EXTEND_BOTTOM ~AR0806.BCS~ ~ImprovedAnvil\BAF\AR0806.BAF~
+EXTEND_BOTTOM ~AR0806.BCS~ ~ImprovedAnvil\scripts\areas\AR0806.BAF~
 
 COPY_EXISTING ~AR0808.ARE~ ~override/AR0808.are~
   READ_LONG 0xC0 "interroffset"
@@ -922,7 +922,7 @@ COPY_EXISTING ~AR0907.ARE~ ~override/AR0907.are~
     LAUNCH_PATCH_MACRO ~DELETE_AREA_ITEM~
   END
 
-  EXTEND_TOP ~AR0907.BCS~ ~ImprovedAnvil\BAF\AR0907.BAF~
+  EXTEND_TOP ~AR0907.BCS~ ~ImprovedAnvil\scripts\areas\AR0907.BAF~
 
 COPY_EXISTING ~ar1100.are~ ~override/ar1100.are~
   READ_SHORT 0x5A "icount"
@@ -950,11 +950,11 @@ END
    END
 "it" = "%it%" + 1
 END
-EXTEND_TOP ~AR1100.BCS~ ~ImprovedAnvil\BAF\AR1100.BAF~
+EXTEND_TOP ~AR1100.BCS~ ~ImprovedAnvil\scripts\areas\AR1100.BAF~
 
 COPY_EXISTING ~ar1101.are~ ~override/ar1101.are~
   WRITE_ASCII 0x94 ~ar1101~ #8 // Area Script reference
-  EXTEND_BOTTOM ~AR1101.BCS~ ~ImprovedAnvil\BAF\AR1101.BAF~
+  EXTEND_BOTTOM ~AR1101.BCS~ ~ImprovedAnvil\scripts\areas\AR1101.BAF~
 
 COPY_EXISTING ~ar1103.are~ ~override/ar1103.are~
   WRITE_ASCII 0x94 ~ar1103~ #8 // Area Script reference
@@ -969,7 +969,7 @@ COPY_EXISTING ~ar1103.are~ ~override/ar1103.are~
    END
 "it" = "%it%" + 1
 END
-EXTEND_BOTTOM ~AR1103.BCS~ ~ImprovedAnvil\BAF\AR1103.BAF~
+EXTEND_BOTTOM ~AR1103.BCS~ ~ImprovedAnvil\scripts\areas\AR1103.BAF~
 
 COPY_EXISTING ~ar1106.are~ ~override/ar1106.are~
   READ_SHORT 0x5A "icount"
@@ -985,7 +985,7 @@ COPY_EXISTING ~ar1106.are~ ~override/ar1106.are~
    END
 "it" = "%it%" + 1
 END
-EXTEND_TOP ~AR1106.BCS~ ~ImprovedAnvil\BAF\AR1106.BAF~
+EXTEND_TOP ~AR1106.BCS~ ~ImprovedAnvil\scripts\areas\AR1106.BAF~
 
 COPY_EXISTING ~ar1202.are~ ~override/ar1202.are~
   READ_LONG 0xC0 "interroffset"
@@ -1080,7 +1080,7 @@ END
    END
 "it" = "%it%" + 1
 END
-EXTEND_TOP ~AR1202.BCS~ ~ImprovedAnvil\BAF\AR1202.BAF~
+EXTEND_TOP ~AR1202.BCS~ ~ImprovedAnvil\scripts\areas\AR1202.BAF~
 
 COPY_EXISTING ~AR1300.ARE~ ~override/AR1300.ARE~
   READ_SHORT 0x5A "icount"
@@ -1120,7 +1120,7 @@ END
    END
 "it" = "%it%" + 1
 END
-EXTEND_TOP ~AR1300.BCS~ ~ImprovedAnvil\BAF\AR1300.BAF~
+EXTEND_TOP ~AR1300.BCS~ ~ImprovedAnvil\scripts\areas\AR1300.BAF~
 
 COPY_EXISTING ~ar1301.are~ ~override/ar1301.are~
   READ_LONG 0xC0 "interroffset"
@@ -1154,7 +1154,7 @@ END
    END
 "it" = "%it%" + 1
 END
-EXTEND_BOTTOM ~AR1302.BCS~ ~ImprovedAnvil\BAF\AR1302.BAF~
+EXTEND_BOTTOM ~AR1302.BCS~ ~ImprovedAnvil\scripts\areas\AR1302.BAF~
 
 COPY_EXISTING ~AR1303.are~ ~override/AR1303.are~
   READ_SHORT 0x5A "icount"
@@ -1205,7 +1205,7 @@ COPY_EXISTING ~ar1400.are~ ~override/ar1400.are~
   END
  "it" = "%it%" + 1
 END
-EXTEND_BOTTOM ~ar1400.BCS~ ~ImprovedAnvil\BAF\ar1400.BAF~
+EXTEND_BOTTOM ~ar1400.BCS~ ~ImprovedAnvil\scripts\areas\ar1400.BAF~
 
 COPY_EXISTING ~AR1401.ARE~ ~override/AR1401.are~
   READ_SHORT 0x64 "spcount"
@@ -1439,7 +1439,7 @@ COPY_EXISTING ~ar1600.are~ ~override/ar1600.are~
    END
 "it" = "%it%" + 1
 END
-EXTEND_BOTTOM ~AR1600.BCS~ ~ImprovedAnvil\BAF\AR1600.BAF~
+EXTEND_BOTTOM ~AR1600.BCS~ ~ImprovedAnvil\scripts\areas\AR1600.BAF~
 
 COPY_EXISTING ~ar1605.are~ ~override/ar1605.are~
   READ_SHORT 0x5A "icount"
@@ -1455,7 +1455,7 @@ COPY_EXISTING ~ar1605.are~ ~override/ar1605.are~
    END
 "it" = "%it%" + 1
 END
-EXTEND_BOTTOM ~AR1605.BCS~ ~ImprovedAnvil\BAF\AR1605.BAF~
+EXTEND_BOTTOM ~AR1605.BCS~ ~ImprovedAnvil\scripts\areas\AR1605.BAF~
 
 COPY_EXISTING ~AR1700.ARE~ ~override/AR1700.ARE~
   READ_SHORT 0x64 "spcount"
@@ -1544,7 +1544,7 @@ END
    END
 "it" = "%it%" + 1
 END
-EXTEND_BOTTOM ~AR1900.BCS~ ~ImprovedAnvil\BAF\AR1900.BAF~
+EXTEND_BOTTOM ~AR1900.BCS~ ~ImprovedAnvil\scripts\areas\AR1900.BAF~
 
 COPY_EXISTING ~ar1904.are~ ~override/ar1904.are~
   WRITE_ASCII 0x94 ~ar1904~ #8 // Area Script reference
@@ -1561,7 +1561,7 @@ COPY_EXISTING ~ar1904.are~ ~override/ar1904.are~
    END
 "it" = "%it%" + 1
 END
-COMPILE ~ImprovedAnvil\BAF\AR1904.BAF~
+COMPILE ~ImprovedAnvil\scripts\areas\AR1904.BAF~
 
 COPY_EXISTING ~ar2000.are~ ~override/ar2000.are~
   READ_SHORT 0x5A "icount"
@@ -1578,7 +1578,7 @@ COPY_EXISTING ~ar2000.are~ ~override/ar2000.are~
    END
 "it" = "%it%" + 1
 END
-EXTEND_BOTTOM ~AR2000.BCS~ ~ImprovedAnvil\BAF\AR2000.BAF~
+EXTEND_BOTTOM ~AR2000.BCS~ ~ImprovedAnvil\scripts\areas\AR2000.BAF~
 
 COPY_EXISTING ~ar2002.are~ ~override/ar2002.are~
   READ_SHORT 0x5A "icount"
@@ -1594,7 +1594,7 @@ COPY_EXISTING ~ar2002.are~ ~override/ar2002.are~
    END
 "it" = "%it%" + 1
 END
-EXTEND_TOP ~AR2002.BCS~ ~ImprovedAnvil\BAF\AR2002.BAF~
+EXTEND_TOP ~AR2002.BCS~ ~ImprovedAnvil\scripts\areas\AR2002.BAF~
 
 COPY_EXISTING ~ar2013.are~ ~override/ar2013.are~
   READ_SHORT 0x5A "icount"
@@ -1610,7 +1610,7 @@ COPY_EXISTING ~ar2013.are~ ~override/ar2013.are~
    END
 "it" = "%it%" + 1
 END
-EXTEND_BOTTOM ~AR2013.BCS~ ~ImprovedAnvil\BAF\AR2013.BAF~
+EXTEND_BOTTOM ~AR2013.BCS~ ~ImprovedAnvil\scripts\areas\AR2013.BAF~
 
 COPY_EXISTING ~AR2100.ARE~ ~override/AR2100.are~
   READ_LONG 0xC0 "interroffset"
@@ -1670,7 +1670,7 @@ COPY_EXISTING ~AR2200.ARE~ ~override/ar2200.are~
    END
 "it" = "%it%" + 1
 END
-EXTEND_BOTTOM ~AR2200.BCS~ ~ImprovedAnvil\BAF\AR2200.BAF~
+EXTEND_BOTTOM ~AR2200.BCS~ ~ImprovedAnvil\scripts\areas\AR2200.BAF~
 
 // Jae'llat's House
 COPY_EXISTING ~AR2209.ARE~ ~override/ar2209.are~
@@ -1704,7 +1704,7 @@ COPY_EXISTING ~AR2210.ARE~ ~override/ar2210.are~
     new_item = ~SCRL8G~
   END
 
-  EXTEND_BOTTOM ~AR2210.BCS~ ~ImprovedAnvil\BAF\AR2210.BAF~
+  EXTEND_BOTTOM ~AR2210.BCS~ ~ImprovedAnvil\scripts\areas\AR2210.BAF~
 
 COPY_EXISTING ~AR2300.ARE~ ~override/AR2300.ARE~
   READ_SHORT 0x64 "spcount"
@@ -1808,7 +1808,7 @@ END
    END
 "it" = "%it%" + 1
 END
-EXTEND_TOP ~AR2402.BCS~ ~ImprovedAnvil\BAF\AR2402.BAF~
+EXTEND_TOP ~AR2402.BCS~ ~ImprovedAnvil\scripts\areas\AR2402.BAF~
 
 COPY_EXISTING ~ar2600.are~ ~override/ar2600.are~
   READ_SHORT 0x5A "icount"
@@ -1977,7 +1977,7 @@ COPY_EXISTING ~ar2807.are~ ~override/ar2807.are~
    END
 "it" = "%it%" + 1
 END
-EXTEND_TOP ~AR2807.BCS~ ~ImprovedAnvil\BAF\AR2807.BAF~
+EXTEND_TOP ~AR2807.BCS~ ~ImprovedAnvil\scripts\areas\AR2807.BAF~
 
 COPY_EXISTING ~AR2811.are~ ~override/AR2811.are~
   WRITE_ASCII 0x94 ~AR2811~ #8 // Area Script reference
@@ -1994,7 +1994,7 @@ COPY_EXISTING ~AR2811.are~ ~override/AR2811.are~
    END
 "it" = "%it%" + 1
 END
-EXTEND_BOTTOM ~AR2811.BCS~ ~ImprovedAnvil\BAF\AR2811.BAF~
+EXTEND_BOTTOM ~AR2811.BCS~ ~ImprovedAnvil\scripts\areas\AR2811.BAF~
 
 COPY_EXISTING ~AR3000.ARE~ ~override/AR3000.ARE~
   READ_SHORT 0x5A "icount"
@@ -2009,7 +2009,7 @@ COPY_EXISTING ~AR3000.ARE~ ~override/AR3000.ARE~
    END
 "it" = "%it%" + 1
 END
-EXTEND_TOP ~AR3000.BCS~ ~ImprovedAnvil\BAF\AR3000.BAF~
+EXTEND_TOP ~AR3000.BCS~ ~ImprovedAnvil\scripts\areas\AR3000.BAF~
 
 COPY_EXISTING ~AR3001.ARE~ ~override/AR3001.ARE~
   READ_SHORT 0x64 "spcount"
@@ -2091,11 +2091,11 @@ COPY_EXISTING ~ar3011.are~ ~override/ar3011.are~
   WRITE_LONG "%song-offset%" 0
   WRITE_LONG ("%song-offset%" + 4) 0
   WRITE_LONG ("%song-offset%" + 12) 58
-EXTEND_TOP ~AR3011.BCS~ ~ImprovedAnvil\BAF\AR3011.BAF~
+EXTEND_TOP ~AR3011.BCS~ ~ImprovedAnvil\scripts\areas\AR3011.BAF~
 
 COPY_EXISTING ~ar3014.are~ ~override/ar3014.are~
   WRITE_ASCII 0x94 ~ar3014~ #8 // Area Script reference
-EXTEND_BOTTOM ~ar3014.BCS~ ~ImprovedAnvil\BAF\ar3014.BAF~
+EXTEND_BOTTOM ~ar3014.BCS~ ~ImprovedAnvil\scripts\areas\ar3014.BAF~
 
 COPY_EXISTING ~ar3016.ARE~ ~override/ar3016.ARE~
   READ_SHORT 0x64 "spcount"
@@ -2251,7 +2251,7 @@ END
    END
 "it" = "%it%" + 1
 END
-EXTEND_BOTTOM ~AR3017.BCS~ ~ImprovedAnvil\BAF\AR3017.BAF~
+EXTEND_BOTTOM ~AR3017.BCS~ ~ImprovedAnvil\scripts\areas\AR3017.BAF~
 
 COPY_EXISTING ~AR3019.ARE~ ~override/AR3019.are~
   READ_LONG 0xC0 "interroffset"
@@ -2306,7 +2306,7 @@ COPY_EXISTING ~ar3022.are~ ~override/ar3022.are~
    END
 "it" = "%it%" + 1
 END
-EXTEND_BOTTOM ~AR3022.BCS~ ~ImprovedAnvil\BAF\AR3022.BAF~
+EXTEND_BOTTOM ~AR3022.BCS~ ~ImprovedAnvil\scripts\areas\AR3022.BAF~
 
 COPY_EXISTING ~ar3027.are~ ~override/ar3027.are~
   READ_SHORT 0x5A "icount"
@@ -2322,7 +2322,7 @@ COPY_EXISTING ~ar3027.are~ ~override/ar3027.are~
    END
 "it" = "%it%" + 1
 END
-EXTEND_BOTTOM ~AR3027.BCS~ ~ImprovedAnvil\BAF\AR3027.BAF~
+EXTEND_BOTTOM ~AR3027.BCS~ ~ImprovedAnvil\scripts\areas\AR3027.BAF~
 
 COPY_EXISTING ~AR5002.ARE~ ~override/AR5002.are~
   READ_LONG 0x54 "actoroffset"
@@ -2372,7 +2372,7 @@ END
    END
 "it" = "%it%" + 1
 END
-EXTEND_BOTTOM ~AR5200.BCS~ ~ImprovedAnvil\BAF\AR5200.BAF~
+EXTEND_BOTTOM ~AR5200.BCS~ ~ImprovedAnvil\scripts\areas\AR5200.BAF~
 
 COPY_EXISTING ~ar5201.are~ ~override/ar5201.are~
   READ_LONG 0xC0 "interroffset"
@@ -2432,7 +2432,7 @@ COPY_EXISTING ~ar5204.are~ ~override/ar5204.are~
    END
 "it" = "%it%" + 1
 END
-EXTEND_BOTTOM ~AR5204.BCS~ ~ImprovedAnvil\BAF\AR5204.BAF~
+EXTEND_BOTTOM ~AR5204.BCS~ ~ImprovedAnvil\scripts\areas\AR5204.BAF~
 
 COPY_EXISTING ~ar6000.are~ ~override/ar6000.are~
   READ_LONG 0xC0 "interroffset"
@@ -2575,18 +2575,18 @@ COPY_EXISTING ~AR6400.ARE~ ~override/AR6400.are~
 
 COPY_EXISTING ~ar0331.are~ ~override/ar0331.are~
   WRITE_ASCII 0x94 ~ar0331~ #8 // Area Script reference
-EXTEND_BOTTOM ~AR0331.BCS~ ~ImprovedAnvil\BAF\AR0331.BAF~
+EXTEND_BOTTOM ~AR0331.BCS~ ~ImprovedAnvil\scripts\areas\AR0331.BAF~
 
 COPY_EXISTING ~ar0412.are~ ~override/ar0412.are~
   WRITE_ASCII 0x94 ~ar0412~ #8 // Area Script reference
   READ_LONG 0xC0 "interroffset"
   WRITE_ASCII ("%interroffset%" + 72) ~S!shador~ #8
   WRITE_ASCII ("%interroffset%" + 80) ~S!shadfi~ #8
-EXTEND_BOTTOM ~AR0412.BCS~ ~ImprovedAnvil\BAF\AR0412.BAF~
+EXTEND_BOTTOM ~AR0412.BCS~ ~ImprovedAnvil\scripts\areas\AR0412.BAF~
 
 COPY_EXISTING ~ar3018.are~ ~override/ar3018.are~
   WRITE_ASCII 0x94 ~ar3018~ #8 // Area Script reference
-EXTEND_BOTTOM ~ar3018.BCS~ ~ImprovedAnvil\BAF\ar3018.BAF~
+EXTEND_BOTTOM ~ar3018.BCS~ ~ImprovedAnvil\scripts\areas\ar3018.BAF~
 
 COPY_EXISTING ~ar1107.are~ ~override/ar1107.are~
   WRITE_ASCII 0x94 ~ar1107~ #8 // Area Script reference
@@ -2603,7 +2603,7 @@ COPY_EXISTING ~ar1107.are~ ~override/ar1107.are~
    END
 "it" = "%it%" + 1
 END
-EXTEND_BOTTOM ~ar1107.BCS~ ~ImprovedAnvil\BAF\ar1107.BAF~
+EXTEND_BOTTOM ~ar1107.BCS~ ~ImprovedAnvil\scripts\areas\ar1107.BAF~
 
 // Bridge district
 COPY_EXISTING ~AR0500.ARE~ ~override/AR0500.ARE~
@@ -2626,7 +2626,7 @@ COPY_EXISTING ~AR2808.ARE~ ~override/AR2808.ARE~
     old_item = ~SCRL9N~
     new_item = ~SCRL9Q~
   END
-  
+
 COPY_EXISTING ~AR0705.ARE~ ~override/AR0705.ARE~
   LAUNCH_PATCH_FUNCTION ~REPLACE_AREA_ITEM~ STR_VAR
     old_item = ~POTN40~
@@ -2700,7 +2700,7 @@ ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
       PATCH_FOR_EACH ~item_to_delete~ IN ~potn55~ BEGIN
         LAUNCH_PATCH_MACRO ~DELETE_AREA_ITEM~
       END
-      
+
       LAUNCH_PATCH_FUNCTION ~REPLACE_AREA_ITEM~ STR_VAR
         old_item = ~POTN40~
         new_item = ~POTN11~
