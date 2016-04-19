@@ -8131,6 +8131,27 @@ COPY_EXISTING ~amcarras.cre~ ~override/amcarras.cre~
 COPY_EXISTING ~arkanisg.cre~ ~override/arkanisg.cre~
   REMOVE_CRE_ITEM ~ax1h09~
 
+// custom animation for all skeleton lords
+ACTION_FOR_EACH ~file~ IN
+                ~S!skel~
+                ~S!skel2~
+                ~S!skel3~
+                ~S!skeld~
+                ~S!skell1~
+                ~S!skell2~
+                ~S!skell3~
+                ~S!skell4~
+                ~S!skell5~
+                ~S!skelpp~
+                ~S!skelr2~
+                ~S!skels~
+                ~S!skelsu~
+BEGIN
+  COPY_EXISTING ~%file%.cre~ ~override~
+    WRITE_LONG 0x28 58112
+    BUT_ONLY
+END
+
 COPY_EXISTING_REGEXP GLOB ~.*\.cre~ ~override~
   // change all flesh golems' animations to ogrillons
   PATCH_IF BYTE_AT 0x273=183 BEGIN
