@@ -8132,6 +8132,11 @@ COPY_EXISTING ~arkanisg.cre~ ~override/arkanisg.cre~
   REMOVE_CRE_ITEM ~ax1h09~
 
 COPY_EXISTING_REGEXP GLOB ~.*\.cre~ ~override~
+  // change all flesh golems' animations to ogrillons
+  PATCH_IF BYTE_AT 0x273=183 BEGIN
+    WRITE_LONG 0x28 28673
+  END
+
   // patch all golems to have protection from petrification
   PATCH_IF BYTE_AT 0x272=144 BEGIN
     // prevent display of "petrified" string
@@ -8156,6 +8161,7 @@ COPY_EXISTING_REGEXP GLOB ~.*\.cre~ ~override~
       power = 0
     END
   END
+
   BUT_ONLY
 
 ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
