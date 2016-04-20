@@ -8163,6 +8163,30 @@ BEGIN
     BUT_ONLY
 END
 
+// custom animation for all skeleton grandlords
+ACTION_FOR_EACH ~file~ IN
+                ~S!skelg1~
+                ~S!skelg2~
+                ~S!skelg3~
+                ~S!skelg4~
+                ~S!skelg5~
+                ~S!skelg6~
+                ~S!skelgr~
+                ~S!skelo1~
+                ~S!skelo2~
+                ~S!skelo3~
+                ~S!skelo4~
+                ~S!skelo5~
+                ~S!skelo6~
+                ~S!skelo7~
+                ~S!skelo8~
+                ~S!skelre~
+BEGIN
+  COPY_EXISTING ~%file%.cre~ ~override~
+    WRITE_LONG 0x28 60944
+    BUT_ONLY
+END
+
 COPY_EXISTING_REGEXP GLOB ~.*\.cre~ ~override~
   // change all flesh golems' animations to ogrillons
   PATCH_IF BYTE_AT 0x273=183 BEGIN
