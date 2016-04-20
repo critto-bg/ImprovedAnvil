@@ -99,6 +99,16 @@ THEN
     ReallyForceSpellRES("SPWII07",Myself)
 END
 
+// Remove Long Sword +4 from the loot in the player already has one forged
+IF
+  Global("Ialongfforged","GLOBAL",1)
+  Global("IaLoot1","LOCALS",0)
+THEN
+  RESPONSE #100
+  	SetGlobal("IaLoot1","LOCALS",1)
+    DestroyItem("S!sw17")
+END
+
 // This determines whether Rozvankee will cast something or attack in melee //
 // Some actions (like summons, protections or breach) ignore this condition but reset the flag nonetheless //
 IF
