@@ -1375,6 +1375,21 @@ THEN
     DestroyItem("S!sw19")
 END
 
+IF
+  OR(6)
+   HasItemEquiped("S!shld05",Player1)
+   HasItemEquiped("S!shld05",Player2)
+   HasItemEquiped("S!shld05",Player3)
+   HasItemEquiped("S!shld05",Player4)
+   HasItemEquiped("S!shld05",Player5)
+   HasItemEquiped("S!shld05",Player6)
+  Global("Iashld05forged","GLOBAL",0)
+THEN
+  RESPONSE #100
+    TakePartyItem("S!shld05")
+    DestroyItem("S!shld05")
+END
+
 // enforce item restrictions for certain npcs and/or classes //
 
 IF
@@ -4192,6 +4207,92 @@ THEN
     DestroyItem("S!amul07")
     Wait(2)
     GiveItemCreate("S!amul07",Player1,1,1,1)
+END
+
+// Defender of Arvoreen +5
+IF
+  HasItemEquiped("S!shld05",Player1)
+THEN
+  RESPONSE #100
+    TakePartyItem("S!shld05")
+    DestroyItem("S!shld05")
+    Wait(2)
+    GiveItemCreate("S!shld05",Player1,1,1,1)
+END
+
+IF
+  HasItemEquiped("S!shld05",Player2)
+  OR(4)
+   Class(Player2,THIEF_ALL)
+   Class(Player2,BARD_ALL)
+   !InPartyAllowDead("MAZZY")
+   !HasItemEquiped("S!shld05","MAZZY")
+THEN
+  RESPONSE #100
+    TakePartyItem("S!shld05")
+    DestroyItem("S!shld05")
+    Wait(2)
+    GiveItemCreate("S!shld05",Player1,1,1,1)
+END
+
+IF
+  HasItemEquiped("S!shld05",Player3)
+  OR(4)
+   Class(Player3,THIEF_ALL)
+   Class(Player3,BARD_ALL)
+   !InPartyAllowDead("MAZZY")
+   !HasItemEquiped("S!shld05","MAZZY")
+THEN
+  RESPONSE #100
+    TakePartyItem("S!shld05")
+    DestroyItem("S!shld05")
+    Wait(2)
+    GiveItemCreate("S!shld05",Player1,1,1,1)
+END
+
+IF
+  HasItemEquiped("S!shld05",Player4)
+  OR(4)
+   Class(Player4,THIEF_ALL)
+   Class(Player4,BARD_ALL)
+   !InPartyAllowDead("MAZZY")
+   !HasItemEquiped("S!shld05","MAZZY")
+THEN
+  RESPONSE #100
+    TakePartyItem("S!shld05")
+    DestroyItem("S!shld05")
+    Wait(2)
+    GiveItemCreate("S!shld05",Player1,1,1,1)
+END
+
+IF
+  HasItemEquiped("S!shld05",Player5)
+  OR(4)
+   Class(Player5,THIEF_ALL)
+   Class(Player5,BARD_ALL)
+   !InPartyAllowDead("MAZZY")
+   !HasItemEquiped("S!shld05","MAZZY")
+THEN
+  RESPONSE #100
+    TakePartyItem("S!shld05")
+    DestroyItem("S!shld05")
+    Wait(2)
+    GiveItemCreate("S!shld05",Player1,1,1,1)
+END
+
+IF
+  HasItemEquiped("S!shld05",Player6)
+  OR(4)
+   Class(Player6,THIEF_ALL)
+   Class(Player6,BARD_ALL)
+   !InPartyAllowDead("MAZZY")
+   !HasItemEquiped("S!shld05","MAZZY")
+THEN
+  RESPONSE #100
+    TakePartyItem("S!shld05")
+    DestroyItem("S!shld05")
+    Wait(2)
+    GiveItemCreate("S!shld05",Player1,1,1,1)
 END
 
 IF

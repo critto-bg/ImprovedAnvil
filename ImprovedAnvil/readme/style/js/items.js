@@ -1294,6 +1294,39 @@ var gear = [
                     }
                 ],
                 "item_name": "Harper's Ward"
+            },
+            {
+                "components": [
+                    "Shield of Arvoreen +2",
+                    "Saving Grace +3",
+                    "Sentinel +4",
+                    "Buckler +3",
+                    "Scroll of Bigby's Clenched Fist",
+                    "Permanency Scroll",
+                    "75,000 gp"
+                ],
+                "attributes": [
+                    {
+                        "section_name": "Combat abilities",
+                        "section_items": [
+                            "20% to hit an enemy with the shield for 6d6 crushing damage + 3d6 extra unless enemy saves vs. Wand",
+                        ]
+                    },
+                    {
+                        "section_name": "Equipped abilities",
+                        "section_items": [
+                            "Armor Class: +5 bonus",
+                            "Wearer remains under constant effect of the Armor of Faith spell"
+                        ]
+                    },
+                    {
+                        "section_name": "Usable by",
+                        "section_items": [
+                            "Mazzy"
+                        ]
+                    }
+                ],
+                "item_name": "Defender of Arvoreen +5"
             }
         ]
 
