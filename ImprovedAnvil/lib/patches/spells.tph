@@ -218,6 +218,8 @@ ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
   // DD, defensive stance
   COPY_EXISTING ~spdwd02.spl~ ~override/spdwd02.spl~
     SAY UNIDENTIFIED_DESC @10216
+
+    // reduce DR bonus
     PATCH_FOR_EACH ~opcode_number~ IN ~86~ ~87~ ~88~ ~89~ BEGIN
       LAUNCH_PATCH_FUNCTION ~ALTER_SPELL_EFFECT~ INT_VAR
         check_headers = 1
@@ -226,6 +228,22 @@ ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
         parameter1 = 25
       END
     END
+
+    // add protection from Hardiness for the duration of the spell
+    PATCH_FOR_EACH ~res~ IN ~SPCL907~ ~SPWISH12~ BEGIN
+      LAUNCH_PATCH_FUNCTION ~ADD_SPELL_EFFECT~
+        INT_VAR
+          opcode = 206
+          target = 1
+          timing = 0
+          resist_dispel = 2
+          duration = 60
+        STR_VAR
+          resource = EVALUATE_BUFFER ~%res%~
+      END
+    END
+
+    BUT_ONLY
 
   // In EE, II already has a +4 bonus to saving-throws embedded into the opcode
   // therefore, remove the extra bonuses from the spell file
