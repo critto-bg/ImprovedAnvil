@@ -1,0 +1,42 @@
+// Add the Champion of Arvoreen kit //
+// kit's description, abilities and overall inspiration are taken from http://www.nj-pbem.com/data/Gods/halflingods/arvoreen.htm //
+
+ADD_KIT ~ARVOREEN~
+~ARVOREEN 1 1 1 1 1 1 1 1~  // clasweap
+~ARVOREEN 2 5 2 2 2 2 2 5 2 2 5 2 2 2 2 5 2 2 2 2 2 2 2 2 2 5 2 5 0 2 2 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0~ // weapprof
+~ARVOREEN 9 9 0 0 0 0~ // abclasrq
+~ARVOREEN 0 0 0 0 0 0~ // abclsmod
+~ARVOREEN 0 0 0 0 0 0~ // abdcdsrq
+~ARVOREEN 0 0 0 0 0 0~ // abdcscrq
+~ARVOREEN 1 0 0 0 0 0 0 0 0~ // alignmnt
+~ARVOREEN 0 0 0 0 0 0~ // dualclas
+~ImprovedAnvil\2da\arvoreen.2da~ // clab file
+~K_F_HL~ // allowed races
+~0x00000000 2~ // usability & class flags
+~Fi0~ // HLA table
+~CHAN09 * HELM07 BAG20 RING06 RING31 * BOOT01 AMUL19 BRAC16 BELT06 AROW11,40 BULL03,40 * POTN52,5 POTN04,2 POTN14,5 HAMM07 STAF08 SW1H27~
+SAY @10281
+SAY @10282
+SAY @10283
+
+LAF fl#add_kit_ee // launch_action_function start
+  INT_VAR
+    biography = 29492
+    briefdesc = RESOLVE_STR_REF (@10283)
+    fallen = 0
+  STR_VAR
+    kit_name = ~ARVOREEN~
+    clswpbon = ~1 0 2~
+    clsrcreq = ~0 0 0 0 1 0 0~
+END
+
+// assign the new kit to Mazzy
+COPY_EXISTING ~MAZZY9.cre~ ~override~
+              ~MAZZY15.cre~ ~override~
+ WRITE_SHORT 0x244 0
+ WRITE_BYTE  0x246 ~%ARVOREEN%~
+ WRITE_BYTE  0x247 0x40
+
+COPY_EXISTING ~MAZZY9.cre~ ~Override/mazzy8.cre~
+COPY_EXISTING ~MAZZY9.cre~ ~Override/mazzy11.cre~
+COPY_EXISTING ~MAZZY9.cre~ ~Override/mazzy12.cre~

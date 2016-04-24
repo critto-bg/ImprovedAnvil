@@ -1,13 +1,14 @@
 BACKUP ~ImprovedAnvil/backup~
 AUTHOR ~el.critto@gmail.com~
-VERSION ~v6.1~
+VERSION ~v6.2~
+//README ~ImprovedAnvil/readme/index.html~
 
 LANGUAGE "English"
  ~ImprovedAnvil/English/~
  ~ImprovedAnvil/English/setup.tra~
 
 BEGIN @1
-
+DESIGNATED 0
 REQUIRE_PREDICATE GAME_IS ~tob bg2ee~ @2 // Please install TOB and return!
 
 // Patching IDS tables //
@@ -140,10 +141,25 @@ INCLUDE "ImprovedAnvil/lib/kits/riskbreaker.tph"
 
 INCLUDE "ImprovedAnvil/lib/kits/protector.tph"
 
+INCLUDE "ImprovedAnvil/lib/kits/arvoreen.tph"
+
 // Setting strings //
 
 PRINT "Setting strings..."
 
 INCLUDE "ImprovedAnvil/lib/patches/strings.tph"
+
+/// Reputation patch ///
+
+/*BEGIN @10267
+DESIGNATED 1
+REQUIRE_COMPONENT ~ImprovedAnvil/Setup-ImprovedAnvil.tp2~ ~0~ @10268
+REQUIRE_PREDICATE GAME_IS ~tob bg2ee~ @2
+
+PRINT "Updating 2da..."
+
+SILENT
+
+INCLUDE "ImprovedAnvil/lib/optional/happy_npc.tph"*/
 
 // The end //
