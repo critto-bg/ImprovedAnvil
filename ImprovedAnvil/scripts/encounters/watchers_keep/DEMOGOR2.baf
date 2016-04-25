@@ -1180,6 +1180,32 @@ END
 IF
   !GlobalTimerNotExpired("Iaspell","LOCALS")
   Allegiance(Myself,ENEMY)
+  See(NearestEnemyOfType([0.0.GENIE.0.0.0]))
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
+  CheckStatLT(LastSeenBy(Myself),25,RESISTMAGIC)
+  HPLT(LastSeenBy(Myself),90)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE7)
+  !StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !StateCheck(LastSeenBy(Myself),STATE_PANIC)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE4)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE5)
+  !HasBounceEffects(LastSeenBy(Myself))
+  !HasItemEquiped("S!sw02",LastSeenBy(Myself))
+  Global("Iap6nr","GLOBAL",0)
+  Global("IaCastSpell","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("IaCastSpell","LOCALS",0)
+    SetGlobalTimer("Iaspell","LOCALS",3)
+    ReallyForceSpell(LastSeenBy(Myself),WIZARD_POWER_WORD_STUN)
+END
+
+IF
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  Allegiance(Myself,ENEMY)
   See(Player1)
   !StateCheck(Player1,STATE_IMPROVEDINVISIBILITY)
   !StateCheck(Player1,STATE_INVISIBLE)
@@ -1621,6 +1647,27 @@ END
 IF
   Allegiance(Myself,ENEMY)
   See([PC])
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
+  !HasBounceEffects(LastSeenBy(Myself))
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !GlobalTimerNotExpired("Iaimplosion","LOCALS")
+  OR(2)
+    CheckStatLT(LastSeenBy(Myself),60,RESISTFIRE)
+    CheckStatLT(LastSeenBy(Myself),60,RESISTCRUSHING)
+    CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE12)
+  Global("Iaprebuf","LOCALS",1)
+  RandomNumGT(3,1)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iaspell","LOCALS",3)
+    SetGlobalTimer("Iaimplosion","LOCALS",6)
+    ReallyForceSpell(LastSeenBy(Myself),CLERIC_IMPLOSION)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOfType([0.0.GENIE.0.0.0]))
   !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
   !StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
   !HasBounceEffects(LastSeenBy(Myself))
