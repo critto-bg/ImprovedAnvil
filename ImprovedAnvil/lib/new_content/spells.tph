@@ -1199,6 +1199,36 @@ COPY_EXISTING ~SPPR513.spl~ ~override/SPINI99.spl~
     END
   END
 
+// Demogorgon's Lower Fire Resistance spell
+COPY_EXISTING ~SPIN682.spl~ ~override/SPINI100.spl~
+  // set spell level
+  WRITE_LONG 0x34 1
+
+  // patch duration for effects with opcode 174 (play sound) and time mode 4 (instant/delayed)
+  READ_SHORT 0x68 "header_count"
+  READ_LONG  0x64 "header_offset"
+  READ_LONG  0x6A "fx_offset"
+
+  SET "header" = 0
+  WHILE ("%header%" < "%header_count%") BEGIN
+    READ_SHORT (%header_offset% + ("%header%" * 0x28) + 0x1e) "eff_count"
+    READ_SHORT (%header_offset% + ("%header%" * 0x28) + 0x20) "eff_offset"
+
+    SET "effect" = 0
+    WHILE ("%effect%" < "%eff_count%") BEGIN
+      SET "current_effect" = "%fx_offset%" + ("%eff_offset%" + "%effect%") * 0x30
+      READ_SHORT "%current_effect%" "opcode"
+
+      PATCH_IF "%opcode%" = 30 THEN BEGIN
+        WRITE_LONG ("%current_effect%" + 0x04) ~-20~
+      END
+
+      "effect" = "%effect%" + 1
+    END
+
+    "header" = "%header%" + 1
+  END
+
 // Acid Shield
 COPY_EXISTING ~SPWI418.spl~ ~override/sppr418.spl~
   SAY NAME1 @10233
