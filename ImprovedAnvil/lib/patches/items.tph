@@ -900,6 +900,14 @@ COPY_EXISTING ~blun09.itm~ ~override/blun09.itm~
   WRITE_SHORT 0x042 60 // Lore to ID
   BUT_ONLY
 
+// Fix targeting for Hindo's Doom +4's Greater Restoration ability
+COPY_EXISTING ~sw1h71.itm~ ~override/sw1h71.itm~
+  LAUNCH_PATCH_FUNCTION ~ALTER_ITEM_HEADER~ INT_VAR
+    "header_type" = 3
+    "target" = 5
+  END
+  BUT_ONLY
+
 // The following items exist only in BG2EE //
 
 ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
