@@ -1610,44 +1610,6 @@ THEN
     Spell(LastSeenBy(Myself),WIZARD_FINGER_OF_DEATH)
 END
 
-IF
-  !GlobalTimerNotExpired("Iaspell","LOCALS")
-  See(NearestEnemyOfType([PC.0.0.MAGE_ALL]))
-  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-  !StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
-  !HasBounceEffects(LastSeenBy(Myself))
-  !CheckStat(LastSeenBy(Myself),5,SCRIPTINGSTATE7)
-  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE2)
-  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
-  HaveSpell(WIZARD_FINGER_OF_DEATH)
-  Global("IaCastSpell","LOCALS",1)
-THEN
-  RESPONSE #100
-    SetGlobalTimer("Iaspell","LOCALS",6)
-    SetGlobal("IaCastSpell","LOCALS",0)
-    Spell(LastSeenBy(Myself),WIZARD_FINGER_OF_DEATH)
-END
-
-IF
-  !GlobalTimerNotExpired("Iaspell","LOCALS")
-  See(SecondNearestEnemyOfType([PC.0.0.MAGE_ALL]))
-  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-  !StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
-  !HasBounceEffects(LastSeenBy(Myself))
-  !CheckStat(LastSeenBy(Myself),5,SCRIPTINGSTATE7)
-  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE2)
-  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
-  HaveSpell(WIZARD_FINGER_OF_DEATH)
-  Global("IaCastSpell","LOCALS",1)
-THEN
-  RESPONSE #100
-    SetGlobalTimer("Iaspell","LOCALS",6)
-    SetGlobal("IaCastSpell","LOCALS",0)
-    Spell(LastSeenBy(Myself),WIZARD_FINGER_OF_DEATH)
-END
-
 /// Bigby's Clenched Fist ///
 
 IF
