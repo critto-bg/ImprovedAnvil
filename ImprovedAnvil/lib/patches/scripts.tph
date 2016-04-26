@@ -431,6 +431,19 @@ COPY_EXISTING ~AMCARRAS.BCS~ ~override~
     REPLACE_TEXTUALLY ~DestroyItem("ax1h16")~ ~~
   END
 
+COPY_EXISTING ~AR3020.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY
+      "SpellCastInnate(\[ANYONE\],ODREN_RITUAL_SCROLL)"
+      ~OR(6)
+  SpellCastInnate(Player1,ODREN_RITUAL_SCROLL)
+  SpellCastInnate(Player2,ODREN_RITUAL_SCROLL)
+  SpellCastInnate(Player3,ODREN_RITUAL_SCROLL)
+  SpellCastInnate(Player4,ODREN_RITUAL_SCROLL)
+  SpellCastInnate(Player5,ODREN_RITUAL_SCROLL)
+  SpellCastInnate(Player6,ODREN_RITUAL_SCROLL)~
+  END
+
 ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
   COPY_EXISTING ~MOVIE02A.BCS~ ~override/movie02a.bcs~
     DECOMPILE_AND_PATCH BEGIN
