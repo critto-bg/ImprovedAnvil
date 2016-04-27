@@ -1071,6 +1071,11 @@ COPY ~ImprovedAnvil\spl\spin826.spl~ ~override/spin826.spl~
 COPY ~ImprovedAnvil\spl\spin828.spl~ ~override/spin828.spl~
 
 COPY ~ImprovedAnvil\spl\spin827.spl~ ~override/spin827.spl~
+  PATCH_IF GAME_IS ~tob~ THEN BEGIN
+    LAUNCH_PATCH_FUNCTION ~DELETE_SPELL_EFFECT~ INT_VAR
+      opcode_to_delete = ~321~
+    END
+  END
 
 COPY ~ImprovedAnvil\spl\spin676.spl~ ~override/spin676.spl~
   SAY UNIDENTIFIED_DESC @10258
