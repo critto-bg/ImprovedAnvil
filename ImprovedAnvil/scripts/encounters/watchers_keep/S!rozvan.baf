@@ -543,7 +543,7 @@ IF
   OR(2)
    !GlobalTimerNotExpired("pfmw","LOCALS")
    CheckStat(Myself,0,SCRIPTINGSTATE6)
-  GlobalLT("Iaai","LOCALS",3)
+  GlobalLT("Iaai","LOCALS",1)
 THEN
   RESPONSE #100
     IncrementGlobal("Iaai","LOCALS",1)
@@ -562,7 +562,7 @@ IF
    !GlobalTimerNotExpired("pfmw","LOCALS")
    CheckStat(Myself,0,SCRIPTINGSTATE6)
   GlobalLT("Iapfmw","LOCALS",3)
-  Global("Iaai","LOCALS",3)
+  Global("Iaai","LOCALS",1)
 THEN
   RESPONSE #100
     IncrementGlobal("Iapfmw","LOCALS",1)
@@ -572,35 +572,13 @@ THEN
     SpellNoDec(Myself,WIZARD_PROTECTION_FROM_MAGIC_WEAPONS)
 END
 
-IF
-  Allegiance(Myself,ENEMY)
-  !GlobalTimerNotExpired("Iaspell","LOCALS")
-  See([PC])
-  Range(LastSeenBy(Myself),5)
-  OR(2)
-   !GlobalTimerNotExpired("pfmw","LOCALS")
-   CheckStat(Myself,0,SCRIPTINGSTATE6)
-  GlobalGT("Iapfmw","LOCALS",2)
-  GlobalLT("Iapfmw","LOCALS",6)
-  Global("Iaai","LOCALS",3)
-  HasItem("scrl7o",Myself)
-THEN
-  RESPONSE #100
-    IncrementGlobal("Iapfmw","LOCALS",1)
-    SetGlobal("IaCastSpell","LOCALS",0)
-    SetGlobalTimer("pfmw","LOCALS",24)
-    SetGlobalTimer("Iaspell","LOCALS",6)
-    DisplayStringHead(Myself,46153) //
-    UseItem("scrl7o",Myself) //
-END
-
 /// Contingency: Stoneskin ///
 
 IF
   Allegiance(Myself,ENEMY)
   Global("Iacontingency","LOCALS",0)
   Global("Iapfmw","LOCALS",3)
-  Global("Iaai","LOCALS",3)
+  Global("Iaai","LOCALS",1)
   See(NearestEnemyOf(Myself))
   OR(3)
    Range(LastSeenBy(Myself),5)
@@ -626,8 +604,8 @@ IF
   Range(LastSeenBy(Myself),5)
   CheckStat(Myself,0,SCRIPTINGSTATE6)
   CheckStatLT(Myself,1,STONESKINS)
-  Global("Iapfmw","LOCALS",6)
-  Global("Iaai","LOCALS",3)
+  Global("Iapfmw","LOCALS",3)
+  Global("Iaai","LOCALS",1)
   GlobalLT("Iastoneskin","LOCALS",3)
 THEN
   RESPONSE #100
@@ -643,7 +621,7 @@ IF
   Allegiance(Myself,ENEMY)
   See(NearestEnemyOf(Myself))
   !GlobalTimerNotExpired("Iaspell","LOCALS")
-  GlobalLT("Iahardiness","LOCALS",3)
+  GlobalLT("Iahardiness","LOCALS",2)
   CheckStatLT(Myself,61,RESISTCRUSHING)
 THEN
   RESPONSE #100
