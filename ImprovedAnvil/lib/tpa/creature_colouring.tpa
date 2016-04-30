@@ -1,0 +1,66 @@
+/// This library contains routines for creature re-colouring ///
+/// Thanks to the authors of aTweaks for the code snippet and inspiration ///
+
+DEFINE_ACTION_FUNCTION change_creature_colours
+STR_VAR
+  file = ""
+  opcode = ""
+  parameter1 = ""
+BEGIN
+  COPY_EXISTING ~%file%.cre~ ~override~
+
+    // remove any existent tint
+    LAUNCH_PATCH_FUNCTION ~DELETE_CRE_EFFECT~ INT_VAR
+      opcode_to_delete = "51" // Colour: Strong/Dark by RGB
+    END
+
+    LAUNCH_PATCH_FUNCTION ~DELETE_CRE_EFFECT~ INT_VAR
+      opcode_to_delete = "52" // Colour: Very Bright by RGB
+    END
+
+    SET opcode = EVALUATE_BUFFER "%opcode%"         // effect to apply, usually #51 or #52
+    SET target =     "1"                            // target: 1 (self)
+    SET timing =     "9"                            // timing mode: 9 (permanent after death)
+    SET parameter1 = EVALUATE_BUFFER "%parameter1%" // color designation
+    SET parameter2 = "2"                            // 2 (location - major color)
+    SET parameter3 = "0"
+    SET parameter4 = "0"
+    SET power =      "0"
+    SET resist_dispel = "0"
+    SET duration = "0"
+    SET probability1 = "100"
+    SET probability2 = "0"
+    SET dicenumber = "0"
+    SET dicesize = "0"
+    SET savingthrow = "0"
+    SET savebonus = "0"
+    SET school = "0"
+    SET lowestafflvl = "0"
+    SET highestafflvl = "0"
+    SET casterx = "0"
+    SET castery = "0"
+    SET targetx = "0"
+    SET targety = "0"
+    SET casterlvl = "0"
+    SET sectype = "0"
+    SPRINT ~resource~ ~~
+    SPRINT ~resource2~ ~~
+    SPRINT ~resource3~ ~~
+    SPRINT ~vvcresource~ ~~
+    SPRINT ~effsource~ ~~
+    SPRINT ~effvar~ ~~
+
+    LAUNCH_PATCH_MACRO ~ADD_CRE_EFFECT~
+
+    // grant immunity to the color glow/pulse effects
+    PATCH_FOR_EACH ~color~ IN ~9~ ~50~ BEGIN
+      LAUNCH_PATCH_FUNCTION ~ADD_CRE_EFFECT~ INT_VAR
+        "opcode" = "101" // Protection from Opcode
+        "target" = "1"   // self
+        "timing" = "9"   // permanent after death
+        "parameter2" = EVALUATE_BUFFER "%color%"
+      END
+    END
+
+    BUT_ONLY_IF_IT_CHANGES
+END

@@ -1,0 +1,390 @@
+IF
+  OR(2)
+    GlobalGT("OgronAttack","GLOBAL",0)
+    GlobalTimerExpired("KidsRunOff","GLOBAL")
+  AreaCheck("AR1106")
+THEN
+  RESPONSE #100
+    DestroySelf()
+END
+
+IF
+  Global("Iapcastts","GLOBAL",1)
+  Global("Iatsinvulner","LOCALS",0)
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    SetGlobal("Iatsinvulner","LOCALS",1)
+    ApplySpellRES("SPINI70",Myself)
+END
+
+IF
+  Global("Iapcastts","GLOBAL",0)
+  Global("Iatsinvulner","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatsinvulner","LOCALS",0)
+    ApplySpellRES("SPINI71",Myself)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  OR(4)
+   StateCheck(Myself,STATE_STUNNED)
+   Global("Iapcastts","GLOBAL",1)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iaspell","LOCALS",6)
+END
+
+IF
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_PANIC)
+  See(NearestEnemyOf(Myself))
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE4)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE8)
+  !HasItemEquiped("shld25",LastSeenBy(Myself))
+  !HasItemEquiped("leat20",LastSeenBy(Myself))
+  !HasItemEquiped("sw2h14",LastSeenBy(Myself))
+  !HasItemEquiped("S!helm05",LastSeenBy(Myself))
+  !HasItemEquiped("S!leat03",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw22",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw21",LastSeenBy(Myself))
+  !HasItemEquiped("S!shld01",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw04",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw07",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw08",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw09",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw10",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw11",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw12",LastSeenBy(Myself))
+  !HasItemEquiped("ring95",LastSeenBy(Myself))
+  !HasItemEquiped("ring99",LastSeenBy(Myself))
+  !HasItemEquiped("morsword",LastSeenBy(Myself))
+  CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
+  !HasBounceEffects(LastSeenBy(Myself))
+  Global("firstUse","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("firstUse","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    ForceSpell(LastSeenBy(Myself),HULK_CONFUSION)
+END
+
+IF
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_PANIC)
+  See(SecondNearestEnemyOf(Myself))
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE4)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE8)
+  !HasItemEquiped("shld25",LastSeenBy(Myself))
+  !HasItemEquiped("leat20",LastSeenBy(Myself))
+  !HasItemEquiped("sw2h14",LastSeenBy(Myself))
+  !HasItemEquiped("S!helm05",LastSeenBy(Myself))
+  !HasItemEquiped("S!leat03",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw22",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw21",LastSeenBy(Myself))
+  !HasItemEquiped("S!shld01",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw04",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw07",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw08",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw09",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw10",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw11",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw12",LastSeenBy(Myself))
+  !HasItemEquiped("ring95",LastSeenBy(Myself))
+  !HasItemEquiped("ring99",LastSeenBy(Myself))
+  !HasItemEquiped("morsword",LastSeenBy(Myself))
+  CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
+  !HasBounceEffects(LastSeenBy(Myself))
+  Global("firstUse","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("firstUse","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    ForceSpell(LastSeenBy(Myself),HULK_CONFUSION)
+END
+
+IF
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_PANIC)
+  See(ThirdNearestEnemyOf(Myself))
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE4)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE8)
+  !HasItemEquiped("shld25",LastSeenBy(Myself))
+  !HasItemEquiped("leat20",LastSeenBy(Myself))
+  !HasItemEquiped("sw2h14",LastSeenBy(Myself))
+  !HasItemEquiped("S!helm05",LastSeenBy(Myself))
+  !HasItemEquiped("S!leat03",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw22",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw21",LastSeenBy(Myself))
+  !HasItemEquiped("S!shld01",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw04",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw07",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw08",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw09",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw10",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw11",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw12",LastSeenBy(Myself))
+  !HasItemEquiped("ring95",LastSeenBy(Myself))
+  !HasItemEquiped("ring99",LastSeenBy(Myself))
+  !HasItemEquiped("morsword",LastSeenBy(Myself))
+  CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
+  !HasBounceEffects(LastSeenBy(Myself))
+  Global("firstUse","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("firstUse","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    ForceSpell(LastSeenBy(Myself),HULK_CONFUSION)
+END
+
+IF
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_PANIC)
+  See(FourthNearestEnemyOf(Myself))
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE4)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE8)
+  !HasItemEquiped("shld25",LastSeenBy(Myself))
+  !HasItemEquiped("leat20",LastSeenBy(Myself))
+  !HasItemEquiped("sw2h14",LastSeenBy(Myself))
+  !HasItemEquiped("S!helm05",LastSeenBy(Myself))
+  !HasItemEquiped("S!leat03",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw22",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw21",LastSeenBy(Myself))
+  !HasItemEquiped("S!shld01",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw04",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw07",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw08",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw09",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw10",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw11",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw12",LastSeenBy(Myself))
+  !HasItemEquiped("ring95",LastSeenBy(Myself))
+  !HasItemEquiped("ring99",LastSeenBy(Myself))
+  !HasItemEquiped("morsword",LastSeenBy(Myself))
+  CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
+  !HasBounceEffects(LastSeenBy(Myself))
+  Global("firstUse","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("firstUse","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    ForceSpell(LastSeenBy(Myself),HULK_CONFUSION)
+END
+
+IF
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_PANIC)
+  See(NearestEnemyOf(Myself))
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE4)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE8)
+  !HasItemEquiped("shld25",LastSeenBy(Myself))
+  !HasItemEquiped("leat20",LastSeenBy(Myself))
+  !HasItemEquiped("sw2h14",LastSeenBy(Myself))
+  !HasItemEquiped("S!helm05",LastSeenBy(Myself))
+  !HasItemEquiped("S!leat03",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw22",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw21",LastSeenBy(Myself))
+  !HasItemEquiped("S!shld01",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw04",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw07",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw08",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw09",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw10",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw11",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw12",LastSeenBy(Myself))
+  !HasItemEquiped("ring95",LastSeenBy(Myself))
+  !HasItemEquiped("ring99",LastSeenBy(Myself))
+  !HasItemEquiped("morsword",LastSeenBy(Myself))
+  CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
+  !HasBounceEffects(LastSeenBy(Myself))
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iaspell","LOCALS",12)
+    ForceSpell(LastSeenBy(Myself),HULK_CONFUSION)
+END
+
+IF
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_PANIC)
+  See(SecondNearestEnemyOf(Myself))
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE4)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE8)
+  !HasItemEquiped("shld25",LastSeenBy(Myself))
+  !HasItemEquiped("leat20",LastSeenBy(Myself))
+  !HasItemEquiped("sw2h14",LastSeenBy(Myself))
+  !HasItemEquiped("S!helm05",LastSeenBy(Myself))
+  !HasItemEquiped("S!leat03",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw22",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw21",LastSeenBy(Myself))
+  !HasItemEquiped("S!shld01",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw04",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw07",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw08",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw09",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw10",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw11",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw12",LastSeenBy(Myself))
+  !HasItemEquiped("ring95",LastSeenBy(Myself))
+  !HasItemEquiped("ring99",LastSeenBy(Myself))
+  !HasItemEquiped("morsword",LastSeenBy(Myself))
+  CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
+  !HasBounceEffects(LastSeenBy(Myself))
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iaspell","LOCALS",12)
+    ForceSpell(LastSeenBy(Myself),HULK_CONFUSION)
+END
+
+IF
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_PANIC)
+  See(ThirdNearestEnemyOf(Myself))
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE4)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE8)
+  !HasItemEquiped("shld25",LastSeenBy(Myself))
+  !HasItemEquiped("leat20",LastSeenBy(Myself))
+  !HasItemEquiped("sw2h14",LastSeenBy(Myself))
+  !HasItemEquiped("S!helm05",LastSeenBy(Myself))
+  !HasItemEquiped("S!leat03",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw22",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw21",LastSeenBy(Myself))
+  !HasItemEquiped("S!shld01",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw04",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw07",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw08",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw09",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw10",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw11",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw12",LastSeenBy(Myself))
+  !HasItemEquiped("ring95",LastSeenBy(Myself))
+  !HasItemEquiped("ring99",LastSeenBy(Myself))
+  !HasItemEquiped("morsword",LastSeenBy(Myself))
+  CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
+  !HasBounceEffects(LastSeenBy(Myself))
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iaspell","LOCALS",12)
+    ForceSpell(LastSeenBy(Myself),HULK_CONFUSION)
+END
+
+IF
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_PANIC)
+  See(FourthNearestEnemyOf(Myself))
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE4)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE8)
+  !HasItemEquiped("shld25",LastSeenBy(Myself))
+  !HasItemEquiped("leat20",LastSeenBy(Myself))
+  !HasItemEquiped("sw2h14",LastSeenBy(Myself))
+  !HasItemEquiped("S!helm05",LastSeenBy(Myself))
+  !HasItemEquiped("S!leat03",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw22",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw21",LastSeenBy(Myself))
+  !HasItemEquiped("S!shld01",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw04",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw07",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw08",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw09",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw10",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw11",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw12",LastSeenBy(Myself))
+  !HasItemEquiped("ring95",LastSeenBy(Myself))
+  !HasItemEquiped("ring99",LastSeenBy(Myself))
+  !HasItemEquiped("morsword",LastSeenBy(Myself))
+  CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
+  !HasBounceEffects(LastSeenBy(Myself))
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iaspell","LOCALS",12)
+    ForceSpell(LastSeenBy(Myself),HULK_CONFUSION)
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),1,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  See(SecondNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),1,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(ThirdNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),1,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END

@@ -1,0 +1,257 @@
+// patch existing spells //
+
+COPY_EXISTING ~spin775.spl~ ~override/spin775.spl~
+  SAY NAME1 @358
+  WRITE_BYTE  0x27    0xb // secondary type
+
+COPY_EXISTING ~sppr506.spl~ ~override/sppr506.spl~
+  SAY UNIDENTIFIED_DESC @10189
+  WRITE_BYTE  0x27      7 // secondary type
+
+  // patch casting time
+  READ_SHORT 0x68 "icount"
+  READ_LONG 0x64 "ioffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%icount%") BEGIN
+    WRITE_SHORT (%ioffset% + ("%it%" * 0x28) + 0x12) 1
+    "it" = "%it%" + 1
+  END
+
+COPY_EXISTING ~melstone.spl~ ~override/melstone.spl~
+  WRITE_BYTE  0x27      7 // secondary type
+
+COPY_EXISTING ~spin535.spl~ ~override/spin535.spl~
+  WRITE_BYTE  0x27      0 // secondary type
+
+COPY_EXISTING ~spin910.spl~ ~override/spin910.spl~
+  WRITE_BYTE  0x27      0 // secondary type
+
+COPY_EXISTING ~spin909.spl~ ~override/spin909.spl~
+  WRITE_BYTE  0x27      0 // secondary type
+
+COPY_EXISTING ~spin911.spl~ ~override/spin911.spl~
+  WRITE_BYTE  0x27      0 // secondary type
+
+COPY_EXISTING ~spin894.spl~ ~override/spin894.spl~
+  WRITE_BYTE  0x27      0 // secondary type
+
+COPY_EXISTING ~spwi620.spl~ ~override/spwi620.spl~
+  WRITE_BYTE  0x27      0 // secondary type
+
+COPY_EXISTING ~spwi621.spl~ ~override/spwi621.spl~
+  WRITE_BYTE  0x27      0 // secondary type
+
+COPY_EXISTING ~spwi520.spl~ ~override/spwi520.spl~
+  WRITE_BYTE  0x27      0 // secondary type
+
+COPY_EXISTING ~spwi521.spl~ ~override/spwi521.spl~
+  WRITE_BYTE  0x27      0 // secondary type
+
+COPY_EXISTING ~spwi516.spl~ ~override/spwi516.spl~
+  WRITE_BYTE  0x27      0 // secondary type
+
+COPY_EXISTING ~spwi622.spl~ ~override/spwi622.spl~
+  WRITE_BYTE  0x27      0 // secondary type
+
+COPY_EXISTING ~sppr710.spl~ ~override/sppr710.spl~
+  WRITE_BYTE  0x27    0xc // secondary type
+
+COPY_EXISTING ~sppr715.spl~ ~override/sppr715.spl~
+  WRITE_BYTE  0x27    0xc // secondary type
+
+COPY_EXISTING ~SPIN695.spl~ ~override/SPIN695.spl~
+  WRITE_SHORT 0x25      0 // type
+  WRITE_BYTE  0x27    0xc // secondary type
+
+COPY_EXISTING ~SPIN658.spl~ ~override/SPIN658.spl~
+  WRITE_SHORT 0x25      0 // type
+  WRITE_BYTE  0x27    0xc // secondary type
+
+COPY_EXISTING ~SPCL904.spl~ ~override/SPCL904.spl~
+  WRITE_BYTE  0x27      2 // secondary type
+
+COPY_EXISTING ~SPIN893.spl~ ~override/SPIN893.spl~
+  WRITE_BYTE  0x27    0xa // secondary type
+
+COPY_EXISTING ~SPIN890.spl~ ~override/SPIN890.spl~
+  WRITE_BYTE  0x27    0xb // secondary type
+
+COPY_EXISTING ~SPIN999.spl~ ~override/SPIN999.spl~
+  WRITE_BYTE  0x27    0xb // secondary type
+
+COPY_EXISTING ~BEGUILE.spl~ ~override/BEGUILE.spl~
+  WRITE_BYTE  0x27    0xb // secondary type
+
+COPY_EXISTING ~SPPR318.spl~ ~override/SPPR318.spl~
+  WRITE_SHORT  0x20      0 // Priest Type
+
+COPY_EXISTING ~SPIN768.spl~ ~override/SPIN768.spl~
+  WRITE_SHORT 0x25      0 // type
+  WRITE_BYTE  0x27      0 // secondary type
+
+COPY_EXISTING ~SPIN769.spl~ ~override/SPIN769.spl~
+  WRITE_SHORT 0x25      0 // type
+  WRITE_BYTE  0x27      0 // secondary type
+
+COPY_EXISTING ~SPWI805.spl~ ~override/SPWI805.spl~
+  READ_BYTE 0x19 "splflags"
+  WRITE_BYTE 0x19 ("%splflags%" BOR 0b00000100)
+
+COPY_EXISTING ~SPWI910.spl~ ~override/SPWI910.spl~
+  READ_BYTE 0x19 "splflags"
+  WRITE_BYTE 0x19 ("%splflags%" BOR 0b00000100)
+
+COPY_EXISTING ~SPWI911.spl~ ~override/SPWI911.spl~
+  READ_BYTE 0x19 "splflags"
+  WRITE_BYTE 0x19 ("%splflags%" BOR 0b00000100)
+
+COPY_EXISTING ~SPPR705.spl~ ~override/SPPR705.spl~
+  READ_BYTE 0x19 "splflags"
+  WRITE_BYTE 0x19 ("%splflags%" BOR 0b00000100)
+
+COPY_EXISTING ~SPWI612.spl~ ~override/SPWI612.spl~
+  READ_BYTE 0x19 "splflags"
+  WRITE_BYTE 0x19 ("%splflags%" BOR 0b00000100)
+
+COPY_EXISTING ~SPWI411.spl~ ~override/SPWI411.spl~
+  READ_BYTE 0x19 "splflags"
+  WRITE_BYTE 0x19 ("%splflags%" BOR 0b00000100)
+
+  // patch "wake on sleep" for Emotion
+  PATCH_IF GAME_IS ~bg2ee~ THEN BEGIN
+      LAUNCH_PATCH_FUNCTION ~ALTER_SPELL_EFFECT~ INT_VAR
+        check_headers = 1
+        match_opcode = 39
+        parameter2 = 1
+      END
+  END
+
+COPY_EXISTING ~SPWI213.spl~ ~override/SPWI213.spl~
+  READ_BYTE 0x19 "splflags"
+  WRITE_BYTE 0x19 ("%splflags%" BOR 0b00000100)
+
+COPY_EXISTING ~SPWI205.spl~ ~override/SPWI205.spl~
+  READ_BYTE 0x19 "splflags"
+  WRITE_BYTE 0x19 ("%splflags%" BOR 0b00000100)
+
+COPY_EXISTING ~SPWI401.spl~ ~override/SPWI401.spl~
+  READ_BYTE 0x19 "splflags"
+  WRITE_BYTE 0x19 ("%splflags%" BOR 0b00000100)
+
+COPY_EXISTING ~SPPR709.spl~ ~override/SPPR709.spl~
+  READ_BYTE 0x19 "splflags"
+  WRITE_BYTE 0x19 ("%splflags%" BOR 0b00000100)
+
+COPY_EXISTING ~SPWISH35.spl~ ~override/SPWISH35.spl~
+  READ_BYTE 0x19 "splflags"
+  WRITE_BYTE 0x19 ("%splflags%" BOR 0b00000100)
+
+COPY_EXISTING ~SPWI715.spl~ ~override/SPWI715.spl~
+  READ_BYTE 0x19 "splflags"
+  WRITE_BYTE 0x19 ("%splflags%" BOR 0b00000100)
+
+COPY_EXISTING ~SPWI912.spl~ ~override/SPWI912.spl~
+  READ_BYTE 0x19 "splflags"
+  WRITE_BYTE 0x19 ("%splflags%" BOR 0b00000100)
+
+COPY_EXISTING ~METSWARM.pro~ ~override/METSWARM.pro~
+  WRITE_BYTE 0x216 4
+
+// remove penalty to saving-throws for display string effect, Ray of Enfeeb.
+COPY_EXISTING ~SPWI221.spl~ ~override/spwi221.spl~
+  LAUNCH_PATCH_FUNCTION ~ALTER_SPELL_EFFECT~ INT_VAR
+    check_headers = 1
+    header_type = 2
+    match_opcode = 139
+    savebonus = 0
+  END
+
+// remove bonus to saving-throws for play visual effect, Dire Charm
+COPY_EXISTING ~SPWI316.spl~ ~override/SPWI316.spl~
+  LAUNCH_PATCH_FUNCTION ~ALTER_SPELL_EFFECT~ INT_VAR
+    check_headers = 1
+    header_type = 1
+    match_opcode = 215
+    savebonus = 0
+  END
+
+// patch the display portrait icon value for PfME to point to the proper icon
+// Spell Shield is hardcoded to display 73, PfME points there by default as well
+// states.bam and states2.bam are provided with proper icons at both frames
+COPY_EXISTING ~SPWI606.spl~ ~override/spwi606.spl~
+  LAUNCH_PATCH_FUNCTION ~ALTER_SPELL_EFFECT~ INT_VAR
+    check_headers = 1
+    header_type = 1
+    match_opcode = 142
+    parameter2 = 123
+  END
+  BUT_ONLY
+
+// patch projectile type for Wish:Rest option from Invisible Travelling (79) to None (1)
+COPY_EXISTING ~SPWISH16.spl~ ~override/SPWISH16.spl~
+  LAUNCH_PATCH_FUNCTION ~ALTER_SPELL_HEADER~ INT_VAR
+    header = 1
+    projectile = 1
+  END
+  BUT_ONLY
+
+/// BG2EE-specific patches ///
+
+ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
+  // patch "wake on sleep" for Command and Greater Command
+  COPY_EXISTING ~SPPR102.spl~ ~override/SPPR102.spl~
+                ~SPPR512.spl~ ~override/SPPR512.spl~
+    LAUNCH_PATCH_FUNCTION ~ALTER_SPELL_EFFECT~ INT_VAR
+      check_headers = 1
+      match_opcode = 39
+      parameter2 = 1
+    END
+
+  // patch DUHM spells not to activate SCRIPTINGSTATE6 on a character
+  COPY_EXISTING ~BHAAL2A.spl~ ~override/BHAAL2A.spl~
+                ~SPIN103.spl~ ~override/SPIN103.spl~
+                ~SPPR214.spl~ ~override/SPPR214.spl~
+    LAUNCH_PATCH_FUNCTION ~DELETE_SPELL_EFFECT~ INT_VAR
+      opcode_to_delete = 282
+    END
+
+  // DD, defensive stance
+  COPY_EXISTING ~spdwd02.spl~ ~override/spdwd02.spl~
+    SAY UNIDENTIFIED_DESC @10216
+
+    // reduce DR bonus
+    PATCH_FOR_EACH ~opcode_number~ IN ~86~ ~87~ ~88~ ~89~ BEGIN
+      LAUNCH_PATCH_FUNCTION ~ALTER_SPELL_EFFECT~ INT_VAR
+        check_headers = 1
+        header_type = 1
+        match_opcode = ~%opcode_number%~
+        parameter1 = 25
+      END
+    END
+
+    // add protection from Hardiness for the duration of the spell
+    PATCH_FOR_EACH ~res~ IN ~SPCL907~ ~SPWISH12~ BEGIN
+      LAUNCH_PATCH_FUNCTION ~ADD_SPELL_EFFECT~
+        INT_VAR
+          opcode = 206
+          target = 1
+          timing = 0
+          resist_dispel = 2
+          duration = 60
+        STR_VAR
+          resource = EVALUATE_BUFFER ~%res%~
+      END
+    END
+
+    BUT_ONLY
+
+  // In EE, II already has a +4 bonus to saving-throws embedded into the opcode
+  // therefore, remove the extra bonuses from the spell file
+  COPY_EXISTING ~SPWI405.spl~ ~override/SPWI405.spl~
+    PATCH_FOR_EACH ~opcode_number~ IN ~33~ ~34~ ~35~ ~36~ ~37~ BEGIN
+      LAUNCH_PATCH_FUNCTION ~DELETE_SPELL_EFFECT~ INT_VAR
+        opcode_to_delete = ~%opcode_number%~
+      END
+    END
+    BUT_ONLY
+END

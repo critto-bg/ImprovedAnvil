@@ -1,0 +1,45 @@
+// Add the Protector kit //
+
+ADD_KIT ~PROTECTOR~
+~PROTECTOR 1 1 1 1 1 1 1 1~
+~PROTECTOR 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 3 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5~
+~PROTECTOR 13 13 14 10 14 10~
+~PROTECTOR 0 0 -1 0 0 0~
+~PROTECTOR 17 17 14 10 17 10~
+~PROTECTOR 15 15 14 10 15 10~
+~PROTECTOR 1 0 0 1 0 0 1 0 0~
+~PROTECTOR 0 0 0 0 0 0~
+~ImprovedAnvil\2da\Protec.2Da~
+~K_R_H K_R_HE K_R_E~
+~0x00010000 12~
+~Ra0~
+~Leat14 * HELM07 BAG24 RING06 RING31 CLCK02 BOOT01 AMUL19 BRAC16 BELT07 * * * POTN52,5 POTN4,2 POTN14,5 HAMM07 SW1H27 SW1H55~
+SAY @8961
+SAY @8962
+SAY @8963
+
+ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
+  LAF fl#add_kit_ee // launch_action_function start
+    INT_VAR
+      biography = 29492
+      briefdesc = RESOLVE_STR_REF (@8963)
+      fallen = 0
+    STR_VAR
+      kit_name = ~PROTECTOR~
+      clswpbon = ~1 0 2~
+      clsrcreq = ~1 1 1 0 0 0 0~
+  END
+END
+
+// assign the new kit to Valygar
+COPY_EXISTING ~VALYG8.cre~ ~override~
+              ~VALYG14.cre~ ~override~
+ WRITE_SHORT 0x244 0
+ WRITE_BYTE  0x246 ~%PROTECTOR%~
+ WRITE_BYTE  0x247 0x40
+
+COPY_EXISTING ~valyg8.cre~ ~Override/valyg9.cre~
+
+COPY_EXISTING ~valyg8.cre~ ~Override/valyg11.cre~
+
+COPY_EXISTING ~valyg8.cre~ ~Override/valyg12.cre~

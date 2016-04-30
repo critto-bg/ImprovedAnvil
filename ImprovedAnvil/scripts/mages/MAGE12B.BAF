@@ -1,0 +1,354 @@
+IF
+  See(NearestEnemyOf(Myself))
+  Global("prepspells","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("prepspells","LOCALS",1)
+    ReallyForceSpell(Myself,WIZARD_STONE_SKIN)
+    ReallyForceSpell(Myself,WIZARD_PROTECTION_FROM_NORMAL_MISSILES)
+    ReallyForceSpell(Myself,WIZARD_PROTECTION_FROM_MAGIC_WEAPONS)
+    ReallyForceSpell(Myself,WIZARD_PROTECTION_FROM_ELECTRICITY)
+    ReallyForceSpell(Myself,WIZARD_PROTECTION_FROM_FIRE)
+    ReallyForceSpellRES("SPWII41",Myself)
+    ReallyForceSpell(Myself,WIZARD_SPELL_IMMUNITY_DIVINATION)
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  Global("partyfled","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("partyfled","LOCALS",0)
+END
+
+IF
+  Global("Iapcastts","GLOBAL",1)
+  Global("Iatsinvulner","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatsinvulner","LOCALS",1)
+    ApplySpellRES("SPINI70",Myself)
+END
+
+IF
+  Global("Iapcastts","GLOBAL",0)
+  Global("Iatsinvulner","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatsinvulner","LOCALS",0)
+    ApplySpellRES("SPINI71",Myself)
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  HPPercentLT(Myself,75)
+  CheckStatLT(Myself,1,STONESKINS)
+  !HPLT(Myself,1)
+  Global("prepspells","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("prepspells","LOCALS",2)
+    DisplayString(Myself,29736)  // ~Contingency - Stoneskin~
+    ReallyForceSpell(Myself,WIZARD_STONE_SKIN)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  OR(4)
+   CheckStatGT(Myself,0,SCRIPTINGSTATE9)
+   StateCheck(Myself,STATE_HELPLESS)
+   StateCheck(Myself,STATE_STUNNED)
+   Global("Iapcastts","GLOBAL",1)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iaspell","LOCALS",6)
+END
+
+IF
+  StateCheck(Myself,STATE_SILENCED)
+THEN
+  RESPONSE #100
+    SpellNoDec(Myself,WIZARD_VOCALIZE)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See([PC])
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE7)
+  CheckStat(LastSeenBy(Myself),0,SCRIPTINGSTATE3)
+  Global("Iagmalison","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iagmalison","LOCALS",1)
+    SpellNoDec(LastSeenBy(Myself),WIZARD_GREATER_MALISON)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See([PC])
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  CheckStatLT(LastSeenBy(Myself),100,RESISTMAGIC)
+  CheckStatLT(LastSeenBy(Myself),100,RESISTELECTRICITY)
+  !CheckStat(LastSeenBy(Myself),4,SCRIPTINGSTATE7)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  HaveSpell(WIZARD_CHAIN_LIGHTNING)
+THEN
+  RESPONSE #100
+    Spell(LastSeenBy(Myself),WIZARD_CHAIN_LIGHTNING)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  HaveSpell(WIZARD_POWER_WORD_SILENCE)
+  OR(2)
+   See(NearestEnemyOfType([PC.0.0.MAGE_ALL]))
+   See(NearestEnemyOfType([PC.0.0.CLERIC_ALL]))
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
+  !HasItemEquiped("amul21",LastSeenBy(Myself))
+  !HasItemEquiped("S!amul05",LastSeenBy(Myself))
+  !HasItemEquiped("S!amul06",LastSeenBy(Myself))
+THEN
+  RESPONSE #100
+    Spell(LastSeenBy(Myself),WIZARD_POWER_WORD_SILENCE)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  HaveSpell(WIZARD_POWER_WORD_SILENCE)
+  OR(2)
+   See(NearestEnemyOfType([PC.0.0.CLERIC_ALL]))
+   See(NearestEnemyOfType([PC.0.0.MAGE_ALL]))
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
+  !HasItemEquiped("amul21",LastSeenBy(Myself))
+  !HasItemEquiped("S!amul05",LastSeenBy(Myself))
+  !HasItemEquiped("S!amul06",LastSeenBy(Myself))
+THEN
+  RESPONSE #100
+    Spell(LastSeenBy(Myself),WIZARD_POWER_WORD_SILENCE)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  HaveSpell(WIZARD_POWER_WORD_SILENCE)
+  OR(2)
+   See(SecondNearestEnemyOfType([PC.0.0.MAGE_ALL]))
+   See(SecondNearestEnemyOfType([PC.0.0.CLERIC_ALL]))
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
+  !HasItemEquiped("amul21",LastSeenBy(Myself))
+  !HasItemEquiped("S!amul05",LastSeenBy(Myself))
+  !HasItemEquiped("S!amul06",LastSeenBy(Myself))
+THEN
+  RESPONSE #100
+    Spell(LastSeenBy(Myself),WIZARD_POWER_WORD_SILENCE)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  HaveSpell(WIZARD_POWER_WORD_SILENCE)
+  OR(2)
+   See(SecondNearestEnemyOfType([PC.0.0.CLERIC_ALL]))
+   See(SecondNearestEnemyOfType([PC.0.0.MAGE_ALL]))
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
+  !HasItemEquiped("amul21",LastSeenBy(Myself))
+  !HasItemEquiped("S!amul05",LastSeenBy(Myself))
+  !HasItemEquiped("S!amul06",LastSeenBy(Myself))
+THEN
+  RESPONSE #100
+    Spell(LastSeenBy(Myself),WIZARD_POWER_WORD_SILENCE)
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !StateCheck(LastSeenBy(Myself),STATE_PANIC)
+  CheckStatLT(LastSeenBy(Myself),90,RESISTMAGIC)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE4)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE8)
+  !CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE7)
+  !HasItemEquiped("shld25",LastSeenBy(Myself))
+  !HasItemEquiped("leat20",LastSeenBy(Myself))
+  !HasItemEquiped("sw2h14",LastSeenBy(Myself))
+  !HasItemEquiped("S!helm05",LastSeenBy(Myself))
+  !HasItemEquiped("S!leat03",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw22",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw21",LastSeenBy(Myself))
+  !HasItemEquiped("S!shld01",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw04",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw07",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw08",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw09",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw10",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw11",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw12",LastSeenBy(Myself))
+  !HasItemEquiped("morsword",LastSeenBy(Myself))
+  !HasItemEquiped("ring95",LastSeenBy(Myself))
+  !HasItemEquiped("ring99",LastSeenBy(Myself))
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
+  HaveSpell(WIZARD_CHAOS)
+THEN
+  RESPONSE #100
+    Spell(LastSeenBy(Myself),WIZARD_CHAOS)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See([PC])
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+  !CheckStat(LastSeenBy(Myself),4,SCRIPTINGSTATE7)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  CheckStatLT(LastSeenBy(Myself),100,RESISTMAGIC)
+  CheckStatLT(LastSeenBy(Myself),100,RESISTELECTRICITY)
+  HaveSpell(WIZARD_LIGHTNING_BOLT)
+THEN
+  RESPONSE #100
+    Spell(LastSeenBy(Myself),WIZARD_LIGHTNING_BOLT)
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  CheckStatLT(LastSeenBy(Myself),90,RESISTMAGIC)
+  CheckStatLT(LastSeenBy(Myself),100,RESISTCOLD)
+  !CheckStat(LastSeenBy(Myself),4,SCRIPTINGSTATE7)
+  HaveSpell(WIZARD_CONE_OF_COLD)
+  !Range(NearestEnemyOf(Myself),4)
+THEN
+  RESPONSE #100
+    Spell(LastSeenBy(Myself),WIZARD_CONE_OF_COLD)
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  HaveSpell(WIZARD_MONSTER_SUMMONING_3)
+THEN
+  RESPONSE #100
+    Spell(LastSeenBy(Myself),WIZARD_MONSTER_SUMMONING_3)
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+  CheckStatLT(LastSeenBy(Myself),90,RESISTMAGIC)
+  CheckStatLT(LastSeenBy(Myself),100,RESISTFIRE)
+  !CheckStat(LastSeenBy(Myself),4,SCRIPTINGSTATE7)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  HaveSpell(WIZARD_AGANNAZAR_SCORCHER)
+THEN
+  RESPONSE #100
+    Spell(LastSeenBy(Myself),WIZARD_AGANNAZAR_SCORCHER)
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+  CheckStatLT(LastSeenBy(Myself),90,RESISTMAGIC)
+  CheckStatLT(LastSeenBy(Myself),100,MAGICDAMAGERESISTANCE)
+  !HasItemEquiped("morsword",LastSeenBy(Myself))
+  GlobalLT("Iammissile","LOCALS",4)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iammissile","LOCALS",1)
+    SpellNoDec(LastSeenBy(Myself),WIZARD_AGANNAZAR_SCORCHER)
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Global("partyfled","LOCALS",0)
+  Allegiance(Myself,ENEMY)
+  GlobalGT("prepspells","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("chase","LOCALS",60)
+    SetGlobal("partyfled","LOCALS",1)
+END
+
+IF
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Global("partyfled","LOCALS",1)
+  GlobalTimerNotExpired("chase","LOCALS")
+  InMyArea(Player1)
+  Allegiance(Myself,ENEMY)
+  GlobalGT("prepspells","LOCALS",0)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Allegiance(Myself,ENEMY)
+  GlobalGT("prepspells","LOCALS",0)
+  GlobalTimerExpired("chase","LOCALS")
+  Global("partyfled","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("prepspells","LOCALS",0)
+    SetGlobal("Iagmalison","LOCALS",0)
+    SetGlobal("Iammissile","LOCALS",0)
+    ReallyForceSpellRES("SPWII07",Myself)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !See([PC])
+  !See([GOODCUTOFF])
+  Global("prepspells","LOCALS",0)
+  Global("anticheese","LOCALS",0)
+  OR(2)
+   AttackedBy([GOODCUTOFF],DEFAULT)
+   HPPercentLT(Myself,100)
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    SetGlobal("anticheese","LOCALS",1)
+    SetGlobalTimer("chase2","LOCALS",12)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  GlobalTimerNotExpired("chase2","LOCALS")
+  Global("anticheese","LOCALS",1)
+  Global("prepspells","LOCALS",0)
+  !See([PC])
+  !See([GOODCUTOFF])
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  GlobalTimerExpired("chase2","LOCALS")
+  Global("anticheese","LOCALS",1)
+  Global("prepspells","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("anticheese","LOCALS",0)
+    ReallyForceSpellRES("SPWII07",Myself)
+END

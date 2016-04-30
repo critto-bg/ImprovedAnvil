@@ -1,0 +1,1 @@
+REPLACE_TRIGGER_TEXT ~TANWIZ1~ ~NumTimesTalkedTo(0)~ ~~

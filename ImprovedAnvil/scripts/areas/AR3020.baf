@@ -1,0 +1,129 @@
+// close the portal for the duration of the battle if the player hasn't read the ritual scroll //
+IF
+  InMyArea(Player1)
+	Global("DemogorgonChange","GLOBAL",1)
+  Global("Iaexit","AR3020",0)
+  Global("OdrenRitualDone","GLOBAL",0)
+THEN
+	RESPONSE #100
+    SetGlobal("Iaexit","AR3020",1)
+    TriggerActivation("Tran3019",FALSE)
+		TriggerActivation("Tran3000",FALSE)
+		AmbientActivate("AMB_Portal1",FALSE)
+		AmbientActivate("AMB_Portal2",FALSE)
+		SoundActivate("PortalL",FALSE)
+		SoundActivate("PortalR",FALSE)
+END
+
+// Periodic spawning of bombers while Rozvankee is alive //
+
+IF
+  InMyArea(Player1)
+  Global("DemogorgonChange","GLOBAL",1)
+  Global("IaInitBombers","AR3020",0)
+  Exists("S!rozvan")
+  !Dead("S!rozvan")
+THEN
+	RESPONSE #100
+    SetGlobal("IaInitBombers","AR3020",1)
+    SetGlobalTimer("IaBombers","AR3020",8)
+END
+
+IF
+  InMyArea(Player1)
+  Global("DemogorgonChange","GLOBAL",1)
+  Global("IaInitBombers","AR3020",1)
+  Exists("S!rozvan")
+  Dead("S!rozvan")
+THEN
+	RESPONSE #100
+    SetGlobal("IaInitBombers","AR3020",2)
+END
+
+IF
+  InMyArea(Player1)
+  Global("DemogorgonChange","GLOBAL",1)
+  Global("IaInitBombers","AR3020",1)
+  GlobalGT("Chapter","GLOBAL",7)
+  GlobalTimerExpired("IaBombers","AR3020")
+THEN
+	RESPONSE #60
+    SetGlobalTimer("IaBombers","AR3020",12)
+    DisplayStringHead("S!rozvan",70998) // Come, my minions!
+    CreateCreature("S!dembom",[1287.1118],0)
+    CreateCreature("S!dembom",[663.1150],0)
+    CreateCreature("S!dembom",[795.771],0)
+	RESPONSE #30
+    SetGlobalTimer("IaBombers","AR3020",12)
+    DisplayStringHead("S!rozvan",70998) // Come, my minions!
+    CreateCreature("S!dembom",[1287.1118],0)
+    CreateCreature("S!dembom",[663.1150],0)
+	RESPONSE #10
+    SetGlobalTimer("IaBombers","AR3020",12)
+    DisplayStringHead("S!rozvan",70998) // Come, my minions!
+    CreateCreature("S!dembom",[1287.1118],0)
+END
+
+IF
+  InMyArea(Player1)
+  Global("DemogorgonChange","GLOBAL",1)
+  Global("IaInitBombers","AR3020",1)
+  GlobalLT("Chapter","GLOBAL",8)
+  GlobalTimerExpired("IaBombers","AR3020")
+THEN
+	RESPONSE #50
+    SetGlobalTimer("IaBombers","AR3020",12)
+    DisplayStringHead("S!rozvan",70998) // Come, my minions!
+    CreateCreature("S!dembom",[1287.1118],0)
+	RESPONSE #50
+    SetGlobalTimer("IaBombers","AR3020",12)
+    DisplayStringHead("S!rozvan",70998) // Come, my minions!
+    CreateCreature("S!dembom",[663.1150],0)
+END
+
+// appearance of helm's apparition when demogorgon is dead //
+
+IF
+  InMyArea(Player1)
+  CombatCounter(0)
+  Global("DemoGorgonIsDead","GLOBAL",1)
+  Global("IaApparition","AR3020",0)
+THEN
+  RESPONSE #100
+    SetGlobal("IaApparition","AR3020",1)
+    SetGlobalTimer("IaApparitionTimer","AR3020",3)
+END
+
+IF
+  InMyArea(Player1)
+  Global("DemoGorgonIsDead","GLOBAL",1)
+  Global("IaApparition","AR3020",1)
+  GlobalTimerExpired("IaApparitionTimer","AR3020")
+THEN
+  RESPONSE #100
+    SetGlobal("IaApparition","AR3020",2)
+
+    ClearAllActions()
+    StartCutSceneMode()
+
+    CutSceneId(Player1)
+    MoveViewPoint([966.992],VERY_FAST)
+    Wait(4)
+
+    CreateVisualEffect("SPSTRENH",[966.992])
+    Wait(2)
+
+    CreateCreature("S!helma1",[966.992],0)
+    ActionOverride("S!helma1",FaceObject(Player1))
+
+    FaceObject("S!helma1")
+    ActionOverride(Player2,FaceObject("S!helma1"))
+    ActionOverride(Player3,FaceObject("S!helma1"))
+    ActionOverride(Player4,FaceObject("S!helma1"))
+    ActionOverride(Player5,FaceObject("S!helma1"))
+    ActionOverride(Player6,FaceObject("S!helma1"))
+    Wait(3)
+
+    ActionOverride("S!helma1",StartDialogueNoSet(Player1))
+    EndCutSceneMode()
+END

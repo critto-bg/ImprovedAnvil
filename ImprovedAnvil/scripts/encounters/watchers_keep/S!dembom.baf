@@ -1,0 +1,272 @@
+// On-death condition: explode //
+
+IF
+  Die()
+THEN
+	RESPONSE #100
+    ReallyForceSpellDeadRES("SPINI95",Myself)
+END
+
+IF
+  HPLT(Myself,5)
+THEN
+	RESPONSE #100
+    ReallyForceSpellDeadRES("SPINI95",Myself)
+    DestroySelf()
+END
+
+IF
+  Global("Iatimer","LOCALS",0)
+THEN
+	RESPONSE #100
+    SetGlobal("Iatimer","LOCALS",1)
+    SetGlobalTimer("Iaselfdestruct","LOCALS",9)
+END
+
+IF
+  Global("Iatimer","LOCALS",1)
+  GlobalTimerExpired("Iaselfdestruct","LOCALS")
+THEN
+	RESPONSE #100
+    ReallyForceSpellDeadRES("SPINI95",Myself)
+    DestroySelf()
+END
+
+// Explosion: <25 Fire Res //
+
+IF
+  See(NearestEnemyOf(Myself))
+  Range(LastSeenBy(Myself),2)
+  !CheckStat(LastSeenBy(Myself),4,SCRIPTINGSTATE7)
+  CheckStatLT(LastSeenBy(Myself),25,RESISTFIRE)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+THEN
+  RESPONSE #100
+    ReallyForceSpellRES("SPINI95",Myself)
+    DestroySelf()
+END
+
+IF
+  See(SecondNearestEnemyOf(Myself))
+  Range(LastSeenBy(Myself),2)
+  !CheckStat(LastSeenBy(Myself),4,SCRIPTINGSTATE7)
+  CheckStatLT(LastSeenBy(Myself),25,RESISTFIRE)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+THEN
+  RESPONSE #100
+    ReallyForceSpellRES("SPINI95",Myself)
+    DestroySelf()
+END
+
+IF
+  See(ThirdNearestEnemyOf(Myself))
+  Range(LastSeenBy(Myself),2)
+  !CheckStat(LastSeenBy(Myself),4,SCRIPTINGSTATE7)
+  CheckStatLT(LastSeenBy(Myself),25,RESISTFIRE)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+THEN
+  RESPONSE #100
+    ReallyForceSpellRES("SPINI95",Myself)
+    DestroySelf()
+END
+
+IF
+  See(FourthNearestEnemyOf(Myself))
+  Range(LastSeenBy(Myself),2)
+  !CheckStat(LastSeenBy(Myself),4,SCRIPTINGSTATE7)
+  CheckStatLT(LastSeenBy(Myself),25,RESISTFIRE)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+THEN
+  RESPONSE #100
+    ReallyForceSpellRES("SPINI95",Myself)
+    DestroySelf()
+END
+
+// Explosion: <75 Fire Res //
+
+IF
+  See(NearestEnemyOf(Myself))
+  Range(LastSeenBy(Myself),2)
+  !CheckStat(LastSeenBy(Myself),4,SCRIPTINGSTATE7)
+  CheckStatLT(LastSeenBy(Myself),75,RESISTFIRE)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+THEN
+  RESPONSE #100
+    ReallyForceSpellRES("SPINI95",Myself)
+    DestroySelf()
+END
+
+IF
+  See(SecondNearestEnemyOf(Myself))
+  Range(LastSeenBy(Myself),2)
+  !CheckStat(LastSeenBy(Myself),4,SCRIPTINGSTATE7)
+  CheckStatLT(LastSeenBy(Myself),75,RESISTFIRE)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+THEN
+  RESPONSE #100
+    ReallyForceSpellRES("SPINI95",Myself)
+    DestroySelf()
+END
+
+IF
+  See(ThirdNearestEnemyOf(Myself))
+  Range(LastSeenBy(Myself),2)
+  !CheckStat(LastSeenBy(Myself),4,SCRIPTINGSTATE7)
+  CheckStatLT(LastSeenBy(Myself),75,RESISTFIRE)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+THEN
+  RESPONSE #100
+    ReallyForceSpellRES("SPINI95",Myself)
+    DestroySelf()
+END
+
+IF
+  See(FourthNearestEnemyOf(Myself))
+  Range(LastSeenBy(Myself),2)
+  !CheckStat(LastSeenBy(Myself),4,SCRIPTINGSTATE7)
+  CheckStatLT(LastSeenBy(Myself),75,RESISTFIRE)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+THEN
+  RESPONSE #100
+    ReallyForceSpellRES("SPINI95",Myself)
+    DestroySelf()
+END
+
+// Movement //
+
+IF
+  See(NearestEnemyOf(Myself))
+  !Range(LastSeenBy(Myself),2)
+  !CheckStat(LastSeenBy(Myself),4,SCRIPTINGSTATE7)
+  CheckStatLT(LastSeenBy(Myself),25,RESISTFIRE)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+THEN
+  RESPONSE #100
+    MoveToObject(LastSeenBy(Myself))
+END
+
+IF
+  See(SecondNearestEnemyOf(Myself))
+  !Range(LastSeenBy(Myself),2)
+  !CheckStat(LastSeenBy(Myself),4,SCRIPTINGSTATE7)
+  CheckStatLT(LastSeenBy(Myself),25,RESISTFIRE)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+THEN
+  RESPONSE #100
+    MoveToObject(LastSeenBy(Myself))
+END
+
+IF
+  See(ThirdNearestEnemyOf(Myself))
+  !Range(LastSeenBy(Myself),2)
+  !CheckStat(LastSeenBy(Myself),4,SCRIPTINGSTATE7)
+  CheckStatLT(LastSeenBy(Myself),25,RESISTFIRE)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+THEN
+  RESPONSE #100
+    MoveToObject(LastSeenBy(Myself))
+END
+
+IF
+  See(FourthNearestEnemyOf(Myself))
+  !Range(LastSeenBy(Myself),2)
+  !CheckStat(LastSeenBy(Myself),4,SCRIPTINGSTATE7)
+  CheckStatLT(LastSeenBy(Myself),25,RESISTFIRE)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+THEN
+  RESPONSE #100
+    MoveToObject(LastSeenBy(Myself))
+END
+
+IF
+  See(FifthNearestEnemyOf(Myself))
+  !Range(LastSeenBy(Myself),2)
+  !CheckStat(LastSeenBy(Myself),4,SCRIPTINGSTATE7)
+  CheckStatLT(LastSeenBy(Myself),25,RESISTFIRE)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+THEN
+  RESPONSE #100
+    MoveToObject(LastSeenBy(Myself))
+END
+
+IF
+  See(SixthNearestEnemyOf(Myself))
+  !Range(LastSeenBy(Myself),2)
+  !CheckStat(LastSeenBy(Myself),4,SCRIPTINGSTATE7)
+  CheckStatLT(LastSeenBy(Myself),25,RESISTFIRE)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+THEN
+  RESPONSE #100
+    MoveToObject(LastSeenBy(Myself))
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  !Range(LastSeenBy(Myself),2)
+  !CheckStat(LastSeenBy(Myself),4,SCRIPTINGSTATE7)
+  CheckStatLT(LastSeenBy(Myself),75,RESISTFIRE)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+THEN
+  RESPONSE #100
+    MoveToObject(LastSeenBy(Myself))
+END
+
+IF
+  See(SecondNearestEnemyOf(Myself))
+  !Range(LastSeenBy(Myself),2)
+  !CheckStat(LastSeenBy(Myself),4,SCRIPTINGSTATE7)
+  CheckStatLT(LastSeenBy(Myself),75,RESISTFIRE)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+THEN
+  RESPONSE #100
+    MoveToObject(LastSeenBy(Myself))
+END
+
+IF
+  See(ThirdNearestEnemyOf(Myself))
+  !Range(LastSeenBy(Myself),2)
+  !CheckStat(LastSeenBy(Myself),4,SCRIPTINGSTATE7)
+  CheckStatLT(LastSeenBy(Myself),75,RESISTFIRE)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+THEN
+  RESPONSE #100
+    MoveToObject(LastSeenBy(Myself))
+END
+
+// Explosion: whomever //
+
+IF
+  See(NearestEnemyOf(Myself))
+  Range(LastSeenBy(Myself),2)
+THEN
+  RESPONSE #100
+    ReallyForceSpellRES("SPINI95",Myself)
+    DestroySelf()
+END
+
+IF
+  See(SecondNearestEnemyOf(Myself))
+  Range(LastSeenBy(Myself),2)
+THEN
+  RESPONSE #100
+    ReallyForceSpellRES("SPINI95",Myself)
+    DestroySelf()
+END
+
+// Movement: whomever //
+
+IF
+  See(NearestEnemyOf(Myself))
+  !Range(LastSeenBy(Myself),2)
+THEN
+  RESPONSE #100
+    MoveToObject(LastSeenBy(Myself))
+END
+
+IF
+  See(SecondNearestEnemyOf(Myself))
+  !Range(LastSeenBy(Myself),2)
+THEN
+  RESPONSE #100
+    MoveToObject(LastSeenBy(Myself))
+END

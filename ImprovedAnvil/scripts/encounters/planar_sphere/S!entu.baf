@@ -1,0 +1,313 @@
+IF
+  Global("Iapcastts","GLOBAL",1)
+  Global("Iatsinvulner","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatsinvulner","LOCALS",1)
+    ApplySpellRES("SPINI70",Myself)
+END
+
+IF
+  Global("Iapcastts","GLOBAL",0)
+  Global("Iatsinvulner","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatsinvulner","LOCALS",0)
+    ApplySpellRES("SPINI71",Myself)
+END
+
+IF
+  !See([PC])
+  !See([GOODCUTOFF])
+  InMyArea(Player1)
+  Global("EnemySeen","LOCALS",0)
+  Global("Iahalfbattle","AR0411",1)
+THEN
+  RESPONSE #100
+    SetGlobal("EnemySeen","LOCALS",1)
+    MoveToObject(Player1)
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  Global("partyseen","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("partyseen","LOCALS",1)
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  Global("partyfled","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("partyfled","LOCALS",0)
+END
+
+IF
+  HPPercentLT(Myself,50)
+  Global("Iapcastts","GLOBAL",0)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  HasItem("potn55",Myself)  // ~Potion of Superior Healing~
+THEN
+  RESPONSE #100
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    DisplayStringHead(Myself,46150)  // ~quaffs a potion~
+    UseItem("potn55",Myself)  // ~Potion of Superior Healing~
+END
+
+IF
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  Global("Iapcastts","GLOBAL",0)
+  See(NearestEnemyOf(Myself))
+  !StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+  CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+  !StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
+  !HasItemEquiped("shld25",LastSeenBy(Myself))
+  !HasItemEquiped("sw2h14",LastSeenBy(Myself))
+  !HasItemEquiped("S!helm05",LastSeenBy(Myself))
+  !HasItemEquiped("S!leat03",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw22",LastSeenBy(Myself))
+  !HasItemEquiped("S!shld01",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw04",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw07",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw08",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw09",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw10",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw11",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw12",LastSeenBy(Myself))
+  !HasItemEquiped("npchan",LastSeenBy(Myself))
+  !HasItemEquiped("helm06",LastSeenBy(Myself))
+  !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE4)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE8)
+  !Class(LastSeenBy(Myself),MONK)
+  !HasItemEquiped("morsword",LastSeenBy(Myself))
+  !HasItemEquiped("ring95",LastSeenBy(Myself))
+  HaveSpell(PSIONIC_DOMINATION)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    Spell(LastSeenBy(Myself),PSIONIC_DOMINATION)
+END
+
+IF
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  Global("Iapcastts","GLOBAL",0)
+  See(SecondNearestEnemyOf(Myself))
+  !StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+  CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+  !StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
+  !HasItemEquiped("shld25",LastSeenBy(Myself))
+  !HasItemEquiped("sw2h14",LastSeenBy(Myself))
+  !HasItemEquiped("S!helm05",LastSeenBy(Myself))
+  !HasItemEquiped("S!leat03",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw22",LastSeenBy(Myself))
+  !HasItemEquiped("S!shld01",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw04",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw07",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw08",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw09",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw10",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw11",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw12",LastSeenBy(Myself))
+  !HasItemEquiped("npchan",LastSeenBy(Myself))
+  !HasItemEquiped("helm06",LastSeenBy(Myself))
+  !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE4)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE8)
+  !Class(LastSeenBy(Myself),MONK)
+  !HasItemEquiped("morsword",LastSeenBy(Myself))
+  !HasItemEquiped("ring95",LastSeenBy(Myself))
+  HaveSpell(PSIONIC_DOMINATION)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    Spell(LastSeenBy(Myself),PSIONIC_DOMINATION)
+END
+
+IF
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  Global("Iapcastts","GLOBAL",0)
+  See([PC])
+  CheckStatLT(LastSeenBy(Myself),100,MAGICDAMAGERESISTANCE)
+  !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+  CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+  HaveSpell(PSIONIC_DETONATE)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    Spell(NearestEnemyOf(Myself),PSIONIC_DETONATE)
+END
+
+IF
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  Global("Iapcastts","GLOBAL",0)
+  See(SecondNearest([PC]))
+  CheckStatLT(LastSeenBy(Myself),100,MAGICDAMAGERESISTANCE)
+  !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+  CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+  HaveSpell(PSIONIC_DETONATE)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    Spell(NearestEnemyOf(Myself),PSIONIC_DETONATE)
+END
+
+IF
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  Global("Iapcastts","GLOBAL",0)
+  See([PC])
+  !StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
+  !StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !StateCheck(LastSeenBy(Myself),STATE_PANIC)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE4)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE5)
+  !HasItemEquiped("S!sw02",LastSeenBy(Myself))
+  HaveSpell(PSIONIC_EGOWHIP)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    Spell(NearestEnemyOf(Myself),PSIONIC_EGOWHIP)
+END
+
+IF
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  Global("Iapcastts","GLOBAL",0)
+  See(SecondNearest([PC]))
+  !StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
+  !StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !StateCheck(LastSeenBy(Myself),STATE_PANIC)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE4)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE5)
+  !HasItemEquiped("S!sw02",LastSeenBy(Myself))
+  HaveSpell(PSIONIC_EGOWHIP)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    Spell(NearestEnemyOf(Myself),PSIONIC_EGOWHIP)
+END
+
+IF
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  Global("Iapcastts","GLOBAL",0)
+  See([PC])
+  CheckStatLT(LastSeenBy(Myself),100,RESISTCRUSHING)
+  Range(LastSeenBy(Myself),10)
+  HaveSpell(PSIONIC_BALLISTIC)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    Spell(NearestEnemyOf(Myself),PSIONIC_BALLISTIC)
+END
+
+IF
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  Global("Iapcastts","GLOBAL",0)
+  See(SecondNearest([PC]))
+  CheckStatLT(LastSeenBy(Myself),100,RESISTCRUSHING)
+  Range(LastSeenBy(Myself),10)
+  HaveSpell(PSIONIC_BALLISTIC)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    Spell(NearestEnemyOf(Myself),PSIONIC_BALLISTIC)
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  See(SecondNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  Range(LastSeenBy(Myself),3)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(ThirdNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  Range(LastSeenBy(Myself),3)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Global("partyfled","LOCALS",0)
+  Allegiance(Myself,ENEMY)
+  Global("partyseen","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("chase","LOCALS",60)
+    SetGlobal("partyfled","LOCALS",1)
+END
+
+IF
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_STUNNED)
+  !StateCheck(Myself,STATE_PANIC)
+  !StateCheck(Myself,STATE_CHARMED)
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Global("partyfled","LOCALS",1)
+  GlobalTimerNotExpired("chase","LOCALS")
+  InMyArea(Player1)
+  Allegiance(Myself,ENEMY)
+  Global("partyseen","LOCALS",1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Allegiance(Myself,ENEMY)
+  GlobalTimerExpired("chase","LOCALS")
+  Global("partyfled","LOCALS",1)
+  Global("partyseen","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("partyseen","LOCALS",0)
+    ReallyForceSpellRES("SPWII07",Myself)
+END

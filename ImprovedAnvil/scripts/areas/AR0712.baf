@@ -1,0 +1,42 @@
+// Den of the Seven Vales, 2nd Floor //
+
+IF
+  Global("Iaexit","AR0712",0)
+  Global("RiatavinFight","GLOBAL",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR0712",1)
+    TriggerActivation("Tran0709",FALSE)
+END
+
+IF
+  Global("Iaexit","AR0712",1)
+  Dead("sevpat01")
+  Dead("sevpat02")
+  Dead("sevpat03")
+  Dead("sevpat04")
+  Dead("sevpat05")
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR0712",2)
+    TriggerActivation("Tran0709",TRUE)
+END
+
+IF
+   Global("Iaitem","AR0712",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem","AR0712",1)
+      ActionOverride("Container 3",CreateItem("misc07",567,0,0)) //
+END
+
+IF
+   Global("Iaitem1","AR0712",0)
+   Global("Iasleepplace","GLOBAL",2)
+   Global("Iaexit","AR0712",2)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaitem1","AR0712",1)
+      SetGlobal("Iasleepplace","GLOBAL",3)
+      ActionOverride("Container 3",CreateItem("BLUN16",0,0,0)) //
+END

@@ -1,0 +1,126 @@
+IF
+  HPLT(Myself,10)
+  Global("LassalTalk","LOCALS",0)
+  Global("Iapcastts","GLOBAL",0)
+THEN
+  RESPONSE #100
+    StartDialogNoSet(Player1)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See("Mook")  // ~Mook~
+  !Dead("Mook")  // ~Mook~
+THEN
+  RESPONSE #100
+    ReallyForceSpell("Mook",BEHOLDER_DISINTEGRATE)
+    Kill("Mook")
+END
+
+IF
+  TimeGT(5)
+  TimeLT(DUSK_END)
+  AreaType(OUTDOOR)
+THEN
+  RESPONSE #100
+    ReallyForceSpellDead(Myself,VAMPIRE_BAT_FORM_CHANGE)
+END
+
+IF
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_STUNNED)
+  !StateCheck(Myself,STATE_PANIC)
+  HPGT(Myself,9)
+  See([PC])
+  Delay(12)
+  Allegiance(Myself,ENEMY)
+  Global("Iapcastts","GLOBAL",0)
+  CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+  !StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
+  !HasItemEquiped("shld25",LastSeenBy(Myself))
+  !HasItemEquiped("sw2h14",LastSeenBy(Myself))
+  !HasItemEquiped("S!helm05",LastSeenBy(Myself))
+  !HasItemEquiped("S!leat03",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw22",LastSeenBy(Myself))
+  !HasItemEquiped("S!shld01",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw04",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw07",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw08",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw09",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw10",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw11",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw12",LastSeenBy(Myself))
+  !HasItemEquiped("npchan",LastSeenBy(Myself))
+  !HasItemEquiped("helm06",LastSeenBy(Myself))
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE4)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE8)
+  !CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE7)
+  !Class(LastSeenBy(Myself),MONK)
+  !CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE1)
+  !CheckStat(LastSeenBy(Myself),4,SCRIPTINGSTATE1)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
+THEN
+  RESPONSE #100
+    ForceSpell([PC],VAMPIRE_DOMINATION)
+END
+
+IF
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_STUNNED)
+  !StateCheck(Myself,STATE_PANIC)
+  HPGT(Myself,9)
+  See(SecondNearest([PC]))
+  Delay(12)
+  Allegiance(Myself,ENEMY)
+  Global("Iapcastts","GLOBAL",0)
+  CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
+  !StateCheck(LastSeenBy(Myself),STATE_CHARMED)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
+  !HasItemEquiped("shld25",LastSeenBy(Myself))
+  !HasItemEquiped("sw2h14",LastSeenBy(Myself))
+  !HasItemEquiped("S!helm05",LastSeenBy(Myself))
+  !HasItemEquiped("S!leat03",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw22",LastSeenBy(Myself))
+  !HasItemEquiped("S!shld01",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw04",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw07",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw08",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw09",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw10",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw11",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw12",LastSeenBy(Myself))
+  !HasItemEquiped("npchan",LastSeenBy(Myself))
+  !HasItemEquiped("helm06",LastSeenBy(Myself))
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE4)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE8)
+  !CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE7)
+  !Class(LastSeenBy(Myself),MONK)
+  !CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE1)
+  !CheckStat(LastSeenBy(Myself),4,SCRIPTINGSTATE1)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
+THEN
+  RESPONSE #100
+    ForceSpell(LastSeenBy(Myself),VAMPIRE_DOMINATION)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  Global("LassalTalk","LOCALS",0)
+  HPGT(Myself,9)
+  !See([GOODCUTOFF])
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END

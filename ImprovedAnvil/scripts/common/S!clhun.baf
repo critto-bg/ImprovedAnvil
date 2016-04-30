@@ -1,0 +1,118 @@
+IF
+	Global("Iamoving","LOCALS",1)
+	See(NearestEnemyOf(Myself))
+    ActionListEmpty()
+THEN
+	RESPONSE #100
+		SetGlobal("Iamoving","LOCALS",0)
+END
+
+IF
+	!Allegiance(Myself,ENEMY)
+	Global("Iamoving","LOCALS",1)
+	CombatCounter(0)
+	See([PC])
+	Range(LastSeenBy(Myself),6)
+    ActionListEmpty()
+THEN
+	RESPONSE #100
+		SetGlobal("Iamoving","LOCALS",0)
+END
+
+IF
+	!Allegiance(Myself,ENEMY)
+	!StateCheck(Myself,STATE_SILENCED)
+	!StateCheck(Myself,STATE_HELPLESS)
+	!StateCheck(Myself,STATE_PANIC)
+	!StateCheck(Myself,STATE_STUNNED)
+	!CheckStatGT(Myself,0,SCRIPTINGSTATE9)
+	!GlobalTimerNotExpired("Iaspell","LOCALS")
+  ActionListEmpty()
+	See(NearestEnemyOf(Myself))
+	CheckStatLT(Myself,1,STONESKINS)
+  HaveSpell(CLERIC_IRONSKIN)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("Iaspell","LOCALS",6)
+		Spell(Myself,CLERIC_IRONSKIN) // SPPR506.SPL (Iron Skins)
+END
+
+IF
+	ActionListEmpty()
+	See(SecondNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),1,SCRIPTINGSTATE6)
+	RandomNumGT(6,4)
+	Range(LastSeenBy(Myself),2)
+THEN
+	RESPONSE #100
+		AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+	ActionListEmpty()
+	See(NearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),1,SCRIPTINGSTATE6)
+THEN
+	RESPONSE #100
+		AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+	ActionListEmpty()
+	See(SecondNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),1,SCRIPTINGSTATE6)
+	Range(LastSeenBy(Myself),2)
+THEN
+	RESPONSE #100
+		AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+	ActionListEmpty()
+	See(ThirdNearestEnemyOf(Myself))
+	!CheckStatGT(LastSeenBy(Myself),1,SCRIPTINGSTATE6)
+	Range(LastSeenBy(Myself),2)
+THEN
+	RESPONSE #100
+		AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+	ActionListEmpty()
+	See(NearestEnemyOf(Myself))
+THEN
+	RESPONSE #100
+		AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+	ActionListEmpty()
+	Global("Iamoving","LOCALS",0)
+	!See(NearestEnemyOf(Myself))
+	InMyArea(Player1)
+THEN
+	RESPONSE #100
+		SetGlobal("Iamoving","LOCALS",1)
+END
+
+IF
+	!Allegiance(Myself,ENEMY)
+	ActionListEmpty()
+	Global("Iamoving","LOCALS",0)
+	CombatCounter(0)
+	!Detect(Player1)
+	!Detect([PC])
+THEN
+	RESPONSE #100
+		SetGlobal("Iamoving","LOCALS",1)
+END
+
+IF
+	ActionListEmpty()
+	Global("Iamoving","LOCALS",1)
+	!See(NearestEnemyOf(Myself))
+	InMyArea(Player1)
+THEN
+	RESPONSE #100
+		MoveToObject(Player1)
+END

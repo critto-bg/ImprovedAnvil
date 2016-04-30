@@ -1,0 +1,634 @@
+// decompile and patch existing scripts //
+
+COPY_EXISTING ~BALDUR.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+      REPLACE_TEXTUALLY ~GlobalTimerExpired("BardMoneyTime","GLOBAL")~ ~GlobalTimerExpired("BardMoneyTime","GLOBAL") GlobalLT("Iabardmoney","GLOBAL",15)~
+      REPLACE_TEXTUALLY ~SetGlobalTimer("BardMoneyTime","GLOBAL",SEVEN_DAYS)~ ~SetGlobalTimer("BardMoneyTime","GLOBAL",SEVEN_DAYS) IncrementGlobal("Iabardmoney","GLOBAL",1)~
+      REPLACE_TEXTUALLY ~GlobalTimerExpired("KPTaxTime","GLOBAL")~ ~GlobalTimerExpired("KPTaxTime","GLOBAL") GlobalLT("Iakptax","GLOBAL",20)~
+      REPLACE_TEXTUALLY ~SetGlobalTimer("KPTaxTime","GLOBAL",SEVEN_DAYS)~ ~SetGlobalTimer("KPTaxTime","GLOBAL",SEVEN_DAYS) IncrementGlobal("Iakptax","GLOBAL",1)~
+      REPLACE_TEXTUALLY ~GlobalTimerExpired("PGThievesReturn","GLOBAL")~ ~GlobalTimerExpired("PGThievesReturn","GLOBAL") GlobalLT("Iathiefmoney","GLOBAL",20)~
+  END
+
+COPY_EXISTING ~BCOFFIN.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~48500~ ~23500~
+  END
+
+COPY_EXISTING ~AMULET.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~Global("AmuletStolen","GLOBAL",0)~ ~Global("AmuletStolen","GLOBAL",0) Global("MaeVarWork","GLOBAL",3)~
+  END
+
+COPY_EXISTING ~SPMUCK.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~ANYONE~ ~GOODCUTOFF~
+  END
+
+COPY_EXISTING ~SPLETTTP.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~ANYONE~ ~GOODCUTOFF~
+  END
+
+COPY_EXISTING ~EDWINX.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~WIZARD_MINOR_SPELL_DEFLECTION~ ~WIZARD_MINOR_GLOBE_OF_INVULNERABILITY~
+    REPLACE_TEXTUALLY ~WIZARD_MINOR_SPELL_TURNING~ ~WIZARD_GLOBE_OF_INVULNERABILITY~
+    REPLACE_TEXTUALLY ~!HasImmunityEffects(Myself)~ ~!CheckStatGT(Myself,0,MINORGLOBE)~
+  END
+
+COPY_EXISTING ~HAERDAX.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~WIZARD_MINOR_SPELL_DEFLECTION~ ~WIZARD_MINOR_GLOBE_OF_INVULNERABILITY~
+    REPLACE_TEXTUALLY ~HaveSpell(WIZARD_MINOR_SPELL_TURNING)~ ~FALSE()~
+    REPLACE_TEXTUALLY ~HaveSpell(WIZARD_SPELL_TURNING)~ ~FALSE()~
+    REPLACE_TEXTUALLY ~HaveSpell(WIZARD_FINGER_OF_DEATH)~ ~FALSE()~
+    REPLACE_TEXTUALLY ~HaveSpell(WIZARD_ABI_DALZIMS_HORRID_WILTING)~ ~FALSE()~
+    REPLACE_TEXTUALLY ~HaveSpell(WIZARD_SUMMON_NISHRUU)~ ~FALSE()~
+    REPLACE_TEXTUALLY ~HaveSpell(WIZARD_DEATH_SPELL)~ ~FALSE()~
+    REPLACE_TEXTUALLY ~HaveSpell(WIZARD_PRISMATIC_SPRAY)~ ~FALSE()~
+    REPLACE_TEXTUALLY ~HaveSpell(WIZARD_DEATH_FOG)~ ~FALSE()~
+    REPLACE_TEXTUALLY ~HaveSpell(WIZARD_MAZE)~ ~FALSE()~
+    REPLACE_TEXTUALLY ~HaveSpell(WIZARD_DISINTEGRATE)~ ~FALSE()~
+    REPLACE_TEXTUALLY ~HaveSpell(WIZARD_FLESH_TO_STONE)~ ~FALSE()~
+    REPLACE_TEXTUALLY ~HaveSpell(WIZARD_IMPROVED_HASTE)~ ~FALSE()~
+    REPLACE_TEXTUALLY ~!HasImmunityEffects(Myself)~ ~!CheckStatGT(Myself,0,MINORGLOBE)~
+  END
+
+COPY_EXISTING ~JANX.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~WIZARD_MINOR_SPELL_DEFLECTION~ ~WIZARD_MINOR_GLOBE_OF_INVULNERABILITY~
+    REPLACE_TEXTUALLY ~WIZARD_MINOR_SPELL_TURNING~ ~WIZARD_GLOBE_OF_INVULNERABILITY~
+    REPLACE_TEXTUALLY ~!HasImmunityEffects(Myself)~ ~!CheckStatGT(Myself,0,MINORGLOBE)~
+    REPLACE_TEXTUALLY ~HaveSpell(WIZARD_MAZE)~ ~False()~
+  END
+
+COPY_EXISTING ~NPCMAGE1.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~WIZARD_MINOR_SPELL_DEFLECTION~ ~WIZARD_MINOR_GLOBE_OF_INVULNERABILITY~
+    REPLACE_TEXTUALLY ~WIZARD_MINOR_SPELL_TURNING~ ~WIZARD_GLOBE_OF_INVULNERABILITY~
+    REPLACE_TEXTUALLY ~HaveSpell(WIZARD_DELETED)~ ~FALSE()~
+    REPLACE_TEXTUALLY ~HaveSpell(WIZARD_SPELL_THRUST)~ ~FALSE()~
+    REPLACE_TEXTUALLY ~HaveSpell(WIZARD_ABI_DALZIMS_HORRID_WILTING)~ ~FALSE()~
+    REPLACE_TEXTUALLY ~HaveSpell(WIZARD_SUMMON_NISHRUU)~ ~FALSE()~
+    REPLACE_TEXTUALLY ~HaveSpell(WIZARD_WARDING_WHIP)~ ~FALSE()~
+    REPLACE_TEXTUALLY ~!General(LastSeenBy(Myself),HUMANOID)~ ~Allegiance(Myself,ENEMY)~
+    REPLACE_TEXTUALLY ~HaveSpell(WIZARD_MAZE)~ ~FALSE()~
+    REPLACE_TEXTUALLY ~HaveSpell(WIZARD_DISINTEGRATE)~ ~FALSE()~
+    REPLACE_TEXTUALLY ~HaveSpell(WIZARD_DEATH_SPELL)~ ~FALSE()~
+    REPLACE_TEXTUALLY ~!HasImmunityEffects(Myself)~ ~!CheckStatGT(Myself,0,MINORGLOBE)~
+  END
+
+COPY_EXISTING ~SUELFW11.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~WIZARD_MINOR_SPELL_DEFLECTION~ ~WIZARD_MINOR_GLOBE_OF_INVULNERABILITY~
+  END
+
+COPY_EXISTING ~DEMSUC.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~WIZARD_MINOR_SPELL_TURNING~ ~WIZARD_SPELL_TURNING~
+  END
+
+COPY_EXISTING ~COWENF01.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~WIZARD_SPELL_DEFLECTION~ ~WIZARD_SPELL_TURNING~
+    REPLACE_TEXTUALLY ~Wait(1)~ ~SetGlobal("cowledwizard","LOCALS",1)~
+    REPLACE_TEXTUALLY ~HaveSpell(WIZARD_POWER_WORD_SILENCE)~ ~!StateCheck(LastSeenBy(Myself),STATE_SILENCED) !HasItemEquiped("S!amul05",LastSeenBy(Myself)) !HasItemEquiped("S!amul06",LastSeenBy(Myself)) !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)~
+    REPLACE_TEXTUALLY ~HaveSpell(WIZARD_POWER_WORD_STUN)~ ~FALSE()~
+    REPLACE_TEXTUALLY ~!Range(LastSeenBy(Myself),10)~ ~!CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE7) !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)~
+    REPLACE_TEXTUALLY ~HaveSpell(WIZARD_FIREBALL)~ ~FALSE()~
+    REPLACE_TEXTUALLY ~HaveSpell(WIZARD_GREATER_MALISON)~ ~FALSE()~
+    REPLACE_TEXTUALLY ~HaveSpell(WIZARD_MIRROR_IMAGE)~ ~HaveSpell(WIZARD_MIRROR_IMAGE) !StateCheck(Myself,STATE_MIRRORIMAGE)~
+    REPLACE_TEXTUALLY ~Spell(LastSeenBy(Myself),WIZARD_DEATH_SPELL)~ ~ReallyForceSpell(Myself,WIZARD_MIRROR_IMAGE) Spell(LastSeenBy(Myself),WIZARD_DEATH_SPELL)~
+    REPLACE_TEXTUALLY ~HaveSpell(WIZARD_LIGHTNING_BOLT)~ ~FALSE()~
+    REPLACE_TEXTUALLY ~HaveSpell(0)~ ~FALSE()~
+  END
+
+COPY_EXISTING ~GT012.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~WIZARD_DELAYED_BLAST_FIREBALL~ ~WIZARD_FIREBALL~
+  END
+
+COPY_EXISTING ~TRNR006.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~WIZARD_DELAYED_BLAST_FIREBALL~ ~WIZARD_FIREBALL~
+  END
+
+COPY_EXISTING ~VALYGAR.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~ChangeAIScript("useitem",GENERAL)~ ~ChangeAIScript("valygx",GENERAL)~
+  END
+
+COPY_EXISTING ~BAZDRA01.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~NumTimesTalkedToLT(2)~ ~NumTimesTalkedToLT(2) Global("Iapcastts","GLOBAL",0)~
+  END
+
+COPY_EXISTING ~DEGARD2.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~HaveSpell(WIZARD_PROTECTION_FROM_NORMAL_WEAPONS)~ ~FALSE()~
+  END
+
+COPY_EXISTING ~FIGMAG10.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~HaveSpell(WIZARD_PROTECTION_FROM_NORMAL_WEAPONS)~ ~Global("Iaskins","LOCALS",0) CheckStatLT(Myself,1,STONESKINS)~
+    REPLACE_TEXTUALLY ~Spell(Myself,WIZARD_PROTECTION_FROM_NORMAL_WEAPONS)~ ~SetGlobal("Iaskins","LOCALS",1) SpellNoDec(Myself,WIZARD_STONE_SKIN)~
+  END
+
+COPY_EXISTING ~PPMAG01.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~HaveSpell(WIZARD_PROTECTION_FROM_NORMAL_WEAPONS)~ ~Global("Iaskins","LOCALS",0) CheckStatLT(Myself,1,STONESKINS)~
+    REPLACE_TEXTUALLY ~Spell(Myself,WIZARD_PROTECTION_FROM_NORMAL_WEAPONS)~ ~SetGlobal("Iaskins","LOCALS",1) SpellNoDec(Myself,WIZARD_STONE_SKIN)~
+  END
+
+COPY_EXISTING ~THIEFMAG.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~HaveSpell(WIZARD_PROTECTION_FROM_NORMAL_WEAPONS)~ ~Global("Iaskins","LOCALS",0) CheckStatLT(Myself,1,STONESKINS)~
+    REPLACE_TEXTUALLY ~Spell(Myself,WIZARD_PROTECTION_FROM_NORMAL_WEAPONS)~ ~SetGlobal("Iaskins","LOCALS",1) SpellNoDec(Myself,WIZARD_STONE_SKIN)~
+  END
+
+COPY_EXISTING ~TRFUED05.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~WIZARD_PROTECTION_FROM_NORMAL_WEAPONS~ ~WIZARD_STONE_SKIN~
+  END
+
+COPY_EXISTING ~AR3012.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~Dead("GorTan2")~ ~False()~
+    REPLACE_TEXTUALLY ~Dead("GorTan3")~ ~False()~
+    REPLACE_TEXTUALLY ~Dead("GorTan4")~ ~False()~
+    REPLACE_TEXTUALLY ~Dead("GorTan5")~ ~False()~
+  END
+
+COPY_EXISTING ~AR3013.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~Dead("GorBat2")~ ~False()~
+    REPLACE_TEXTUALLY ~Dead("GorBat3")~ ~False()~
+    REPLACE_TEXTUALLY ~Dead("GorBat4")~ ~False()~
+    REPLACE_TEXTUALLY ~Dead("GorBat5")~ ~False()~
+  END
+
+COPY_EXISTING ~AR3016.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~Global("SetDifficulty","AR3016",0)~ ~Global("SetDifficulty","AR3016",0) False()~
+  END
+
+COPY_EXISTING ~AR4000.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~Dead("Illasera")~ ~Dead("Illasera") CombatCounter(0)~
+    REPLACE_TEXTUALLY ~SetGlobal("HeadsSave","AR4000",2)~ ~SetGlobal("HeadsSave","AR4000",2) SetGlobal("Iap1nr","GLOBAL",0) SetGlobal("Iap2nr","GLOBAL",0) SetGlobal("Iap3nr","GLOBAL",0) SetGlobal("Iap4nr","GLOBAL",0) SetGlobal("Iap5nr","GLOBAL",0) SetGlobal("Iap6nr","GLOBAL",0) SetGlobal("Iap1nb","GLOBAL",0) SetGlobal("Iap2nb","GLOBAL",0) SetGlobal("Iap3nb","GLOBAL",0) SetGlobal("Iap4nb","GLOBAL",0) SetGlobal("Iap5nb","GLOBAL",0) SetGlobal("Iap6nb","GLOBAL",0) ActionOverride(Player1,ReallyForceSpellRES("SPINI22",Myself))~
+    REPLACE_TEXTUALLY ~DWCSW1H01~ ~DWSW1H01~
+  END
+
+COPY_EXISTING ~TSIGHT.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~ForceSpell(Myself,CLERIC_TRUE_SIGHT)~ ~SetGlobalTimer("truesight","LOCALS",60) ReallyForceSpell(Myself,WIZARD_TRUE_SIGHT)~
+  END
+
+COPY_EXISTING ~AR5203.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~Delay(6)~ ~False()~
+  END
+
+COPY_EXISTING ~SHOUTPRO.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~See(Player1)~ ~See(Player1) Global("Iapcastts","GLOBAL",0)~
+  END
+
+COPY_EXISTING ~SARMEL01.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~GlobalGT("DeathOfGromnir","GLOBAL",0)~ ~Global("DeathOfGromnir","GLOBAL",1)~
+  END
+
+COPY_EXISTING ~GORGUA01.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~Global("AuruTimeStop","LOCALS",0)~ ~Global("AuruTimeStop","LOCALS",0) False()~
+    REPLACE_TEXTUALLY ~!HasBounceEffects(LastSeenBy(Myself))~ ~!HasBounceEffects(LastSeenBy(Myself)) !StateCheck(LastSeenBy(Myself),STATE_CHARMED)~
+  END
+
+COPY_EXISTING ~CUT61A.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~ReputationInc(-2)~ ~ReputationInc(-4)~
+  END
+
+COPY_EXISTING ~SAHREBEL.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~Global("PrinceArrives","AR2300",1)~ ~Global("PrinceArrives","AR2300",1) !HasItem("halb09b",Myself)~
+  END
+
+COPY_EXISTING ~AESGAR.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~SpellNoDec(LastSeenBy(Myself),WIZARD_MAZE)~ ~SpellNoDec(LastSeenBy(Myself),WIZARD_ABI_DALZIMS_HORRID_WILTING)~
+  END
+
+COPY_EXISTING ~AMLICH02.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~SpellNoDec(LastSeenBy(Myself),WIZARD_MAZE)~ ~SpellNoDec(LastSeenBy(Myself),WIZARD_ABI_DALZIMS_HORRID_WILTING)~
+  END
+
+COPY_EXISTING ~BEHHIV01.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~SpellNoDec(LastSeenBy(Myself),WIZARD_MAZE)~ ~SpellNoDec(LastSeenBy(Myself),WIZARD_ABI_DALZIMS_HORRID_WILTING)~
+  END
+
+COPY_EXISTING ~CMACL20A.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~HaveSpell(WIZARD_MAZE)~ ~False()~
+  END
+
+COPY_EXISTING ~CMAGE20B.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~HaveSpell(WIZARD_MAZE)~ ~False()~
+  END
+
+COPY_EXISTING ~EDWINX.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~HaveSpell(WIZARD_MAZE)~ ~False()~
+  END
+
+COPY_EXISTING ~FIGMAG16.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~HaveSpell(WIZARD_MAZE)~ ~False()~
+  END
+
+COPY_EXISTING ~FLAYER01.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~HPPercentLT(LastSeenBy(Myself),25)~ ~False()~
+    REPLACE_TEXTUALLY ~Delay(12)~ ~Delay(12) !HasBounceEffects(LastSeenBy(Myself))~
+  END
+
+COPY_EXISTING ~GORCAMB2.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~HaveSpell(WIZARD_MAZE)~ ~False()~
+  END
+
+COPY_EXISTING ~GORMIND.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~HPPercentLT(LastSeenBy(Myself),25)~ ~False()~
+    REPLACE_TEXTUALLY ~Delay(12)~ ~Delay(12) !HasBounceEffects(LastSeenBy(Myself))~
+  END
+
+COPY_EXISTING ~GORSTAM.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~HaveSpell(WIZARD_MAZE)~ ~False()~
+  END
+
+COPY_EXISTING ~JATERMIN.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~HaveSpell(WIZARD_MAZE)~ ~False()~
+  END
+
+COPY_EXISTING ~MAGE2.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~HaveSpell(WIZARD_MAZE)~ ~False()~
+  END
+
+COPY_EXISTING ~MELISS02.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~SpellNoDec(LastSeenBy(Myself),WIZARD_MAZE)~ ~SpellNoDec(LastSeenBy(Myself),WIZARD_ABI_DALZIMS_HORRID_WILTING)~
+  END
+
+COPY_EXISTING ~MELISS03.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~SpellNoDec(LastSeenBy(Myself),WIZARD_MAZE)~ ~SpellNoDec(LastSeenBy(Myself),WIZARD_ABI_DALZIMS_HORRID_WILTING)~
+  END
+
+COPY_EXISTING ~GITHFGMG.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~Global("gtMaze","LOCALS",0)~ ~Global("gtMaze","LOCALS",0) False()~
+  END
+
+COPY_EXISTING ~INP1IABS.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~Global("Attacked","LOCALS",0)~ ~Global("Attacked","LOCALS",0) Global("Iapcastts","GLOBAL",0)~
+  END
+
+COPY_EXISTING ~INP1IVBS.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~NumTimesTalkedTo(0)~ ~NumTimesTalkedTo(0) Global("Iapcastts","GLOBAL",0)~
+  END
+
+COPY_EXISTING ~INP1IVSG.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~NumTimesTalkedTo(0)~ ~NumTimesTalkedTo(0) Global("Iapcastts","GLOBAL",0)~
+  END
+
+COPY_EXISTING ~INP1NRSG.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~NumTimesTalkedTo(0)~ ~NumTimesTalkedTo(0) Global("Iapcastts","GLOBAL",0)~
+  END
+
+COPY_EXISTING ~INPA20SG.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~Global("NearDeath","LOCALS",0)~ ~Global("NearDeath","LOCALS",0) Global("Iapcastts","GLOBAL",0)~
+  END
+
+COPY_EXISTING ~INPAIASG.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~Global("Attacked","LOCALS",0)~ ~Global("Attacked","LOCALS",0) Global("Iapcastts","GLOBAL",0)~
+  END
+
+COPY_EXISTING ~INPAIV10.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~NumTimesTalkedTo(0)~ ~NumTimesTalkedTo(0) Global("Iapcastts","GLOBAL",0)~
+  END
+
+COPY_EXISTING ~INPAIVSG.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~NumTimesTalkedTo(0)~ ~NumTimesTalkedTo(0) Global("Iapcastts","GLOBAL",0)~
+  END
+
+COPY_EXISTING ~INPANHSG.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~NumTimesTalkedTo(0)~ ~NumTimesTalkedTo(0) Global("Iapcastts","GLOBAL",0)~
+  END
+
+COPY_EXISTING ~INPANR10.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~NumTimesTalkedTo(0)~ ~NumTimesTalkedTo(0) Global("Iapcastts","GLOBAL",0)~
+  END
+
+COPY_EXISTING ~INPANRSG.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~NumTimesTalkedTo(0)~ ~NumTimesTalkedTo(0) Global("Iapcastts","GLOBAL",0)~
+  END
+
+COPY_EXISTING ~INPANRWK.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~NumTimesTalkedTo(0)~ ~NumTimesTalkedTo(0) Global("Iapcastts","GLOBAL",0)~
+  END
+
+COPY_EXISTING ~INPARP10.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~NumTimesTalkedTo(0)~ ~NumTimesTalkedTo(0) Global("Iapcastts","GLOBAL",0)~
+  END
+
+COPY_EXISTING ~INPARPSG.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~NumTimesTalkedTo(0)~ ~NumTimesTalkedTo(0) Global("Iapcastts","GLOBAL",0)~
+  END
+
+COPY_EXISTING ~PPVAMP.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~HPLT(Myself,10)~ ~FALSE()~
+  END
+
+COPY_EXISTING ~PPVAMPIR.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~HPLT(Myself,10)~ ~FALSE()~
+  END
+
+COPY_EXISTING ~SARVAM01.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~HPLT(Myself,10)~ ~FALSE()~
+  END
+
+COPY_EXISTING ~SARVAM02.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~HPLT(Myself,10)~ ~FALSE()~
+  END
+
+COPY_EXISTING ~HGNYMPH.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~Global("charmonce","LOCALS",0)~ ~Global("charmonce","LOCALS",0) !StateCheck(LastSeenBy(Myself),STATE_CHARMED) !StateCheck(LastSeenBy(Myself),STATE_INVISIBLE) !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)~
+  END
+
+COPY_EXISTING ~NALMISS.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~!StateCheck(LastSeenBy(Myself),STATE_CHARMED)~ ~!StateCheck(LastSeenBy(Myself),STATE_CHARMED) !StateCheck(LastSeenBy(Myself),STATE_INVISIBLE) !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)~
+  END
+
+COPY_EXISTING ~ALPHONSE.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~STAF07~ ~STAF06~
+  END
+
+COPY_EXISTING ~GTLB.bcs~ ~override/GTGW.bcs~
+
+COPY_EXISTING ~GTFB.bcs~ ~override/GTST.bcs~
+
+COPY_EXISTING ~GT023.bcs~ ~override/GT018.bcs~
+
+COPY_EXISTING ~mage12d.bcs~ ~override/mage12c.bcs~
+
+COPY_EXISTING ~mage12d.bcs~ ~override/mage12e.bcs~
+
+COPY_EXISTING ~mage16a.bcs~ ~override/gpmage1.bcs~
+
+COPY_EXISTING ~mage20a.bcs~ ~override/hellgen.bcs~
+
+COPY_EXISTING ~AR2100.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~scrl9r~ ~scrl9m~
+  END
+
+COPY_EXISTING ~AR0411.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~potn40~ ~potn11~
+  END
+
+COPY_EXISTING ~AMCARRAS.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~DestroyItem("ax1h16")~ ~~
+  END
+
+COPY_EXISTING ~AR3020.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY
+      "SpellCastInnate(\[ANYONE\],ODREN_RITUAL_SCROLL)"
+      ~OR(6)
+  SpellCastInnate(Player1,ODREN_RITUAL_SCROLL)
+  SpellCastInnate(Player2,ODREN_RITUAL_SCROLL)
+  SpellCastInnate(Player3,ODREN_RITUAL_SCROLL)
+  SpellCastInnate(Player4,ODREN_RITUAL_SCROLL)
+  SpellCastInnate(Player5,ODREN_RITUAL_SCROLL)
+  SpellCastInnate(Player6,ODREN_RITUAL_SCROLL)~
+  END
+
+ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
+  COPY_EXISTING ~MOVIE02A.BCS~ ~override/movie02a.bcs~
+    DECOMPILE_AND_PATCH BEGIN
+      REPLACE_TEXTUALLY ~ApplySpellRES("OHNOPRTY",Player1)~ ~~
+    END
+
+  COPY_EXISTING ~HEXXAT.BCS~ ~override~
+    DECOMPILE_AND_PATCH BEGIN
+      REPLACE_TEXTUALLY ~22000~ ~4000~
+      REPLACE_TEXTUALLY ~AddexperienceParty(15000)~ ~AddexperienceParty(5000)~
+    END
+
+  COPY_EXISTING ~OHDCUT05.BCS~ ~override~
+    DECOMPILE_AND_PATCH BEGIN
+      REPLACE_TEXTUALLY ~AddexperienceParty(24000)~ ~AddexperienceParty(6000)~
+    END
+
+  COPY_EXISTING ~OHNCUT32.BCS~ ~override~
+    DECOMPILE_AND_PATCH BEGIN
+      REPLACE_TEXTUALLY ~20000~ ~2000~
+    END
+
+  COPY_EXISTING ~oh4100.BCS~ ~override~
+    DECOMPILE_AND_PATCH BEGIN
+      REPLACE_TEXTUALLY ~10000~ ~2000~
+    END
+END
+
+// extend existing scripts //
+
+// golems in the treasure room at De'Arnise turn hostile if attacked by a player
+EXTEND_BOTTOM ~KPGOL01.BCS~ ~ImprovedAnvil/scripts/patches/kpgolen1.baf~
+EXTEND_BOTTOM ~KPGOL02.BCS~ ~ImprovedAnvil/scripts/patches/kpgolen2.baf~
+EXTEND_BOTTOM ~KPGOL03.BCS~ ~ImprovedAnvil/scripts/patches/kpgolen1.baf~
+EXTEND_BOTTOM ~KPGOL04.BCS~ ~ImprovedAnvil/scripts/patches/kpgolen2.baf~
+EXTEND_BOTTOM ~KPGOL05.BCS~ ~ImprovedAnvil/scripts/patches/kpgolen3.baf~
+EXTEND_BOTTOM ~KPGOL06.BCS~ ~ImprovedAnvil/scripts/patches/kpgolen3.baf~
+
+EXTEND_BOTTOM ~AR0028.BCS~ ~ImprovedAnvil\scripts\areas\AR0028.BAF~
+EXTEND_BOTTOM ~AR0329.BCS~ ~ImprovedAnvil\scripts\areas\AR0329.BAF~
+EXTEND_BOTTOM ~AR0410.BCS~ ~ImprovedAnvil\scripts\areas\AR0410.BAF~
+EXTEND_BOTTOM ~AR0414.BCS~ ~ImprovedAnvil\scripts\areas\AR0414.BAF~
+EXTEND_BOTTOM ~AR0419.BCS~ ~ImprovedAnvil\scripts\areas\AR0419.BAF~
+EXTEND_BOTTOM ~AR0420.BCS~ ~ImprovedAnvil\scripts\areas\AR0420.BAF~
+EXTEND_BOTTOM ~AR0500.BCS~ ~ImprovedAnvil\scripts\areas\AR0500.BAF~
+EXTEND_BOTTOM ~AR0511.BCS~ ~ImprovedAnvil\scripts\areas\AR0511.BAF~
+EXTEND_BOTTOM ~AR0523.BCS~ ~ImprovedAnvil\scripts\areas\AR0523.BAF~
+EXTEND_BOTTOM ~AR0602.BCS~ ~ImprovedAnvil\scripts\areas\AR0602.BAF~
+EXTEND_BOTTOM ~AR0607.BCS~ ~ImprovedAnvil\scripts\areas\AR0607.BAF~
+EXTEND_BOTTOM ~AR0711.BCS~ ~ImprovedAnvil\scripts\areas\AR0711.BAF~
+EXTEND_BOTTOM ~AR0803.BCS~ ~ImprovedAnvil\scripts\areas\AR0803.BAF~
+EXTEND_BOTTOM ~AR0804.BCS~ ~ImprovedAnvil\scripts\areas\AR0804.BAF~
+EXTEND_BOTTOM ~AR0906.BCS~ ~ImprovedAnvil\scripts\areas\AR0906.BAF~
+EXTEND_BOTTOM ~AR1000.BCS~ ~ImprovedAnvil\scripts\areas\AR1000.BAF~
+EXTEND_BOTTOM ~AR1008.BCS~ ~ImprovedAnvil\scripts\areas\AR1008.BAF~
+EXTEND_BOTTOM ~AR1204.BCS~ ~ImprovedAnvil\scripts\areas\AR1204.BAF~
+EXTEND_BOTTOM ~AR1402.BCS~ ~ImprovedAnvil\scripts\areas\AR1402.BAF~
+EXTEND_BOTTOM ~AR1512.BCS~ ~ImprovedAnvil\scripts\areas\AR1512.BAF~
+EXTEND_BOTTOM ~AR1513.BCS~ ~ImprovedAnvil\scripts\areas\AR1513.BAF~
+EXTEND_BOTTOM ~AR1514.BCS~ ~ImprovedAnvil\scripts\areas\AR1514.BAF~
+EXTEND_BOTTOM ~AR1515.BCS~ ~ImprovedAnvil\scripts\areas\AR1515.BAF~
+EXTEND_BOTTOM ~AR1902.BCS~ ~ImprovedAnvil\scripts\areas\AR1902.BAF~
+EXTEND_BOTTOM ~AR2009.BCS~ ~ImprovedAnvil\scripts\areas\AR2009.BAF~
+EXTEND_BOTTOM ~AR2100.BCS~ ~ImprovedAnvil\scripts\areas\AR2100.BAF~
+EXTEND_BOTTOM ~AR2209.BCS~ ~ImprovedAnvil\scripts\areas\AR2209.BAF~
+EXTEND_BOTTOM ~AR2300.BCS~ ~ImprovedAnvil\scripts\areas\AR2300.BAF~
+EXTEND_BOTTOM ~AR2101.BCS~ ~ImprovedAnvil\scripts\areas\AR2101.BAF~
+EXTEND_BOTTOM ~AR2602.BCS~ ~ImprovedAnvil\scripts\areas\AR2602.BAF~
+EXTEND_BOTTOM ~AR2800.BCS~ ~ImprovedAnvil\scripts\areas\AR2800.BAF~
+EXTEND_BOTTOM ~AR2802.BCS~ ~ImprovedAnvil\scripts\areas\AR2802.BAF~
+EXTEND_BOTTOM ~AR3016.BCS~ ~ImprovedAnvil\scripts\areas\AR3016.BAF~
+EXTEND_BOTTOM ~AR0701.BCS~ ~ImprovedAnvil\scripts\areas\AR0701.BAF~
+EXTEND_BOTTOM ~AR0809.BCS~ ~ImprovedAnvil\scripts\areas\AR0809.BAF~
+EXTEND_BOTTOM ~AR3001.BCS~ ~ImprovedAnvil\scripts\areas\AR3001.BAF~
+EXTEND_BOTTOM ~AR3012.BCS~ ~ImprovedAnvil\scripts\areas\AR3012.BAF~
+EXTEND_BOTTOM ~AR3013.BCS~ ~ImprovedAnvil\scripts\areas\AR3013.BAF~
+EXTEND_BOTTOM ~AR3021.BCS~ ~ImprovedAnvil\scripts\areas\AR3021.BAF~
+EXTEND_BOTTOM ~AR4000.BCS~ ~ImprovedAnvil\scripts\areas\AR4000.BAF~
+EXTEND_BOTTOM ~AR4500.BCS~ ~ImprovedAnvil\scripts\areas\AR4500.BAF~
+EXTEND_BOTTOM ~AR5014.BCS~ ~ImprovedAnvil\scripts\areas\AR5014.BAF~
+EXTEND_BOTTOM ~AR6103.BCS~ ~ImprovedAnvil\scripts\areas\AR6103.BAF~
+EXTEND_BOTTOM ~AR6109.BCS~ ~ImprovedAnvil\scripts\areas\AR6109.BAF~
+EXTEND_BOTTOM ~AR6110.BCS~ ~ImprovedAnvil\scripts\areas\AR6110.BAF~
+EXTEND_BOTTOM ~AR6300.BCS~ ~ImprovedAnvil\scripts\areas\AR6300.BAF~
+EXTEND_BOTTOM ~AR0201.BCS~ ~ImprovedAnvil\scripts\areas\AR0201.BAF~
+
+EXTEND_BOTTOM ~BOTSMITH.BCS~ ~ImprovedAnvil\scripts\patches\BOTSMITH.BAF~
+EXTEND_BOTTOM ~LASSAL02.BCS~ ~ImprovedAnvil\scripts\patches\LASSAL02.BAF~
+EXTEND_BOTTOM ~RAYIC.BCS~ ~ImprovedAnvil\scripts\patches\RAYIC.BAF~
+EXTEND_BOTTOM ~SARVAM01.BCS~ ~ImprovedAnvil\scripts\patches\SARVAM01.BAF~
+EXTEND_BOTTOM ~TROLGI01.BCS~ ~ImprovedAnvil\scripts\patches\TROLGI01.BAF~
+
+EXTEND_TOP ~C6BRUEN2.BCS~ ~ImprovedAnvil\scripts\patches\C6BRUEN2.BAF~
+EXTEND_TOP ~C6CATTI2.BCS~ ~ImprovedAnvil\scripts\patches\C6BRUEN2.BAF~
+EXTEND_TOP ~C6DRIZZ2.BCS~ ~ImprovedAnvil\scripts\patches\C6DRIZZ2.BAF~
+EXTEND_TOP ~C6GUEN2.BCS~ ~ImprovedAnvil\scripts\patches\C6BRUEN2.BAF~
+EXTEND_TOP ~C6REGIS2.BCS~ ~ImprovedAnvil\scripts\patches\C6BRUEN2.BAF~
+EXTEND_TOP ~C6WULF2.BCS~ ~ImprovedAnvil\scripts\patches\C6BRUEN2.BAF~
+EXTEND_TOP ~KPFORGE.BCS~ ~ImprovedAnvil\scripts\patches\KPFORGE.BAF~
+EXTEND_TOP ~DGDRU01.BCS~ ~ImprovedAnvil\scripts\patches\DGDRU01.BAF~
+EXTEND_TOP ~DGFIG01.BCS~ ~ImprovedAnvil\scripts\patches\DGFIG01.BAF~
+EXTEND_TOP ~DGMAG01.BCS~ ~ImprovedAnvil\scripts\patches\DGMAG01.BAF~
+EXTEND_TOP ~DS71203.BCS~ ~ImprovedAnvil\scripts\patches\DS71203.BAF~
+EXTEND_TOP ~FURNACE1.BCS~ ~ImprovedAnvil\scripts\patches\FURNACE1.BAF~
+EXTEND_TOP ~GORMAD1.BCS~ ~ImprovedAnvil\scripts\patches\GORMAD1.BAF~
+EXTEND_TOP ~ITPPLANE.BCS~ ~ImprovedAnvil\scripts\patches\ITPPLANE.BAF~
+EXTEND_TOP ~NALIA.BCS~ ~ImprovedAnvil\scripts\patches\NALIA.BAF~
+EXTEND_TOP ~OBSGOL.BCS~ ~ImprovedAnvil\scripts\patches\OBSGOL.BAF~
+EXTEND_TOP ~OBSPOOL.BCS~ ~ImprovedAnvil\scripts\patches\OBSPOOL.BAF~
+EXTEND_TOP ~SAERKX.BCS~ ~ImprovedAnvil\scripts\patches\SAERKX.BAF~
+EXTEND_TOP ~SUAVATAR.BCS~ ~ImprovedAnvil\scripts\patches\SUAVATAR.BAF~
+EXTEND_TOP ~UDMAGE.BCS~ ~ImprovedAnvil\scripts\patches\UDMAGE.BAF~
+EXTEND_TOP ~KAYL1.BCS~ ~ImprovedAnvil\scripts\patches\KAYL1.BAF~
+EXTEND_TOP ~KORGAN.BCS~ ~ImprovedAnvil\scripts\patches\KORGAN.BAF~
+
+EXTEND_TOP ~AERI25.BCS~ ~ImprovedAnvil\scripts\patches\AERI25.BAF~
+EXTEND_TOP ~JAHE25.BCS~ ~ImprovedAnvil\scripts\patches\AERI25.BAF~
+EXTEND_TOP ~CELICH.BCS~ ~ImprovedAnvil\scripts\patches\CELICH.BAF~
+EXTEND_TOP ~CERN25.BCS~ ~ImprovedAnvil\scripts\patches\AERI25.BAF~
+EXTEND_TOP ~EDWI25.BCS~ ~ImprovedAnvil\scripts\patches\AERI25.BAF~
+EXTEND_TOP ~VICO25.BCS~ ~ImprovedAnvil\scripts\patches\AERI25.BAF~
+EXTEND_TOP ~IMOE25.BCS~ ~ImprovedAnvil\scripts\patches\AERI25.BAF~
+EXTEND_TOP ~VALY25.BCS~ ~ImprovedAnvil\scripts\patches\AERI25.BAF~
+EXTEND_TOP ~NALI25.BCS~ ~ImprovedAnvil\scripts\patches\AERI25.BAF~
+EXTEND_TOP ~MAZZ25.BCS~ ~ImprovedAnvil\scripts\patches\AERI25.BAF~
+EXTEND_TOP ~MINS25.BCS~ ~ImprovedAnvil\scripts\patches\AERI25.BAF~
+EXTEND_TOP ~KORG25.BCS~ ~ImprovedAnvil\scripts\patches\AERI25.BAF~
+EXTEND_TOP ~KELD25.BCS~ ~ImprovedAnvil\scripts\patches\AERI25.BAF~
+EXTEND_TOP ~JAN25.BCS~ ~ImprovedAnvil\scripts\patches\AERI25.BAF~
+EXTEND_TOP ~HAER25.BCS~ ~ImprovedAnvil\scripts\patches\AERI25.BAF~
+EXTEND_TOP ~ANOM25.BCS~ ~ImprovedAnvil\scripts\patches\AERI25.BAF~
+EXTEND_TOP ~SAREV25.BCS~ ~ImprovedAnvil\scripts\patches\AERI25.BAF~
+
+EXTEND_TOP ~AR0204.BCS~ ~ImprovedAnvil\scripts\areas\AR0204.BAF~
+EXTEND_TOP ~AR0205.BCS~ ~ImprovedAnvil\scripts\areas\AR0205.BAF~
+EXTEND_TOP ~AR0308.BCS~ ~ImprovedAnvil\scripts\areas\AR0308.BAF~
+EXTEND_TOP ~AR0404.BCS~ ~ImprovedAnvil\scripts\areas\AR0404.BAF~
+EXTEND_TOP ~AR0406.BCS~ ~ImprovedAnvil\scripts\areas\AR0406.BAF~
+EXTEND_TOP ~AR0411.BCS~ ~ImprovedAnvil\scripts\areas\AR0411.BAF~
+EXTEND_TOP ~AR0413.BCS~ ~ImprovedAnvil\scripts\areas\AR0413.BAF~
+EXTEND_TOP ~AR0516.BCS~ ~ImprovedAnvil\scripts\areas\AR0516.BAF~
+EXTEND_TOP ~AR0802.BCS~ ~ImprovedAnvil\scripts\areas\AR0802.BAF~
+EXTEND_TOP ~AR0808.BCS~ ~ImprovedAnvil\scripts\areas\AR0808.BAF~
+EXTEND_TOP ~AR0903.BCS~ ~ImprovedAnvil\scripts\areas\AR0903.BAF~
+EXTEND_TOP ~AR1004.BCS~ ~ImprovedAnvil\scripts\areas\AR1004.BAF~
+EXTEND_TOP ~AR1200.BCS~ ~ImprovedAnvil\scripts\areas\AR1200.BAF~
+EXTEND_TOP ~AR1301.BCS~ ~ImprovedAnvil\scripts\areas\AR1301.BAF~
+EXTEND_TOP ~AR1303.BCS~ ~ImprovedAnvil\scripts\areas\AR1303.BAF~
+EXTEND_TOP ~AR1304.BCS~ ~ImprovedAnvil\scripts\areas\AR1304.BAF~
+EXTEND_TOP ~AR1401.BCS~ ~ImprovedAnvil\scripts\areas\AR1401.BAF~
+EXTEND_TOP ~AR1404.BCS~ ~ImprovedAnvil\scripts\areas\AR1404.BAF~
+EXTEND_TOP ~AR1511.BCS~ ~ImprovedAnvil\scripts\areas\AR1511.BAF~
+EXTEND_TOP ~AR1700.BCS~ ~ImprovedAnvil\scripts\areas\AR1700.BAF~
+EXTEND_TOP ~AR1901.BCS~ ~ImprovedAnvil\scripts\areas\AR1901.BAF~
+EXTEND_TOP ~AR1905.BCS~ ~ImprovedAnvil\scripts\areas\AR1905.BAF~
+EXTEND_TOP ~AR2207.BCS~ ~ImprovedAnvil\scripts\areas\AR2207.BAF~
+EXTEND_TOP ~AR2400.BCS~ ~ImprovedAnvil\scripts\areas\AR2400.BAF~
+EXTEND_TOP ~AR2803.BCS~ ~ImprovedAnvil\scripts\areas\AR2803.BAF~
+EXTEND_TOP ~AR2806.BCS~ ~ImprovedAnvil\scripts\areas\AR2806.BAF~
+EXTEND_TOP ~AR2809.BCS~ ~ImprovedAnvil\scripts\areas\AR2809.BAF~
+EXTEND_TOP ~AR3005.BCS~ ~ImprovedAnvil\scripts\areas\AR3005.BAF~
+EXTEND_TOP ~AR3007.BCS~ ~ImprovedAnvil\scripts\areas\AR3007.BAF~
+EXTEND_TOP ~AR3015.BCS~ ~ImprovedAnvil\scripts\areas\AR3015.BAF~
+EXTEND_TOP ~AR3019.BCS~ ~ImprovedAnvil\scripts\areas\AR3019.BAF~
+EXTEND_TOP ~AR3020.BCS~ ~ImprovedAnvil\scripts\areas\AR3020.BAF~
+EXTEND_TOP ~AR3024.BCS~ ~ImprovedAnvil\scripts\areas\AR3024.BAF~
+EXTEND_TOP ~AR3025.BCS~ ~ImprovedAnvil\scripts\areas\AR3025.BAF~
+EXTEND_TOP ~AR5002.BCS~ ~ImprovedAnvil\scripts\areas\AR5002.BAF~
+EXTEND_TOP ~AR5006.BCS~ ~ImprovedAnvil\scripts\areas\AR5006.BAF~
+EXTEND_TOP ~AR5202.BCS~ ~ImprovedAnvil\scripts\areas\AR5202.BAF~
+EXTEND_TOP ~AR5203.BCS~ ~ImprovedAnvil\scripts\areas\AR5203.BAF~
+EXTEND_TOP ~AR6000.BCS~ ~ImprovedAnvil\scripts\areas\AR6000.BAF~
+EXTEND_TOP ~AR6005.BCS~ ~ImprovedAnvil\scripts\areas\AR6005.BAF~
+EXTEND_TOP ~AR6102.BCS~ ~ImprovedAnvil\scripts\areas\AR6102.BAF~
+
+EXTEND_TOP ~BALDUR.BCS~ ~ImprovedAnvil\scripts\common\BALDUR.BAF~
+EXTEND_TOP ~BALDUR25.BCS~ ~ImprovedAnvil\scripts\common\BALDUR25.BAF~
+
+ACTION_IF GAME_IS ~bg2ee~ BEGIN
+  // patch doubling of kit bonuses for BG2EE
+  EXTEND_BOTTOM ~AR1900.BCS~ ~ImprovedAnvil\scripts\patches\CRNDPTCH.BAF~
+  EXTEND_BOTTOM ~AR1901.BCS~ ~ImprovedAnvil\scripts\patches\CRNDPTCH.BAF~
+  EXTEND_BOTTOM ~AR2009.BCS~ ~ImprovedAnvil\scripts\patches\CRNDPTCH.BAF~
+  EXTEND_BOTTOM ~AR2000.BCS~ ~ImprovedAnvil\scripts\patches\RASPATCH.BAF~
+  EXTEND_BOTTOM ~AR1101.BCS~ ~ImprovedAnvil\scripts\patches\VLGPATCH.BAF~
+  EXTEND_TOP ~AR0602.BCS~ ~ImprovedAnvil\scripts\patches\MINPATCH.BAF~
+  EXTEND_BOTTOM ~AR0406.BCS~ ~ImprovedAnvil\scripts\patches\MINPATCH.BAF~
+END

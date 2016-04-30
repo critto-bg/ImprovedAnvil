@@ -1,0 +1,89 @@
+IF
+	See(NearestEnemyOf(Myself))
+	Global("Prep","LOCALS",0)
+THEN
+	RESPONSE #100
+		ForceSpell(Myself,CLERIC_PHYSICAL_MIRROR) // SPPR613.SPL (Protection From Missiles)
+		ForceSpell(Myself,CLERIC_DEATH_WARD) // SPPR409.SPL (Death Ward)
+		ForceSpell(Myself,CLERIC_SHIELD_OF_THE_ARCHONS) // SPPR701.SPL (Shield of the Archons)
+		ForceSpell(Myself,CLERIC_ACID_SHIELD)
+		SetGlobal("Prep","LOCALS",1)
+END
+
+IF
+	See(NearestEnemyOf(Myself))
+	Global("ratSpawn","LOCALS",0)
+THEN
+	RESPONSE #100
+		DisplayStringHead(Myself,8340) // The troll shakes, twitches, and convulses as a dozen sickly rats tear their way from her body and scramble towards you, fangs bared in angry grimaces.
+		ForceSpell(Myself,TROLL_RAT_SPAWN) // SPIN715.SPL (No such index)
+		SetGlobal("ratSpawn","LOCALS",1)
+END
+
+IF
+	See(NearestEnemyOf(Myself))
+	HaveSpell(CLERIC_POISON) // SPPR411.SPL (Poison)
+THEN
+	RESPONSE #100
+		Spell(NearestEnemyOf(Myself),CLERIC_POISON) // SPPR411.SPL (Poison)
+END
+
+IF
+	See(NearestEnemyOf(Myself))
+	HaveSpell(CLERIC_UNHOLY_BLIGHT) // SPPR314.SPL (Unholy Blight)
+THEN
+	RESPONSE #100
+		Spell(NearestEnemyOf(Myself),CLERIC_UNHOLY_BLIGHT) // SPPR314.SPL (Unholy Blight)
+END
+
+IF
+	See(NearestEnemyOf(Myself))
+	HaveSpell(CLERIC_CAUSE_CRITICAL_WOUNDS) // SPPR510.SPL (Cause Critical Wounds)
+THEN
+	RESPONSE #100
+		Spell(Myself,CLERIC_CAUSE_CRITICAL_WOUNDS) // SPPR510.SPL (Cause Critical Wounds)
+END
+
+IF
+	See(NearestEnemyOf(Myself))
+	Global("fight1","LOCALS",0)
+THEN
+	RESPONSE #100
+		AttackOneRound(LastSeenBy(Myself))
+		AttackOneRound(LastSeenBy(Myself))
+		AttackOneRound(LastSeenBy(Myself))
+		SetGlobal("fight1","LOCALS",1)
+END
+
+IF
+	See(NearestEnemyOf(Myself))
+	TookDamage()
+	HaveSpell(CLERIC_IRONSKIN) // SPPR506.SPL (Iron Skins)
+THEN
+	RESPONSE #100
+		Spell(Myself,CLERIC_IRONSKIN) // SPPR506.SPL (Iron Skins)
+END
+
+IF
+	See(NearestEnemyOf(Myself))
+	HaveSpell(CLERIC_HOLD_PERSON) // SPPR208.SPL (Hold Person)
+	!StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+THEN
+	RESPONSE #100
+		Spell(NearestEnemyOf(Myself),CLERIC_HOLD_PERSON) // SPPR208.SPL (Hold Person)
+END
+
+IF
+	See(ThirdNearestEnemyOf(Myself))
+	HaveSpell(CLERIC_INSECT_PLAGUE) // SPPR517.SPL (Insect Plague)
+THEN
+	RESPONSE #100
+		Spell(LastSeenBy(Myself),CLERIC_INSECT_PLAGUE) // SPPR517.SPL (Insect Plague)
+END
+
+IF
+	See(NearestEnemyOf(Myself))
+THEN
+	RESPONSE #100
+		AttackReevaluate(LastSeenBy(Myself),30)
+END

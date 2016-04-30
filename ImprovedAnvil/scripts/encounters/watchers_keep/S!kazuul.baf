@@ -1,0 +1,310 @@
+// Prep //
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  Global("Prep","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Prep","LOCALS",1)
+    SetGlobalTimer("IaAura","LOCALS",24)
+    ReallyForceSpellRES("SPINI96",Myself) // Aura of Despair
+END
+
+// adjusting the difficulty based on SoA / ToB //
+
+IF
+  Global("Prep","LOCALS",1)
+  Global("Iadifficulty","LOCALS",0)
+  GlobalGT("Chapter","GLOBAL",7)
+THEN
+  RESPONSE #100
+    SetGlobal("Iadifficulty","LOCALS",1)
+    SetGlobal("IaHardinessAmount","LOCALS",8)
+    SetGlobal("IaCritAmount","LOCALS",8)
+    SetGlobal("IaWWAmount","LOCALS",4)
+END
+
+IF
+  Global("Prep","LOCALS",1)
+  Global("Iadifficulty","LOCALS",0)
+  GlobalLT("Chapter","GLOBAL",8)
+THEN
+  RESPONSE #100
+    SetGlobal("Iadifficulty","LOCALS",1)
+    SetGlobal("IaHardinessAmount","LOCALS",4)
+    SetGlobal("IaCritAmount","LOCALS",4)
+    SetGlobal("IaWWAmount","LOCALS",2)
+END
+
+// Anti Time Stop //
+
+IF
+  Global("Iapcastts","GLOBAL",1)
+  Global("Iatsinvulner","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatsinvulner","LOCALS",1)
+    ApplySpellRES("SPINI70",Myself)
+END
+
+IF
+  Global("Iapcastts","GLOBAL",0)
+  Global("Iatsinvulner","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatsinvulner","LOCALS",0)
+    ApplySpellRES("SPINI71",Myself)
+END
+
+// Rest //
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  GlobalTimerExpired("Iademorest","GLOBAL")
+  Global("Prep","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Prep","LOCALS",0)
+    SetGlobal("Iakazuul02","LOCALS",0)
+    SetGlobal("Iakazuul03","LOCALS",0)
+    SetGlobal("Iakazuul04","LOCALS",0)
+    SetGlobal("Iakazuul05","LOCALS",0)
+    SetGlobal("Iakazuul06","LOCALS",0)
+    ReallyForceSpellRES("SPWII07",Myself)
+END
+
+// Anti-cheese //
+
+IF
+  Allegiance(Myself,ENEMY)
+  OR(2)
+   Detect([PC])
+   Detect([GOODCUTOFF])
+  Global("partyfled","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("partyfled","LOCALS",0)
+END
+
+// Timestop //
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  Global("Iapcastts","GLOBAL",1)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+END
+
+// Hardiness //
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  LocalsLT("Iakazuul05","IaHardinessAmount")
+  CheckStatLT(Myself,71,RESISTCRUSHING)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iakazuul05","LOCALS",1)
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    ForceSpell(Myself,WARRIOR_HARDINESS)
+END
+
+// Healing potion //
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  HPPercentLT(Myself,60)
+  CheckStatLT(Myself,71,RESISTCRUSHING)
+  HasItem("potn55",Myself)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+THEN
+  RESPONSE #100
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    DisplayStringHead(Myself,46150)//quaffs a potion
+    UseItem("potn55",Myself)
+END
+
+// Aura of Despair //
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  GlobalTimerExpired("IaAura","LOCALS")
+THEN
+  RESPONSE #100
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    SetGlobalTimer("IaAura","LOCALS",24)
+    ReallyForceSpellRES("SPINI96",Myself) // Aura of Despair
+END
+
+// Critical Strike //
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iacstrike","LOCALS")
+  See(NearestEnemyOf(Myself))
+  Range(LastSeenBy(Myself),5)
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  CheckStatLT(LastSeenBy(Myself),1,STONESKINS)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  LocalsLT("Iakazuul03","IaCritAmount")
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iakazuul03","LOCALS",1)
+    SetGlobalTimer("Iacstrike","LOCALS",18)
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    ForceSpell(Myself,WARRIOR_CRITICAL_STRIKE)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iagww","LOCALS")
+  See(NearestEnemyOf(Myself))
+  Range(LastSeenBy(Myself),5)
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  LocalsLT("Iakazuul04","IaWWAmount")
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iakazuul04","LOCALS",1)
+    SetGlobalTimer("Iagww","LOCALS",12)
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    ForceSpell(Myself,WARRIOR_GREATER_WHIRLWIND)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iacstrike","LOCALS")
+  See(NearestEnemyOf(Myself))
+  Range(LastSeenBy(Myself),5)
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE5)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  Global("Iakazuul03","LOCALS",3)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iakazuul03","LOCALS",1)
+    SetGlobalTimer("Iacstrike","LOCALS",18)
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    ForceSpell(Myself,WARRIOR_POWER_ATTACK)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iagww","LOCALS")
+  See(NearestEnemyOf(Myself))
+  Range(LastSeenBy(Myself),5)
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  Global("Iakazuul06","LOCALS",0)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+THEN
+  RESPONSE #100
+    SetGlobal("Iakazuul06","LOCALS",1)
+    SetGlobalTimer("Iagww","LOCALS",12)
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    ForceSpell(Myself,WARRIOR_WHIRLWIND)
+END
+
+IF
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Global("partyfled","LOCALS",0)
+  Allegiance(Myself,ENEMY)
+  GlobalGT("Prep","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("chase","LOCALS",90)
+    SetGlobal("partyfled","LOCALS",1)
+END
+
+IF
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_STUNNED)
+  !StateCheck(Myself,STATE_PANIC)
+  !StateCheck(Myself,STATE_CHARMED)
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Global("partyfled","LOCALS",1)
+  GlobalTimerNotExpired("chase","LOCALS")
+  InMyArea(Player1)
+  Allegiance(Myself,ENEMY)
+  GlobalGT("Prep","LOCALS",0)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Allegiance(Myself,ENEMY)
+  GlobalTimerExpired("chase","LOCALS")
+  Global("partyfled","LOCALS",1)
+  GlobalGT("Prep","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Prep","LOCALS",0)
+    SetGlobal("Iakazuul02","LOCALS",0)
+    SetGlobal("Iakazuul03","LOCALS",0)
+    SetGlobal("Iakazuul04","LOCALS",0)
+    SetGlobal("Iakazuul05","LOCALS",0)
+    SetGlobal("Iakazuul06","LOCALS",0)
+    ReallyForceSpellRES("SPWII07",Myself)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(SecondNearestEnemyOf(Myself))
+  CheckStatLT(LastSeenBy(Myself),90,RESISTCRUSHING)
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  RandomNumGT(6,4)
+  Range(LastSeenBy(Myself),4)
+THEN
+  RESPONSE #100
+    AttackReevaluate(LastSeenBy(Myself),30)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackReevaluate(NearestEnemyOf(Myself),30)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(SecondNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackReevaluate(LastSeenBy(Myself),30)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(ThirdNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackReevaluate(LastSeenBy(Myself),30)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    AttackReevaluate(NearestEnemyOf(Myself),30)
+END

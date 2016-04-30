@@ -1,0 +1,154 @@
+//Sphere: Ice and Fire Room  //
+
+IF
+   Global("Iaexit","AR0412",0)
+   InMyArea(Player1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaexit","AR0412",1)
+      TriggerActivation("Tran0411",FALSE)
+END
+
+IF
+  Global("Iahelmgone","AR0412",0)
+THEN
+   RESPONSE #100
+     SetGlobal("Iahelmgone","AR0412",1)
+     ActionOverride("Container 1",DestroyItem("helm04")) //
+     ActionOverride("Container 1",CreateItem("clck09",0,0,0)) //
+     ActionOverride("Container 1",CreateItem("misc23",0,0,0)) //
+END
+
+IF
+   Global("Iacreature","AR0412",0)
+   Global("GypsyJob","GLOBAL",7)
+   InMyArea(Player1)
+   Global("Iatimer","AR0412",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iatimer","AR0412",1)
+      SetGlobalTimer("Iacold","AR0412",4)
+END
+
+IF
+   Global("Iacreature","AR0412",0)
+   Global("GypsyJob","GLOBAL",7)
+   InMyArea(Player1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iacreature","AR0412",1)
+      CreateCreature("S!icego1",[1134.1070],1)  //
+      CreateCreature("S!elego1",[1292.1113],3)  //
+      TriggerActivation("Tran0413a",FALSE)
+      TriggerActivation("Tran0413b",FALSE)
+      TriggerActivation("Tran0411",FALSE)
+      ActionOverride("Container 1",CreateItem("misc07",30000,0,0)) //
+END
+
+IF
+   Global("Iacreature","AR0412",1)
+   Global("GypsyJob","GLOBAL",7)
+   Dead("S!icego1")
+   Dead("S!elego1")
+THEN
+   RESPONSE #100
+      SetGlobal("Iacreature","AR0412",2)
+      SetGlobal("GypsyJob","GLOBAL",8)
+      TriggerActivation("Tran0413a",TRUE)
+      TriggerActivation("Tran0413b",TRUE)
+      TriggerActivation("Tran0411",TRUE)
+END
+
+IF
+   Global("Iacreature","AR0412",1)
+   Global("GypsyJob","GLOBAL",7)
+   InMyArea(Player1)
+   GlobalTimerExpired("Iacold","AR0412")
+THEN
+   RESPONSE #100
+      SetGlobalTimer("Iacold","AR0412",13)
+      ActionOverride(Player1,ReallyForceSpellRES("SPINI36",Myself))
+END
+
+IF
+  OpenState("Door 0410A",TRUE)
+  Global("Door1Opened","AR0412",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door1Opened","AR0412",1)
+END
+
+IF
+  OpenState("Door 0412A",TRUE)
+  Global("Door2Opened","AR0412",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door2Opened","AR0412",1)
+END
+
+IF
+  OpenState("Door 0410A",FALSE)
+  Global("Door1Opened","AR0412",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door 0410A")
+END
+
+IF
+  OpenState("Door 0412A",FALSE)
+  Global("Door2Opened","AR0412",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door 0412A")
+END
+
+IF
+   Global("Iaexit","AR0412",1)
+   Global("PowerObsidianSphere","GLOBAL",1)
+   InMyArea(Player1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaexit","AR0412",2)
+      TriggerActivation("Tran0411",TRUE)
+END
+
+IF
+   Global("Iaexit","AR0412",1)
+   OR(2)
+     Dead("tolger2")
+     Dead("TOLGER")
+   CombatCounter(0)
+   InMyArea(Player1)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaexit","AR0412",2)
+      TriggerActivation("Tran0411",TRUE)
+END
+
+// BG2EE version
+IF
+  Global("Ianticheat","AR0412",0)
+  Exists("tolger2") //
+  !Dead("tolger2") //
+  !Allegiance("tolger2",ENEMY)
+  HPPercentLT("tolger2",100)
+THEN
+  RESPONSE #100
+    SetGlobal("Ianticheat","AR0412",1)
+    ChangeEnemyAlly("tolger2",ENEMY)
+    ApplySpellRES("SPWII07","tolger2")
+END
+
+// vanilla version
+IF
+  Global("Ianticheat","AR0412",0)
+  Exists("TOLGER") //
+  !Dead("TOLGER") //
+  !Allegiance("TOLGER",ENEMY)
+  HPPercentLT("TOLGER",100)
+THEN
+  RESPONSE #100
+    SetGlobal("Ianticheat","AR0412",1)
+    ChangeEnemyAlly("TOLGER",ENEMY)
+    ApplySpellRES("SPWII07","TOLGER")
+END

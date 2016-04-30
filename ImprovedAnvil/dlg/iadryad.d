@@ -30,5 +30,5 @@ END
 
 IF ~~ THEN BEGIN 6
   SAY @959
-  IF ~~ THEN DO ~SetGlobalTimer("DryadReady","GLOBAL",SEVEN_DAYS) IncrementGlobal("IaDryadItems","AR1100",1) GiveItemCreate("scrl2b",[PC],3,0,0) GiveItemCreate("scrl2f",[PC],3,0,0) GiveItemCreate("scrl7s",[PC],3,0,0) GiveItemCreate("scrl7j",[PC],2,0,0) GiveItemCreate("scrl7u",[PC],2,0,0) GiveItemCreate("scrl7i",[PC],2,0,0)~ EXIT
+  IF ~~ THEN DO ~SetGlobalTimer("DryadReady","GLOBAL",SEVEN_DAYS) IncrementGlobal("IaDryadItems","AR1100",1) GiveItemCreate("scrl1v",[PC],3,0,0) GiveItemCreate("scrl2f",[PC],3,0,0) GiveItemCreate("scrl7s",[PC],3,0,0) GiveItemCreate("scrl7j",[PC],2,0,0) GiveItemCreate("scrl7u",[PC],2,0,0) GiveItemCreate("scrl7i",[PC],2,0,0)~ EXIT
 END

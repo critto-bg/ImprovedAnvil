@@ -1,0 +1,126 @@
+// decompile and patch existing dialogue files //
+
+COPY_EXISTING ~PPRIDD.DLG~ ~override~
+ DECOMPILE_AND_PATCH BEGIN
+   REPLACE_TEXTUALLY ~PartyHasItem("MISC8Z")~ ~PartyHasItem("MISC8Z") Global("openHead","AR1512",0)~
+ END
+
+COPY_EXISTING ~SUJON.DLG~ ~override~
+ DECOMPILE_AND_PATCH BEGIN
+   REPLACE_TEXTUALLY ~HP(Myself,1)~ ~HPLT(Myself,5)~
+ END
+
+COPY_EXISTING ~SHOP03.DLG~ ~override~
+ DECOMPILE_AND_PATCH BEGIN
+   REPLACE_TEXTUALLY ~TakePartyItem("misc42")~ ~TakePartyItemNum("misc42",1)~
+   REPLACE_TEXTUALLY ~TakePartyItem("misc6z")~ ~TakePartyItemNum("misc6z",1)~
+ END
+
+COPY_EXISTING ~WISH.DLG~ ~override~
+ DECOMPILE_AND_PATCH BEGIN
+   REPLACE_TEXTUALLY ~"vamanc01"~ ~"S!vamwis"~
+   REPLACE_TEXTUALLY ~"vamver01"~ ~"S!vamwis"~
+   REPLACE_TEXTUALLY ~"vamold01"~ ~"S!vamwis"~
+   REPLACE_TEXTUALLY ~"vammat01"~ ~"S!vamwis"~
+   REPLACE_TEXTUALLY ~ActionOverride(LastTalkedToBy,ReallyForceSpell(Myself,WIZARD_TIME_STOP))~ ~SetGlobal("Iapcastts","GLOBAL",1) SetGlobalTimer("Iatstimer","GLOBAL",18) ActionOverride(LastTalkedToBy,ReallyForceSpell(Myself,WIZARD_TIME_STOP))~
+ END
+
+COPY_EXISTING ~SARVAM01.DLG~ ~override~
+ DECOMPILE_AND_PATCH BEGIN
+   REPLACE_TEXTUALLY ~Enemy()~ ~SetGlobal("Iaprisonbattle","AR5006",1)~
+ END
+
+COPY_EXISTING ~PPDEMON.DLG~ ~override~
+ DECOMPILE_AND_PATCH BEGIN
+   REPLACE_TEXTUALLY ~TriggerActivation("demondoor",TRUE)~ ~SetGlobal("Iaunseal","AR0028",1)~
+ END
+
+COPY_EXISTING ~CORNEIL.DLG~ ~override~
+ DECOMPILE_AND_PATCH BEGIN
+   REPLACE_TEXTUALLY ~ReputationLT(LastTalkedToBy,4)~ ~OR(2) ReputationLT(LastTalkedToBy,4) GlobalGT("CowledWarning","GLOBAL",1)~
+   REPLACE_TEXTUALLY ~ReputationGT(LastTalkedToBy,3)~ ~ReputationGT(LastTalkedToBy,3) GlobalLT("CowledWarning","GLOBAL",2)~
+ END
+
+COPY_EXISTING ~ORPHAN1.DLG~ ~override~
+ DECOMPILE_AND_PATCH BEGIN
+   REPLACE_TEXTUALLY ~PartyHasItem("rods03")~ ~False()~
+ END
+
+COPY_EXISTING ~SLAVERM.DLG~ ~override~
+ DECOMPILE_AND_PATCH BEGIN
+   REPLACE_TEXTUALLY ~Enemy()~ ~SetGlobal("Iapartyhere","AR0405",1) Enemy() ReallyForceSpellRES("SPWII07",Myself) DestroyItem("surehp1")~
+ END
+
+COPY_EXISTING ~PPDESH.DLG~ ~override~
+ DECOMPILE_AND_PATCH BEGIN
+   REPLACE_TEXTUALLY ~38500~ ~5000~
+   REPLACE_TEXTUALLY ~IsValidForPartyDialogue("YOSHIMO)~ ~IsValidForPartyDialogue("YOSHIMO")~
+ END
+
+COPY_EXISTING ~HLKANG.DLG~ ~override~
+ DECOMPILE_AND_PATCH BEGIN
+   REPLACE_TEXTUALLY ~ReallyForceSpell(Myself,RED_EFFECT)~ ~ReallyForceSpell(Myself,RED_EFFECT) SetGlobal("Iakangaxx","AR0331",1)~
+ END
+
+COPY_EXISTING ~TRSKIN01.DLG~ ~override~
+ DECOMPILE_AND_PATCH BEGIN
+   REPLACE_TEXTUALLY ~AddexperienceParty(30000)~ ~AddexperienceParty(30000) DialogueInterrupt(FALSE) SetInterrupt(FALSE)~
+ END
+
+COPY_EXISTING ~TOLGER.DLG~ ~override~
+ DECOMPILE_AND_PATCH BEGIN
+   REPLACE_TEXTUALLY ~ReputationInc(-1)~ ~ReputationInc(-4)~
+ END
+
+COPY_EXISTING ~DOMT.DLG~ ~override~
+ DECOMPILE_AND_PATCH BEGIN
+   REPLACE_TEXTUALLY ~AddexperienceParty(300000)~ ~AddexperienceParty(15000)~
+   REPLACE_TEXTUALLY ~AddexperienceParty(1000000)~ ~AddexperienceParty(30000)~
+ END
+
+COPY_EXISTING ~GORLUM2.DLG~ ~override~
+ DECOMPILE_AND_PATCH BEGIN
+   REPLACE_TEXTUALLY ~"POTN55"~ ~"S!POTN11"~
+   REPLACE_TEXTUALLY ~AddXPObject(LastTalkedToBy,100000)~ ~DestroySelf()~
+ END
+
+COPY_EXISTING ~HENDAK.DLG~ ~override~
+ DECOMPILE_AND_PATCH BEGIN
+   REPLACE_TEXTUALLY ~GiveItemCreate("SW1H03",LastTalkedToBy,0,0,0)~ ~GiveItemCreate("SW1H03",LastTalkedToBy,0,0,0) GiveItemCreate("POTN45",LastTalkedToBy,4,0,0) GiveItemCreate("POTN11",LastTalkedToBy,4,0,0) GiveItemCreate("POTN52",LastTalkedToBy,4,0,0) GiveItemCreate("POTN37",LastTalkedToBy,4,0,0) GiveItemCreate("POTN35",LastTalkedToBy,0,0,0)~
+ END
+
+
+COPY_EXISTING ~MGAPPR02.DLG~ ~override~
+ DECOMPILE_AND_PATCH BEGIN
+   REPLACE_TEXTUALLY ~"scrl7k"~ ~"scrl7s"~
+   REPLACE_TEXTUALLY ~PartyGoldGT(1999(~ ~PartyGoldGT(1999)~
+ END
+
+COPY_EXISTING ~HALFG4.DLG~ ~override~
+ DECOMPILE_AND_PATCH BEGIN
+   REPLACE_TEXTUALLY ~"POTN40"~ ~"POTN11"~
+ END
+
+COPY_EXISTING ~GORDEMO.DLG~ ~override~
+ DECOMPILE_AND_PATCH BEGIN
+   REPLACE_TEXTUALLY
+   ~ReallyForceSpell(Myself,DEMOGORGON_CHANGE)~
+   ~ClearAllActions() StartCutSceneMode() StartCutScene("S!cutdmi")~
+ END
+
+ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
+  COPY_EXISTING ~DORNJ.DLG~ ~override~
+   DECOMPILE_AND_PATCH BEGIN
+     REPLACE_TEXTUALLY ~AddexperienceParty(24000)~ ~AddexperienceParty(6000)~
+   END
+
+  COPY_EXISTING ~NEERAJ.DLG~ ~override~
+   DECOMPILE_AND_PATCH BEGIN
+     REPLACE_TEXTUALLY ~AddexperienceParty(24000)~ ~AddexperienceParty(6000)~
+   END
+
+  COPY_EXISTING ~OHNTELAN.DLG~ ~override~
+   DECOMPILE_AND_PATCH BEGIN
+     REPLACE_TEXTUALLY ~10000~ ~2000~
+   END
+END

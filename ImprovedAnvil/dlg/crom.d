@@ -64,7 +64,7 @@ REPLACE WSMITH01
     IF ~PartyHasItem("dagg15")~ THEN REPLY @84 GOTO dagg2
     IF ~PartyHasItem("dagg24")~ THEN REPLY @86 GOTO dagg3
     IF ~PartyHasItem("S!dagg01") Global("Iadagg02forged","GLOBAL",0)~ THEN REPLY @88 GOTO dagg4
-    IF ~PartyHasItem("ring18")~ THEN REPLY @90 GOTO r5
+    IF ~PartyHasItem("ring18") Global("Iadjinniforged","GLOBAL",0)~ THEN REPLY @90 GOTO r5
     IF ~OR(2) PartyHasItem("ring26")
               PartyHasItem("misc3c")~
       THEN REPLY @92 GOTO r6
@@ -116,7 +116,7 @@ REPLACE WSMITH01
     IF ~PartyHasItem("staf18")~ THEN REPLY @552 GOTO quarter
     IF ~PartyHasItem("S!misc16")~ THEN REPLY @554 GOTO elf
     IF ~PartyHasItem("sw1h41")~ THEN REPLY @556 GOTO long
-    IF ~PartyHasItem("S!misc36") Class(Player1,DRUID_ALL) Global("Iahelm05forged","GLOBAL",0)~ THEN REPLY @558 GOTO charm
+    IF ~PartyHasItem("S!misc36") Global("Iahelm05forged","GLOBAL",0)~ THEN REPLY @558 GOTO charm
     IF ~PartyHasItem("xbow12")~ THEN REPLY @560 GOTO janc
     IF ~PartyHasItem("sw1h28")~ THEN REPLY @562 GOTO throat
     IF ~PartyHasItem("misc3e")~ THEN REPLY @564 GOTO spider
@@ -140,6 +140,19 @@ REPLACE WSMITH01
     IF ~PartyHasItem("leat09")~ THEN REPLY @596 GOTO swash
     IF ~GlobalGT("Chapter","GLOBAL",5) PartyHasItem("ohnmbird") PartyHasItem("ohnrobe2")~ THEN REPLY @598 GOTO neera
     IF ~GlobalGT("Chapter","GLOBAL",5) PartyHasItem("rsboot")~ THEN REPLY @600 GOTO rasaad
+    IF ~PartyHasItem("sper02")~ THEN REPLY @602 GOTO spear1
+    IF ~PartyHasItem("sper05")~ THEN REPLY @604 GOTO spear2
+    IF ~PartyHasItem("sper08") Global("Iasper01forged","GLOBAL",0)~ THEN REPLY @606 GOTO spear3
+    IF ~PartyHasItem("misc5x") Global("Iaharperforged","GLOBAL",0)~ THEN REPLY @608 GOTO jaheir
+    IF ~PartyHasItem("sw1h52") Global("Iasw19forged","GLOBAL",0)~ THEN REPLY @610 GOTO water
+    IF ~PartyHasItem("s!misc61") Global("Iabrac02forged","GLOBAL",0)~ THEN REPLY @612 GOTO misc61
+    IF ~PartyHasItem("s!brac02") Global("Iabrac03forged","GLOBAL",0)~ THEN REPLY @614 GOTO brac03
+    IF ~PartyHasItem("wa2dak") Global("Iadakkonforged","GLOBAL",0)~ THEN REPLY @616 GOTO dakkon
+    IF ~OR(3) PartyHasItem("Ax1h16")
+              PartyHasItem("Ax1h16m")
+              PartyHasItem("Ax1h16f")~
+      THEN REPLY @618 GOTO rage
+    IF ~PartyHasItem("S!shld04") Global("Iashld05forged","GLOBAL",0)~ THEN REPLY @620 GOTO mazzy2
     IF ~~ THEN REPLY #992 EXIT
   END
 END
@@ -342,8 +355,7 @@ APPEND WSMITH01
 
   IF ~~ THEN BEGIN mazzy
     SAY @55 IF ~~ THEN REPLY @2 GOTO 13
-    IF ~Global("Iadracoldead","GLOBAL",1) Dead("S!dracol") PartyHasItem("npsw01") NumItemsPartyGT("scrl58",2) PartyHasItem("sw1h27") PartyHasItem("sw1h74") PartyHasItem("scrl5i") NumItemsPartyGT("scrl6m",1) PartyHasItem("S!misc02") PartyHasItem("S!misc33")
-        PartyGoldGT(74999)~
+    IF ~Global("Iadracoldead","GLOBAL",1) Dead("S!dracol") PartyHasItem("npsw01") NumItemsPartyGT("scrl58",2) PartyHasItem("sw1h27") PartyHasItem("sw1h74") PartyHasItem("scrl5i") NumItemsPartyGT("scrl6m",1) PartyHasItem("S!misc02") PartyGoldGT(74999)~
       THEN REPLY @3
       DO ~TakePartyGold(75000)      DestroyGold(75000)
           TakePartyItemNum("npsw01",1)   DestroyItem("npsw01")
@@ -351,7 +363,6 @@ APPEND WSMITH01
           TakePartyItemNum("scrl58",1)   DestroyItem("scrl58")
           TakePartyItemNum("scrl58",1)   DestroyItem("scrl58")
           TakePartyItemNum("S!misc02",1)   DestroyItem("S!misc02")
-          TakePartyItemNum("S!misc33",1)   DestroyItem("S!misc33")
           TakePartyItemNum("sw1h27",1)   DestroyItem("sw1h27")
           TakePartyItemNum("sw1h74",1)   DestroyItem("sw1h74")
           TakePartyItemNum("scrl5i",1)   DestroyItem("scrl5i")
@@ -889,6 +900,7 @@ APPEND WSMITH01
           TakePartyItemNum("ring18",1)   DestroyItem("ring18")
           TakePartyItemNum("scrl8t",1)   DestroyItem("scrl8t")
           TakePartyItemNum("S!misc02",1)   DestroyItem("S!misc02")
+          SetGlobal("Iadjinniforged","GLOBAL",1)
           GiveItemCreate("ring26",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
@@ -1118,7 +1130,7 @@ APPEND WSMITH01
           TakePartyItemNum("misc21",1)   DestroyItem("misc21")
           TakePartyItemNum("misc21",1)   DestroyItem("misc21")
           TakePartyItemNum("misc21",1)   DestroyItem("misc21")
-          TakePartyItemNum("belt011",1)   DestroyItem("belt01")
+          TakePartyItemNum("belt01",1)   DestroyItem("belt01")
           GiveItemCreate("S!belt02",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
@@ -1391,7 +1403,8 @@ APPEND WSMITH01
 
   IF ~~ THEN BEGIN elf
     SAY @555 IF ~~ THEN REPLY @2 GOTO 13
-    IF ~Global("Ialegacybook","GLOBAL",1) PartyHasItem("S!misc16") PartyHasItem("S!misc06") NumItemsPartyGT("misc44",1)
+    IF ~GlobalGT("Ialegacybook","GLOBAL",0) GlobalLT("Ialegacybook","GLOBAL",4)
+        PartyHasItem("S!misc16") PartyHasItem("S!misc06") NumItemsPartyGT("misc44",1)
         PartyGoldGT(49999)~
       THEN REPLY @3
       DO ~TakePartyGold(50000)      DestroyGold(50000)
@@ -1787,6 +1800,177 @@ APPEND WSMITH01
           SetGlobal("Iaboot04forged","GLOBAL",1)
           GiveItemCreate("S!boot04",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
+  END
+
+  IF ~~ THEN BEGIN spear1
+    SAY @603 IF ~~ THEN REPLY @2 GOTO 13
+    IF ~NumItemsPartyGT("sper02",1) PartyHasItem("misc43")
+        PartyGoldGT(9999)~
+      THEN REPLY @3
+      DO ~TakePartyGold(10000)      DestroyGold(10000)
+          TakePartyItemNum("sper02",1)   DestroyItem("sper02")
+          TakePartyItemNum("sper02",1)   DestroyItem("sper02")
+          TakePartyItemNum("misc43",1)   DestroyItem("misc43")
+          GiveItemCreate("sper05",Player1,1,1,1)
+          CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
+  END
+
+  IF ~~ THEN BEGIN spear2
+    SAY @605 IF ~~ THEN REPLY @2 GOTO 13
+    IF ~PartyHasItem("sper05") PartyHasItem("scrl6m") PartyHasItem("S!misc02")
+        PartyGoldGT(14999)~
+      THEN REPLY @3
+      DO ~TakePartyGold(15000)      DestroyGold(15000)
+          TakePartyItemNum("sper05",1)   DestroyItem("sper05")
+          TakePartyItemNum("scrl6m",1)   DestroyItem("scrl6m")
+          TakePartyItemNum("S!misc02",1)   DestroyItem("S!misc02")
+          GiveItemCreate("sper06",Player1,1,1,1)
+          CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
+  END
+
+  IF ~~ THEN BEGIN spear3
+    SAY @607 IF ~~ THEN REPLY @2 GOTO 13
+    IF ~PartyHasItem("sper08") PartyHasItem("sper06") PartyHasItem("staf07")
+        PartyHasItem("PLOT03H") PartyHasItem("S!misc02") PartyGoldGT(74999)
+        PartyHasItem("scrl03") NumItemsPartyGT("scrl95",2)
+        Global("Iasper01forged","GLOBAL",0)~
+      THEN REPLY @3
+      DO ~SetGlobal("Iasper01forged","GLOBAL",1)
+          TakePartyGold(75000)      DestroyGold(75000)
+          TakePartyItemNum("sper08",1)   DestroyItem("sper08")
+          TakePartyItemNum("sper06",1)   DestroyItem("sper06")
+          TakePartyItemNum("staf07",1)   DestroyItem("staf07")
+          TakePartyItemNum("S!misc02",1)   DestroyItem("S!misc02")
+          TakePartyItemNum("PLOT03H",1)   DestroyItem("PLOT03H")
+          TakePartyItemNum("scrl95",1)   DestroyItem("scrl95")
+          TakePartyItemNum("scrl95",1)   DestroyItem("scrl95")
+          TakePartyItemNum("scrl95",1)   DestroyItem("scrl95")
+          TakePartyItemNum("scrl03",1)   DestroyItem("scrl03")
+          GiveItemCreate("s!sper01",Player1,1,1,1)
+          CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
+  END
+
+  IF ~~ THEN BEGIN jaheir
+    SAY @609 IF ~~ THEN REPLY @2 GOTO 13
+    IF ~PartyHasItem("misc5x") PartyHasItem("misc5e") NumItemsPartyGT("amul14",1)
+        NumItemsPartyGT("potn31",2) PartyGoldGT(74999) PartyHasItem("s!misc01")
+        Global("Iaharperforged","GLOBAL",0)~
+      THEN REPLY @3
+      DO ~SetGlobal("Iaharperforged","GLOBAL",1)
+          TakePartyGold(75000)      DestroyGold(75000)
+          TakePartyItemNum("misc5x",1)   DestroyItem("misc5x")
+          TakePartyItemNum("misc5e",1)   DestroyItem("misc5e")
+          TakePartyItemNum("amul14",1)   DestroyItem("amul14")
+          TakePartyItemNum("amul14",1)   DestroyItem("amul14")
+          TakePartyItemNum("potn31",1)   DestroyItem("potn31")
+          TakePartyItemNum("potn31",1)   DestroyItem("potn31")
+          TakePartyItemNum("potn31",1)   DestroyItem("potn31")
+          TakePartyItemNum("s!misc01",1)   DestroyItem("s!misc01")
+          GiveItemCreate("s!amul07",Player1,1,1,1)
+          CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
+  END
+
+  IF ~~ THEN BEGIN water
+    SAY @611 IF ~~ THEN REPLY @2 GOTO 13
+    IF ~PartyHasItem("sw1h52") PartyHasItem("sw1h23") PartyGoldGT(49999)
+        PartyHasItem("waninja") PartyHasItem("s!misc06") Global("Iasw19forged","GLOBAL",0)~
+      THEN REPLY @3
+      DO ~SetGlobal("Iasw19forged","GLOBAL",1)
+          TakePartyGold(50000)      DestroyGold(50000)
+          TakePartyItemNum("sw1h52",1)   DestroyItem("sw1h52")
+          TakePartyItemNum("sw1h23",1)   DestroyItem("sw1h23")
+          TakePartyItemNum("waninja",1)   DestroyItem("waninja")
+          TakePartyItemNum("s!misc06",1)   DestroyItem("s!misc06")
+          GiveItemCreate("s!sw19",Player1,1,1,1)
+          CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
+  END
+
+  IF ~~ THEN BEGIN misc61
+    SAY @613 IF ~~ THEN REPLY @2 GOTO 13
+  END
+
+  IF ~~ THEN BEGIN brac03
+    SAY @615 IF ~~ THEN REPLY @2 GOTO 13
+    IF ~PartyHasItem("s!brac02") PartyHasItem("s!misc02") NumItemsPartyGT("potn14",2) PartyGoldGT(29999) Global("Iabrac03forged","GLOBAL",0)~
+      THEN REPLY @3
+      DO ~SetGlobal("Iabrac03forged","GLOBAL",1)
+          TakePartyGold(30000)      DestroyGold(30000)
+          TakePartyItemNum("s!brac02",1)   DestroyItem("s!brac02")
+          TakePartyItemNum("s!misc02",1)   DestroyItem("s!misc02")
+          TakePartyItemNum("potn14",1)   DestroyItem("potn14")
+          TakePartyItemNum("potn14",1)   DestroyItem("potn14")
+          TakePartyItemNum("potn14",1)   DestroyItem("potn14")
+          GiveItemCreate("s!brac03",Player1,1,1,1)
+          CreateVisualEffect("spcrtwpn",[401.348])~
+      EXIT
+  END
+
+  IF ~~ THEN BEGIN dakkon
+    SAY @617 IF ~~ THEN REPLY @2 GOTO 13
+    IF ~PartyHasItem("wa2dak") PartyHasItem("s!sw20") PartyHasItem("s!sw21")
+        PartyHasItem("gith") PartyHasItem("S!misc02") PartyHasItem("S!misc01")
+        NumItemsPartyGT("misc9y",2) PartyGoldGT(74999) Global("Iadakkonforged","GLOBAL",0)~
+      THEN REPLY @3
+      DO ~SetGlobal("Iadakkonforged","GLOBAL",1)
+          TakePartyGold(75000)      DestroyGold(75000)
+          TakePartyItemNum("wa2dak",1)   DestroyItem("wa2dak")
+          TakePartyItemNum("s!sw20",1)   DestroyItem("s!sw20")
+          TakePartyItemNum("s!sw21",1)   DestroyItem("s!sw21")
+          TakePartyItemNum("gith",1)   DestroyItem("gith")
+          TakePartyItemNum("s!misc02",1)   DestroyItem("s!misc02")
+          TakePartyItemNum("s!misc01",1)   DestroyItem("s!misc01")
+          TakePartyItemNum("misc9y",1)   DestroyItem("misc9y")
+          TakePartyItemNum("misc9y",1)   DestroyItem("misc9y")
+          TakePartyItemNum("misc9y",1)   DestroyItem("misc9y")
+          GiveItemCreate("s!sw22",Player1,1,1,1)
+          CreateVisualEffect("spcrtwpn",[401.348])~
+      EXIT
+  END
+
+  IF ~~ THEN BEGIN rage
+    SAY @619 IF ~~ THEN REPLY @2 GOTO 13
+    IF ~PartyHasItem("SW2H03") PartyHasItem("BLUN09") NumItemsPartyGT("potn33",2)
+        NumItemsPartyGT("potn28",2) NumItemsPartyGT("potn05",2) PartyGoldGT(74999)
+        PartyHasItem("S!MISC02")
+        OR(3) PartyHasItem("Ax1h16") PartyHasItem("Ax1h16m") PartyHasItem("Ax1h16f")~
+      THEN REPLY @3
+      DO ~TakePartyGold(75000)      DestroyGold(75000)
+          TakePartyItemNum("Ax1h16",1)   DestroyItem("Ax1h16")
+          TakePartyItemNum("Ax1h16f",1)   DestroyItem("Ax1h16f")
+          TakePartyItemNum("Ax1h16m",1)   DestroyItem("Ax1h16m")
+          TakePartyItemNum("SW2H03",1)   DestroyItem("SW2H03")
+          TakePartyItemNum("BLUN09",1)   DestroyItem("BLUN09")
+          TakePartyItemNum("potn33",1)   DestroyItem("potn33")
+          TakePartyItemNum("potn33",1)   DestroyItem("potn33")
+          TakePartyItemNum("potn33",1)   DestroyItem("potn33")
+          TakePartyItemNum("potn28",1)   DestroyItem("potn28")
+          TakePartyItemNum("potn28",1)   DestroyItem("potn28")
+          TakePartyItemNum("potn28",1)   DestroyItem("potn28")
+          TakePartyItemNum("potn05",1)   DestroyItem("potn05")
+          TakePartyItemNum("potn05",1)   DestroyItem("potn05")
+          TakePartyItemNum("potn05",1)   DestroyItem("potn05")
+          TakePartyItemNum("S!MISC02",1)   DestroyItem("S!MISC02")
+          GiveItemCreate("s!axe04",Player1,1,1,1)
+          CreateVisualEffect("spcrtwpn",[401.348])~
+      EXIT
+  END
+
+  IF ~~ THEN BEGIN mazzy2
+    SAY @621 IF ~~ THEN REPLY @2 GOTO 13
+    IF ~PartyHasItem("S!SHLD04") PartyHasItem("SHLD27") PartyHasItem("S!SHLD03")
+        PartyGoldGT(74999) PartyHasItem("S!MISC02") PartyHasItem("scrlb1")
+        Global("Iashld05forged","GLOBAL",0)~
+      THEN REPLY @3
+      DO ~SetGlobal("Iashld05forged","GLOBAL",1)
+          TakePartyGold(75000)      DestroyGold(75000)
+          TakePartyItemNum("S!SHLD04",1)   DestroyItem("S!SHLD04")
+          TakePartyItemNum("SHLD27",1)   DestroyItem("SHLD27")
+          TakePartyItemNum("S!SHLD03",1)   DestroyItem("S!SHLD03")
+          TakePartyItemNum("scrlb1",1)   DestroyItem("scrlb1")
+          TakePartyItemNum("S!MISC02",1)   DestroyItem("S!MISC02")
+          GiveItemCreate("s!shld05",Player1,1,1,1)
+          CreateVisualEffect("spcrtwpn",[401.348])~
+      EXIT
   END
 
   IF ~~ THEN BEGIN regular
