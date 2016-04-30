@@ -1,0 +1,703 @@
+/// Helm's Messenger ///
+
+// Helm's blessing: permanent rewards to party members based on characters' classes //
+
+// Ørder of checks:
+// 0) The protagonist, if he's Vagrant or Necromancer, does not receive any bonus (sorry guys, you're too powerful already)
+// 1) multiclasses receive experience bonus
+// 2) Riskbreakers get %DR
+// 3) Paladins, bards, thieves get APR bonus
+// 4) All other warriors get critical hit bonus
+// 5) All casters get casting speed bonus
+
+// Player1
+IF
+  InMyArea(Player1)
+  Global("DemoGorgonIsDead","GLOBAL",1)
+  Global("IaApparition","AR3020",3)
+  Global("IaHelmBlessP1","AR3020",0)
+  OR(2)
+    CheckStat(Player1,6,SCRIPTINGSTATE1)
+    CheckStat(Player1,7,SCRIPTINGSTATE1)
+THEN
+  RESPONSE #100
+    SetGlobal("IaHelmBlessP1","AR3020",1)
+    CreateVisualEffectObject("ICPRAYI",Player1)
+END
+
+IF
+  InMyArea(Player1)
+  Global("DemoGorgonIsDead","GLOBAL",1)
+  Global("IaApparition","AR3020",3)
+  Global("IaHelmBlessP1","AR3020",0)
+  OR(2)
+    Class(Player1,FIGHTER_MAGE_CLERIC)
+    Class(Player1,FIGHTER_MAGE_THIEF)
+THEN
+  RESPONSE #100
+    SetGlobal("IaHelmBlessP1","AR3020",1)
+    CreateVisualEffectObject("ICPRAYI",Player1)
+    DisplayString(Player1,21077)
+    AddXPObject(Player1,1200000)
+END
+
+IF
+  InMyArea(Player1)
+  Global("DemoGorgonIsDead","GLOBAL",1)
+  Global("IaApparition","AR3020",3)
+  Global("IaHelmBlessP1","AR3020",0)
+  OR(8)
+    Class(Player1,FIGHTER_MAGE)
+    Class(Player1,FIGHTER_CLERIC)
+    Class(Player1,FIGHTER_THIEF)
+    Class(Player1,MAGE_THIEF)
+    Class(Player1,CLERIC_MAGE)
+    Class(Player1,CLERIC_THIEF)
+    Class(Player1,FIGHTER_DRUID)
+    Class(Player1,CLERIC_RANGER)
+THEN
+  RESPONSE #100
+    SetGlobal("IaHelmBlessP1","AR3020",1)
+    CreateVisualEffectObject("ICPRAYI",Player1)
+    DisplayString(Player1,21077)
+    AddXPObject(Player1,900000)
+END
+
+IF
+  InMyArea(Player1)
+  Global("DemoGorgonIsDead","GLOBAL",1)
+  Global("IaApparition","AR3020",3)
+  Global("IaHelmBlessP1","AR3020",0)
+  Kit(Player1,RISKBREAKER)
+THEN
+  RESPONSE #100
+    SetGlobal("IaHelmBlessP1","AR3020",1)
+    CreateVisualEffectObject("ICPRAYI",Player1)
+    ReallyForceSpellRES("S!HELMB2",Player1)
+END
+
+IF
+  InMyArea(Player1)
+  Global("DemoGorgonIsDead","GLOBAL",1)
+  Global("IaApparition","AR3020",3)
+  Global("IaHelmBlessP1","AR3020",0)
+  OR(3)
+    Class(Player1,BARD_ALL)
+    Class(Player1,THIEF_ALL)
+    Class(Player1,PALADIN_ALL)
+THEN
+  RESPONSE #100
+    SetGlobal("IaHelmBlessP1","AR3020",1)
+    CreateVisualEffectObject("ICPRAYI",Player1)
+    ReallyForceSpellRES("S!HELMB3",Player1)
+END
+
+IF
+  InMyArea(Player1)
+  Global("DemoGorgonIsDead","GLOBAL",1)
+  Global("IaApparition","AR3020",3)
+  Global("IaHelmBlessP1","AR3020",0)
+  OR(3)
+    Class(Player1,RANGER_ALL)
+    Class(Player1,FIGHTER_ALL)
+    Class(Player1,MONK)
+THEN
+  RESPONSE #100
+    SetGlobal("IaHelmBlessP1","AR3020",1)
+    CreateVisualEffectObject("ICPRAYI",Player1)
+    ReallyForceSpellRES("S!HELMB1",Player1)
+END
+
+IF
+  InMyArea(Player1)
+  Global("DemoGorgonIsDead","GLOBAL",1)
+  Global("IaApparition","AR3020",3)
+  Global("IaHelmBlessP1","AR3020",0)
+  OR(4)
+    Class(Player1,MAGE_ALL)
+    Class(Player1,DRUID_ALL)
+    Class(Player1,CLERIC_ALL)
+    Class(Player1,SORCERER)
+THEN
+  RESPONSE #100
+    SetGlobal("IaHelmBlessP1","AR3020",1)
+    CreateVisualEffectObject("ICPRAYI",Player1)
+    ReallyForceSpellRES("S!HELMB4",Player1)
+END
+
+IF
+  Global("DemoGorgonIsDead","GLOBAL",1)
+  Global("IaApparition","AR3020",3)
+  Global("IaHelmBlessP1","AR3020",0)
+THEN
+  RESPONSE #100
+    SetGlobal("IaHelmBlessP1","AR3020",1)
+END
+
+// Player2
+IF
+  InMyArea(Player2)
+  Global("DemoGorgonIsDead","GLOBAL",1)
+  Global("IaApparition","AR3020",3)
+  Global("IaHelmBlessP2","AR3020",0)
+  OR(2)
+    Class(Player2,FIGHTER_MAGE_CLERIC)
+    Class(Player2,FIGHTER_MAGE_THIEF)
+THEN
+  RESPONSE #100
+    SetGlobal("IaHelmBlessP2","AR3020",1)
+    CreateVisualEffectObject("ICPRAYI",Player2)
+    DisplayString(Player2,21077)
+    AddXPObject(Player2,1200000)
+END
+
+IF
+  InMyArea(Player2)
+  Global("DemoGorgonIsDead","GLOBAL",1)
+  Global("IaApparition","AR3020",3)
+  Global("IaHelmBlessP2","AR3020",0)
+  OR(8)
+    Class(Player2,FIGHTER_MAGE)
+    Class(Player2,FIGHTER_CLERIC)
+    Class(Player2,FIGHTER_THIEF)
+    Class(Player2,MAGE_THIEF)
+    Class(Player2,CLERIC_MAGE)
+    Class(Player2,CLERIC_THIEF)
+    Class(Player2,FIGHTER_DRUID)
+    Class(Player2,CLERIC_RANGER)
+THEN
+  RESPONSE #100
+    SetGlobal("IaHelmBlessP2","AR3020",1)
+    CreateVisualEffectObject("ICPRAYI",Player2)
+    DisplayString(Player2,21077)
+    AddXPObject(Player2,900000)
+END
+
+IF
+  InMyArea(Player2)
+  Global("DemoGorgonIsDead","GLOBAL",1)
+  Global("IaApparition","AR3020",3)
+  Global("IaHelmBlessP2","AR3020",0)
+  Kit(Player2,RISKBREAKER)
+THEN
+  RESPONSE #100
+    SetGlobal("IaHelmBlessP2","AR3020",1)
+    CreateVisualEffectObject("ICPRAYI",Player2)
+    ReallyForceSpellRES("S!HELMB2",Player2)
+END
+
+IF
+  InMyArea(Player2)
+  Global("DemoGorgonIsDead","GLOBAL",1)
+  Global("IaApparition","AR3020",3)
+  Global("IaHelmBlessP2","AR3020",0)
+  OR(3)
+    Class(Player2,BARD_ALL)
+    Class(Player2,THIEF_ALL)
+    Class(Player2,PALADIN_ALL)
+THEN
+  RESPONSE #100
+    SetGlobal("IaHelmBlessP2","AR3020",1)
+    CreateVisualEffectObject("ICPRAYI",Player2)
+    ReallyForceSpellRES("S!HELMB3",Player2)
+END
+
+IF
+  InMyArea(Player2)
+  Global("DemoGorgonIsDead","GLOBAL",1)
+  Global("IaApparition","AR3020",3)
+  Global("IaHelmBlessP2","AR3020",0)
+  OR(3)
+    Class(Player2,RANGER_ALL)
+    Class(Player2,FIGHTER_ALL)
+    Class(Player2,MONK)
+THEN
+  RESPONSE #100
+    SetGlobal("IaHelmBlessP2","AR3020",1)
+    CreateVisualEffectObject("ICPRAYI",Player2)
+    ReallyForceSpellRES("S!HELMB1",Player2)
+END
+
+IF
+  InMyArea(Player2)
+  Global("DemoGorgonIsDead","GLOBAL",1)
+  Global("IaApparition","AR3020",3)
+  Global("IaHelmBlessP2","AR3020",0)
+  OR(4)
+    Class(Player2,MAGE_ALL)
+    Class(Player2,DRUID_ALL)
+    Class(Player2,CLERIC_ALL)
+    Class(Player2,SORCERER)
+THEN
+  RESPONSE #100
+    SetGlobal("IaHelmBlessP2","AR3020",1)
+    CreateVisualEffectObject("ICPRAYI",Player2)
+    ReallyForceSpellRES("S!HELMB4",Player2)
+END
+
+IF
+  Global("DemoGorgonIsDead","GLOBAL",1)
+  Global("IaApparition","AR3020",3)
+  Global("IaHelmBlessP2","AR3020",0)
+THEN
+  RESPONSE #100
+    SetGlobal("IaHelmBlessP2","AR3020",1)
+END
+
+// Player3
+IF
+  InMyArea(Player3)
+  Global("DemoGorgonIsDead","GLOBAL",1)
+  Global("IaApparition","AR3020",3)
+  Global("IaHelmBlessP3","AR3020",0)
+  OR(2)
+    Class(Player3,FIGHTER_MAGE_CLERIC)
+    Class(Player3,FIGHTER_MAGE_THIEF)
+THEN
+  RESPONSE #100
+    SetGlobal("IaHelmBlessP3","AR3020",1)
+    CreateVisualEffectObject("ICPRAYI",Player3)
+    DisplayString(Player3,21077)
+    AddXPObject(Player3,1200000)
+END
+
+IF
+  InMyArea(Player3)
+  Global("DemoGorgonIsDead","GLOBAL",1)
+  Global("IaApparition","AR3020",3)
+  Global("IaHelmBlessP3","AR3020",0)
+  OR(8)
+    Class(Player3,FIGHTER_MAGE)
+    Class(Player3,FIGHTER_CLERIC)
+    Class(Player3,FIGHTER_THIEF)
+    Class(Player3,MAGE_THIEF)
+    Class(Player3,CLERIC_MAGE)
+    Class(Player3,CLERIC_THIEF)
+    Class(Player3,FIGHTER_DRUID)
+    Class(Player3,CLERIC_RANGER)
+THEN
+  RESPONSE #100
+    SetGlobal("IaHelmBlessP3","AR3020",1)
+    CreateVisualEffectObject("ICPRAYI",Player3)
+    DisplayString(Player3,21077)
+    AddXPObject(Player3,900000)
+END
+
+IF
+  InMyArea(Player3)
+  Global("DemoGorgonIsDead","GLOBAL",1)
+  Global("IaApparition","AR3020",3)
+  Global("IaHelmBlessP3","AR3020",0)
+  Kit(Player3,RISKBREAKER)
+THEN
+  RESPONSE #100
+    SetGlobal("IaHelmBlessP3","AR3020",1)
+    CreateVisualEffectObject("ICPRAYI",Player3)
+    ReallyForceSpellRES("S!HELMB2",Player3)
+END
+
+IF
+  InMyArea(Player3)
+  Global("DemoGorgonIsDead","GLOBAL",1)
+  Global("IaApparition","AR3020",3)
+  Global("IaHelmBlessP3","AR3020",0)
+  OR(3)
+    Class(Player3,BARD_ALL)
+    Class(Player3,THIEF_ALL)
+    Class(Player3,PALADIN_ALL)
+THEN
+  RESPONSE #100
+    SetGlobal("IaHelmBlessP3","AR3020",1)
+    CreateVisualEffectObject("ICPRAYI",Player3)
+    ReallyForceSpellRES("S!HELMB3",Player3)
+END
+
+IF
+  InMyArea(Player3)
+  Global("DemoGorgonIsDead","GLOBAL",1)
+  Global("IaApparition","AR3020",3)
+  Global("IaHelmBlessP3","AR3020",0)
+  OR(3)
+    Class(Player3,RANGER_ALL)
+    Class(Player3,FIGHTER_ALL)
+    Class(Player3,MONK)
+THEN
+  RESPONSE #100
+    SetGlobal("IaHelmBlessP3","AR3020",1)
+    CreateVisualEffectObject("ICPRAYI",Player3)
+    ReallyForceSpellRES("S!HELMB1",Player3)
+END
+
+IF
+  InMyArea(Player3)
+  Global("DemoGorgonIsDead","GLOBAL",1)
+  Global("IaApparition","AR3020",3)
+  Global("IaHelmBlessP3","AR3020",0)
+  OR(4)
+    Class(Player3,MAGE_ALL)
+    Class(Player3,DRUID_ALL)
+    Class(Player3,CLERIC_ALL)
+    Class(Player3,SORCERER)
+THEN
+  RESPONSE #100
+    SetGlobal("IaHelmBlessP3","AR3020",1)
+    CreateVisualEffectObject("ICPRAYI",Player3)
+    ReallyForceSpellRES("S!HELMB4",Player3)
+END
+
+IF
+  Global("DemoGorgonIsDead","GLOBAL",1)
+  Global("IaApparition","AR3020",3)
+  Global("IaHelmBlessP3","AR3020",0)
+THEN
+  RESPONSE #100
+    SetGlobal("IaHelmBlessP3","AR3020",1)
+END
+
+// Player4
+IF
+  InMyArea(Player4)
+  Global("DemoGorgonIsDead","GLOBAL",1)
+  Global("IaApparition","AR3020",3)
+  Global("IaHelmBlessP4","AR3020",0)
+  OR(2)
+    Class(Player4,FIGHTER_MAGE_CLERIC)
+    Class(Player4,FIGHTER_MAGE_THIEF)
+THEN
+  RESPONSE #100
+    SetGlobal("IaHelmBlessP4","AR3020",1)
+    CreateVisualEffectObject("ICPRAYI",Player4)
+    DisplayString(Player4,21077)
+    AddXPObject(Player4,1200000)
+END
+
+IF
+  InMyArea(Player4)
+  Global("DemoGorgonIsDead","GLOBAL",1)
+  Global("IaApparition","AR3020",3)
+  Global("IaHelmBlessP4","AR3020",0)
+  OR(8)
+    Class(Player4,FIGHTER_MAGE)
+    Class(Player4,FIGHTER_CLERIC)
+    Class(Player4,FIGHTER_THIEF)
+    Class(Player4,MAGE_THIEF)
+    Class(Player4,CLERIC_MAGE)
+    Class(Player4,CLERIC_THIEF)
+    Class(Player4,FIGHTER_DRUID)
+    Class(Player4,CLERIC_RANGER)
+THEN
+  RESPONSE #100
+    SetGlobal("IaHelmBlessP4","AR3020",1)
+    CreateVisualEffectObject("ICPRAYI",Player4)
+    DisplayString(Player4,21077)
+    AddXPObject(Player4,900000)
+END
+
+IF
+  InMyArea(Player4)
+  Global("DemoGorgonIsDead","GLOBAL",1)
+  Global("IaApparition","AR3020",3)
+  Global("IaHelmBlessP4","AR3020",0)
+  Kit(Player4,RISKBREAKER)
+THEN
+  RESPONSE #100
+    SetGlobal("IaHelmBlessP4","AR3020",1)
+    CreateVisualEffectObject("ICPRAYI",Player4)
+    ReallyForceSpellRES("S!HELMB2",Player4)
+END
+
+IF
+  InMyArea(Player4)
+  Global("DemoGorgonIsDead","GLOBAL",1)
+  Global("IaApparition","AR3020",3)
+  Global("IaHelmBlessP4","AR3020",0)
+  OR(3)
+    Class(Player4,BARD_ALL)
+    Class(Player4,THIEF_ALL)
+    Class(Player4,PALADIN_ALL)
+THEN
+  RESPONSE #100
+    SetGlobal("IaHelmBlessP4","AR3020",1)
+    CreateVisualEffectObject("ICPRAYI",Player4)
+    ReallyForceSpellRES("S!HELMB3",Player4)
+END
+
+IF
+  InMyArea(Player4)
+  Global("DemoGorgonIsDead","GLOBAL",1)
+  Global("IaApparition","AR3020",3)
+  Global("IaHelmBlessP4","AR3020",0)
+  OR(3)
+    Class(Player4,RANGER_ALL)
+    Class(Player4,FIGHTER_ALL)
+    Class(Player4,MONK)
+THEN
+  RESPONSE #100
+    SetGlobal("IaHelmBlessP4","AR3020",1)
+    CreateVisualEffectObject("ICPRAYI",Player4)
+    ReallyForceSpellRES("S!HELMB1",Player4)
+END
+
+IF
+  InMyArea(Player4)
+  Global("DemoGorgonIsDead","GLOBAL",1)
+  Global("IaApparition","AR3020",3)
+  Global("IaHelmBlessP4","AR3020",0)
+  OR(4)
+    Class(Player4,MAGE_ALL)
+    Class(Player4,DRUID_ALL)
+    Class(Player4,CLERIC_ALL)
+    Class(Player4,SORCERER)
+THEN
+  RESPONSE #100
+    SetGlobal("IaHelmBlessP4","AR3020",1)
+    CreateVisualEffectObject("ICPRAYI",Player4)
+    ReallyForceSpellRES("S!HELMB4",Player4)
+END
+
+IF
+  Global("DemoGorgonIsDead","GLOBAL",1)
+  Global("IaApparition","AR3020",3)
+  Global("IaHelmBlessP4","AR3020",0)
+THEN
+  RESPONSE #100
+    SetGlobal("IaHelmBlessP4","AR3020",1)
+END
+
+// Player5
+IF
+  InMyArea(Player5)
+  Global("DemoGorgonIsDead","GLOBAL",1)
+  Global("IaApparition","AR3020",3)
+  Global("IaHelmBlessP5","AR3020",0)
+  OR(2)
+    Class(Player5,FIGHTER_MAGE_CLERIC)
+    Class(Player5,FIGHTER_MAGE_THIEF)
+THEN
+  RESPONSE #100
+    SetGlobal("IaHelmBlessP5","AR3020",1)
+    CreateVisualEffectObject("ICPRAYI",Player5)
+    DisplayString(Player5,21077)
+    AddXPObject(Player5,1200000)
+END
+
+IF
+  InMyArea(Player5)
+  Global("DemoGorgonIsDead","GLOBAL",1)
+  Global("IaApparition","AR3020",3)
+  Global("IaHelmBlessP5","AR3020",0)
+  OR(8)
+    Class(Player5,FIGHTER_MAGE)
+    Class(Player5,FIGHTER_CLERIC)
+    Class(Player5,FIGHTER_THIEF)
+    Class(Player5,MAGE_THIEF)
+    Class(Player5,CLERIC_MAGE)
+    Class(Player5,CLERIC_THIEF)
+    Class(Player5,FIGHTER_DRUID)
+    Class(Player5,CLERIC_RANGER)
+THEN
+  RESPONSE #100
+    SetGlobal("IaHelmBlessP5","AR3020",1)
+    CreateVisualEffectObject("ICPRAYI",Player5)
+    DisplayString(Player5,21077)
+    AddXPObject(Player5,900000)
+END
+
+IF
+  InMyArea(Player5)
+  Global("DemoGorgonIsDead","GLOBAL",1)
+  Global("IaApparition","AR3020",3)
+  Global("IaHelmBlessP5","AR3020",0)
+  Kit(Player5,RISKBREAKER)
+THEN
+  RESPONSE #100
+    SetGlobal("IaHelmBlessP5","AR3020",1)
+    CreateVisualEffectObject("ICPRAYI",Player5)
+    ReallyForceSpellRES("S!HELMB2",Player5)
+END
+
+IF
+  InMyArea(Player5)
+  Global("DemoGorgonIsDead","GLOBAL",1)
+  Global("IaApparition","AR3020",3)
+  Global("IaHelmBlessP5","AR3020",0)
+  OR(3)
+    Class(Player5,BARD_ALL)
+    Class(Player5,THIEF_ALL)
+    Class(Player5,PALADIN_ALL)
+THEN
+  RESPONSE #100
+    SetGlobal("IaHelmBlessP5","AR3020",1)
+    CreateVisualEffectObject("ICPRAYI",Player5)
+    ReallyForceSpellRES("S!HELMB3",Player5)
+END
+
+IF
+  InMyArea(Player5)
+  Global("DemoGorgonIsDead","GLOBAL",1)
+  Global("IaApparition","AR3020",3)
+  Global("IaHelmBlessP5","AR3020",0)
+  OR(3)
+    Class(Player5,RANGER_ALL)
+    Class(Player5,FIGHTER_ALL)
+    Class(Player5,MONK)
+THEN
+  RESPONSE #100
+    SetGlobal("IaHelmBlessP5","AR3020",1)
+    CreateVisualEffectObject("ICPRAYI",Player5)
+    ReallyForceSpellRES("S!HELMB1",Player5)
+END
+
+IF
+  InMyArea(Player5)
+  Global("DemoGorgonIsDead","GLOBAL",1)
+  Global("IaApparition","AR3020",3)
+  Global("IaHelmBlessP5","AR3020",0)
+  OR(4)
+    Class(Player5,MAGE_ALL)
+    Class(Player5,DRUID_ALL)
+    Class(Player5,CLERIC_ALL)
+    Class(Player5,SORCERER)
+THEN
+  RESPONSE #100
+    SetGlobal("IaHelmBlessP5","AR3020",1)
+    CreateVisualEffectObject("ICPRAYI",Player5)
+    ReallyForceSpellRES("S!HELMB4",Player5)
+END
+
+IF
+  Global("DemoGorgonIsDead","GLOBAL",1)
+  Global("IaApparition","AR3020",3)
+  Global("IaHelmBlessP5","AR3020",0)
+THEN
+  RESPONSE #100
+    SetGlobal("IaHelmBlessP5","AR3020",1)
+END
+
+// Player6
+IF
+  InMyArea(Player6)
+  Global("DemoGorgonIsDead","GLOBAL",1)
+  Global("IaApparition","AR3020",3)
+  Global("IaHelmBlessP6","AR3020",0)
+  OR(2)
+    Class(Player6,FIGHTER_MAGE_CLERIC)
+    Class(Player6,FIGHTER_MAGE_THIEF)
+THEN
+  RESPONSE #100
+    SetGlobal("IaHelmBlessP6","AR3020",1)
+    CreateVisualEffectObject("ICPRAYI",Player6)
+    DisplayString(Player6,21077)
+    AddXPObject(Player6,1200000)
+END
+
+IF
+  InMyArea(Player6)
+  Global("DemoGorgonIsDead","GLOBAL",1)
+  Global("IaApparition","AR3020",3)
+  Global("IaHelmBlessP6","AR3020",0)
+  OR(8)
+    Class(Player6,FIGHTER_MAGE)
+    Class(Player6,FIGHTER_CLERIC)
+    Class(Player6,FIGHTER_THIEF)
+    Class(Player6,MAGE_THIEF)
+    Class(Player6,CLERIC_MAGE)
+    Class(Player6,CLERIC_THIEF)
+    Class(Player6,FIGHTER_DRUID)
+    Class(Player6,CLERIC_RANGER)
+THEN
+  RESPONSE #100
+    SetGlobal("IaHelmBlessP6","AR3020",1)
+    CreateVisualEffectObject("ICPRAYI",Player6)
+    DisplayString(Player6,21077)
+    AddXPObject(Player6,900000)
+END
+
+IF
+  InMyArea(Player6)
+  Global("DemoGorgonIsDead","GLOBAL",1)
+  Global("IaApparition","AR3020",3)
+  Global("IaHelmBlessP6","AR3020",0)
+  Kit(Player6,RISKBREAKER)
+THEN
+  RESPONSE #100
+    SetGlobal("IaHelmBlessP6","AR3020",1)
+    CreateVisualEffectObject("ICPRAYI",Player6)
+    ReallyForceSpellRES("S!HELMB2",Player6)
+END
+
+IF
+  InMyArea(Player6)
+  Global("DemoGorgonIsDead","GLOBAL",1)
+  Global("IaApparition","AR3020",3)
+  Global("IaHelmBlessP6","AR3020",0)
+  OR(3)
+    Class(Player6,BARD_ALL)
+    Class(Player6,THIEF_ALL)
+    Class(Player6,PALADIN_ALL)
+THEN
+  RESPONSE #100
+    SetGlobal("IaHelmBlessP6","AR3020",1)
+    CreateVisualEffectObject("ICPRAYI",Player6)
+    ReallyForceSpellRES("S!HELMB3",Player6)
+END
+
+IF
+  InMyArea(Player6)
+  Global("DemoGorgonIsDead","GLOBAL",1)
+  Global("IaApparition","AR3020",3)
+  Global("IaHelmBlessP6","AR3020",0)
+  OR(3)
+    Class(Player6,RANGER_ALL)
+    Class(Player6,FIGHTER_ALL)
+    Class(Player6,MONK)
+THEN
+  RESPONSE #100
+    SetGlobal("IaHelmBlessP6","AR3020",1)
+    CreateVisualEffectObject("ICPRAYI",Player6)
+    ReallyForceSpellRES("S!HELMB1",Player6)
+END
+
+IF
+  InMyArea(Player6)
+  Global("DemoGorgonIsDead","GLOBAL",1)
+  Global("IaApparition","AR3020",3)
+  Global("IaHelmBlessP6","AR3020",0)
+  OR(4)
+    Class(Player6,MAGE_ALL)
+    Class(Player6,DRUID_ALL)
+    Class(Player6,CLERIC_ALL)
+    Class(Player6,SORCERER)
+THEN
+  RESPONSE #100
+    SetGlobal("IaHelmBlessP6","AR3020",1)
+    CreateVisualEffectObject("ICPRAYI",Player6)
+    ReallyForceSpellRES("S!HELMB4",Player6)
+END
+
+IF
+  Global("DemoGorgonIsDead","GLOBAL",1)
+  Global("IaApparition","AR3020",3)
+  Global("IaHelmBlessP6","AR3020",0)
+THEN
+  RESPONSE #100
+    SetGlobal("IaHelmBlessP6","AR3020",1)
+END
+
+// finish up //
+
+IF
+  Global("IaApparition","AR3020",3)
+  Global("IaHelmBlessP1","AR3020",1)
+  Global("IaHelmBlessP2","AR3020",1)
+  Global("IaHelmBlessP3","AR3020",1)
+  Global("IaHelmBlessP4","AR3020",1)
+  Global("IaHelmBlessP5","AR3020",1)
+  Global("IaHelmBlessP6","AR3020",1)
+THEN
+  RESPONSE #100
+    SetGlobal("IaApparition","AR3020",4)
+    CreateVisualEffectObject("SPSTRENH",Myself)
+    Wait(2)
+    DestroySelf()
+END

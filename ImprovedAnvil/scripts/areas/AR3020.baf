@@ -62,3 +62,50 @@ THEN
     DisplayStringHead("S!rozvan",70998) // Come, my minions!
     CreateCreature("S!dembom",[1287.1118],0)
 END
+
+// appearance of helm's apparition when demogorgon is dead //
+
+IF
+  InMyArea(Player1)
+  CombatCounter(0)
+  Global("DemoGorgonIsDead","GLOBAL",1)
+  Global("IaApparition","AR3020",0)
+THEN
+  RESPONSE #100
+    SetGlobal("IaApparition","AR3020",1)
+    SetGlobalTimer("IaApparitionTimer","AR3020",3)
+END
+
+IF
+  InMyArea(Player1)
+  Global("DemoGorgonIsDead","GLOBAL",1)
+  Global("IaApparition","AR3020",1)
+  GlobalTimerExpired("IaApparitionTimer","AR3020")
+THEN
+  RESPONSE #100
+    SetGlobal("IaApparition","AR3020",2)
+
+    ClearAllActions()
+    StartCutSceneMode()
+
+    CutSceneId(Player1)
+    MoveViewPoint([966.992],VERY_FAST)
+    Wait(4)
+
+    CreateVisualEffect("SPSTRENH",[966.992])
+    Wait(2)
+
+    CreateCreature("S!helma1",[966.992],0)
+    ActionOverride("S!helma1",FaceObject(Player1))
+
+    FaceObject("S!helma1")
+    ActionOverride(Player2,FaceObject("S!helma1"))
+    ActionOverride(Player3,FaceObject("S!helma1"))
+    ActionOverride(Player4,FaceObject("S!helma1"))
+    ActionOverride(Player5,FaceObject("S!helma1"))
+    ActionOverride(Player6,FaceObject("S!helma1"))
+    Wait(3)
+
+    ActionOverride("S!helma1",StartDialogueNoSet(Player1))
+    EndCutSceneMode()
+END
