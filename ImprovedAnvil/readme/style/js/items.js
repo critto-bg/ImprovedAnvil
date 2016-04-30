@@ -1992,7 +1992,7 @@ var weapons = [
                     {
                         "section_name": "Combat abilities",
                         "section_items": [
-                            "+10% chance of scoring a critical hit"
+                            "15% chance to inflict 30 points of slashing damage to the target"
                         ]
                     },
                     {
