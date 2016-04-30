@@ -21,6 +21,7 @@
 
 // Action Stack: //
 // Pre-buff & rest //
+// Difficulty adjustment //
 // Determine type of action //
 // Summon Vargouilles //
 // Spell Trigger //
@@ -95,7 +96,7 @@ IF
   Global("Prep","LOCALS",1)
 THEN
   RESPONSE #100
-  	SetGlobal("Prep","LOCALS",0)
+    SetGlobal("Prep","LOCALS",0)
     ReallyForceSpellRES("SPWII07",Myself)
 END
 
@@ -105,8 +106,37 @@ IF
   Global("IaLoot1","LOCALS",0)
 THEN
   RESPONSE #100
-  	SetGlobal("IaLoot1","LOCALS",1)
+    SetGlobal("IaLoot1","LOCALS",1)
     DestroyItem("S!sw17")
+END
+
+// adjusting the difficulty based on SoA / ToB //
+
+IF
+  Global("Prep","LOCALS",1)
+  Global("Iadifficulty","LOCALS",0)
+  GlobalGT("Chapter","GLOBAL",7)
+THEN
+  RESPONSE #100
+    SetGlobal("Iadifficulty","LOCALS",1)
+    SetGlobal("IaAssassinAmount","LOCALS",5)
+    SetGlobal("IaPfMWAmount","LOCALS",3)
+    SetGlobal("IaHardinessAmount","LOCALS",2)
+    SetGlobal("IaBigbyAmount","LOCALS",8)
+END
+
+IF
+  Global("Prep","LOCALS",1)
+  Global("Iadifficulty","LOCALS",0)
+  GlobalLT("Chapter","GLOBAL",8)
+THEN
+  RESPONSE #100
+    SetGlobal("Iadifficulty","LOCALS",1)
+    SetGlobal("IaAssassinAmount","LOCALS",3)
+    SetGlobal("IaPfMWAmount","LOCALS",1)
+    SetGlobal("IaHardinessAmount","LOCALS",1)
+    SetGlobal("IaBigbyAmount","LOCALS",4)
+    SetGlobal("Iaai","LOCALS",1)
 END
 
 // This determines whether Rozvankee will cast something or attack in melee //
@@ -128,7 +158,7 @@ IF
   See(NearestEnemyOf(Myself))
   Global("Prep","LOCALS",1)
   Global("IaCastSpell","LOCALS",0)
-  Global("Iaassassination","LOCALS",5)
+  GlobalsEqual("Iaassassination","IaAssassinAmount")
   Global("Iacrit","LOCALS",3)
   Global("Iainv","LOCALS",3)
 THEN
@@ -148,6 +178,7 @@ IF
   !GlobalTimerNotExpired("Iacreature","LOCALS")
   !HPLT(Myself,1)
   Global("Iaonce","LOCALS",0)
+  GlobalGT("Chapter","GLOBAL",7)
 THEN
   RESPONSE #100
     SetGlobal("Iaonce","LOCALS",1)
@@ -156,6 +187,25 @@ THEN
     DisplayStringHead(Myself,70998) // Come, my minions!
     CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
     CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
+    CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(Player1)
+  OR(2)
+    CheckStat(Player1,6,SCRIPTINGSTATE1)
+    CheckStat(Player1,1,SCRIPTINGSTATE1)
+  !GlobalTimerNotExpired("Iacreature","LOCALS")
+  !HPLT(Myself,1)
+  Global("Iaonce","LOCALS",0)
+  GlobalLT("Chapter","GLOBAL",8)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaonce","LOCALS",1)
+    SetGlobal("IaCastSpell","LOCALS",0)
+    SetGlobalTimer("Iacreature","LOCALS",30)
+    DisplayStringHead(Myself,70998) // Come, my minions!
     CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
 END
 
@@ -168,6 +218,7 @@ IF
   !GlobalTimerNotExpired("Iacreature","LOCALS")
   !HPLT(Myself,1)
   Global("Iaonce","LOCALS",0)
+  GlobalGT("Chapter","GLOBAL",7)
 THEN
   RESPONSE #100
     SetGlobal("Iaonce","LOCALS",1)
@@ -176,6 +227,24 @@ THEN
     DisplayStringHead(Myself,70998) // Come, my minions!
     CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
     CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
+    CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See("Cernd")
+  InParty("Cernd")
+  !Dead("Cernd")
+  !GlobalTimerNotExpired("Iacreature","LOCALS")
+  !HPLT(Myself,1)
+  Global("Iaonce","LOCALS",0)
+  GlobalLT("Chapter","GLOBAL",8)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaonce","LOCALS",1)
+    SetGlobal("IaCastSpell","LOCALS",0)
+    SetGlobalTimer("Iacreature","LOCALS",30)
+    DisplayStringHead(Myself,70998) // Come, my minions!
     CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
 END
 
@@ -188,6 +257,27 @@ IF
   !GlobalTimerNotExpired("Iacreature","LOCALS")
   !HPLT(Myself,1)
   Global("Iaonce","LOCALS",0)
+  GlobalGT("Chapter","GLOBAL",7)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaonce","LOCALS",1)
+    SetGlobal("IaCastSpell","LOCALS",0)
+    SetGlobalTimer("Iacreature","LOCALS",30)
+    DisplayStringHead(Myself,70998) // Come, my minions!
+    CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
+    CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
+    CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See("Neera")
+  InParty("Neera")
+  !Dead("Neera")
+  !GlobalTimerNotExpired("Iacreature","LOCALS")
+  !HPLT(Myself,1)
+  Global("Iaonce","LOCALS",0)
+  GlobalLT("Chapter","GLOBAL",8)
 THEN
   RESPONSE #100
     SetGlobal("Iaonce","LOCALS",1)
@@ -202,16 +292,17 @@ END
 // Nearest enemies, caster types
 IF
   Allegiance(Myself,ENEMY)
-	See(NearestEnemyOf(Myself))
-	OR(5)
-		Class(LastSeenBy(Myself),DRUID_ALL)
-		Class(LastSeenBy(Myself),CLERIC_ALL)
-		Class(LastSeenBy(Myself),MAGE_ALL)
+  See(NearestEnemyOf(Myself))
+  OR(5)
+    Class(LastSeenBy(Myself),DRUID_ALL)
+    Class(LastSeenBy(Myself),CLERIC_ALL)
+    Class(LastSeenBy(Myself),MAGE_ALL)
     Class(LastSeenBy(Myself),SORCERER)
     CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE1)
   !GlobalTimerNotExpired("Iacreature","LOCALS")
   !HPLT(Myself,1)
   Global("Iaonce","LOCALS",0)
+  GlobalGT("Chapter","GLOBAL",7)
 THEN
   RESPONSE #100
     SetGlobal("Iaonce","LOCALS",1)
@@ -225,16 +316,39 @@ END
 
 IF
   Allegiance(Myself,ENEMY)
-	See(SecondNearestEnemyOf(Myself))
-	OR(5)
-		Class(LastSeenBy(Myself),DRUID_ALL)
-		Class(LastSeenBy(Myself),CLERIC_ALL)
-		Class(LastSeenBy(Myself),MAGE_ALL)
+  See(NearestEnemyOf(Myself))
+  OR(5)
+    Class(LastSeenBy(Myself),DRUID_ALL)
+    Class(LastSeenBy(Myself),CLERIC_ALL)
+    Class(LastSeenBy(Myself),MAGE_ALL)
     Class(LastSeenBy(Myself),SORCERER)
     CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE1)
   !GlobalTimerNotExpired("Iacreature","LOCALS")
   !HPLT(Myself,1)
   Global("Iaonce","LOCALS",0)
+  GlobalLT("Chapter","GLOBAL",8)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaonce","LOCALS",1)
+    SetGlobal("IaCastSpell","LOCALS",0)
+    SetGlobalTimer("Iacreature","LOCALS",30)
+    DisplayStringHead(Myself,70998) // Come, my minions!
+    CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(SecondNearestEnemyOf(Myself))
+  OR(5)
+    Class(LastSeenBy(Myself),DRUID_ALL)
+    Class(LastSeenBy(Myself),CLERIC_ALL)
+    Class(LastSeenBy(Myself),MAGE_ALL)
+    Class(LastSeenBy(Myself),SORCERER)
+    CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE1)
+  !GlobalTimerNotExpired("Iacreature","LOCALS")
+  !HPLT(Myself,1)
+  Global("Iaonce","LOCALS",0)
+  GlobalGT("Chapter","GLOBAL",7)
 THEN
   RESPONSE #100
     SetGlobal("Iaonce","LOCALS",1)
@@ -248,16 +362,39 @@ END
 
 IF
   Allegiance(Myself,ENEMY)
-	See(ThirdNearestEnemyOf(Myself))
-	OR(5)
-		Class(LastSeenBy(Myself),DRUID_ALL)
-		Class(LastSeenBy(Myself),CLERIC_ALL)
-		Class(LastSeenBy(Myself),MAGE_ALL)
+  See(SecondNearestEnemyOf(Myself))
+  OR(5)
+    Class(LastSeenBy(Myself),DRUID_ALL)
+    Class(LastSeenBy(Myself),CLERIC_ALL)
+    Class(LastSeenBy(Myself),MAGE_ALL)
     Class(LastSeenBy(Myself),SORCERER)
     CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE1)
   !GlobalTimerNotExpired("Iacreature","LOCALS")
   !HPLT(Myself,1)
   Global("Iaonce","LOCALS",0)
+  GlobalLT("Chapter","GLOBAL",8)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaonce","LOCALS",1)
+    SetGlobal("IaCastSpell","LOCALS",0)
+    SetGlobalTimer("Iacreature","LOCALS",30)
+    DisplayStringHead(Myself,70998) // Come, my minions!
+    CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(ThirdNearestEnemyOf(Myself))
+  OR(5)
+    Class(LastSeenBy(Myself),DRUID_ALL)
+    Class(LastSeenBy(Myself),CLERIC_ALL)
+    Class(LastSeenBy(Myself),MAGE_ALL)
+    Class(LastSeenBy(Myself),SORCERER)
+    CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE1)
+  !GlobalTimerNotExpired("Iacreature","LOCALS")
+  !HPLT(Myself,1)
+  Global("Iaonce","LOCALS",0)
+  GlobalGT("Chapter","GLOBAL",7)
 THEN
   RESPONSE #100
     SetGlobal("Iaonce","LOCALS",1)
@@ -271,16 +408,39 @@ END
 
 IF
   Allegiance(Myself,ENEMY)
-	See(FourthNearestEnemyOf(Myself))
-	OR(5)
-		Class(LastSeenBy(Myself),DRUID_ALL)
-		Class(LastSeenBy(Myself),CLERIC_ALL)
-		Class(LastSeenBy(Myself),MAGE_ALL)
+  See(ThirdNearestEnemyOf(Myself))
+  OR(5)
+    Class(LastSeenBy(Myself),DRUID_ALL)
+    Class(LastSeenBy(Myself),CLERIC_ALL)
+    Class(LastSeenBy(Myself),MAGE_ALL)
     Class(LastSeenBy(Myself),SORCERER)
     CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE1)
   !GlobalTimerNotExpired("Iacreature","LOCALS")
   !HPLT(Myself,1)
   Global("Iaonce","LOCALS",0)
+  GlobalLT("Chapter","GLOBAL",8)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaonce","LOCALS",1)
+    SetGlobal("IaCastSpell","LOCALS",0)
+    SetGlobalTimer("Iacreature","LOCALS",30)
+    DisplayStringHead(Myself,70998) // Come, my minions!
+    CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(FourthNearestEnemyOf(Myself))
+  OR(5)
+    Class(LastSeenBy(Myself),DRUID_ALL)
+    Class(LastSeenBy(Myself),CLERIC_ALL)
+    Class(LastSeenBy(Myself),MAGE_ALL)
+    Class(LastSeenBy(Myself),SORCERER)
+    CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE1)
+  !GlobalTimerNotExpired("Iacreature","LOCALS")
+  !HPLT(Myself,1)
+  Global("Iaonce","LOCALS",0)
+  GlobalGT("Chapter","GLOBAL",7)
 THEN
   RESPONSE #100
     SetGlobal("Iaonce","LOCALS",1)
@@ -289,6 +449,28 @@ THEN
     DisplayStringHead(Myself,70998) // Come, my minions!
     CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
     CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
+    CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(FourthNearestEnemyOf(Myself))
+  OR(5)
+    Class(LastSeenBy(Myself),DRUID_ALL)
+    Class(LastSeenBy(Myself),CLERIC_ALL)
+    Class(LastSeenBy(Myself),MAGE_ALL)
+    Class(LastSeenBy(Myself),SORCERER)
+    CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE1)
+  !GlobalTimerNotExpired("Iacreature","LOCALS")
+  !HPLT(Myself,1)
+  Global("Iaonce","LOCALS",0)
+  GlobalLT("Chapter","GLOBAL",8)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaonce","LOCALS",1)
+    SetGlobal("IaCastSpell","LOCALS",0)
+    SetGlobalTimer("Iacreature","LOCALS",30)
+    DisplayStringHead(Myself,70998) // Come, my minions!
     CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
 END
 
@@ -299,6 +481,7 @@ IF
   !GlobalTimerNotExpired("Iacreature","LOCALS")
   !HPLT(Myself,1)
   Global("Iaonce","LOCALS",0)
+  GlobalGT("Chapter","GLOBAL",7)
 THEN
   RESPONSE #100
     SetGlobal("Iaonce","LOCALS",1)
@@ -307,6 +490,22 @@ THEN
     DisplayStringHead(Myself,70998) // Come, my minions!
     CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
     CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
+    CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  !GlobalTimerNotExpired("Iacreature","LOCALS")
+  !HPLT(Myself,1)
+  Global("Iaonce","LOCALS",0)
+  GlobalLT("Chapter","GLOBAL",8)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaonce","LOCALS",1)
+    SetGlobal("IaCastSpell","LOCALS",0)
+    SetGlobalTimer("Iacreature","LOCALS",30)
+    DisplayStringHead(Myself,70998) // Come, my minions!
     CreateCreatureObjectDoor("S!varg",LastSeenBy(Myself),0,0,0) //
 END
 
@@ -376,11 +575,11 @@ END
 // Nearest enemies, caster types
 IF
   Allegiance(Myself,ENEMY)
-	See(NearestEnemyOf(Myself))
-	OR(5)
-		Class(LastSeenBy(Myself),DRUID_ALL)
-		Class(LastSeenBy(Myself),CLERIC_ALL)
-		Class(LastSeenBy(Myself),MAGE_ALL)
+  See(NearestEnemyOf(Myself))
+  OR(5)
+    Class(LastSeenBy(Myself),DRUID_ALL)
+    Class(LastSeenBy(Myself),CLERIC_ALL)
+    Class(LastSeenBy(Myself),MAGE_ALL)
     Class(LastSeenBy(Myself),SORCERER)
     CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE1)
   !GlobalTimerNotExpired("Iacreature","LOCALS")
@@ -399,11 +598,11 @@ END
 
 IF
   Allegiance(Myself,ENEMY)
-	See(SecondNearestEnemyOf(Myself))
-	OR(5)
-		Class(LastSeenBy(Myself),DRUID_ALL)
-		Class(LastSeenBy(Myself),CLERIC_ALL)
-		Class(LastSeenBy(Myself),MAGE_ALL)
+  See(SecondNearestEnemyOf(Myself))
+  OR(5)
+    Class(LastSeenBy(Myself),DRUID_ALL)
+    Class(LastSeenBy(Myself),CLERIC_ALL)
+    Class(LastSeenBy(Myself),MAGE_ALL)
     Class(LastSeenBy(Myself),SORCERER)
     CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE1)
   !GlobalTimerNotExpired("Iacreature","LOCALS")
@@ -422,11 +621,11 @@ END
 
 IF
   Allegiance(Myself,ENEMY)
-	See(ThirdNearestEnemyOf(Myself))
-	OR(5)
-		Class(LastSeenBy(Myself),DRUID_ALL)
-		Class(LastSeenBy(Myself),CLERIC_ALL)
-		Class(LastSeenBy(Myself),MAGE_ALL)
+  See(ThirdNearestEnemyOf(Myself))
+  OR(5)
+    Class(LastSeenBy(Myself),DRUID_ALL)
+    Class(LastSeenBy(Myself),CLERIC_ALL)
+    Class(LastSeenBy(Myself),MAGE_ALL)
     Class(LastSeenBy(Myself),SORCERER)
     CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE1)
   !GlobalTimerNotExpired("Iacreature","LOCALS")
@@ -445,11 +644,11 @@ END
 
 IF
   Allegiance(Myself,ENEMY)
-	See(FourthNearestEnemyOf(Myself))
-	OR(5)
-		Class(LastSeenBy(Myself),DRUID_ALL)
-		Class(LastSeenBy(Myself),CLERIC_ALL)
-		Class(LastSeenBy(Myself),MAGE_ALL)
+  See(FourthNearestEnemyOf(Myself))
+  OR(5)
+    Class(LastSeenBy(Myself),DRUID_ALL)
+    Class(LastSeenBy(Myself),CLERIC_ALL)
+    Class(LastSeenBy(Myself),MAGE_ALL)
     Class(LastSeenBy(Myself),SORCERER)
     CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE1)
   !GlobalTimerNotExpired("Iacreature","LOCALS")
@@ -561,7 +760,7 @@ IF
   OR(2)
    !GlobalTimerNotExpired("pfmw","LOCALS")
    CheckStat(Myself,0,SCRIPTINGSTATE6)
-  GlobalLT("Iapfmw","LOCALS",3)
+  LocalsLT("Iapfmw","IaPfMWAmount")
   Global("Iaai","LOCALS",1)
 THEN
   RESPONSE #100
@@ -604,7 +803,7 @@ IF
   Range(LastSeenBy(Myself),5)
   CheckStat(Myself,0,SCRIPTINGSTATE6)
   CheckStatLT(Myself,1,STONESKINS)
-  Global("Iapfmw","LOCALS",3)
+  LocalsEqual("Iapfmw","IaPfMWAmount")
   Global("Iaai","LOCALS",1)
   GlobalLT("Iastoneskin","LOCALS",3)
 THEN
@@ -621,7 +820,7 @@ IF
   Allegiance(Myself,ENEMY)
   See(NearestEnemyOf(Myself))
   !GlobalTimerNotExpired("Iaspell","LOCALS")
-  GlobalLT("Iahardiness","LOCALS",2)
+  LocalsLT("Iahardiness","IaHardinessAmount")
   CheckStatLT(Myself,61,RESISTCRUSHING)
 THEN
   RESPONSE #100
@@ -652,7 +851,7 @@ IF
   CheckStatLT(LastSeenBy(Myself),95,RESISTSLASHING)
   !HasItemEquiped("S!sw11",LastSeenBy(Myself))
   !HasItemEquiped("S!sw04",LastSeenBy(Myself))
-  GlobalLT("Iaassassination","LOCALS",5)
+  LocalsLT("Iaassassination","IaAssassinAmount")
   OR(2)
     RandomNumLT(6,4)
     Global("Iacrit","LOCALS",3)
@@ -827,7 +1026,7 @@ IF
   GlobalLT("Iacrit","LOCALS",3)
   OR(2)
     RandomNumGT(6,3)
-    Global("Iaassassination","LOCALS",5)
+    LocalsEqual("Iaassassination","IaAssassinAmount")
 THEN
   RESPONSE #100
     IncrementGlobal("Iacrit","LOCALS",1)
@@ -989,7 +1188,7 @@ IF
   !HasItemEquiped("S!sw11",LastSeenBy(Myself))
   !HasItemEquiped("S!sw04",LastSeenBy(Myself))
   GlobalLT("Iainv","LOCALS",3)
-  Global("Iaassassination","LOCALS",5)
+  LocalsEqual("Iaassassination","IaAssassinAmount")
   OR(2)
     RandomNumLT(6,4)
     Global("Iacrit","LOCALS",3)
@@ -1605,7 +1804,7 @@ IF
   !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
   !HasBounceEffects(LastSeenBy(Myself))
   CheckStatLT(LastSeenBy(Myself),1,STONESKINS)
-  GlobalLT("Iabclenched","LOCALS",8)
+  LocalsLT("Iabclenched","IaBigbyAmount")
   Global("IaCastSpell","LOCALS",1)
 THEN
   RESPONSE #100
@@ -1631,7 +1830,7 @@ IF
   !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
   !HasBounceEffects(LastSeenBy(Myself))
   CheckStatLT(LastSeenBy(Myself),1,STONESKINS)
-  GlobalLT("Iabclenched","LOCALS",8)
+  LocalsLT("Iabclenched","IaBigbyAmount")
   Global("IaCastSpell","LOCALS",1)
 THEN
   RESPONSE #100
@@ -1657,7 +1856,7 @@ IF
   !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
   !HasBounceEffects(LastSeenBy(Myself))
   CheckStatLT(LastSeenBy(Myself),1,STONESKINS)
-  GlobalLT("Iabclenched","LOCALS",8)
+  LocalsLT("Iabclenched","IaBigbyAmount")
   Global("IaCastSpell","LOCALS",1)
 THEN
   RESPONSE #100
@@ -1885,7 +2084,7 @@ IF
   CheckStatLT(LastSeenBy(Myself),95,RESISTSLASHING)
   !HasItemEquiped("S!sw11",LastSeenBy(Myself))
   !HasItemEquiped("S!sw04",LastSeenBy(Myself))
-  GlobalLT("Iaassassination","LOCALS",5)
+  LocalsLT("Iaassassination","IaAssassinAmount")
   OR(2)
     RandomNumLT(6,4)
     Global("Iacrit","LOCALS",3)
@@ -2031,7 +2230,7 @@ IF
   GlobalLT("Iacrit","LOCALS",3)
   OR(2)
     RandomNumGT(6,3)
-    Global("Iaassassination","LOCALS",5)
+    LocalsEqual("Iaassassination","IaAssassinAmount")
 THEN
   RESPONSE #100
     IncrementGlobal("Iacrit","LOCALS",1)
@@ -2164,7 +2363,7 @@ IF
   !HasItemEquiped("S!sw11",LastSeenBy(Myself))
   !HasItemEquiped("S!sw04",LastSeenBy(Myself))
   GlobalLT("Iainv","LOCALS",3)
-  Global("Iaassassination","LOCALS",5)
+  LocalsEqual("Iaassassination","IaAssassinAmount")
   OR(2)
     RandomNumLT(6,4)
     Global("Iacrit","LOCALS",3)
@@ -2302,7 +2501,7 @@ IF
   Global("Prep","LOCALS",1)
 THEN
   RESPONSE #100
-  	SetGlobal("Prep","LOCALS",0)
+    SetGlobal("Prep","LOCALS",0)
     ReallyForceSpellRES("SPWII07",Myself)
 END
 

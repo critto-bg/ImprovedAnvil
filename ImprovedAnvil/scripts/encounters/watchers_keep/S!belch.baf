@@ -53,6 +53,34 @@ THEN
     ReallyForceSpellRES("SPWII07",Myself)
 END
 
+// adjusting the difficulty based on SoA / ToB //
+
+IF
+  Global("Iabalor01","LOCALS",1)
+  Global("Iadifficulty","LOCALS",0)
+  GlobalGT("Chapter","GLOBAL",7)
+THEN
+  RESPONSE #100
+    SetGlobal("Iadifficulty","LOCALS",1)
+    SetGlobal("IaPFMWAmount","LOCALS",5)
+    SetGlobal("IaPFMWAmount","LOCALS",5)
+    SetGlobal("IaLowerResAmount","LOCALS",5)
+    SetGlobal("IaRRoRAmount","LOCALS",5)
+END
+
+IF
+  Global("Iabalor01","LOCALS",1)
+  Global("Iadifficulty","LOCALS",0)
+  GlobalLT("Chapter","GLOBAL",8)
+THEN
+  RESPONSE #100
+    SetGlobal("Iadifficulty","LOCALS",1)
+    SetGlobal("IaSkinAmount","LOCALS",2)
+    SetGlobal("IaSkinAmount","LOCALS",2)
+    SetGlobal("IaLowerResAmount","LOCALS",2)
+    SetGlobal("IaRRoRAmount","LOCALS",3)
+END
+
 // Contingency: FoD //
 
 IF
@@ -652,7 +680,7 @@ IF
   !GlobalTimerNotExpired("Iaspell","LOCALS")
   CheckStatLT(Myself,1,STONESKINS)
   !CheckStat(Myself,3,SCRIPTINGSTATE6)
-  GlobalLT("Iabalor12","LOCALS",5)
+  LocalsLT("Iabalor12","IaPFMWAmount")
 THEN
   RESPONSE #100
     IncrementGlobal("Iabalor12","LOCALS",1)
@@ -668,7 +696,7 @@ IF
   !GlobalTimerNotExpired("Iaspell","LOCALS")
   CheckStatLT(Myself,1,STONESKINS)
   CheckStat(Myself,0,SCRIPTINGSTATE6)
-  GlobalLT("Iabalor08","LOCALS",5)
+  LocalsLT("Iabalor08","IaSkinAmount")
 THEN
   RESPONSE #100
     IncrementGlobal("Iabalor08","LOCALS",1)
@@ -921,7 +949,7 @@ IF
   !GlobalTimerNotExpired("Iaspell","LOCALS")
   See([PC])
   CheckStatGT(LastSeenBy(Myself),49,RESISTFIRE)
-  GlobalLT("Iabalor07","LOCALS",5)
+  LocalsLT("Iabalor07","IaLowerResAmount")
 THEN
   RESPONSE #100
     IncrementGlobal("Iabalor07","LOCALS",1)
@@ -934,7 +962,7 @@ IF
   !GlobalTimerNotExpired("Iaspell","LOCALS")
   See(SecondNearest([PC]))
   CheckStatGT(LastSeenBy(Myself),49,RESISTFIRE)
-  GlobalLT("Iabalor07","LOCALS",5)
+  LocalsLT("Iabalor07","IaLowerResAmount")
 THEN
   RESPONSE #100
     IncrementGlobal("Iabalor07","LOCALS",1)
@@ -947,7 +975,7 @@ IF
   !GlobalTimerNotExpired("Iaspell","LOCALS")
   See(ThirdNearest([PC]))
   CheckStatGT(LastSeenBy(Myself),49,RESISTFIRE)
-  GlobalLT("Iabalor07","LOCALS",5)
+  LocalsLT("Iabalor07","IaLowerResAmount")
 THEN
   RESPONSE #100
     IncrementGlobal("Iabalor07","LOCALS",1)
@@ -965,9 +993,26 @@ IF
   Range(LastSeenBy(Myself),7)
   !CheckStat(LastSeenBy(Myself),4,SCRIPTINGSTATE7)
   CheckStatLT(LastSeenBy(Myself),75,RESISTFIRE)
+  GlobalGT("Chapter","GLOBAL",7)
 THEN
   RESPONSE #100
     SetGlobalTimer("Iasunf","LOCALS",12)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    ReallyForceSpellRES("SPINI93",Myself)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !GlobalTimerNotExpired("Iasunf","LOCALS")
+  See([PC])
+  Range(LastSeenBy(Myself),7)
+  !CheckStat(LastSeenBy(Myself),4,SCRIPTINGSTATE7)
+  CheckStatLT(LastSeenBy(Myself),75,RESISTFIRE)
+  GlobalLT("Chapter","GLOBAL",8)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iasunf","LOCALS",18)
     SetGlobalTimer("Iaspell","LOCALS",6)
     ReallyForceSpellRES("SPINI93",Myself)
 END
@@ -981,7 +1026,7 @@ IF
   See(Player1)
   !StateCheck(Player1,STATE_IMPROVEDINVISIBILITY)
   !StateCheck(Player1,STATE_INVISIBLE)
-  GlobalLT("Iareversal","LOCALS",5)
+  LocalsLT("Iareversal","IaRRoRAmount")
   GlobalGT("Iap1nr","GLOBAL",0)
 THEN
   RESPONSE #100
@@ -1038,7 +1083,7 @@ IF
   See(Player2)
   !StateCheck(Player2,STATE_IMPROVEDINVISIBILITY)
   !StateCheck(Player2,STATE_INVISIBLE)
-  GlobalLT("Iareversal","LOCALS",5)
+  LocalsLT("Iareversal","IaRRoRAmount")
   GlobalGT("Iap2nr","GLOBAL",0)
 THEN
   RESPONSE #100
@@ -1095,7 +1140,7 @@ IF
   See(Player3)
   !StateCheck(Player3,STATE_IMPROVEDINVISIBILITY)
   !StateCheck(Player3,STATE_INVISIBLE)
-  GlobalLT("Iareversal","LOCALS",5)
+  LocalsLT("Iareversal","IaRRoRAmount")
   GlobalGT("Iap3nr","GLOBAL",0)
 THEN
   RESPONSE #100
@@ -1152,7 +1197,7 @@ IF
   See(Player4)
   !StateCheck(Player4,STATE_IMPROVEDINVISIBILITY)
   !StateCheck(Player4,STATE_INVISIBLE)
-  GlobalLT("Iareversal","LOCALS",5)
+  LocalsLT("Iareversal","IaRRoRAmount")
   GlobalGT("Iap4nr","GLOBAL",0)
 THEN
   RESPONSE #100
@@ -1209,7 +1254,7 @@ IF
   See(Player5)
   !StateCheck(Player5,STATE_IMPROVEDINVISIBILITY)
   !StateCheck(Player5,STATE_INVISIBLE)
-  GlobalLT("Iareversal","LOCALS",5)
+  LocalsLT("Iareversal","IaRRoRAmount")
   GlobalGT("Iap5nr","GLOBAL",0)
 THEN
   RESPONSE #100
@@ -1266,7 +1311,7 @@ IF
   See(Player6)
   !StateCheck(Player6,STATE_IMPROVEDINVISIBILITY)
   !StateCheck(Player6,STATE_INVISIBLE)
-  GlobalLT("Iareversal","LOCALS",5)
+  LocalsLT("Iareversal","IaRRoRAmount")
   GlobalGT("Iap6nr","GLOBAL",0)
 THEN
   RESPONSE #100
@@ -1323,7 +1368,7 @@ IF
   See(Player1)
   !StateCheck(Player1,STATE_IMPROVEDINVISIBILITY)
   !StateCheck(Player1,STATE_INVISIBLE)
-  GlobalLT("Iareversal","LOCALS",5)
+  LocalsLT("Iareversal","IaRRoRAmount")
   Global("Iap1nr","GLOBAL",0)
   Global("Iacheckp1fr","LOCALS",0)
   OR(2)
@@ -1364,7 +1409,7 @@ IF
   See(Player2)
   !StateCheck(Player2,STATE_IMPROVEDINVISIBILITY)
   !StateCheck(Player2,STATE_INVISIBLE)
-  GlobalLT("Iareversal","LOCALS",5)
+  LocalsLT("Iareversal","IaRRoRAmount")
   Global("Iap2nr","GLOBAL",0)
   Global("Iacheckp2fr","LOCALS",0)
   OR(2)
@@ -1383,7 +1428,7 @@ IF
   See(Player2)
   !StateCheck(Player2,STATE_IMPROVEDINVISIBILITY)
   !StateCheck(Player2,STATE_INVISIBLE)
-  GlobalLT("Iareversal","LOCALS",5)
+  LocalsLT("Iareversal","IaRRoRAmount")
   Global("Iap2nr","GLOBAL",0)
   Global("Iacheckp2fr","LOCALS",1)
   GlobalTimerExpired("Iarubyonp2t","LOCALS")
@@ -1405,7 +1450,7 @@ IF
   See(Player3)
   !StateCheck(Player3,STATE_IMPROVEDINVISIBILITY)
   !StateCheck(Player3,STATE_INVISIBLE)
-  GlobalLT("Iareversal","LOCALS",5)
+  LocalsLT("Iareversal","IaRRoRAmount")
   Global("Iap3nr","GLOBAL",0)
   Global("Iacheckp3fr","LOCALS",0)
   OR(3)
@@ -1424,7 +1469,7 @@ IF
   See(Player3)
   !StateCheck(Player3,STATE_IMPROVEDINVISIBILITY)
   !StateCheck(Player3,STATE_INVISIBLE)
-  GlobalLT("Iareversal","LOCALS",5)
+  LocalsLT("Iareversal","IaRRoRAmount")
   Global("Iap3nr","GLOBAL",0)
   Global("Iacheckp3fr","LOCALS",1)
   GlobalTimerExpired("Iarubyonp3t","LOCALS")
@@ -1446,7 +1491,7 @@ IF
   See(Player4)
   !StateCheck(Player4,STATE_IMPROVEDINVISIBILITY)
   !StateCheck(Player4,STATE_INVISIBLE)
-  GlobalLT("Iareversal","LOCALS",5)
+  LocalsLT("Iareversal","IaRRoRAmount")
   Global("Iap4nr","GLOBAL",0)
   Global("Iacheckp4fr","LOCALS",0)
   OR(4)
@@ -1465,7 +1510,7 @@ IF
   See(Player4)
   !StateCheck(Player4,STATE_IMPROVEDINVISIBILITY)
   !StateCheck(Player4,STATE_INVISIBLE)
-  GlobalLT("Iareversal","LOCALS",5)
+  LocalsLT("Iareversal","IaRRoRAmount")
   Global("Iap4nr","GLOBAL",0)
   Global("Iacheckp4fr","LOCALS",1)
   GlobalTimerExpired("Iarubyonp4t","LOCALS")
@@ -1487,7 +1532,7 @@ IF
   See(Player5)
   !StateCheck(Player5,STATE_IMPROVEDINVISIBILITY)
   !StateCheck(Player5,STATE_INVISIBLE)
-  GlobalLT("Iareversal","LOCALS",5)
+  LocalsLT("Iareversal","IaRRoRAmount")
   Global("Iap5nr","GLOBAL",0)
   Global("Iacheckp5fr","LOCALS",0)
   OR(5)
@@ -1506,7 +1551,7 @@ IF
   See(Player5)
   !StateCheck(Player5,STATE_IMPROVEDINVISIBILITY)
   !StateCheck(Player5,STATE_INVISIBLE)
-  GlobalLT("Iareversal","LOCALS",5)
+  LocalsLT("Iareversal","IaRRoRAmount")
   Global("Iap5nr","GLOBAL",0)
   Global("Iacheckp5fr","LOCALS",1)
   GlobalTimerExpired("Iarubyonp5t","LOCALS")
@@ -1528,7 +1573,7 @@ IF
   See(Player6)
   !StateCheck(Player6,STATE_IMPROVEDINVISIBILITY)
   !StateCheck(Player6,STATE_INVISIBLE)
-  GlobalLT("Iareversal","LOCALS",5)
+  LocalsLT("Iareversal","IaRRoRAmount")
   Global("Iap6nr","GLOBAL",0)
   Global("Iacheckp6fr","LOCALS",0)
   OR(6)
@@ -1547,7 +1592,7 @@ IF
   See(Player6)
   !StateCheck(Player6,STATE_IMPROVEDINVISIBILITY)
   !StateCheck(Player6,STATE_INVISIBLE)
-  GlobalLT("Iareversal","LOCALS",5)
+  LocalsLT("Iareversal","IaRRoRAmount")
   Global("Iap6nr","GLOBAL",0)
   Global("Iacheckp6fr","LOCALS",1)
   GlobalTimerExpired("Iarubyonp6t","LOCALS")

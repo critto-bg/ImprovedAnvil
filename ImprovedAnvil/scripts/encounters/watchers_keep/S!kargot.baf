@@ -43,6 +43,28 @@ THEN
     ReallyForceSpellRES("SPWII07",Myself)
 END
 
+// adjusting the difficulty based on SoA / ToB //
+
+IF
+  Global("Prep","LOCALS",1)
+  Global("Iadifficulty","LOCALS",0)
+  GlobalGT("Chapter","GLOBAL",7)
+THEN
+  RESPONSE #100
+    SetGlobal("Iadifficulty","LOCALS",1)
+    SetGlobal("IaHardinessAmount","LOCALS",3)
+END
+
+IF
+  Global("Prep","LOCALS",1)
+  Global("Iadifficulty","LOCALS",0)
+  GlobalLT("Chapter","GLOBAL",8)
+THEN
+  RESPONSE #100
+    SetGlobal("Iadifficulty","LOCALS",1)
+    SetGlobal("IaHardinessAmount","LOCALS",1)
+END
+
 // Chain Contingency //
 
 IF
@@ -159,7 +181,7 @@ END
 
 IF
   See(NearestEnemyOf(Myself))
-  GlobalLT("IaDeathKnight08","LOCALS",3)
+  LocalsLT("IaDeathKnight08","IaHardinessAmount")
   CheckStatLT(Myself,76,RESISTCRUSHING)
   CheckStat(Myself,0,SCRIPTINGSTATE6)
   !GlobalTimerNotExpired("Iaspell","LOCALS")
@@ -499,6 +521,7 @@ IF
   !GlobalTimerNotExpired("Iaspell","LOCALS")
   !GlobalTimerNotExpired("Iafire","LOCALS")
   RandomNumGT(6,3)
+  GlobalGT("Chapter","GLOBAL",7)
 THEN
   RESPONSE #25
     SetGlobalTimer("Iafire","LOCALS",6)
@@ -510,6 +533,26 @@ THEN
     SpellNoDec(LastSeenBy(Myself),WIZARD_METEOR_SWARM)
   RESPONSE #25
     SetGlobalTimer("Iafire","LOCALS",6)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDec(LastSeenBy(Myself),WIZARD_FIREBALL)
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  CheckStatLT(LastSeenBy(Myself),100,RESISTFIRE)
+  !CheckStat(LastSeenBy(Myself),4,SCRIPTINGSTATE7)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !GlobalTimerNotExpired("Iafire","LOCALS")
+  RandomNumGT(6,3)
+  GlobalLT("Chapter","GLOBAL",8)
+THEN
+  RESPONSE #50
+    SetGlobalTimer("Iafire","LOCALS",12)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDec(LastSeenBy(Myself),WIZARD_METEOR_SWARM)
+  RESPONSE #50
+    SetGlobalTimer("Iafire","LOCALS",12)
     SetGlobalTimer("Iaspell","LOCALS",6)
     SpellNoDec(LastSeenBy(Myself),WIZARD_FIREBALL)
 END

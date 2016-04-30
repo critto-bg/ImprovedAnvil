@@ -11,6 +11,32 @@ THEN
     ReallyForceSpellRES("SPINI96",Myself) // Aura of Despair
 END
 
+// adjusting the difficulty based on SoA / ToB //
+
+IF
+  Global("Prep","LOCALS",1)
+  Global("Iadifficulty","LOCALS",0)
+  GlobalGT("Chapter","GLOBAL",7)
+THEN
+  RESPONSE #100
+    SetGlobal("Iadifficulty","LOCALS",1)
+    SetGlobal("IaHardinessAmount","LOCALS",8)
+    SetGlobal("IaCritAmount","LOCALS",8)
+    SetGlobal("IaWWAmount","LOCALS",4)
+END
+
+IF
+  Global("Prep","LOCALS",1)
+  Global("Iadifficulty","LOCALS",0)
+  GlobalLT("Chapter","GLOBAL",8)
+THEN
+  RESPONSE #100
+    SetGlobal("Iadifficulty","LOCALS",1)
+    SetGlobal("IaHardinessAmount","LOCALS",4)
+    SetGlobal("IaCritAmount","LOCALS",4)
+    SetGlobal("IaWWAmount","LOCALS",2)
+END
+
 // Anti Time Stop //
 
 IF
@@ -78,7 +104,7 @@ END
 IF
   Allegiance(Myself,ENEMY)
   See(NearestEnemyOf(Myself))
-  GlobalLT("Iakazuul05","LOCALS",8)
+  LocalsLT("Iakazuul05","IaHardinessAmount")
   CheckStatLT(Myself,71,RESISTCRUSHING)
   !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
 THEN
@@ -128,7 +154,7 @@ IF
   !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
   CheckStatLT(LastSeenBy(Myself),1,STONESKINS)
   !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-  GlobalLT("Iakazuul03","LOCALS",8)
+  LocalsLT("Iakazuul03","IaCritAmount")
   !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
 THEN
   RESPONSE #100
@@ -144,7 +170,7 @@ IF
   See(NearestEnemyOf(Myself))
   Range(LastSeenBy(Myself),5)
   !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
-  GlobalLT("Iakazuul04","LOCALS",4)
+  LocalsLT("Iakazuul04","IaWWAmount")
   !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
 THEN
   RESPONSE #100

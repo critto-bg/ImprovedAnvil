@@ -44,6 +44,7 @@ IF
   InMyArea(Player1)
   Global("DemogorgonChange","GLOBAL",1)
   Global("IaInitBombers","AR3020",1)
+  GlobalGT("Chapter","GLOBAL",7)
   GlobalTimerExpired("IaBombers","AR3020")
 THEN
 	RESPONSE #60
@@ -61,6 +62,23 @@ THEN
     SetGlobalTimer("IaBombers","AR3020",12)
     DisplayStringHead("S!rozvan",70998) // Come, my minions!
     CreateCreature("S!dembom",[1287.1118],0)
+END
+
+IF
+  InMyArea(Player1)
+  Global("DemogorgonChange","GLOBAL",1)
+  Global("IaInitBombers","AR3020",1)
+  GlobalLT("Chapter","GLOBAL",8)
+  GlobalTimerExpired("IaBombers","AR3020")
+THEN
+	RESPONSE #50
+    SetGlobalTimer("IaBombers","AR3020",12)
+    DisplayStringHead("S!rozvan",70998) // Come, my minions!
+    CreateCreature("S!dembom",[1287.1118],0)
+	RESPONSE #50
+    SetGlobalTimer("IaBombers","AR3020",12)
+    DisplayStringHead("S!rozvan",70998) // Come, my minions!
+    CreateCreature("S!dembom",[663.1150],0)
 END
 
 // appearance of helm's apparition when demogorgon is dead //
