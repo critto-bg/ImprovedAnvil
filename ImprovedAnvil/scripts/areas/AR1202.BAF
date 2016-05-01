@@ -102,31 +102,6 @@ THEN
 END
 
 IF
-   InMyArea(Player1)
-   GlobalGT("Iapcastts","GLOBAL",0)
-   !Global("Ianotreasure","AR1202",1)
-   Global("Iadooncech","AR1202",0)
-   Global("Iadoorlock","AR1202",2)
-   NumInPartyAlive(1)
-THEN
-   RESPONSE #100
-      SetGlobal("Iadooncech","AR1202",1)
-      SetGlobal("Ianotreasure","AR1202",1)
-END
-
-IF
-   InMyArea(Player1)
-   Global("Iadooncech","AR1202",0)
-   Global("Iadoorlock","AR1202",2)
-   OR(2)
-    Global("Iapcastts","GLOBAL",0)
-    NumInPartyAliveGT(1)
-THEN
-   RESPONSE #100
-      SetGlobal("Iadooncech","AR1202",1)
-END
-
-IF
   OpenState("DOOR02",TRUE)
   Global("Door2Opened","AR1202",0)
 THEN
@@ -1003,29 +978,4 @@ THEN
     CreateCreature("S!skelw2",[2968.1610],7) //
     CreateCreature("S!skelw2",[2935.1633],7) //
     CreateCreature("S!skelw2",[2903.1656],7) //
-END
-
-IF
-   InMyArea(Player1)
-   !Global("Ianotreasure","AR1202",1)
-   Global("Iadofirst","AR1202",0)
-   NumInPartyAlive(1)
-   Class(Player1,MAGE_ALL)
-   Class(Player1,FIGHTER_ALL)
-THEN
-   RESPONSE #100
-      SetGlobal("Iadofirst","AR1202",1)
-      SetGlobal("Ianotreasure","AR1202",1)
-END
-
-IF
-   InMyArea(Player1)
-   Global("Iadofirst","AR1202",0)
-   OR(3)
-    NumInPartyAliveGT(1)
-    !Class(Player1,MAGE_ALL)
-    !Class(Player1,FIGHTER_ALL)
-THEN
-   RESPONSE #100
-      SetGlobal("Iadofirst","AR1202",1)
 END

@@ -45,19 +45,6 @@ THEN
 END
 
 IF
-   InMyArea(Player1)
-   Global("Iatrap","AR0907",0)
-   Global("Iapcastts","GLOBAL",1)
-   NumInPartyAlive(1)
-THEN
-   RESPONSE #100
-      SetGlobal("Iatrap","AR0907",1)
-      SetGlobal("Iap1nr","GLOBAL",0)
-      SetGlobal("Iap1nb","GLOBAL",0)
-      ActionOverride(Player1,ReallyForceSpellRES("SPINI14",Myself))
-END
-
-IF
   Global("Iaexit2","AR0907",1)
   Dead("hlsion") //
   Dead("hlstal") //
@@ -145,27 +132,4 @@ IF
 THEN
   RESPONSE #100
     SetGlobal("Iapccloud","AR0907",0)
-END
-
-IF
-   InMyArea(Player1)
-   GlobalGT("Iapcastts","GLOBAL",0)
-   Global("Ianotreasure","AR0907",0)
-   Global("Iadooncech","AR0907",0)
-   NumInPartyAlive(1)
-THEN
-   RESPONSE #100
-      SetGlobal("Iadooncech","AR0907",1)
-      SetGlobal("Ianotreasure","AR0907",1)
-END
-
-IF
-   InMyArea(Player1)
-   Global("Iadooncech","AR0907",0)
-   OR(2)
-    Global("Iapcastts","GLOBAL",0)
-    NumInPartyAliveGT(1)
-THEN
-   RESPONSE #100
-      SetGlobal("Iadooncech","AR0907",1)
 END
