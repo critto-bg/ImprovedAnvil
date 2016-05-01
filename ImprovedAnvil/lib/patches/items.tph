@@ -908,6 +908,19 @@ COPY_EXISTING ~sw1h71.itm~ ~override/sw1h71.itm~
   END
   BUT_ONLY
 
+// Jan's armor
+COPY_EXISTING ~nparm.itm~ ~override/nparm.itm~
+  SAY DESC @10298
+
+  // reduce DR bonus
+  PATCH_FOR_EACH ~opcode_number~ IN ~86~ ~87~ ~88~ ~89~ BEGIN
+    LAUNCH_PATCH_FUNCTION ~ALTER_ITEM_EFFECT~ INT_VAR
+      check_globals = 1
+      match_opcode = ~%opcode_number%~
+      parameter1 = 10
+    END
+  END
+
 // The following items exist only in BG2EE //
 
 ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
