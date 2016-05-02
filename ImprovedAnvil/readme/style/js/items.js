@@ -672,7 +672,7 @@ var gear = [
                     {
                         "section_name": "Abilities",
                         "section_items": [
-                            "Armor Class Bonus: None",
+                            "Armor Class Bonus: +2",
                             "Protects Against Critical Hits",
                             "Wearer is immune to charm and confusion",
                             "+1 bonus to all saving throws",
@@ -2174,7 +2174,6 @@ var weapons = [
                         "section_items": [
                             "100% Resistance to Cold",
                             "Immunity to Abi-Dalzim's Horrid Wilting spell",
-                            "+5 Cold damage per hit",
                             "30% chance (per hit) to inflict 30 points of additional magic damage",
                             "Slays: Fire Elementals, Efreeti, Salamanders (no save)",
                             "THAC0: +5",
