@@ -24,6 +24,113 @@ COPY_EXISTING ~amul09.itm~ ~override/amul17.itm~
 
 COPY_EXISTING ~sw1h02.itm~ ~override/sw1h37.itm~
 
+COPY_EXISTING ~clck09.itm~ ~override/clck09.itm~
+  READ_BYTE 0x29 "kitusability"
+  WRITE_BYTE 0x29 ("%kitusability%" BOR 0b00010000)
+
+  READ_BYTE 0x2F "kitusability"
+  WRITE_BYTE 0x2F ("%kitusability%" BOR 0b00000110)
+
+  LAUNCH_PATCH_FUNCTION ~ALTER_ITEM_EFFECT~
+    INT_VAR
+      check_globals = 1
+      match_opcode = 28
+    STR_VAR
+      resource = ~~
+  END
+
+  LAUNCH_PATCH_FUNCTION ~DELETE_ITEM_EQEFFECT~ INT_VAR
+    "opcode_to_delete" = 142
+  END
+
+COPY_EXISTING ~clck10.itm~ ~override/clck10.itm~
+  READ_BYTE 0x29 "kitusability"
+  WRITE_BYTE 0x29 ("%kitusability%" BOR 0b00010000)
+
+  READ_BYTE 0x2F "kitusability"
+  WRITE_BYTE 0x2F ("%kitusability%" BOR 0b00000110)
+
+  LAUNCH_PATCH_FUNCTION ~ALTER_ITEM_EFFECT~
+    INT_VAR
+      check_globals = 1
+      match_opcode = 30
+    STR_VAR
+      resource = ~~
+  END
+
+  LAUNCH_PATCH_FUNCTION ~DELETE_ITEM_EQEFFECT~ INT_VAR
+    "opcode_to_delete" = 142
+  END
+
+COPY_EXISTING ~clck11.itm~ ~override/clck11.itm~
+  READ_BYTE 0x29 "kitusability"
+  WRITE_BYTE 0x29 ("%kitusability%" BOR 0b00010000)
+
+  READ_BYTE 0x2F "kitusability"
+  WRITE_BYTE 0x2F ("%kitusability%" BOR 0b00000110)
+
+  LAUNCH_PATCH_FUNCTION ~ALTER_ITEM_EFFECT~
+    INT_VAR
+      check_globals = 1
+      match_opcode = 29
+      resist_dispel = 0
+    STR_VAR
+      resource = ~~
+  END
+
+  LAUNCH_PATCH_FUNCTION ~DELETE_ITEM_EQEFFECT~ INT_VAR
+    "opcode_to_delete" = 142
+  END
+
+COPY_EXISTING ~rods04.itm~ ~override/rods04.itm~
+  WRITE_ASCII 0x10   ~~ #8
+  WRITE_LONG  0x34   14850 // price
+
+  READ_LONG  0x1e "usability"
+  WRITE_LONG 0x1e ("%usability%" BAND 544344128)
+
+  LAUNCH_PATCH_FUNCTION ~DELETE_ITEM_EQEFFECT~ INT_VAR
+    "opcode_to_delete" = 7
+  END
+
+  LAUNCH_PATCH_FUNCTION ~ALTER_ITEM_HEADER~ INT_VAR
+    header_type = 1
+    identify = 0
+    animation_overhand = 10
+    animation_backhand = 70
+    animation_thrust = 20
+  END
+
+COPY_EXISTING ~amul28.itm~ ~override/amul28.itm~
+  WRITE_LONG  0x08    6852 // item name
+  WRITE_ASCII 0x22    ~~ #2
+
+  PATCH_FOR_EACH ~opcode_number~ IN ~267~ ~101~ ~169~ BEGIN
+    LAUNCH_PATCH_FUNCTION ~DELETE_ITEM_EQEFFECT~ INT_VAR
+      "opcode_to_delete" = opcode_number
+    END
+  END
+
+  PATCH_FOR_EACH ~opcode_number~ IN ~90~ ~91~ ~0~ ~142~ BEGIN
+    LAUNCH_PATCH_FUNCTION ~ALTER_ITEM_EFFECT~
+      INT_VAR
+        check_globals = 1
+        match_opcode = opcode_number
+        resist_dispel = 0
+      STR_VAR
+        resource = ~~
+    END
+  END
+
+  LAUNCH_PATCH_FUNCTION ~ALTER_ITEM_EFFECT~
+    INT_VAR
+      check_globals = 1
+      match_opcode = 142
+      new_opcode = 21
+      parameter1 = 20
+      parameter2 = 0
+  END
+
 COPY_EXISTING ~wa2harp.itm~ ~override/wa2harp.itm~
   WRITE_LONG  0x34   56000 // price
 
