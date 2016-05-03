@@ -1443,6 +1443,7 @@ IF
   Allegiance(Myself,ENEMY)
   CheckStatGT(Myself,0,AURACLEANSING)
   See(NearestEnemyOfType([PC.0.0.DRUID_ALL]))
+  CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE1)
   InParty(LastSeenBy(Myself))
   !Class(LastSeenBy(Myself),CLERIC_ALL)
   !Class(LastSeenBy(Myself),MAGE_ALL)
@@ -1468,6 +1469,7 @@ IF
   Allegiance(Myself,ENEMY)
   CheckStatGT(Myself,0,AURACLEANSING)
   See(SecondNearestEnemyOfType([PC.0.0.DRUID_ALL]))
+  CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE1)
   !Class(LastSeenBy(Myself),CLERIC_ALL)
   !Class(LastSeenBy(Myself),MAGE_ALL)
   InParty(LastSeenBy(Myself))
@@ -1544,9 +1546,31 @@ IF
   Allegiance(Myself,ENEMY)
   !GlobalTimerNotExpired("Iainterrupter","LOCALS")
   CheckStatGT(Myself,0,AURACLEANSING)
+  See(NearestEnemyOfType([PC.0.0.MAGE_ALL]))
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
+  !CheckStat(LastSeenBy(Myself),5,SCRIPTINGSTATE7)
   OR(2)
-    See(NearestEnemyOfType([PC.0.0.MAGE_ALL]))
-    See(NearestEnemyOfType([PC.0.0.DRUID_ALL]))
+   CheckStatGT(LastSeenBy(Myself),0,AURACLEANSING)
+   CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE20)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  !HasBounceEffects(LastSeenBy(Myself))
+  GlobalLT("Ia5thlevel","LOCALS",7)
+  RandomNumGT(3,1)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Ia5thlevel","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SetGlobalTimer("Iainterrupter","LOCALS",6)
+    SpellNoDecRES("SPWI511",LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iainterrupter","LOCALS")
+  CheckStatGT(Myself,0,AURACLEANSING)
+  See(NearestEnemyOfType([PC.0.0.DRUID_ALL]))
+  CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE1)
   !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
   !StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
   !CheckStat(LastSeenBy(Myself),5,SCRIPTINGSTATE7)
@@ -1569,9 +1593,30 @@ IF
   Allegiance(Myself,ENEMY)
   !CheckStatGT(Myself,0,AURACLEANSING)
   !GlobalTimerNotExpired("Iaspell","LOCALS")
+  See(NearestEnemyOfType([PC.0.0.MAGE_ALL]))
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
+  !CheckStat(LastSeenBy(Myself),5,SCRIPTINGSTATE7)
   OR(2)
-    See(NearestEnemyOfType([PC.0.0.MAGE_ALL]))
-    See(NearestEnemyOfType([PC.0.0.DRUID_ALL]))
+   CheckStatGT(LastSeenBy(Myself),0,AURACLEANSING)
+   CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE20)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  !HasBounceEffects(LastSeenBy(Myself))
+  GlobalLT("Ia5thlevel","LOCALS",7)
+  RandomNumGT(3,1)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Ia5thlevel","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDecRES("SPWI511",LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !CheckStatGT(Myself,0,AURACLEANSING)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  See(NearestEnemyOfType([PC.0.0.DRUID_ALL]))
+  CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE1)
   !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
   !StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
   !CheckStat(LastSeenBy(Myself),5,SCRIPTINGSTATE7)
@@ -1593,9 +1638,7 @@ IF
   Allegiance(Myself,ENEMY)
   !GlobalTimerNotExpired("Iainterrupter","LOCALS")
   CheckStatGT(Myself,0,AURACLEANSING)
-  OR(2)
-    See(NearestEnemyOfType([PC.0.0.MAGE_ALL]))
-    See(NearestEnemyOfType([PC.0.0.DRUID_ALL]))
+  See(NearestEnemyOfType([PC.0.0.MAGE_ALL]))
   !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
   !StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
   !CheckStat(LastSeenBy(Myself),5,SCRIPTINGSTATE7)
@@ -1611,30 +1654,6 @@ THEN
     IncrementGlobal("Ia5thlevel","LOCALS",1)
     SetGlobalTimer("Iaspell","LOCALS",6)
     SetGlobalTimer("Iainterrupter","LOCALS",6)
-    SpellNoDecRES("SPWI511",LastSeenBy(Myself))
-END
-
-IF
-  Allegiance(Myself,ENEMY)
-  !CheckStatGT(Myself,0,AURACLEANSING)
-  !GlobalTimerNotExpired("Iaspell","LOCALS")
-  OR(2)
-    See(NearestEnemyOfType([PC.0.0.MAGE_ALL]))
-    See(NearestEnemyOfType([PC.0.0.DRUID_ALL]))
-  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-  !StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
-  !CheckStat(LastSeenBy(Myself),5,SCRIPTINGSTATE7)
-  OR(2)
-   CheckStatGT(LastSeenBy(Myself),0,AURACLEANSING)
-   CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE20)
-  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-  !HasBounceEffects(LastSeenBy(Myself))
-  GlobalLT("Ia5thlevel","LOCALS",7)
-  RandomNumGT(3,1)
-THEN
-  RESPONSE #100
-    IncrementGlobal("Ia5thlevel","LOCALS",1)
-    SetGlobalTimer("Iaspell","LOCALS",6)
     SpellNoDecRES("SPWI511",LastSeenBy(Myself))
 END
 
@@ -1642,9 +1661,8 @@ IF
   Allegiance(Myself,ENEMY)
   !GlobalTimerNotExpired("Iainterrupter","LOCALS")
   CheckStatGT(Myself,0,AURACLEANSING)
-  OR(2)
-    See(NearestEnemyOfType([PC.0.0.MAGE_ALL]))
-    See(NearestEnemyOfType([PC.0.0.DRUID_ALL]))
+  See(NearestEnemyOfType([PC.0.0.DRUID_ALL]))
+  CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE1)
   !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
   !StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
   !CheckStat(LastSeenBy(Myself),5,SCRIPTINGSTATE7)
@@ -1654,6 +1672,7 @@ IF
   !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
   !HasBounceEffects(LastSeenBy(Myself))
   GlobalLT("Ia5thlevel","LOCALS",7)
+  RandomNumGT(3,1)
 THEN
   RESPONSE #100
     IncrementGlobal("Ia5thlevel","LOCALS",1)
@@ -1666,9 +1685,52 @@ IF
   Allegiance(Myself,ENEMY)
   !CheckStatGT(Myself,0,AURACLEANSING)
   !GlobalTimerNotExpired("Iaspell","LOCALS")
+  See(NearestEnemyOfType([PC.0.0.MAGE_ALL]))
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
+  !CheckStat(LastSeenBy(Myself),5,SCRIPTINGSTATE7)
   OR(2)
-    See(NearestEnemyOfType([PC.0.0.MAGE_ALL]))
-    See(NearestEnemyOfType([PC.0.0.DRUID_ALL]))
+   CheckStatGT(LastSeenBy(Myself),0,AURACLEANSING)
+   CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE20)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  !HasBounceEffects(LastSeenBy(Myself))
+  GlobalLT("Ia5thlevel","LOCALS",7)
+  RandomNumGT(3,1)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Ia5thlevel","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDecRES("SPWI511",LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !CheckStatGT(Myself,0,AURACLEANSING)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  See(NearestEnemyOfType([PC.0.0.DRUID_ALL]))
+  CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE1)
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
+  !CheckStat(LastSeenBy(Myself),5,SCRIPTINGSTATE7)
+  OR(2)
+   CheckStatGT(LastSeenBy(Myself),0,AURACLEANSING)
+   CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE20)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  !HasBounceEffects(LastSeenBy(Myself))
+  GlobalLT("Ia5thlevel","LOCALS",7)
+  RandomNumGT(3,1)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Ia5thlevel","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDecRES("SPWI511",LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !CheckStatGT(Myself,0,AURACLEANSING)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  See(NearestEnemyOfType([PC.0.0.MAGE_ALL]))
   !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
   !StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
   !CheckStat(LastSeenBy(Myself),5,SCRIPTINGSTATE7)
@@ -1885,28 +1947,6 @@ THEN
 END
 
 // Larloch's Interrupter //
-
-IF
-  Allegiance(Myself,ENEMY)
-  CheckStatGT(Myself,0,AURACLEANSING)
-  OR(2)
-    See(NearestEnemyOfType([PC.0.0.MAGE_ALL]))
-    See(NearestEnemyOfType([PC.0.0.DRUID_ALL]))
-  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-  !StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
-  !CheckStat(LastSeenBy(Myself),5,SCRIPTINGSTATE7)
-  CheckStatGT(LastSeenBy(Myself),0,AURACLEANSING)
-  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-  !HasBounceEffects(LastSeenBy(Myself))
-  CheckStatLT(LastSeenBy(Myself),100,MAGICDAMAGERESISTANCE)
-  GlobalLT("Ia5thlevel","LOCALS",7)
-  RandomNumGT(3,1)
-THEN
-  RESPONSE #100
-    IncrementGlobal("Ia5thlevel","LOCALS",1)
-    SetGlobalTimer("Iaspell","LOCALS",6)
-    SpellNoDecRES("SPWI511",LastSeenBy(Myself))
-END
 
 IF
   Allegiance(Myself,ENEMY)
