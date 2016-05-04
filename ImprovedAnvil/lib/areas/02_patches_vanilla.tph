@@ -1,107 +1,38 @@
 // Patch area files //
 
 COPY_EXISTING ~ar0021.are~ ~override/ar0021.are~
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname"
-   PATCH_IF ("%iname%" STRING_COMPARE_CASE "Tran0082" = 0) BEGIN
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) ("%areflags%" BOR 0b00000010) // set NPCs Cannot Pass bit
-   END
-"it" = "%it%" + 1
-END
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0082~ END
 
 COPY_EXISTING ~ar0082.are~ ~override/ar0082.are~
-  WRITE_ASCII 0x94 ~ar0082~ #8 // Area Script reference
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname"
-   PATCH_IF ("%iname%" STRING_COMPARE_CASE "Tran0021" = 0) BEGIN
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) ("%areflags%" BOR 0b00000010) // set NPCs Cannot Pass bit
-   END
-"it" = "%it%" + 1
-END
-EXTEND_BOTTOM ~AR0082.BCS~ ~ImprovedAnvil\scripts\areas\AR0082.BAF~
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0021~ END
+
+  EXTEND_BOTTOM ~AR0082.BCS~ ~ImprovedAnvil\scripts\areas\AR0082.BAF~
 
 COPY_EXISTING ~ar0300.are~ ~override/ar0300.are~
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname"
-   PATCH_IF (("%iname%" STRING_COMPARE_CASE "Tran0334" = 0) OR
-	     ("%iname%" STRING_COMPARE_CASE "Tran0301" = 0)) BEGIN
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) ("%areflags%" BOR 0b00000010) // set NPCs Cannot Pass bit
-   END
-"it" = "%it%" + 1
-END
-EXTEND_BOTTOM ~AR0300.BCS~ ~ImprovedAnvil\scripts\areas\AR0300.BAF~
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0334~ END
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0301~ END
+
+  EXTEND_BOTTOM ~AR0300.BCS~ ~ImprovedAnvil\scripts\areas\AR0300.BAF~
 
 COPY_EXISTING ~ar0301.are~ ~override/ar0301.are~
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname"
-   PATCH_IF (("%iname%" STRING_COMPARE_CASE "Tran0301" = 0) OR
-	     ("%iname%" STRING_COMPARE_CASE "Tran0300" = 0)) BEGIN
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) ("%areflags%" BOR 0b00000010) // set NPCs Cannot Pass bit
-   END
-"it" = "%it%" + 1
-END
-EXTEND_TOP ~AR0301.BCS~ ~ImprovedAnvil\scripts\areas\AR0301.BAF~
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0301~ END
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0300~ END
+
+  EXTEND_TOP ~AR0301.BCS~ ~ImprovedAnvil\scripts\areas\AR0301.BAF~
 
 COPY_EXISTING ~ar0302.are~ ~override/ar0302.are~
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname"
-   PATCH_IF ("%iname%" STRING_COMPARE_CASE "Tran0301" = 0) BEGIN
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) ("%areflags%" BOR 0b00000010) // set NPCs Cannot Pass bit
-   END
-"it" = "%it%" + 1
-END
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0301~ END
 
 COPY_EXISTING ~ar0334.are~ ~override/ar0334.are~
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname"
-   PATCH_IF ("%iname%" STRING_COMPARE_CASE "Tran0300" = 0) BEGIN
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) ("%areflags%" BOR 0b00000010) // set NPCs Cannot Pass bit
-   END
-"it" = "%it%" + 1
-END
-EXTEND_TOP ~AR0334.BCS~ ~ImprovedAnvil\scripts\areas\AR0334.BAF~
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0300~ END
+
+  EXTEND_TOP ~AR0334.BCS~ ~ImprovedAnvil\scripts\areas\AR0334.BAF~
 
 COPY_EXISTING ~ar0502.are~ ~override/ar0502.are~
   LAUNCH_PATCH_FUNCTION ~ALTER_AREA_REGION~
   INT_VAR
     "flag_party_required" = 1
-	"flag_impassable_npc" = 1
+    "flag_impassable_npc" = 1
   STR_VAR
     "region_name" = ~Tran0503~
   END
@@ -192,20 +123,10 @@ COPY_EXISTING ~AR0201.ARE~ ~override/AR0201.ARE~
   READ_LONG 0xC0 "interroffset"
   WRITE_ASCII "%interroffset%" ~~ #32
   WRITE_ASCII ("%interroffset%" + 72) ~S!mummr~ #8
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname" (9)
-   PATCH_IF (("%iname%" STRING_COMPARE_CASE "Tran0206a" = 0) OR
-	    ("%iname%" STRING_COMPARE_CASE "Tran0206b" = 0)) BEGIN
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) ("%areflags%" BOR 0b00000010) // set NPCs Cannot Pass bit
-   END
-"it" = "%it%" + 1
-END
+
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0206a~ END
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0206b~ END
+
   READ_SHORT 0x64 "spcount"
   READ_LONG 0x60 "spoffset"
   SET "it" = 0
@@ -294,20 +215,10 @@ COPY_EXISTING ~AR0205.ARE~ ~override/AR0205.ARE~
 
 COPY_EXISTING ~AR0206.ARE~ ~override/AR0206.ARE~
   WRITE_ASCII 0x94 ~ar0206~ #8 // Area Script reference
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname" (9)
-   PATCH_IF (("%iname%" STRING_COMPARE_CASE "Tran0201a" = 0) OR
-	    ("%iname%" STRING_COMPARE_CASE "Tran0201b" = 0)) BEGIN
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) ("%areflags%" BOR 0b00000010) // set NPCs Cannot Pass bit
-   END
-"it" = "%it%" + 1
-END
+
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0201a~ END
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0201b~ END
+
   READ_SHORT 0x64 "spcount"
   READ_LONG 0x60 "spoffset"
   SET "it" = 0
@@ -337,65 +248,19 @@ EXTEND_BOTTOM ~AR0303.BCS~ ~ImprovedAnvil\scripts\areas\AR0303.BAF~
 
 COPY_EXISTING ~ar0310.are~ ~override/ar0310.are~
   WRITE_ASCII 0x94 ~ar0310~ #8 // Area Script reference
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname"
-   PATCH_IF ("%iname%" STRING_COMPARE_CASE "Tran0313" = 0) BEGIN
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) ("%areflags%" BOR 0b00000010) // set NPCs Cannot Pass bit
-   END
-"it" = "%it%" + 1
-END
-EXTEND_BOTTOM ~AR0310.BCS~ ~ImprovedAnvil\scripts\areas\AR0310.BAF~
+
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0313~ END
+
+  EXTEND_BOTTOM ~AR0310.BCS~ ~ImprovedAnvil\scripts\areas\AR0310.BAF~
 
 COPY_EXISTING ~ar0313.are~ ~override/ar0313.are~
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname"
-   PATCH_IF ("%iname%" STRING_COMPARE_CASE "Tran0310" = 0) BEGIN
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) ("%areflags%" BOR 0b00000010) // set NPCs Cannot Pass bit
-   END
-"it" = "%it%" + 1
-END
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0310~ END
 
 COPY_EXISTING ~ar0316.are~ ~override/ar0316.are~
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname"
-   PATCH_IF ("%iname%" STRING_COMPARE_CASE "Tran0317" = 0) BEGIN
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) ("%areflags%" BOR 0b00000010) // set NPCs Cannot Pass bit
-   END
-"it" = "%it%" + 1
-END
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0317~ END
 
 COPY_EXISTING ~ar0317.are~ ~override/ar0317.are~
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-    READ_ASCII ("%ioffset%" + "%it%" * 196) "iname"
-    PATCH_IF ("%iname%" STRING_COMPARE_CASE "Tran0316" = 0) BEGIN
-      READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-      WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-      READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) "areflags"
-      WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) ("%areflags%" BOR 0b00000010) // set NPCs Cannot Pass bit
-    END
-    "it" = "%it%" + 1
-  END
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0316~ END
 
   LAUNCH_PATCH_FUNCTION ~REPLACE_AREA_ITEM~ STR_VAR
     old_item = ~SCRL7K~
@@ -405,51 +270,16 @@ COPY_EXISTING ~ar0317.are~ ~override/ar0317.are~
   EXTEND_BOTTOM ~AR0317.BCS~ ~ImprovedAnvil\scripts\areas\AR0317.BAF~
 
 COPY_EXISTING ~ar0325.are~ ~override/ar0325.are~
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname"
-   PATCH_IF ("%iname%" STRING_COMPARE_CASE "Tran0326" = 0) BEGIN
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) ("%areflags%" BOR 0b00000010) // set NPCs Cannot Pass bit
-   END
-"it" = "%it%" + 1
-END
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0326~ END
 
 COPY_EXISTING ~ar0326.are~ ~override/ar0326.are~
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname"
-   PATCH_IF ("%iname%" STRING_COMPARE_CASE "Tran0325" = 0) BEGIN
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) ("%areflags%" BOR 0b00000010) // set NPCs Cannot Pass bit
-   END
-"it" = "%it%" + 1
-END
-EXTEND_BOTTOM ~AR0326.BCS~ ~ImprovedAnvil\scripts\areas\AR0326.BAF~
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0325~ END
+
+  EXTEND_BOTTOM ~AR0326.BCS~ ~ImprovedAnvil\scripts\areas\AR0326.BAF~
 
 // Slums
 COPY_EXISTING ~ar0400.are~ ~override/ar0400.are~
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname"
-   PATCH_IF ("%iname%" STRING_COMPARE_CASE "Tran0417" = 0) BEGIN
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) ("%areflags%" BOR 0b00000010) // set NPCs Cannot Pass bit
-   END
-"it" = "%it%" + 1
-END
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0417~ END
 
 COPY_EXISTING ~ar0404.ARE~ ~override/ar0404.ARE~
   READ_SHORT 0x64 "spcount"
@@ -466,20 +296,9 @@ COPY_EXISTING ~ar0404.ARE~ ~override/ar0404.ARE~
 END
 
 COPY_EXISTING ~ar0405.are~ ~override/ar0405.are~
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname"
-   PATCH_IF ("%iname%" STRING_COMPARE_CASE "Tran0404" = 0) BEGIN
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) ("%areflags%" BOR 0b00000010) // set NPCs Cannot Pass bit
-   END
-"it" = "%it%" + 1
-END
-EXTEND_BOTTOM ~AR0405.BCS~ ~ImprovedAnvil\scripts\areas\AR0405.BAF~
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0404~ END
+
+  EXTEND_BOTTOM ~AR0405.BCS~ ~ImprovedAnvil\scripts\areas\AR0405.BAF~
 
 COPY_EXISTING ~ar0411.are~ ~override/ar0411.are~
  READ_SHORT 0x5A "icount"
@@ -511,64 +330,23 @@ COPY_EXISTING ~AR0414.ARE~ ~override/AR0414.ARE~
   WRITE_ASCII ("%interroffset%" + 72) ~S!maurez~ #8
 
 COPY_EXISTING ~ar0417.are~ ~override/ar0417.are~
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname"
-   PATCH_IF ("%iname%" STRING_COMPARE_CASE "Tran0400" = 0) BEGIN
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) ("%areflags%" BOR 0b00000010) // set NPCs Cannot Pass bit
-   END
-"it" = "%it%" + 1
-END
-EXTEND_BOTTOM ~AR0417.BCS~ ~ImprovedAnvil\scripts\areas\AR0417.BAF~
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0400~ END
+
+  EXTEND_BOTTOM ~AR0417.BCS~ ~ImprovedAnvil\scripts\areas\AR0417.BAF~
 
 // Bridge district
 COPY_EXISTING ~AR0500.ARE~ ~override/AR0500.ARE~
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname"
-   PATCH_IF (("%iname%" STRING_COMPARE_CASE "Tran0506" = 0) OR
-	    ("%iname%" STRING_COMPARE_CASE "Tran0530" = 0)) BEGIN
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-   END
-"it" = "%it%" + 1
-END
+  LPF set_default_transition_flags INT_VAR npc_cannot_pass = 0 STR_VAR region_name = ~Tran0506~ END
+  LPF set_default_transition_flags INT_VAR npc_cannot_pass = 0 STR_VAR region_name = ~Tran0530~ END
 
 COPY_EXISTING ~AR0506.ARE~ ~override/AR0506.ARE~
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname" (9)
-   PATCH_IF (("%iname%" STRING_COMPARE_CASE "Tran0500a" = 0) OR
-	    ("%iname%" STRING_COMPARE_CASE "Tran0500b" = 0)) BEGIN
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-   END
-"it" = "%it%" + 1
-END
-EXTEND_BOTTOM ~AR0506.BCS~ ~ImprovedAnvil\scripts\areas\AR0506.BAF~
+  LPF set_default_transition_flags INT_VAR npc_cannot_pass = 0 STR_VAR region_name = ~Tran0500a~ END
+  LPF set_default_transition_flags INT_VAR npc_cannot_pass = 0 STR_VAR region_name = ~Tran0500b~ END
+  EXTEND_BOTTOM ~AR0506.BCS~ ~ImprovedAnvil\scripts\areas\AR0506.BAF~
 
 COPY_EXISTING ~AR0511.ARE~ ~override/AR0511.ARE~
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname"
-   PATCH_IF (("%iname%" STRING_COMPARE_CASE "Tran0522" = 0) OR
-	    ("%iname%" STRING_COMPARE_CASE "Tran0509" = 0)) BEGIN
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) ("%areflags%" BOR 0b00000010) // set NPCs Cannot Pass bit
-   END
-"it" = "%it%" + 1
-END
+  LPF set_default_transition_flags INT_VAR party_required = 0 STR_VAR region_name = ~Tran0522~ END
+  LPF set_default_transition_flags INT_VAR party_required = 0 STR_VAR region_name = ~Tran0509~ END
 
 COPY_EXISTING ~AR0516.ARE~ ~override/AR0516.are~
   READ_LONG 0xC0 "interroffset"
@@ -581,55 +359,22 @@ COPY_EXISTING ~AR0516.ARE~ ~override/AR0516.are~
 END
 
 COPY_EXISTING ~ar0525.are~ ~override/ar0525.are~
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname"
-   PATCH_IF ("%iname%" STRING_COMPARE_CASE "Tran0526" = 0) BEGIN
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) ("%areflags%" BOR 0b00000010) // set NPCs Cannot Pass bit
-   END
-"it" = "%it%" + 1
-END
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0526~ END
 
 COPY_EXISTING ~ar0526.are~ ~override/ar0526.are~
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname"
-   PATCH_IF ("%iname%" STRING_COMPARE_CASE "Tran0525" = 0) BEGIN
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) ("%areflags%" BOR 0b00000010) // set NPCs Cannot Pass bit
-   END
-"it" = "%it%" + 1
-END
-EXTEND_BOTTOM ~AR0526.BCS~ ~ImprovedAnvil\scripts\areas\AR0526.BAF~
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0525~ END
+
+  EXTEND_BOTTOM ~AR0526.BCS~ ~ImprovedAnvil\scripts\areas\AR0526.BAF~
 
 COPY_EXISTING ~ar0530.are~ ~override/ar0530.are~
   READ_LONG 0xBC "song-offset"
   WRITE_LONG "%song-offset%" 0
   WRITE_LONG ("%song-offset%" + 4) 0
   WRITE_LONG ("%song-offset%" + 12) 51
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname"
-   PATCH_IF ("%iname%" STRING_COMPARE_CASE "Tran0500" = 0) BEGIN
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) ("%areflags%" BOR 0b00000010) // set NPCs Cannot Pass bit
-   END
-"it" = "%it%" + 1
-END
-EXTEND_BOTTOM ~AR0530.BCS~ ~ImprovedAnvil\scripts\areas\AR0530.BAF~
+
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0500~ END
+
+  EXTEND_BOTTOM ~AR0530.BCS~ ~ImprovedAnvil\scripts\areas\AR0530.BAF~
 
 COPY_EXISTING ~AR0602.ARE~ ~override/AR0602.ARE~
   READ_SHORT 0x64 "spcount"
@@ -734,19 +479,7 @@ COPY_EXISTING ~ar0701.are~ ~override/ar0701.are~
 END
 
 COPY_EXISTING ~ar0709.are~ ~override/ar0709.are~
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname"
-   PATCH_IF ("%iname%" STRING_COMPARE_CASE "Tran0712" = 0) BEGIN
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) ("%areflags%" BOR 0b00000010) // set NPCs Cannot Pass bit
-   END
-"it" = "%it%" + 1
-END
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0712~ END
 
 COPY_EXISTING ~ar0705.are~ ~override/ar0705.are~
  READ_SHORT 0x5A "icount"
@@ -772,33 +505,13 @@ COPY_EXISTING ~ar0705.are~ ~override/ar0705.are~
 
 COPY_EXISTING ~ar0712.are~ ~override/ar0712.are~
   WRITE_ASCII 0x94 ~ar0712~ #8 // Area Script reference
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname"
-   PATCH_IF ("%iname%" STRING_COMPARE_CASE "Tran0709" = 0) BEGIN
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) ("%areflags%" BOR 0b00000010) // set NPCs Cannot Pass bit
-   END
-"it" = "%it%" + 1
-END
-EXTEND_TOP ~AR0712.BCS~ ~ImprovedAnvil\scripts\areas\AR0712.BAF~
+
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0709~ END
+
+  EXTEND_TOP ~AR0712.BCS~ ~ImprovedAnvil\scripts\areas\AR0712.BAF~
 
 COPY_EXISTING ~ar0800.are~ ~override/ar0800.are~
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname"
-   PATCH_IF ("%iname%" STRING_COMPARE_CASE "Tran0806" = 0) BEGIN
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-   END
-"it" = "%it%" + 1
-END
+  LPF set_default_transition_flags INT_VAR npc_cannot_pass = 0 STR_VAR region_name = ~Tran0806~ END
 
 COPY_EXISTING ~AR0801.ARE~ ~override/AR0801.ARE~
   READ_SHORT 0x64 "spcount"
@@ -870,18 +583,10 @@ END
 
 COPY_EXISTING ~ar0806.are~ ~override/ar0806.are~
   WRITE_ASCII 0x94 ~ar0806~ #8 // Area Script reference
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname"
-   PATCH_IF ("%iname%" STRING_COMPARE_CASE "Tran0800" = 0) BEGIN
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-   END
-"it" = "%it%" + 1
-END
-EXTEND_BOTTOM ~AR0806.BCS~ ~ImprovedAnvil\scripts\areas\AR0806.BAF~
+
+  LPF set_default_transition_flags INT_VAR npc_cannot_pass = 0 STR_VAR region_name = ~Tran0800~ END
+
+  EXTEND_BOTTOM ~AR0806.BCS~ ~ImprovedAnvil\scripts\areas\AR0806.BAF~
 
 COPY_EXISTING ~AR0808.ARE~ ~override/AR0808.are~
   READ_LONG 0xC0 "interroffset"
@@ -902,21 +607,8 @@ COPY_EXISTING ~AR0808.ARE~ ~override/AR0808.are~
 
 // Guarded Compound, level 2
 COPY_EXISTING ~AR0907.ARE~ ~override/AR0907.are~
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-    READ_ASCII ("%ioffset%" + "%it%" * 196) "iname" (9)
-    PATCH_IF (("%iname%" STRING_COMPARE_CASE "Tran0906a" = 0) OR
-              ("%iname%" STRING_COMPARE_CASE "Tran0906b" = 0))
-    BEGIN
-      READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-      WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-      READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) "areflags"
-      WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) ("%areflags%" BOR 0b00000010) // set NPCs Cannot Pass bit
-    END
-    "it" = "%it%" + 1
-  END
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0906a~ END
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0906b~ END
 
   PATCH_FOR_EACH ~item_to_delete~ IN ~sper06~ BEGIN
     LAUNCH_PATCH_MACRO ~DELETE_AREA_ITEM~
@@ -925,21 +617,11 @@ COPY_EXISTING ~AR0907.ARE~ ~override/AR0907.are~
   EXTEND_TOP ~AR0907.BCS~ ~ImprovedAnvil\scripts\areas\AR0907.BAF~
 
 COPY_EXISTING ~ar1100.are~ ~override/ar1100.are~
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname"
-   PATCH_IF (("%iname%" STRING_COMPARE_CASE "Tran1106" = 0) OR
-             ("%iname%" STRING_COMPARE_CASE "Tran1103" = 0) OR
-             ("%iname%" STRING_COMPARE_CASE "Tran1107" = 0)) BEGIN
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) ("%areflags%" BOR 0b00000010) // set NPCs Cannot Pass bit
-   END
-"it" = "%it%" + 1
-END
+
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran1106~ END
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran1103~ END
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran1107~ END
+
   READ_SHORT 0x64 "spcount"
   READ_LONG 0x60 "spoffset"
   SET "it" = 0
@@ -958,52 +640,23 @@ COPY_EXISTING ~ar1101.are~ ~override/ar1101.are~
 
 COPY_EXISTING ~ar1103.are~ ~override/ar1103.are~
   WRITE_ASCII 0x94 ~ar1103~ #8 // Area Script reference
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname"
-   PATCH_IF ("%iname%" STRING_COMPARE_CASE "Tran1100" = 0) BEGIN
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-   END
-"it" = "%it%" + 1
-END
-EXTEND_BOTTOM ~AR1103.BCS~ ~ImprovedAnvil\scripts\areas\AR1103.BAF~
+
+  LPF set_default_transition_flags INT_VAR npc_cannot_pass = 0 STR_VAR region_name = ~Tran1100~ END
+
+  EXTEND_BOTTOM ~AR1103.BCS~ ~ImprovedAnvil\scripts\areas\AR1103.BAF~
 
 COPY_EXISTING ~ar1106.are~ ~override/ar1106.are~
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname"
-   PATCH_IF ("%iname%" STRING_COMPARE_CASE "Tran1100" = 0) BEGIN
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) ("%areflags%" BOR 0b00000010) // set NPCs Cannot Pass bit
-   END
-"it" = "%it%" + 1
-END
-EXTEND_TOP ~AR1106.BCS~ ~ImprovedAnvil\scripts\areas\AR1106.BAF~
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran1100~ END
+
+  EXTEND_TOP ~AR1106.BCS~ ~ImprovedAnvil\scripts\areas\AR1106.BAF~
 
 COPY_EXISTING ~ar1202.are~ ~override/ar1202.are~
   READ_LONG 0xC0 "interroffset"
   WRITE_ASCII ("%interroffset%" + 72) ~S!shadfi~ #8
   WRITE_ASCII ("%interroffset%" + 80) ~S!skeld~ #8
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname"
-   PATCH_IF ("%iname%" STRING_COMPARE_CASE "Tran1201" = 0) BEGIN
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) ("%areflags%" BOR 0b00000010) // set NPCs Cannot Pass bit
-   END
-"it" = "%it%" + 1
-END
+
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran1201~ END
+
   READ_LONG 0xA4 "dcount"
   READ_LONG 0xA8 "doffset"
   SET "it" = 0
@@ -1083,19 +736,8 @@ END
 EXTEND_TOP ~AR1202.BCS~ ~ImprovedAnvil\scripts\areas\AR1202.BAF~
 
 COPY_EXISTING ~AR1300.ARE~ ~override/AR1300.ARE~
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname" (9)
-   PATCH_IF ("%iname%" STRING_COMPARE_CASE "Tran1302a" = 0) BEGIN
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) ("%areflags%" BOR 0b00000010) // set NPCs Cannot Pass bit
-   END
-"it" = "%it%" + 1
-END
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran1302a~ END
+
   READ_SHORT 0x64 "spcount"
   READ_LONG 0x60 "spoffset"
   SET "it" = 0
@@ -1129,20 +771,10 @@ COPY_EXISTING ~ar1301.are~ ~override/ar1301.are~
 COPY_EXISTING ~AR1302.ARE~ ~override/AR1302.ARE~
   READ_LONG 0xC0 "interroffset"
   WRITE_ASCII ("%interroffset%" + 72) ~S!icyuan~ #8
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname" (9)
-   PATCH_IF (("%iname%" STRING_COMPARE_CASE "Tran1300b" = 0) OR
-	     ("%iname%" STRING_COMPARE_CASE "Tran1300c" = 0)) BEGIN
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) ("%areflags%" BOR 0b00000010) // set NPCs Cannot Pass bit
-   END
-"it" = "%it%" + 1
-END
+
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran1300b~ END
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran1300c~ END
+
   READ_SHORT 0x64 "spcount"
   READ_LONG 0x60 "spoffset"
   SET "it" = 0
@@ -1157,20 +789,9 @@ END
 EXTEND_BOTTOM ~AR1302.BCS~ ~ImprovedAnvil\scripts\areas\AR1302.BAF~
 
 COPY_EXISTING ~AR1303.are~ ~override/AR1303.are~
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname"
-   PATCH_IF (("%iname%" STRING_COMPARE_CASE "Tran1301" = 0) OR
-             ("%iname%" STRING_COMPARE_CASE "Tran1302" = 0)) BEGIN
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) ("%areflags%" BOR 0b00000010) // set NPCs Cannot Pass bit
-   END
-"it" = "%it%" + 1
-END
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran1301~ END
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran1301~ END
+
   READ_SHORT 0x64 "spcount"
   READ_LONG 0x60 "spoffset"
   SET "it" = 0
@@ -1426,36 +1047,14 @@ COPY_EXISTING ~AR1515.ARE~ ~override/AR1515.ARE~
 END
 
 COPY_EXISTING ~ar1600.are~ ~override/ar1600.are~
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname"
-   PATCH_IF ("%iname%" STRING_COMPARE_CASE "Tran1605" = 0) BEGIN
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) ("%areflags%" BOR 0b00000010) // set NPCs Cannot Pass bit
-   END
-"it" = "%it%" + 1
-END
-EXTEND_BOTTOM ~AR1600.BCS~ ~ImprovedAnvil\scripts\areas\AR1600.BAF~
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran1605~ END
+
+  EXTEND_BOTTOM ~AR1600.BCS~ ~ImprovedAnvil\scripts\areas\AR1600.BAF~
 
 COPY_EXISTING ~ar1605.are~ ~override/ar1605.are~
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname"
-   PATCH_IF ("%iname%" STRING_COMPARE_CASE "Tran1600" = 0) BEGIN
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) ("%areflags%" BOR 0b00000010) // set NPCs Cannot Pass bit
-   END
-"it" = "%it%" + 1
-END
-EXTEND_BOTTOM ~AR1605.BCS~ ~ImprovedAnvil\scripts\areas\AR1605.BAF~
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran1600~ END
+
+  EXTEND_BOTTOM ~AR1605.BCS~ ~ImprovedAnvil\scripts\areas\AR1605.BAF~
 
 COPY_EXISTING ~AR1700.ARE~ ~override/AR1700.ARE~
   READ_SHORT 0x64 "spcount"
@@ -1510,19 +1109,8 @@ END
 END
 
 COPY_EXISTING ~ar1900.are~ ~override/ar1900.are~
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname"
-   PATCH_IF ("%iname%" STRING_COMPARE_CASE "Tran1904" = 0) BEGIN
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) ("%areflags%" BOR 0b00000010) // set NPCs Cannot Pass bit
-   END
-"it" = "%it%" + 1
-END
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran1904~ END
+
   READ_SHORT 0x64 "spcount"
   READ_LONG 0x60 "spoffset"
   SET "it" = 0
@@ -1548,69 +1136,26 @@ EXTEND_BOTTOM ~AR1900.BCS~ ~ImprovedAnvil\scripts\areas\AR1900.BAF~
 
 COPY_EXISTING ~ar1904.are~ ~override/ar1904.are~
   WRITE_ASCII 0x94 ~ar1904~ #8 // Area Script reference
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname"
-   PATCH_IF ("%iname%" STRING_COMPARE_CASE "AR1900" = 0) BEGIN
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) ("%areflags%" BOR 0b00000010) // set NPCs Cannot Pass bit
-   END
-"it" = "%it%" + 1
-END
-COMPILE ~ImprovedAnvil\scripts\areas\AR1904.BAF~
+
+  LPF set_default_transition_flags STR_VAR region_name = ~AR1900~ END
+
+  COMPILE ~ImprovedAnvil\scripts\areas\AR1904.BAF~
 
 COPY_EXISTING ~ar2000.are~ ~override/ar2000.are~
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname"
-   PATCH_IF (("%iname%" STRING_COMPARE_CASE "Tran2013" = 0) OR
-             ("%iname%" STRING_COMPARE_CASE "Tran2002" = 0)) BEGIN
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) ("%areflags%" BOR 0b00000010) // set NPCs Cannot Pass bit
-   END
-"it" = "%it%" + 1
-END
-EXTEND_BOTTOM ~AR2000.BCS~ ~ImprovedAnvil\scripts\areas\AR2000.BAF~
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran2013~ END
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran2002~ END
+
+  EXTEND_BOTTOM ~AR2000.BCS~ ~ImprovedAnvil\scripts\areas\AR2000.BAF~
 
 COPY_EXISTING ~ar2002.are~ ~override/ar2002.are~
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname"
-   PATCH_IF ("%iname%" STRING_COMPARE_CASE "Tran2000" = 0) BEGIN
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) ("%areflags%" BOR 0b00000010) // set NPCs Cannot Pass bit
-   END
-"it" = "%it%" + 1
-END
-EXTEND_TOP ~AR2002.BCS~ ~ImprovedAnvil\scripts\areas\AR2002.BAF~
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran2000~ END
+
+  EXTEND_TOP ~AR2002.BCS~ ~ImprovedAnvil\scripts\areas\AR2002.BAF~
 
 COPY_EXISTING ~ar2013.are~ ~override/ar2013.are~
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname"
-   PATCH_IF ("%iname%" STRING_COMPARE_CASE "Tran2000" = 0) BEGIN
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) ("%areflags%" BOR 0b00000010) // set NPCs Cannot Pass bit
-   END
-"it" = "%it%" + 1
-END
-EXTEND_BOTTOM ~AR2013.BCS~ ~ImprovedAnvil\scripts\areas\AR2013.BAF~
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran2000~ END
+
+  EXTEND_BOTTOM ~AR2013.BCS~ ~ImprovedAnvil\scripts\areas\AR2013.BAF~
 
 COPY_EXISTING ~AR2100.ARE~ ~override/AR2100.are~
   READ_LONG 0xC0 "interroffset"
@@ -1656,21 +1201,10 @@ END
 END
 
 COPY_EXISTING ~AR2200.ARE~ ~override/ar2200.are~
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname" (9)
-   PATCH_IF (("%iname%" STRING_COMPARE_CASE "Tran2210a" = 0) OR
-	    ("%iname%" STRING_COMPARE_CASE "Tran2210b" = 0)) BEGIN
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) ("%areflags%" BOR 0b00000010) // set NPCs Cannot Pass bit
-   END
-"it" = "%it%" + 1
-END
-EXTEND_BOTTOM ~AR2200.BCS~ ~ImprovedAnvil\scripts\areas\AR2200.BAF~
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran2210a~ END
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran2210b~ END
+
+  EXTEND_BOTTOM ~AR2200.BCS~ ~ImprovedAnvil\scripts\areas\AR2200.BAF~
 
 // Jae'llat's House
 COPY_EXISTING ~AR2209.ARE~ ~override/ar2209.are~
@@ -1680,20 +1214,9 @@ COPY_EXISTING ~AR2209.ARE~ ~override/ar2209.are~
 // Deirex's Cave
 COPY_EXISTING ~AR2210.ARE~ ~override/ar2210.are~
   WRITE_ASCII 0x94 ~ar2210~ #8 // Area Script reference
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-    READ_ASCII ("%ioffset%" + "%it%" * 196) "iname" (9)
-    PATCH_IF (("%iname%" STRING_COMPARE_CASE "Tran2200a" = 0) OR
-              ("%iname%" STRING_COMPARE_CASE "Tran2200b" = 0)) BEGIN
-      READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-      WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-      READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) "areflags"
-      WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) ("%areflags%" BOR 0b00000010) // set NPCs Cannot Pass bit
-    END
-    "it" = "%it%" + 1
-  END
+
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran2200a~ END
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran2200b~ END
 
   PATCH_FOR_EACH ~item_to_delete~ IN ~sper06~ BEGIN
     LAUNCH_PATCH_MACRO ~DELETE_AREA_ITEM~
@@ -1811,17 +1334,8 @@ END
 EXTEND_TOP ~AR2402.BCS~ ~ImprovedAnvil\scripts\areas\AR2402.BAF~
 
 COPY_EXISTING ~ar2600.are~ ~override/ar2600.are~
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname"
-   PATCH_IF ("%iname%" STRING_COMPARE_CASE "Tran2602" = 0) BEGIN
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-   END
-"it" = "%it%" + 1
-END
+  LPF set_default_transition_flags INT_VAR npc_cannot_pass = 0 STR_VAR region_name = ~Tran2602~ END
+
   READ_SHORT 0x64 "spcount"
   READ_LONG 0x60 "spoffset"
   SET "it" = 0
@@ -1876,17 +1390,9 @@ END
 COPY_EXISTING ~AR2602.ARE~ ~override/AR2602.ARE~
   READ_LONG 0xC0 "interroffset"
   WRITE_ASCII ("%interroffset%" + 72) ~S!wolfwe~ #8
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname"
-   PATCH_IF ("%iname%" STRING_COMPARE_CASE "Tran2600" = 0) BEGIN
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-   END
-"it" = "%it%" + 1
-END
+
+  LPF set_default_transition_flags INT_VAR npc_cannot_pass = 0 STR_VAR region_name = ~Tran2600~ END
+
   READ_SHORT 0x64 "spcount"
   READ_LONG 0x60 "spoffset"
   SET "it" = 0
@@ -1903,22 +1409,12 @@ COPY_EXISTING ~ar2800.are~ ~override/ar2800.are~
   READ_LONG 0xC0 "interroffset"
   WRITE_ASCII ("%interroffset%" + 72) ~S!coinra~ #8
   WRITE_ASCII ("%interroffset%" + 80) ~S!gemran~ #8
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname"
-   PATCH_IF (("%iname%" STRING_COMPARE_CASE "Tran2807" = 0) OR
-             ("%iname%" STRING_COMPARE_CASE "Tran2811" = 0) OR
-             ("%iname%" STRING_COMPARE_CASE "Tran2810" = 0) OR
-             ("%iname%" STRING_COMPARE_CASE "Tran2802" = 0)) BEGIN
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) ("%areflags%" BOR 0b00000010) // set NPCs Cannot Pass bit
-   END
-"it" = "%it%" + 1
-END
+
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran2807~ END
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran2811~ END
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran2810~ END
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran2802~ END
+
   READ_LONG 0xA4 "dcount"
   READ_LONG 0xA8 "doffset"
   SET "it" = 0
@@ -1934,19 +1430,7 @@ END
 END
 
 COPY_EXISTING ~ar2802.are~ ~override/ar2802.are~
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname"
-   PATCH_IF ("%iname%" STRING_COMPARE_CASE "Tran2800" = 0) BEGIN
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) ("%areflags%" BOR 0b00000010) // set NPCs Cannot Pass bit
-   END
-"it" = "%it%" + 1
-END
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran2800~ END
 
 COPY_EXISTING ~ar2806.are~ ~override/ar2806.are~
  READ_SHORT 0x5A "icount"
@@ -1964,52 +1448,22 @@ COPY_EXISTING ~ar2806.are~ ~override/ar2806.are~
 END
 
 COPY_EXISTING ~ar2807.are~ ~override/ar2807.are~
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname"
-   PATCH_IF ("%iname%" STRING_COMPARE_CASE "Tran2800" = 0) BEGIN
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) ("%areflags%" BOR 0b00000010) // set NPCs Cannot Pass bit
-   END
-"it" = "%it%" + 1
-END
-EXTEND_TOP ~AR2807.BCS~ ~ImprovedAnvil\scripts\areas\AR2807.BAF~
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran2800~ END
+
+  EXTEND_TOP ~AR2807.BCS~ ~ImprovedAnvil\scripts\areas\AR2807.BAF~
 
 COPY_EXISTING ~AR2811.are~ ~override/AR2811.are~
   WRITE_ASCII 0x94 ~AR2811~ #8 // Area Script reference
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname"
-   PATCH_IF ("%iname%" STRING_COMPARE_CASE "Tran2800" = 0) BEGIN
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) ("%areflags%" BOR 0b00000010) // set NPCs Cannot Pass bit
-   END
-"it" = "%it%" + 1
-END
-EXTEND_BOTTOM ~AR2811.BCS~ ~ImprovedAnvil\scripts\areas\AR2811.BAF~
+
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran2800~ END
+
+  EXTEND_BOTTOM ~AR2811.BCS~ ~ImprovedAnvil\scripts\areas\AR2811.BAF~
 
 COPY_EXISTING ~AR3000.ARE~ ~override/AR3000.ARE~
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname" (9)
-   PATCH_IF (("%iname%" STRING_COMPARE_CASE "Tran3000a" = 0) OR
-	    ("%iname%" STRING_COMPARE_CASE "Tran3000b" = 0)) BEGIN
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-   END
-"it" = "%it%" + 1
-END
-EXTEND_TOP ~AR3000.BCS~ ~ImprovedAnvil\scripts\areas\AR3000.BAF~
+  LPF set_default_transition_flags INT_VAR npc_cannot_pass = 0 STR_VAR region_name = ~Tran3000a~ END
+  LPF set_default_transition_flags INT_VAR npc_cannot_pass = 0 STR_VAR region_name = ~Tran3000b~ END
+
+  EXTEND_TOP ~AR3000.BCS~ ~ImprovedAnvil\scripts\areas\AR3000.BAF~
 
 COPY_EXISTING ~AR3001.ARE~ ~override/AR3001.ARE~
   READ_SHORT 0x64 "spcount"
@@ -2188,19 +1642,8 @@ END
 END
 
 COPY_EXISTING ~ar3017.are~ ~override/ar3017.are~
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname"
-   PATCH_IF ("%iname%" STRING_COMPARE_CASE "Tran3022" = 0) BEGIN
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) ("%areflags%" BOR 0b00000010) // set NPCs Cannot Pass bit
-   END
-"it" = "%it%" + 1
-END
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran3022~ END
+
   READ_SHORT 0x64 "spcount"
   READ_LONG 0x60 "spoffset"
   SET "it" = 0
@@ -2292,37 +1735,15 @@ COPY_EXISTING ~ar3022.are~ ~override/ar3022.are~
   READ_LONG 0xC0 "interroffset"
   WRITE_ASCII "%interroffset%" ~~ #32
   WRITE_ASCII ("%interroffset%" + 72) ~S!gemran~ #8
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname"
-   PATCH_IF (("%iname%" STRING_COMPARE_CASE "Tran3027" = 0) OR
-             ("%iname%" STRING_COMPARE_CASE "Tran3017" = 0)) BEGIN
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) ("%areflags%" BOR 0b00000010) // set NPCs Cannot Pass bit
-   END
-"it" = "%it%" + 1
-END
-EXTEND_BOTTOM ~AR3022.BCS~ ~ImprovedAnvil\scripts\areas\AR3022.BAF~
+
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran3027~ END
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran3017~ END
+
+  EXTEND_BOTTOM ~AR3022.BCS~ ~ImprovedAnvil\scripts\areas\AR3022.BAF~
 
 COPY_EXISTING ~ar3027.are~ ~override/ar3027.are~
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname"
-   PATCH_IF ("%iname%" STRING_COMPARE_CASE "Tran3022" = 0) BEGIN
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) ("%areflags%" BOR 0b00000010) // set NPCs Cannot Pass bit
-   END
-"it" = "%it%" + 1
-END
-EXTEND_BOTTOM ~AR3027.BCS~ ~ImprovedAnvil\scripts\areas\AR3027.BAF~
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran3022~ END
+  EXTEND_BOTTOM ~AR3027.BCS~ ~ImprovedAnvil\scripts\areas\AR3027.BAF~
 
 COPY_EXISTING ~AR5002.ARE~ ~override/AR5002.are~
   READ_LONG 0x54 "actoroffset"
@@ -2380,19 +1801,8 @@ COPY_EXISTING ~ar5201.are~ ~override/ar5201.are~
   WRITE_ASCII ("%interroffset%" + 72) ~rdfire1~ #8
   READ_SHORT ("%interroffset%" + 152) "crecount"
   WRITE_SHORT ("%interroffset%" + 152) 1
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname"
-   PATCH_IF ("%iname%" STRING_COMPARE_CASE "Tran5204" = 0) BEGIN
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) ("%areflags%" BOR 0b00000010) // set NPCs Cannot Pass bit
-   END
-"it" = "%it%" + 1
-END
+
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran5204~ END
 
 COPY_EXISTING ~ar5202.are~ ~override/ar5202.are~
   READ_LONG 0xC0 "interroffset"
@@ -2414,25 +1824,15 @@ COPY_EXISTING ~ar5202.are~ ~override/ar5202.are~
 END
 
 COPY_EXISTING ~ar5204.are~ ~override/ar5204.are~
-  READ_LONG 0xC0 "interroffset"
-  WRITE_ASCII "%interroffset%" ~~ #32
-  WRITE_ASCII ("%interroffset%" + 72) ~rdfire1~ #8
-  READ_SHORT ("%interroffset%" + 152) "crecount"
+  READ_LONG   0xC0 "interroffset"
+  WRITE_ASCII "%interroffset%"         ~~        #32
+  WRITE_ASCII ("%interroffset%" + 72)  ~rdfire1~ #8
+  READ_SHORT  ("%interroffset%" + 152) "crecount"
   WRITE_SHORT ("%interroffset%" + 152) 1
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname"
-   PATCH_IF ("%iname%" STRING_COMPARE_CASE "Tran5201" = 0) BEGIN
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) ("%areflags%" BOR 0b00000010) // set NPCs Cannot Pass bit
-   END
-"it" = "%it%" + 1
-END
-EXTEND_BOTTOM ~AR5204.BCS~ ~ImprovedAnvil\scripts\areas\AR5204.BAF~
+
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran5201~ END
+
+  EXTEND_BOTTOM ~AR5204.BCS~ ~ImprovedAnvil\scripts\areas\AR5204.BAF~
 
 COPY_EXISTING ~ar6000.are~ ~override/ar6000.are~
   READ_LONG 0xC0 "interroffset"
@@ -2586,40 +1986,17 @@ EXTEND_BOTTOM ~AR0412.BCS~ ~ImprovedAnvil\scripts\areas\AR0412.BAF~
 
 COPY_EXISTING ~ar3018.are~ ~override/ar3018.are~
   WRITE_ASCII 0x94 ~ar3018~ #8 // Area Script reference
-EXTEND_BOTTOM ~ar3018.BCS~ ~ImprovedAnvil\scripts\areas\ar3018.BAF~
+  EXTEND_BOTTOM ~ar3018.BCS~ ~ImprovedAnvil\scripts\areas\ar3018.BAF~
 
 COPY_EXISTING ~ar1107.are~ ~override/ar1107.are~
   WRITE_ASCII 0x94 ~ar1107~ #8 // Area Script reference
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname"
-   PATCH_IF ("%iname%" STRING_COMPARE_CASE "Tran1100" = 0) BEGIN
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) ("%areflags%" BOR 0b00000010) // set NPCs Cannot Pass bit
-   END
-"it" = "%it%" + 1
-END
-EXTEND_BOTTOM ~ar1107.BCS~ ~ImprovedAnvil\scripts\areas\ar1107.BAF~
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran1100~ END
+  EXTEND_BOTTOM ~ar1107.BCS~ ~ImprovedAnvil\scripts\areas\ar1107.BAF~
 
 // Bridge district
 COPY_EXISTING ~AR0500.ARE~ ~override/AR0500.ARE~
-  READ_SHORT 0x5A "icount"
-  READ_LONG 0x5C "ioffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%icount%") BEGIN
-   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname" (9)
-   PATCH_IF ("%iname%" STRING_COMPARE_CASE "Tran0506b" = 0) BEGIN
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
-    READ_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) "areflags"
-    WRITE_BYTE ("%ioffset%" + ("%it%" * 196) + 0x61) ("%areflags%" BOR 0b00000010) // set NPCs Cannot Pass bit
-   END
-"it" = "%it%" + 1
-END
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0506b~ END
+  BUT_ONLY
 
 COPY_EXISTING ~AR2808.ARE~ ~override/AR2808.ARE~
   LAUNCH_PATCH_FUNCTION ~REPLACE_AREA_ITEM~ STR_VAR
@@ -2651,58 +2028,3 @@ COPY_EXISTING ~AR0803.ARE~ ~override/AR0803.ARE~
     old_item = ~SW1H55~
     new_item = ~SW1H75~
   END
-
-ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
-  // Red Wizard Enclave
-  COPY_EXISTING ~OH6300.ARE~ ~override/OH6300.ARE~
-    PATCH_FOR_EACH ~item_to_delete~ IN ~clck01~ ~misc45~ ~wand06~ ~scrl7s~ ~scrl8r~ BEGIN
-      LAUNCH_PATCH_MACRO ~DELETE_AREA_ITEM~
-    END
-
-  // Deepstone Clanhold, Exterior
-  COPY_EXISTING ~OH4200.ARE~ ~override/OH4200.ARE~
-    PATCH_FOR_EACH ~item_to_delete~ IN ~potn11~ ~potn35~ BEGIN
-      LAUNCH_PATCH_MACRO ~DELETE_AREA_ITEM~
-    END
-
-  // Deepstone Clanhold
-  COPY_EXISTING ~OH4210.ARE~ ~override/OH4210.ARE~
-    PATCH_FOR_EACH ~item_to_delete~ IN ~potn04~ BEGIN
-      LAUNCH_PATCH_MACRO ~DELETE_AREA_ITEM~
-    END
-
-  // Deepstone Mines
-  COPY_EXISTING ~OH4220.ARE~ ~override/OH4220.ARE~
-      READ_LONG 0xC0 "interroffset"
-      WRITE_ASCII ("%interroffset%" + 72) ~S!umbhu2~ #8
-      WRITE_ASCII ("%interroffset%" + 80) ~S!umbhu2~ #8
-
-  // Dragomir's Tomb
-  COPY_EXISTING ~OH7000.ARE~ ~override/OH7000.ARE~
-      PATCH_FOR_EACH ~item_to_delete~ IN ~scrl09~ BEGIN
-        LAUNCH_PATCH_MACRO ~DELETE_AREA_ITEM~
-      END
-
-  // Crypt of Durkon
-  COPY_EXISTING ~OH7100.ARE~ ~override/OH7100.ARE~
-      PATCH_FOR_EACH ~item_to_delete~ IN ~amul23~ ~amul05~ BEGIN
-        LAUNCH_PATCH_MACRO ~DELETE_AREA_ITEM~
-      END
-
-  // Tomb of the Unproved
-  COPY_EXISTING ~OH7200.ARE~ ~override/OH7200.ARE~
-      PATCH_FOR_EACH ~item_to_delete~ IN ~boot07~ BEGIN
-        LAUNCH_PATCH_MACRO ~DELETE_AREA_ITEM~
-      END
-
-  // Korkorran's Lair
-  COPY_EXISTING ~OH7300.ARE~ ~override/OH7300.ARE~
-      PATCH_FOR_EACH ~item_to_delete~ IN ~potn55~ BEGIN
-        LAUNCH_PATCH_MACRO ~DELETE_AREA_ITEM~
-      END
-
-      LAUNCH_PATCH_FUNCTION ~REPLACE_AREA_ITEM~ STR_VAR
-        old_item = ~POTN40~
-        new_item = ~POTN11~
-      END
-END

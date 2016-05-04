@@ -1,0 +1,32 @@
+/// various functions for patching areas ///
+
+// this function sets default prohibitive transition flags for a specified area region //
+
+DEFINE_PATCH_FUNCTION set_default_transition_flags
+INT_VAR
+  party_required  = 1
+  npc_cannot_pass = 1
+STR_VAR
+  region_name = ~~
+BEGIN
+  READ_SHORT 0x5A "icount"
+  READ_LONG  0x5C "ioffset"
+  SET "it" = 0
+
+  WHILE ("%it%" < "%icount%") BEGIN
+    READ_ASCII ("%ioffset%" + "%it%" * 196) "iname" (STRING_LENGTH "%region_name%")
+
+    PATCH_IF ("%iname%" STRING_COMPARE_CASE "%region_name%" = 0) BEGIN
+      PATCH_IF (party_required > 0) BEGIN
+        READ_BYTE  ("%ioffset%"  + ("%it%" * 196) + 0x60) "areflags"
+        WRITE_BYTE ("%ioffset%"  + ("%it%" * 196) + 0x60) ("%areflags%" BOR 0b00000100) // set Party Required bit
+      END
+
+      PATCH_IF (npc_cannot_pass > 0) BEGIN
+        READ_BYTE  ("%ioffset%"  + ("%it%" * 196) + 0x61) "areflags"
+        WRITE_BYTE ("%ioffset%"  + ("%it%" * 196) + 0x61) ("%areflags%" BOR 0b00000010) // set NPCs Cannot Pass bit
+      END
+    END
+    "it" = "%it%" + 1
+  END
+END
