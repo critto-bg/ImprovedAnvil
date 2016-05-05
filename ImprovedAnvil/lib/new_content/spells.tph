@@ -1120,6 +1120,20 @@ COPY ~ImprovedAnvil\spl\SPCLI20.spl~ ~override/SPCLI20.spl~
 
 COPY ~ImprovedAnvil\spl\SPCLI21.spl~ ~override/SPCLI21.spl~
 
+COPY ~ImprovedAnvil\spl\SPPR218.spl~  ~override/SPPR218.spl~
+COPY ~ImprovedAnvil\spl\SPPR218D.spl~ ~override/SPPR218D.spl~
+  SAY NAME1 @10300
+  SAY NAME2 @10300
+  SAY UNIDENTIFIED_DESC @10301
+
+  // Set a custom string for Display String opcode
+  LAUNCH_PATCH_FUNCTION ~ALTER_SPELL_EFFECT~ INT_VAR
+    check_headers = 1
+    header_type = 1
+    match_opcode = 139
+    parameter1 = RESOLVE_STR_REF (@10299)
+  END
+
 COPY ~ImprovedAnvil\spl\S!helmb1.spl~ ~override/S!helmb1.spl~
   SAY NAME1 @10292
   SAY NAME2 @10292
