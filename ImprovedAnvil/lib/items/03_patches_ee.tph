@@ -243,4 +243,46 @@ ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
       timing = 2
       resist_dispel = 0
     END
+
+  // Fix Wake on Hit in 39 opcode for a bunch of weapons
+  ACTION_FOR_EACH ~file~ IN
+                  ~AURSTAF.ITM~
+                  ~AX1H16.ITM~
+                  ~cdfampsd.ITM~
+                  ~DAGG13.ITM~
+                  ~DWBOLT01.ITM~
+                  ~GIAFIR.ITM~
+                  ~GIAFIR2.ITM~
+                  ~ohbbrvgr.ITM~
+                  ~PSDCLAW.ITM~
+                  ~RAVAG01.ITM~
+                  ~S!axe04.ITM~
+                  ~S!bodhi.ITM~
+                  ~S!dclaw.ITM~
+                  ~S!demgod.ITM~
+                  ~S!draggr.ITM~
+                  ~S!elegos.ITM~
+                  ~S!gorchr.ITM~
+                  ~S!minota.ITM~
+                  ~S!phoun2.ITM~
+                  ~S!slasp2.ITM~
+                  ~S!sling.ITM~
+                  ~S!spidwh.ITM~
+                  ~S!tclaw.ITM~
+                  ~S!torgal.ITM~
+                  ~S!twist.ITM~
+                  ~SPER12.ITM~
+                  ~STAF15.ITM~
+                  ~STAF21.ITM~
+                  ~STAF22.ITM~
+                  ~WAND08.ITM~
+  BEGIN
+    COPY_EXISTING ~%file%~ ~override/%file%~
+      LAUNCH_PATCH_FUNCTION ~ALTER_ITEM_EFFECT~ INT_VAR
+        check_headers = 1
+        match_opcode = 39
+        parameter2 = 1
+      END
+      BUT_ONLY
+  END
 END
