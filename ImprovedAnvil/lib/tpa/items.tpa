@@ -1,10 +1,10 @@
 /// various functions for patching items ///
 
 // This function creates melee-only and full, identified versions of a throwing weapon (axe or hammer) //
-// The player activates a magical ability, located under the backpack icon of the quick access panel //
-// The original item is replaced with a melee-only copy, such item has the "M" suffix //
-// The melee-only item afterwards is replaced with a full (ranged and melee) copy that is identifed //
-// Thanks to the authors of Item Revisions for the idea //
+// The player activates a magical ability, located under the backpack icon of the quick access panel   //
+// The original item is replaced with a melee-only copy, such item has the "M" suffix                  //
+// The melee-only item afterwards is replaced with a full (ranged and melee) copy that is identifed    //
+// Thanks to the authors of Item Revisions for the idea                                                //
 
 DEFINE_ACTION_FUNCTION extend_throwing_weapons
 STR_VAR
@@ -45,4 +45,238 @@ BEGIN
     END
 
     BUT_ONLY
+END
+
+// ADD_ITEM_HEADER: add ability header to item.                                         //
+// This is a PATCH function. All integer variables default to 0.                        //
+// In the case of flags, a value of 1 will set the flag and a value of 0 will unset it. //
+// The string variable icon defaults to the string "".                                  //
+
+DEFINE_PATCH_FUNCTION ~S!ADD_ITEM_HEADER~
+INT_VAR
+  header_type        = "0" // 0 by default, otherwise use value here
+  identify           = "0" // identify to use? at 0x01
+  location           = "0" // ability location at 0x02
+  target             = "0" // target at 0x0c
+  range              = "0" // range at 0x0e
+  launcher           = "0" // launcher required at 0x10
+  speed              = "0" // speed at 0x12
+  thac0_bonus        = "0" // to-hit bonus at 0x14
+  dicesize           = "0" // dice size at 0x16
+  primary_type       = "0" // primary school at 0x17
+  dicenumber         = "0" // number of dice at 0x18
+  secondary_type     = "0" // secondary type at 0x19
+  damage_bonus       = "0" // +damage bonus at 0x1a
+  damage_type        = "0" // damage type at 0x1c
+//effects_num        = "0" // number of effects at 0x1e
+//effects_index      = "0" // effects index at 0x20
+  charges            = "0" // number of charges at 0x22
+  drained            = "0" // when drained? at 0x24
+  projectile         = "0" // projectile at 0x2a
+  animation_overhand = "0" // % of overhand attacks at 0x2c
+  animation_backhand = "0" // % of backhand attacks at 0x2e
+  animation_thrust   = "0" // % of thrusting attacks at 0x30
+  arrow              = "0" // is arrow? at 0x32
+  bolt               = "0" // is bolt? at 0x34
+  bullet             = "0" // is bullet? at 0x36
+
+  // flag_ vars affect flags starting at 0x26; 1 means add flag
+  flag_strength      = "0" // add strength bonus, bit0
+  flag_break         = "0" // breakable, bit1
+  flag_damage        = "0" // ee only, damage strength bonus, bit2
+  flag_thac0         = "0" // ee only, thac0 strength bonus, bit3
+  flag_hostile       = "0" // hostile, bit10
+  flag_recharge      = "0" // recharge after resting, bit11
+  flag_bypass        = "0" // bypass armor, bit16
+  flag_keenedge      = "0" // keen edge, bit17
+  flag_backstab      = "0" // tobex only, can backstab, bit25
+  flag_noinvisible   = "0" // tobex only, cannot target invisible, bit26
+STR_VAR
+  icon               = ""  // ability icon at 0x04
+BEGIN
+  READ_LONG  0x64 abil_off
+  READ_SHORT 0x68 abil_num
+  READ_LONG  0x6a fx_off
+  READ_SHORT 0x70 fx_num
+
+  // calculate the new effect indice
+  FOR (i = 0; i < "%abil_num%"; i += 1) BEGIN
+    READ_SHORT (%abil_off% + %i% * 0x38 + 0x1e) abil_fx_cnt
+    SET %fx_num% += abil_fx_cnt
+  END
+
+  // calculate bitmask with flags
+  SET flags = 0
+
+  PATCH_IF (flag_strength = 1)       BEGIN SET flags = flags | BIT0   END
+  PATCH_IF (flag_break = 1)          BEGIN SET flags = flags | BIT1   END
+  PATCH_IF (flag_damage = 1)         BEGIN SET flags = flags | BIT2   END
+  PATCH_IF (flag_thac0 = 1)          BEGIN SET flags = flags | BIT3   END
+  PATCH_IF (flag_hostile = 1)        BEGIN SET flags = flags | BIT10  END
+  PATCH_IF (flag_recharge = 1)       BEGIN SET flags = flags | BIT11  END
+  PATCH_IF (flag_bypass = 1)         BEGIN SET flags = flags | BIT16  END
+  PATCH_IF (flag_keenedge = 1)       BEGIN SET flags = flags | BIT17  END
+  PATCH_IF (flag_backstab = 1)       BEGIN SET flags = flags | BIT25  END
+  PATCH_IF (flag_noinvisible = 1)    BEGIN SET flags = flags | BIT26  END
+
+  // add ability
+  INSERT_BYTES (%abil_off% + %abil_num% * 0x38)  0x38
+
+  // write stuff
+  WRITE_BYTE   (%abil_off% + %abil_num% * 0x38        )   header_type        // Attack Type
+  WRITE_BYTE   (%abil_off% + %abil_num% * 0x38 + 0x001)   identify           // ID required
+  WRITE_BYTE   (%abil_off% + %abil_num% * 0x38 + 0x002)   location           // Location
+  WRITE_ASCIIE (%abil_off% + %abil_num% * 0x38 + 0x004)   "%icon%" #8        // Icon
+  WRITE_BYTE   (%abil_off% + %abil_num% * 0x38 + 0x00c)   target             // Target type
+  WRITE_SHORT  (%abil_off% + %abil_num% * 0x38 + 0x00e)   range              // Range
+  WRITE_BYTE   (%abil_off% + %abil_num% * 0x38 + 0x010)   launcher           // Projectile type
+  WRITE_BYTE   (%abil_off% + %abil_num% * 0x38 + 0x012)   speed              // Speed
+  WRITE_SHORT  (%abil_off% + %abil_num% * 0x38 + 0x014)   thac0_bonus        // THAC0 bonus
+  WRITE_BYTE   (%abil_off% + %abil_num% * 0x38 + 0x016)   dicesize           // Dice sides
+  WRITE_BYTE   (%abil_off% + %abil_num% * 0x38 + 0x017)   primary_type       // Primary type
+  WRITE_BYTE   (%abil_off% + %abil_num% * 0x38 + 0x018)   dicenumber         // Dice thrown
+  WRITE_BYTE   (%abil_off% + %abil_num% * 0x38 + 0x019)   secondary_type     // Secondary type
+  WRITE_SHORT  (%abil_off% + %abil_num% * 0x38 + 0x01a)   damage_bonus       // Damage bonus
+  WRITE_SHORT  (%abil_off% + %abil_num% * 0x38 + 0x01c)   damage_type        // Damage type
+  WRITE_SHORT  (%abil_off% + %abil_num% * 0x38 + 0x01e)   0                  // Count of feature blocks
+  WRITE_SHORT  (%abil_off% + %abil_num% * 0x38 + 0x020)   %fx_num%           // Offset to feature blocks
+  WRITE_SHORT  (%abil_off% + %abil_num% * 0x38 + 0x022)   charges            // Charges
+  WRITE_SHORT  (%abil_off% + %abil_num% * 0x38 + 0x024)   drained            // Charge depletion behaviour
+  WRITE_LONG   (%abil_off% + %abil_num% * 0x38 + 0x026)   flags              // Flags
+  WRITE_SHORT  (%abil_off% + %abil_num% * 0x38 + 0x02a)   projectile         // Projectile animation (projectl.ids/missile.ids)
+  WRITE_SHORT  (%abil_off% + %abil_num% * 0x38 + 0x02c)   animation_overhand // Melee animation[0]
+  WRITE_SHORT  (%abil_off% + %abil_num% * 0x38 + 0x02e)   animation_backhand // Melee animation[1]
+  WRITE_SHORT  (%abil_off% + %abil_num% * 0x38 + 0x030)   animation_thrust   // Melee animation[2]
+  WRITE_SHORT  (%abil_off% + %abil_num% * 0x38 + 0x032)   arrow              // Bow/Arrow qualifier (0=No, 1=Yes)
+  WRITE_SHORT  (%abil_off% + %abil_num% * 0x38 + 0x034)   bolt               // Crossbow/Bolt qualifier (0=No, 1=Yes)
+  WRITE_SHORT  (%abil_off% + %abil_num% * 0x38 + 0x036)   bullet             // Misc. Projectile qualifier (0=No, 1=Yes)
+
+  // update ability count and starting fx offset
+  SET %abil_num% += 1
+  SET %fx_off% += 0x38
+
+  WRITE_SHORT 0x68 %abil_num%
+  WRITE_LONG  0x6a %fx_off%
+END
+
+// This is a copy of WeiDU's standard function that supports insert_point parameter. //
+// It permits to specify a position of a new effect in the current list of effects.  //
+
+DEFINE_PATCH_FUNCTION ~S!ADD_ITEM_EQEFFECT~
+INT_VAR
+  opcode = 0
+  target = 0
+  timing = 0
+  parameter1 = 0
+  parameter2 = 0
+  power = 0
+  resist_dispel = 0
+  duration = 0
+  probability1 = 100
+  probability2 = 0
+  dicenumber = 0
+  dicesize = 0
+  savingthrow = 0
+  savebonus = 0
+  header = 0
+  insert_point = "-1"
+  special = 0
+STR_VAR
+  resource = ~~
+BEGIN
+  // protects against invalid files
+  PATCH_IF (BUFFER_LENGTH > 0x71) THEN BEGIN
+    READ_LONG   0x64 abil_off // ability offset
+    READ_SHORT  0x68 abil_num // number of abilities
+    READ_LONG   0x6a fx_off   // global effects offset
+    READ_SHORT  0x70 fx_num   // global effects count
+
+    // if insert point is valid and in range of current equipping abilities
+    insert_point = !VARIABLE_IS_SET insert_point OR
+                   !IS_AN_INT insert_point OR
+                   insert_point < 0 OR
+                   insert_point > fx_num
+                 ? fx_num
+                 : insert_point
+
+    INSERT_BYTES (       0x30 * insert_point + fx_off) 0x30
+
+    WRITE_SHORT  (       0x30 * insert_point + fx_off) opcode
+    WRITE_BYTE   (0x02 + 0x30 * insert_point + fx_off) target
+    WRITE_BYTE   (0x03 + 0x30 * insert_point + fx_off) power
+    WRITE_LONG   (0x04 + 0x30 * insert_point + fx_off) parameter1
+    WRITE_LONG   (0x08 + 0x30 * insert_point + fx_off) parameter2
+    WRITE_BYTE   (0x0c + 0x30 * insert_point + fx_off) timing
+    WRITE_BYTE   (0x0d + 0x30 * insert_point + fx_off) resist_dispel
+    WRITE_LONG   (0x0e + 0x30 * insert_point + fx_off) duration
+    WRITE_BYTE   (0x12 + 0x30 * insert_point + fx_off) probability1
+    WRITE_BYTE   (0x13 + 0x30 * insert_point + fx_off) probability2
+    WRITE_ASCIIE (0x14 + 0x30 * insert_point + fx_off) ~%resource%~ #8
+    WRITE_LONG   (0x1c + 0x30 * insert_point + fx_off) dicenumber
+    WRITE_LONG   (0x20 + 0x30 * insert_point + fx_off) dicesize
+    WRITE_LONG   (0x24 + 0x30 * insert_point + fx_off) savingthrow
+    WRITE_LONG   (0x28 + 0x30 * insert_point + fx_off) savebonus
+
+    PATCH_IF IS_AN_INT special BEGIN
+      WRITE_LONG (0x2c + 0x30 * insert_point + fx_off) special
+    END
+
+    // correcting the number of equipping effects
+    WRITE_SHORT 0x70 (fx_num + 1)
+
+    // calculate the new effect indices for extended headers
+    FOR (i = 0; i < "%abil_num%"; i += 1) BEGIN
+      READ_SHORT  (%abil_off% + %i% * 0x38 + 0x20) abil_fx_off
+      WRITE_SHORT (%abil_off% + %i% * 0x38 + 0x20) (abil_fx_off + 1)
+    END
+  END
+END
+
+// deletes the extended effect with the specified opcode from the item  //
+// takes parameters: opcode_to_delete, resource_to_delete               //
+// base code shamelessly copied from weidu                              //
+
+DEFINE_PATCH_FUNCTION ~S!DELETE_ITEM_EFFECT~
+INT_VAR
+  opcode_to_delete = "-1"
+STR_VAR
+  resource_to_delete = ""
+BEGIN
+  PATCH_IF (BUFFER_LENGTH > 0x71) THEN BEGIN
+    READ_LONG  0x64 abil_off
+    READ_SHORT 0x68 abil_num
+    READ_LONG  0x6a fx_off
+
+    // cycling through extended headers
+    FOR (index1 = 0 ; index1 < abil_num ; index1 = index1 + 1) BEGIN
+        READ_SHORT (abil_off + 0x1e + (0x38 * index1)) abil_fx_num
+        READ_SHORT (abil_off + 0x20 + (0x38 * index1)) abil_fx_idx
+
+        // cycling through ability's effects
+        FOR (index2 = abil_fx_idx ; index2 < (abil_fx_idx + abil_fx_num) ; index2 = index2 + 1) BEGIN
+          READ_SHORT (fx_off + 0x30 * index2       ) opcode
+          READ_ASCII (fx_off + 0x30 * index2 + 0x14) resource (STRING_LENGTH "%resource_to_delete%")
+
+          PATCH_IF ( (opcode = opcode_to_delete) OR (opcode_to_delete = (0 - 1)) ) AND
+                   ( ("%resource_to_delete%" STRING_COMPARE_CASE "" = 0) OR ("%resource_to_delete%" STRING_COMPARE_CASE "%resource%" = 0) )
+          BEGIN // match of delete all
+            PATCH_PRINT "%resource_to_delete% and %resource%"
+            DELETE_BYTES (fx_off + 0x30 * index2) 0x30
+            SET abil_fx_num = abil_fx_num - 1 // for stopping cycle properly
+            WRITE_SHORT (abil_off + 0x1e + (0x38 * index1)) abil_fx_num // correct number of effects in ability
+
+            // correcting 1st effect indexes
+            FOR (index3 = 0 ; index3 < abil_num ; index3 = index3 + 1) BEGIN // cycling through abilities again
+              READ_SHORT (abil_off + index3 * 0x38 + 0x20) first_effect_index
+              PATCH_IF (first_effect_index > index2) BEGIN // if next abilility
+                WRITE_SHORT (abil_off + index3 * 0x38 + 0x20) (first_effect_index - 1) //decrease 1 effect index1 by 1
+              END
+            END
+
+            // no offsets to correct
+            SET index2 = index2 - 1 // step back to not miss an effect
+          END
+        END
+    END
+  END
 END
