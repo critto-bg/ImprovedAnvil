@@ -260,7 +260,6 @@ BEGIN
           PATCH_IF ( (opcode = opcode_to_delete) OR (opcode_to_delete = (0 - 1)) ) AND
                    ( ("%resource_to_delete%" STRING_COMPARE_CASE "" = 0) OR ("%resource_to_delete%" STRING_COMPARE_CASE "%resource%" = 0) )
           BEGIN // match of delete all
-            PATCH_PRINT "%resource_to_delete% and %resource%"
             DELETE_BYTES (fx_off + 0x30 * index2) 0x30
             SET abil_fx_num = abil_fx_num - 1 // for stopping cycle properly
             WRITE_SHORT (abil_off + 0x1e + (0x38 * index1)) abil_fx_num // correct number of effects in ability
