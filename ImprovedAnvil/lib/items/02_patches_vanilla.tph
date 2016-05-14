@@ -1,5 +1,6 @@
 /// apply various patches to vanilla items ///
 
+// Mage Robe of Cold Resistance
 COPY_EXISTING ~clck09.itm~ ~override/clck09.itm~
   READ_BYTE 0x29 "kitusability"
   WRITE_BYTE 0x29 ("%kitusability%" BOR 0b00010000)
@@ -19,6 +20,7 @@ COPY_EXISTING ~clck09.itm~ ~override/clck09.itm~
     "opcode_to_delete" = 142
   END
 
+// Mage Robe of Fire Resistance
 COPY_EXISTING ~clck10.itm~ ~override/clck10.itm~
   READ_BYTE 0x29 "kitusability"
   WRITE_BYTE 0x29 ("%kitusability%" BOR 0b00010000)
@@ -38,6 +40,7 @@ COPY_EXISTING ~clck10.itm~ ~override/clck10.itm~
     "opcode_to_delete" = 142
   END
 
+// Mage Robe of Electric Resistance
 COPY_EXISTING ~clck11.itm~ ~override/clck11.itm~
   READ_BYTE 0x29 "kitusability"
   WRITE_BYTE 0x29 ("%kitusability%" BOR 0b00010000)
@@ -58,6 +61,7 @@ COPY_EXISTING ~clck11.itm~ ~override/clck11.itm~
     "opcode_to_delete" = 142
   END
 
+// Rod of Smiting
 COPY_EXISTING ~rods04.itm~ ~override/rods04.itm~
   WRITE_ASCII 0x10   ~~ #8
   WRITE_LONG  0x34   14850 // price
@@ -106,6 +110,114 @@ COPY_EXISTING ~amul28.itm~ ~override/amul28.itm~
       parameter1 = 20
       parameter2 = 0
   END
+
+// Azuredge +3
+COPY_EXISTING ~ax1h10.itm~ ~override/ax1h10.itm~
+  // fix headers
+  LPF ALTER_ITEM_HEADER
+    INT_VAR
+      header_type = 2
+      projectile = 7
+      thac0_bonus = 3
+      damage_bonus = 3
+    STR_VAR
+      icon = ~IAX1H04~
+  END
+
+  LPF ALTER_ITEM_HEADER
+    INT_VAR
+      header_type = 1
+      thac0_bonus = 3
+      damage_bonus = 3
+  END
+
+  // fix 'use effect' opcodes on melee header
+  LPF ALTER_ITEM_EFFECT
+    INT_VAR
+      check_headers = 1
+      match_opcode = 177
+      savingthrow = 0
+      savebonus = 0
+      resist_dispel = 2
+  END
+
+  // delete extra effects from the ee version
+  LPF ~S!DELETE_ITEM_EFFECT~ INT_VAR opcode_to_delete = 177 STR_VAR resource_to_delete = ~ax1h10a~ END
+  LPF ~S!DELETE_ITEM_EFFECT~ INT_VAR opcode_to_delete = 177 STR_VAR resource_to_delete = ~ax1h10b~ END
+
+  // melee header has a wrong first effect offset, fix it
+  READ_LONG  0x64 abil_off
+  READ_SHORT 0x68 abil_num
+  READ_LONG  0x6a fx_off
+  READ_SHORT 0x70 fx_num
+
+  FOR (i = 0; i < "%abil_num%"; i += 1) BEGIN
+    READ_BYTE   (%abil_off% + %i% * 0x38       ) attack_type
+    READ_SHORT  (%abil_off% + %i% * 0x38 + 0x1e) abil_fx_cnt
+
+    PATCH_IF %attack_type% = 1 BEGIN
+      WRITE_SHORT (%abil_off% + %i% * 0x38 + 0x020)   %fx_num% // Offset to feature blocks
+      i = %abil_num%
+    END
+
+    SET %fx_num% += abil_fx_cnt
+  END
+
+  // add magical header
+  LPF ~S!ADD_ITEM_HEADER~
+    INT_VAR
+      header_type = 3
+      identify = 1
+      location = 3
+      target = 5
+      range = 1
+      speed = 2
+      thac0_bonus = 5
+      dicesize = 8
+      dicenumber = 1
+      damage_bonus = 5
+      damage_type = 4
+      drained = 3
+      projectile = 1
+    STR_VAR
+      icon = "IAX1H10"
+  END
+
+  // add opcode for the magical header
+  LPF ADD_ITEM_EFFECT
+    INT_VAR
+      type = 3
+      opcode = 123
+      target = 1
+      timing = 1
+    STR_VAR
+      resource = ~AX1H10~
+  END
+
+  LPF ADD_ITEM_EFFECT
+    INT_VAR
+      type = 3
+      opcode = 122
+      target = 1
+      timing = 1
+    STR_VAR
+      resource = ~AX1H10M~
+  END
+
+  // add extra global equipping effect for the ee engine
+  PATCH_IF GAME_IS ~bg2ee~ BEGIN
+    LPF ADD_ITEM_EQEFFECT
+      INT_VAR
+        opcode = 177
+        target = 1
+        parameter2 = 2
+        timing = 2
+      STR_VAR
+        resource = ~MACEDISR~
+    END
+  END
+
+  SAY DESC @339
 
 COPY_EXISTING ~wa2harp.itm~ ~override/wa2harp.itm~
   WRITE_LONG  0x34   56000 // price
