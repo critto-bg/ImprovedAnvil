@@ -1326,7 +1326,7 @@ var gear = [
                         ]
                     }
                 ],
-                "item_name": "Defender of Arvoreen +5"
+                "item_name": "Defender of Arvoreen +4"
             }
         ]
 
