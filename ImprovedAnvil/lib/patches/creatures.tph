@@ -8199,6 +8199,16 @@ BEGIN
     BUT_ONLY
 END
 
+// process item replacements for creature files
+ACTION_PHP_EACH item_replacements AS record => int BEGIN
+  ACTION_IF "%record_0%" STRING_EQUAL_CASE "cre" AND FILE_EXISTS_IN_GAME "%record_1%" BEGIN
+    COPY_EXISTING ~%record_1%~ ~override~
+      LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = EVALUATE_BUFFER "%record_2%" replace_with = EVALUATE_BUFFER "%record_3%" END
+      BUT_ONLY
+  END
+END
+
+// iterate over all creatures and apply global patches
 COPY_EXISTING_REGEXP GLOB ~.*\.cre~ ~override~
   // change all flesh golems' animations to ogrillons
   PATCH_IF BYTE_AT 0x273=183 BEGIN
