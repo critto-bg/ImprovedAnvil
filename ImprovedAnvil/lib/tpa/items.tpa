@@ -279,3 +279,25 @@ BEGIN
     END
   END
 END
+
+// Replaces all instances of an item on a creature with the new one //
+// The old item's flags and charge values are preserved             //
+
+DEFINE_PATCH_FUNCTION ~S!FIND_AND_REPLACE_ITEM~
+STR_VAR
+  to_replace   = "" // old item to be replaced
+  replace_with = "" // new item to replace the old one with
+BEGIN
+  READ_LONG 0x2bc "itm_off" // offset to items
+  READ_LONG 0x2c0 "itm_num" // amount of items
+
+  // search through items
+  FOR (index = 0; index < itm_num; index = index + 1) BEGIN
+    READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
+
+    // find the item
+    PATCH_IF ("%item%" STRING_COMPARE_CASE "%to_replace%" = 0) BEGIN
+      WRITE_ASCIIE ("%itm_off%" + (0x14 * "%index%")) "%replace_with%" #8 // write new item
+    END
+  END
+END
