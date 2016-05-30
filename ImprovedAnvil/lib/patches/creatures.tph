@@ -1,3 +1,15 @@
+// process item replacements for creature files           //
+// this is done in the beginning because some of the      //
+// new creatures are copied from the patched vanilla ones //
+
+ACTION_PHP_EACH item_replacements AS record => int BEGIN
+  ACTION_IF "%record_0%" STRING_EQUAL_CASE "cre" AND FILE_EXISTS_IN_GAME "%record_1%" BEGIN
+    COPY_EXISTING ~%record_1%~ ~override~
+      LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = EVALUATE_BUFFER "%record_2%" replace_with = EVALUATE_BUFFER "%record_3%" END
+      BUT_ONLY
+  END
+END
+
 // Patching various attributes and stats for existing creatures //
 
 COPY_EXISTING ~shadra01.cre~ ~override/shadra01.cre~
@@ -122,7 +134,7 @@ END
   ADD_CRE_ITEM ~S!warden~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~GLOVES~
   ADD_CRE_ITEM ~sw1h35~ #0 #0 #0 ~UNSTEALABLE~ ~WEAPON1~
   ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
-  ADD_CRE_ITEM ~dragring~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~LRING~
+  ADD_CRE_ITEM ~S!drgrng~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~LRING~
   ADD_CRE_ITEM ~belt01~ #0 #0 #0 ~UNSTEALABLE~ ~INV15~
   ADD_CRE_ITEM ~S!misc02~ #0 #0 #0 ~UNSTEALABLE~ ~INV10~
   ADD_CRE_ITEM ~scrl9m~ #0 #0 #0 ~UNSTEALABLE~ ~INV11~
@@ -750,7 +762,7 @@ COPY_EXISTING ~obsdem01.cre~ ~override/obsdem01.cre~
   ADD_CRE_ITEM ~S!dracon~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~GLOVES~
   ADD_CRE_ITEM ~S!misc30~ #0 #0 #0 ~UNSTEALABLE~ ~INV8~
   ADD_CRE_ITEM ~S!scrl05~ #0 #0 #0 ~UNSTEALABLE~ ~INV9~
-  ADD_CRE_ITEM ~dragring~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~RRING~
+  ADD_CRE_ITEM ~S!drgrng~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~RRING~
   ADD_CRE_ITEM ~S!miss6~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BOOTS~
   READ_LONG  0x2bc "itm_off"
   READ_LONG  0x2c0 "itm_num"
@@ -959,7 +971,7 @@ COPY_EXISTING ~rngsha02.cre~ ~override/rngsha02.cre~
   FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
    READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
    PATCH_IF ("%item%" STRING_COMPARE_CASE "ring95" = 0) BEGIN // find old item
-     WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~dragring~ #8 // write new item
+     WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~S!drgrng~ #8 // write new item
    END
 END
 
@@ -1329,7 +1341,7 @@ COPY_EXISTING ~legdor.cre~ ~override/legdor.cre~
   ADD_CRE_ITEM ~shld29~ #0 #0 #0 ~UNSTEALABLE~ ~SHIELD~
   ADD_CRE_ITEM ~S!immune~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~AMULET~
   ADD_CRE_ITEM ~S!trapr~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~RRING~
-  ADD_CRE_ITEM ~dragring~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~LRING~
+  ADD_CRE_ITEM ~S!drgrng~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~LRING~
   ADD_CRE_ITEM ~clck01~ #0 #0 #0 ~UNSTEALABLE~ ~CLOAK~
   ADD_CRE_ITEM ~misc26~ #0 #0 #0 ~UNSTEALABLE~ ~INV8~
   ADD_CRE_ITEM ~misc30~ #0 #0 #0 ~UNSTEALABLE~ ~INV9~
@@ -1413,7 +1425,7 @@ COPY_EXISTING ~ccguard1.cre~ ~override/ccguard1.cre~
   WRITE_BYTE  0x234     10 // level
   WRITE_BYTE  0x238     17 // strength
   WRITE_BYTE  0x23c     16 // dexterity
-  ADD_CRE_ITEM ~ring09~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~LRING~
+  ADD_CRE_ITEM ~S!ring09~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~LRING~
 
 COPY_EXISTING ~gppri1.cre~ ~override/gppri1.cre~
   WRITE_LONG  0x14   10000 // xp
@@ -1630,7 +1642,7 @@ COPY_EXISTING ~yaga03.cre~ ~override/yaga03.cre~
   WRITE_BYTE  0x242      2 // morale Recovery
   WRITE_ASCII 0x268 ~S!yaga03~ #8      // default script
   ADD_CRE_ITEM ~S!dracon~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~GLOVES~
-  ADD_CRE_ITEM ~dragring~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~RRING~
+  ADD_CRE_ITEM ~S!drgrng~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~RRING~
   ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
   ADD_CRE_ITEM ~potn07~ #2 #0 #0 ~NONE~ ~QITEM2~
 
@@ -1721,7 +1733,7 @@ COPY_EXISTING ~amtpik01.cre~ ~override/amtpik01.cre~
   WRITE_BYTE  0x58       7 // save vs spell
   WRITE_BYTE  0x234     15 // level
   WRITE_BYTE  0x23f     17 // morale
-  ADD_CRE_ITEM ~ring09~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~RRING~
+  ADD_CRE_ITEM ~S!ring09~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~RRING~
   ADD_CRE_ITEM ~potn05~ #0 #0 #0 ~NONE~ ~QITEM2~
   ADD_CRE_ITEM ~potn55~ #4 #0 #0 ~NONE~ ~QITEM3~
   ADD_CRE_ITEM ~helm08~ #0 #0 #0 ~UNSTEALABLE~ ~HELMET~
@@ -1917,7 +1929,7 @@ COPY_EXISTING ~plmetr01.cre~ ~override/plmetr01.cre~
   WRITE_BYTE  0x242      1 // morale Recovery
   WRITE_ASCII 0x248 ~S!plmetr~ #8 // override script
   WRITE_ASCII 0x268 ~~ #8      // removes default script
-  ADD_CRE_ITEM ~ring09~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~LRING~
+  ADD_CRE_ITEM ~S!ring09~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~LRING~
   ADD_CRE_ITEM ~sw1h41~ #0 #0 #0 ~UNSTEALABLE~ ~WEAPON1~
   ADD_CRE_ITEM ~potn55~ #2 #0 #0 ~UNSTEALABLE~ ~QITEM1~
   ADD_CRE_ITEM ~potn52~ #2 #0 #0 ~UNSTEALABLE~ ~QITEM2~
@@ -1972,7 +1984,7 @@ COPY_EXISTING ~plmetg01.cre~ ~override/plmetg01.cre~
   WRITE_BYTE  0x58       8 // save vs spell
   WRITE_BYTE  0x234     14 // level
   WRITE_BYTE  0x23f     15 // morale
-  ADD_CRE_ITEM ~ring09~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~LRING~
+  ADD_CRE_ITEM ~S!ring09~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~LRING~
 
 COPY_EXISTING ~plmetg02.cre~ ~override/plmetg02.cre~
   WRITE_LONG  0x14    6800 // xp
@@ -1987,7 +1999,7 @@ COPY_EXISTING ~plmetg02.cre~ ~override/plmetg02.cre~
   WRITE_BYTE  0x58       8 // save vs spell
   WRITE_BYTE  0x234     14 // level
   WRITE_BYTE  0x23f     15 // morale
-  ADD_CRE_ITEM ~ring09~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~LRING~
+  ADD_CRE_ITEM ~S!ring09~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~LRING~
 
 COPY_EXISTING ~golbon01.cre~ ~override/golbon01.cre~
   WRITE_BYTE  0x5a     100 // resist cold
@@ -3589,7 +3601,7 @@ COPY_EXISTING ~igolem02.cre~ ~override/igolem02.cre~
  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
   PATCH_IF ("%item%" STRING_COMPARE_CASE "B3-30" = 0) BEGIN // find old item
-    WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~GOLCLA~ #8 // write new item
+    WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~S!GOLCLA~ #8 // write new item
   END
 END
 
@@ -3599,7 +3611,7 @@ COPY_EXISTING ~igolfle1.cre~ ~override/igolfle1.cre~
  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
   PATCH_IF ("%item%" STRING_COMPARE_CASE "B2-16" = 0) BEGIN // find old item
-    WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~GOLFLE~ #8 // write new item
+    WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~S!GOLFLE~ #8 // write new item
   END
 END
 
@@ -3609,7 +3621,7 @@ COPY_EXISTING ~igolfle2.cre~ ~override/igolfle2.cre~
  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
   PATCH_IF ("%item%" STRING_COMPARE_CASE "B2-16" = 0) BEGIN // find old item
-    WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~GOLFLE~ #8 // write new item
+    WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~S!GOLFLE~ #8 // write new item
   END
 END
 
@@ -3619,7 +3631,7 @@ COPY_EXISTING ~igolfle3.cre~ ~override/igolfle3.cre~
  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
   PATCH_IF ("%item%" STRING_COMPARE_CASE "B2-16" = 0) BEGIN // find old item
-    WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~GOLFLE~ #8 // write new item
+    WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~S!GOLFLE~ #8 // write new item
   END
 END
 
@@ -3629,7 +3641,7 @@ COPY_EXISTING ~igolfle4.cre~ ~override/igolfle4.cre~
  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
   PATCH_IF ("%item%" STRING_COMPARE_CASE "B2-16" = 0) BEGIN // find old item
-    WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~GOLFLE~ #8 // write new item
+    WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~S!GOLFLE~ #8 // write new item
   END
 END
 
@@ -4331,7 +4343,7 @@ COPY_EXISTING ~deck615.cre~ ~override/deck615.cre~
   WRITE_BYTE  0x23f     19 // morale
   WRITE_BYTE  0x240      1 // morale Break
   WRITE_BYTE  0x242      1 // morale Recovery
-  ADD_CRE_ITEM ~ringdemn~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~LRING~
+  ADD_CRE_ITEM ~S!ringdemn~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~LRING~
   ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
 
 COPY_EXISTING ~bodtan.cre~ ~override/bodtan.cre~
@@ -4655,7 +4667,7 @@ COPY_EXISTING ~ppworker.cre~ ~override/ppworker.cre~
   WRITE_BYTE  0x23f     19 // morale
   WRITE_BYTE  0x240      1 // morale Break
   WRITE_BYTE  0x242      1 // morale Recovery
-  ADD_CRE_ITEM ~dragring~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~LRING~
+  ADD_CRE_ITEM ~S!drgrng~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~LRING~
   ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
   ADD_CRE_ITEM ~dagg03~ #0 #0 #0 ~UNSTEALABLE~ ~WEAPON1~
 
@@ -8048,7 +8060,7 @@ COPY_EXISTING ~elemogre.cre~ ~override/elemogre.cre~
   FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
    READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
    PATCH_IF ("%item%" STRING_COMPARE_CASE "elemprin" = 0) BEGIN // find old item
-     WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~DRAGRING~ #8 // write new item
+     WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~S!drgrng~ #8 // write new item
    END
 END
 
@@ -8082,7 +8094,7 @@ COPY_EXISTING ~demabi01.cre~ ~override/demabi01.cre~
   FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
    READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
    PATCH_IF ("%item%" STRING_COMPARE_CASE "ringdemn" = 0) BEGIN // find old item
-     WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~DRAGRING~ #8 // write new item
+     WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~S!drgrng~ #8 // write new item
    END
 END
 
@@ -8197,15 +8209,6 @@ BEGIN
   COPY_EXISTING ~%file%.cre~ ~override~
     WRITE_LONG 0x28 60944
     BUT_ONLY
-END
-
-// process item replacements for creature files
-ACTION_PHP_EACH item_replacements AS record => int BEGIN
-  ACTION_IF "%record_0%" STRING_EQUAL_CASE "cre" AND FILE_EXISTS_IN_GAME "%record_1%" BEGIN
-    COPY_EXISTING ~%record_1%~ ~override~
-      LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = EVALUATE_BUFFER "%record_2%" replace_with = EVALUATE_BUFFER "%record_3%" END
-      BUT_ONLY
-  END
 END
 
 // iterate over all creatures and apply global patches
