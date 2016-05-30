@@ -81,6 +81,7 @@ COPY_EXISTING ~rods04.itm~ ~override/rods04.itm~
     animation_thrust = 20
   END
 
+// Amulet of the Master Harper
 COPY_EXISTING ~amul28.itm~ ~override/amul28.itm~
   WRITE_LONG  0x08    6852 // item name
   WRITE_ASCII 0x22    ~~ #2
@@ -114,21 +115,10 @@ COPY_EXISTING ~amul28.itm~ ~override/amul28.itm~
 // Azuredge +3
 COPY_EXISTING ~ax1h10.itm~ ~override/ax1h10.itm~
   // fix headers
-  LPF ALTER_ITEM_HEADER
-    INT_VAR
-      header_type = 2
-      projectile = 7
-      thac0_bonus = 3
-      damage_bonus = 3
-    STR_VAR
-      icon = ~IAX1H04~
-  END
+  LPF ALTER_ITEM_HEADER INT_VAR thac0_bonus = 3 damage_bonus = 3 END
 
-  LPF ALTER_ITEM_HEADER
-    INT_VAR
-      header_type = 1
-      thac0_bonus = 3
-      damage_bonus = 3
+  PATCH_IF GAME_IS ~tob~ BEGIN
+    LPF ALTER_ITEM_HEADER INT_VAR projectile = 7 END
   END
 
   // fix 'use effect' opcodes on melee header
@@ -141,10 +131,6 @@ COPY_EXISTING ~ax1h10.itm~ ~override/ax1h10.itm~
       resist_dispel = 2
   END
 
-  // delete extra effects from the ee version
-  LPF ~S!DELETE_ITEM_EFFECT~ INT_VAR opcode_to_delete = 177 STR_VAR resource_to_delete = ~ax1h10a~ END
-  LPF ~S!DELETE_ITEM_EFFECT~ INT_VAR opcode_to_delete = 177 STR_VAR resource_to_delete = ~ax1h10b~ END
-
   // melee header has a wrong first effect offset, fix it
   READ_LONG  0x64 abil_off
   READ_SHORT 0x68 abil_num
@@ -156,7 +142,7 @@ COPY_EXISTING ~ax1h10.itm~ ~override/ax1h10.itm~
     READ_SHORT  (%abil_off% + %i% * 0x38 + 0x1e) abil_fx_cnt
 
     PATCH_IF %attack_type% = 1 BEGIN
-      WRITE_SHORT (%abil_off% + %i% * 0x38 + 0x020)   %fx_num% // Offset to feature blocks
+      WRITE_SHORT (%abil_off% + %i% * 0x38 + 0x020) %fx_num% // Offset to feature blocks
       i = %abil_num%
     END
 
@@ -204,20 +190,347 @@ COPY_EXISTING ~ax1h10.itm~ ~override/ax1h10.itm~
       resource = ~AX1H10M~
   END
 
-  // add extra global equipping effect for the ee engine
-  PATCH_IF GAME_IS ~bg2ee~ BEGIN
-    LPF ADD_ITEM_EQEFFECT
+  SAY DESC @339
+
+// Dwarven Thrower +3
+COPY_EXISTING ~hamm06.itm~ ~override/hamm06.itm~
+  LPF ALTER_ITEM_HEADER
+    INT_VAR
+      header_type = 2
+      projectile = 7
+      flag_strength = 1
+  END
+
+  // fix 'use effect file' opcodes
+  LPF ALTER_ITEM_EFFECT
+    INT_VAR
+      check_headers = 1
+      match_opcode = 177
+      timing = 2
+  END
+
+  // add magical header
+  LPF ~S!ADD_ITEM_HEADER~
+    INT_VAR
+      header_type = 3
+      identify = 1
+      location = 3
+      target = 5
+      range = 1
+      speed = 2
+      thac0_bonus = 5
+      dicesize = 8
+      dicenumber = 1
+      damage_bonus = 5
+      damage_type = 4
+      drained = 3
+      projectile = 1
+    STR_VAR
+      icon = "IHAMM06"
+  END
+
+  // add opcodes for the magical header
+  LPF ADD_ITEM_EFFECT
+    INT_VAR
+      type = 3
+      opcode = 123
+      target = 1
+      timing = 1
+    STR_VAR
+      resource = ~HAMM06~
+  END
+
+  LPF ADD_ITEM_EFFECT
+    INT_VAR
+      type = 3
+      opcode = 122
+      target = 1
+      timing = 1
+    STR_VAR
+      resource = ~HAMM06M~
+  END
+
+// Mordenkainen's Sword
+COPY_EXISTING ~morsword.itm~ ~override/morsword.itm~
+  WRITE_ASCII 0x22 ~FS~ #2
+
+  LPF DELETE_ITEM_EQEFFECT INT_VAR "opcode_to_delete" = 267 END
+
+  LPF ~S!ADD_ITEM_EQEFFECT~
+    INT_VAR
+      opcode = 31
+      target = 1
+      parameter1 = 75
+      timing = 2
+  END
+
+  LPF ~S!ADD_ITEM_EQEFFECT~
+    INT_VAR
+      opcode = 101
+      target = 1
+      parameter2 = 175
+      timing = 2
+      resist_dispel = 2
+  END
+
+  LPF ~S!ADD_ITEM_EQEFFECT~
+    INT_VAR
+      opcode = 206
+      target = 1
+      timing = 2
+    STR_VAR
+      resource = ~SPWI112~
+  END
+
+  LPF ~S!ADD_ITEM_EQEFFECT~
+    INT_VAR
+      opcode = 206
+      target = 1
+      timing = 2
+    STR_VAR
+      resource = ~SPWI118~
+  END
+
+  LPF ~S!ADD_ITEM_EQEFFECT~
+    INT_VAR
+      opcode = 0
+      target = 1
+      parameter1 = ~-10~
+      timing = 2
+  END
+
+  LPF ALTER_ITEM_HEADER
+    INT_VAR
+      header_type = 1
+      thac0_bonus = 0
+      dicesize = 4
+      dicenumber = 5
+      primary_type = 0
+      secondary_type = 0
+      damage_bonus = 0
+      flag_strength = 0
+  END
+
+  BUT_ONLY
+
+// Potion of Clarity
+COPY_EXISTING ~potn21.itm~ ~override/potn21.itm~
+  SAY DESC @9042
+
+  WRITE_SHORT 0x38 5 // stack amount
+
+  LPF ~S!DELETE_ITEM_EFFECT~ INT_VAR "opcode_to_delete" = 321 END
+  LPF ~S!DELETE_ITEM_EFFECT~ INT_VAR "opcode_to_delete" = 267 END
+  LPF ~S!DELETE_ITEM_EFFECT~ INT_VAR "opcode_to_delete" = 169 param2_to_delete = 2 END
+  LPF ~S!DELETE_ITEM_EFFECT~ INT_VAR "opcode_to_delete" = 169 param2_to_delete = 36 END
+  LPF ~S!DELETE_ITEM_EFFECT~ INT_VAR "opcode_to_delete" = 169 param2_to_delete = 47 END
+  LPF ~S!DELETE_ITEM_EFFECT~ INT_VAR "opcode_to_delete" = 296 END
+  LPF ~S!DELETE_ITEM_EFFECT~ INT_VAR "opcode_to_delete" = 23 END
+  LPF ~S!DELETE_ITEM_EFFECT~ INT_VAR "opcode_to_delete" = 240 END
+  LPF ~S!DELETE_ITEM_EFFECT~ INT_VAR "opcode_to_delete" = 106 END
+  LPF ~S!DELETE_ITEM_EFFECT~ INT_VAR "opcode_to_delete" = 161 END
+  LPF ~S!DELETE_ITEM_EFFECT~ INT_VAR "opcode_to_delete" = 101 param2_to_delete = 106 END
+  LPF ~S!DELETE_ITEM_EFFECT~ INT_VAR "opcode_to_delete" = 101 param2_to_delete = 23 END
+  LPF ~S!DELETE_ITEM_EFFECT~ INT_VAR "opcode_to_delete" = 101 param2_to_delete = 24 END
+  LPF ~S!DELETE_ITEM_EFFECT~ INT_VAR "opcode_to_delete" = 142 param2_to_delete = 37 END
+  LPF ~S!DELETE_ITEM_EFFECT~ INT_VAR "opcode_to_delete" = 142 param2_to_delete = 52 END
+
+  PATCH_FOR_EACH ~param1~ IN ~17876~ ~14672~ ~14782~ ~8364~ ~1476~ ~14780~ BEGIN
+    LPF ADD_ITEM_EFFECT
       INT_VAR
-        opcode = 177
+        opcode = 267
+        power = 4
         target = 1
-        parameter2 = 2
-        timing = 2
+        parameter1 = param1
+        resist_dispel = 1
+        duration = 300
       STR_VAR
-        resource = ~MACEDISR~
+        resource = ~~
     END
   END
 
-  SAY DESC @339
+  LPF ADD_ITEM_EFFECT
+    INT_VAR
+      opcode = 296
+      power = 4
+      target = 1
+      resist_dispel = 1
+      duration = 300
+    STR_VAR
+      resource = ~SPCONFUS~
+  END
+
+  LPF ADD_ITEM_EFFECT
+    INT_VAR
+      opcode = 282
+      power = 4
+      target = 1
+      resist_dispel = 1
+      parameter1 = 1
+      parameter2 = 7
+      duration = 300
+  END
+
+  LPF ADD_ITEM_EFFECT
+    INT_VAR
+      opcode = 169
+      power = 4
+      target = 1
+      resist_dispel = 1
+      parameter2 = 47
+      duration = 300
+      insert_point = 13
+  END
+
+  LPF ADD_ITEM_EFFECT
+    INT_VAR
+      opcode = 142
+      power = 4
+      target = 1
+      resist_dispel = 1
+      parameter2 = 52
+      duration = 300
+      insert_point = 5
+  END
+
+  // Shield of Harmony
+COPY_EXISTING ~shld25.itm~ ~override/shld25.itm~
+  PATCH_IF GAME_IS ~tob~ BEGIN
+    PATCH_FOR_EACH ~param1~ IN ~14782~ ~14102~ ~14780~ ~14672~ ~14791~ BEGIN
+      LPF ~S!ADD_ITEM_EQEFFECT~
+        INT_VAR
+          opcode = 267
+          target = 1
+          timing = 2
+          parameter1 = param1
+      END
+    END
+  END
+
+  PATCH_IF GAME_IS ~bg2ee~ BEGIN
+    LPF DELETE_ITEM_EQEFFECT INT_VAR "opcode_to_delete" = 0 END
+
+    LPF ~S!ADD_ITEM_EQEFFECT~
+      INT_VAR
+        opcode = 0
+        target = 1
+        timing = 2
+        parameter1 = ~-2~
+        parameter2 = 2
+    END
+
+    LPF ~S!ADD_ITEM_EQEFFECT~
+      INT_VAR
+        opcode = 0
+        target = 1
+        timing = 2
+        parameter1 = 3
+        parameter2 = 0
+    END
+
+    LPF ~S!ADD_ITEM_EQEFFECT~
+      INT_VAR
+        opcode = 206
+        target = 1
+        timing = 2
+      STR_VAR
+        resource = ~SPWI401~
+    END
+  END
+
+  PATCH_FOR_EACH ~res~ IN ~SPWI306~ ~SPIN988~ ~SPPR208~ ~SPPR989~ BEGIN
+    LPF ~S!ADD_ITEM_EQEFFECT~
+      INT_VAR
+        opcode = 206
+        target = 1
+        timing = 2
+      STR_VAR
+        resource = EVALUATE_BUFFER ~%res%~
+    END
+  END
+
+  LPF ~S!ADD_ITEM_EQEFFECT~
+    INT_VAR
+      opcode = 101
+      target = 1
+      parameter2 = 157
+      timing = 2
+  END
+
+  LPF ~S!ADD_ITEM_EQEFFECT~
+    INT_VAR
+      opcode = 169
+      target = 1
+      timing = 2
+      parameter2 = 129
+  END
+
+  BUT_ONLY
+
+// Staff of Ram +6
+COPY_EXISTING ~staf22.itm~ ~override/staf22.itm~
+  WRITE_LONG 0x060 5 // enchantment
+
+  PATCH_IF GAME_IS ~tob~ BEGIN
+    LPF ADD_ITEM_EFFECT
+      INT_VAR
+        type = 1
+        opcode = 12
+        target = 2
+        parameter2 = 1048576
+        timing = 1
+        dicenumber = 1
+        dicesize = 4
+        insert_point = 0
+    END
+  END
+
+  BUT_ONLY
+
+// Lilarcor
+COPY_EXISTING ~sw2h14.itm~ ~override/sw2h14.itm~
+  PATCH_IF GAME_IS ~tob~ BEGIN
+    PATCH_FOR_EACH ~param2~ IN ~47~ ~2~ BEGIN
+      LPF ~S!ADD_ITEM_EQEFFECT~
+        INT_VAR
+          opcode = 169
+          target = 1
+          timing = 2
+          parameter2 = param2
+      END
+    END
+
+    PATCH_FOR_EACH ~param1~ IN ~14782~ ~14780~ ~8364~ ~14672~ ~14791~ BEGIN
+      LPF ~S!ADD_ITEM_EQEFFECT~
+        INT_VAR
+          opcode = 267
+          target = 1
+          timing = 2
+          parameter1 = param1
+      END
+    END
+
+    LPF ~S!ADD_ITEM_EQEFFECT~
+      INT_VAR
+        opcode = 296
+        target = 1
+        timing = 2
+      STR_VAR
+        resource = ~spnwchrm~
+    END
+  END
+
+  PATCH_IF GAME_IS ~bg2ee~ THEN BEGIN
+    LPF ~S!ADD_ITEM_EQEFFECT~
+      INT_VAR
+        opcode = 267
+        target = 1
+        timing = 2
+        parameter1 = 8364
+    END
+  END
+
+  BUT_ONLY
 
 COPY_EXISTING ~wa2harp.itm~ ~override/wa2harp.itm~
   WRITE_LONG  0x34   56000 // price
@@ -747,16 +1060,19 @@ COPY_EXISTING ~scrl7u.itm~ ~override/scrl7u.itm~
 COPY_EXISTING ~SCRLA9.itm~ ~override/SCRLA9.itm~
   WRITE_LONG  0x34       0 // price
 
+// The Equalizer
 COPY_EXISTING ~sw1h54.itm~ ~override/sw1h54.itm~
   SAY DESC @10244
   WRITE_LONG  0x60 4 // +4 enchantment
   BUT_ONLY
 
+// Kondar
 COPY_EXISTING ~sw1h03.itm~ ~override/sw1h03.itm~
   SAY NAME2 @10250
   WRITE_LONG  0x60 2 // +2 enchantment
   BUT_ONLY
 
+// Pale Green Ioun Stone
 COPY_EXISTING ~helm20.itm~ ~override/helm20.itm~
   SAY DESC @10229
 
@@ -769,12 +1085,14 @@ COPY_EXISTING ~helm20.itm~ ~override/helm20.itm~
 
   BUT_ONLY
 
+// Kiel's Morning Star
 COPY_EXISTING ~blun09.itm~ ~override/blun09.itm~
   WRITE_SHORT 0x042 60 // Lore to ID
   BUT_ONLY
 
-// Fix targeting for Hindo's Doom +4's Greater Restoration ability
+// Hindo's Doom +4
 COPY_EXISTING ~sw1h71.itm~ ~override/sw1h71.itm~
+  // Fix targeting for Greater Restoration ability
   LAUNCH_PATCH_FUNCTION ~ALTER_ITEM_HEADER~ INT_VAR
     "header_type" = 3
     "target" = 5
