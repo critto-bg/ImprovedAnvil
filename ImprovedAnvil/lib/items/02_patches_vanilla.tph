@@ -977,8 +977,6 @@ COPY_EXISTING ~scrl1q.itm~ ~override/scrl1q.itm~
 COPY_EXISTING ~scrla3.itm~ ~override/scrla3.itm~
   SAY DESC      @364
 
-COPY_EXISTING ~scrl1x.itm~ ~override/scrl5j.itm~
-
 COPY_EXISTING ~ring30.itm~ ~override/ring30.itm~
   SAY DESC      @9020
   WRITE_BYTE  0x32      9 // min charisma
@@ -1093,10 +1091,7 @@ COPY_EXISTING ~blun09.itm~ ~override/blun09.itm~
 // Hindo's Doom +4
 COPY_EXISTING ~sw1h71.itm~ ~override/sw1h71.itm~
   // Fix targeting for Greater Restoration ability
-  LAUNCH_PATCH_FUNCTION ~ALTER_ITEM_HEADER~ INT_VAR
-    "header_type" = 3
-    "target" = 5
-  END
+  LPF ALTER_ITEM_HEADER INT_VAR "header_type" = 3 "target" = 5 END
   BUT_ONLY
 
 // Jan's armor
@@ -1105,7 +1100,7 @@ COPY_EXISTING ~nparm.itm~ ~override/nparm.itm~
 
   // reduce DR bonus
   PATCH_FOR_EACH ~opcode_number~ IN ~86~ ~87~ ~88~ ~89~ BEGIN
-    LAUNCH_PATCH_FUNCTION ~ALTER_ITEM_EFFECT~ INT_VAR
+    LPF ALTER_ITEM_EFFECT INT_VAR
       check_globals = 1
       match_opcode = ~%opcode_number%~
       parameter1 = 10
