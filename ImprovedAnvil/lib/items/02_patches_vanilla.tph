@@ -1,5 +1,46 @@
 /// apply various patches to vanilla items ///
 
+// Mace of Disruption +1
+COPY_EXISTING ~blun12.itm~ ~override/blun12.itm~
+  WRITE_LONG 0x60 1 // enchantment
+
+  // fix 'use effect' opcodes on melee header
+  LPF ALTER_ITEM_EFFECT
+    INT_VAR
+      check_headers = 1
+      match_opcode = 177
+      savingthrow = 0
+      savebonus = 0
+      resist_dispel = 2
+  END
+
+// Mace of Disruption +2
+COPY_EXISTING ~blun25.itm~ ~override/blun25.itm~
+  WRITE_ASCII 0x3a ~IBLUN12~ #8 // inventory icon
+  WRITE_ASCII 0x58 ~CBLUN12~ #8 // desc. icon
+  WRITE_LONG  0x60 2 // enchantment
+
+  PATCH_IF GAME_IS ~tob~ BEGIN
+    LPF ALTER_ITEM_HEADER INT_VAR header_type = 1 STR_VAR icon = ~IBLUN12~ END
+  END
+
+  LPF DELETE_ITEM_EQEFFECT INT_VAR opcode_to_delete = 142 END
+  LPF DELETE_ITEM_EQEFFECT INT_VAR opcode_to_delete = 101 END
+  LPF DELETE_ITEM_EQEFFECT INT_VAR opcode_to_delete = 169 END
+  LPF DELETE_ITEM_EQEFFECT INT_VAR opcode_to_delete = 267 END
+
+  // fix 'use effect' opcodes on melee header
+  LPF ALTER_ITEM_EFFECT
+    INT_VAR
+      check_headers = 1
+      match_opcode = 177
+      savingthrow = 0
+      savebonus = 0
+      resist_dispel = 2
+  END
+
+  SAY DESC @9047
+
 // Mage Robe of Cold Resistance
 COPY_EXISTING ~clck09.itm~ ~override/clck09.itm~
   READ_BYTE 0x29 "kitusability"
@@ -16,9 +57,7 @@ COPY_EXISTING ~clck09.itm~ ~override/clck09.itm~
       resource = ~~
   END
 
-  LAUNCH_PATCH_FUNCTION ~DELETE_ITEM_EQEFFECT~ INT_VAR
-    "opcode_to_delete" = 142
-  END
+  LPF DELETE_ITEM_EQEFFECT INT_VAR opcode_to_delete = 142 END
 
 // Mage Robe of Fire Resistance
 COPY_EXISTING ~clck10.itm~ ~override/clck10.itm~
@@ -36,9 +75,7 @@ COPY_EXISTING ~clck10.itm~ ~override/clck10.itm~
       resource = ~~
   END
 
-  LAUNCH_PATCH_FUNCTION ~DELETE_ITEM_EQEFFECT~ INT_VAR
-    "opcode_to_delete" = 142
-  END
+  LAUNCH_PATCH_FUNCTION DELETE_ITEM_EQEFFECT INT_VAR opcode_to_delete = 142 END
 
 // Mage Robe of Electric Resistance
 COPY_EXISTING ~clck11.itm~ ~override/clck11.itm~
@@ -48,7 +85,7 @@ COPY_EXISTING ~clck11.itm~ ~override/clck11.itm~
   READ_BYTE 0x2F "kitusability"
   WRITE_BYTE 0x2F ("%kitusability%" BOR 0b00000110)
 
-  LAUNCH_PATCH_FUNCTION ~ALTER_ITEM_EFFECT~
+  LAUNCH_PATCH_FUNCTION ALTER_ITEM_EFFECT
     INT_VAR
       check_globals = 1
       match_opcode = 29
@@ -57,8 +94,105 @@ COPY_EXISTING ~clck11.itm~ ~override/clck11.itm~
       resource = ~~
   END
 
-  LAUNCH_PATCH_FUNCTION ~DELETE_ITEM_EQEFFECT~ INT_VAR
-    "opcode_to_delete" = 142
+  LPF DELETE_ITEM_EQEFFECT INT_VAR opcode_to_delete = 142 END
+
+// Deva's weapon
+COPY_EXISTING ~deva.itm~ ~override/deva.itm~
+  WRITE_SHORT 0x1c 17      // item type
+  WRITE_ASCII 0x22 ~MC~ #2 // item animation
+  WRITE_BYTE  0x31 101     // weapon proficiency
+  WRITE_LONG  0x4c 6       // weight
+
+  LPF DELETE_ITEM_EFFECT INT_VAR opcode_to_delete = 142 END
+  LPF DELETE_ITEM_EFFECT INT_VAR opcode_to_delete = 45 END
+  LPF DELETE_ITEM_EFFECT INT_VAR opcode_to_delete = 240 END
+  LPF DELETE_ITEM_EFFECT INT_VAR opcode_to_delete = 77 END
+  LPF DELETE_ITEM_EFFECT INT_VAR opcode_to_delete = 215 END
+  LPF DELETE_ITEM_EFFECT INT_VAR opcode_to_delete = 174 END
+  LPF DELETE_ITEM_EFFECT INT_VAR opcode_to_delete = 139 END
+  LPF DELETE_ITEM_EFFECT INT_VAR opcode_to_delete = 58 END
+  LPF DELETE_ITEM_EFFECT INT_VAR opcode_to_delete = 112 END
+  LPF DELETE_ITEM_EFFECT INT_VAR opcode_to_delete = 81 END
+
+  LPF DELETE_ITEM_EQEFFECT INT_VAR opcode_to_delete = 101 END
+  LPF DELETE_ITEM_EQEFFECT INT_VAR opcode_to_delete = 142 END
+
+  // fix 'use effect' opcodes on melee header
+  LPF ALTER_ITEM_EFFECT
+    INT_VAR
+      check_headers = 1
+      match_opcode = 177
+      resist_dispel = 2
+  END
+
+  LPF ALTER_ITEM_HEADER INT_VAR
+    header_type = 1
+    speed = 4
+    dicenumber = 1
+    damage_bonus = 4
+  END
+
+  PATCH_IF GAME_IS ~bg2ee~ BEGIN
+    LPF DELETE_ITEM_EQEFFECT INT_VAR opcode_to_delete = 267 END
+  END
+
+  LPF ~S!ADD_ITEM_EQEFFECT~
+    INT_VAR
+      opcode = 98
+      target = 1
+      parameter1 = 3
+      parameter2 = 3
+      timing = 2
+  END
+
+  LPF ~S!ADD_ITEM_EQEFFECT~
+    INT_VAR
+      opcode = 296
+      target = 1
+      timing = 2
+    STR_VAR
+      resource = ~SPCONFUS~
+  END
+
+  LPF ~S!ADD_ITEM_EQEFFECT~
+    INT_VAR
+      opcode = 267
+      target = 1
+      parameter1 = 14782
+      timing = 2
+  END
+
+  LPF ~S!ADD_ITEM_EQEFFECT~
+    INT_VAR
+      opcode = 233
+      target = 1
+      parameter1 = 1
+      parameter2 = 101
+      timing = 2
+  END
+
+// Fallen Deva's personal weapon
+COPY_EXISTING ~devaevil.itm~ ~override/devaevil.itm~
+  LPF DELETE_ITEM_EFFECT INT_VAR opcode_to_delete = 141 END
+  LPF DELETE_ITEM_EFFECT INT_VAR opcode_to_delete = 13 END
+  LPF DELETE_ITEM_EFFECT INT_VAR opcode_to_delete = 240 END
+  LPF DELETE_ITEM_EFFECT INT_VAR opcode_to_delete = 77 END
+  LPF DELETE_ITEM_EFFECT INT_VAR opcode_to_delete = 112 END
+  LPF DELETE_ITEM_EFFECT INT_VAR opcode_to_delete = 215 END
+  LPF DELETE_ITEM_EFFECT INT_VAR opcode_to_delete = 174 END
+  LPF DELETE_ITEM_EFFECT INT_VAR opcode_to_delete = 139 END
+  LPF DELETE_ITEM_EFFECT INT_VAR opcode_to_delete = 58 END
+  LPF DELETE_ITEM_EFFECT INT_VAR opcode_to_delete = 81 END
+
+  PATCH_IF GAME_IS ~tob~ BEGIN
+    LPF ALTER_ITEM_EFFECT
+      INT_VAR
+        check_headers = 1
+        match_opcode = 177
+        power = 0
+      STR_VAR
+        resource = ~DIE~
+    END
   END
 
 // Rod of Smiting
@@ -69,11 +203,9 @@ COPY_EXISTING ~rods04.itm~ ~override/rods04.itm~
   READ_LONG  0x1e "usability"
   WRITE_LONG 0x1e ("%usability%" BAND 544344128)
 
-  LAUNCH_PATCH_FUNCTION ~DELETE_ITEM_EQEFFECT~ INT_VAR
-    "opcode_to_delete" = 7
-  END
+  LPF DELETE_ITEM_EQEFFECT INT_VAR opcode_to_delete = 7 END
 
-  LAUNCH_PATCH_FUNCTION ~ALTER_ITEM_HEADER~ INT_VAR
+  LPF ALTER_ITEM_HEADER INT_VAR
     header_type = 1
     identify = 0
     animation_overhand = 10
@@ -87,13 +219,11 @@ COPY_EXISTING ~amul28.itm~ ~override/amul28.itm~
   WRITE_ASCII 0x22    ~~ #2
 
   PATCH_FOR_EACH ~opcode_number~ IN ~267~ ~101~ ~169~ BEGIN
-    LAUNCH_PATCH_FUNCTION ~DELETE_ITEM_EQEFFECT~ INT_VAR
-      "opcode_to_delete" = opcode_number
-    END
+    LPF DELETE_ITEM_EQEFFECT INT_VAR opcode_to_delete = opcode_number END
   END
 
   PATCH_FOR_EACH ~opcode_number~ IN ~90~ ~91~ ~0~ ~142~ BEGIN
-    LAUNCH_PATCH_FUNCTION ~ALTER_ITEM_EFFECT~
+    LPF ALTER_ITEM_EFFECT
       INT_VAR
         check_globals = 1
         match_opcode = opcode_number
@@ -103,7 +233,7 @@ COPY_EXISTING ~amul28.itm~ ~override/amul28.itm~
     END
   END
 
-  LAUNCH_PATCH_FUNCTION ~ALTER_ITEM_EFFECT~
+  LPF ALTER_ITEM_EFFECT
     INT_VAR
       check_globals = 1
       match_opcode = 142
@@ -250,6 +380,50 @@ COPY_EXISTING ~hamm06.itm~ ~override/hamm06.itm~
       resource = ~HAMM06M~
   END
 
+COPY_EXISTING ~hamm10.itm~ ~override/hamm10.itm~
+  LPF DELETE_ITEM_EQEFFECT INT_VAR opcode_to_delete = 282 END
+
+  LPF ALTER_ITEM_HEADER
+    INT_VAR
+      header_type = 1
+      projectile = 1
+  END
+
+  LPF ALTER_ITEM_EFFECT
+    INT_VAR
+      check_headers = 1
+      match_opcode = 177
+      savingthrow = 0
+      savebonus = 0
+      resist_dispel = 2
+  END
+
+COPY_EXISTING ~hamm11.itm~ ~override/hamm11.itm~
+  LPF DELETE_ITEM_EQEFFECT INT_VAR opcode_to_delete = 282 END
+  LPF DELETE_ITEM_EQEFFECT INT_VAR opcode_to_delete = 296 END
+  LPF DELETE_ITEM_EQEFFECT INT_VAR opcode_to_delete = 240 END
+  LPF DELETE_ITEM_EQEFFECT INT_VAR opcode_to_delete = 23 END
+  LPF DELETE_ITEM_EQEFFECT INT_VAR opcode_to_delete = 106 END
+  LPF DELETE_ITEM_EQEFFECT INT_VAR opcode_to_delete = 161 END
+
+  LPF ALTER_ITEM_HEADER
+    INT_VAR
+      header_type = 1
+      projectile = 1
+  END
+
+  LPF ALTER_ITEM_HEADER INT_VAR header = 2 STR_VAR icon = ~SPWI607B~ END
+  LPF ALTER_ITEM_HEADER INT_VAR header = 3 STR_VAR icon = ~Sppr514b~ END
+
+  LPF ALTER_ITEM_EFFECT
+    INT_VAR
+      check_headers = 1
+      match_opcode = 177
+      savingthrow = 0
+      savebonus = 0
+      resist_dispel = 2
+  END
+
 // Mordenkainen's Sword
 COPY_EXISTING ~morsword.itm~ ~override/morsword.itm~
   WRITE_ASCII 0x22 ~FS~ #2
@@ -312,6 +486,11 @@ COPY_EXISTING ~morsword.itm~ ~override/morsword.itm~
   END
 
   BUT_ONLY
+
+// Plate of the Dark +1
+COPY_EXISTING ~plat14.itm~ ~override/plat14.itm~
+  WRITE_LONG   0x000c   6684          // ID name
+  WRITE_LONG   0x0034   17000         // Price
 
 // Potion of Clarity
 COPY_EXISTING ~potn21.itm~ ~override/potn21.itm~
@@ -393,7 +572,17 @@ COPY_EXISTING ~potn21.itm~ ~override/potn21.itm~
       insert_point = 5
   END
 
-  // Shield of Harmony
+// Potion of Cold Resistance
+COPY_EXISTING ~potn22.itm~ ~override/potn22.itm~
+  WRITE_SHORT  0x0022   0             // Animation
+  WRITE_SHORT  0x0038   200           // Stack
+
+// Potion of Insulation
+COPY_EXISTING ~potn31.itm~ ~override/potn31.itm~
+  WRITE_SHORT  0x0022   0             // Animation
+  WRITE_SHORT  0x0038   200           // Stack
+
+// Shield of Harmony
 COPY_EXISTING ~shld25.itm~ ~override/shld25.itm~
   PATCH_IF GAME_IS ~tob~ BEGIN
     PATCH_FOR_EACH ~param1~ IN ~14782~ ~14102~ ~14780~ ~14672~ ~14791~ BEGIN
@@ -1057,6 +1246,9 @@ COPY_EXISTING ~scrl7u.itm~ ~override/scrl7u.itm~
 
 COPY_EXISTING ~SCRLA9.itm~ ~override/SCRLA9.itm~
   WRITE_LONG  0x34       0 // price
+
+COPY_EXISTING ~scrl8y.itm~ ~override/scrl8y.itm~
+  WRITE_SHORT  0x38   99   // Stack
 
 // The Equalizer
 COPY_EXISTING ~sw1h54.itm~ ~override/sw1h54.itm~
