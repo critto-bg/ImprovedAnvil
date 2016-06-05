@@ -570,16 +570,6 @@ COPY_EXISTING ~potn21.itm~ ~override/potn21.itm~
       insert_point = 5
   END
 
-// Potion of Cold Resistance
-COPY_EXISTING ~potn22.itm~ ~override/potn22.itm~
-  WRITE_SHORT  0x0022   0             // Animation
-  WRITE_SHORT  0x0038   200           // Stack
-
-// Potion of Insulation
-COPY_EXISTING ~potn31.itm~ ~override/potn31.itm~
-  WRITE_SHORT  0x0022   0             // Animation
-  WRITE_SHORT  0x0038   200           // Stack
-
 // Shield of Harmony
 COPY_EXISTING ~shld25.itm~ ~override/shld25.itm~
   PATCH_IF GAME_IS ~tob~ BEGIN
@@ -1018,39 +1008,6 @@ COPY_EXISTING ~ring30.itm~ ~override/ring30.itm~
 COPY_EXISTING ~scrl71.itm~ ~override/scrl71.itm~
   SAY DESC      @9503
 
-COPY_EXISTING ~arow01.itm~ ~override/arow01.itm~
-  WRITE_SHORT  0x38    200 // stack amount
-
-COPY_EXISTING ~arow05.itm~ ~override/arow05.itm~
-  WRITE_SHORT  0x38    200 // stack amount
-
-COPY_EXISTING ~arow12.itm~ ~override/arow12.itm~
-  WRITE_SHORT  0x38    200 // stack amount
-
-COPY_EXISTING ~arow16.itm~ ~override/arow16.itm~
-  WRITE_SHORT  0x38    200 // stack amount
-
-COPY_EXISTING ~bolt01.itm~ ~override/bolt01.itm~
-  WRITE_SHORT  0x38    200 // stack amount
-
-COPY_EXISTING ~bolt04.itm~ ~override/bolt04.itm~
-  WRITE_SHORT  0x38    200 // stack amount
-
-COPY_EXISTING ~bull01.itm~ ~override/bull01.itm~
-  WRITE_SHORT  0x38    200 // stack amount
-
-COPY_EXISTING ~bull02.itm~ ~override/bull02.itm~
-  WRITE_SHORT  0x38    200 // stack amount
-
-COPY_EXISTING ~bull03.itm~ ~override/bull03.itm~
-  WRITE_SHORT  0x38    200 // stack amount
-
-COPY_EXISTING ~bull05.itm~ ~override/bull05.itm~
-  WRITE_SHORT  0x38    200 // stack amount
-
-COPY_EXISTING ~bull06.itm~ ~override/bull06.itm~
-  WRITE_SHORT  0x38    200 // stack amount
-
 COPY_EXISTING ~sw1h24.itm~ ~override/sw1h24.itm~
   SAY NAME2     @9044
   WRITE_LONG  0x60   1 // magic level
@@ -1147,4 +1104,25 @@ ACTION_PHP_EACH item_prices AS record => int BEGIN
       WRITE_LONG 0x34 record_1
       BUT_ONLY
   END
+END
+
+// modify stack amounts for certain items //
+ACTION_FOR_EACH ~file~ IN
+                ~arow01.itm~
+                ~arow05.itm~
+                ~arow12.itm~
+                ~arow16.itm~
+                ~bolt01.itm~
+                ~bolt04.itm~
+                ~bull01.itm~
+                ~bull02.itm~
+                ~bull03.itm~
+                ~bull05.itm~
+                ~bull06.itm~
+                ~potn22.itm~
+                ~potn31.itm~
+BEGIN
+  COPY_EXISTING ~%file%~ ~override/%file%~
+    WRITE_SHORT  0x38 200 // stack amount
+    BUT_ONLY
 END
