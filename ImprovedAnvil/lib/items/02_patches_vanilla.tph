@@ -1,5 +1,10 @@
 /// apply various patches to vanilla items ///
 
+// Kiel's Morning Star
+COPY_EXISTING ~blun09.itm~ ~override/blun09.itm~
+  WRITE_SHORT 0x042 60 // Lore to ID
+  BUT_ONLY
+
 // Mace of Disruption +1
 COPY_EXISTING ~blun12.itm~ ~override/blun12.itm~
   WRITE_LONG 0x60 1 // enchantment
@@ -194,6 +199,19 @@ COPY_EXISTING ~devaevil.itm~ ~override/devaevil.itm~
         resource = ~DIE~
     END
   END
+
+// Pale Green Ioun Stone
+COPY_EXISTING ~helm20.itm~ ~override/helm20.itm~
+  SAY DESC @10229
+
+  LAUNCH_PATCH_FUNCTION ~ALTER_ITEM_EFFECT~ INT_VAR
+    check_globals = 1
+    match_opcode = 18
+    parameter1 = 15
+    parameter2 = 0
+  END
+
+  BUT_ONLY
 
 // Rod of Smiting
 COPY_EXISTING ~rods04.itm~ ~override/rods04.itm~
@@ -486,6 +504,19 @@ COPY_EXISTING ~morsword.itm~ ~override/morsword.itm~
 
   BUT_ONLY
 
+// Jan's armor
+COPY_EXISTING ~nparm.itm~ ~override/nparm.itm~
+  SAY DESC @10298
+
+  // reduce DR bonus
+  PATCH_FOR_EACH ~opcode_number~ IN ~86~ ~87~ ~88~ ~89~ BEGIN
+    LPF ALTER_ITEM_EFFECT INT_VAR
+      check_globals = 1
+      match_opcode = ~%opcode_number%~
+      parameter1 = 10
+    END
+  END
+
 // Plate of the Dark +1
 COPY_EXISTING ~plat14.itm~ ~override/plat14.itm~
   WRITE_LONG   0x000c   6684          // ID name
@@ -664,6 +695,33 @@ COPY_EXISTING ~staf22.itm~ ~override/staf22.itm~
 
   BUT_ONLY
 
+// Kondar
+COPY_EXISTING ~sw1h03.itm~ ~override/sw1h03.itm~
+  SAY NAME2 @10250
+  WRITE_LONG  0x60 2 // +2 enchantment
+  BUT_ONLY
+
+// The Equalizer
+COPY_EXISTING ~sw1h54.itm~ ~override/sw1h54.itm~
+  SAY DESC @10244
+  WRITE_LONG  0x60 4 // +4 enchantment
+  BUT_ONLY
+
+// Hindo's Doom +4
+COPY_EXISTING ~sw1h71.itm~ ~override/sw1h71.itm~
+  // Fix targeting for Greater Restoration ability
+  LPF ALTER_ITEM_HEADER INT_VAR "header_type" = 3 "target" = 5 END
+  BUT_ONLY
+
+// set new prices in batch from 2da table //
+ACTION_PHP_EACH item_prices AS record => int BEGIN
+  ACTION_IF FILE_EXISTS_IN_GAME "%record_0%" BEGIN
+    COPY_EXISTING ~%record_0%~ ~override~
+      WRITE_LONG 0x34 record_1
+      BUT_ONLY
+  END
+END
+
 // Lilarcor
 COPY_EXISTING ~sw2h14.itm~ ~override/sw2h14.itm~
   PATCH_IF GAME_IS ~tob~ BEGIN
@@ -709,80 +767,8 @@ COPY_EXISTING ~sw2h14.itm~ ~override/sw2h14.itm~
 
   BUT_ONLY
 
-COPY_EXISTING ~leat04.itm~ ~override/leat04.itm~
-  READ_BYTE 0x29 "kitusability"
-  WRITE_BYTE 0x29 ("%kitusability%" BAND 0b00010000)
-
-COPY_EXISTING ~leat05.itm~ ~override/leat05.itm~
-  READ_BYTE 0x29 "kitusability"
-  WRITE_BYTE 0x29 ("%kitusability%" BAND 0b00010000)
-
-COPY_EXISTING ~leat06.itm~ ~override/leat06.itm~
-  READ_BYTE 0x29 "kitusability"
-  WRITE_BYTE 0x29 ("%kitusability%" BAND 0b00010000)
-
-COPY_EXISTING ~leat07.itm~ ~override/leat07.itm~
-  READ_BYTE 0x29 "kitusability"
-  WRITE_BYTE 0x29 ("%kitusability%" BAND 0b00010000)
-
-COPY_EXISTING ~leat15.itm~ ~override/leat15.itm~
-  READ_BYTE 0x29 "kitusability"
-  WRITE_BYTE 0x29 ("%kitusability%" BAND 0b00010000)
-
-COPY_EXISTING ~leat16.itm~ ~override/leat16.itm~
-  READ_BYTE 0x29 "kitusability"
-  WRITE_BYTE 0x29 ("%kitusability%" BAND 0b00010000)
-
-COPY_EXISTING ~leat17.itm~ ~override/leat17.itm~
-  READ_BYTE 0x29 "kitusability"
-  WRITE_BYTE 0x29 ("%kitusability%" BAND 0b00010000)
-
-COPY_EXISTING ~leat18.itm~ ~override/leat18.itm~
-  READ_BYTE 0x29 "kitusability"
-  WRITE_BYTE 0x29 ("%kitusability%" BAND 0b00010000)
-
-COPY_EXISTING ~leat23.itm~ ~override/leat23.itm~
-  READ_BYTE 0x29 "kitusability"
-  WRITE_BYTE 0x29 ("%kitusability%" BAND 0b00010000)
-
-COPY_EXISTING ~leat24.itm~ ~override/leat24.itm~
-  READ_BYTE 0x29 "kitusability"
-  WRITE_BYTE 0x29 ("%kitusability%" BAND 0b00010000)
-
 COPY_EXISTING ~gberry.itm~ ~override/gberry.itm~
   WRITE_SHORT  0x38     40 // stack amount
-
-COPY_EXISTING ~clck12.itm~ ~override/clck12.itm~
-  READ_BYTE 0x2f "kitusability4"
-  WRITE_BYTE 0x2f ("%kitusability4%" BOR 0b00000100)
-
-COPY_EXISTING ~clck13.itm~ ~override/clck13.itm~
-  READ_BYTE 0x2f "kitusability4"
-  WRITE_BYTE 0x2f ("%kitusability4%" BOR 0b00000100)
-
-COPY_EXISTING ~clck14.itm~ ~override/clck14.itm~
-  READ_BYTE 0x2f "kitusability4"
-  WRITE_BYTE 0x2f ("%kitusability4%" BOR 0b00000100)
-
-COPY_EXISTING ~clck15.itm~ ~override/clck15.itm~
-  READ_BYTE 0x2f "kitusability4"
-  WRITE_BYTE 0x2f ("%kitusability4%" BOR 0b00000100)
-
-COPY_EXISTING ~clck16.itm~ ~override/clck16.itm~
-  READ_BYTE 0x2f "kitusability4"
-  WRITE_BYTE 0x2f ("%kitusability4%" BOR 0b00000100)
-
-COPY_EXISTING ~clck17.itm~ ~override/clck17.itm~
-  READ_BYTE 0x2f "kitusability4"
-  WRITE_BYTE 0x2f ("%kitusability4%" BOR 0b00000100)
-
-COPY_EXISTING ~clck18.itm~ ~override/clck18.itm~
-  READ_BYTE 0x2f "kitusability4"
-  WRITE_BYTE 0x2f ("%kitusability4%" BOR 0b00000100)
-
-COPY_EXISTING ~clck29.itm~ ~override/clck29.itm~
-  READ_BYTE 0x2f "kitusability4"
-  WRITE_BYTE 0x2f ("%kitusability4%" BOR 0b00000100)
 
 COPY_EXISTING ~key20.itm~ ~override/key20.itm~
   READ_BYTE 0x18 "ioffset"
@@ -1048,64 +1034,6 @@ COPY_EXISTING ~scrl7u.itm~ ~override/scrl7u.itm~
 COPY_EXISTING ~scrl8y.itm~ ~override/scrl8y.itm~
   WRITE_SHORT  0x38   99   // Stack
 
-// The Equalizer
-COPY_EXISTING ~sw1h54.itm~ ~override/sw1h54.itm~
-  SAY DESC @10244
-  WRITE_LONG  0x60 4 // +4 enchantment
-  BUT_ONLY
-
-// Kondar
-COPY_EXISTING ~sw1h03.itm~ ~override/sw1h03.itm~
-  SAY NAME2 @10250
-  WRITE_LONG  0x60 2 // +2 enchantment
-  BUT_ONLY
-
-// Pale Green Ioun Stone
-COPY_EXISTING ~helm20.itm~ ~override/helm20.itm~
-  SAY DESC @10229
-
-  LAUNCH_PATCH_FUNCTION ~ALTER_ITEM_EFFECT~ INT_VAR
-    check_globals = 1
-    match_opcode = 18
-    parameter1 = 15
-    parameter2 = 0
-  END
-
-  BUT_ONLY
-
-// Kiel's Morning Star
-COPY_EXISTING ~blun09.itm~ ~override/blun09.itm~
-  WRITE_SHORT 0x042 60 // Lore to ID
-  BUT_ONLY
-
-// Hindo's Doom +4
-COPY_EXISTING ~sw1h71.itm~ ~override/sw1h71.itm~
-  // Fix targeting for Greater Restoration ability
-  LPF ALTER_ITEM_HEADER INT_VAR "header_type" = 3 "target" = 5 END
-  BUT_ONLY
-
-// Jan's armor
-COPY_EXISTING ~nparm.itm~ ~override/nparm.itm~
-  SAY DESC @10298
-
-  // reduce DR bonus
-  PATCH_FOR_EACH ~opcode_number~ IN ~86~ ~87~ ~88~ ~89~ BEGIN
-    LPF ALTER_ITEM_EFFECT INT_VAR
-      check_globals = 1
-      match_opcode = ~%opcode_number%~
-      parameter1 = 10
-    END
-  END
-
-// set new prices in batch from 2da table //
-ACTION_PHP_EACH item_prices AS record => int BEGIN
-  ACTION_IF FILE_EXISTS_IN_GAME "%record_0%" BEGIN
-    COPY_EXISTING ~%record_0%~ ~override~
-      WRITE_LONG 0x34 record_1
-      BUT_ONLY
-  END
-END
-
 // modify stack amounts for certain items //
 ACTION_FOR_EACH ~file~ IN
                 ~arow01.itm~
@@ -1124,5 +1052,41 @@ ACTION_FOR_EACH ~file~ IN
 BEGIN
   COPY_EXISTING ~%file%~ ~override/%file%~
     WRITE_SHORT  0x38 200 // stack amount
+    BUT_ONLY
+END
+
+// disallow usage of certain leather armors by shapeshifters //
+ACTION_FOR_EACH ~file~ IN
+                ~leat04.itm~
+                ~leat05.itm~
+                ~leat06.itm~
+                ~leat07.itm~
+                ~leat15.itm~
+                ~leat16.itm~
+                ~leat17.itm~
+                ~leat18.itm~
+                ~leat23.itm~
+                ~leat24.itm~
+BEGIN
+  COPY_EXISTING ~%file%~ ~override/%file%~
+    READ_BYTE  0x29 "kitusability"
+    WRITE_BYTE 0x29 ("%kitusability%" BAND 0b00010000)
+    BUT_ONLY
+END
+
+// disallow usage of cloaks by kensais //
+ACTION_FOR_EACH ~file~ IN
+                ~clck12.itm~
+                ~clck13.itm~
+                ~clck14.itm~
+                ~clck15.itm~
+                ~clck16.itm~
+                ~clck17.itm~
+                ~clck18.itm~
+                ~clck29.itm~
+BEGIN
+  COPY_EXISTING ~%file%~ ~override/%file%~
+    READ_BYTE  0x2f "kitusability4"
+    WRITE_BYTE 0x2f ("%kitusability4%" BOR 0b00000100)
     BUT_ONLY
 END
