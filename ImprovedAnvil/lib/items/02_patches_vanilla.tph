@@ -200,6 +200,10 @@ COPY_EXISTING ~devaevil.itm~ ~override/devaevil.itm~
     END
   END
 
+// Good Berry
+COPY_EXISTING ~gberry.itm~ ~override/gberry.itm~
+  WRITE_SHORT 0x38 40 // stack amount
+
 // Pale Green Ioun Stone
 COPY_EXISTING ~helm20.itm~ ~override/helm20.itm~
   SAY DESC @10229
@@ -701,6 +705,11 @@ COPY_EXISTING ~sw1h03.itm~ ~override/sw1h03.itm~
   WRITE_LONG  0x60 2 // +2 enchantment
   BUT_ONLY
 
+// Shazzellim +1
+COPY_EXISTING ~sw1h50.itm~ ~override/sw1h50.itm~
+  READ_BYTE  0x18 "ioffset"
+  WRITE_BYTE 0x18 ("%ioffset%" BAND 0b11111011) // clear movable flag
+
 // The Equalizer
 COPY_EXISTING ~sw1h54.itm~ ~override/sw1h54.itm~
   SAY DESC @10244
@@ -712,15 +721,6 @@ COPY_EXISTING ~sw1h71.itm~ ~override/sw1h71.itm~
   // Fix targeting for Greater Restoration ability
   LPF ALTER_ITEM_HEADER INT_VAR "header_type" = 3 "target" = 5 END
   BUT_ONLY
-
-// set new prices in batch from 2da table //
-ACTION_PHP_EACH item_prices AS record => int BEGIN
-  ACTION_IF FILE_EXISTS_IN_GAME "%record_0%" BEGIN
-    COPY_EXISTING ~%record_0%~ ~override~
-      WRITE_LONG 0x34 record_1
-      BUT_ONLY
-  END
-END
 
 // Lilarcor
 COPY_EXISTING ~sw2h14.itm~ ~override/sw2h14.itm~
@@ -767,171 +767,19 @@ COPY_EXISTING ~sw2h14.itm~ ~override/sw2h14.itm~
 
   BUT_ONLY
 
-COPY_EXISTING ~gberry.itm~ ~override/gberry.itm~
-  WRITE_SHORT  0x38     40 // stack amount
-
-COPY_EXISTING ~key20.itm~ ~override/key20.itm~
-  READ_BYTE 0x18 "ioffset"
-  WRITE_BYTE "0x18" ("%ioffset%" BAND 0b11111110) // clear unsellable flag
-
-COPY_EXISTING ~misc9x.itm~ ~override/misc9x.itm~
-  READ_BYTE 0x18 "ioffset"
-  WRITE_BYTE "0x18" ("%ioffset%" BAND 0b11111110) // clear unsellable flag
-
-COPY_EXISTING ~misc9y.itm~ ~override/misc9y.itm~
-  READ_BYTE 0x18 "ioffset"
-  WRITE_BYTE "0x18" ("%ioffset%" BAND 0b11111110) // clear unsellable flag
-
-COPY_EXISTING ~key26.itm~ ~override/key26.itm~
-  READ_BYTE 0x18 "ioffset"
-  WRITE_BYTE "0x18" ("%ioffset%" BAND 0b11111110) // clear unsellable flag
-
-COPY_EXISTING ~misc8q.itm~ ~override/misc8q.itm~
-  READ_BYTE 0x18 "ioffset"
-  WRITE_BYTE "0x18" ("%ioffset%" BAND 0b11111110) // clear unsellable flag
-
-COPY_EXISTING ~misca7.itm~ ~override/misca7.itm~
-  READ_BYTE 0x18 "ioffset"
-  WRITE_BYTE "0x18" ("%ioffset%" BAND 0b11111110) // clear unsellable flag
-
-COPY_EXISTING ~misca8.itm~ ~override/misca8.itm~
-  READ_BYTE 0x18 "ioffset"
-  WRITE_BYTE "0x18" ("%ioffset%" BAND 0b11111110) // clear unsellable flag
-
-COPY_EXISTING ~miscbv.itm~ ~override/miscbv.itm~
-  READ_BYTE 0x18 "ioffset"
-  WRITE_BYTE "0x18" ("%ioffset%" BAND 0b11111110) // clear unsellable flag
-
-COPY_EXISTING ~book94.itm~ ~override/book94.itm~
-  READ_BYTE 0x18 "ioffset"
-  WRITE_BYTE "0x18" ("%ioffset%" BAND 0b11111110) // clear unsellable flag
-
-COPY_EXISTING ~book95.itm~ ~override/book95.itm~
-  READ_BYTE 0x18 "ioffset"
-  WRITE_BYTE "0x18" ("%ioffset%" BAND 0b11111110) // clear unsellable flag
-
-COPY_EXISTING ~book96.itm~ ~override/book96.itm~
-  READ_BYTE 0x18 "ioffset"
-  WRITE_BYTE "0x18" ("%ioffset%" BAND 0b11111110) // clear unsellable flag
-
-COPY_EXISTING ~key23.itm~ ~override/key23.itm~
-  READ_BYTE 0x18 "ioffset"
-  WRITE_BYTE "0x18" ("%ioffset%" BAND 0b11111110) // clear unsellable flag
-
-COPY_EXISTING ~sw1h50.itm~ ~override/sw1h50.itm~
-  READ_BYTE 0x18 "ioffset"
-  WRITE_BYTE "0x18" ("%ioffset%" BAND 0b11111011) // clear movable flag
-
-COPY_EXISTING ~sgrasp01.itm~ ~override/sgrasp01.itm~
-  WRITE_LONG  0x60   5 // magic level
-
-COPY_EXISTING ~sgrasp02.itm~ ~override/sgrasp02.itm~
-  WRITE_LONG  0x60   5 // magic level
-
-COPY_EXISTING ~sgrasp03.itm~ ~override/sgrasp03.itm~
-  WRITE_LONG  0x60   5 // magic level
-
-COPY_EXISTING ~sgrasp04.itm~ ~override/sgrasp04.itm~
-  WRITE_LONG  0x60   5 // magic level
-
-COPY_EXISTING ~sgrasp05.itm~ ~override/sgrasp05.itm~
-  WRITE_LONG  0x60   5 // magic level
-
-COPY_EXISTING ~sgrasp06.itm~ ~override/sgrasp06.itm~
-  WRITE_LONG  0x60   5 // magic level
-
-COPY_EXISTING ~sgrasp07.itm~ ~override/sgrasp07.itm~
-  WRITE_LONG  0x60   5 // magic level
-
-COPY_EXISTING ~sgrasp08.itm~ ~override/sgrasp08.itm~
-  WRITE_LONG  0x60   5 // magic level
-
-COPY_EXISTING ~sgrasp09.itm~ ~override/sgrasp09.itm~
-  WRITE_LONG  0x60   5 // magic level
-
-COPY_EXISTING ~sgrasp10.itm~ ~override/sgrasp10.itm~
-  WRITE_LONG  0x60   5 // magic level
-
-COPY_EXISTING ~sgrasp11.itm~ ~override/sgrasp11.itm~
-  WRITE_LONG  0x60   5 // magic level
-
-COPY_EXISTING ~sgrasp12.itm~ ~override/sgrasp12.itm~
-  WRITE_LONG  0x60   5 // magic level
-
-COPY_EXISTING ~sgrasp13.itm~ ~override/sgrasp13.itm~
-  WRITE_LONG  0x60   5 // magic level
-
-COPY_EXISTING ~sgrasp14.itm~ ~override/sgrasp14.itm~
-  WRITE_LONG  0x60   5 // magic level
-
-COPY_EXISTING ~sgrasp15.itm~ ~override/sgrasp15.itm~
-  WRITE_LONG  0x60   5 // magic level
-
-COPY_EXISTING ~sgrasp16.itm~ ~override/sgrasp16.itm~
-  WRITE_LONG  0x60   5 // magic level
-
-COPY_EXISTING ~sgrasp17.itm~ ~override/sgrasp17.itm~
-  WRITE_LONG  0x60   5 // magic level
-
-COPY_EXISTING ~sgrasp18.itm~ ~override/sgrasp18.itm~
-  WRITE_LONG  0x60   5 // magic level
-
-COPY_EXISTING ~sgrasp19.itm~ ~override/sgrasp19.itm~
-  WRITE_LONG  0x60   5 // magic level
-
-COPY_EXISTING ~sgrasp20.itm~ ~override/sgrasp20.itm~
-  WRITE_LONG  0x60   5 // magic level
-
-COPY_EXISTING ~serious.itm~ ~override/serious.itm~
-  WRITE_LONG  0x60   5 // magic level
-
-COPY_EXISTING ~critical.itm~ ~override/critical.itm~
-  WRITE_LONG  0x60   5 // magic level
-
-COPY_EXISTING ~dwwhip.itm~ ~override/dwwhip.itm~
-  WRITE_LONG  0x60   5 // magic level
-
-COPY_EXISTING ~halb11.itm~ ~override/halb11.itm~
-  WRITE_LONG  0x60   5 // magic level
-
-COPY_EXISTING ~hamm04.itm~ ~override/hamm04.itm~
-  WRITE_LONG  0x60   1 // magic level
-
-COPY_EXISTING ~dragred1.itm~ ~override/dragred1.itm~
-  WRITE_LONG  0x60   4 // magic level
-
-COPY_EXISTING ~mindflay.itm~ ~override/mindflay.itm~
-  WRITE_LONG  0x60   3 // magic level
-
-COPY_EXISTING ~senspi01.itm~ ~override/senspi01.itm~
-  WRITE_LONG  0x60   4 // magic level
-
-COPY_EXISTING ~blun10.itm~ ~override/blun10.itm~
-  WRITE_LONG  0x60   1 // magic level
-
-COPY_EXISTING ~plyflind.itm~ ~override/plyflind.itm~
-  WRITE_LONG  0x60   1 // magic level
-
-COPY_EXISTING ~blun23.itm~ ~override/blun23.itm~
-  WRITE_LONG  0x60   2 // magic level
-
 COPY_EXISTING ~maurezhi.itm~ ~override/maurezhi.itm~
-  WRITE_LONG  0x60   5 // magic level
   READ_BYTE 0x18 "ioffset"
   WRITE_BYTE "0x18" ("%ioffset%" BOR 0b01000000) // sets magical flag
 
 COPY_EXISTING ~lionspir.itm~ ~override/lionspir.itm~
-  WRITE_LONG  0x60   3 // magic level
   READ_BYTE 0x18 "ioffset"
   WRITE_BYTE "0x18" ("%ioffset%" BOR 0b01000000) // sets magical flag
 
 COPY_EXISTING ~snakspir.itm~ ~override/snakspir.itm~
-  WRITE_LONG  0x60   3 // magic level
   READ_BYTE 0x18 "ioffset"
   WRITE_BYTE "0x18" ("%ioffset%" BOR 0b01000000) // sets magical flag
 
 COPY_EXISTING ~demabi01.itm~ ~override/demabi01.itm~
-  WRITE_LONG  0x60   4 // magic level
   READ_BYTE 0x18 "ioffset"
   WRITE_BYTE "0x18" ("%ioffset%" BOR 0b01000000) // sets magical flag
 
@@ -948,17 +796,14 @@ COPY_EXISTING ~wolfm.itm~ ~override/wolfm.itm~
   WRITE_BYTE "0x18" ("%ioffset%" BOR 0b01000000) // sets magical flag
 
 COPY_EXISTING ~mumgrew.itm~ ~override/mumgrew.itm~
-  WRITE_LONG  0x60   4 // magic level
   READ_BYTE 0x18 "ioffset"
   WRITE_BYTE "0x18" ("%ioffset%" BOR 0b01000000) // sets magical flag
 
 COPY_EXISTING ~mummyw.itm~ ~override/mummyw.itm~
-  WRITE_LONG  0x60   3 // magic level
   READ_BYTE 0x18 "ioffset"
   WRITE_BYTE "0x18" ("%ioffset%" BOR 0b01000000) // sets magical flag
 
 COPY_EXISTING ~B3-24.itm~ ~override/B3-24.itm~
-  WRITE_LONG  0x60   3 // magic level
   READ_BYTE 0x18 "ioffset"
   WRITE_BYTE "0x18" ("%ioffset%" BOR 0b01000000) // sets magical flag
 
@@ -996,7 +841,6 @@ COPY_EXISTING ~scrl71.itm~ ~override/scrl71.itm~
 
 COPY_EXISTING ~sw1h24.itm~ ~override/sw1h24.itm~
   SAY NAME2     @9044
-  WRITE_LONG  0x60   1 // magic level
 
 COPY_EXISTING ~scrl94.itm~ ~override/scrl94.itm~
   SAY DESC      @9049
@@ -1089,4 +933,43 @@ BEGIN
     READ_BYTE  0x2f "kitusability4"
     WRITE_BYTE 0x2f ("%kitusability4%" BOR 0b00000100)
     BUT_ONLY
+END
+
+// clear unsellable flag for certain items //
+ACTION_FOR_EACH ~file~ IN
+                ~key20.itm~
+                ~misc9x.itm~
+                ~misc9y.itm~
+                ~key26.itm~
+                ~misc8q.itm~
+                ~misca7.itm~
+                ~misca8.itm~
+                ~miscbv.itm~
+                ~book94.itm~
+                ~book95.itm~
+                ~book96.itm~
+                ~key23.itm~
+BEGIN
+  COPY_EXISTING ~%file%~ ~override/%file%~
+    READ_BYTE  0x18 "ioffset"
+    WRITE_BYTE 0x18 ("%ioffset%" BAND 0b11111110) // clear unsellable flag
+    BUT_ONLY
+END
+
+// set new prices in batch from 2da table //
+ACTION_PHP_EACH item_prices AS record => int BEGIN
+  ACTION_IF FILE_EXISTS_IN_GAME "%record_0%" BEGIN
+    COPY_EXISTING ~%record_0%~ ~override~
+      WRITE_LONG 0x34 record_1
+      BUT_ONLY
+  END
+END
+
+// set new enchantment levels in batch from 2da table //
+ACTION_PHP_EACH item_enchantments AS record => int BEGIN
+  ACTION_IF FILE_EXISTS_IN_GAME "%record_0%" BEGIN
+    COPY_EXISTING ~%record_0%~ ~override~
+      WRITE_LONG 0x60 record_1
+      BUT_ONLY
+  END
 END
