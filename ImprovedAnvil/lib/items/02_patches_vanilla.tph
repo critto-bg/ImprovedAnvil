@@ -605,6 +605,11 @@ COPY_EXISTING ~potn21.itm~ ~override/potn21.itm~
       insert_point = 5
   END
 
+// Ring of Human Influence
+COPY_EXISTING ~ring30.itm~ ~override/ring30.itm~
+  SAY DESC @9020
+  WRITE_BYTE 0x32 9 // min charisma
+
 // Shield of Harmony
 COPY_EXISTING ~shld25.itm~ ~override/shld25.itm~
   PATCH_IF GAME_IS ~tob~ BEGIN
@@ -767,53 +772,7 @@ COPY_EXISTING ~sw2h14.itm~ ~override/sw2h14.itm~
 
   BUT_ONLY
 
-COPY_EXISTING ~maurezhi.itm~ ~override/maurezhi.itm~
-  READ_BYTE 0x18 "ioffset"
-  WRITE_BYTE "0x18" ("%ioffset%" BOR 0b01000000) // sets magical flag
-
-COPY_EXISTING ~lionspir.itm~ ~override/lionspir.itm~
-  READ_BYTE 0x18 "ioffset"
-  WRITE_BYTE "0x18" ("%ioffset%" BOR 0b01000000) // sets magical flag
-
-COPY_EXISTING ~snakspir.itm~ ~override/snakspir.itm~
-  READ_BYTE 0x18 "ioffset"
-  WRITE_BYTE "0x18" ("%ioffset%" BOR 0b01000000) // sets magical flag
-
-COPY_EXISTING ~demabi01.itm~ ~override/demabi01.itm~
-  READ_BYTE 0x18 "ioffset"
-  WRITE_BYTE "0x18" ("%ioffset%" BOR 0b01000000) // sets magical flag
-
-COPY_EXISTING ~stalkesu.itm~ ~override/stalkesu.itm~
-  READ_BYTE 0x18 "ioffset"
-  WRITE_BYTE "0x18" ("%ioffset%" BOR 0b01000000) // sets magical flag
-
-COPY_EXISTING ~dax1h01.itm~ ~override/dax1h01.itm~
-  READ_BYTE 0x18 "ioffset"
-  WRITE_BYTE "0x18" ("%ioffset%" BOR 0b01000000) // sets magical flag
-
-COPY_EXISTING ~wolfm.itm~ ~override/wolfm.itm~
-  READ_BYTE 0x18 "ioffset"
-  WRITE_BYTE "0x18" ("%ioffset%" BOR 0b01000000) // sets magical flag
-
-COPY_EXISTING ~mumgrew.itm~ ~override/mumgrew.itm~
-  READ_BYTE 0x18 "ioffset"
-  WRITE_BYTE "0x18" ("%ioffset%" BOR 0b01000000) // sets magical flag
-
-COPY_EXISTING ~mummyw.itm~ ~override/mummyw.itm~
-  READ_BYTE 0x18 "ioffset"
-  WRITE_BYTE "0x18" ("%ioffset%" BOR 0b01000000) // sets magical flag
-
-COPY_EXISTING ~B3-24.itm~ ~override/B3-24.itm~
-  READ_BYTE 0x18 "ioffset"
-  WRITE_BYTE "0x18" ("%ioffset%" BOR 0b01000000) // sets magical flag
-
-COPY_EXISTING ~mistpo.itm~ ~override/mistpo.itm~
-  READ_BYTE 0x18 "ioffset"
-  WRITE_BYTE "0x18" ("%ioffset%" BOR 0b01000000) // sets magical flag
-
-COPY_EXISTING ~mistcd.itm~ ~override/mistcd.itm~
-  READ_BYTE 0x18 "ioffset"
-  WRITE_BYTE "0x18" ("%ioffset%" BOR 0b01000000) // sets magical flag
+// various patches //
 
 COPY_EXISTING ~sw1h46.itm~ ~override/sw1h46.itm~
   READ_LONG 0x1e "usability"
@@ -831,10 +790,6 @@ COPY_EXISTING ~scrl1q.itm~ ~override/scrl1q.itm~
 
 COPY_EXISTING ~scrla3.itm~ ~override/scrla3.itm~
   SAY DESC      @364
-
-COPY_EXISTING ~ring30.itm~ ~override/ring30.itm~
-  SAY DESC      @9020
-  WRITE_BYTE  0x32      9 // min charisma
 
 COPY_EXISTING ~scrl71.itm~ ~override/scrl71.itm~
   SAY DESC      @9503
@@ -876,7 +831,7 @@ COPY_EXISTING ~scrl7u.itm~ ~override/scrl7u.itm~
   WRITE_BYTE 0x2f ("%kit_usability%" BAND 0b11111110)
 
 COPY_EXISTING ~scrl8y.itm~ ~override/scrl8y.itm~
-  WRITE_SHORT  0x38   99   // Stack
+  WRITE_SHORT  0x38 99   // Stack
 
 // modify stack amounts for certain items //
 ACTION_FOR_EACH ~file~ IN
@@ -953,6 +908,27 @@ BEGIN
   COPY_EXISTING ~%file%~ ~override/%file%~
     READ_BYTE  0x18 "ioffset"
     WRITE_BYTE 0x18 ("%ioffset%" BAND 0b11111110) // clear unsellable flag
+    BUT_ONLY
+END
+
+// set magical flag for items //
+ACTION_FOR_EACH ~file~ IN
+                ~maurezhi.itm~
+                ~lionspir.itm~
+                ~snakspir.itm~
+                ~demabi01.itm~
+                ~stalkesu.itm~
+                ~dax1h01.itm~
+                ~wolfm.itm~
+                ~mumgrew.itm~
+                ~mummyw.itm~
+                ~B3-24.itm~
+                ~mistpo.itm~
+                ~mistcd.itm~
+BEGIN
+  COPY_EXISTING ~%file%~ ~override/%file%~
+    READ_BYTE  0x18 "ioffset"
+    WRITE_BYTE 0x18 ("%ioffset%" BOR 0b01000000) // sets magical flag
     BUT_ONLY
 END
 
