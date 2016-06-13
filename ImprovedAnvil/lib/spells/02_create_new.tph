@@ -1,0 +1,167 @@
+/// Create new spells by patching the existing ones ///
+
+// Protection from Cold
+COPY_EXISTING ~SPWI320.spl~ ~override/SPDR302.spl~
+  WRITE_SHORT 0x1c 2 // spell type
+
+// Giant Strength
+COPY_EXISTING ~SPWI607.spl~ ~override/SPDR603.spl~
+  SAY UNIDENTIFIED_DESC @10235
+  WRITE_SHORT 0x1c 2 // spell type
+  WRITE_LONG 0x34 6 // spell level
+
+// Protection from the Elements
+COPY_EXISTING ~SPWI702.spl~ ~override/SPDR702.spl~
+  WRITE_SHORT 0x1c 2 // spell type
+  WRITE_LONG 0x34 7 // spell level
+
+// Mazzy's Righteous Magic ability
+COPY_EXISTING ~SPPR513.spl~ ~override/SPINI99.spl~
+  WRITE_SHORT 0x1C 4 // Location: Innate spells
+
+  // change location to Innate
+  LAUNCH_PATCH_FUNCTION ~ALTER_SPELL_HEADER~ INT_VAR
+    location = 4
+    speed = 3
+  END
+
+  // change duration to 5 rounds
+  PATCH_FOR_EACH ~opcode_number~ IN ~8~ ~44~ ~18~ ~250~ ~142~ ~282~ BEGIN
+    LAUNCH_PATCH_FUNCTION ~ALTER_SPELL_EFFECT~ INT_VAR
+      check_headers = 1
+      header_type = 1
+      match_opcode = ~%opcode_number%~
+      duration = 30
+    END
+  END
+
+  // patch duration for effects with opcode 174 (play sound) and time mode 4 (instant/delayed)
+  READ_SHORT 0x68 "header_count"
+  READ_LONG  0x64 "header_offset"
+  READ_LONG  0x6A "fx_offset"
+
+  SET "header" = 0
+  WHILE ("%header%" < "%header_count%") BEGIN
+    READ_SHORT (%header_offset% + ("%header%" * 0x28) + 0x1e) "eff_count"
+    READ_SHORT (%header_offset% + ("%header%" * 0x28) + 0x20) "eff_offset"
+
+    SET "effect" = 0
+    WHILE ("%effect%" < "%eff_count%") BEGIN
+      SET "current_effect" = "%fx_offset%" + ("%eff_offset%" + "%effect%") * 0x30
+
+      READ_BYTE ("%current_effect%" + 0x0c) "timing_mode"
+      READ_SHORT "%current_effect%" "opcode"
+
+      PATCH_IF "%timing_mode%" = 4 AND "%opcode%" = 174 THEN BEGIN
+        WRITE_LONG ("%current_effect%" + 0x0e) 30
+      END
+
+      "effect" = "%effect%" + 1
+    END
+
+    "header" = "%header%" + 1
+  END
+
+  // update "remove effect by resource" opcode's reference
+  PATCH_IF GAME_IS ~bg2ee~ THEN BEGIN
+    LPF ALTER_SPELL_EFFECT INT_VAR match_opcode = ~321~ STR_VAR resource = ~SPINI99~ END
+  END
+
+  // update "protection from spell" opcode's reference
+  PATCH_IF GAME_IS ~tob~ THEN BEGIN
+    LPF ALTER_SPELL_EFFECT INT_VAR match_opcode = ~206~ STR_VAR resource = ~SPINI99~ END
+  END
+
+// Demogorgon's Lower Fire Resistance spell
+COPY_EXISTING ~SPIN682.spl~ ~override/SPINI100.spl~
+  // set spell level
+  WRITE_LONG 0x34 1
+
+  // patch duration for effects with opcode 174 (play sound) and time mode 4 (instant/delayed)
+  READ_SHORT 0x68 "header_count"
+  READ_LONG  0x64 "header_offset"
+  READ_LONG  0x6A "fx_offset"
+
+  SET "header" = 0
+  WHILE ("%header%" < "%header_count%") BEGIN
+    READ_SHORT (%header_offset% + ("%header%" * 0x28) + 0x1e) "eff_count"
+    READ_SHORT (%header_offset% + ("%header%" * 0x28) + 0x20) "eff_offset"
+
+    SET "effect" = 0
+    WHILE ("%effect%" < "%eff_count%") BEGIN
+      SET "current_effect" = "%fx_offset%" + ("%eff_offset%" + "%effect%") * 0x30
+      READ_SHORT "%current_effect%" "opcode"
+
+      PATCH_IF "%opcode%" = 30 THEN BEGIN
+        WRITE_LONG ("%current_effect%" + 0x04) ~-20~
+      END
+
+      "effect" = "%effect%" + 1
+    END
+
+    "header" = "%header%" + 1
+  END
+
+// Acid Shield
+COPY_EXISTING ~SPWI418.spl~ ~override/sppr418.spl~
+  SAY NAME1 @10233
+  SAY UNIDENTIFIED_DESC @10234
+
+  WRITE_SHORT 0x1c 2 // spell type
+  WRITE_BYTE  0x1f 0b00000000 // reset old exclusion
+  WRITE_BYTE  0x21 0b01000000 // add new exclusion
+  WRITE_ASCII 0x3a "SPPR418C"
+
+  // fire res -> acid res
+  LAUNCH_PATCH_FUNCTION ~ALTER_SPELL_EFFECT~ INT_VAR
+    check_headers = 1
+    header_type = 1
+    match_opcode = 30
+    new_opcode = 27
+  END
+
+  // remove magical fire res.
+  LAUNCH_PATCH_FUNCTION ~DELETE_SPELL_EFFECT~ INT_VAR
+    opcode_to_delete = 84
+  END
+
+  // portrait icon -> prot. from acid
+  LAUNCH_PATCH_FUNCTION ~ALTER_SPELL_EFFECT~ INT_VAR
+    check_headers = 1
+    header_type = 1
+    match_opcode = 142
+    parameter2 = 24
+  END
+
+  // cast spell on condition
+  LAUNCH_PATCH_FUNCTION ~ALTER_SPELL_EFFECT~
+    INT_VAR
+      check_headers = 1
+      header_type = 1
+      match_opcode = 232
+    STR_VAR
+      resource = "SPPR953D"
+  END
+
+  // modify "play spell animation" abilities
+  // there's no nice way to do this via macros
+  READ_LONG  0x64 "abil_off"
+  READ_SHORT 0x68 "abil_num"
+  READ_LONG  0x6a "fx_off"
+  FOR (index = 0; index < abil_num; index = index + 1) BEGIN
+  	READ_SHORT ("%abil_off%" + 0x1e + (0x28 * "%index%")) "abil_fx_num"
+  	READ_SHORT ("%abil_off%" + 0x20 + (0x28 * "%index%")) "abil_fx_idx"
+
+    WRITE_ASCII ("%abil_off%" + 0x04 + (0x28 * "%index%")) "SPPR418B"
+
+    FOR (index2 = 0; index2 < abil_fx_num; index2 = index2 + 1) BEGIN
+  	  READ_SHORT ("%fx_off%" +	  	  (0x30 * ("%abil_fx_idx%" + "%index2%"))) "opcode"
+  	  READ_ASCII ("%fx_off%" + 0x14 + (0x30 * ("%abil_fx_idx%" + "%index2%"))) "resource" (8)
+  	  PATCH_IF (("%opcode%" = 215) AND ("%resource%" STRING_EQUAL "SPFIRESR")) BEGIN
+  		WRITE_ASCII ("%fx_off%" + 0x14 + (0x30 * ("%abil_fx_idx%" + "%index2%"))) "S!acshdr" #8
+  	  END
+  	  PATCH_IF (("%opcode%" = 215) AND ("%resource%" STRING_EQUAL "SPFIREST")) BEGIN
+  		WRITE_ASCII ("%fx_off%" + 0x14 + (0x30 * ("%abil_fx_idx%" + "%index2%"))) "S!acshdt" #8
+  	  END
+  	END
+  END

@@ -1,0 +1,60 @@
+/// BG2EE-specific patches ///
+
+ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
+  // patch "wake on sleep" for Command and Greater Command
+  COPY_EXISTING ~SPPR102.spl~ ~override/SPPR102.spl~
+                ~SPPR512.spl~ ~override/SPPR512.spl~
+    LPF ~ALTER_SPELL_EFFECT~ INT_VAR
+      check_headers = 1
+      match_opcode = 39
+      parameter2 = 1
+    END
+
+  // patch DUHM spells not to activate SCRIPTINGSTATE6 on a character
+  COPY_EXISTING ~BHAAL2A.spl~ ~override/BHAAL2A.spl~
+                ~SPIN103.spl~ ~override/SPIN103.spl~
+                ~SPPR214.spl~ ~override/SPPR214.spl~
+    LPF ~DELETE_SPELL_EFFECT~ INT_VAR
+      opcode_to_delete = 282
+    END
+
+  // DD, defensive stance
+  COPY_EXISTING ~spdwd02.spl~ ~override/spdwd02.spl~
+    SAY UNIDENTIFIED_DESC @10216
+
+    // reduce DR bonus
+    PATCH_FOR_EACH ~opcode_number~ IN ~86~ ~87~ ~88~ ~89~ BEGIN
+      LPF ~ALTER_SPELL_EFFECT~ INT_VAR
+        check_headers = 1
+        header_type = 1
+        match_opcode = ~%opcode_number%~
+        parameter1 = 25
+      END
+    END
+
+    // add protection from Hardiness for the duration of the spell
+    PATCH_FOR_EACH ~res~ IN ~SPCL907~ ~SPWISH12~ BEGIN
+      LPF ~ADD_SPELL_EFFECT~
+        INT_VAR
+          opcode = 206
+          target = 1
+          timing = 0
+          resist_dispel = 2
+          duration = 60
+        STR_VAR
+          resource = EVALUATE_BUFFER ~%res%~
+      END
+    END
+
+    BUT_ONLY
+
+  // In EE, II already has a +4 bonus to saving-throws embedded into the opcode
+  // therefore, remove the extra bonuses from the spell file
+  COPY_EXISTING ~SPWI405.spl~ ~override/SPWI405.spl~
+    PATCH_FOR_EACH ~opcode_number~ IN ~33~ ~34~ ~35~ ~36~ ~37~ BEGIN
+      LPF ~DELETE_SPELL_EFFECT~ INT_VAR
+        opcode_to_delete = ~%opcode_number%~
+      END
+    END
+    BUT_ONLY
+END
