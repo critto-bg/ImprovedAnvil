@@ -1,7 +1,9 @@
-/// This library contains routines for creature re-colouring ///
-/// Thanks to the authors of aTweaks for the code snippet and inspiration ///
+/// various functions for patching creatures ///
 
-DEFINE_ACTION_FUNCTION change_creature_colours
+// This functions applies custom colouring to a specified creature file //
+// Thanks to the authors of aTweaks for the code snippet and inspiration //
+
+DEFINE_ACTION_FUNCTION ~S!CHANGE_CREATURE_COLOURS~
 STR_VAR
   file = ""
   opcode = ""
@@ -10,11 +12,11 @@ BEGIN
   COPY_EXISTING ~%file%.cre~ ~override~
 
     // remove any existent tint
-    LAUNCH_PATCH_FUNCTION ~DELETE_CRE_EFFECT~ INT_VAR
+    LPF DELETE_CRE_EFFECT INT_VAR
       opcode_to_delete = "51" // Colour: Strong/Dark by RGB
     END
 
-    LAUNCH_PATCH_FUNCTION ~DELETE_CRE_EFFECT~ INT_VAR
+    LPF DELETE_CRE_EFFECT INT_VAR
       opcode_to_delete = "52" // Colour: Very Bright by RGB
     END
 
@@ -50,11 +52,11 @@ BEGIN
     SPRINT ~effsource~ ~~
     SPRINT ~effvar~ ~~
 
-    LAUNCH_PATCH_MACRO ~ADD_CRE_EFFECT~
+    LPM ADD_CRE_EFFECT
 
     // grant immunity to the color glow/pulse effects
     PATCH_FOR_EACH ~color~ IN ~9~ ~50~ BEGIN
-      LAUNCH_PATCH_FUNCTION ~ADD_CRE_EFFECT~ INT_VAR
+      LPF ADD_CRE_EFFECT INT_VAR
         "opcode" = "101" // Protection from Opcode
         "target" = "1"   // self
         "timing" = "9"   // permanent after death
