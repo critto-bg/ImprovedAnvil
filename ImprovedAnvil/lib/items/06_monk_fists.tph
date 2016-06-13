@@ -1,0 +1,144 @@
+/// Modify monk's fists' combat abilities ///
+
+COPY_EXISTING ~mfist3.itm~ ~override/mfist3.itm~
+  SAY NAME1 @10190
+  SAY NAME2 @10190
+  WRITE_LONG  0x60 1 // +1 enchantment
+
+  READ_BYTE  0x18 "flags01"
+  WRITE_BYTE 0x18 ("%flags01%" BOR 0b01000000)  // adds magical flag
+
+  READ_LONG   0x64 "ability_offset"
+  READ_SHORT  0x68 "ability_num"
+  FOR (index = 0; index < ability_num; index = index + 1) BEGIN
+    READ_SHORT  ("%ability_offset%" + ("%index%" * 0x38)) "type"
+    PATCH_IF ("%type%" = 1) BEGIN // melee check
+      WRITE_SHORT ("%ability_offset%" + 0x14 + ("%index%" * 0x38)) 1  // THAC0 bonus
+      WRITE_SHORT ("%ability_offset%" + 0x1a + ("%index%" * 0x38)) 1  // damage bonus
+    END
+  END
+  BUT_ONLY_IF_IT_CHANGES
+
+COPY_EXISTING ~mfist4.itm~ ~override/mfist4.itm~
+  SAY NAME1 @10191
+  SAY NAME2 @10191
+  WRITE_LONG  0x60 2 // +2 enchantment
+
+  READ_LONG   0x64 "ability_offset"
+  READ_SHORT  0x68 "ability_num"
+  FOR (index = 0; index < ability_num; index = index + 1) BEGIN
+    READ_SHORT  ("%ability_offset%" + ("%index%" * 0x38)) "type"
+    PATCH_IF ("%type%" = 1) BEGIN // melee check
+      WRITE_SHORT ("%ability_offset%" + 0x16 + ("%index%" * 0x38)) 6  // Dice size
+      WRITE_SHORT ("%ability_offset%" + 0x18 + ("%index%" * 0x38)) 2  // Number of dice
+      WRITE_SHORT ("%ability_offset%" + 0x14 + ("%index%" * 0x38)) 2  // THAC0 bonus
+      WRITE_SHORT ("%ability_offset%" + 0x1a + ("%index%" * 0x38)) 2  // damage bonus
+    END
+  END
+  BUT_ONLY_IF_IT_CHANGES
+
+COPY_EXISTING ~mfist5.itm~ ~override/mfist5.itm~
+  SAY NAME1 @10192
+  SAY NAME2 @10192
+  WRITE_LONG  0x60 3 // +3 enchantment
+
+  READ_LONG   0x64 "ability_offset"
+  READ_SHORT  0x68 "ability_num"
+  FOR (index = 0; index < ability_num; index = index + 1) BEGIN
+    READ_SHORT  ("%ability_offset%" + ("%index%" * 0x38)) "type"
+    PATCH_IF ("%type%" = 1) BEGIN // melee check
+      WRITE_SHORT ("%ability_offset%" + 0x16 + ("%index%" * 0x38)) 6  // Dice size
+      WRITE_SHORT ("%ability_offset%" + 0x18 + ("%index%" * 0x38)) 2  // Number of dice
+      WRITE_SHORT ("%ability_offset%" + 0x14 + ("%index%" * 0x38)) 3  // THAC0 bonus
+      WRITE_SHORT ("%ability_offset%" + 0x1a + ("%index%" * 0x38)) 3  // damage bonus
+    END
+  END
+  BUT_ONLY_IF_IT_CHANGES
+
+COPY_EXISTING ~mfist6.itm~ ~override/mfist6.itm~
+  SAY NAME1 @10192
+  SAY NAME2 @10192
+  WRITE_LONG  0x60 3 // +3 enchantment
+
+  READ_LONG   0x64 "ability_offset"
+  READ_SHORT  0x68 "ability_num"
+  FOR (index = 0; index < ability_num; index = index + 1) BEGIN
+    READ_SHORT  ("%ability_offset%" + ("%index%" * 0x38)) "type"
+    PATCH_IF ("%type%" = 1) BEGIN // melee check
+      WRITE_SHORT ("%ability_offset%" + 0x16 + ("%index%" * 0x38)) 8  // Dice size
+      WRITE_SHORT ("%ability_offset%" + 0x18 + ("%index%" * 0x38)) 2  // Number of dice
+      WRITE_SHORT ("%ability_offset%" + 0x14 + ("%index%" * 0x38)) 3  // THAC0 bonus
+      WRITE_SHORT ("%ability_offset%" + 0x1a + ("%index%" * 0x38)) 3  // damage bonus
+    END
+  END
+  BUT_ONLY_IF_IT_CHANGES
+
+COPY_EXISTING ~mfist7.itm~ ~override/mfist7.itm~
+  SAY NAME1 @10193
+  SAY NAME2 @10193
+  WRITE_LONG  0x60 4 // +4 enchantment
+
+  READ_LONG   0x64 "ability_offset"
+  READ_SHORT  0x68 "ability_num"
+  FOR (index = 0; index < ability_num; index = index + 1) BEGIN
+    READ_SHORT  ("%ability_offset%" + ("%index%" * 0x38)) "type"
+    PATCH_IF ("%type%" = 1) BEGIN // melee check
+      WRITE_SHORT ("%ability_offset%" + 0x16 + ("%index%" * 0x38)) 8  // Dice size
+      WRITE_SHORT ("%ability_offset%" + 0x18 + ("%index%" * 0x38)) 2  // Number of dice
+      WRITE_SHORT ("%ability_offset%" + 0x14 + ("%index%" * 0x38)) 4  // THAC0 bonus
+      WRITE_SHORT ("%ability_offset%" + 0x1a + ("%index%" * 0x38)) 4  // damage bonus
+    END
+  END
+  BUT_ONLY_IF_IT_CHANGES
+
+COPY_EXISTING ~mfist8.itm~ ~override/mfist8.itm~
+  SAY NAME1 @10193
+  SAY NAME2 @10193
+  WRITE_LONG  0x60 4 // +4 enchantment
+
+  READ_LONG   0x64 "ability_offset"
+  READ_SHORT  0x68 "ability_num"
+  FOR (index = 0; index < ability_num; index = index + 1) BEGIN
+    READ_SHORT  ("%ability_offset%" + ("%index%" * 0x38)) "type"
+    PATCH_IF ("%type%" = 1) BEGIN // melee check
+      WRITE_SHORT ("%ability_offset%" + 0x16 + ("%index%" * 0x38)) 10  // Dice size
+      WRITE_SHORT ("%ability_offset%" + 0x18 + ("%index%" * 0x38)) 2  // Number of dice
+      WRITE_SHORT ("%ability_offset%" + 0x14 + ("%index%" * 0x38)) 4  // THAC0 bonus
+      WRITE_SHORT ("%ability_offset%" + 0x1a + ("%index%" * 0x38)) 4  // damage bonus
+    END
+  END
+  BUT_ONLY_IF_IT_CHANGES
+
+COPY_EXISTING ~mfist8.itm~ ~override/mfist9.itm~
+  SAY NAME1 @10194
+  SAY NAME2 @10194
+  WRITE_LONG  0x60 5 // +5 enchantment
+
+  READ_LONG   0x64 "ability_offset"
+  READ_SHORT  0x68 "ability_num"
+  FOR (index = 0; index < ability_num; index = index + 1) BEGIN
+    READ_SHORT  ("%ability_offset%" + ("%index%" * 0x38)) "type"
+    PATCH_IF ("%type%" = 1) BEGIN // melee check
+      WRITE_SHORT ("%ability_offset%" + 0x14 + ("%index%" * 0x38)) 5  // THAC0 bonus
+      WRITE_SHORT ("%ability_offset%" + 0x1a + ("%index%" * 0x38)) 5  // damage bonus
+    END
+  END
+  BUT_ONLY_IF_IT_CHANGES
+
+COPY_EXISTING ~mfist8.itm~ ~override/mfist10.itm~
+  SAY NAME1 @10194
+  SAY NAME2 @10194
+  WRITE_LONG  0x60 5 // +5 enchantment
+
+  READ_LONG   0x64 "ability_offset"
+  READ_SHORT  0x68 "ability_num"
+  FOR (index = 0; index < ability_num; index = index + 1) BEGIN
+    READ_SHORT  ("%ability_offset%" + ("%index%" * 0x38)) "type"
+    PATCH_IF ("%type%" = 1) BEGIN // melee check
+      WRITE_SHORT ("%ability_offset%" + 0x16 + ("%index%" * 0x38)) 8  // Dice size
+      WRITE_SHORT ("%ability_offset%" + 0x18 + ("%index%" * 0x38)) 3  // Number of dice
+      WRITE_SHORT ("%ability_offset%" + 0x14 + ("%index%" * 0x38)) 5  // THAC0 bonus
+      WRITE_SHORT ("%ability_offset%" + 0x1a + ("%index%" * 0x38)) 5  // damage bonus
+    END
+  END
+  BUT_ONLY_IF_IT_CHANGES

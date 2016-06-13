@@ -1,0 +1,2035 @@
+// Patch area files //
+
+COPY_EXISTING ~ar0021.are~ ~override/ar0021.are~
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0082~ END
+
+COPY_EXISTING ~ar0082.are~ ~override/ar0082.are~
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0021~ END
+
+  EXTEND_BOTTOM ~AR0082.BCS~ ~ImprovedAnvil\scripts\areas\AR0082.BAF~
+
+COPY_EXISTING ~ar0300.are~ ~override/ar0300.are~
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0334~ END
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0301~ END
+
+  EXTEND_BOTTOM ~AR0300.BCS~ ~ImprovedAnvil\scripts\areas\AR0300.BAF~
+
+COPY_EXISTING ~ar0301.are~ ~override/ar0301.are~
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0301~ END
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0300~ END
+
+  EXTEND_TOP ~AR0301.BCS~ ~ImprovedAnvil\scripts\areas\AR0301.BAF~
+
+COPY_EXISTING ~ar0302.are~ ~override/ar0302.are~
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0301~ END
+
+COPY_EXISTING ~ar0334.are~ ~override/ar0334.are~
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0300~ END
+
+  EXTEND_TOP ~AR0334.BCS~ ~ImprovedAnvil\scripts\areas\AR0334.BAF~
+
+COPY_EXISTING ~ar0502.are~ ~override/ar0502.are~
+  LAUNCH_PATCH_FUNCTION ~ALTER_AREA_REGION~
+  INT_VAR
+    "flag_party_required" = 1
+    "flag_impassable_npc" = 1
+  STR_VAR
+    "region_name" = ~Tran0503~
+  END
+
+COPY_EXISTING ~ar0503.are~ ~override/ar0503.are~
+  WRITE_ASCII 0x94 ~ar0503~ #8 // Area Script reference
+
+  READ_LONG 0x54 "actoroffset"
+  READ_SHORT 0x58 "actorcount"
+  SET "updated" = 0
+
+  FOR (i = 0; i < "%actorcount%"; i = i+1) BEGIN
+    READ_ASCII ("%actoroffset%" + 272 * "%i%" + 128) "creresref"
+
+    PATCH_IF (("%creresref%" STRING_COMPARE_CASE "GHAST01") = 0) AND ("updated" = 0) BEGIN
+	  WRITE_ASCII ("%actoroffset%" + 272 * "%i%") "Grotesque" #9
+	  WRITE_LONG ("%actoroffset%" + 272 * "%i%" + 0x30) 29953
+      WRITE_ASCII ("%actoroffset%" + 272 * "%i%" + 0x80) "S!TANNCR" #8
+	  SET "updated" = 1
+    END
+  END
+
+  EXTEND_BOTTOM ~AR0503.BCS~ ~ImprovedAnvil\scripts\areas\AR0503.BAF~
+
+COPY_EXISTING ~ar1203.are~ ~override/ar1203.are~
+  WRITE_ASCII 0x94 ~ar1203~ #8 // Area Script reference
+EXTEND_BOTTOM ~AR1203.BCS~ ~ImprovedAnvil\scripts\areas\AR1203.BAF~
+
+COPY_EXISTING ~ar1201.are~ ~override/ar1201.are~
+  WRITE_ASCII 0x94 ~ar1201~ #8 // Area Script reference
+  READ_LONG 0xC0 "interroffset"
+  WRITE_ASCII "%interroffset%" ~~ #32
+  WRITE_ASCII ("%interroffset%" + 72) ~S!mistva~ #8
+  WRITE_ASCII ("%interroffset%" + 88) ~S!misth1~ #8
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 1" = 0) BEGIN
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 116) 1
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+   END
+"it" = "%it%" + 1
+END
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 2" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~S!spyran~ #8
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 116) 1
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 132) 1
+   END
+"it" = "%it%" + 1
+END
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 3" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~S!spyran~ #8
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 132) 1
+   END
+"it" = "%it%" + 1
+END
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 4" = 0) BEGIN
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+   END
+"it" = "%it%" + 1
+END
+EXTEND_BOTTOM ~AR1201.BCS~ ~ImprovedAnvil\scripts\areas\AR1201.BAF~
+
+COPY_EXISTING ~ar1610.are~ ~override/ar1610.are~
+  WRITE_ASCII 0x94 ~ar1610~ #8 // Area Script reference
+EXTEND_BOTTOM ~AR1610.BCS~ ~ImprovedAnvil\scripts\areas\AR1610.BAF~
+
+COPY_EXISTING ~AR0201.ARE~ ~override/AR0201.ARE~
+  READ_LONG 0xC0 "interroffset"
+  WRITE_ASCII "%interroffset%" ~~ #32
+  WRITE_ASCII ("%interroffset%" + 72) ~S!mummr~ #8
+
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0206a~ END
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0206b~ END
+
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF (("%spname%" STRING_COMPARE_CASE "Spawn Point 1" = 0) OR
+             ("%spname%" STRING_COMPARE_CASE "Spawn Point 2" = 0) OR
+             ("%spname%" STRING_COMPARE_CASE "Spawn Point 4" = 0)) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~RDPIRATE~ #8
+   END
+"it" = "%it%" + 1
+END
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 2" = 0) BEGIN
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+   END
+"it" = "%it%" + 1
+END
+
+COPY_EXISTING ~ar0202.are~ ~override/ar0202.are~
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 2" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~mistva01~ #8
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 116) 1
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+   END
+"it" = "%it%" + 1
+END
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 1" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~RDGNOLL~ #8
+   END
+"it" = "%it%" + 1
+END
+
+COPY_EXISTING ~ar0204.are~ ~override/ar0204.are~
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 5" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~RDPIRATE~ #8
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 44) ~RDKEEP~ #8
+   END
+"it" = "%it%" + 1
+END
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 3" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~RDSAHUA~ #8
+   END
+"it" = "%it%" + 1
+END
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 1" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~RDKEEP~ #8
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 116) 1
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+   END
+"it" = "%it%" + 1
+END
+
+COPY_EXISTING ~AR0205.ARE~ ~override/AR0205.ARE~
+  READ_LONG 0xC0 "interroffset"
+  WRITE_ASCII ("%interroffset%" + 72) ~S!behgau~ #8
+
+COPY_EXISTING ~AR0206.ARE~ ~override/AR0206.ARE~
+  WRITE_ASCII 0x94 ~ar0206~ #8 // Area Script reference
+
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0201a~ END
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0201b~ END
+
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 1" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~RDPIRATE~ #8
+   END
+"it" = "%it%" + 1
+END
+  READ_SHORT 0x5A "icount"
+  READ_LONG 0x5C "ioffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%icount%") BEGIN
+   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname" (15)
+   PATCH_IF ("%iname%" STRING_COMPARE_CASE "High level trap" = 0) BEGIN
+    WRITE_ASCII ("%ioffset%" + ("%it%" * 196) + 124) ~S!ar206~ #8
+    SET "it" = "%icount%"
+   END
+  "it" = "%it%" + 1
+END
+EXTEND_BOTTOM ~AR0206.BCS~ ~ImprovedAnvil\scripts\areas\AR0206.BAF~
+
+COPY_EXISTING ~ar0303.are~ ~override/ar0303.are~
+  WRITE_ASCII 0x94 ~ar0303~ #8 // Area Script reference
+EXTEND_BOTTOM ~AR0303.BCS~ ~ImprovedAnvil\scripts\areas\AR0303.BAF~
+
+COPY_EXISTING ~ar0310.are~ ~override/ar0310.are~
+  WRITE_ASCII 0x94 ~ar0310~ #8 // Area Script reference
+
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0313~ END
+
+  EXTEND_BOTTOM ~AR0310.BCS~ ~ImprovedAnvil\scripts\areas\AR0310.BAF~
+
+COPY_EXISTING ~ar0313.are~ ~override/ar0313.are~
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0310~ END
+
+COPY_EXISTING ~ar0316.are~ ~override/ar0316.are~
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0317~ END
+
+COPY_EXISTING ~ar0317.are~ ~override/ar0317.are~
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0316~ END
+
+  LAUNCH_PATCH_FUNCTION ~REPLACE_AREA_ITEM~ STR_VAR
+    old_item = ~SCRL7K~
+    new_item = ~SCRL7S~
+  END
+
+  EXTEND_BOTTOM ~AR0317.BCS~ ~ImprovedAnvil\scripts\areas\AR0317.BAF~
+
+COPY_EXISTING ~ar0325.are~ ~override/ar0325.are~
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0326~ END
+
+COPY_EXISTING ~ar0326.are~ ~override/ar0326.are~
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0325~ END
+
+  EXTEND_BOTTOM ~AR0326.BCS~ ~ImprovedAnvil\scripts\areas\AR0326.BAF~
+
+// Slums
+COPY_EXISTING ~ar0400.are~ ~override/ar0400.are~
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0417~ END
+
+// Jan Jansen's House, basement
+COPY_EXISTING ~ar0401.are~ ~override/ar0401.are~
+  LPF ~REPLACE_AREA_ITEM~ STR_VAR old_item = ~POTN45~ new_item = ~S!POTN20~ END
+  BUT_ONLY
+
+COPY_EXISTING ~ar0404.ARE~ ~override/ar0404.ARE~
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 4" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~S!spyran~ #8
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 116) 1
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 132) 1
+   END
+"it" = "%it%" + 1
+END
+
+COPY_EXISTING ~ar0405.are~ ~override/ar0405.are~
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0404~ END
+
+  EXTEND_BOTTOM ~AR0405.BCS~ ~ImprovedAnvil\scripts\areas\AR0405.BAF~
+
+COPY_EXISTING ~ar0411.are~ ~override/ar0411.are~
+ READ_SHORT 0x5A "icount"
+ READ_LONG 0x5C "ioffset"
+ SET "it" = 0
+ WHILE ("%it%" < "%icount%") BEGIN
+  READ_ASCII ("%ioffset%" + "%it%" * 196) "iname" (14)
+  PATCH_IF ("%iname%" STRING_COMPARE_CASE "Info Trigger 4" = 0) BEGIN
+   WRITE_LONG ("%ioffset%" + ("%it%" * 196) + 52) 8
+   WRITE_LONG ("%ioffset%" + ("%it%" * 196) + 100) (BNOT 0)
+   WRITE_ASCII ("%ioffset%" + ("%it%" * 196) + 124) ~S!time~
+   SET "it" = "%icount%"
+  END
+ "it" = "%it%" + 1
+END
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 4" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~RDSPID5~ #8
+   END
+"it" = "%it%" + 1
+END
+
+COPY_EXISTING ~AR0414.ARE~ ~override/AR0414.ARE~
+  READ_LONG 0xC0 "interroffset"
+  WRITE_ASCII ("%interroffset%" + 72) ~S!maurez~ #8
+
+COPY_EXISTING ~ar0417.are~ ~override/ar0417.are~
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0400~ END
+
+  EXTEND_BOTTOM ~AR0417.BCS~ ~ImprovedAnvil\scripts\areas\AR0417.BAF~
+
+// Bridge district
+COPY_EXISTING ~AR0500.ARE~ ~override/AR0500.ARE~
+  LPF set_default_transition_flags INT_VAR npc_cannot_pass = 0 STR_VAR region_name = ~Tran0506~ END
+  LPF set_default_transition_flags INT_VAR npc_cannot_pass = 0 STR_VAR region_name = ~Tran0530~ END
+
+COPY_EXISTING ~AR0506.ARE~ ~override/AR0506.ARE~
+  LPF set_default_transition_flags INT_VAR npc_cannot_pass = 0 STR_VAR region_name = ~Tran0500a~ END
+  LPF set_default_transition_flags INT_VAR npc_cannot_pass = 0 STR_VAR region_name = ~Tran0500b~ END
+  EXTEND_BOTTOM ~AR0506.BCS~ ~ImprovedAnvil\scripts\areas\AR0506.BAF~
+
+COPY_EXISTING ~AR0511.ARE~ ~override/AR0511.ARE~
+  LPF set_default_transition_flags INT_VAR party_required = 0 STR_VAR region_name = ~Tran0522~ END
+  LPF set_default_transition_flags INT_VAR party_required = 0 STR_VAR region_name = ~Tran0509~ END
+
+COPY_EXISTING ~AR0516.ARE~ ~override/AR0516.are~
+  READ_LONG 0xC0 "interroffset"
+  WRITE_ASCII "%interroffset%" ~~ #32
+  WRITE_ASCII ("%interroffset%" + 72) ~S!phounr~ #8
+  WRITE_ASCII ("%interroffset%" + 80) ~rdspider~ #8
+  READ_SHORT ("%interroffset%" + 152) "crecount"
+  PATCH_IF ("%crecount%" < 2) BEGIN
+   WRITE_SHORT ("%interroffset%" + 152) 2
+END
+
+COPY_EXISTING ~ar0525.are~ ~override/ar0525.are~
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0526~ END
+
+COPY_EXISTING ~ar0526.are~ ~override/ar0526.are~
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0525~ END
+
+  EXTEND_BOTTOM ~AR0526.BCS~ ~ImprovedAnvil\scripts\areas\AR0526.BAF~
+
+COPY_EXISTING ~ar0530.are~ ~override/ar0530.are~
+  READ_LONG 0xBC "song-offset"
+  WRITE_LONG "%song-offset%" 0
+  WRITE_LONG ("%song-offset%" + 4) 0
+  WRITE_LONG ("%song-offset%" + 12) 51
+
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0500~ END
+
+  EXTEND_BOTTOM ~AR0530.BCS~ ~ImprovedAnvil\scripts\areas\AR0530.BAF~
+
+COPY_EXISTING ~AR0602.ARE~ ~override/AR0602.ARE~
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF (("%spname%" STRING_COMPARE_CASE "Spawn Point 3" = 0) OR
+             ("%spname%" STRING_COMPARE_CASE "Spawn Point 4" = 0) OR
+             ("%spname%" STRING_COMPARE_CASE "Spawn Point 9" = 0)) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~S!spyran~ #8
+   END
+"it" = "%it%" + 1
+END
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (14)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 11" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~MEPEAR01~ #8
+   END
+"it" = "%it%" + 1
+END
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (14)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 12" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~S!spyran~ #8
+   END
+"it" = "%it%" + 1
+END
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 1" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 44) ~MEPEAR01~ #8
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 116) 2
+   END
+"it" = "%it%" + 1
+END
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF (("%spname%" STRING_COMPARE_CASE "Spawn Point 2" = 0) OR
+             ("%spname%" STRING_COMPARE_CASE "Spawn Point 8" = 0)) BEGIN
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 116) 1
+   END
+"it" = "%it%" + 1
+END
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (14)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 13" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~S!spyran~ #8
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+   END
+"it" = "%it%" + 1
+END
+
+COPY_EXISTING ~AR0603.ARE~ ~override/AR0603.ARE~
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF (("%spname%" STRING_COMPARE_CASE "Spawn Point 1" = 0) OR
+             ("%spname%" STRING_COMPARE_CASE "Spawn Point 3" = 0)) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~S!SPIDE3~ #8
+   END
+"it" = "%it%" + 1
+END
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 2" = 0) BEGIN
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 116) 1
+   END
+"it" = "%it%" + 1
+END
+
+COPY_EXISTING ~ar0701.are~ ~override/ar0701.are~
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 7" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~S!mistva~ #8
+   END
+"it" = "%it%" + 1
+END
+
+COPY_EXISTING ~ar0709.are~ ~override/ar0709.are~
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0712~ END
+
+COPY_EXISTING ~ar0705.are~ ~override/ar0705.are~
+ READ_SHORT 0x5A "icount"
+ READ_LONG 0x5C "ioffset"
+ SET "it" = 0
+ WHILE ("%it%" < "%icount%") BEGIN
+   READ_ASCII ("%ioffset%" + "%it%" * 196) "iname" (15)
+   PATCH_IF ("%iname%" STRING_COMPARE_CASE "Trigger Point 4" = 0) BEGIN
+     WRITE_LONG ("%ioffset%" + ("%it%" * 196) + 52) 28
+     WRITE_LONG ("%ioffset%" + ("%it%" * 196) + 100) (BNOT 0)
+     WRITE_ASCII ("%ioffset%" + ("%it%" * 196) + 124) ~Trania20~
+     SET "it" = "%icount%"
+   END
+   "it" = "%it%" + 1
+ END
+
+ LAUNCH_PATCH_FUNCTION ~REPLACE_AREA_ITEM~ STR_VAR
+   old_item = ~SCRL7V~
+   new_item = ~SCRL7M~
+ END
+
+ EXTEND_TOP ~AR0705.BCS~ ~ImprovedAnvil\scripts\areas\AR0705.BAF~
+
+COPY_EXISTING ~ar0712.are~ ~override/ar0712.are~
+  WRITE_ASCII 0x94 ~ar0712~ #8 // Area Script reference
+
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0709~ END
+
+  EXTEND_TOP ~AR0712.BCS~ ~ImprovedAnvil\scripts\areas\AR0712.BAF~
+
+COPY_EXISTING ~ar0800.are~ ~override/ar0800.are~
+  LPF set_default_transition_flags INT_VAR npc_cannot_pass = 0 STR_VAR region_name = ~Tran0806~ END
+
+COPY_EXISTING ~AR0801.ARE~ ~override/AR0801.ARE~
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+    READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+    PATCH_IF (("%spname%" STRING_COMPARE_CASE "Spawn Point 2" = 0) OR
+             ("%spname%" STRING_COMPARE_CASE "Spawn Point 3" = 0))
+    BEGIN
+      WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~RDSPID5~ #8
+    END
+    "it" = "%it%" + 1
+  END
+
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+    READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+    PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 1" = 0) BEGIN
+      WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~RDSPID5~ #8
+      WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+    END
+    "it" = "%it%" + 1
+  END
+
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+    READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+    PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 4" = 0) BEGIN
+      WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~RDSahua~ #8
+      WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 44) ~RDPirate~ #8
+    END
+    "it" = "%it%" + 1
+  END
+
+  LAUNCH_PATCH_FUNCTION ~REPLACE_AREA_ITEM~ STR_VAR
+    old_item = ~SCRL6G~
+    new_item = ~SCRL1E~
+  END
+
+COPY_EXISTING ~AR0802.ARE~ ~override/AR0802.are~
+  READ_LONG 0xC0 "interroffset"
+  WRITE_ASCII ("%interroffset%" + 80) ~S!mummr~ #8
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 1" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~RDGNOLL~ #8
+   END
+"it" = "%it%" + 1
+END
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 2" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~RDPirate~ #8
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+   END
+"it" = "%it%" + 1
+END
+
+COPY_EXISTING ~ar0806.are~ ~override/ar0806.are~
+  WRITE_ASCII 0x94 ~ar0806~ #8 // Area Script reference
+
+  LPF set_default_transition_flags INT_VAR npc_cannot_pass = 0 STR_VAR region_name = ~Tran0800~ END
+
+  EXTEND_BOTTOM ~AR0806.BCS~ ~ImprovedAnvil\scripts\areas\AR0806.BAF~
+
+COPY_EXISTING ~AR0808.ARE~ ~override/AR0808.are~
+  READ_LONG 0xC0 "interroffset"
+  WRITE_ASCII ("%interroffset%" + 72) ~S!skeld~ #8
+  READ_LONG 0x54 "actoroffset"
+  READ_SHORT 0x58 "actorcount"
+  FOR (i = 0; i < "%actorcount%"; i = i+1) BEGIN
+    READ_ASCII ("%actoroffset%" + 272 * "%i%" + 128) "creresref"
+    PATCH_IF (("%creresref%" STRING_COMPARE_CASE "MISTVA01") = 0) BEGIN
+      WRITE_ASCII ("%actoroffset%" + 272 * "%i%" + 96) "" #8
+    END
+  END
+
+  LAUNCH_PATCH_FUNCTION ~REPLACE_AREA_ITEM~ STR_VAR
+    old_item = ~SCRL6G~
+    new_item = ~SCRL1E~
+  END
+
+// Guarded Compound, level 2
+COPY_EXISTING ~AR0907.ARE~ ~override/AR0907.are~
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0906a~ END
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0906b~ END
+
+  PATCH_FOR_EACH ~item_to_delete~ IN ~sper06~ BEGIN
+    LAUNCH_PATCH_MACRO ~DELETE_AREA_ITEM~
+  END
+
+  EXTEND_TOP ~AR0907.BCS~ ~ImprovedAnvil\scripts\areas\AR0907.BAF~
+
+COPY_EXISTING ~ar1100.are~ ~override/ar1100.are~
+
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran1106~ END
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran1103~ END
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran1107~ END
+
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 1" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~S!shador~ #8
+   END
+"it" = "%it%" + 1
+END
+EXTEND_TOP ~AR1100.BCS~ ~ImprovedAnvil\scripts\areas\AR1100.BAF~
+
+COPY_EXISTING ~ar1101.are~ ~override/ar1101.are~
+  WRITE_ASCII 0x94 ~ar1101~ #8 // Area Script reference
+  EXTEND_BOTTOM ~AR1101.BCS~ ~ImprovedAnvil\scripts\areas\AR1101.BAF~
+
+COPY_EXISTING ~ar1103.are~ ~override/ar1103.are~
+  WRITE_ASCII 0x94 ~ar1103~ #8 // Area Script reference
+
+  LPF set_default_transition_flags INT_VAR npc_cannot_pass = 0 STR_VAR region_name = ~Tran1100~ END
+
+  EXTEND_BOTTOM ~AR1103.BCS~ ~ImprovedAnvil\scripts\areas\AR1103.BAF~
+
+COPY_EXISTING ~ar1106.are~ ~override/ar1106.are~
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran1100~ END
+
+  EXTEND_TOP ~AR1106.BCS~ ~ImprovedAnvil\scripts\areas\AR1106.BAF~
+
+COPY_EXISTING ~ar1202.are~ ~override/ar1202.are~
+  READ_LONG 0xC0 "interroffset"
+  WRITE_ASCII ("%interroffset%" + 72) ~S!shadfi~ #8
+  WRITE_ASCII ("%interroffset%" + 80) ~S!skeld~ #8
+
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran1201~ END
+
+  READ_LONG 0xA4 "dcount"
+  READ_LONG 0xA8 "doffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%dcount%") BEGIN
+   READ_ASCII ("%doffset%" + "%it%" * 200) "dname"
+   PATCH_IF ("%dname%" STRING_COMPARE_CASE "Door02" = 0) BEGIN
+    WRITE_LONG ("%doffset%" + ("%it%" * 200) + 140) 100
+   END
+"it" = "%it%" + 1
+END
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 5" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~RDGnoll~ #8
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+   END
+"it" = "%it%" + 1
+END
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 6" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~RDPirate~ #8
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+   END
+"it" = "%it%" + 1
+END
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 9" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~S!spyran~ #8
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 132) 1
+   END
+"it" = "%it%" + 1
+END
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (14)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 12" = 0) BEGIN
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+   END
+"it" = "%it%" + 1
+END
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (14)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 10" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~RDSPID5~ #8
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+   END
+"it" = "%it%" + 1
+END
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (14)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 11" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~mistva01~ #8
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+   END
+"it" = "%it%" + 1
+END
+EXTEND_TOP ~AR1202.BCS~ ~ImprovedAnvil\scripts\areas\AR1202.BAF~
+
+COPY_EXISTING ~AR1300.ARE~ ~override/AR1300.ARE~
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran1302a~ END
+
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF (("%spname%" STRING_COMPARE_CASE "Spawn Point 2" = 0) OR
+             ("%spname%" STRING_COMPARE_CASE "Spawn Point 3" = 0) OR
+             ("%spname%" STRING_COMPARE_CASE "Spawn Point 6" = 0)) BEGIN
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+   END
+"it" = "%it%" + 1
+END
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF (("%spname%" STRING_COMPARE_CASE "Spawn Point 4" = 0) OR
+             ("%spname%" STRING_COMPARE_CASE "Spawn Point 5" = 0)) BEGIN
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 116) 1
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+   END
+"it" = "%it%" + 1
+END
+EXTEND_TOP ~AR1300.BCS~ ~ImprovedAnvil\scripts\areas\AR1300.BAF~
+
+COPY_EXISTING ~ar1301.are~ ~override/ar1301.are~
+  READ_LONG 0xC0 "interroffset"
+  WRITE_ASCII ("%interroffset%" + 72) ~S!icyuan~ #8
+
+COPY_EXISTING ~AR1302.ARE~ ~override/AR1302.ARE~
+  READ_LONG 0xC0 "interroffset"
+  WRITE_ASCII ("%interroffset%" + 72) ~S!icyuan~ #8
+
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran1300b~ END
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran1300c~ END
+
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF (("%spname%" STRING_COMPARE_CASE "Spawn Point 1" = 0) OR
+             ("%spname%" STRING_COMPARE_CASE "Spawn Point 4" = 0)) BEGIN
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+   END
+"it" = "%it%" + 1
+END
+EXTEND_BOTTOM ~AR1302.BCS~ ~ImprovedAnvil\scripts\areas\AR1302.BAF~
+
+COPY_EXISTING ~AR1303.are~ ~override/AR1303.are~
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran1301~ END
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran1301~ END
+
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF (("%spname%" STRING_COMPARE_CASE "Spawn Point 1" = 0) OR
+             ("%spname%" STRING_COMPARE_CASE "Spawn Point 3" = 0) OR
+             ("%spname%" STRING_COMPARE_CASE "Spawn Point 5" = 0) OR
+             ("%spname%" STRING_COMPARE_CASE "Spawn Point 6" = 0) OR
+             ("%spname%" STRING_COMPARE_CASE "Spawn Point 7" = 0) OR
+             ("%spname%" STRING_COMPARE_CASE "Spawn Point 8" = 0)) BEGIN
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+   END
+"it" = "%it%" + 1
+END
+
+COPY_EXISTING ~ar1305.are~ ~override/ar1305.are~
+  READ_LONG 0xC0 "interroffset"
+  WRITE_ASCII ("%interroffset%" + 72) ~S!trolr~ #8
+
+COPY_EXISTING ~ar1400.are~ ~override/ar1400.are~
+ READ_SHORT 0x5A "icount"
+ READ_LONG 0x5C "ioffset"
+ SET "it" = 0
+ WHILE ("%it%" < "%icount%") BEGIN
+  READ_ASCII ("%ioffset%" + "%it%" * 196) "iname" (6)
+  PATCH_IF ("%iname%" STRING_COMPARE_CASE "Mirror" = 0) BEGIN
+   WRITE_LONG ("%ioffset%" + ("%it%" * 196) + 52) 28
+   WRITE_LONG ("%ioffset%" + ("%it%" * 196) + 100) (BNOT 0)
+   WRITE_ASCII ("%ioffset%" + ("%it%" * 196) + 124) ~Trania22~
+   SET "it" = "%icount%"
+  END
+ "it" = "%it%" + 1
+END
+EXTEND_BOTTOM ~ar1400.BCS~ ~ImprovedAnvil\scripts\areas\ar1400.BAF~
+
+COPY_EXISTING ~AR1401.ARE~ ~override/AR1401.are~
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF (("%spname%" STRING_COMPARE_CASE "Spawn Point 1" = 0) OR
+             ("%spname%" STRING_COMPARE_CASE "Spawn Point 2" = 0)) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~S!shador~ #8
+   END
+"it" = "%it%" + 1
+END
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 3" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 44) ~S!shador~ #8
+   END
+"it" = "%it%" + 1
+END
+
+COPY_EXISTING ~AR1403.ARE~ ~override/AR1403.are~
+  READ_LONG 0xC0 "interroffset"
+  WRITE_ASCII "%interroffset%" ~~ #32
+  WRITE_ASCII ("%interroffset%" + 72) ~S!shador~ #8
+  WRITE_ASCII ("%interroffset%" + 80) ~S!shadfi~ #8
+
+COPY_EXISTING ~AR1404.ARE~ ~override/AR1404.are~
+  READ_LONG 0xC0 "interroffset"
+  WRITE_ASCII ("%interroffset%" + 72) ~S!shador~ #8
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF (("%spname%" STRING_COMPARE_CASE "Spawn Point 1" = 0) OR
+             ("%spname%" STRING_COMPARE_CASE "Spawn Point 3" = 0) OR
+             ("%spname%" STRING_COMPARE_CASE "Spawn Point 7" = 0) OR
+             ("%spname%" STRING_COMPARE_CASE "Spawn Point 8" = 0)) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~S!shador~ #8
+   END
+"it" = "%it%" + 1
+END
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 6" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 44) ~S!shador~ #8
+   END
+"it" = "%it%" + 1
+END
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (14)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 11" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~S!shador~ #8
+   END
+"it" = "%it%" + 1
+END
+
+COPY_EXISTING ~AR1500.ARE~ ~override/AR1500.ARE~
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 1" = 0) BEGIN
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+   END
+"it" = "%it%" + 1
+END
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 2" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~S!spyran~ #8
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+   END
+"it" = "%it%" + 1
+END
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 3" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~S!spyran~ #8
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 116) 1
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+   END
+"it" = "%it%" + 1
+END
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 4" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~RDGnoll~ #8
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+   END
+"it" = "%it%" + 1
+END
+
+// Spellhold, level 2
+COPY_EXISTING ~AR1512.ARE~ ~override/AR1512.ARE~
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+
+  WHILE ("%it%" < "%spcount%") BEGIN
+    READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+    PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 1" = 0) BEGIN
+      WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~RDSPID5~ #8
+      WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 116) 1
+    END
+    "it" = "%it%" + 1
+  END
+
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+
+  WHILE ("%it%" < "%spcount%") BEGIN
+    READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+    PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 2" = 0) BEGIN
+      WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~RDKEEP~ #8
+    END
+    "it" = "%it%" + 1
+  END
+
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+
+  WHILE ("%it%" < "%spcount%") BEGIN
+    READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+    PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 3" = 0) BEGIN
+      WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~S!spyran~ #8
+      WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+    END
+    "it" = "%it%" + 1
+  END
+
+  PATCH_FOR_EACH ~item_to_delete~ IN ~sper06~ BEGIN
+    LAUNCH_PATCH_MACRO ~DELETE_AREA_ITEM~
+  END
+
+COPY_EXISTING ~AR1513.ARE~ ~override/AR1513.ARE~
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 3" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~MISTHO01~ #8
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 44) ~MISTVA01~ #8
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 116) 2
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+   END
+"it" = "%it%" + 1
+END
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 2" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~RDPirate~ #8
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 44) ~RDKEEP~ #8
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+   END
+"it" = "%it%" + 1
+END
+
+COPY_EXISTING ~AR1514.ARE~ ~override/AR1514.ARE~
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 1" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~RDKEEP~ #8
+   END
+"it" = "%it%" + 1
+END
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 2" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~S!spyran~ #8
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+   END
+"it" = "%it%" + 1
+END
+
+COPY_EXISTING ~AR1515.ARE~ ~override/AR1515.ARE~
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 1" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~RDSPID5~ #8
+   END
+"it" = "%it%" + 1
+END
+
+COPY_EXISTING ~ar1600.are~ ~override/ar1600.are~
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran1605~ END
+
+  EXTEND_BOTTOM ~AR1600.BCS~ ~ImprovedAnvil\scripts\areas\AR1600.BAF~
+
+COPY_EXISTING ~ar1605.are~ ~override/ar1605.are~
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran1600~ END
+
+  EXTEND_BOTTOM ~AR1605.BCS~ ~ImprovedAnvil\scripts\areas\AR1605.BAF~
+
+COPY_EXISTING ~AR1700.ARE~ ~override/AR1700.ARE~
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF (("%spname%" STRING_COMPARE_CASE "Spawn Point 1" = 0) OR
+             ("%spname%" STRING_COMPARE_CASE "Spawn Point 2" = 0) OR
+             ("%spname%" STRING_COMPARE_CASE "Spawn Point 3" = 0) OR
+             ("%spname%" STRING_COMPARE_CASE "Spawn Point 6" = 0)) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~S!spyran~ #8
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 116) 1
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+   END
+"it" = "%it%" + 1
+END
+
+COPY_EXISTING ~AR1800.ARE~ ~override/AR1800.ARE~
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 7" = 0) BEGIN
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+   END
+"it" = "%it%" + 1
+END
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF (("%spname%" STRING_COMPARE_CASE "Spawn Point 6" = 0) OR
+             ("%spname%" STRING_COMPARE_CASE "Spawn Point 8" = 0)) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~S!spyran~ #8
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+   END
+"it" = "%it%" + 1
+END
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 9" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~RDKeep~ #8
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+   END
+"it" = "%it%" + 1
+END
+
+COPY_EXISTING ~ar1900.are~ ~override/ar1900.are~
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran1904~ END
+
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF (("%spname%" STRING_COMPARE_CASE "Spawn Point 2" = 0) OR
+             ("%spname%" STRING_COMPARE_CASE "Spawn Point 8" = 0)) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~S!spyran~ #8
+   END
+"it" = "%it%" + 1
+END
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 7" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~S!spgrov~ #8
+   END
+"it" = "%it%" + 1
+END
+EXTEND_BOTTOM ~AR1900.BCS~ ~ImprovedAnvil\scripts\areas\AR1900.BAF~
+
+COPY_EXISTING ~ar1904.are~ ~override/ar1904.are~
+  WRITE_ASCII 0x94 ~ar1904~ #8 // Area Script reference
+
+  LPF set_default_transition_flags STR_VAR region_name = ~AR1900~ END
+
+  COMPILE ~ImprovedAnvil\scripts\areas\AR1904.BAF~
+
+COPY_EXISTING ~ar2000.are~ ~override/ar2000.are~
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran2013~ END
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran2002~ END
+
+  EXTEND_BOTTOM ~AR2000.BCS~ ~ImprovedAnvil\scripts\areas\AR2000.BAF~
+
+COPY_EXISTING ~ar2002.are~ ~override/ar2002.are~
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran2000~ END
+
+  EXTEND_TOP ~AR2002.BCS~ ~ImprovedAnvil\scripts\areas\AR2002.BAF~
+
+COPY_EXISTING ~ar2013.are~ ~override/ar2013.are~
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran2000~ END
+
+  EXTEND_BOTTOM ~AR2013.BCS~ ~ImprovedAnvil\scripts\areas\AR2013.BAF~
+
+COPY_EXISTING ~AR2100.ARE~ ~override/AR2100.are~
+  READ_LONG 0xC0 "interroffset"
+  WRITE_ASCII ("%interroffset%" + 72) ~S!umbhul~ #8
+  WRITE_ASCII ("%interroffset%" + 80) ~S!icliz~ #8
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 1" = 0) BEGIN
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+   END
+"it" = "%it%" + 1
+END
+
+COPY_EXISTING ~ar2101.are~ ~override/ar2101.are~
+ READ_LONG 0xC0 "interroffset"
+ WRITE_ASCII ("%interroffset%" + 72) ~S!behgau~ #8
+ READ_SHORT 0x5A "icount"
+ READ_LONG 0x5C "ioffset"
+ SET "it" = 0
+ WHILE ("%it%" < "%icount%") BEGIN
+  READ_ASCII ("%ioffset%" + "%it%" * 196) "iname" (9)
+  PATCH_IF ("%iname%" STRING_COMPARE_CASE "StairInfo" = 0) BEGIN
+   WRITE_LONG ("%ioffset%" + ("%it%" * 196) + 52) 28
+   WRITE_LONG ("%ioffset%" + ("%it%" * 196) + 100) (BNOT 0)
+   WRITE_ASCII ("%ioffset%" + ("%it%" * 196) + 124) ~Trania01~
+   SET "it" = "%icount%"
+  END
+ "it" = "%it%" + 1
+END
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF (("%spname%" STRING_COMPARE_CASE "Spawn Point 1" = 0) OR
+             ("%spname%" STRING_COMPARE_CASE "Spawn Point 3" = 0)) BEGIN
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+   END
+"it" = "%it%" + 1
+END
+
+COPY_EXISTING ~AR2200.ARE~ ~override/ar2200.are~
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran2210a~ END
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran2210b~ END
+
+  EXTEND_BOTTOM ~AR2200.BCS~ ~ImprovedAnvil\scripts\areas\AR2200.BAF~
+
+// Jae'llat's House
+COPY_EXISTING ~AR2209.ARE~ ~override/ar2209.are~
+  SPRINT ~item_to_delete~ ~sw1h52~
+  LAUNCH_PATCH_MACRO ~DELETE_AREA_ITEM~
+
+// Deirex's Cave
+COPY_EXISTING ~AR2210.ARE~ ~override/ar2210.are~
+  WRITE_ASCII 0x94 ~ar2210~ #8 // Area Script reference
+
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran2200a~ END
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran2200b~ END
+
+  PATCH_FOR_EACH ~item_to_delete~ IN ~sper06~ BEGIN
+    LAUNCH_PATCH_MACRO ~DELETE_AREA_ITEM~
+  END
+
+  LAUNCH_PATCH_FUNCTION ~REPLACE_AREA_ITEM~ STR_VAR
+    old_item = ~SCRL8I~
+    new_item = ~SCRL8G~
+  END
+
+  EXTEND_BOTTOM ~AR2210.BCS~ ~ImprovedAnvil\scripts\areas\AR2210.BAF~
+
+COPY_EXISTING ~AR2300.ARE~ ~override/AR2300.ARE~
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF (("%spname%" STRING_COMPARE_CASE "Spawn Point 1" = 0) OR
+             ("%spname%" STRING_COMPARE_CASE "Spawn Point 2" = 0) OR
+             ("%spname%" STRING_COMPARE_CASE "Spawn Point 3" = 0) OR
+             ("%spname%" STRING_COMPARE_CASE "Spawn Point 4" = 0) OR
+             ("%spname%" STRING_COMPARE_CASE "Spawn Point 8" = 0)) BEGIN
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+   END
+"it" = "%it%" + 1
+END
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 6" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~RDSPID5~ #8
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+   END
+"it" = "%it%" + 1
+END
+
+COPY_EXISTING ~ar2400.are~ ~override/ar2400.are~
+  READ_LONG 0xA4 "dcount"
+  READ_LONG 0xA8 "doffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%dcount%") BEGIN
+   READ_ASCII ("%doffset%" + "%it%" * 200) "dname"
+   PATCH_IF ("%dname%" STRING_COMPARE_CASE "Door01" = 0) BEGIN
+    WRITE_LONG ("%doffset%" + ("%it%" * 200) + 140) 100
+    READ_BYTE ("%doffset%" + ("%it%" * 200) + 0x28) "doorflags"
+    WRITE_BYTE ("%doffset%" + ("%it%" * 200) + 0x28) ("%doorflags%" BAND 0b11111101)
+   END
+"it" = "%it%" + 1
+END
+
+COPY_EXISTING ~AR2401.ARE~ ~override/AR2401.ARE~
+  READ_LONG 0xC0 "interroffset"
+  WRITE_ASCII "%interroffset%" ~~ #32
+  WRITE_ASCII ("%interroffset%" + 72) ~S!drofod~ #8
+
+COPY_EXISTING ~ar2402.are~ ~override/ar2402.are~
+ READ_LONG 0xC0 "interroffset"
+ WRITE_ASCII "%interroffset%" ~~ #32
+ WRITE_ASCII ("%interroffset%" + 72) ~rdkuoto2~ #8
+ READ_SHORT ("%interroffset%" + 164) "trigcount"
+ WRITE_SHORT ("%interroffset%" + 164) 1
+ READ_SHORT ("%interroffset%" + 168) "daychance"
+ WRITE_SHORT ("%interroffset%" + 168) 10
+ READ_SHORT ("%interroffset%" + 170) "nigchance"
+ WRITE_SHORT ("%interroffset%" + 170) 10
+ READ_SHORT 0x5A "icount"
+ READ_LONG 0x5C "ioffset"
+ SET "it" = 0
+ WHILE ("%it%" < "%icount%") BEGIN
+  READ_ASCII ("%ioffset%" + "%it%" * 196) "iname" (7)
+  PATCH_IF ("%iname%" STRING_COMPARE_CASE "GodInfo" = 0) BEGIN
+   WRITE_LONG ("%ioffset%" + ("%it%" * 196) + 52) 8
+   WRITE_LONG ("%ioffset%" + ("%it%" * 196) + 100) (BNOT 0)
+   WRITE_ASCII ("%ioffset%" + ("%it%" * 196) + 124) ~S!pull~
+   SET "it" = "%icount%"
+  END
+ "it" = "%it%" + 1
+END
+  READ_LONG 0xA4 "dcount"
+  READ_LONG 0xA8 "doffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%dcount%") BEGIN
+   READ_ASCII ("%doffset%" + "%it%" * 200) "dname"
+   PATCH_IF ("%dname%" STRING_COMPARE_CASE "Door02" = 0) BEGIN
+    WRITE_LONG ("%doffset%" + ("%it%" * 200) + 140) 100
+   END
+"it" = "%it%" + 1
+END
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 1" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~S!spyran~ #8
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 132) 1
+   END
+"it" = "%it%" + 1
+END
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 3" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~S!spyran~ #8
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+   END
+"it" = "%it%" + 1
+END
+EXTEND_TOP ~AR2402.BCS~ ~ImprovedAnvil\scripts\areas\AR2402.BAF~
+
+COPY_EXISTING ~ar2600.are~ ~override/ar2600.are~
+  LPF set_default_transition_flags INT_VAR npc_cannot_pass = 0 STR_VAR region_name = ~Tran2602~ END
+
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 4" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~mistva01~ #8
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+   END
+"it" = "%it%" + 1
+END
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+    PATCH_IF (("%spname%" STRING_COMPARE_CASE "Spawn Point 5" = 0) OR
+              ("%spname%" STRING_COMPARE_CASE "Spawn Point 8" = 0)) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~RDSPID5~ #8
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 116) 1
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+   END
+"it" = "%it%" + 1
+END
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 6" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~RDKeep~ #8
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 116) 1
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+   END
+"it" = "%it%" + 1
+END
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF (("%spname%" STRING_COMPARE_CASE "Spawn Point 1" = 0) OR
+             ("%spname%" STRING_COMPARE_CASE "Spawn Point 2" = 0) OR
+             ("%spname%" STRING_COMPARE_CASE "Spawn Point 3" = 0)) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~S!spyran~ #8
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 116) 1
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+   END
+"it" = "%it%" + 1
+END
+
+COPY_EXISTING ~AR2602.ARE~ ~override/AR2602.ARE~
+  READ_LONG 0xC0 "interroffset"
+  WRITE_ASCII ("%interroffset%" + 72) ~S!wolfwe~ #8
+
+  LPF set_default_transition_flags INT_VAR npc_cannot_pass = 0 STR_VAR region_name = ~Tran2600~ END
+
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF (("%spname%" STRING_COMPARE_CASE "Spawn Point 1" = 0) OR
+             ("%spname%" STRING_COMPARE_CASE "Spawn Point 2" = 0)) BEGIN
+    WRITE_LONG ("%spoffset%" + ("%it%" * 200) + 134) 0
+   END
+"it" = "%it%" + 1
+END
+
+COPY_EXISTING ~ar2800.are~ ~override/ar2800.are~
+  READ_LONG 0xC0 "interroffset"
+  WRITE_ASCII ("%interroffset%" + 72) ~S!coinra~ #8
+  WRITE_ASCII ("%interroffset%" + 80) ~S!gemran~ #8
+
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran2807~ END
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran2811~ END
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran2810~ END
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran2802~ END
+
+  READ_LONG 0xA4 "dcount"
+  READ_LONG 0xA8 "doffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%dcount%") BEGIN
+   READ_ASCII ("%doffset%" + "%it%" * 200) "dname"
+   PATCH_IF ("%dname%" STRING_COMPARE_CASE "Door07" = 0) BEGIN
+    WRITE_LONG ("%doffset%" + ("%it%" * 200) + 140) 100
+    WRITE_LONG ("%doffset%" + ("%it%" * 200) + 152) 10862
+    READ_BYTE ("%doffset%" + ("%it%" * 200) + 0x28) "doorflags"
+    WRITE_BYTE ("%doffset%" + ("%it%" * 200) + 0x28) ("%doorflags%" BOR 0b00000010)
+   END
+"it" = "%it%" + 1
+END
+
+COPY_EXISTING ~ar2802.are~ ~override/ar2802.are~
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran2800~ END
+
+COPY_EXISTING ~ar2806.are~ ~override/ar2806.are~
+ READ_SHORT 0x5A "icount"
+ READ_LONG 0x5C "ioffset"
+ SET "it" = 0
+ WHILE ("%it%" < "%icount%") BEGIN
+  READ_ASCII ("%ioffset%" + "%it%" * 196) "iname" (16)
+  PATCH_IF ("%iname%" STRING_COMPARE_CASE "Trigger Point 19" = 0) BEGIN
+   WRITE_LONG ("%ioffset%" + ("%it%" * 196) + 52) 28
+   WRITE_LONG ("%ioffset%" + ("%it%" * 196) + 100) (BNOT 0)
+   WRITE_ASCII ("%ioffset%" + ("%it%" * 196) + 124) ~Trania28~
+   SET "it" = "%icount%"
+  END
+ "it" = "%it%" + 1
+END
+
+COPY_EXISTING ~ar2807.are~ ~override/ar2807.are~
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran2800~ END
+
+  EXTEND_TOP ~AR2807.BCS~ ~ImprovedAnvil\scripts\areas\AR2807.BAF~
+
+COPY_EXISTING ~AR2811.are~ ~override/AR2811.are~
+  WRITE_ASCII 0x94 ~AR2811~ #8 // Area Script reference
+
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran2800~ END
+
+  EXTEND_BOTTOM ~AR2811.BCS~ ~ImprovedAnvil\scripts\areas\AR2811.BAF~
+
+COPY_EXISTING ~AR3000.ARE~ ~override/AR3000.ARE~
+  LPF set_default_transition_flags INT_VAR npc_cannot_pass = 0 STR_VAR region_name = ~Tran3000a~ END
+  LPF set_default_transition_flags INT_VAR npc_cannot_pass = 0 STR_VAR region_name = ~Tran3000b~ END
+
+  EXTEND_TOP ~AR3000.BCS~ ~ImprovedAnvil\scripts\areas\AR3000.BAF~
+
+COPY_EXISTING ~AR3001.ARE~ ~override/AR3001.ARE~
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF (("%spname%" STRING_COMPARE_CASE "Spawn Point 1" = 0) OR
+             ("%spname%" STRING_COMPARE_CASE "Spawn Point 3" = 0) OR
+             ("%spname%" STRING_COMPARE_CASE "Spawn Point 5" = 0)) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~S!spyran~ #8
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+   END
+"it" = "%it%" + 1
+END
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF (("%spname%" STRING_COMPARE_CASE "Spawn Point 2" = 0) OR
+             ("%spname%" STRING_COMPARE_CASE "Spawn Point 8" = 0)) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~RDSPID5~ #8
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 44) ~RDSahua~ #8
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+   END
+"it" = "%it%" + 1
+END
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 4" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~S!spyran~ #8
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 116) 1
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+   END
+"it" = "%it%" + 1
+END
+ READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 6" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~S!spyran~ #8
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 132) 1
+   END
+"it" = "%it%" + 1
+END
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 7" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~RDGnoll~ #8
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 116) 1
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+   END
+"it" = "%it%" + 1
+END
+
+COPY_EXISTING ~AR3004.ARE~ ~override/AR3004.are~
+  READ_LONG 0xC0 "interroffset"
+  WRITE_ASCII "%interroffset%" ~~ #32
+  READ_SHORT ("%interroffset%" + 152) "crecount"
+  WRITE_SHORT ("%interroffset%" + 152) 3
+
+COPY_EXISTING ~ar3010.are~ ~override/ar3010.are~
+  READ_LONG 0xC0 "interroffset"
+  WRITE_ASCII "%interroffset%" ~~ #32
+  WRITE_ASCII ("%interroffset%" + 88) ~deriny01~ #8
+
+COPY_EXISTING ~ar3011.are~ ~override/ar3011.are~
+  READ_LONG 0xBC "song-offset"
+  WRITE_LONG "%song-offset%" 0
+  WRITE_LONG ("%song-offset%" + 4) 0
+  WRITE_LONG ("%song-offset%" + 12) 58
+EXTEND_TOP ~AR3011.BCS~ ~ImprovedAnvil\scripts\areas\AR3011.BAF~
+
+COPY_EXISTING ~ar3014.are~ ~override/ar3014.are~
+  WRITE_ASCII 0x94 ~ar3014~ #8 // Area Script reference
+EXTEND_BOTTOM ~ar3014.BCS~ ~ImprovedAnvil\scripts\areas\ar3014.BAF~
+
+COPY_EXISTING ~ar3016.ARE~ ~override/ar3016.ARE~
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 1" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~RDSPID5~ #8
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 116) 1
+   END
+"it" = "%it%" + 1
+END
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 2" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~RDGOLEM3~ #8
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 116) 1
+   END
+"it" = "%it%" + 1
+END
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 3" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~HGWAR02~ #8
+   END
+"it" = "%it%" + 1
+END
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 4" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~RDGOLEM3~ #8
+   END
+"it" = "%it%" + 1
+END
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 5" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~S!ELEGRA~ #8
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 1
+   END
+"it" = "%it%" + 1
+END
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 6" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~S!ELEGRA~ #8
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 116) 1
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 1
+   END
+"it" = "%it%" + 1
+END
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 7" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~S!ELEGRA~ #8
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 116) 1
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 1
+   END
+"it" = "%it%" + 1
+END
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 8" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~S!ELEGRA~ #8
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 1
+   END
+"it" = "%it%" + 1
+END
+
+COPY_EXISTING ~ar3017.are~ ~override/ar3017.are~
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran3022~ END
+
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 1" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~S!spyran~ #8
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 116) 1
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 132) 1
+   END
+"it" = "%it%" + 1
+END
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 2" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~RDSPID5~ #8
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 116) 1
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+   END
+"it" = "%it%" + 1
+END
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 3" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~RDGnoll~ #8
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 116) 1
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+   END
+"it" = "%it%" + 1
+END
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF (("%spname%" STRING_COMPARE_CASE "Spawn Point 5" = 0) OR
+             ("%spname%" STRING_COMPARE_CASE "Spawn Point 6" = 0)) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~RDKeep~ #8
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 116) 1
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+   END
+"it" = "%it%" + 1
+END
+EXTEND_BOTTOM ~AR3017.BCS~ ~ImprovedAnvil\scripts\areas\AR3017.BAF~
+
+COPY_EXISTING ~AR3019.ARE~ ~override/AR3019.are~
+  READ_LONG 0xC0 "interroffset"
+  WRITE_ASCII "%interroffset%" ~~ #32
+  WRITE_ASCII ("%interroffset%" + 72) ~S!mistva~ #8
+  WRITE_ASCII ("%interroffset%" + 80) ~S!spidr2~ #8
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF (("%spname%" STRING_COMPARE_CASE "Spawn Point 1" = 0) OR
+             ("%spname%" STRING_COMPARE_CASE "Spawn Point 2" = 0)) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~S!spyran~ #8
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 116) 1
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+   END
+"it" = "%it%" + 1
+END
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 1" = 0) BEGIN
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 132) 1
+   END
+"it" = "%it%" + 1
+END
+
+COPY_EXISTING ~AR3021.ARE~ ~override/AR3021.are~
+  READ_LONG 0xC0 "interroffset"
+  WRITE_ASCII "%interroffset%" ~~ #32
+  WRITE_ASCII ("%interroffset%" + 72) ~S!umbhul~ #8
+
+COPY_EXISTING ~ar3022.are~ ~override/ar3022.are~
+  WRITE_ASCII 0x94 ~ar3022~ #8 // Area Script reference
+  READ_LONG 0xC0 "interroffset"
+  WRITE_ASCII "%interroffset%" ~~ #32
+  WRITE_ASCII ("%interroffset%" + 72) ~S!gemran~ #8
+
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran3027~ END
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran3017~ END
+
+  EXTEND_BOTTOM ~AR3022.BCS~ ~ImprovedAnvil\scripts\areas\AR3022.BAF~
+
+COPY_EXISTING ~ar3027.are~ ~override/ar3027.are~
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran3022~ END
+  EXTEND_BOTTOM ~AR3027.BCS~ ~ImprovedAnvil\scripts\areas\AR3027.BAF~
+
+COPY_EXISTING ~AR5002.ARE~ ~override/AR5002.are~
+  READ_LONG 0x54 "actoroffset"
+  READ_SHORT 0x58 "actorcount"
+  FOR (i = 0; i < "%actorcount%"; i = i+1) BEGIN
+   READ_ASCII ("%actoroffset%" + 272 * "%i%" + 128) "creresref"
+   PATCH_IF (("%creresref%" STRING_COMPARE_CASE "GROMG05") = 0) BEGIN
+    WRITE_ASCII ("%actoroffset%" + 272 * "%i%" + 80) "" #8
+   END
+END
+
+COPY_EXISTING ~AR5006.ARE~ ~override/AR5006.are~
+  READ_LONG 0xC0 "interroffset"
+  WRITE_ASCII "%interroffset%" ~~ #32
+  WRITE_ASCII ("%interroffset%" + 72) ~S!vamemi~ #8
+
+COPY_EXISTING ~AR5007.ARE~ ~override/AR5007.are~
+  READ_LONG 0xC0 "interroffset"
+  WRITE_ASCII "%interroffset%" ~~ #32
+  WRITE_ASCII ("%interroffset%" + 72) ~orc06~ #8
+
+COPY_EXISTING ~ar5200.ARE~ ~override/ar5200.are~
+  READ_LONG 0xC0 "interroffset"
+  WRITE_ASCII "%interroffset%" ~~ #32
+  READ_SHORT ("%interroffset%" + 152) "crecount"
+  WRITE_SHORT ("%interroffset%" + 152) 1
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (5)
+   PATCH_IF (("%spname%" STRING_COMPARE_CASE "EASYA" = 0) OR
+             ("%spname%" STRING_COMPARE_CASE "HARDA" = 0)) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~S!spyran~ #8
+   END
+"it" = "%it%" + 1
+END
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF (("%spname%" STRING_COMPARE_CASE "Spawn Point 1" = 0) OR
+             ("%spname%" STRING_COMPARE_CASE "Spawn Point 4" = 0)) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~S!spyran~ #8
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+   END
+"it" = "%it%" + 1
+END
+EXTEND_BOTTOM ~AR5200.BCS~ ~ImprovedAnvil\scripts\areas\AR5200.BAF~
+
+COPY_EXISTING ~ar5201.are~ ~override/ar5201.are~
+  READ_LONG 0xC0 "interroffset"
+  WRITE_ASCII "%interroffset%" ~~ #32
+  WRITE_ASCII ("%interroffset%" + 72) ~rdfire1~ #8
+  READ_SHORT ("%interroffset%" + 152) "crecount"
+  WRITE_SHORT ("%interroffset%" + 152) 1
+
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran5204~ END
+
+COPY_EXISTING ~ar5202.are~ ~override/ar5202.are~
+  READ_LONG 0xC0 "interroffset"
+  WRITE_ASCII "%interroffset%" ~~ #32
+  WRITE_ASCII ("%interroffset%" + 72) ~S!skeld~ #8
+  READ_SHORT ("%interroffset%" + 152) "crecount"
+  WRITE_SHORT ("%interroffset%" + 152) 1
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF (("%spname%" STRING_COMPARE_CASE "Spawn Point 1" = 0) OR
+             ("%spname%" STRING_COMPARE_CASE "Spawn Point 2" = 0)) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~RDPirate~ #8
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+   END
+"it" = "%it%" + 1
+END
+
+COPY_EXISTING ~ar5204.are~ ~override/ar5204.are~
+  READ_LONG   0xC0 "interroffset"
+  WRITE_ASCII "%interroffset%"         ~~        #32
+  WRITE_ASCII ("%interroffset%" + 72)  ~rdfire1~ #8
+  READ_SHORT  ("%interroffset%" + 152) "crecount"
+  WRITE_SHORT ("%interroffset%" + 152) 1
+
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran5201~ END
+
+  EXTEND_BOTTOM ~AR5204.BCS~ ~ImprovedAnvil\scripts\areas\AR5204.BAF~
+
+COPY_EXISTING ~ar6000.are~ ~override/ar6000.are~
+  READ_LONG 0xC0 "interroffset"
+  WRITE_ASCII "%interroffset%" ~~ #32
+  WRITE_ASCII ("%interroffset%" + 72) ~S!elegra~ #8
+  READ_SHORT ("%interroffset%" + 164) "trigcount"
+  WRITE_SHORT ("%interroffset%" + 164) 2
+  READ_SHORT ("%interroffset%" + 168) "daychance"
+  WRITE_SHORT ("%interroffset%" + 168) 10
+  READ_SHORT ("%interroffset%" + 170) "nigchance"
+  WRITE_SHORT ("%interroffset%" + 170) 10
+
+COPY_EXISTING ~ar6001.are~ ~override/ar6001.are~
+  READ_LONG 0xC0 "interroffset"
+  WRITE_ASCII "%interroffset%" ~~ #32
+  WRITE_ASCII ("%interroffset%" + 72) ~S!elegra~ #8
+  READ_SHORT ("%interroffset%" + 154) "diffflag"
+  WRITE_SHORT ("%interroffset%" + 154) 2
+  READ_SHORT ("%interroffset%" + 168) "daychance"
+  WRITE_SHORT ("%interroffset%" + 168) 10
+  READ_SHORT ("%interroffset%" + 170) "nigchance"
+  WRITE_SHORT ("%interroffset%" + 170) 10
+
+COPY_EXISTING ~ar6002.are~ ~override/ar6002.are~
+  READ_LONG 0xC0 "interroffset"
+  WRITE_ASCII "%interroffset%" ~~ #32
+  WRITE_ASCII ("%interroffset%" + 72) ~S!elegra~ #8
+  READ_SHORT ("%interroffset%" + 164) "trigcount"
+  WRITE_SHORT ("%interroffset%" + 164) 2
+  READ_SHORT ("%interroffset%" + 168) "daychance"
+  WRITE_SHORT ("%interroffset%" + 168) 10
+  READ_SHORT ("%interroffset%" + 170) "nigchance"
+  WRITE_SHORT ("%interroffset%" + 170) 10
+
+COPY_EXISTING ~ar6003.are~ ~override/ar6003.are~
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF (("%spname%" STRING_COMPARE_CASE "Spawn Point 1" = 0) OR
+             ("%spname%" STRING_COMPARE_CASE "Spawn Point 2" = 0)) BEGIN
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+   END
+"it" = "%it%" + 1
+END
+
+COPY_EXISTING ~ar6008.are~ ~override/ar6008.are~
+  READ_LONG 0xC0 "interroffset"
+  WRITE_ASCII "%interroffset%" ~~ #32
+  WRITE_ASCII ("%interroffset%" + 72) ~S!icegor~ #8
+  READ_SHORT ("%interroffset%" + 164) "trigcount"
+  WRITE_SHORT ("%interroffset%" + 164) 1
+  READ_SHORT ("%interroffset%" + 168) "daychance"
+  WRITE_SHORT ("%interroffset%" + 168) 10
+  READ_SHORT ("%interroffset%" + 170) "nigchance"
+  WRITE_SHORT ("%interroffset%" + 170) 10
+
+COPY_EXISTING ~ar6011.are~ ~override/ar6011.are~
+  READ_LONG 0xC0 "interroffset"
+  WRITE_ASCII "%interroffset%" ~~ #32
+  WRITE_ASCII ("%interroffset%" + 72) ~S!behgau~ #8
+
+COPY_EXISTING ~ar6100.are~ ~override/ar6100.are~
+  READ_LONG 0xC0 "interroffset"
+  WRITE_ASCII "%interroffset%" ~~ #32
+  WRITE_ASCII ("%interroffset%" + 72) ~S!drofod~ #8
+
+COPY_EXISTING ~ar6101.ARE~ ~override/ar6101.are~
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 1" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~RDSPID5~ #8
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 116) 1
+   END
+"it" = "%it%" + 1
+END
+
+COPY_EXISTING ~ar6103.are~ ~override/ar6103.are~
+  READ_LONG 0xC0 "interroffset"
+  WRITE_ASCII "%interroffset%" ~~ #32
+  WRITE_ASCII ("%interroffset%" + 72) ~S!spidr1~ #8
+
+COPY_EXISTING ~ar6104.are~ ~override/ar6104.are~
+  READ_LONG 0xC0 "interroffset"
+  WRITE_ASCII "%interroffset%" ~~ #32
+  WRITE_ASCII ("%interroffset%" + 72) ~S!drofod~ #8
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 1" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~S!spyran~ #8
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 116) 1
+   END
+"it" = "%it%" + 1
+END
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF (("%spname%" STRING_COMPARE_CASE "Spawn Point 3" = 0) OR
+             ("%spname%" STRING_COMPARE_CASE "Spawn Point 4" = 0)) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~S!spyran~ #8
+   END
+"it" = "%it%" + 1
+END
+  READ_SHORT 0x64 "spcount"
+  READ_LONG 0x60 "spoffset"
+  SET "it" = 0
+  WHILE ("%it%" < "%spcount%") BEGIN
+   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 2" = 0) BEGIN
+    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~RDSPID5~ #8
+    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 116) 1
+   END
+"it" = "%it%" + 1
+END
+
+COPY_EXISTING ~ar6107.are~ ~override/ar6107.are~
+  READ_LONG 0xC0 "interroffset"
+  WRITE_ASCII "%interroffset%" ~~ #32
+  WRITE_ASCII ("%interroffset%" + 72) ~S!umbhul~ #8
+
+COPY_EXISTING ~ar6109.are~ ~override/ar6109.are~
+  READ_LONG 0xC0 "interroffset"
+  WRITE_ASCII "%interroffset%" ~~ #32
+  WRITE_ASCII ("%interroffset%" + 72) ~S!drofod~ #8
+
+COPY_EXISTING ~AR6400.ARE~ ~override/AR6400.are~
+  READ_LONG 0xC0 "interroffset"
+  WRITE_ASCII ("%interroffset%" + 72) ~giafir01~ #8
+  READ_SHORT ("%interroffset%" + 152) "crecount"
+  WRITE_SHORT ("%interroffset%" + 152) 1
+
+COPY_EXISTING ~ar0331.are~ ~override/ar0331.are~
+  WRITE_ASCII 0x94 ~ar0331~ #8 // Area Script reference
+EXTEND_BOTTOM ~AR0331.BCS~ ~ImprovedAnvil\scripts\areas\AR0331.BAF~
+
+COPY_EXISTING ~ar0412.are~ ~override/ar0412.are~
+  WRITE_ASCII 0x94 ~ar0412~ #8 // Area Script reference
+  READ_LONG 0xC0 "interroffset"
+  WRITE_ASCII ("%interroffset%" + 72) ~S!shador~ #8
+  WRITE_ASCII ("%interroffset%" + 80) ~S!shadfi~ #8
+EXTEND_BOTTOM ~AR0412.BCS~ ~ImprovedAnvil\scripts\areas\AR0412.BAF~
+
+COPY_EXISTING ~ar3018.are~ ~override/ar3018.are~
+  WRITE_ASCII 0x94 ~ar3018~ #8 // Area Script reference
+  EXTEND_BOTTOM ~ar3018.BCS~ ~ImprovedAnvil\scripts\areas\ar3018.BAF~
+
+COPY_EXISTING ~ar1107.are~ ~override/ar1107.are~
+  WRITE_ASCII 0x94 ~ar1107~ #8 // Area Script reference
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran1100~ END
+  EXTEND_BOTTOM ~ar1107.BCS~ ~ImprovedAnvil\scripts\areas\ar1107.BAF~
+
+// Bridge district
+COPY_EXISTING ~AR0500.ARE~ ~override/AR0500.ARE~
+  LPF set_default_transition_flags STR_VAR region_name = ~Tran0506b~ END
+  BUT_ONLY
+
+COPY_EXISTING ~AR2808.ARE~ ~override/AR2808.ARE~
+  LAUNCH_PATCH_FUNCTION ~REPLACE_AREA_ITEM~ STR_VAR
+    old_item = ~SCRL9N~
+    new_item = ~SCRL9Q~
+  END
+
+COPY_EXISTING ~AR0705.ARE~ ~override/AR0705.ARE~
+  LAUNCH_PATCH_FUNCTION ~REPLACE_AREA_ITEM~ STR_VAR
+    old_item = ~POTN40~
+    new_item = ~POTN11~
+  END
+
+// Derelict house
+COPY_EXISTING ~AR0529.ARE~ ~override/AR0529.ARE~
+  LAUNCH_PATCH_FUNCTION ~ALTER_AREA_CONTAINER~
+    INT_VAR
+      trapped = 1
+      trap_detect = 50
+      trap_remove = 90
+    STR_VAR
+      container_name = "Container 6"
+  END
+  BUT_ONLY
+
+// Bodhi's lair, Ch. 3
+COPY_EXISTING ~AR0803.ARE~ ~override/AR0803.ARE~
+  LAUNCH_PATCH_FUNCTION ~REPLACE_AREA_ITEM~ STR_VAR
+    old_item = ~SW1H55~
+    new_item = ~SW1H75~
+  END

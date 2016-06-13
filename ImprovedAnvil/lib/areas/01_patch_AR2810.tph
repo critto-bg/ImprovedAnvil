@@ -1,0 +1,115 @@
+/// Patch AR2810 heavily for the IA's Vagrant quest ///
+/// this area was copied over in the older versions of the mod ///
+
+COPY_EXISTING ~AR2810.are~ ~override/AR2810.are~
+  WRITE_SHORT 0x0048 128         // Area type
+  WRITE_ASCII 0x0094 ~AR2810~ #8 // Area script
+
+  // remove the old actor (elven warrior)
+  LPF fj_are_structure
+    INT_VAR
+      fj_delete_mode = 0
+    STR_VAR
+      fj_structure_type = actor
+  END
+
+  // add a new actor (lord Wetlander)
+  LPF fj_are_structure
+    INT_VAR
+      fj_loc_x       = 410
+      fj_loc_y       = 362
+      fj_dest_x      = 410
+      fj_dest_y      = 362
+      fj_loaded      = 1
+      fj_animation   = 24833
+      fj_orientation = 14
+    STR_VAR
+      fj_structure_type = actor
+      fj_name           = ~LORD WETLANDER~
+      fj_cre_resref     = ~S!RNGSPI~
+  END
+
+  // set some flags for the existing Region #1 (Tran2800)
+  WRITE_SHORT (LONG_AT 0x005c + 0x60) 516
+
+  // add new Region #2 ("Info Point 2")
+  LPF fj_are_structure
+    INT_VAR
+      fj_type       = 1
+      fj_box_left   = 185
+      fj_box_top    = 361
+      fj_box_right  = 343
+      fj_box_bottom = 470
+      fj_cursor_idx = 8
+      fj_loc_x      = 259
+      fj_loc_y      = 412
+      fj_vertex_0   = 0x00d8 + (0x01cc << 16)
+      fj_vertex_1   = 0x0116 + (0x01d6 << 16)
+      fj_vertex_2   = 0x014a + (0x01bd << 16)
+      fj_vertex_3   = 0x0157 + (0x019d << 16)
+      fj_vertex_4   = 0x014a + (0x0181 << 16)
+      fj_vertex_5   = 0x0136 + (0x0170 << 16)
+      fj_vertex_6   = 0x0119 + (0x0169 << 16)
+      fj_vertex_7   = 0x00f8 + (0x0169 << 16)
+      fj_vertex_8   = 0x00c8 + (0x017c << 16)
+      fj_vertex_9   = 0x00b9 + (0x01a5 << 16)
+      fj_vertex_10  = 0x00c7 + (0x01c0 << 16)
+    STR_VAR
+      fj_structure_type = region
+      fj_name           = ~Info Point 2~
+      fj_reg_script     = ~S!WETLAN~
+  END
+
+  // add new Region #3 ("Info Point 3")
+  LPF fj_are_structure
+    INT_VAR
+      fj_type       = 1
+      fj_box_left   = 473
+      fj_box_top    = 135
+      fj_box_right  = 510
+      fj_box_bottom = 172
+      fj_cursor_idx = 8
+      fj_loc_x      = 491
+      fj_loc_y      = 138
+      fj_vertex_0   = 0x01fe + (0x00ac << 16)
+      fj_vertex_1   = 0x01d9 + (0x00a3 << 16)
+      fj_vertex_2   = 0x01d9 + (0x0087 << 16)
+      fj_vertex_3   = 0x01fe + (0x008e << 16)
+    STR_VAR
+      fj_structure_type = region
+      fj_name           = ~Info Point 3~
+      fj_reg_script     = ~S!MIRROR~
+  END
+
+  // remove all items from containers
+  FOR (i = SHORT_AT 0x76 ; i ; --i) BEGIN
+    LPF fj_are_structure
+      INT_VAR fj_delete_mode = i - 1
+      STR_VAR fj_structure_type = itm
+    END
+  END
+
+  // set volume for all ambients
+  FOR (i = SHORT_AT 0x82 ; i ; --i) BEGIN
+    WRITE_SHORT (LONG_AT 0x0084 + ((i - 1) * 0xd4) + 0x2e) 100
+  END
+
+  // set flags for Animation #1
+  WRITE_SHORT (LONG_AT 0xb0 + 0x34) 257
+
+  // add songlist
+  LPF fj_are_structure
+    INT_VAR
+      fj_song_battle = 55
+      fj_song_day_vol = 100
+      fj_song_night_vol = 100
+    STR_VAR
+      fj_structure_type = songs
+  END
+
+  // finish off the offsets to match the older version of the file
+  WRITE_LONG  0x00a0 0x0a48      // explored bitmask offset
+  WRITE_LONG  0x00c4 0x0         // Map notes offset
+  WRITE_LONG  0x00cc 0x0         // Traps offset
+
+  BUT_ONLY
