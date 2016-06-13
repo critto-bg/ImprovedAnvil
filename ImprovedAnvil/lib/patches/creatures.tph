@@ -3079,8 +3079,8 @@ COPY_EXISTING ~jan8.cre~ ~Override/jan8.cre~
   WRITE_BYTE  0x10       0b01000000 // original class (thief)
   WRITE_SHORT 0x24      36 // current HP
   WRITE_SHORT 0x26      36 // max HP
-  WRITE_BYTE  0x55       8 // save vs wands
-  WRITE_BYTE  0x58       9 // save vs spell
+  WRITE_BYTE  0x55       9 // save vs wands
+  WRITE_BYTE  0x58      10 // save vs spell
   WRITE_BYTE  0x64      50 // Detect Illusion
   WRITE_BYTE  0x66      27 // Lore
   WRITE_BYTE  0x67      65 // Open Locks
@@ -3103,20 +3103,20 @@ COPY_EXISTING ~jan8.cre~ ~Override/jan8.cre~
      PATCH_MATCH %spell_level% WITH
        0 1
        BEGIN
-         WRITE_SHORT ("%mem_off%" + 0x2 + (0x10 * "%index%")) 5 // write new amount
-         WRITE_SHORT ("%mem_off%" + 0x4 + (0x10 * "%index%")) 5 // write new amount
-       END
-
-       2
-       BEGIN
          WRITE_SHORT ("%mem_off%" + 0x2 + (0x10 * "%index%")) 4 // write new amount
          WRITE_SHORT ("%mem_off%" + 0x4 + (0x10 * "%index%")) 4 // write new amount
        END
 
-       3 4
+       2
        BEGIN
          WRITE_SHORT ("%mem_off%" + 0x2 + (0x10 * "%index%")) 3 // write new amount
          WRITE_SHORT ("%mem_off%" + 0x4 + (0x10 * "%index%")) 3 // write new amount
+       END
+
+       3 4
+       BEGIN
+         WRITE_SHORT ("%mem_off%" + 0x2 + (0x10 * "%index%")) 2 // write new amount
+         WRITE_SHORT ("%mem_off%" + 0x4 + (0x10 * "%index%")) 2 // write new amount
        END
 
        DEFAULT
