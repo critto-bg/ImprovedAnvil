@@ -285,4 +285,22 @@ ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
       END
       BUT_ONLY
   END
+
+  // items of a +1, +x vs. monster type are standardized not to grant enchantment bonuses in IA
+  // therefore we remove a new 344 opcode that modifies the enchantment level for EE 2.x versions of items
+  ACTION_FOR_EACH ~file~ IN
+                  ~blun10.itm~
+                  ~blun23.itm~
+                  ~dagg09.itm~
+                  ~hamm04.itm~
+                  ~sw1h03.itm~
+                  ~sw1h18.itm~
+                  ~sw1h24.itm~
+                  ~sw1h31.itm~
+                  ~wamace.itm~
+  BEGIN
+    COPY_EXISTING ~%file%~ ~override/%file%~
+      LPF DELETE_ITEM_EQEFFECT INT_VAR opcode_to_delete = 344 END
+      BUT_ONLY
+  END
 END
