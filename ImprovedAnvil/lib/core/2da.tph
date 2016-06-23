@@ -16,6 +16,7 @@ COPY ~ImprovedAnvil/resources/2da/mxspldru.2da~ ~override/mxspldru.2da~ // druid
 COPY ~ImprovedAnvil/resources/2da/mxsplprs.2da~ ~override/mxsplprs.2da~ // priests
 COPY ~ImprovedAnvil/resources/2da/mxsplwiz.2da~ ~override/mxsplwiz.2da~ // wizards
 COPY ~ImprovedAnvil/resources/2da/mxsplsrc.2da~ ~override/mxsplsrc.2da~ // sorcerers
+COPY ~ImprovedAnvil/resources/2da/mxsplshm.2da~ ~override/mxsplshm.2da~ // shamans
 
 // default saving throws for various classes
 COPY ~ImprovedAnvil/resources/2da/saverog.2da~ ~override/saverog.2da~ // thief, bard
@@ -244,11 +245,20 @@ COPY_EXISTING ~statdesc.2da~ ~override/statdesc.2da~
   COUNT_2DA_COLS ~colcount~
   COUNT_2DA_ROWS ~colcount~ ~rowcount~
 
-  INSERT_2DA_ROW ~rowcount~ ~colcount~ ~166         0~
-  INSERT_2DA_ROW (rowcount + 1) ~colcount~ ~167         0~
+  PATCH_IF GAME_IS ~tob~ THEN BEGIN
+    INSERT_2DA_ROW ~rowcount~ ~colcount~ ~166         0~
+    INSERT_2DA_ROW (rowcount + 1) ~colcount~ ~167         0~
 
-  SET_2DA_ENTRY ~rowcount~ 1 ~colcount~ RESOLVE_STR_REF (@10220)
-  SET_2DA_ENTRY (rowcount + 1) 1 ~colcount~ RESOLVE_STR_REF (@10230)
+    SET_2DA_ENTRY ~rowcount~ 1 ~colcount~ RESOLVE_STR_REF (@10220)
+    SET_2DA_ENTRY (rowcount + 1) 1 ~colcount~ RESOLVE_STR_REF (@10230)
+  END
+
+  PATCH_IF GAME_IS ~bg2ee~ THEN BEGIN
+    SET_2DA_ENTRY 166 1 ~colcount~ RESOLVE_STR_REF (@10220)
+    INSERT_2DA_ROW 167 ~colcount~ ~167         0         ****~
+    SET_2DA_ENTRY 167 1 ~colcount~ RESOLVE_STR_REF (@10230)
+    PRETTY_PRINT_2DA
+  END
 
 ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
   // allow ZoSA to dispel certain projectiles
