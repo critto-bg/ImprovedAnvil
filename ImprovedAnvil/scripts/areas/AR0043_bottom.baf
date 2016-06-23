@@ -1,0 +1,53 @@
+IF
+	!ActuallyInCombat()
+	Global("OHD_PLOT","GLOBAL",5)
+	GlobalGT("OHD_AMBUSH","MYAREA",11)
+	Dead("OHDHAMMS")
+	Dead("DORN")
+	Global("OHD_JOURNAL_AMBUSH","MYAREA",0)
+THEN
+	RESPONSE #100
+		SetGlobal("OHD_JOURNAL_AMBUSH","MYAREA",1)
+		AddJournalEntry(91270,INFO) // Dorn's actions have caught up to him—and me—in the form of The Hammers of Grimjaws. Though I defeated Tyr's fanatical paladins, I could not save Dorn from their wrath.
+		Continue()
+END
+
+IF
+	!ActuallyInCombat()
+	Global("OHD_PLOT","GLOBAL",5)
+	GlobalGT("OHD_AMBUSH","MYAREA",11)
+	Dead("OHDHAMMS")
+	!Dead("DORN")
+	Global("OHD_JOURNAL_AMBUSH","MYAREA",0)
+THEN
+	RESPONSE #100
+		SetGlobal("OHD_JOURNAL_AMBUSH","MYAREA",1)
+		AddJournalEntry(91269,INFO) // Dorn's actions have caught up to him—and me—in the form of the Hammers of Grimjaws. The fanatical paladins of Tyr eventually fell before us, but I fear they are just the beginning of the troubles my association with Dorn will cause me.
+		Continue()
+END
+
+IF
+	!ActuallyInCombat()
+	Global("OHD_PLOT","GLOBAL",5)
+	GlobalGT("OHD_AMBUSH","MYAREA",11)
+	Dead("OHDHAMMS")
+	Global("cd_one_azo","MYAREA",0)
+THEN
+	RESPONSE #100
+		SetGlobal("cd_one_azo","MYAREA",1)
+		ClearAllActions()
+		StartCutSceneMode()
+		StartCutScene("OHDCUT05")
+END
+
+IF
+	!ActuallyInCombat()
+	Global("OHD_PLOT","GLOBAL",6)
+	Global("OHD_gothspawn","GLOBAL",0)
+THEN
+	RESPONSE #100
+		SetGlobal("OHD_gothspawn","GLOBAL",1)
+		ClearAllActions()
+		StartCutSceneMode()
+		StartCutScene("OHDCUT06")
+END

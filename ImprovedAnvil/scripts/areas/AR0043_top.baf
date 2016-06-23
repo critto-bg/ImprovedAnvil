@@ -1,0 +1,43 @@
+IF
+	OnCreation()
+	Global("OHD_PLOT","GLOBAL",4)
+	InParty("dorn")
+	!Dead("dorn")
+THEN
+	RESPONSE #100
+		StartCutSceneMode()
+		FadeToColor([10.0],0)
+		Explore()
+		PlaySound("error10")
+		DisplayStringNoName(Player1,16493) // You have been waylaid by enemies and must defend yourself!
+		SetGlobal("OHD_PLOT","GLOBAL",5)
+		SetGlobal("OH_RANDOM_ENCOUNTER","GLOBAL",0)
+		Wait(4)
+		CreateCreature("OHDTRAGG",[690.573],NW) // Traggor the Hammer
+		CreateCreature("OHDHAM01",[530.591],NE) // Wagner
+		CreateCreature("OHDHAM02",[360.430],S) // Big Mordim
+		CreateCreature("OHDHAM03",[285.434],E) // Simon
+		CreateCreature("OHDHAMMS",[339.661],NE) // Garfunkle
+		ActionOverride(Player1,JumpToPoint([553.452]))
+		ActionOverride(Player2,JumpToPoint([587.441]))
+		ActionOverride(Player3,JumpToPoint([568.414]))
+		ActionOverride(Player4,JumpToPoint([598.396]))
+		ActionOverride(Player5,JumpToPoint([555.378]))
+		ActionOverride(Player6,JumpToPoint([582.352]))
+		SmallWait(2)
+		ActionOverride(Player1,Face(SSE))
+		ActionOverride(Player2,Face(SSE))
+		ActionOverride(Player3,Face(SSE))
+		ActionOverride(Player4,Face(SSE))
+		ActionOverride(Player5,Face(SSE))
+		ActionOverride(Player6,Face(SSE))
+		ActionOverride("OHDTRAGG",FaceObject("dorn"))
+		ActionOverride("OHDHAM01",FaceObject("dorn"))
+		ActionOverride("OHDHAM02",FaceObject("dorn"))
+		ActionOverride("OHDHAM03",FaceObject("dorn"))
+		ActionOverride("OHDHAMMS",FaceObject("dorn"))
+		SmallWait(4)
+		MoveViewObject("OHDTRAGG",VERY_FAST)
+		FadeFromColor([10.0],0)
+		EndCutSceneMode()
+END
