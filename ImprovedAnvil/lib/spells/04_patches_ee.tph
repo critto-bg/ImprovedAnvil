@@ -111,4 +111,57 @@ ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
     END
 
     BUT_ONLY
+
+  // Spirit Form, Shaman's HLA
+  COPY_EXISTING ~SPCL940.spl~ ~override/SPCL940.spl~
+    // normal invisibility
+    LPF ADD_SPELL_EFFECT
+      INT_VAR
+        opcode = 20
+        target = 1
+        timing = 0
+        resist_dispel = 0
+        duration = 30
+        parameter2 = 0
+    END
+
+    // immunity to II and Mass Inv.
+    PATCH_FOR_EACH ~res~ IN ~SPWI721~ ~SPWI405~ BEGIN
+      LPF ADD_SPELL_EFFECT
+        INT_VAR
+          opcode = 206
+          target = 1
+          timing = 0
+          resist_dispel = 0
+          duration = 30
+        STR_VAR
+          resource = EVALUATE_BUFFER ~%res%~
+      END
+    END
+
+    // immunity to detect invisibility
+    PATCH_FOR_EACH ~effect~ IN ~116~ ~220~ BEGIN
+      LPF ADD_SPELL_EFFECT
+        INT_VAR
+          opcode = 101
+          target = 1
+          timing = 0
+          resist_dispel = 0
+          duration = 30
+          parameter2 = effect
+      END
+    END
+
+    // Protection from Divination spells
+    LPF ADD_SPELL_EFFECT
+      INT_VAR
+        opcode = 204
+        target = 1
+        timing = 0
+        resist_dispel = 0
+        duration = 30
+        parameter2 = 3
+    END
+
+    BUT_ONLY
 END
