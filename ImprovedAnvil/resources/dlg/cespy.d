@@ -1856,7 +1856,7 @@ APPEND BOTSMITH
   IF ~~ THEN BEGIN dakkon
     SAY @767 IF ~~ THEN REPLY @2 GOTO 13
     IF ~PartyHasItem("wa2dak") PartyHasItem("s!sw20") PartyHasItem("s!sw21")
-        PartyHasItem("gith") PartyHasItem("S!misc02") PartyHasItem("S!misc01")
+        PartyHasItem("sw2h15") PartyHasItem("S!misc02") PartyHasItem("S!misc01")
         NumItemsPartyGT("misc9y",2) PartyGoldGT(74999) Global("Iadakkonforged","GLOBAL",0)~
       THEN REPLY @3
       DO ~SetGlobal("Iadakkonforged","GLOBAL",1)
