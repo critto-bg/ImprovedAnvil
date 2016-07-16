@@ -57,4 +57,111 @@ ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
       END
     END
     BUT_ONLY
+
+  // Favored of the Spirits, Shaman's HLA
+  COPY_EXISTING ~SPCL941.spl~ ~override/SPCL941.spl~
+    SAY UNIDENTIFIED_DESC @10303
+
+    WRITE_BYTE 0x27 13 // secondary type
+
+    // reduce duration to two turns
+    PATCH_FOR_EACH ~opcode_number~ IN ~208~ ~169~ ~267~ ~101~ ~142~ ~328~ ~232~ BEGIN
+      LPF ALTER_SPELL_EFFECT INT_VAR
+        check_headers = 1
+        header_type = 1
+        match_opcode = ~%opcode_number%~
+        duration = 120
+      END
+    END
+
+    // add scripting state for AI's benefit
+    LPF ADD_SPELL_EFFECT
+      INT_VAR
+        opcode = 282
+        target = 1
+        timing = 0
+        resist_dispel = 2
+        duration = 120
+        parameter1 = 2
+        parameter2 = 3
+    END
+
+    // re-setup 174 opcodes (play sound) because we can't target delayed effect directly
+    LPF DELETE_SPELL_EFFECT INT_VAR opcode_to_delete = 174 END
+
+    LPF ADD_SPELL_EFFECT
+      INT_VAR
+        opcode = 174
+        target = 1
+        timing = 1
+        resist_dispel = 2
+      STR_VAR
+        resource = ~EFF_P84~
+    END
+
+    LPF ADD_SPELL_EFFECT
+      INT_VAR
+        opcode = 174
+        target = 1
+        timing = 4
+        resist_dispel = 2
+        duration = 120
+      STR_VAR
+        resource = ~EFF_E07~
+    END
+
+    BUT_ONLY
+
+  // Spirit Form, Shaman's HLA
+  COPY_EXISTING ~SPCL940.spl~ ~override/SPCL940.spl~
+    // normal invisibility
+    LPF ADD_SPELL_EFFECT
+      INT_VAR
+        opcode = 20
+        target = 1
+        timing = 0
+        resist_dispel = 0
+        duration = 30
+        parameter2 = 0
+    END
+
+    // immunity to II and Mass Inv.
+    PATCH_FOR_EACH ~res~ IN ~SPWI721~ ~SPWI405~ BEGIN
+      LPF ADD_SPELL_EFFECT
+        INT_VAR
+          opcode = 206
+          target = 1
+          timing = 0
+          resist_dispel = 0
+          duration = 30
+        STR_VAR
+          resource = EVALUATE_BUFFER ~%res%~
+      END
+    END
+
+    // immunity to detect invisibility
+    PATCH_FOR_EACH ~effect~ IN ~116~ ~220~ BEGIN
+      LPF ADD_SPELL_EFFECT
+        INT_VAR
+          opcode = 101
+          target = 1
+          timing = 0
+          resist_dispel = 0
+          duration = 30
+          parameter2 = effect
+      END
+    END
+
+    // Protection from Divination spells
+    LPF ADD_SPELL_EFFECT
+      INT_VAR
+        opcode = 204
+        target = 1
+        timing = 0
+        resist_dispel = 0
+        duration = 30
+        parameter2 = 3
+    END
+
+    BUT_ONLY
 END
