@@ -3,13 +3,43 @@ AUTHOR ~el.critto@gmail.com~
 VERSION ~v6.2~
 README ~ImprovedAnvil/readme/index.html~
 
-LANGUAGE "English"
- ~ImprovedAnvil/lang/English/~
- ~ImprovedAnvil/lang/English/setup.tra~
+ALWAYS
+  ACTION_IF NOT VARIABLE_IS_SET do_once THEN BEGIN
+    OUTER_SET do_once = 1
+    OUTER_SPRINT lang_path ~ImprovedAnvil/lang~
 
-LANGUAGE "Chinese"
-~ImprovedAnvil/lang/Chinese/~
-~ImprovedAnvil/lang/Chinese/setup.tra~
+    ACTION_DEFINE_ARRAY noconvert BEGIN END
+    ACTION_DEFINE_ARRAY reload BEGIN ~setup~ END
+    ACTION_DEFINE_ASSOCIATIVE_ARRAY charset_table BEGIN
+      english => "UTF-8"
+      chinese => "GB18030"
+    END
+
+    PRINT "Converting character sets..."
+
+    SILENT
+
+    LAF HANDLE_CHARSETS
+      INT_VAR
+        infer_charset = 0
+      STR_VAR
+        tra_path = ~ImprovedAnvil/lang~
+        charset_table = charset_table
+        noconvert_array = noconvert
+        reload_array = reload
+    END
+  END
+END
+
+LANGUAGE
+  "English"
+  ~english~
+  ~ImprovedAnvil/lang/english/setup.tra~
+
+LANGUAGE
+  "Chinese"
+  ~chinese~
+  ~ImprovedAnvil/lang/chinese/setup.tra~
 
 BEGIN @1
 DESIGNATED 0
