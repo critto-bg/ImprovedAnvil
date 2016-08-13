@@ -133,15 +133,15 @@ IF ~Global("Iamoridinit","AR0411",1)~ THEN BEGIN 20
       THEN REPLY @4535
       DO ~TakePartyItemNum("S!scrl10",1)   DestroyItem("S!scrl10")
           TakePartyItemNum("S!misc06",1)   DestroyItem("S!misc06")
-          TakePartyItemNum("misc42",1)   DestroyItem("misc42")
-          TakePartyItemNum("misc42",1)   DestroyItem("misc42")
-          TakePartyItemNum("misc42",1)   DestroyItem("misc42")
-          TakePartyItemNum("potn14",1)   DestroyItem("potn14")
-          TakePartyItemNum("potn14",1)   DestroyItem("potn14")
-          TakePartyItemNum("potn14",1)   DestroyItem("potn14")
-          TakePartyItemNum("potn14",1)   DestroyItem("potn14")
-          TakePartyItemNum("potn14",1)   DestroyItem("potn14")
-          TakePartyItemNum("potn14",1)   DestroyItem("potn14")
+          TakePartyItemNum("misc42",3)   DestroyItem("misc42")
+                                         DestroyItem("misc42")
+                                         DestroyItem("misc42")
+          TakePartyItemNum("potn14",6)   DestroyItem("potn14")
+                                         DestroyItem("potn14")
+                                         DestroyItem("potn14")
+                                         DestroyItem("potn14")
+                                         DestroyItem("potn14")
+                                         DestroyItem("potn14")
           SetGlobal("Iatimemactive","AR0411",1)~ GOTO 28
 END
 
@@ -167,16 +167,16 @@ IF ~Global("Iamoridinit","AR0411",1)~ THEN BEGIN 22
       PartyGoldGT(29999)~
     THEN REPLY @4535
     DO ~TakePartyGold(30000)      DestroyGold(30000)
-        TakePartyItemNum("misc23",1)   DestroyItem("misc23")
-        TakePartyItemNum("misc23",1)   DestroyItem("misc23")
-        TakePartyItemNum("misc23",1)   DestroyItem("misc23")
-        TakePartyItemNum("misc23",1)   DestroyItem("misc23")
-        TakePartyItemNum("misc23",1)   DestroyItem("misc23")
-        TakePartyItemNum("scrl59",1)   DestroyItem("scrl59")
-        TakePartyItemNum("scrl59",1)   DestroyItem("scrl59")
-        TakePartyItemNum("scrl59",1)   DestroyItem("scrl59")
-        TakePartyItemNum("scrl59",1)   DestroyItem("scrl59")
-        TakePartyItemNum("scrl59",1)   DestroyItem("scrl59")
+        TakePartyItemNum("misc23",5)   DestroyItem("misc23")
+                                       DestroyItem("misc23")
+                                       DestroyItem("misc23")
+                                       DestroyItem("misc23")
+                                       DestroyItem("misc23")
+        TakePartyItemNum("scrl59",5)   DestroyItem("scrl59")
+                                       DestroyItem("scrl59")
+                                       DestroyItem("scrl59")
+                                       DestroyItem("scrl59")
+                                       DestroyItem("scrl59")
         TakePartyItemNum("S!misc50",1)   DestroyItem("S!misc50")
         TakePartyItemNum("S!misc52",1)   DestroyItem("S!misc52")
         SetGlobal("Iabrewpotn33","AR0411",1)~ GOTO 28
@@ -214,9 +214,9 @@ IF ~Global("Iamoridinit","AR0411",1)~ THEN BEGIN 26
   IF ~~ THEN REPLY @4534 EXIT
   IF ~GlobalGT("Iasquirjob","GLOBAL",8) NumItemsPartyGT("misc20",2) PartyHasItem("S!helm06")~
     THEN REPLY @4535
-    DO ~TakePartyItemNum("misc20",1)   DestroyItem("misc20")
-        TakePartyItemNum("misc20",1)   DestroyItem("misc20")
-        TakePartyItemNum("misc20",1)   DestroyItem("misc20")
+    DO ~TakePartyItemNum("misc20",3)   DestroyItem("misc20")
+                                       DestroyItem("misc20")
+                                       DestroyItem("misc20")
         TakePartyItemNum("S!helm06",1)   DestroyItem("S!helm06")
         SetGlobal("Iarubykey","AR0411",1)~ GOTO 28
 END
