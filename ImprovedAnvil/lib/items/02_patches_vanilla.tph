@@ -949,3 +949,25 @@ ACTION_PHP_EACH item_enchantments AS record => int BEGIN
       BUT_ONLY
   END
 END
+
+// Update max in stack amount for certain potions //
+ACTION_FOR_EACH ~file~ IN
+                ~potn11.itm~
+                ~potn18.itm~
+                ~potn21.itm~
+                ~potn29.itm~
+                ~potn33.itm~
+                ~potn34.itm~
+                ~potn35.itm~
+                ~potn37.itm~
+                ~potn39.itm~
+                ~potn40.itm~
+                ~potn45.itm~
+                ~potn46.itm~
+                ~S!potn12.itm~
+                ~S!potn14.itm~
+BEGIN
+  COPY_EXISTING ~%file%~ ~override/%file%~
+    WRITE_SHORT 0x38 9999 // max in stack amount
+    BUT_ONLY
+END
