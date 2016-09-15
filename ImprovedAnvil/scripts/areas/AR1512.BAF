@@ -1,9 +1,19 @@
-//Spellhold Bodhi's Hunt Level 1 //////////////
+// Spellhold Bodhi's Hunt Level 1 //
 
 IF
    InParty("IMOEN2")
-   NumInPartyGT(3)
+   XPGT(Player1,2199999)
+   Global("Iahlimoen","AR1512",0)
+THEN
+   RESPONSE #100
+      SetGlobal("Iahlimoen","AR1512",1)
+      AddXPObject("IMOEN2",925000)
+END
+
+IF
+   InParty("IMOEN2")
    XPGT(Player1,1899999)
+   XPLT(Player1,2200000)
    Global("Iahlimoen","AR1512",0)
 THEN
    RESPONSE #100
@@ -13,7 +23,6 @@ END
 
 IF
    InParty("IMOEN2")
-   NumInPartyGT(3)
    XPGT(Player1,1699999)
    XPLT(Player1,1900000)
    Global("Iahlimoen","AR1512",0)
@@ -25,9 +34,7 @@ END
 
 IF
    InParty("IMOEN2")
-   OR(2)
-    NumInPartyLT(4)
-    XPLT(Player1,1700000)
+   XPLT(Player1,1700000)
    Global("Iahlimoen","AR1512",0)
 THEN
    RESPONSE #100
