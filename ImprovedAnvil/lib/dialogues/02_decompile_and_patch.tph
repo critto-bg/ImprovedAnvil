@@ -59,15 +59,9 @@ COPY_EXISTING ~PPDESH.DLG~ ~override~
 
 COPY_EXISTING ~HLKANG.DLG~ ~override~
  DECOMPILE_AND_PATCH BEGIN
-   PATCH_IF GAME_IS ~tob~ THEN BEGIN
-     REPLACE_TEXTUALLY ~ReallyForceSpell(Myself,RED_EFFECT)~ ~ReallyForceSpell(Myself,RED_EFFECT) SetGlobal("Iakangaxx","AR0331",1)~
-   END
-
-   PATCH_IF GAME_IS ~bg2ee~ THEN BEGIN
-     REPLACE_TEXTUALLY
-       ~SetGlobal("cd_change","LOCALS",1)~
-       ~ReallyForceSpell(Myself,RED_EFFECT) SetGlobal("Iakangaxx","AR0331",1) ScreenShake([5.5],5) ReallyForceSpell(Myself,LICH_REPLACE_SELF)~
-   END
+   REPLACE_TEXTUALLY
+     ~SetGlobal("cd_change","LOCALS",1)~
+     ~ReallyForceSpell(Myself,RED_EFFECT) SetGlobal("Iakangaxx","AR0331",1) ScreenShake([5.5],5) ReallyForceSpell(Myself,LICH_REPLACE_SELF)~
  END
 
 COPY_EXISTING ~TRSKIN01.DLG~ ~override~
@@ -121,19 +115,17 @@ COPY_EXISTING ~BMAZZY.DLG~ ~override~
    REPLACE_TEXTUALLY ~TimeOfDay(NIGHT)~ ~TimeOfDay(DAY)~
  END
 
-ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
-  COPY_EXISTING ~DORNJ.DLG~ ~override~
-   DECOMPILE_AND_PATCH BEGIN
-     REPLACE_TEXTUALLY ~AddexperienceParty(24000)~ ~AddexperienceParty(6000)~
-   END
+COPY_EXISTING ~DORNJ.DLG~ ~override~
+ DECOMPILE_AND_PATCH BEGIN
+   REPLACE_TEXTUALLY ~AddexperienceParty(24000)~ ~AddexperienceParty(6000)~
+ END
 
-  COPY_EXISTING ~NEERAJ.DLG~ ~override~
-   DECOMPILE_AND_PATCH BEGIN
-     REPLACE_TEXTUALLY ~AddexperienceParty(24000)~ ~AddexperienceParty(6000)~
-   END
+COPY_EXISTING ~NEERAJ.DLG~ ~override~
+ DECOMPILE_AND_PATCH BEGIN
+   REPLACE_TEXTUALLY ~AddexperienceParty(24000)~ ~AddexperienceParty(6000)~
+ END
 
-  COPY_EXISTING ~OHNTELAN.DLG~ ~override~
-   DECOMPILE_AND_PATCH BEGIN
-     REPLACE_TEXTUALLY ~10000~ ~2000~
-   END
-END
+COPY_EXISTING ~OHNTELAN.DLG~ ~override~
+ DECOMPILE_AND_PATCH BEGIN
+   REPLACE_TEXTUALLY ~10000~ ~2000~
+ END

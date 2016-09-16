@@ -25,10 +25,6 @@ COPY_EXISTING ~blun25.itm~ ~override/blun25.itm~
   WRITE_ASCII 0x58 ~CBLUN12~ #8 // desc. icon
   WRITE_LONG  0x60 2 // enchantment
 
-  PATCH_IF GAME_IS ~tob~ BEGIN
-    LPF ALTER_ITEM_HEADER INT_VAR header_type = 1 STR_VAR icon = ~IBLUN12~ END
-  END
-
   LPF DELETE_ITEM_EQEFFECT INT_VAR opcode_to_delete = 142 END
   LPF DELETE_ITEM_EQEFFECT INT_VAR opcode_to_delete = 101 END
   LPF DELETE_ITEM_EQEFFECT INT_VAR opcode_to_delete = 169 END
@@ -137,9 +133,7 @@ COPY_EXISTING ~deva.itm~ ~override/deva.itm~
     damage_bonus = 4
   END
 
-  PATCH_IF GAME_IS ~bg2ee~ BEGIN
-    LPF DELETE_ITEM_EQEFFECT INT_VAR opcode_to_delete = 267 END
-  END
+  LPF DELETE_ITEM_EQEFFECT INT_VAR opcode_to_delete = 267 END
 
   LPF ~S!ADD_ITEM_EQEFFECT~
     INT_VAR
@@ -188,17 +182,6 @@ COPY_EXISTING ~devaevil.itm~ ~override/devaevil.itm~
   LPF DELETE_ITEM_EFFECT INT_VAR opcode_to_delete = 139 END
   LPF DELETE_ITEM_EFFECT INT_VAR opcode_to_delete = 58 END
   LPF DELETE_ITEM_EFFECT INT_VAR opcode_to_delete = 81 END
-
-  PATCH_IF GAME_IS ~tob~ BEGIN
-    LPF ALTER_ITEM_EFFECT
-      INT_VAR
-        check_headers = 1
-        match_opcode = 177
-        power = 0
-      STR_VAR
-        resource = ~DIE~
-    END
-  END
 
 // Good Berry
 COPY_EXISTING ~gberry.itm~ ~override/gberry.itm~
@@ -267,10 +250,6 @@ COPY_EXISTING ~amul28.itm~ ~override/amul28.itm~
 COPY_EXISTING ~ax1h10.itm~ ~override/ax1h10.itm~
   // fix headers
   LPF ALTER_ITEM_HEADER INT_VAR thac0_bonus = 3 damage_bonus = 3 END
-
-  PATCH_IF GAME_IS ~tob~ BEGIN
-    LPF ALTER_ITEM_HEADER INT_VAR projectile = 7 END
-  END
 
   // fix 'use effect' opcodes on melee header
   LPF ALTER_ITEM_EFFECT
@@ -612,47 +591,34 @@ COPY_EXISTING ~ring30.itm~ ~override/ring30.itm~
 
 // Shield of Harmony
 COPY_EXISTING ~shld25.itm~ ~override/shld25.itm~
-  PATCH_IF GAME_IS ~tob~ BEGIN
-    PATCH_FOR_EACH ~param1~ IN ~14782~ ~14102~ ~14780~ ~14672~ ~14791~ BEGIN
-      LPF ~S!ADD_ITEM_EQEFFECT~
-        INT_VAR
-          opcode = 267
-          target = 1
-          timing = 2
-          parameter1 = param1
-      END
-    END
+
+  LPF DELETE_ITEM_EQEFFECT INT_VAR "opcode_to_delete" = 0 END
+
+  LPF ~S!ADD_ITEM_EQEFFECT~
+    INT_VAR
+      opcode = 0
+      target = 1
+      timing = 2
+      parameter1 = ~-2~
+      parameter2 = 2
   END
 
-  PATCH_IF GAME_IS ~bg2ee~ BEGIN
-    LPF DELETE_ITEM_EQEFFECT INT_VAR "opcode_to_delete" = 0 END
+  LPF ~S!ADD_ITEM_EQEFFECT~
+    INT_VAR
+      opcode = 0
+      target = 1
+      timing = 2
+      parameter1 = 3
+      parameter2 = 0
+  END
 
-    LPF ~S!ADD_ITEM_EQEFFECT~
-      INT_VAR
-        opcode = 0
-        target = 1
-        timing = 2
-        parameter1 = ~-2~
-        parameter2 = 2
-    END
-
-    LPF ~S!ADD_ITEM_EQEFFECT~
-      INT_VAR
-        opcode = 0
-        target = 1
-        timing = 2
-        parameter1 = 3
-        parameter2 = 0
-    END
-
-    LPF ~S!ADD_ITEM_EQEFFECT~
-      INT_VAR
-        opcode = 206
-        target = 1
-        timing = 2
-      STR_VAR
-        resource = ~SPWI401~
-    END
+  LPF ~S!ADD_ITEM_EQEFFECT~
+    INT_VAR
+      opcode = 206
+      target = 1
+      timing = 2
+    STR_VAR
+      resource = ~SPWI401~
   END
 
   PATCH_FOR_EACH ~res~ IN ~SPWI306~ ~SPIN988~ ~SPPR208~ ~SPPR989~ BEGIN
@@ -688,20 +654,6 @@ COPY_EXISTING ~shld25.itm~ ~override/shld25.itm~
 COPY_EXISTING ~staf22.itm~ ~override/staf22.itm~
   WRITE_LONG 0x060 5 // enchantment
 
-  PATCH_IF GAME_IS ~tob~ BEGIN
-    LPF ADD_ITEM_EFFECT
-      INT_VAR
-        type = 1
-        opcode = 12
-        target = 2
-        parameter2 = 1048576
-        timing = 1
-        dicenumber = 1
-        dicesize = 4
-        insert_point = 0
-    END
-  END
-
   BUT_ONLY
 
 // Kondar
@@ -729,45 +681,12 @@ COPY_EXISTING ~sw1h71.itm~ ~override/sw1h71.itm~
 
 // Lilarcor
 COPY_EXISTING ~sw2h14.itm~ ~override/sw2h14.itm~
-  PATCH_IF GAME_IS ~tob~ BEGIN
-    PATCH_FOR_EACH ~param2~ IN ~47~ ~2~ BEGIN
-      LPF ~S!ADD_ITEM_EQEFFECT~
-        INT_VAR
-          opcode = 169
-          target = 1
-          timing = 2
-          parameter2 = param2
-      END
-    END
-
-    PATCH_FOR_EACH ~param1~ IN ~14782~ ~14780~ ~8364~ ~14672~ ~14791~ BEGIN
-      LPF ~S!ADD_ITEM_EQEFFECT~
-        INT_VAR
-          opcode = 267
-          target = 1
-          timing = 2
-          parameter1 = param1
-      END
-    END
-
-    LPF ~S!ADD_ITEM_EQEFFECT~
-      INT_VAR
-        opcode = 296
-        target = 1
-        timing = 2
-      STR_VAR
-        resource = ~spnwchrm~
-    END
-  END
-
-  PATCH_IF GAME_IS ~bg2ee~ THEN BEGIN
-    LPF ~S!ADD_ITEM_EQEFFECT~
-      INT_VAR
-        opcode = 267
-        target = 1
-        timing = 2
-        parameter1 = 8364
-    END
+  LPF ~S!ADD_ITEM_EQEFFECT~
+    INT_VAR
+      opcode = 267
+      target = 1
+      timing = 2
+      parameter1 = 8364
   END
 
   BUT_ONLY

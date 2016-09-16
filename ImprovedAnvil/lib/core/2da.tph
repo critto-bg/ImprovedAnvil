@@ -246,44 +246,23 @@ COPY_EXISTING ~statdesc.2da~ ~override/statdesc.2da~
   COUNT_2DA_COLS ~colcount~
   COUNT_2DA_ROWS ~colcount~ ~rowcount~
 
-  PATCH_IF GAME_IS ~tob~ THEN BEGIN
-    INSERT_2DA_ROW ~rowcount~ ~colcount~ ~166         0~
-    INSERT_2DA_ROW (rowcount + 1) ~colcount~ ~167         0~
+  SET_2DA_ENTRY 166 1 ~colcount~ RESOLVE_STR_REF (@10220)
+  INSERT_2DA_ROW 167 ~colcount~ ~167         0         ****~
+  SET_2DA_ENTRY 167 1 ~colcount~ RESOLVE_STR_REF (@10230)
+  PRETTY_PRINT_2DA
 
-    SET_2DA_ENTRY ~rowcount~ 1 ~colcount~ RESOLVE_STR_REF (@10220)
-    SET_2DA_ENTRY (rowcount + 1) 1 ~colcount~ RESOLVE_STR_REF (@10230)
-  END
+// allow ZoSA to dispel certain projectiles
+COPY_EXISTING ~clearair.2da~ ~override/clearair.2da~
+  COUNT_2DA_COLS ~colcount~
+  COUNT_2DA_ROWS ~colcount~ ~rowcount~
+  INSERT_2DA_ROW ~rowcount~ ~colcount~ ~Fire_Storm 228~
+  INSERT_2DA_ROW ~rowcount~ ~colcount~ ~Incendiary_Cloud 277~
+  INSERT_2DA_ROW ~rowcount~ ~colcount~ ~Summon_Ice_Salamander 278~
+  PRETTY_PRINT_2DA
 
-  PATCH_IF GAME_IS ~bg2ee~ THEN BEGIN
-    SET_2DA_ENTRY 166 1 ~colcount~ RESOLVE_STR_REF (@10220)
-    INSERT_2DA_ROW 167 ~colcount~ ~167         0         ****~
-    SET_2DA_ENTRY 167 1 ~colcount~ RESOLVE_STR_REF (@10230)
-    PRETTY_PRINT_2DA
-  END
-
-ACTION_IF GAME_IS ~bg2ee~ THEN BEGIN
-  // allow ZoSA to dispel certain projectiles
-  COPY_EXISTING ~clearair.2da~ ~override/clearair.2da~
-    COUNT_2DA_COLS ~colcount~
-    COUNT_2DA_ROWS ~colcount~ ~rowcount~
-    INSERT_2DA_ROW ~rowcount~ ~colcount~ ~Fire_Storm 228~
-    INSERT_2DA_ROW ~rowcount~ ~colcount~ ~Incendiary_Cloud 277~
-    INSERT_2DA_ROW ~rowcount~ ~colcount~ ~Summon_Ice_Salamander 278~
-    PRETTY_PRINT_2DA
-
-  // prevent SI from being used in Chain Contingency
-  COPY_EXISTING ~contingx.2da~ ~override/contingx.2da~
-    COUNT_2DA_COLS ~colcount~
-    COUNT_2DA_ROWS ~colcount~ ~rowcount~
-    SET_2DA_ENTRY 0 5 ~colcount~ ~SPWI510~
-    PRETTY_PRINT_2DA
-END
-
-ACTION_IF GAME_IS ~tob~ THEN BEGIN
-  // swap strrefs for Spell Turning and PfME character sheet icons
-  COPY_EXISTING ~statdesc.2da~ ~override~
-    PRETTY_PRINT_2DA
-    REPLACE_TEXTUALLY ~^\(73[%tab% ]+\)[0-9]+~ ~\126228~
-    REPLACE_TEXTUALLY ~^\(123[%tab% ]+\)[0-9]+~ ~\18286~
-    BUT_ONLY_IF_IT_CHANGES
-END
+// prevent SI from being used in Chain Contingency
+COPY_EXISTING ~contingx.2da~ ~override/contingx.2da~
+  COUNT_2DA_COLS ~colcount~
+  COUNT_2DA_ROWS ~colcount~ ~rowcount~
+  SET_2DA_ENTRY 0 5 ~colcount~ ~SPWI510~
+  PRETTY_PRINT_2DA

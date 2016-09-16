@@ -120,12 +120,10 @@ COPY_EXISTING ~SPWI411.spl~ ~override/SPWI411.spl~
   WRITE_BYTE 0x19 ("%splflags%" BOR 0b00000100)
 
   // patch "wake on sleep" for Emotion
-  PATCH_IF GAME_IS ~bg2ee~ THEN BEGIN
-      LPF ~ALTER_SPELL_EFFECT~ INT_VAR
-        check_headers = 1
-        match_opcode = 39
-        parameter2 = 1
-      END
+  LPF ~ALTER_SPELL_EFFECT~ INT_VAR
+    check_headers = 1
+    match_opcode = 39
+    parameter2 = 1
   END
 
 COPY_EXISTING ~spwi516.spl~ ~override/spwi516.spl~
