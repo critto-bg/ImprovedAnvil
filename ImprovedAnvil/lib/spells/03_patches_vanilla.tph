@@ -204,3 +204,11 @@ COPY_EXISTING ~melstone.spl~ ~override/melstone.spl~
 
 COPY_EXISTING ~METSWARM.pro~ ~override/METSWARM.pro~
   WRITE_BYTE 0x216 4
+
+// projectiles //
+
+// fix Comet's projectile to affect only enemies
+COPY_EXISTING ~comet.pro~ ~override/comet.pro~
+  READ_LONG 0x00200 "areaflags"
+  WRITE_LONG 0x00200 ("%areaflags%" | BIT6)
+  BUT_ONLY
