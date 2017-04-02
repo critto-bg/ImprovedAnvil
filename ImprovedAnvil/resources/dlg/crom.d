@@ -37,10 +37,12 @@ REPLACE WSMITH01
               PartyHasItem("belt09")
               PartyHasItem("belt02")~
       THEN REPLY @32 GOTO girdle
-    IF ~OR(2) PartyHasItem("chan15")
+    IF ~Global("Iabelt01forged","GLOBAL",0)
+        OR(2) PartyHasItem("chan15")
               PartyHasItem("chan10")~
       THEN REPLY @33 GOTO bard
-    IF ~OR(4) PartyHasItem("amul20")
+    IF ~Global("Iaamul02forged","GLOBAL",0)
+        OR(4) PartyHasItem("amul20")
               PartyHasItem("amul22")
               PartyHasItem("amul19")
               PartyHasItem("amul14")~
@@ -614,9 +616,10 @@ APPEND WSMITH01
   IF ~~ THEN BEGIN girdle
     SAY @70 IF ~~ THEN REPLY @2 GOTO 13
     IF ~PartyHasItem("belt02") PartyHasItem("belt03") PartyHasItem("belt04") PartyHasItem("belt06") PartyHasItem("belt09")
-        PartyGoldGT(59999)~
+        PartyGoldGT(59999) Global("Iabelt01forged","GLOBAL",0)~
       THEN REPLY @3
-      DO ~TakePartyGold(60000)      DestroyGold(60000)
+      DO ~SetGlobal("Iabelt01forged","GLOBAL",1)
+          TakePartyGold(60000)      DestroyGold(60000)
           TakePartyItemNum("belt02",1)   DestroyItem("belt02")
           TakePartyItemNum("belt03",1)   DestroyItem("belt03")
           TakePartyItemNum("belt04",1)   DestroyItem("belt04")
@@ -646,9 +649,10 @@ APPEND WSMITH01
   IF ~~ THEN BEGIN amul1
     SAY @72 IF ~~ THEN REPLY @2 GOTO 13
     IF ~PartyHasItem("amul20") NumItemsPartyGT("amul14",1) PartyHasItem("amul22") PartyHasItem("amul19")
-        PartyGoldGT(59999)~
+        PartyGoldGT(59999) Global("Iaamul02forged","GLOBAL",0)~
       THEN REPLY @3
-      DO ~TakePartyGold(60000)      DestroyGold(60000)
+      DO ~SetGlobal("Iaamul02forged","GLOBAL",1)
+          TakePartyGold(60000)      DestroyGold(60000)
           TakePartyItemNum("amul20",1)   DestroyItem("amul20")
           TakePartyItemNum("amul14",2)   DestroyItem("amul14")
                                          DestroyItem("amul14")
