@@ -127,3 +127,17 @@ THEN
     ActionOverride("S!helma1",StartDialogueNoSet(Player1))
     EndCutSceneMode()
 END
+
+// remove the helm's scroll when demogorgon is dead //
+
+IF
+	Global("DemoGorgonIsDead","GLOBAL",1)
+  Global("DestroyHelmScroll","GLOBAL",0)
+	PartyHasItem("PLOT01Q") // Helm's Scroll
+THEN
+	RESPONSE #100
+    SetGlobal("DestroyHelmScroll","GLOBAL",1)
+    Wait(2)
+		DisplayStringHead(Player1,73502) // With the destruction of Demogorgon's avatar, the Helm scroll disappears.
+		TakePartyItem("PLOT01Q") // Helm's Scroll
+END
