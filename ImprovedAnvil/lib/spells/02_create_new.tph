@@ -25,6 +25,11 @@ COPY_EXISTING ~SPPR513.spl~ ~override/SPINI99.spl~
     speed = 3
   END
 
+  // remove scripting state 6 modifier
+  LAUNCH_PATCH_FUNCTION ~DELETE_SPELL_EFFECT~ INT_VAR
+    opcode_to_delete = 282
+  END
+
   // change duration to 5 rounds
   PATCH_FOR_EACH ~opcode_number~ IN ~8~ ~44~ ~18~ ~250~ ~142~ ~282~ BEGIN
     LAUNCH_PATCH_FUNCTION ~ALTER_SPELL_EFFECT~ INT_VAR
