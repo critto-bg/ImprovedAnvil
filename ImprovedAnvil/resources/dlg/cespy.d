@@ -1748,7 +1748,7 @@ APPEND BOTSMITH
 
   IF ~~ THEN BEGIN rasaad
     SAY @755
-    IF ~~ THEN REPLY @2 GOTO 13
+    IF ~~ THEN REPLY @2 GOTO 4
     IF ~Global("Iaboot04forged","GLOBAL",0)
         PartyHasItem("rsboot")
         PartyHasItem("key23")
@@ -1775,7 +1775,7 @@ APPEND BOTSMITH
   END
 
   IF ~~ THEN BEGIN spear1
-    SAY @757 IF ~~ THEN REPLY @2 GOTO 13
+    SAY @757 IF ~~ THEN REPLY @2 GOTO 4
     IF ~NumItemsPartyGT("sper02",1) PartyHasItem("misc43")
         PartyGoldGT(9999)~
       THEN REPLY @3
@@ -1788,7 +1788,7 @@ APPEND BOTSMITH
   END
 
   IF ~~ THEN BEGIN spear2
-    SAY @759 IF ~~ THEN REPLY @2 GOTO 13
+    SAY @759 IF ~~ THEN REPLY @2 GOTO 4
     IF ~PartyHasItem("sper05") PartyHasItem("scrl6m") PartyHasItem("S!misc02")
         PartyGoldGT(14999)~
       THEN REPLY @3
@@ -1801,7 +1801,7 @@ APPEND BOTSMITH
   END
 
   IF ~~ THEN BEGIN spear3
-    SAY @761 IF ~~ THEN REPLY @2 GOTO 13
+    SAY @761 IF ~~ THEN REPLY @2 GOTO 4
     IF ~PartyHasItem("sper08") PartyHasItem("sper06") PartyHasItem("staf07")
         PartyHasItem("PLOT03H") PartyHasItem("S!misc02") PartyGoldGT(74999)
         PartyHasItem("scrl03") NumItemsPartyGT("scrl95",2)
@@ -1823,7 +1823,7 @@ APPEND BOTSMITH
   END
 
   IF ~~ THEN BEGIN jaheir
-    SAY @763 IF ~~ THEN REPLY @2 GOTO 13
+    SAY @763 IF ~~ THEN REPLY @2 GOTO 4
     IF ~PartyHasItem("misc5x") PartyHasItem("misc5e") NumItemsPartyGT("amul14",1)
         NumItemsPartyGT("potn31",2) PartyGoldGT(74999) PartyHasItem("s!misc01")
         Global("Iaharperforged","GLOBAL",0)~
@@ -1843,7 +1843,7 @@ APPEND BOTSMITH
   END
 
   IF ~~ THEN BEGIN water
-    SAY @765 IF ~~ THEN REPLY @2 GOTO 13
+    SAY @765 IF ~~ THEN REPLY @2 GOTO 4
     IF ~PartyHasItem("sw1h52") PartyHasItem("sw1h23") PartyGoldGT(49999)
         PartyHasItem("waninja") PartyHasItem("s!misc06") Global("Iasw19forged","GLOBAL",0)~
       THEN REPLY @3
@@ -1858,7 +1858,7 @@ APPEND BOTSMITH
   END
 
   IF ~~ THEN BEGIN dakkon
-    SAY @767 IF ~~ THEN REPLY @2 GOTO 13
+    SAY @767 IF ~~ THEN REPLY @2 GOTO 4
     IF ~PartyHasItem("wa2dak") PartyHasItem("s!sw20") PartyHasItem("s!sw21")
         PartyHasItem("sw2h15") PartyHasItem("S!misc02") PartyHasItem("S!misc01")
         NumItemsPartyGT("misc9y",2) PartyGoldGT(74999) Global("Iadakkonforged","GLOBAL",0)~
@@ -1880,7 +1880,7 @@ APPEND BOTSMITH
   END
 
   IF ~~ THEN BEGIN rage
-    SAY @769 IF ~~ THEN REPLY @2 GOTO 13
+    SAY @769 IF ~~ THEN REPLY @2 GOTO 4
     IF ~PartyHasItem("SW2H03") PartyHasItem("BLUN09") NumItemsPartyGT("potn33",2)
         NumItemsPartyGT("potn28",2) NumItemsPartyGT("potn05",2) PartyGoldGT(74999)
         PartyHasItem("S!MISC02")
@@ -1908,7 +1908,7 @@ APPEND BOTSMITH
   END
 
   IF ~~ THEN BEGIN mazzy2
-    SAY @771 IF ~~ THEN REPLY @2 GOTO 13
+    SAY @771 IF ~~ THEN REPLY @2 GOTO 4
     IF ~PartyHasItem("S!SHLD04") PartyHasItem("SHLD27") PartyHasItem("S!SHLD03")
         PartyGoldGT(74999) PartyHasItem("S!MISC02") PartyHasItem("scrlb1")
         Global("Iashld05forged","GLOBAL",0)~
