@@ -1123,12 +1123,24 @@ COPY_EXISTING ~minsc7.cre~ ~Override/minsc7.cre~
   SPRINT ~opcode_to_delete~ ~233~
   LAUNCH_PATCH_MACRO ~DELETE_CRE_EFFECT~
 
-  PATCH_FOR_EACH ~prof_code~ IN ~93~ ~98~ ~102~ ~111~ BEGIN
+  // 2h weapons, two-handed sword
+  PATCH_FOR_EACH ~prof_code~ IN ~93~ ~111~ BEGIN
     LPF ~ADD_CRE_EFFECT~ INT_VAR
       opcode = 233
       timing = 9
       target = 1
       parameter1 = 2
+      parameter2 = ~prof_code~
+    END
+  END
+
+  // spear, staff
+  PATCH_FOR_EACH ~prof_code~ IN ~98~ ~102~ BEGIN
+    LPF ~ADD_CRE_EFFECT~ INT_VAR
+      opcode = 233
+      timing = 9
+      target = 1
+      parameter1 = 1
       parameter2 = ~prof_code~
     END
   END
