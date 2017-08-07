@@ -22,6 +22,10 @@ COPY_EXISTING ~WISH.DLG~ ~override~
    REPLACE_TEXTUALLY ~"vamver01"~ ~"S!vamwis"~
    REPLACE_TEXTUALLY ~"vamold01"~ ~"S!vamwis"~
    REPLACE_TEXTUALLY ~"vammat01"~ ~"S!vamwis"~
+   REPLACE_EVALUATE CASE_SENSITIVE
+       ~ActionOverride(\(Player[0-9]\),ReallyForceSpell(Myself,\([A-Z_a-z]+\)))~
+       BEGIN END
+       ~ApplySpell(%MATCH1%,%MATCH2%)~
    REPLACE_TEXTUALLY ~ActionOverride(LastTalkedToBy,ReallyForceSpell(Myself,WIZARD_TIME_STOP))~ ~SetGlobal("Iapcastts","GLOBAL",1) SetGlobalTimer("Iatstimer","GLOBAL",18) ActionOverride(LastTalkedToBy,ReallyForceSpell(Myself,WIZARD_TIME_STOP))~
  END
 
