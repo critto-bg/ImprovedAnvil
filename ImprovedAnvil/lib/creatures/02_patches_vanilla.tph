@@ -6995,6 +6995,11 @@ COPY_EXISTING ~rabbitsu.cre~ ~override/rabbitsu.cre~
 COPY_EXISTING ~bonebld.cre~ ~override/bonebld.cre~
   WRITE_LONG 0x14 0 // xp
 
+// remove XP for kill and breach scroll from cowled enforcers
+COPY_EXISTING ~cowenf2.cre~ ~override/cowenf2.cre~
+  WRITE_LONG  0x14       0 // xp
+  REMOVE_CRE_ITEM ~scrl6u~ // breach scroll
+
 // batch processing //
 
 // custom animation for all skeleton lords
@@ -7086,7 +7091,3 @@ COPY_EXISTING_REGEXP GLOB ~.*\.cre~ ~override~
   END
 
   BUT_ONLY
-  
-COPY_EXISTING ~cowenf2.cre~ ~override/cowenf2.cre~
-  WRITE_LONG  0x14       0 // xp
-  REMOVE_CRE_ITEM ~scrl6u~ // breach scroll
