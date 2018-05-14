@@ -18,6 +18,18 @@ COPY_EXISTING ~blun12.itm~ ~override/blun12.itm~
       savebonus = 0
       resist_dispel = 2
   END
+	
+	// set a proper resource reference to the effect that applies extra damage
+	LPF ALTER_EFFECT
+		INT_VAR
+			check_headers = 1
+			match_opcode = 177
+		STR_VAR
+			match_resource = ~cddisr~
+			resource = ~macedisu~
+	END
+	
+	SAY DESC @10313
 
 // Mace of Disruption +2
 COPY_EXISTING ~blun25.itm~ ~override/blun25.itm~
@@ -25,6 +37,7 @@ COPY_EXISTING ~blun25.itm~ ~override/blun25.itm~
   WRITE_ASCII 0x58 ~CBLUN12~ #8 // desc. icon
   WRITE_LONG  0x60 2 // enchantment
 
+  // remove protection from level draining
   LPF DELETE_ITEM_EQEFFECT INT_VAR opcode_to_delete = 142 END
   LPF DELETE_ITEM_EQEFFECT INT_VAR opcode_to_delete = 101 END
   LPF DELETE_ITEM_EQEFFECT INT_VAR opcode_to_delete = 169 END
@@ -39,6 +52,16 @@ COPY_EXISTING ~blun25.itm~ ~override/blun25.itm~
       savebonus = 0
       resist_dispel = 2
   END
+	
+	// set a proper resource reference to the effect that applies extra damage
+	LPF ALTER_EFFECT
+		INT_VAR
+			check_headers = 1
+			match_opcode = 177
+		STR_VAR
+			match_resource = ~macedisu~
+			resource = ~cddisr~
+	END
 
   SAY DESC @9047
 
