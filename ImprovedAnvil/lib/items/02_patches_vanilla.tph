@@ -934,3 +934,15 @@ BEGIN
     WRITE_SHORT 0x38 9999 // max in stack amount
     BUT_ONLY
 END
+
+// make Peridian a +3 sword //
+COPY_EXISTING ~sw1h32.itm~ ~override/sw1h32.itm~
+  SAY NAME2     @10314
+  SAY DESC      @10315
+  
+  LPF ALTER_ITEM_HEADER INT_VAR
+    header_type = 1
+    thac0_bonus = 3
+  END
+  
+  BUT_ONLY
