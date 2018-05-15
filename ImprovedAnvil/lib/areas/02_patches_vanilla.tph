@@ -1020,25 +1020,30 @@ END
 COPY_EXISTING ~AR1514.ARE~ ~override/AR1514.ARE~
   READ_SHORT 0x64 "spcount"
   READ_LONG 0x60 "spoffset"
+  
   SET "it" = 0
   WHILE ("%it%" < "%spcount%") BEGIN
-   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
-   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 1" = 0) BEGIN
-    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~RDKEEP~ #8
-   END
-"it" = "%it%" + 1
-END
+    READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+    PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 1" = 0) BEGIN
+      WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~RDKEEP~ #8
+    END
+    
+    "it" = "%it%" + 1
+  END
+  
   READ_SHORT 0x64 "spcount"
   READ_LONG 0x60 "spoffset"
+  
   SET "it" = 0
   WHILE ("%it%" < "%spcount%") BEGIN
-   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
-   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 2" = 0) BEGIN
-    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~S!spyran~ #8
-    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
-   END
-"it" = "%it%" + 1
-END
+    READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+    PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 2" = 0) BEGIN
+      WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~S!spyran~ #8
+      WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+      WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 132) 2
+    END
+    "it" = "%it%" + 1
+  END
 
 COPY_EXISTING ~AR1515.ARE~ ~override/AR1515.ARE~
   READ_SHORT 0x64 "spcount"
