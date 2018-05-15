@@ -1,3 +1,5 @@
+// initial dialogue //
+
 IF
   NumTimesTalkedTo(0)
   Global("Iacreature","AR4500",1)
@@ -7,12 +9,14 @@ THEN
     StartDialogueNoSet(Player1)
 END
 
+// final speech //
+
 IF
   NumTimesTalkedToGT(0)
   Global("Iaepicbattle","AR4500",2)
   Global("Iaminion","LOCALS",1)
   !Global("Iapcastts","GLOBAL",1)
-  Global("Iarak03","LOCALS",2)
+  Global("Iarak03","LOCALS",1)
   HPLT(Myself,10)
   Dead("S!supgol")
   Dead("S!ultgg1")
@@ -23,6 +27,8 @@ THEN
     SetGlobal("Iaepicbattle","AR4500",3)
     StartDialogueNoSet([PC])
 END
+
+// move to player //
 
 IF
   !Allegiance(Myself,ENEMY)
@@ -43,6 +49,8 @@ THEN
     MoveToObject(Player1)
 END
 
+// set timers for rest and spawn noble rakshasas //
+
 IF
   Allegiance(Myself,ENEMY)
   Detect([PC])
@@ -54,6 +62,8 @@ THEN
     SetGlobalTimer("Iarakprest","GLOBAL",2100)
 END
 
+// one time setting of timers for party purge //
+
 IF
   Allegiance(Myself,ENEMY)
   Global("Iadoonet","LOCALS",0)
@@ -63,6 +73,8 @@ THEN
     SetGlobalTimer("Iapurge","LOCALS",24)
     SetGlobalTimer("Iapurge2","LOCALS",60)
 END
+
+// reset control variables if rest timer has expired //
 
 IF
   Allegiance(Myself,ENEMY)
@@ -81,6 +93,8 @@ THEN
     SetGlobal("Iaminion2","LOCALS",0)
     ReallyForceSpellRES("SPWII07",Myself)
 END
+
+// summoning of golems //
 
 IF
   Allegiance(Myself,ENEMY)
@@ -131,6 +145,8 @@ THEN
     SetGlobal("Iathethree","AR4500",1)
 END
 
+// castings of Absolute Immunity //
+
 IF
   !GlobalTimerNotExpired("Iaspell","LOCALS")
   OR(2)
@@ -156,7 +172,7 @@ IF
   HPPercentLT(Myself,50)
   See(NearestEnemyOf(Myself))
   Range(LastSeenBy(Myself),5)
-  GlobalLT("Iarak02","LOCALS",2)
+  GlobalLT("Iarak02","LOCALS",1)
 THEN
   RESPONSE #100
     IncrementGlobal("Iarak02","LOCALS",1)
@@ -173,7 +189,7 @@ IF
   HPPercentLT(Myself,25)
   See(NearestEnemyOf(Myself))
   Range(LastSeenBy(Myself),5)
-  GlobalLT("Iarak03","LOCALS",2)
+  GlobalLT("Iarak03","LOCALS",1)
 THEN
   RESPONSE #100
     IncrementGlobal("Iarak03","LOCALS",1)
@@ -181,6 +197,8 @@ THEN
     SetGlobalTimer("absolute","LOCALS",25)
     ReallyForceSpell(Myself,WIZARD_ABSOLUTE_IMMUNITY)
 END
+
+// initial summoning of noble rakshasas //
 
 IF
   Allegiance(Myself,ENEMY)
@@ -195,13 +213,15 @@ THEN
     CreateCreatureObjectOffScreen("S!nrak",LastSeenBy(Myself),0,0,0) //
 END
 
+// further summoning of noble rakshasas when the golems are dead //
+
 IF
   Allegiance(Myself,ENEMY)
   Dead("S!supgol")
   Dead("S!ultgg1")
   Dead("S!ultgg2")
   See([PC])
-  GlobalLT("Iaminion2","LOCALS",3)
+  GlobalLT("Iaminion2","LOCALS",4)
   GlobalGT("Iaminion2","LOCALS",0)
   !GlobalTimerNotExpired("Ianoble","LOCALS")
 THEN
@@ -210,6 +230,8 @@ THEN
     SetGlobalTimer("Ianoble","LOCALS",90)
     CreateCreatureObjectOffScreen("S!nrak",LastSeenBy(Myself),0,0,0) //
 END
+
+// purge of protections from party //
 
 IF
   Allegiance(Myself,ENEMY)
@@ -315,6 +337,8 @@ THEN
     SetGlobal("PartyPurged","AR4500",1)
     ReallyForceSpellRES("SPWII39",Myself) //
 END
+
+// castings of Dispel Magic //
 
 IF
   Allegiance(Myself,ENEMY)
@@ -448,6 +472,8 @@ THEN
     ReallyForceSpell(Player6,WIZARD_DISPEL_MAGIC)
 END
 
+// castings of Greater Malison //
+
 IF
   Allegiance(Myself,ENEMY)
   !GlobalTimerNotExpired("Iaspell","LOCALS")
@@ -493,6 +519,8 @@ THEN
     ReallyForceSpell(LastSeenBy(Myself),WIZARD_GREATER_MALISON)
 END
 
+// castings of Slow //
+
 IF
   Allegiance(Myself,ENEMY)
   !GlobalTimerNotExpired("Iaspell","LOCALS")
@@ -543,6 +571,8 @@ THEN
     SetGlobalTimer("Iaspell","LOCALS",6)
     ReallyForceSpell(LastSeenBy(Myself),WIZARD_SLOW)
 END
+
+// castings of Lower Fire Res //
 
 IF
   Allegiance(Myself,ENEMY)
@@ -634,6 +664,8 @@ THEN
     ReallyForceSpell(LastSeenBy(Myself),DRAGON_LOWER_FIRE)
 END
 
+// castings of Dragon's Breath //
+
 IF
   !GlobalTimerNotExpired("Iaspell","LOCALS")
   !GlobalTimerNotExpired("Iabreath","LOCALS")
@@ -718,6 +750,8 @@ THEN
     ReallyForceSpell(LastSeenBy(Myself),WIZARD_DRAGONS_BREATH)
 END
 
+// castings of ADHW //
+
 IF
   Allegiance(Myself,ENEMY)
   !GlobalTimerNotExpired("Iaspell","LOCALS")
@@ -819,6 +853,8 @@ THEN
     SetGlobalTimer("Iaspell","LOCALS",6)
     SpellNoDec(LastSeenBy(Myself),WIZARD_ABI_DALZIMS_HORRID_WILTING)
 END
+
+// melee attacks on Pasha //
 
 IF
   AreaCheck("AR4500")
@@ -883,6 +919,8 @@ THEN
     AttackOneRound("S!pasha2")
 END
 
+// generic melee attacks //
+
 IF
   See(NearestEnemyOf(Myself))
   !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
@@ -907,6 +945,8 @@ THEN
     AttackOneRound(LastSeenBy(Myself))
 END
 
+// breach & attack //
+
 IF
   !GlobalTimerNotExpired("Iapathetic","LOCALS")
   See(NearestEnemyOf(Myself))
@@ -919,6 +959,8 @@ THEN
     DisplayStringHead(Myself,63584)
     AttackOneRound(LastSeenBy(Myself))
 END
+
+// generic seek & attack //
 
 IF
   See(NearestEnemyOf(Myself))
@@ -936,6 +978,8 @@ THEN
   RESPONSE #100
     MoveToObject(Player1)
 END
+
+// anti Ctrl+Y //
 
 IF
   Allegiance(Myself,NEUTRAL)
