@@ -375,24 +375,30 @@ COPY_EXISTING ~jan8.cre~ ~Override/jan8.cre~
 
    PATCH_IF (spell_type = 1) BEGIN
      PATCH_MATCH %spell_level% WITH
-       0 1
+       0 
+       BEGIN
+         WRITE_SHORT ("%mem_off%" + 0x2 + (0x10 * "%index%")) 5 // write new amount
+         WRITE_SHORT ("%mem_off%" + 0x4 + (0x10 * "%index%")) 5 // write new amount
+       END
+	   
+       1 2
        BEGIN
          WRITE_SHORT ("%mem_off%" + 0x2 + (0x10 * "%index%")) 4 // write new amount
          WRITE_SHORT ("%mem_off%" + 0x4 + (0x10 * "%index%")) 4 // write new amount
        END
 
-       2
+       3
        BEGIN
          WRITE_SHORT ("%mem_off%" + 0x2 + (0x10 * "%index%")) 3 // write new amount
          WRITE_SHORT ("%mem_off%" + 0x4 + (0x10 * "%index%")) 3 // write new amount
        END
 
-       3 4
+       4
        BEGIN
          WRITE_SHORT ("%mem_off%" + 0x2 + (0x10 * "%index%")) 2 // write new amount
          WRITE_SHORT ("%mem_off%" + 0x4 + (0x10 * "%index%")) 2 // write new amount
        END
-
+	   
        DEFAULT
          WRITE_SHORT ("%mem_off%" + 0x2 + (0x10 * "%index%")) 0 // write new amount
          WRITE_SHORT ("%mem_off%" + 0x4 + (0x10 * "%index%")) 0 // write new amount
