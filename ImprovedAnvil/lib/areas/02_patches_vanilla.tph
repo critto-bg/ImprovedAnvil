@@ -354,15 +354,48 @@ COPY_EXISTING ~AR0511.ARE~ ~override/AR0511.ARE~
   LPF ~S!SET_DEFAULT_TRANSITION_FLAGS~ INT_VAR party_required = 0 STR_VAR region_name = ~Tran0522~ END
   LPF ~S!SET_DEFAULT_TRANSITION_FLAGS~ INT_VAR party_required = 0 STR_VAR region_name = ~Tran0509~ END
 
+// Planar Prison
 COPY_EXISTING ~AR0516.ARE~ ~override/AR0516.are~
   READ_LONG 0xC0 "interroffset"
   WRITE_ASCII "%interroffset%" ~~ #32
+  
   WRITE_ASCII ("%interroffset%" + 72) ~S!phounr~ #8
   WRITE_ASCII ("%interroffset%" + 80) ~rdspider~ #8
+  
   READ_SHORT ("%interroffset%" + 152) "crecount"
   PATCH_IF ("%crecount%" < 2) BEGIN
-   WRITE_SHORT ("%interroffset%" + 152) 2
-END
+    WRITE_SHORT ("%interroffset%" + 152) 2
+  END
+  
+  LPF fj_are_structure
+    INT_VAR
+      fj_loc_x      = 2036
+      fj_loc_y      = 1807
+      fj_spawn_num  = 1
+      fj_difficulty = 2
+      fj_delay      = 1
+      fj_method     = 2
+      fj_max_num    = 1
+    STR_VAR
+      fj_structure_type = spawn
+      fj_name           = ~S!Warden Spawn Point~
+      fj_cre_resref0    = ~S!spyran~
+  END
+  
+  LPF fj_are_structure
+    INT_VAR
+      fj_loc_x      = 2376
+      fj_loc_y      = 1041
+      fj_spawn_num  = 1
+      fj_difficulty = 2
+      fj_delay      = 1
+      fj_method     = 2
+      fj_max_num    = 1
+    STR_VAR
+      fj_structure_type = spawn
+      fj_name           = ~S!Lower Right Corner Point~
+      fj_cre_resref0    = ~S!spyran~
+  END
 
 COPY_EXISTING ~ar0525.are~ ~override/ar0525.are~
   LPF ~S!SET_DEFAULT_TRANSITION_FLAGS~ STR_VAR region_name = ~Tran0526~ END
