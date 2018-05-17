@@ -1,0 +1,45 @@
+IF
+  InMyArea(Player1)
+  OR(3)
+   Class(Player1,DRUID_ALL)
+   InPartyAllowDead("Cernd")
+   InPartyAllowDead("Jaheira")
+  Global("Tfcre","AR2101",0)
+THEN
+   RESPONSE #100
+     SetGlobal("Tfcre","AR2101",1)
+     CreateCreature("S!crogua",[1717.1333],9)  //
+END
+
+IF
+  InMyArea(Player1)
+  !Class(Player1,DRUID_ALL)
+  !InPartyAllowDead("Cernd")
+  !InPartyAllowDead("Jaheira")
+  Global("Tfcre","AR2101",0)
+THEN
+   RESPONSE #100
+     SetGlobal("Tfcre","AR2101",2)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Tfexit","AR2101",1)
+  Global("Tfcre","AR2101",1)
+  Global("Iaexit","AR2101",2)
+THEN
+   RESPONSE #100
+     SetGlobal("Tfexit","AR2101",2)
+     TriggerActivation("Exit2100",FALSE)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Tfexit","AR2101",2)
+  Dead("S!crogua") //
+  CombatCounter(0)
+THEN
+   RESPONSE #100
+     SetGlobal("Tfexit","AR2101",3)
+     TriggerActivation("Exit2100",TRUE)
+END

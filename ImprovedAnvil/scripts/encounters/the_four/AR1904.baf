@@ -1,0 +1,83 @@
+IF
+  InMyArea(Player1)
+  Global("Iaexit","AR1904",2)
+  Global("Tftimer","AR1904",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Tftimer","AR1904",1)
+    SetGlobalTimer("Tfspawn","AR1904",SEVEN_DAYS)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Tftimer","AR1904",1)
+  Global("Tfcreature","AR1904",0)
+  GlobalTimerExpired("Tfspawn","AR1904")
+  OR(6)
+   Class(Player1,DRUID_ALL)
+   Class(Player2,DRUID_ALL)
+   Class(Player3,DRUID_ALL)
+   Class(Player4,DRUID_ALL)
+   Class(Player5,DRUID_ALL)
+   Class(Player6,DRUID_ALL)
+  OR(2)
+   Class(Player1,MAGE_ALL)
+   Class(Player1,DRUID_ALL)
+THEN
+  RESPONSE #100
+    SetGlobal("Tfcreature","AR1904",1)
+    CreateCreature("S!weagua",[857.937],13) //
+    TriggerActivation("AR1900",FALSE)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Tftimer","AR1904",1)
+  Global("Tfcreature","AR1904",0)
+  GlobalTimerExpired("Tfspawn","AR1904")
+  !Class(Player1,DRUID_ALL)
+  !Class(Player2,DRUID_ALL)
+  !Class(Player3,DRUID_ALL)
+  !Class(Player4,DRUID_ALL)
+  !Class(Player5,DRUID_ALL)
+  !Class(Player6,DRUID_ALL)
+THEN
+  RESPONSE #100
+    SetGlobal("Tfcreature","AR1904",2)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Tftimer","AR1904",1)
+  Global("Tfcreature","AR1904",0)
+  GlobalTimerExpired("Tfspawn","AR1904")
+  !Class(Player1,MAGE_ALL)
+  !Class(Player1,DRUID_ALL)
+THEN
+  RESPONSE #100
+    SetGlobal("Tfcreature","AR1904",2)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Tfcreature","AR1904",1)
+  Global("Tfbattle","AR1904",1)
+  Global("Tfsummons","AR1904",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Tfsummons","AR1904",1)
+    CreateCreature("S!skelgr",[980.596],0) //
+    CreateCreature("S!skelgr",[1172.596],0) //
+END
+
+IF
+  InMyArea(Player1)
+  Global("Tfcreature","AR1904",1)
+  Global("Tfsummons","AR1904",1)
+  Dead("S!weagua")
+  CombatCounter(0)
+THEN
+  RESPONSE #100
+    SetGlobal("Tfcreature","AR1904",2)
+    TriggerActivation("AR1900",TRUE)
+END

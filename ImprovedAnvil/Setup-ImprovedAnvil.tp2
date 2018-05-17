@@ -4,12 +4,14 @@ VERSION ~v6.3~
 README ~ImprovedAnvil/readme/index.html~
 
 LANGUAGE "English"
- ~ImprovedAnvil/lang/English/~
- ~ImprovedAnvil/lang/English/setup.tra~
+  ~ImprovedAnvil/lang/English/~
+  ~ImprovedAnvil/lang/English/setup.tra~ 
+  ~ImprovedAnvil/lang/English/thefour.tra~
 
 LANGUAGE "Chinese"
-~ImprovedAnvil/lang/Chinese/~
-~ImprovedAnvil/lang/Chinese/setup.tra~
+  ~ImprovedAnvil/lang/Chinese/~
+  ~ImprovedAnvil/lang/Chinese/setup.tra~
+  ~ImprovedAnvil/lang/Chinese/thefour.tra~
 
 BEGIN @8900
 DESIGNATED 0
@@ -186,10 +188,20 @@ PRINT "Setting strings..."
 
 INCLUDE "ImprovedAnvil/lib/core/strings.tph"
 
+/// The Four ///
+
+BEGIN @8906
+DESIGNATED 1
+REQUIRE_COMPONENT ~ImprovedAnvil/Setup-ImprovedAnvil.tp2~ ~0~ @8903
+REQUIRE_PREDICATE GAME_IS ~bg2ee~ @8901
+REQUIRE_PREDICATE FILE_EXISTS ~engine.lua~ @8902
+
+INCLUDE "ImprovedAnvil/lib/optional/the_four.tph"
+
 /// Reputation patch ///
 
 BEGIN @8904
-DESIGNATED 1
+DESIGNATED 2
 REQUIRE_COMPONENT ~ImprovedAnvil/Setup-ImprovedAnvil.tp2~ ~0~ @8903
 REQUIRE_PREDICATE GAME_IS ~bg2ee~ @8901
 REQUIRE_PREDICATE FILE_EXISTS ~engine.lua~ @8902
@@ -203,7 +215,7 @@ INCLUDE "ImprovedAnvil/lib/optional/happy_npc.tph"
 /// ID all items ///
 
 BEGIN @8905
-DESIGNATED 2
+DESIGNATED 3
 REQUIRE_COMPONENT ~ImprovedAnvil/Setup-ImprovedAnvil.tp2~ ~0~ @8903
 REQUIRE_PREDICATE GAME_IS ~bg2ee~ @8901
 REQUIRE_PREDICATE FILE_EXISTS ~engine.lua~ @8902

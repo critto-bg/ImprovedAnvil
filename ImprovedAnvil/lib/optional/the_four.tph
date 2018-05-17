@@ -1,0 +1,80 @@
+// The Four is an add-on made years ago by Sikret //
+
+PRINT "Copying item files..."
+
+SILENT
+
+COPY ~ImprovedAnvil/resources/items/new/S!robeel.itm~ ~override/S!robeel.itm~
+  SAY NAME2     @5219
+  SAY DESC      @5220
+
+COPY ~ImprovedAnvil/resources/items/new/S!bard4.itm~ ~override/S!bard4.itm~
+  SAY NAME2     @5221
+  SAY DESC      @5222
+
+COPY ~ImprovedAnvil/resources/items/new/S!weave4.itm~ ~override/S!weave4.itm~
+  SAY NAME2     @5223
+  SAY DESC      @5224
+
+COPY ~ImprovedAnvil/resources/items/new/S!crown4.itm~ ~override/S!crown4.itm~
+  SAY NAME2     @5225
+  SAY DESC      @5226
+  
+PRINT "Copying creatures..."
+
+SILENT
+  
+COPY ~ImprovedAnvil/resources/creatures/new/S!roec01.cre~ ~override/S!roec01.cre~
+  SAY NAME1     @5214
+  SAY NAME2     @5214
+
+COPY ~ImprovedAnvil/resources/creatures/new/S!mflich.cre~ ~override/S!mflich.cre~
+  SAY NAME1     @5215
+  SAY NAME2     @5215
+
+COPY ~ImprovedAnvil/resources/creatures/new/S!mfvamp.cre~ ~override/S!mfvamp.cre~
+  SAY NAME1     @5216
+  SAY NAME2     @5216
+
+COPY ~ImprovedAnvil/resources/creatures/new/S!crogua.cre~ ~override/S!crogua.cre~
+  SAY NAME1     @5217
+  SAY NAME2     @5217
+
+COPY ~ImprovedAnvil/resources/creatures/new/S!weagua.cre~ ~override/S!weagua.cre~
+  SAY NAME1     @5218
+  SAY NAME2     @5218
+
+PRINT "Compiling scripts..."
+
+SILENT
+
+COMPILE ~ImprovedAnvil/scripts/encounters/the_four/S!crogua.baf~
+COMPILE ~ImprovedAnvil/scripts/encounters/the_four/S!roec01.baf~
+COMPILE ~ImprovedAnvil/scripts/encounters/the_four/S!mflich.baf~
+COMPILE ~ImprovedAnvil/scripts/encounters/the_four/S!mfvamp.baf~
+COMPILE ~ImprovedAnvil/scripts/encounters/the_four/S!weagua.baf~
+
+PRINT "Patching areas..."
+
+SILENT
+
+EXTEND_BOTTOM ~AR0420.BCS~ ~ImprovedAnvil/scripts/encounters/the_four/AR0420.BAF~
+EXTEND_BOTTOM ~AR0907.BCS~ ~ImprovedAnvil/scripts/encounters/the_four/AR0907.BAF~
+EXTEND_BOTTOM ~AR1904.BCS~ ~ImprovedAnvil/scripts/encounters/the_four/AR1904.BAF~
+EXTEND_BOTTOM ~AR2101.BCS~ ~ImprovedAnvil/scripts/encounters/the_four/AR2101.BAF~
+
+PRINT "Copying resources..."
+
+SILENT
+
+COPY ~ImprovedAnvil/resources/bam/S!eloqin.bam~ ~override/S!eloqin.bam~
+COPY ~ImprovedAnvil/resources/bam/S!bardin.bam~ ~override/S!bardin.bam~
+COPY ~ImprovedAnvil/resources/bam/S!weavin.bam~ ~override/S!weavin.bam~
+COPY ~ImprovedAnvil/resources/bam/S!croin.bam~ ~override/S!croin.bam~
+
+PRINT "Compiling dialogues..."
+
+SILENT
+
+COMPILE ~ImprovedAnvil/resources/dlg/tfweagua.d~
+  USING ~%LANGUAGE%thefour.tra~

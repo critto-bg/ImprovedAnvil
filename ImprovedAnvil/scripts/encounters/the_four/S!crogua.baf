@@ -1,0 +1,126 @@
+IF
+  See(NearestEnemyOf(Myself))
+  Global("partyfled","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("partyfled","LOCALS",0)
+END
+
+IF
+  InMyArea(Player1)
+  See(NearestEnemyOf(Myself))
+  Global("Tfexit","AR2101",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Tfexit","AR2101",1)
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  !GlobalTimerNotExpired("Iapurge","LOCALS")
+  !HPLT(Myself,1)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iapurge","LOCALS",30)
+    ReallyForceSpellRES("SPINI29",LastSeenBy(Myself)) //
+END
+
+IF
+  Detect([PC])
+  Global("Iatimer","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("golemcall","LOCALS",12)
+    SetGlobal("Iatimer","LOCALS",1)
+END
+
+IF
+  See([PC])
+  !GlobalTimerNotExpired("golemcall","LOCALS")
+  GlobalLT("golems","LOCALS",5)
+  !HPLT(Myself,1)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("golemcall","LOCALS",24)
+    IncrementGlobal("golems","LOCALS",1)
+    CreateCreatureObject("S!coins",Myself,0,0,0) //
+    CreateCreatureObject("S!gems",Myself,0,0,0) //
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(SecondNearestEnemyOf(Myself))
+  CheckStatLT(LastSeenBy(Myself),90,RESISTCRUSHING)
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  RandomNumGT(6,4)
+  Range(LastSeenBy(Myself),2)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Global("partyfled","LOCALS",0)
+  Global("Iatimer","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("chase","LOCALS",90)
+    SetGlobal("partyfled","LOCALS",1)
+END
+
+IF
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Global("partyfled","LOCALS",1)
+  GlobalTimerNotExpired("chase","LOCALS")
+  InMyArea(Player1)
+  Global("Iatimer","LOCALS",1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  GlobalTimerExpired("chase","LOCALS")
+  Global("partyfled","LOCALS",1)
+  Global("Iatimer","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatimer","LOCALS",0)
+    ReallyForceSpellRES("SPWII07",Myself)
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  See(SecondNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(ThirdNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
