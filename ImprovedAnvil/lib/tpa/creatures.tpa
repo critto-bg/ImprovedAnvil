@@ -1,6 +1,6 @@
 /// various functions for patching creatures ///
 
-// This functions applies custom colouring to a specified creature file //
+// This function applies custom colouring to a specified creature file   //
 // Thanks to the authors of aTweaks for the code snippet and inspiration //
 
 DEFINE_ACTION_FUNCTION ~S!CHANGE_CREATURE_COLOURS~
@@ -65,4 +65,26 @@ BEGIN
     END
 
     BUT_ONLY_IF_IT_CHANGES
+END
+
+// This function summons enables dynamic adjustment of experience for joinable NPCs //
+// This is implemented by creating an invisible creature upon joining               //
+// Thanks to the authors of Level One NPCs for the code snippet and inspiration     //
+
+DEFINE_ACTION_MACRO ~S!join_dlg_xp~ BEGIN
+  ACTION_IF (FILE_EXISTS_IN_GAME ~%join_dialogue%.dlg~) THEN BEGIN
+    COPY_EXISTING ~%join_dialogue%.dlg~ ~override~
+      DECOMPILE_DLG_TO_D
+        COUNT_REGEXP_INSTANCES ~ReallyForceSpellRes("S!xp",Myself)~ "cri"
+        PATCH_IF ("cri" < 0x01) THEN BEGIN
+          // ugly hack, want string concatenation operator instead
+          SPRINT strangestring ~ReallyForceSpellRes("S!xp",Myself) JoinParty()~
+          SPRINT strangestring "%strangestring%~"
+          REPLACE_TEXTUALLY ~\bJoinParty()$~ ~ReallyForceSpellRes("S!xp",Myself) JoinParty()~
+          REPLACE_TEXTUALLY "\bJoinParty()~" ~%strangestring%~
+          REPLACE_TEXTUALLY ~\bActionOverride("\(.+\)",JoinParty())~ ~ActionOverride("\1",ReallyForceSpellRes("S!xp",Myself)) ActionOverride("\1",JoinParty())~
+        END
+      COMPILE_D_TO_DLG
+    BUT_ONLY
+  END
 END
