@@ -1303,7 +1303,7 @@ var gear = [
                     "Buckler +3",
                     "Scroll of Bigby's Clenched Fist",
                     "Permanency Scroll",
-                    "75,000 gp"
+                    "50,000 gp"
                 ],
                 "attributes": [
                     {

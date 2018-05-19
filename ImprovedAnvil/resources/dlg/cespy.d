@@ -1910,11 +1910,11 @@ APPEND BOTSMITH
   IF ~~ THEN BEGIN mazzy2
     SAY @771 IF ~~ THEN REPLY @2 GOTO 4
     IF ~PartyHasItem("S!SHLD04") PartyHasItem("SHLD27") PartyHasItem("S!SHLD03")
-        PartyGoldGT(74999) PartyHasItem("S!MISC02") PartyHasItem("scrlb1")
+        PartyGoldGT(49999) PartyHasItem("S!MISC02") PartyHasItem("scrlb1")
         Global("Iashld05forged","GLOBAL",0)~
       THEN REPLY @3
       DO ~SetGlobal("Iashld05forged","GLOBAL",1)
-          TakePartyGold(75000)      DestroyGold(75000)
+          TakePartyGold(75000)      DestroyGold(50000)
           TakePartyItemNum("S!SHLD04",1)   DestroyItem("S!SHLD04")
           TakePartyItemNum("SHLD27",1)   DestroyItem("SHLD27")
           TakePartyItemNum("S!SHLD03",1)   DestroyItem("S!SHLD03")
