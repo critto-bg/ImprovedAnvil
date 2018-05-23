@@ -2343,7 +2343,7 @@ var weapons = [
                     "15000 gp"
                 ],
                 "attributes": [],
-                "item_name": "quarterstaff +3"
+                "item_name": "Quarterstaff +3"
             },
             {
                 "components": [
@@ -2638,7 +2638,7 @@ var misc = [
                         ]
                     }
                 ],
-                "item_name": "Nature's Gift (potion)"
+                "item_name": "Nature's Gift"
             },
             {
                 "components": [
@@ -2663,7 +2663,7 @@ var misc = [
                         ]
                     }
                 ],
-                "item_name": "Elven Ancient Expertise (Potion)"
+                "item_name": "Elven Ancient Expertise"
             },
             {
                 "components": [
