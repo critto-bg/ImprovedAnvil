@@ -358,19 +358,19 @@ COPY_EXISTING ~AR0511.ARE~ ~override/AR0511.ARE~
 COPY_EXISTING ~AR0516.ARE~ ~override/AR0516.are~
   READ_LONG 0xC0 "interroffset"
   WRITE_ASCII "%interroffset%" ~~ #32
-  
+
   WRITE_ASCII ("%interroffset%" + 72) ~S!phounr~ #8
   WRITE_ASCII ("%interroffset%" + 80) ~rdspider~ #8
-  
+
   READ_SHORT ("%interroffset%" + 152) "crecount"
   PATCH_IF ("%crecount%" < 2) BEGIN
     WRITE_SHORT ("%interroffset%" + 152) 2
   END
-  
+
   LPF fj_are_structure
     INT_VAR
-      fj_loc_x      = 2036
-      fj_loc_y      = 1807
+      fj_loc_x      = 3412
+      fj_loc_y      = 1721
       fj_spawn_num  = 1
       fj_difficulty = 2
       fj_delay      = 1
@@ -378,10 +378,10 @@ COPY_EXISTING ~AR0516.ARE~ ~override/AR0516.are~
       fj_max_num    = 1
     STR_VAR
       fj_structure_type = spawn
-      fj_name           = ~S!Warden Spawn Point~
+      fj_name           = ~S!Lower Right Corner Point~
       fj_cre_resref0    = ~S!spyran~
   END
-  
+
   LPF fj_are_structure
     INT_VAR
       fj_loc_x      = 2376
@@ -393,7 +393,7 @@ COPY_EXISTING ~AR0516.ARE~ ~override/AR0516.are~
       fj_max_num    = 1
     STR_VAR
       fj_structure_type = spawn
-      fj_name           = ~S!Lower Right Corner Point~
+      fj_name           = ~S!Warden Spawn Point~
       fj_cre_resref0    = ~S!spyran~
   END
 
@@ -1053,20 +1053,20 @@ END
 COPY_EXISTING ~AR1514.ARE~ ~override/AR1514.ARE~
   READ_SHORT 0x64 "spcount"
   READ_LONG 0x60 "spoffset"
-  
+
   SET "it" = 0
   WHILE ("%it%" < "%spcount%") BEGIN
     READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
     PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 1" = 0) BEGIN
       WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~RDKEEP~ #8
     END
-    
+
     "it" = "%it%" + 1
   END
-  
+
   READ_SHORT 0x64 "spcount"
   READ_LONG 0x60 "spoffset"
-  
+
   SET "it" = 0
   WHILE ("%it%" < "%spcount%") BEGIN
     READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
