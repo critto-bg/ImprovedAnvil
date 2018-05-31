@@ -29,5 +29,5 @@ END
 
 IF ~~ THEN BEGIN 5
   SAY @2558
-  IF ~~ THEN DO ~SetInterrupt(FALSE) SetGlobal("Ianoefbottle","GLOBAL",1) SetGlobal("Iaexit","AR2210",3) TakePartyItem("misc3c") DestroyItem("misc3c") ForceSpell(Myself,DRYAD_TELEPORT) SetInterrupt(TRUE)~ EXIT
+  IF ~~ THEN DO ~SetInterrupt(FALSE) SetGlobal("Iaexit","AR2210",3) TakePartyItem("misc3c") DestroyItem("misc3c") ForceSpell(Myself,DRYAD_TELEPORT) SetInterrupt(TRUE)~ EXIT
 END
