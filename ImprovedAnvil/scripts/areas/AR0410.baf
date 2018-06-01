@@ -1,4 +1,4 @@
-//Mage Stronghold Navigator's Room  //////////////
+// Mage Stronghold Navigator's Room  //
 
 IF
   Class(Player1,MAGE_ALL)
@@ -9,9 +9,10 @@ IF
   Global("Iatimer","AR0410",0)
 THEN
   RESPONSE #100
-    SetGlobalTimer("Iascrolls","GLOBAL",SEVEN_DAYS)
-    SetGlobal("Iaitem","AR0410",0)
     SetGlobal("Iatimer","AR0410",1)
+    SetGlobal("IaMageScrollsPending","GLOBAL",0)
+    SetGlobal("IaMageScrollsTotal","GLOBAL",0)
+    SetGlobalTimer("IaMageScrollsTime","GLOBAL",SEVEN_DAYS)
 END
 
 IF
@@ -20,32 +21,16 @@ IF
   !Class(Player1,THIEF_ALL)
   !Class(Player1,CLERIC_ALL)
   GlobalGT("LavokOutside","GLOBAL",0)
-  GlobalTimerExpired("Iascrolls","GLOBAL")
-  Global("Iaitem","AR0410",0)
-THEN
-  RESPONSE #100
-    SetGlobalTimer("Iascrolls","GLOBAL",SEVEN_DAYS)
-    SetGlobal("Iaitem","AR0410",1)
-END
-
-IF
-  Class(Player1,MAGE_ALL)
-  !Class(Player1,FIGHTER_ALL)
-  !Class(Player1,THIEF_ALL)
-  !Class(Player1,CLERIC_ALL)
-  Global("Iaitem","AR0410",1)
-  GlobalLT("Iacountscrl","AR0410",7)
+  GlobalGT("IaMageScrollsPending","GLOBAL",0)
 THEN
    RESPONSE #50
-     SetGlobal("Iaitem","AR0410",0)
-     IncrementGlobal("Iacountscrl","AR0410",1)
+     IncrementGlobal("IaMageScrollsPending","GLOBAL",-1)
      ActionOverride("Container 1",CreateItem("scrl9g",2,0,0)) //
      ActionOverride("Container 1",CreateItem("scrl8t",3,0,0)) //
      ActionOverride("Container 1",CreateItem("scrl7m",3,0,0)) //
      ActionOverride("Container 1",CreateItem("scrl7i",2,0,0)) //
    RESPONSE #50
-     SetGlobal("Iaitem","AR0410",0)
-     IncrementGlobal("Iacountscrl","AR0410",1)
+     IncrementGlobal("IaMageScrollsPending","GLOBAL",-1)
      ActionOverride("Container 1",CreateItem("scrl8y",3,0,0)) //
      ActionOverride("Container 1",CreateItem("scrl7j",2,0,0)) //
      ActionOverride("Container 1",CreateItem("scrl6v",3,0,0)) //

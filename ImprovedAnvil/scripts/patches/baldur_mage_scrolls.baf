@@ -1,0 +1,15 @@
+IF
+  Class(Player1,MAGE_ALL)
+  !Class(Player1,FIGHTER_ALL)
+  !Class(Player1,THIEF_ALL)
+  !Class(Player1,CLERIC_ALL)
+  GlobalGT("LavokOutside","GLOBAL",0)
+  GlobalTimerExpired("IaMageScrollsTime","GLOBAL")
+  GlobalLT("IaMageScrollsTotal","GLOBAL",7)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("IaMageScrollsTime","GLOBAL",SEVEN_DAYS)
+    IncrementGlobal("IaMageScrollsTotal","GLOBAL",1)
+    IncrementGlobal("IaMageScrollsPending","GLOBAL",1)
+    DisplayString(Player1,%ScrollTextRef%)
+END
