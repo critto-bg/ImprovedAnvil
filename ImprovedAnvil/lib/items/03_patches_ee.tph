@@ -284,3 +284,17 @@ BEGIN
     END
     BUT_ONLY
 END
+
+// Gem of Seeing
+COPY_EXISTING ~ohrscrl1.itm~ ~override/ohrscrl1.itm~
+  SAY DESC @10318
+  WRITE_SHORT 0x38 1 // max in stack
+
+  LAUNCH_PATCH_FUNCTION ~ALTER_ITEM_HEADER~ INT_VAR
+    header_type = 3
+    charges = 5
+    drained = 0
+    flag_recharge = 0
+  END
+
+  BUT_ONLY
