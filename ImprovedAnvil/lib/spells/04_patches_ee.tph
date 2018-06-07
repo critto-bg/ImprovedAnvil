@@ -1,25 +1,5 @@
 /// BG2EE-specific patches ///
 
-// patch "wake on sleep" for Command and Greater Command
-COPY_EXISTING ~SPPR102.spl~ ~override/SPPR102.spl~
-              ~SPPR512.spl~ ~override/SPPR512.spl~
-  LPF ~ALTER_SPELL_EFFECT~ INT_VAR
-    check_headers = 1
-    match_opcode = 39
-    parameter2 = 1
-  END
-
-// patch clerical spells not to activate SCRIPTINGSTATE6 on a character
-COPY_EXISTING ~BHAAL2A.spl~ ~override/BHAAL2A.spl~
-              ~SPIN103.spl~ ~override/SPIN103.spl~
-              ~SPPR214.spl~ ~override/SPPR214.spl~
-              ~SPPR412.spl~ ~override/SPPR412.spl~
-              ~SPPR513.spl~ ~override/SPPR513.spl~
-              ~DGRIGHT.spl~ ~override/DGRIGHT.spl~
-  LPF ~DELETE_SPELL_EFFECT~ INT_VAR
-    opcode_to_delete = 282
-  END
-
 // DD, defensive stance
 COPY_EXISTING ~spdwd02.spl~ ~override/spdwd02.spl~
   SAY UNIDENTIFIED_DESC @10216
@@ -166,15 +146,15 @@ COPY_EXISTING ~SPCL940.spl~ ~override/SPCL940.spl~
   END
 
   BUT_ONLY
-  
+
 // Aura of Despair, Blackguard's special ability
 COPY_EXISTING ~SPCL103.spl~ ~override/SPCL103.spl~
   SAY UNIDENTIFIED_DESC @10316
- 
+
   LPF ~ALTER_SPELL_EFFECT~ INT_VAR
     check_headers = 1
     header_type = 3
     savingthrow = 1
   END
-  
+
   BUT_ONLY

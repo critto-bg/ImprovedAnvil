@@ -65,6 +65,27 @@ COPY_EXISTING ~SPCL904.spl~ ~override/SPCL904.spl~
 
 // priest spells //
 
+// patch clerical spells not to activate SCRIPTINGSTATE6 on a character
+COPY_EXISTING ~BHAAL2A.spl~ ~override/BHAAL2A.spl~
+              ~SPIN103.spl~ ~override/SPIN103.spl~
+              ~SPPR202.spl~ ~override/SPPR202.spl~
+              ~SPPR214.spl~ ~override/SPPR214.spl~
+              ~SPPR412.spl~ ~override/SPPR412.spl~
+              ~SPPR513.spl~ ~override/SPPR513.spl~
+              ~DGRIGHT.spl~ ~override/DGRIGHT.spl~
+  LPF ~DELETE_SPELL_EFFECT~ INT_VAR
+    opcode_to_delete = 282
+  END
+
+// patch "wake on sleep" for Command and Greater Command
+COPY_EXISTING ~SPPR102.spl~ ~override/SPPR102.spl~
+              ~SPPR512.spl~ ~override/SPPR512.spl~
+  LPF ~ALTER_SPELL_EFFECT~ INT_VAR
+    check_headers = 1
+    match_opcode = 39
+    parameter2 = 1
+  END
+
 COPY_EXISTING ~SPPR318.spl~ ~override/SPPR318.spl~
   WRITE_SHORT  0x20      0 // Priest Type
 
