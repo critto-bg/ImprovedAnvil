@@ -1911,12 +1911,13 @@ APPEND BOTSMITH
     SAY @771 IF ~~ THEN REPLY @2 GOTO 4
     IF ~PartyHasItem("S!SHLD04") PartyHasItem("SHLD27") PartyHasItem("S!SHLD03")
         PartyGoldGT(49999) PartyHasItem("S!MISC02") PartyHasItem("scrlb1")
-        Global("Iashld05forged","GLOBAL",0)~
+        PartyHasItem("SHLD22") Global("Iashld05forged","GLOBAL",0)~
       THEN REPLY @3
       DO ~SetGlobal("Iashld05forged","GLOBAL",1)
           TakePartyGold(75000)      DestroyGold(50000)
           TakePartyItemNum("S!SHLD04",1)   DestroyItem("S!SHLD04")
           TakePartyItemNum("SHLD27",1)   DestroyItem("SHLD27")
+          TakePartyItemNum("SHLD22",1)   DestroyItem("SHLD22")
           TakePartyItemNum("S!SHLD03",1)   DestroyItem("S!SHLD03")
           TakePartyItemNum("scrlb1",1)   DestroyItem("scrlb1")
           TakePartyItemNum("S!MISC02",1)   DestroyItem("S!MISC02")
