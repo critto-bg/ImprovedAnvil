@@ -1914,7 +1914,7 @@ APPEND BOTSMITH
         PartyHasItem("SHLD22") Global("Iashld05forged","GLOBAL",0)~
       THEN REPLY @3
       DO ~SetGlobal("Iashld05forged","GLOBAL",1)
-          TakePartyGold(75000)      DestroyGold(50000)
+          TakePartyGold(50000)      DestroyGold(50000)
           TakePartyItemNum("S!SHLD04",1)   DestroyItem("S!SHLD04")
           TakePartyItemNum("SHLD27",1)   DestroyItem("SHLD27")
           TakePartyItemNum("SHLD22",1)   DestroyItem("SHLD22")
