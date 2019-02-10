@@ -874,6 +874,28 @@ BEGIN
     BUT_ONLY
 END
 
+// clear the flag that permits critical hits on wearers of ioun stones //
+ACTION_FOR_EACH ~file~ IN
+                ~helm18.itm~
+                ~helm19.itm~
+                ~helm20.itm~
+                ~helm23.itm~
+                ~helm24.itm~
+                ~helm25.itm~
+                ~helm26.itm~
+                ~helm27.itm~
+                ~helm34.itm~
+                ~S!helm01.itm~
+                ~S!helm06.itm~
+                ~S!helm07.itm~
+                ~S!helm08.itm~
+BEGIN
+  COPY_EXISTING ~%file%~ ~override/%file%~
+    READ_BYTE  0x1b "ioffset"
+    WRITE_BYTE 0x1b ("%ioffset%" BAND 0b11111101) // clear unsellable flag
+    BUT_ONLY
+END
+
 // set magical flag for items //
 ACTION_FOR_EACH ~file~ IN
                 ~maurezhi.itm~
