@@ -1423,7 +1423,7 @@ var weapons = [
                             "(Based on an idea suggested By Baronius)",
                             "+1 bonus to Strength",
                             "THAC0: +3, +5 vs. unnatural creatures",
-                            "Damage: D6 +3, +5 vs. unnatural creatures",
+                            "Damage: 1D6 +3, +5 vs. unnatural creatures",
                             "Special damage: 10% chance to inflict 20 Acid damage per hit"
                         ]
                     },
@@ -1452,7 +1452,7 @@ var weapons = [
                         "section_items": [
                             "+50% Resistance to Cold",
                             "THAc0: +4",
-                            "Damage: D6 +4",
+                            "Damage: 1D6 +4",
                             "Special: With each successful hit there is a 5% chance to inflict 10d6 additional cold damage"
                         ]
                     },
