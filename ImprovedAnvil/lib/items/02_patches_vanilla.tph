@@ -969,3 +969,11 @@ COPY_EXISTING ~sw1h32.itm~ ~override/sw1h32.itm~
   END
 
   BUT_ONLY
+
+// allow Yamato +4 to be used by druids and fighter/druids //
+COPY_EXISTING ~sw1h66.itm~ ~override/sw1h66.itm~
+  READ_BYTE  0x1f "ioffset"
+  WRITE_BYTE 0x1f ("%ioffset%" BAND 0b11101111) // fighter-druid
+  READ_BYTE  0x21 "ioffset"
+  WRITE_BYTE 0x21 ("%ioffset%" BAND 0b10111111) // druid
+  BUT_ONLY
