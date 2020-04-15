@@ -2141,7 +2141,7 @@ APPEND WSMITH01
   END
 
   IF ~~ THEN BEGIN aeriehammer
-    SAY @633 IF ~~ THEN REPLY @2 GOTO 13
+    SAY @635 IF ~~ THEN REPLY @2 GOTO 13
     IF ~PartyHasItem("s!misc64") PartyHasItem("s!misc65") PartyHasItem("hamm12")
 	PartyGoldGT(74999) PartyHasItem("miscau") 
 	PartyHasItem("s!misc02")~
