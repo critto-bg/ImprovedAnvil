@@ -4,8 +4,8 @@ IF
 THEN
   RESPONSE #100
     SetGlobal("roeskel01","LOCALS",1)
-    CreateCreatureObject("S!skels",Myself,0,0,0) //
-    CreateCreatureObject("S!skels",Myself,0,0,0) //
+    CreateCreatureObject("S!skelwl",Myself,0,0,0) // Skeleton Warlord
+    CreateCreatureObject("S!skelwl",Myself,0,0,0) // Skeleton Warlord
     ReallyForceSpell(Myself,CLERIC_PHYSICAL_MIRROR)
     ReallyForceSpell(Myself,CLERIC_ANIMATE_DEAD)
     ReallyForceSpell(Myself,CLERIC_ARMOR_OF_FAITH)
@@ -13,6 +13,20 @@ THEN
     ReallyForceSpell(Myself,CLERIC_BLESS)
     ReallyForceSpell(Myself,CLERIC_AID)
     ReallyForceSpell(Myself,CLERIC_SHIELD_OF_THE_ARCHONS)
+END
+
+IF
+	Allegiance(Myself,ENEMY)
+	Detect([PC])
+	!HPLT(Myself,1)
+	!GlobalTimerNotExpired("Tflord","LOCALS")
+	GlobalLT("Tfskel","LOCALS",6)
+THEN
+	RESPONSE #100
+		IncrementGlobal("Tfskel","LOCALS",1)
+		SetGlobalTimer("Tflord","LOCALS",ONE_ROUND)
+		CreateCreatureObjectEffect("S!skelwl","",Myself)  // Skeleton Warlord
+		CreateCreatureObjectEffect("S!skelwl","",Myself)  // Skeleton Warlord
 END
 
 IF
