@@ -3,6 +3,18 @@
 // determine if protagonist is a vagrant and set the global variable //
 
 IF
+  Global("Iaitem","AR0602",0)
+THEN
+	RESPONSE #100
+		SetGlobal("Iaitem","AR0602",1)
+		ActionOverride("Container 37",CreateItem("bag02"))  // Gem Bag
+		ActionOverride("Container 37",CreateItem("bag03"))  // Scroll Case
+		ActionOverride("Container 37",CreateItem("bag05"))  // Ammo Belt
+		ActionOverride("Container 37",CreateItem("bag06"))  // Potion Case
+		ActionOverride("Container 37",CreateItem("bag31"))  // Bag of Holding
+END
+
+IF
   Global("Iamvagrant","GLOBAL",0)
   Class(Player1,RANGER_ALL)
   CheckStatGT(Player1,99,RESISTPOISON)
