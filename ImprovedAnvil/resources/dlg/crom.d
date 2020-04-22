@@ -9,7 +9,7 @@ REPLACE WSMITH01
               PartyHasItem("leat08")~
       THEN REPLY @12 GOTO leat2
     IF ~PartyHasItem("npchan")~ THEN REPLY @13 GOTO valyc
-    IF ~PartyHasItem("waflail")~ THEN REPLY @14 GOTO flail
+    IF ~PartyHasItem("waflail") Class(Player1,RANGER_ALL) !Class(Player1,CLERIC_ALL)~ THEN REPLY @14 GOTO flail
     IF ~PartyHasItem("npclck")~ THEN REPLY @15 GOTO cernd
     IF ~PartyHasItem("npsw04")~ THEN REPLY @16 GOTO valyk
     IF ~PartyHasItem("npsw01")~ THEN REPLY @17 GOTO mazzy
@@ -52,7 +52,7 @@ REPLACE WSMITH01
     IF ~PartyHasItem("ring41")~ THEN REPLY @37 GOTO r3
     IF ~PartyHasItem("ring39")~ THEN REPLY @38 GOTO r4
     IF ~PartyHasItem("sw2h09")~ THEN REPLY @39 GOTO war
-    IF ~PartyHasItem("clck29")~ THEN REPLY @40 GOTO robe
+    IF ~Class(Player1,MAGE_ALL) !Class(Player1,CLERIC_ALL) !Class(Player1,FIGHTER_ALL) !Class(Player1,BARD_ALL) !Class(Player1,THIEF_ALL) PartyHasItem("clck29")~ THEN REPLY @40 GOTO robe
     IF ~PartyHasItem("plat15")~ THEN REPLY @41 GOTO pride
     IF ~OR(4) PartyHasItem("chan03")
               PartyHasItem("chan09")
@@ -127,18 +127,18 @@ REPLACE WSMITH01
     IF ~OR(2) PartyHasItem("S!misc30")
               PartyHasItem("S!misc31")~
       THEN REPLY @570 GOTO ttruth
-    IF ~PartyHasItem("S!leat04")~ THEN REPLY @572 GOTO vagran
+    IF ~PartyHasItem("S!leat04") Class(Player1,RANGER_ALL) CheckStat(Player1,7,SCRIPTINGSTATE1) Global("Iamvagrant","GLOBAL",1)~ THEN REPLY @572 GOTO vagran
     IF ~PartyHasItem("npplat") Reputation(Player1,20)~ THEN REPLY @574 GOTO keldorn
-    IF ~PartyHasItem("S!scaleg")~ THEN REPLY @576 GOTO wyrm
+    IF ~PartyHasItem("S!scaleg") !Alignment(Player1,MASK_EVIL) !GlobalGT("Iap1notgood","GLOBAL",0)~ THEN REPLY @576 GOTO wyrm
     IF ~PartyHasItem("S!scaler")~ THEN REPLY @578 GOTO ancient
     IF ~PartyHasItem("sw1h73") Global("Ialongfforged","GLOBAL",0)~ THEN REPLY @580 GOTO longf
     IF ~PartyHasItem("S!amul04")~ THEN REPLY @582 GOTO necro
     IF ~PartyHasItem("hamm08")~ THEN REPLY @584 GOTO hamm1
     IF ~PartyHasItem("staf24")~ THEN REPLY @586 GOTO staff1
     IF ~PartyHasItem("S!staf06") Global("Iastaf07forged","GLOBAL",0)~ THEN REPLY @588 GOTO staff2
-    IF ~PartyHasItem("S!clck04")~ THEN REPLY @590 GOTO arcane
-    IF ~PartyHasItem("S!helm07") GlobalGT("Iaoldsquijob","GLOBAL",3) GlobalGT("Iasquirjob","GLOBAL",8)~ THEN REPLY @592 GOTO scarlet
-    IF ~PartyHasItem("S!amul05")~ THEN REPLY @594 GOTO necro2
+    IF ~PartyHasItem("S!clck04") Class(Player1,MAGE_ALL)~ THEN REPLY @590 GOTO arcane
+    IF ~PartyHasItem("S!helm07") GlobalGT("Iaoldsquijob","GLOBAL",3) GlobalGT("Iasquirjob","GLOBAL",8) Class(Player1,MAGE_ALL)~ THEN REPLY @592 GOTO scarlet
+    IF ~PartyHasItem("S!amul05") Class(Player1,MAGE_ALL) CheckStat(Player1,6,SCRIPTINGSTATE1) !Class(Player1,THIEF_ALL) !Class(Player1,FIGHTER_ALL) !Class(Player1,CLERIC_ALL) !Class(Player1,SORCERER)~ THEN REPLY @594 GOTO necro2
     IF ~PartyHasItem("leat09")~ THEN REPLY @596 GOTO swash
     IF ~GlobalGT("Chapter","GLOBAL",5) PartyHasItem("ohnmbird") PartyHasItem("ohnrobe2")~ THEN REPLY @598 GOTO neera
     IF ~GlobalGT("Chapter","GLOBAL",5) PartyHasItem("rsboot")~ THEN REPLY @600 GOTO rasaad
@@ -155,25 +155,6 @@ REPLACE WSMITH01
               PartyHasItem("Ax1h16f")~
       THEN REPLY @618 GOTO rage
     IF ~PartyHasItem("S!shld04") Global("Iashld05forged","GLOBAL",0)~ THEN REPLY @620 GOTO mazzy2
-    IF ~PartyHasItem("S!blun03")~ THEN REPLY @622 GOTO treefist
-    IF ~PartyHasItem("S!blun03")~ THEN REPLY @624 GOTO treefury
-    IF ~OR(3) PartyHasItem("brac20")
-              PartyHasItem("brac22")
-              PartyHasItem("brac09")~
-      THEN REPLY @626 GOTO palbracers
-    IF ~OR(3) PartyHasItem("wastaff")
-              PartyHasItem("staf16")
-              PartyHasItem("staf14")~
-      THEN REPLY @628 GOTO earthstaff
-    IF ~PartyHasItem("sw2hd1")~ THEN REPLY @630 GOTO dornblade
-    IF ~PartyHasItem("s!misc63")~ THEN REPLY @632 GOTO imoenamulet
-    IF ~OR(2) PartyHasItem("sw2h02")
-              PartyHasItem("bdsw2h01")~
-      THEN REPLY @634 GOTO minscblade
-    IF ~OR(2) PartyHasItem("s!misc64")
-              PartyHasItem("s!misc65")~
-      THEN REPLY @636 GOTO aeriehammer
-
     IF ~~ THEN REPLY #992 EXIT
   END
 END
@@ -310,7 +291,7 @@ APPEND WSMITH01
 
     IF ~~ THEN BEGIN flail
     SAY @52 IF ~~ THEN REPLY @2 GOTO 13
-    IF Global("Iaflailplace","GLOBAL",3) GlobalGT("Chapter","GLOBAL",5) NumItemsPartyGT("blun32",1) PartyHasItem("blun24") PartyHasItem("waflail") NumItemsPartyGT("misc42",5) NumItemsPartyGT("miscal",9)
+    IF ~Class(Player1,RANGER_ALL) !Class(Player1,CLERIC_ALL) Global("Iaflailplace","GLOBAL",3) GlobalGT("Chapter","GLOBAL",5) NumItemsPartyGT("blun32",1) PartyHasItem("blun24") PartyHasItem("waflail") NumItemsPartyGT("misc42",5) NumItemsPartyGT("miscal",9)
         PartyGoldGT(149999)~
       THEN REPLY @3
       DO ~TakePartyGold(150000)      DestroyGold(150000)
@@ -442,7 +423,7 @@ APPEND WSMITH01
 
   IF ~~ THEN BEGIN judge
     SAY @59 IF ~~ THEN REPLY @2 GOTO 13
-    IF ~Global("Iajdplot","GLOBAL",1) Dead("gorgit") Dead("S!dlord") PartyHasItem("S!misc07") PartyHasItem("S!misc17") PartyHasItem("S!misc06") PartyHasItem("S!misc08") PartyHasItem("S!misc02") PartyHasItem("sw1h60") PartyHasItem("scrl9x") PartyHasItem("scrl9d") PartyHasItem("scrlb4") Dead("fsdragon")
+    IF ~Alignment(Player1,MASK_GOOD) Global("Iajdplot","GLOBAL",1) Dead("gorgit") Dead("S!dlord") PartyHasItem("S!misc07") PartyHasItem("S!misc17") PartyHasItem("S!misc06") PartyHasItem("S!misc08") PartyHasItem("S!misc02") PartyHasItem("sw1h60") PartyHasItem("scrl9x") PartyHasItem("scrl9d") PartyHasItem("scrlb4") !Class(Player1,THIEF_ALL) !Class(Player1,BARD_ALL) !Class(Player1,CLERIC_ALL) !Class(Player1,MAGE_ALL) !Class(Player1,DRUID_ALL) !Class(Player1,MONK) Dead("fsdragon")
         PartyGoldGT(249999)~
       THEN REPLY @3
       DO ~TakePartyGold(250000)      DestroyGold(250000)
@@ -841,7 +822,7 @@ APPEND WSMITH01
 
   IF ~~ THEN BEGIN agile
     SAY @81 IF ~~ THEN REPLY @2 GOTO 13
-    IF ~Global("Iabootsforged","GLOBAL",1) Dead("S!draggr") XPGT(Player1,4249999) GlobalGT("Iadraggrdead","GLOBAL",0) PartyHasItem("brac18") PartyHasItem("S!boot01") PartyHasItem("brac07") PartyHasItem("boot04")
+    IF ~Global("Iabootsforged","GLOBAL",1) Dead("S!draggr") !Alignment(Player1,MASK_EVIL) !GlobalGT("Iap1notgood","GLOBAL",0) XPGT(Player1,4249999) GlobalGT("Iadraggrdead","GLOBAL",0) PartyHasItem("brac18") PartyHasItem("S!boot01") PartyHasItem("brac07") PartyHasItem("boot04")
         PartyGoldGT(49999)~
       THEN REPLY @3
       DO ~TakePartyGold(50000)      DestroyGold(50000)
@@ -1573,7 +1554,7 @@ APPEND WSMITH01
 
   IF ~~ THEN BEGIN vagran
     SAY @573 IF ~~ THEN REPLY @2 GOTO 13
-    IF ~Global("Iacoralforged","GLOBAL",0) PartyHasItem("S!leat04") PartyHasItem("S!misc34") PartyHasItem("S!clck03")
+    IF ~Global("Iacoralforged","GLOBAL",0) Class(Player1,RANGER_ALL) Global("Iamvagrant","GLOBAL",1) PartyHasItem("S!leat04") PartyHasItem("S!misc34") PartyHasItem("S!clck03")
         PartyGoldGT(59999)~
       THEN REPLY @3
       DO ~TakePartyGold(60000)      DestroyGold(60000)
@@ -1610,7 +1591,7 @@ APPEND WSMITH01
 
   IF ~~ THEN BEGIN wyrm
     SAY @577 IF ~~ THEN REPLY @2 GOTO 13
-    IF ~Global("Iagrplatforged","GLOBAL",0) PartyHasItem("S!scaleg") Dead("S!draggr") XPGT(Player1,4249999) GlobalGT("Iadraggrdead","GLOBAL",0)
+    IF ~Global("Iagrplatforged","GLOBAL",0) PartyHasItem("S!scaleg") Dead("S!draggr") !Alignment(Player1,MASK_EVIL) !GlobalGT("Iap1notgood","GLOBAL",0) XPGT(Player1,4249999) GlobalGT("Iadraggrdead","GLOBAL",0)
         PartyGoldGT(74999)~
       THEN REPLY @3
       DO ~TakePartyGold(75000)      DestroyGold(75000)
@@ -1743,7 +1724,7 @@ APPEND WSMITH01
 
   IF ~~ THEN BEGIN necro2
     SAY @595 IF ~~ THEN REPLY @2 GOTO 13
-    IF ~Global("Iaamul06forged","GLOBAL",0) PartyHasItem("S!amul05") Dead("S!orcus") GlobalGT("Iaorcusdead","GLOBAL",0) PartyHasItem("S!misc06") PartyHasItem("S!misc29")
+    IF ~Global("Iaamul06forged","GLOBAL",0) Class(Player1,MAGE_ALL) CheckStat(Player1,6,SCRIPTINGSTATE1) !Class(Player1,THIEF_ALL) !Class(Player1,FIGHTER_ALL) !Class(Player1,CLERIC_ALL) !Class(Player1,SORCERER) PartyHasItem("S!amul05") Global("Iahespforged","GLOBAL",0) Dead("S!orcus") GlobalGT("Iaorcusdead","GLOBAL",0) PartyHasItem("S!misc06") PartyHasItem("S!misc29")
         PartyGoldGT(89999)~
       THEN REPLY @3
       DO ~TakePartyGold(90000)      DestroyGold(90000)
@@ -1997,6 +1978,7 @@ APPEND WSMITH01
       EXIT
   END
 
+<<<<<<< HEAD
   IF ~~ THEN BEGIN treefist
     SAY @623 IF ~~ THEN REPLY @2 GOTO 13
     IF ~PartyHasItem("s!blun01") PartyHasItem("blun23") PartyHasItem("blun18")
@@ -2158,6 +2140,8 @@ APPEND WSMITH01
       EXIT
   END
 
+=======
+>>>>>>> parent of f107935... Added 8 new items 
   IF ~~ THEN BEGIN regular
     SAY @1
     COPY_TRANS WSMITH01 13
