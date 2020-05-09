@@ -37,6 +37,18 @@ THEN
     ReallyForceSpellRES("SPWII15",Myself)
 END
 
+
+IF
+  Allegiance(Myself,ENEMY)
+  Detect([PC])
+  Global("Iatreasure","LOCALS",0)
+  Global("Iapcastts","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatreasure","LOCALS",1)
+    GiveItemCreate("s!misc66",Myself,0,0,0)  // Blood of a Greater Demon
+END
+
 IF
   !GlobalTimerNotExpired("Iachange","LOCALS")
   !GlobalTimerNotExpired("Iaspell","LOCALS")

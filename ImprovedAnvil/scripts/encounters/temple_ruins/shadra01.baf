@@ -630,6 +630,18 @@ END
 
 IF
   Allegiance(Myself,ENEMY)
+  Detect([PC])
+  Global("Iatreasure5","LOCALS",0)
+  Global("Iadragonbladeplace","GLOBAL",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iadragonbladeplace","GLOBAL",5)
+    SetGlobal("Iatreasure5","LOCALS",1)
+    GiveItemCreate("bdsw2h01",Myself,0,0,0)  // Dragon Blade +3
+END
+
+IF
+  Allegiance(Myself,ENEMY)
   !GlobalTimerNotExpired("Iasilence","LOCALS")
   OR(4)
    See(NearestEnemyOfType([PC.0.0.DRUID_ALL]))

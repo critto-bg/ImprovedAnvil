@@ -24,6 +24,15 @@ THEN
 END
 
 IF
+  Detect([PC])
+  Global("Iaitem","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaitem","LOCALS",1)
+    GiveItemCreate("s!misc67",Myself,0,0,0)  // Blood of a Greater Bhaalspawn
+END
+
+IF
   See(NearestEnemyOf(Myself))
   !CheckStatGT(Myself,0,SCRIPTINGSTATE9)
   HaveSpell(BARBARIAN_RAGE)

@@ -66,7 +66,7 @@ var gear = [
                     "Darkmail",
                     "Ashen Scales",
                     "Crimson Chain",
-                    "30,000 Gold"
+                    "30,000 gp"
                 ],
                 "attributes": [
                     {
@@ -90,7 +90,7 @@ var gear = [
                     "Scroll of Protection from Normal Missiles",
                     "Scroll of Improved Mantle",
                     "Permanency Scroll",
-                    "75,000 Gold"
+                    "75,000 gp"
                 ],
                 "attributes": [
                     {
@@ -113,7 +113,7 @@ var gear = [
                     "Five potions of Defense (not created by Alchemy)",
                     "Five potions of Regeneration",
                     "Permanency Scroll",
-                    "40,000 Gold"
+                    "40,000 gp"
                 ],
                 "attributes": [
                     {
@@ -516,6 +516,38 @@ var gear = [
                     }
                 ],
                 "item_name": "Paws of the Furious Cat"
+            },
+            {
+                "components": [
+                    "Paladin’s Bracers",
+                    "Gauntlets of Weapon Skill",
+                    "Gloves of Healing",
+                    "Two Oils of Speed",
+                    "Two Rings of Protection +1",
+                    "Permanency Scroll",
+                    "30,000 gp"
+                ],
+                "attributes": [
+                    {
+                        "section_name": "Abilities",
+                        "section_items": [
+                            "+10 hit points",
+                            "+2 bonus to THAC0",
+                            "+1/2 attack per round",
+                            "+1 bonus to saving throws",
+                            "+1 bonus to armor class",
+                            "Once per day, the wearer may cure target of disease, poison, level drain, and cure 20 hitpoints worth of damage"
+                        ]
+                    },
+                    {
+                        "section_name": "Usable by",
+                        "section_items": [
+                            "Lawful Good Paladins",
+                            "Champions of Arvoreen"
+                        ]
+                    }
+                ],
+                "item_name": "Gauntlets of Blessed Might"
             }
         ]
     },
@@ -1327,9 +1359,38 @@ var gear = [
                     }
                 ],
                 "item_name": "Defender of Arvoreen +4"
+            },
+            {
+                "components": [
+                    "Two Potions of Heroism",
+                    "Two Amulets of Protection",
+                    "Two Potions of Magic Shielding",
+                    "Elven Holy Water",
+                    "Cursed Vampire Ashes",
+                    "Permanency Scroll",
+                    "30,000 gp"
+                ],
+                "attributes": [
+                    {
+                        "section_name": "Abilities",
+                        "section_items": [
+                            "+20 Max HP",
+                            "+2 bonus to saving throws",
+                            "+2 bonus to AC",
+                            "25% resistance to magic damage",
+                            "Protection from level drain"
+                        ]
+                    },
+                    {
+                        "section_name": "Usable by",
+                        "section_items": [
+                            "Imoen"
+                        ]
+                    }
+                ],
+                "item_name": "Pendant of Recovered Light"
             }
         ]
-
     }
 ];
 
@@ -1436,6 +1497,69 @@ var weapons = [
                     }
                 ],
                 "item_name": "Treefolk's Arm +3"
+            },
+            {
+                "components": [
+                    "Treefolk’s Arm +3",
+                    "Bone Club +2",
+                    "Skullcrusher +3",
+                    "Wyvern’s Tail +2",
+                    "Blood of a Royal Troll",
+                    "Manual of Elaboration",
+                    "25,000 gp"
+                ],
+                "attributes": [
+                    {
+                        "section_name": "Abilities",
+                        "section_items": [
+                            "+1 bonus to Strength",
+                            "THAC0: +4",
+                            "Damage: 1D6 +4, +5 damage to unnatural creatures, +2 crushing damage",
+                            "5% chance to inflict 8d6 points of acid damage on hit",
+                            "5% chance to inflict 8d6 points of poison damage on hit"
+                        ]
+                    },
+                    {
+                        "section_name": "Usable by",
+                        "section_items": [
+                            "Druids and rangers"
+                        ]
+                    }
+                ],
+                "item_name": "Treefolk’s Fist +4"
+            },
+            {
+                "components": [
+                    "Treefolk’s Fist +4",
+                    "Storm Star +3",
+                    "Club of Detonation +3",
+                    "Rimed Club +4",
+                    "Scroll of Giant Strength",
+                    "Manual of Elaboration",
+                    "50,000 gp"
+                ],
+                "attributes": [
+                    {
+                        "section_name": "Abilities",
+                        "section_items": [
+                            "+2 bonus to Strength",
+                            "THAC0: +5",
+                            "Damage: 1D6 +5, +5 damage to unnatural creatures, +10 crushing damage",
+                            "5% chance to inflict 8d6 points of acid damage on hit",
+                            "5% chance to inflict 8d6 points of fire damage on hit",
+                            "5% chance to inflict 8d6 points of cold damage on hit",
+                            "5% chance to inflict 8d6 points of electrical damage on hit",
+                            "5% chance to inflict 8d6 points of poison damage on hit"
+                        ]
+                    },
+                    {
+                        "section_name": "Usable by",
+                        "section_items": [
+                            "Druids and rangers"
+                        ]
+                    }
+                ],
+                "item_name": "Treefolk's Fury +5"
             },
             {
                 "components": [
@@ -2307,6 +2431,41 @@ var weapons = [
             },
             {
                 "components": [
+                    "Staff of Thunder and Lightning +2",
+                    "Staff of Arundel +3",
+                    "Staff of Earth +2",
+                    "Staff of the Woodlands +4",
+                    "Staff of the Ram +4",
+                    "Scroll of Memory Boosting",
+                    "Permanency Scroll",
+                    "100,000 gp"
+                ],
+                "attributes": [
+                    {
+                        "section_name": "Abilities",
+                        "section_items": [
+                            "+3 bonus to Armor Class",
+                            "Wielder may memorize one additional druidic spell per level",
+                            "Wielder may summon an Elemental Prince for 20 rounds once per day",
+                            "THAC0: +4",
+                            "Damage: 1D6 +4, +10 crushing damage",
+                            "5% chance on hit to cause an additional 5d6 + 20 crushing damage",
+                            "5% chance on hit to cause an additional 5d6 + 20 poison damage",
+                            "5% chance on hit to cause an additional 5d6 + 20 acid damage",
+                            "Thunderclap: 10% chance of stunning hit target for 2 rounds (Save vs. Spell negates)"
+                        ]
+                    },
+                    {
+                        "section_name": "Usable by",
+                        "section_items": [
+                            "Druid"
+                        ]
+                    }
+                ],
+                "item_name": "Noble Staff of Earth +4"
+            },
+            {
+                "components": [
                     "Noble Staff of Fire +4",
                     "Noble Staff of Air +4",
                     "Manual of Elaboration",
@@ -2545,13 +2704,49 @@ var weapons = [
                             "Regeneration: 6 hit points per round",
                             "Immunity to Imprisonment",
                             "+10 bonus to max hp",
-                            "THAC0:  +4 bonus",
-                            "Damage:  1D6 + 4",
-                            "Usable By: Cernd"
+                            "THAC0: +4 bonus",
+                            "Damage: 1D6 + 4"
+                        ]
+                    },
+                    {
+                        "section_name": "Usable by",
+                        "section_items": [
+                            "Cernd"
                         ]
                     }
                 ],
                 "item_name": "Oak of the High Forest"
+            },
+            {
+                "components": [
+                    "Oak of the High Forest",
+                    "Nuts taken from Tree of Life",
+                    "Potion of Barbarian Essence",
+                    "Permanency Scroll",
+                    "80,000 gp",
+                    "(Cespenar only)"
+                ],
+                "attributes": [
+                    {
+                        "section_name": "Abilities",
+                        "section_items": [
+                            "With each successful hit, there is 15% chance to inflict 5d6 additional crushing damage",
+                            "Regeneration: 6 hit points per round",
+                            "+20% Resistance to Physical damage",
+                            "Immunity to Imprisonment",
+                            "+15 bonus to max hp",
+                            "THAC0:  +5 bonus",
+                            "Damage: 1D6 + 5"
+                        ]
+                    },
+                    {
+                        "section_name": "Usable by",
+                        "section_items": [
+                            "Cernd"
+                        ]
+                    }
+                ],
+                "item_name": "Enhanced Oak of the High Forest +5"
             },
             {
                 "components": [
@@ -2583,33 +2778,126 @@ var weapons = [
                         ]
                     }
                 ],
-                "item_name": "Improved Flasher Launcher   (Requested By smr49)"
+                "item_name": "Improved Flasher Launcher (Requested By smr49)"
             },
             {
                 "components": [
-                    "Oak of the High Forest",
-                    "Nuts taken from Tree of Life",
-                    "Potion of Barbarian Essence",
-                    "Permanency Scroll",
-                    "80,000 gp",
-                    "(Cespenar only)"
+                    "Abyssal Blade",
+                    "Harbringer +3",
+                    "Soul Reaver +4",
+                    "Rancor +1",
+                    "Blood of a Greater Demon",
+                    "Skull of Death",
+                    "Manual of Elaboration",
+                    "75,000 gp"
                 ],
                 "attributes": [
                     {
                         "section_name": "Abilities",
                         "section_items": [
-                            "With each successful hit, there is 15% chance to inflict 5d6 additional crushing damage",
-                            "Regeneration: 6 hit points per round",
-                            "+20% Resistance to Physical damage",
-                            "Immunity to Imprisonment",
-                            "+15 bonus to max hp",
-                            "THAC0:  +5 bonus",
-                            "Damage: 1D6 + 5",
-                            "Usable By: Cernd"
+                            "Each hit makes the target receive a cumulative 2 point penalty to their THAC0 for 1 round",
+                            "Each hit casts Larloch's Minor Drain on the opponent",
+                            "Wielder may cast Death once per day",
+                            "THAC0: +5 bonus",
+                            "Damage: 1D10 +5, +5 damage vs good-aligned",
+                            "10% chance on hit to cause 10d6 fire damage",
+                            "10% chance on hit to cause 10d6 magic damage"
+                        ]
+                    },
+                    {
+                        "section_name": "Usable by",
+                        "section_items": [
+                            "Dorn"
                         ]
                     }
                 ],
-                "item_name": "Enhanced Oak of the High Forest +5"
+                "item_name": "Harbringer of the Abyss +5"
+            },
+            {
+                "components": [
+                    "Joril's Dagger",
+                    "Dragon Blade +3",
+                    "Flame of the North +2",
+                    "Two-handed Sword +1",
+                    "Barbarian Essence",
+                    "Manual of elaboration",
+                    "75,000 gp"
+                ],
+                "attributes": [
+                    {
+                        "section_name": "Abilities",
+                        "section_items": [
+                            "Wearer is under permanent Barbarian Rage",
+                            "Magic Resistance: +10%",
+                            "Damage: 1D10 +5, +5 damage vs. Evil",
+                            "10% chance to cause 10d6 cold damage on hit",
+                            "10% chance to cause 10d6 magic damage on hit"
+                        ]
+                    },
+                    {
+                        "section_name": "Usable by",
+                        "section_items": [
+                            "Minsc"
+                        ]
+                    }
+                ],
+                "item_name": "Sword of the Rashemi +5"
+            },
+            {
+                "components": [
+                    "Elven Stone of Arcana",
+                    "Elven Stone of Holiness",
+                    "War Hammer +3",
+                    "Elven Holy Water",
+                    "Permanency Scroll",
+                    "75,000 gp"
+                ],
+                "attributes": [
+                    {
+                        "section_name": "Abilities",
+                        "section_items": [
+                            "Casts both arcane and clerical spells as if 3 levels higher",
+                            "Memorize one additional arcane spell per level",
+                            "Memorize one additional clerical spell per level",
+                            "+20 Max HP",
+                            "Damage: 1D4 +4"
+                        ]
+                    },
+                    {
+                        "section_name": "Usable by",
+                        "section_items": [
+                            "Aerie"
+                        ]
+                    }
+                ],
+                "item_name": "Might of the Avariel +4"
+            },
+            {
+                "components": [
+                    "Sword of Chaos",
+                    "Three vials of Blood of a Greater Bhaalspawn",
+                    "Permanency Scroll",
+                    "75,000 gp"
+                ],
+                "attributes": [
+                    {
+                        "section_name": "Abilities",
+                        "section_items": [
+                            "Each hit casts Larloch's Minor Drain on the opponent",
+                            "10% chance on hit to cause all of wielder's hits to be Critical Strikes for 1 round",
+                            "10% chance on hit to cause 10D6 magic damage",
+                            "THAC0: +5",
+                            "Damage: 1D10 +5, +5 magic damage"
+                        ]
+                    },
+                    {
+                        "section_name": "Usable by",
+                        "section_items": [
+                            "Sarevok"
+                        ]
+                    }
+                ],
+                "item_name": "Reforged Sword of Chaos"
             }
         ]
     }

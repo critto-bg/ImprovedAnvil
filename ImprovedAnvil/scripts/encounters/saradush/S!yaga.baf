@@ -68,6 +68,15 @@ THEN
 END
 
 IF
+  Detect([PC])
+  Global("Iaitem","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaitem","LOCALS",1)
+    GiveItemCreate("s!misc67",Myself,0,0,0)  // Blood of a Greater Bhaalspawn
+END
+
+IF
   Allegiance(Myself,ENEMY)
   GlobalGT("YagaShuraSpawn","AR5203",0)
   !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")

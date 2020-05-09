@@ -41,6 +41,17 @@ THEN
 END
 
 IF
+  Detect([PC])
+  Global("Iatreasure1","LOCALS",0)
+  Global("Iaarundelplace","GLOBAL",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaarundelplace","GLOBAL",5)
+    SetGlobal("Iatreasure1","LOCALS",1)
+    GiveItemCreate("wastaff",Myself,0,0,0)  // Staff of Arundel +3
+END
+
+IF
   Allegiance(Myself,ENEMY)
   !GlobalTimerNotExpired("truesight","LOCALS")
   !GlobalTimerNotExpired("Iaspell","LOCALS")
