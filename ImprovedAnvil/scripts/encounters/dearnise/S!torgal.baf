@@ -158,6 +158,17 @@ THEN
 END
 
 IF
+  Detect([PC])
+  Global("Iatreasure4","LOCALS",0)
+  Global("Iablackbloodplace","GLOBAL",2)
+THEN
+  RESPONSE #100
+    SetGlobal("Iablackbloodplace","GLOBAL",5)
+    SetGlobal("Iatreasure4","LOCALS",1)
+    GiveItemCreate("blun22",Myself,0,0,0)  // Club +2, Blackblood
+END
+
+IF
   Allegiance(Myself,ENEMY)
   !GlobalTimerNotExpired("Iaspell","LOCALS")
   !CheckStatGT(Myself,0,SCRIPTINGSTATE9)
