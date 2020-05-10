@@ -604,11 +604,6 @@ IF
   Allegiance(Myself,ENEMY)
   Detect([PC])
   Global("Iatreasure3","LOCALS",0)
-  Class(Player1,MAGE_ALL)
-  !Class(Player1,FIGHTER_ALL)
-  !Class(Player1,THIEF_ALL)
-  !Class(Player1,CLERIC_ALL)
-  CheckStat(Player1,6,SCRIPTINGSTATE1)
   Global("Iapcastts","GLOBAL",0)
 THEN
   RESPONSE #100
@@ -626,6 +621,18 @@ THEN
   RESPONSE #100
     SetGlobal("Iatreasure4","LOCALS",1)
     GiveItemCreate("S!misc41",Myself,0,0,0) //
+END
+
+IF
+	Allegiance(Myself,ENEMY)
+	Detect([PC])
+	Global("Iatreasure5","LOCALS",0)
+	Global("Iadragonbladeplace","GLOBAL",1)
+THEN
+	RESPONSE #100
+		SetGlobal("Iadragonbladeplace","GLOBAL",5)
+		SetGlobal("Iatreasure5","LOCALS",1)
+		GiveItemCreate("bdsw2h01",Myself,0,0,0)  // Dragon Blade +3
 END
 
 IF
