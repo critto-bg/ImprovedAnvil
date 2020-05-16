@@ -40,6 +40,24 @@ THEN
 END
 
 IF
+  Allegiance(Myself,ENEMY)
+  InMyArea(Player1)
+  See(NearestEnemyOf(Myself))
+  !Global("Chapter","GLOBAL",5)
+  Global("IAchaptercheck","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("IAchaptercheck","LOCALS",1)
+    DestroyGold(5000)
+    DestroyItem("S!scrol02")
+    DestroyItem("S!scrol03")
+    DestroyItem("potn33")
+    DestroyItem("S!scrol09")
+    DestroyItem("scrla4")
+    Continue()
+END
+
+IF
   See(NearestEnemyOf(Myself))
   Global("partyfled","LOCALS",1)
 THEN
