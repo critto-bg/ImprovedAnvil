@@ -28,7 +28,7 @@ THEN
   RESPONSE #100
     DisplayString(Myself,50657)  // ~You turn a page in the ancient tome, and a magic portal suddenly opens spawning a blood thirsty monster!~
     SetGlobal("toggle","AR1513",0)
-    SetGlobalTimer("Ianorest","AR1513",600)
+    SetGlobalTimer("Ianorest","AR1513",1200)
     IncrementGlobal("page","AR1513",1)
     CreateVisualEffect("SPPLANAR",[2196.634])
     Wait(2)
@@ -166,6 +166,21 @@ IF
   Clicked([ANYONE])
   Global("toggle","AR1513",1)
   Global("page","AR1513",10)
+THEN
+  RESPONSE #100
+    DisplayString(Myself,50657)  // ~You turn a page in the ancient tome, and a magic portal suddenly opens spawning a blood thirsty monster!~
+    SetGlobal("toggle","AR1513",0)
+    SetGlobalTimer("Iatoggle","AR1513",6)
+    IncrementGlobal("page","AR1513",1)
+    CreateVisualEffect("SPPLANAR",[2196.634])
+    Wait(2)
+    CreateCreature("S!elegol",[2196.634],10)  //
+END
+
+IF
+  Clicked([ANYONE])
+  Global("toggle","AR1513",1)
+  Global("page","AR1513",11)
   Global("Iarested","AR1513",0)
 THEN
   RESPONSE #100
@@ -183,7 +198,7 @@ END
 IF
   Clicked([ANYONE])
   Global("toggle","AR1513",1)
-  Global("page","AR1513",10)
+  Global("page","AR1513",11)
   Global("Iarested","AR1513",1)
 THEN
   RESPONSE #100
