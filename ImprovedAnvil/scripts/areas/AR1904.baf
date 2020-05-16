@@ -1,4 +1,4 @@
-//Troll's Lair //////////////
+/// Troll's Lair ///
 
 IF
   InMyArea(Player1)
@@ -184,4 +184,50 @@ THEN
       SetGlobal("Iaitem10","AR1904",1)
       SetGlobal("Iamalakplace","GLOBAL",5)
       ActionOverride("Container 2",CreateItem("sw1h45",0,0,0)) //
+END
+
+IF
+  InMyArea(Player1)
+  Global("Iaexit","AR1904",2)
+  Global("Tftimer","AR1904",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Tftimer","AR1904",1)
+    SetGlobalTimer("Tfspawn","AR1904",SEVEN_DAYS)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Tftimer","AR1904",1)
+  Global("Tfcreature","AR1904",0)
+  GlobalTimerExpired("Tfspawn","AR1904")
+THEN
+  RESPONSE #100
+    SetGlobal("Tfcreature","AR1904",1)
+    CreateCreature("S!weagua",[857.937],SEE)
+    TriggerActivation("AR1900",FALSE)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Tfbattle","AR1904",1)
+  Global("Tfcreature","AR1904",1)
+  Global("Tfsummons","AR1904",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Tfsummons","AR1904",1)
+    CreateCreature("S!elego1",[980.596],S)  // Elemental Golem
+    CreateCreature("S!elego1",[1172.596],S)  // Elemental Golem
+END
+
+IF
+  InMyArea(Player1)
+  Global("Tfcreature","AR1904",1)
+  Global("Tfsummons","AR1904",1)
+  Dead("S!weagua")
+  CombatCounter(0)
+THEN
+  RESPONSE #100
+    SetGlobal("Tfcreature","AR1904",2)
+    TriggerActivation("AR1900",TRUE)
 END

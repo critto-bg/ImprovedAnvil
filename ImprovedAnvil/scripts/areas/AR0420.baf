@@ -1,4 +1,4 @@
-// Lizardmen Hideout //////////////
+/// Lizardmen Hideout ///
 
 IF
   Global("Iaitem","AR0420",0)
@@ -6,4 +6,14 @@ THEN
    RESPONSE #100
      SetGlobal("Iaitem","AR0420",1)
      ActionOverride("Container 1",DestroyItem("leat03")) //
+END
+
+IF
+  InMyArea(Player1)
+  GlobalGT("Chapter","GLOBAL",5)
+  Global("Tfcre","AR0420",0)
+THEN
+   RESPONSE #100
+     SetGlobal("Tfcre","AR0420",1)
+     CreateCreature("S!roec01",[728.320],2)  //
 END

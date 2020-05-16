@@ -1,4 +1,4 @@
-//Beholders cave underdark //////////////
+/// Beholders cave underdark ///
 
 IF
   Global("Iaexit","AR2101",0)
@@ -62,4 +62,36 @@ THEN
       ActionOverride("Hidden 3",CreateItem("potn52",0,0,0)) //
       ActionOverride("Hidden 5",CreateItem("scrl75",0,0,0)) //
       ActionOverride("Hidden 6",CreateItem("scrl5d",0,0,0)) //
+END
+
+IF
+  InMyArea(Player1)
+  Global("Tfcre","AR2101",0)
+THEN
+   RESPONSE #100
+     SetGlobal("Tfcre","AR2101",1)
+     CreateCreature("S!crogua",[1717.1333],9)  //
+END
+
+
+IF
+  InMyArea(Player1)
+  Global("Tfexit","AR2101",1)
+  Global("Tfcre","AR2101",1)
+  Global("Iaexit","AR2101",2)
+THEN
+   RESPONSE #100
+     SetGlobal("Tfexit","AR2101",2)
+     TriggerActivation("Exit2100",FALSE)
+END
+
+IF
+  InMyArea(Player1)
+  Global("Tfexit","AR2101",2)
+  Dead("S!crogua") //
+  CombatCounter(0)
+THEN
+   RESPONSE #100
+     SetGlobal("Tfexit","AR2101",3)
+     TriggerActivation("Exit2100",TRUE)
 END

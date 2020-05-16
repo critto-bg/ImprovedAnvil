@@ -17,6 +17,20 @@ END
 
 IF
   Allegiance(Myself,ENEMY)
+  Detect([PC])
+  !HPLT(Myself,1)
+  !GlobalTimerNotExpired("Tflord","LOCALS")
+  GlobalLT("Tfskel","LOCALS",6)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Tfskel","LOCALS",1)
+    SetGlobalTimer("Tflord","LOCALS",ONE_ROUND)
+    CreateCreatureObjectEffect("S!skelwl","",Myself)  // Skeleton Warlord
+    CreateCreatureObjectEffect("S!skelwl","",Myself)  // Skeleton Warlord
+END
+
+IF
+  Allegiance(Myself,ENEMY)
   !GlobalTimerNotExpired("Iaspell","LOCALS")
   !GlobalTimerNotExpired("Iaturntime","LOCALS")
   GlobalLT("Iaturning","LOCALS",2)
