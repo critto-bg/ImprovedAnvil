@@ -170,7 +170,8 @@ END
 
 IF ~Global("Iasupgowsent","AR3011",3) Global("Iasupgowattack","AR3011",0)~ THEN BEGIN 28
   SAY @3600
-  IF ~~ THEN DO ~GiveItemCreate("plot02a",[PC],0,0,0) SetGlobal("Iasupgowdead","GLOBAL",1) ReputationInc(1) DestroySelf()~ EXIT
+  IF ~~ THEN REPLY @3603 DO ~GiveItemCreate("plot02a",[PC],0,0,0) SetGlobal("Iasupgowdead","GLOBAL",1) THEN BEGIN 32 
+  IF ~~ THEN REPLY @3604 THEN GO TO 50~ EXIT
 END
 
 IF ~Global("Iasupgowsent","AR3011",0) Global("Iasupgowattack","AR3011",0) GlobalGT("Iasupgowtrick","AR3011",0)~ THEN BEGIN 27
@@ -198,4 +199,9 @@ END
 IF ~Global("Iasupgowsent","AR3011",0) Global("Iasupgowtalk","AR3011",0) Global("Iasupgowattack","AR3011",0)~ THEN BEGIN 31
   SAY @3602
   IF ~~ THEN DO ~SetGlobal("Iasupgowtalk","AR3011",1) SetGlobal("Iatoldleave","AR3011",1)~ EXIT
+END
+
+IF ~Global("Iasupgowsent","AR3011",3)  Global("Iasupgowtalk","AR3011",0) Global("Iasupgowattack","AR3011",0)~ THEN BEGIN 50
+  SAY @3594
+  IF ~~ THEN DO ~SetGlobal("Iasupgowattack","AR3011",1) ReputationInc(-2) Enemy()~ EXIT
 END
