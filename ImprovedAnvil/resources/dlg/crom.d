@@ -1745,8 +1745,8 @@ APPEND WSMITH01
 
   IF ~~ THEN BEGIN necro2
     SAY @595 IF ~~ THEN REPLY @2 GOTO 13
-     IF ~Global("Iaamul06forged","GLOBAL",0) Class(Player1,MAGE_ALL) CheckStat(Player1,6,SCRIPTINGSTATE1) !Class(Player1,THIEF_ALL) !Class(Player1,FIGHTER_ALL) !Class(Player1,CLERIC_ALL) !Class(Player1,SORCERER) PartyHasItem("S!amul05") Global("Iahespforged","GLOBAL",0) Dead("S!orcus") GlobalGT("Iaorcusdead","GLOBAL",0) PartyHasItem("S!misc06") PartyHasItem("S!misc29")
-         PartyGoldGT(89999)~
+    IF ~Global("Iaamul06forged","GLOBAL",0) Class(Player1,MAGE_ALL) CheckStat(Player1,6,SCRIPTINGSTATE1) !Class(Player1,THIEF_ALL) !Class(Player1,FIGHTER_ALL) !Class(Player1,CLERIC_ALL) !Class(Player1,SORCERER) PartyHasItem("S!amul05") Global("Iahespforged","GLOBAL",0) Dead("S!orcus") GlobalGT("Iaorcusdead","GLOBAL",0) PartyHasItem("S!misc06") PartyHasItem("S!misc29")
+        PartyGoldGT(89999)~
       THEN REPLY @3
       DO ~TakePartyGold(90000)      DestroyGold(90000)
           TakePartyItemNum("S!amul05",1)   DestroyItem("S!amul05")
@@ -2076,7 +2076,7 @@ APPEND WSMITH01
 
   IF ~~ THEN BEGIN dornblade
     SAY @631 IF ~~ THEN REPLY @2 GOTO 13
-    IF ~PartyHasItem("sw2h07") PartyHasItem("sw2h08") PartyHasItem("sw22d1")
+    IF ~PartyHasItem("sw2h07") PartyHasItem("sw2h08") PartyHasItem("sw2hd1")
 	PartyGoldGT(74999) PartyHasItem("s!misc66") 
 	PartyHasItem("helm17") PartyHasItem("s!misc06")
 	OR(4) PartyHasItem("ohdsw2ha")
