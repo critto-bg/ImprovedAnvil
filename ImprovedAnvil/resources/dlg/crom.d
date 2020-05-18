@@ -312,7 +312,7 @@ APPEND WSMITH01
 
     IF ~~ THEN BEGIN flail
     SAY @52 IF ~~ THEN REPLY @2 GOTO 13
-    IF Global("Iaflailplace","GLOBAL",3) GlobalGT("Chapter","GLOBAL",5) NumItemsPartyGT("blun32",1) PartyHasItem("blun24") PartyHasItem("waflail") NumItemsPartyGT("misc42",5) NumItemsPartyGT("miscal",9)
+    IF ~Global("Iaflailplace","GLOBAL",3) GlobalGT("Chapter","GLOBAL",5) NumItemsPartyGT("blun32",1) PartyHasItem("blun24") PartyHasItem("waflail") NumItemsPartyGT("misc42",5) NumItemsPartyGT("miscal",9)
         PartyGoldGT(149999)~
       THEN REPLY @3
       DO ~TakePartyGold(150000)      DestroyGold(150000)
