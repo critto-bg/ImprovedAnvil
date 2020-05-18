@@ -171,7 +171,9 @@ REPLACE BOTSMITH
     IF ~OR(2) PartyHasItem("s!misc64")
               PartyHasItem("s!misc65")~
       THEN REPLY @786 GOTO aeriehammer
-
+    IF ~OR(2) PartyHasItem("s!misc64")
+              PartyHasItem("s!misc65")~
+    IF ~PartyHasItem("sw2h16")~ THEN REPLY @788 GOTO sarevoksword
     IF ~~ THEN REPLY #992 EXIT
   END
 END

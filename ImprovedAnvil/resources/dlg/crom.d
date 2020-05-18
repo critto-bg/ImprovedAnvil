@@ -52,7 +52,7 @@ REPLACE WSMITH01
     IF ~PartyHasItem("ring41")~ THEN REPLY @37 GOTO r3
     IF ~PartyHasItem("ring39")~ THEN REPLY @38 GOTO r4
     IF ~PartyHasItem("sw2h09")~ THEN REPLY @39 GOTO war
-    IF ~Class(Player1,MAGE_ALL) !Class(Player1,CLERIC_ALL) !Class(Player1,FIGHTER_ALL) !Class(Player1,BARD_ALL) !Class(Player1,THIEF_ALL) PartyHasItem("clck29")~ THEN REPLY @40 GOTO robe
+    IF ~Class(Player1,MAGE_ALL) !Class(Player1,CLERIC_ALL) !Class(Player1,FIGHTER_ALL) !Class(Player1,BARD_ALL) !Class(Player1,THIEF_ALL) PartyHasItem("clck29"~ THEN REPLY @40 GOTO robe
     IF ~PartyHasItem("plat15")~ THEN REPLY @41 GOTO pride
     IF ~OR(4) PartyHasItem("chan03")
               PartyHasItem("chan09")
@@ -2035,7 +2035,7 @@ APPEND WSMITH01
   END
 
   IF ~~ THEN BEGIN palbracers
-    SAY @625 IF ~~ THEN REPLY @2 GOTO 13
+    SAY @627 IF ~~ THEN REPLY @2 GOTO 13
     IF ~PartyHasItem("brac22") PartyHasItem("brac09") PartyHasItem("brac20")
 	PartyGoldGT(29999) NumItemsPartyGT("potn14",1) 
 	NumItemsPartyGT("ring06",1) PartyHasItem("s!misc02")~
@@ -2056,7 +2056,7 @@ APPEND WSMITH01
   END
 
   IF ~~ THEN BEGIN earthstaff
-    SAY @627 IF ~~ THEN REPLY @2 GOTO 13
+    SAY @629 IF ~~ THEN REPLY @2 GOTO 13
     IF ~PartyHasItem("wastaff") PartyHasItem("staf16") PartyHasItem("staf14")
 	PartyGoldGT(99999) PartyHasItem("staf21") 
 	PartyHasItem("s!misc01") PartyHasItem("s!misc02")~
@@ -2075,7 +2075,7 @@ APPEND WSMITH01
   END
 
   IF ~~ THEN BEGIN dornblade
-    SAY @629 IF ~~ THEN REPLY @2 GOTO 13
+    SAY @631 IF ~~ THEN REPLY @2 GOTO 13
     IF ~PartyHasItem("sw2h07") PartyHasItem("sw2h08") PartyHasItem("sw22d1")
 	PartyGoldGT(74999) PartyHasItem("s!misc66") 
 	PartyHasItem("helm17") PartyHasItem("s!misc06")
@@ -2102,7 +2102,7 @@ APPEND WSMITH01
   END
 
   IF ~~ THEN BEGIN imoenamulet
-    SAY @631 IF ~~ THEN REPLY @2 GOTO 13
+    SAY @633 IF ~~ THEN REPLY @2 GOTO 13
     IF ~PartyHasItem("s!misc63") PartyHasItem("s!misc02") PartyHasItem("miscau")
 	PartyGoldGT(29999) NumItemsPartyGT("potn09",1) NumItemsPartyGT("amul14",1) 
 	NumItemsPartyGT("potn35",1)~
@@ -2124,7 +2124,7 @@ APPEND WSMITH01
   END
 
   IF ~~ THEN BEGIN minscblade
-    SAY @633 IF ~~ THEN REPLY @2 GOTO 13
+    SAY @635 IF ~~ THEN REPLY @2 GOTO 13
     IF ~PartyHasItem("was2h") PartyHasItem("bdsw2h01") PartyHasItem("sw2h12")
 	PartyGoldGT(74999) PartyHasItem("s!scrl07") 
 	PartyHasItem("s!misc06") PartyHasItem("sw2h02")~
@@ -2143,7 +2143,7 @@ APPEND WSMITH01
   END
 
   IF ~~ THEN BEGIN aeriehammer
-    SAY @635 IF ~~ THEN REPLY @2 GOTO 13
+    SAY @637 IF ~~ THEN REPLY @2 GOTO 13
     IF ~PartyHasItem("s!misc64") PartyHasItem("s!misc65") PartyHasItem("hamm12")
 	PartyGoldGT(74999) PartyHasItem("miscau") 
 	PartyHasItem("s!misc02")~
@@ -2161,7 +2161,7 @@ APPEND WSMITH01
   END
 
   IF ~~ THEN BEGIN sarevoksword
-    SAY @637 IF ~~ THEN REPLY @2 GOTO 13
+    SAY @639 IF ~~ THEN REPLY @2 GOTO 13
   END
 
   IF ~~ THEN BEGIN regular
