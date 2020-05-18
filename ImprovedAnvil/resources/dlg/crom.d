@@ -2162,7 +2162,6 @@ APPEND WSMITH01
 
   IF ~~ THEN BEGIN sarevoksword
     SAY @637 IF ~~ THEN REPLY @2 GOTO 13
-    EXIT
   END
 
   IF ~~ THEN BEGIN regular
