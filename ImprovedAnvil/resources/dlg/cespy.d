@@ -2025,7 +2025,7 @@ IF ~~ THEN BEGIN treefist
 
   IF ~~ THEN BEGIN dornblade
     SAY @781 IF ~~ THEN REPLY @2 GOTO 13
-    IF ~PartyHasItem("sw2h07") PartyHasItem("sw2h08") PartyHasItem("sw22d1")
+    IF ~PartyHasItem("sw2h07") PartyHasItem("sw2h08") PartyHasItem("sw2hd1")
 	PartyGoldGT(74999) PartyHasItem("s!misc66") 
 	PartyHasItem("helm17") PartyHasItem("s!misc06")
 	OR(4) PartyHasItem("ohdsw2ha")
