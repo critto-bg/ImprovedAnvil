@@ -52,7 +52,7 @@ REPLACE WSMITH01
     IF ~PartyHasItem("ring41")~ THEN REPLY @37 GOTO r3
     IF ~PartyHasItem("ring39")~ THEN REPLY @38 GOTO r4
     IF ~PartyHasItem("sw2h09")~ THEN REPLY @39 GOTO war
-    IF ~Class(Player1,MAGE_ALL) !Class(Player1,CLERIC_ALL) !Class(Player1,FIGHTER_ALL) !Class(Player1,BARD_ALL) !Class(Player1,THIEF_ALL) PartyHasItem("clck29"~ THEN REPLY @40 GOTO robe
+    IF ~Class(Player1,MAGE_ALL) !Class(Player1,CLERIC_ALL) !Class(Player1,FIGHTER_ALL) !Class(Player1,BARD_ALL) !Class(Player1,THIEF_ALL) PartyHasItem("clck29")~ THEN REPLY @40 GOTO robe
     IF ~PartyHasItem("plat15")~ THEN REPLY @41 GOTO pride
     IF ~OR(4) PartyHasItem("chan03")
               PartyHasItem("chan09")
