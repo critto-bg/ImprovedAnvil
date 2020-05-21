@@ -136,7 +136,7 @@ REPLACE WSMITH01
     IF ~PartyHasItem("hamm08")~ THEN REPLY @584 GOTO hamm1
     IF ~PartyHasItem("staf24")~ THEN REPLY @586 GOTO staff1
     IF ~PartyHasItem("S!staf06") Global("Iastaf07forged","GLOBAL",0)~ THEN REPLY @588 GOTO staff2
-    IF ~PartyHasItem("S!clck04")~ THEN REPLY @590 GOTO arcane
+    IF ~PartyHasItem("S!clck04") Class(Player1,MAGE_ALL)~ THEN REPLY @590 GOTO arcane
     IF ~PartyHasItem("S!helm07") GlobalGT("Iaoldsquijob","GLOBAL",3) GlobalGT("Iasquirjob","GLOBAL",8) Class(Player1,MAGE_ALL)~ THEN REPLY @592 GOTO scarlet
     IF ~PartyHasItem("S!amul05") Class(Player1,MAGE_ALL) CheckStat(Player1,6,SCRIPTINGSTATE1) !Class(Player1,THIEF_ALL) !Class(Player1,FIGHTER_ALL) !Class(Player1,CLERIC_ALL) !Class(Player1,SORCERER)~ THEN REPLY @594 GOTO necro2
     IF ~PartyHasItem("leat09")~ THEN REPLY @596 GOTO swash
@@ -444,7 +444,7 @@ APPEND WSMITH01
 
   IF ~~ THEN BEGIN judge
     SAY @59 IF ~~ THEN REPLY @2 GOTO 13
-    IF ~Alignment(Player1,MASK_GOOD) Global("Iajdplot","GLOBAL",1) Dead("gorgit") Dead("S!dlord") PartyHasItem("S!misc07") PartyHasItem("S!misc17") PartyHasItem("S!misc06") PartyHasItem("S!misc08") PartyHasItem("S!misc02") PartyHasItem("sw1h60") PartyHasItem("scrl9x") PartyHasItem("scrl9d") PartyHasItem("scrlb4") Dead("fsdragon")
+  IF ~Alignment(Player1,MASK_GOOD) Global("Iajdplot","GLOBAL",1) Dead("gorgit") Dead("S!dlord") PartyHasItem("S!misc07") PartyHasItem("S!misc17") PartyHasItem("S!misc06") PartyHasItem("S!misc08") PartyHasItem("S!misc02") PartyHasItem("sw1h60") PartyHasItem("scrl9x") PartyHasItem("scrl9d") PartyHasItem("scrlb4") !Class(Player1,THIEF_ALL) !Class(Player1,BARD_ALL) !Class(Player1,CLERIC_ALL) !Class(Player1,MAGE_ALL) !Class(Player1,DRUID_ALL) !Class(Player1,MONK) Dead("fsdragon")
         PartyGoldGT(249999)~
       THEN REPLY @3
       DO ~TakePartyGold(250000)      DestroyGold(250000)
@@ -1612,7 +1612,7 @@ APPEND WSMITH01
 
   IF ~~ THEN BEGIN wyrm
     SAY @577 IF ~~ THEN REPLY @2 GOTO 13
-    IF ~Global("Iagrplatforged","GLOBAL",0) PartyHasItem("S!scaleg") Dead("S!draggr") XPGT(Player1,4249999) GlobalGT("Iadraggrdead","GLOBAL",0)
+    IF ~Global("Iagrplatforged","GLOBAL",0) PartyHasItem("S!scaleg") Dead("S!draggr") !Alignment(Player1,MASK_EVIL) !GlobalGT("Iap1notgood","GLOBAL",0) XPGT(Player1,4249999) GlobalGT("Iadraggrdead","GLOBAL",0)
         PartyGoldGT(74999)~
       THEN REPLY @3
       DO ~TakePartyGold(75000)      DestroyGold(75000)
