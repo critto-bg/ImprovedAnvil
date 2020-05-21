@@ -1575,7 +1575,7 @@ APPEND WSMITH01
 
   IF ~~ THEN BEGIN vagran
     SAY @573 IF ~~ THEN REPLY @2 GOTO 13
-    IF ~Global("Iacoralforged","GLOBAL",0)  Class(Player1,RANGER_ALL) Global("Iamvagrant","GLOBAL",1) PartyHasItem("S!leat04") PartyHasItem("S!misc34") PartyHasItem("S!clck03")
+    IF ~Global("Iacoralforged","GLOBAL",0) Class(Player1,RANGER_ALL) Global("Iamvagrant","GLOBAL",1) PartyHasItem("S!leat04") PartyHasItem("S!misc34") PartyHasItem("S!clck03")
         PartyGoldGT(59999)~
       THEN REPLY @3
       DO ~TakePartyGold(60000)      DestroyGold(60000)
