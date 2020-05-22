@@ -1,3 +1,4 @@
+
 REPLACE BOTSMITH
 
   IF ~~ THEN BEGIN 4
@@ -171,8 +172,6 @@ REPLACE BOTSMITH
     IF ~OR(2) PartyHasItem("s!misc64")
               PartyHasItem("s!misc65")~
       THEN REPLY @786 GOTO aeriehammer
-    IF ~OR(2) PartyHasItem("s!misc64")
-              PartyHasItem("s!misc65")~
     IF ~PartyHasItem("sw2h16")~ THEN REPLY @788 GOTO sarevoksword
     IF ~~ THEN REPLY #992 EXIT
   END
@@ -1986,7 +1985,7 @@ IF ~~ THEN BEGIN treefist
   IF ~~ THEN BEGIN palbracers
     SAY @777 IF ~~ THEN REPLY @2 GOTO 13
     IF ~PartyHasItem("brac22") PartyHasItem("brac09") PartyHasItem("brac20")
-	PartyGoldGT(29999) NumItemsPartyGT("potn14",1) 
+	PartyGoldGT(29999) NumItemsPartyGT("potn14",1)
 	NumItemsPartyGT("ring06",1) PartyHasItem("s!misc02")~
       THEN REPLY @3
       DO ~SetGlobal("Iapalbracersforged","GLOBAL",1)
@@ -2007,7 +2006,7 @@ IF ~~ THEN BEGIN treefist
   IF ~~ THEN BEGIN earthstaff
     SAY @779 IF ~~ THEN REPLY @2 GOTO 13
     IF ~PartyHasItem("wastaff") PartyHasItem("staf16") PartyHasItem("staf14")
-	PartyGoldGT(99999) PartyHasItem("staf21") 
+	PartyGoldGT(99999) PartyHasItem("staf21")
 	PartyHasItem("s!misc01") PartyHasItem("s!misc02")~
       THEN REPLY @3
       DO ~SetGlobal("Iaearthstaffforged","GLOBAL",1)
@@ -2026,7 +2025,7 @@ IF ~~ THEN BEGIN treefist
   IF ~~ THEN BEGIN dornblade
     SAY @781 IF ~~ THEN REPLY @2 GOTO 13
     IF ~PartyHasItem("sw2h07") PartyHasItem("sw2h08") PartyHasItem("sw2hd1")
-	PartyGoldGT(74999) PartyHasItem("s!misc66") 
+	PartyGoldGT(74999) PartyHasItem("s!misc66")
 	PartyHasItem("helm17") PartyHasItem("s!misc06")
 	OR(4) PartyHasItem("ohdsw2ha")
               PartyHasItem("ohdsw2hb")
@@ -2053,7 +2052,7 @@ IF ~~ THEN BEGIN treefist
   IF ~~ THEN BEGIN imoenamulet
     SAY @783 IF ~~ THEN REPLY @2 GOTO 13
     IF ~PartyHasItem("s!misc63") PartyHasItem("s!misc02") PartyHasItem("miscau")
-	PartyGoldGT(29999) NumItemsPartyGT("potn09",1) NumItemsPartyGT("amul14",1) 
+	PartyGoldGT(29999) NumItemsPartyGT("potn09",1) NumItemsPartyGT("amul14",1)
 	NumItemsPartyGT("potn35",1)~
       THEN REPLY @3
       DO ~SetGlobal("Iaimoenamuletforged","GLOBAL",1)
@@ -2075,7 +2074,7 @@ IF ~~ THEN BEGIN treefist
   IF ~~ THEN BEGIN minscblade
     SAY @785 IF ~~ THEN REPLY @2 GOTO 13
     IF ~PartyHasItem("was2h") PartyHasItem("bdsw2h01") PartyHasItem("sw2h12")
-	PartyGoldGT(74999) PartyHasItem("s!scrl07") 
+	PartyGoldGT(74999) PartyHasItem("s!scrl07")
 	PartyHasItem("s!misc06") PartyHasItem("sw2h02")~
       THEN REPLY @3
       DO ~SetGlobal("Iaminscbladeforged","GLOBAL",1)
@@ -2094,7 +2093,7 @@ IF ~~ THEN BEGIN treefist
   IF ~~ THEN BEGIN aeriehammer
     SAY @787 IF ~~ THEN REPLY @2 GOTO 13
     IF ~PartyHasItem("s!misc64") PartyHasItem("s!misc65") PartyHasItem("hamm12")
-	PartyGoldGT(74999) PartyHasItem("miscau") 
+	PartyGoldGT(74999) PartyHasItem("miscau")
 	PartyHasItem("s!misc02")~
       THEN REPLY @3
       DO ~SetGlobal("Iaaeriehammerforged","GLOBAL",1)
