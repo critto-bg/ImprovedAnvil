@@ -1,0 +1,114 @@
+/// The component simplifies the in-game economy by replacing lots of loot with its selling price in gold ///
+
+// set up the arrays //
+
+PRINT "Setting up (this may take a long time)..."
+
+SILENT
+
+COPY - "ImprovedAnvil/lib/tables/economy_containers_items.2da" "inlined/economy_containers_items.2da"
+  COUNT_2DA_ROWS 3 num_rows
+
+  FOR (num = 1; num < num_rows; num += 1) BEGIN
+    READ_2DA_ENTRY num 0 3 area
+    READ_2DA_ENTRY num 1 3 item_res
+    READ_2DA_ENTRY num 2 3 gold
+
+    SPRINT $economy_container_items("%area%" "%item_res%" "%gold%") "%num%"
+  END
+
+COPY - "ImprovedAnvil/lib/tables/economy_creatures_items.2da" "inlined/economy_creatures_items.2da"
+  COUNT_2DA_ROWS 2 num_rows
+
+  FOR (num = 1; num < num_rows; num += 1) BEGIN
+    READ_2DA_ENTRY num 0 2 cre_res
+    READ_2DA_ENTRY num 1 2 item_res
+
+    SPRINT $economy_creatures_items("%cre_res%" "%item_res%") "%num%"
+  END
+
+COPY - "ImprovedAnvil/lib/tables/economy_creatures_gold.2da" "inlined/economy_creatures_gold.2da"
+  COUNT_2DA_ROWS 2 num_rows
+
+  FOR (num = 1; num < num_rows; num += 1) BEGIN
+    READ_2DA_ENTRY num 0 2 cre_res
+    READ_2DA_ENTRY num 1 2 gold
+
+    SPRINT $economy_creatures_gold("%cre_res%" "%gold%") "%num%"
+  END
+
+// replace the items //
+
+PRINT "Replacing items in the containers with gold..."
+
+SILENT
+
+ACTION_PHP_EACH economy_container_items AS record => int BEGIN
+  COPY_EXISTING ~%record_0%.are~ ~override/%record_0%.are~
+    LAUNCH_PATCH_FUNCTION ~REPLACE_AREA_ITEM~
+      INT_VAR
+        charges1 = record_2
+      STR_VAR
+        old_item = EVALUATE_BUFFER "%record_1%"
+        new_item = ~MISC07~
+    END
+
+    BUT_ONLY
+END
+
+PRINT "Replacing items on creatures with gold..."
+
+SILENT
+
+ACTION_PHP_EACH economy_creatures_items AS record => int BEGIN
+  COPY_EXISTING ~%record_0%.cre~ ~override/%record_0%.cre~
+    GET_OFFSET_ARRAY items CRE_V10_ITEMS
+
+    PHP_EACH items AS int => items_off BEGIN
+      READ_ASCII items_off item (8) NULL
+
+      PATCH_IF ("%item%" STRING_COMPARE_CASE "%record_1%" = 0) BEGIN // find the item
+        READ_BYTE 0x010 + items_off itemflags
+        WRITE_BYTE 0x10 + items_off (itemflags BOR 0b00001010) // set Unstealable and undroppable flags
+      END
+    END
+
+    BUT_ONLY
+END
+
+ACTION_PHP_EACH economy_creatures_gold AS record => int BEGIN
+  COPY_EXISTING ~%record_0%.cre~ ~override/%record_0%.cre~
+    ADD_CRE_ITEM ~MISC07~ (~%record_1%~) #0 #0 ~UNSTEALABLE~ ~INV~
+
+    BUT_ONLY
+END
+
+// do the cosmetics //
+
+PRINT "Updating dialogues..."
+
+SILENT
+
+COMPILE ~ImprovedAnvil/resources/dlg/crom.simplified.d~
+  USING ~%LANGUAGE%crom.simplified.tra~
+
+COMPILE ~ImprovedAnvil/resources/dlg/cespy.simplified.d~
+  USING ~%LANGUAGE%cespy.simplified.tra~
+
+// add some adamantine dust to the "exit from underdark" area //
+
+PRINT "A few last changes..."
+
+SILENT
+
+COPY_EXISTING ~AR2401.are~ ~override/AR2401.are~
+  LAUNCH_PATCH_FUNCTION ~ADD_AREA_ITEM~
+    STR_VAR
+      item_to_add = ~dwdust~
+      container_to_add_to = ~1~
+      charges1 = ~5~
+  END
+
+  BUT_ONLY
+
+// the end //

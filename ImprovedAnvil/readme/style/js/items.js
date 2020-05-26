@@ -37,10 +37,10 @@ var gear = [
                 "item_name": "Enhanced Pride of the Legion +4",
                 "components": [
                     "Pride of the Legion",
-                     "Red Dragon Scale Armor",
-                     "Full Plate +2 (acquired through Limited Wish)",
-                     "20,000 gp (Crom)",
-                     "40,000 gp (Cespenar)"
+                    "Red Dragon Scale Armor",
+                    "Full Plate +2 (acquired through Limited Wish)",
+                    "20,000 gp (Crom)",
+                    "40,000 gp (Cespenar)"
                 ],
                 "attributes": [
                     {
@@ -133,11 +133,13 @@ var gear = [
                     "Shadow Armor",
                     "The Night's Gift",
                     "Armor of Deep Night",
-                    "three Horn Coral Gems",
                     "Spirit Armor scroll",
                     "Potion of Perception (not created by Alchemy)",
                     "Permanency Scroll",
                     "30,000 gp"
+                ],
+                "simplified": [
+                    "three Horn Coral Gems"
                 ],
                 "attributes": [
                     {
@@ -210,9 +212,11 @@ var gear = [
                     "Ankheg Plate Mail",
                     "Gorgon Plate +4",
                     "Tabitha's Hide",
-                    "Three Bloodstone gems",
-                    "Three Fire Agate Gems",
                     "50,000 gp"
+                ],
+                "simplified": [
+                    "Three Bloodstone gems",
+                    "Three Fire Agate Gems"
                 ],
                 "attributes": [
                     {
@@ -435,9 +439,11 @@ var gear = [
                     "Lock of Cloud Giant's beard",
                     "A non-magical girdle",
                     "Three potions of Cloud Giant Strength",
-                    "Three Skydrop gems",
                     "Permanency Scroll",
                     "30,000 gp"
+                ],
+                "simplified": [
+                    "Three Skydrop gems"
                 ],
                 "attributes": [
                     {
@@ -454,8 +460,10 @@ var gear = [
                     "Gauntlets of Crushing",
                     "The Hand of Dace",
                     "Gauntlets of Weapon Expertise",
-                    "Eight Chrysoberyl gems",
                     "80,000 gp"
+                ],
+                "simplified": [
+                    "Eight Chrysoberyl gems"
                 ],
                 "attributes": [
                     {
@@ -578,9 +586,11 @@ var gear = [
                     "Dusty Rose Ioun Stone",
                     "Pale Green Ioun Stone",
                     "Pearly White Ioun Stone",
-                    "Three Ziose gems",
-                    "Three Iol gems",
                     "20,000 gp"
+                ],
+                "simplified": [
+                    "Three Ziose gems",
+                    "Three Iol gems"
                 ],
                 "attributes": [
                     {
@@ -599,8 +609,10 @@ var gear = [
                 "components": [
                     "Dragon Helm",
                     "Helmet of Defense",
-                    "Three Fire Agate gems",
                     "40,000 gp"
+                ],
+                "simplified": [
+                    "Three Fire Agate gems"
                 ],
                 "attributes": [
                     {
@@ -665,10 +677,12 @@ var gear = [
             {
                 "components": [
                     "Three +1 Bucklers",
+                    "20,000 gp"
+                ],
+                "simplified": [
                     "Three Rogue Stones",
                     "Three Emeralds",
-                    "Three Aquamarine Gems",
-                    "20,000 gp"
+                    "Three Aquamarine Gems"
                 ],
                 "attributes": [
                     {
@@ -771,8 +785,10 @@ var gear = [
             {
                 "components": [
                     "Two Rings of Protection +2",
-                    "A Rogue Stone",
                     "60,000 gp"
+                ],
+                "simplified": [
+                    "A Rogue Stone"
                 ],
                 "attributes": [
                     {
@@ -788,8 +804,10 @@ var gear = [
             {
                 "components": [
                     "Two Rings of Protection +3",
-                    "Two Rogue Stones",
                     "90,000 gp"
+                ],
+                "simplified": [
+                    "Two Rogue Stones"
                 ],
                 "attributes": [
                     {
@@ -856,7 +874,7 @@ var gear = [
                         ]
                     }
                 ],
-                "item_name": "Talisman of greater protection"
+                "item_name": "Talisman of Greater Protection"
             },
             {
                 "components": [
@@ -929,8 +947,10 @@ var gear = [
                     "Ring of Lock Picks",
                     "Gloves of Pick Pocketing",
                     "Ring of Protection +1",
-                    "Two Rogue Stones",
                     "30,000 gp"
+                ],
+                "simplified": [
+                    "Two Rogue Stones"
                 ],
                 "attributes": [
                     {
@@ -955,8 +975,10 @@ var gear = [
             {
                 "components": [
                     "Two Cloaks of Protection +1",
-                    "Laeral's Tear Necklace",
                     "30,000 gp"
+                ],
+                "simplified": [
+                     "Laeral's Tear Necklace"
                 ],
                 "attributes": [
                     {
@@ -972,9 +994,11 @@ var gear = [
             {
                 "components": [
                     "Two Cloaks Of Protection +2",
-                    "Two Laeral's Tear Necklaces",
                     "60,000 gp",
                     "(Cromwell only)"
+                ],
+                "simplified": [
+                     "Two Laeral's Tear Necklaces"
                 ],
                 "attributes": [
                     {
@@ -1222,10 +1246,12 @@ var gear = [
                     "Belt of Inertial Barrier",
                     "T'rahcie's Plate +5",
                     "Three Beljurils",
-                    "Five Star Sapphires",
                     "Manual of Elaboration",
                     "Party Reputation is 20",
                     "75,000 gp"
+                ],
+                "simplified": [
+                    "Five Star Sapphires"
                 ],
                 "attributes": [
                     {
@@ -1567,8 +1593,10 @@ var weapons = [
                     "Scales of a White Dragon",
                     "Ice Library Note",
                     "A Wand of Frost",
-                    "An Aquamarine gem",
                     "50,000 gp"
+                ],
+                "simplified": [
+                    "An Aquamarine gem"
                 ],
                 "attributes": [
                     {
@@ -1597,8 +1625,10 @@ var weapons = [
             {
                 "components": [
                     "Two +1 flails",
-                    "Two Emeralds",
                     "5,000 gp"
+                ],
+                "simplified": [
+                    "Two Emeralds"
                 ],
                 "item_name": "Flail +2"
             },
@@ -1617,9 +1647,11 @@ var weapons = [
                     "Defender of Easthaven",
                     "Gnasher club",
                     "Two +3 Flails",
-                    "six Diamonds",
                     "Ten Mithril Tokens",
                     "150,000 gp"
+                ],
+                "simplified": [
+                    "six Diamonds"
                 ],
                 "attributes": [
                     {
@@ -1728,8 +1760,10 @@ var weapons = [
             {
                 "components": [
                     "Two +1 Daggers",
-                    "One Diamond",
                     "5,000 gp"
+                ],
+                "simplified": [
+                    "One Diamond"
                 ],
                 "attributes": [],
                 "item_name": "Dagger +2"
@@ -1748,9 +1782,11 @@ var weapons = [
                 "components": [
                     "Two +3 Daggers",
                     "Neb's Nasty Cutter",
-                    "Three Diamonds",
                     "Manual of Elaboration",
                     "75,000 gp"
+                ],
+                "simplified": [
+                    "Three Diamonds"
                 ],
                 "attributes": [
                     {
@@ -1780,6 +1816,9 @@ var weapons = [
                     "Four Diamonds",
                     "150,000 gp"
                 ],
+                "simplified": [
+                    "Four Diamonds"
+                ],
                 "attributes": [
                     {
                         "section_name": "Abilities",
@@ -1808,9 +1847,11 @@ var weapons = [
                     "Kundane +2",
                     "Short Sword +3",
                     "Long Sword +3",
-                    "Four Diamonds",
-                    "Four Bloodstone gems",
                     "75,000 gp"
+                ],
+                "simplified": [
+                    "Four Diamonds",
+                    "Four Bloodstone gems"
                 ],
                 "attributes": [
                     {
@@ -2068,7 +2109,6 @@ var weapons = [
                 "item_name": "Long Sword +4"
             }
         ]
-
     },
     {
         "category_name": "Katanas & Scimitars",
@@ -2144,9 +2184,11 @@ var weapons = [
                     "Carsomyr +5",
                     "Holy Scabbard",
                     "48-sided Garnet",
-                    "Three Star Sapphire gems",
                     "50,000 gp",
                     "(Cromwell only)"
+                ],
+                "simplified": [
+                    "Three Star Sapphire gems"
                 ],
                 "attributes": [
                     {
@@ -2201,8 +2243,10 @@ var weapons = [
                     "Sword of Chaos +2",
                     "Three +3 two-handed swords",
                     "Manual of Elaboration",
-                    "Four Diamonds",
                     "100,000 gp"
+                ],
+                "simplified": [
+                    "Four Diamonds"
                 ],
                 "attributes": [
                     {
@@ -2266,8 +2310,10 @@ var weapons = [
             {
                 "components": [
                     "Two +1 halberds",
-                    "One Emerald",
                     "10,000 gp"
+                ],
+                "simplified": [
+                    "One Emerald"
                 ],
                 "attributes": [],
                 "item_name": "Halberd +2"
@@ -2288,10 +2334,12 @@ var weapons = [
                     "Halberd +3",
                     "Halberd +2, Duskblade",
                     "Battle Axe +3: Frostreaver",
-                    "Aquamarine, Pearl and Water Opal gems",
                     "Scroll of Protection from Cold (green)",
                     "Permanency Scroll",
                     "150,000 gp"
+                ],
+                "simplified": [
+                    "Aquamarine, Pearl and Water Opal gems"
                 ],
                 "attributes": [
                     {
@@ -2313,8 +2361,10 @@ var weapons = [
             {
                 "components": [
                     "Two +1 spears",
-                    "Two Emeralds",
                     "5,000 gp"
+                ],
+                "simplified": [
+                    "Two Emeralds"
                 ],
                 "attributes": [],
                 "item_name": "Spear +2"
@@ -2933,8 +2983,10 @@ var misc = [
                 "components": [
                     "Elven Ancestors' Legacy",
                     "Manual of Elaboration",
-                    "Two King's Tears",
                     "50000 gp"
+                ],
+                "simplified": [
+                    "Two King's Tears"
                 ],
                 "attributes": [
                     {
@@ -2987,9 +3039,11 @@ var misc = [
                 "components": [
                     "Iron Horn of Valhalla",
                     "A pile of Adamantine dust",
-                    "Two king's Tears",
-                    "Two Diamonds",
                     "10,000 gp"
+                ],
+                "simplified": [
+                    "Two king's Tears",
+                    "Two Diamonds"
                 ],
                 "attributes": [
                     {

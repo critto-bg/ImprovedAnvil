@@ -50,6 +50,7 @@
                     <li><a href="fixes.html">Fixes &amp; Tweaks</a></li>
                     <li><a href="kits.html">Kits</a></li>
                     <li><a href="the_four.html">The Four</a></li>
+                    <li><a href="simplified_economy.html">Simplified economy</a></li>
 		        </ul>
 			</li>
 			<li><a href="#">Tables</a>
@@ -79,7 +80,11 @@
 
             <p>Here, you will find information about all new items and their required components.</p>
 
-            <p><span class="lite1">Note:</span> some of the upgrade ingredients you will see below are brand new items added by this mod to the game. These new components are rare and hard-to-attain. Think well before deciding to use any of them, because there is no guarantee that you will find them soon again during the game.</p>
+            <p><span class="lite1">Note 1:</span> some of the upgrade ingredients you will see below are brand new items added by this mod to the game. These new components are rare and hard-to-attain. Think well before deciding to use any of them, because there is no guarantee that you will find them soon again during the game.</p>
+
+            <p><span class="lite1">Note 2:</span> some of the upgrade ingredients are categorized as gems and trinkets. If you have an optional component "Simplified economy" installed, the blacksmiths won't require these anymore to craft the item.</p>
+
+            <input type="checkbox" name="simplified" checked>
 
             <h4 id="gear">Gear</h4>
 
@@ -100,10 +105,21 @@
 
                 <div class="components">
                     <ul>
+                        <li><strong>Main ingredients</strong>:</li>
                         {{#each components}}
                         <li>{{this}}</li>
                         {{/each}}
                     </ul>
+
+                    {{#if simplified}}
+                    <ul>
+                        <li><strong>Gems and trinkets</strong>:</li>
+                        {{#each simplified}}
+                        <li>{{this}}</li>
+                        {{/each}}
+                    </ul>
+                    {{/if}}
+
                 </div>
 
                 {{#if attributes}}
