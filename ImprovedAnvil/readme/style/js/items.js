@@ -2299,7 +2299,6 @@ var weapons = [
                             "Regenerates 1HP per round",
                             "THAC0: +5 bonus",
                             "Damage: 1D10 + 5, +10 vs. dragons.",
-                            "Damage type: piercing or slashing",
                             "10% chance to fire a red dragon breath on each successful hit damaging only the wielder's enemies",
                             "20% chance to inflict 10 points of additional Acid damage and 10 points of additional Fire damage"
                         ]
@@ -2352,7 +2351,7 @@ var weapons = [
                             "THAC0: +5",
                             "Damage: D10 +5",
                             "Proficiency Type: Halberd",
-                            "Damage Type: Piercing or slashing"
+                            "Damage Type: Piercing"
                         ]
                     }
                 ],
