@@ -127,7 +127,7 @@ REPLACE WSMITH01
     IF ~OR(2) PartyHasItem("S!misc30")
               PartyHasItem("S!misc31")~
       THEN REPLY @570 GOTO ttruth
-    IF ~PartyHasItem("S!leat04") Class(Player1,RANGER_ALL) CheckStat(Player1,7,SCRIPTINGSTATE1) Global("Iamvagrant","GLOBAL",1)~ THEN REPLY @572 GOTO vagran
+    IF ~PartyHasItem("S!leat04") Class(Player1,RANGER_ALL) Kit(Player1,VAGRANT) Global("Iamvagrant","GLOBAL",1)~ THEN REPLY @572 GOTO vagran
     IF ~PartyHasItem("npplat") Reputation(Player1,20)~ THEN REPLY @574 GOTO keldorn
     IF ~PartyHasItem("S!scaleg") !Alignment(Player1,MASK_EVIL) !GlobalGT("Iap1notgood","GLOBAL",0)~ THEN REPLY @576 GOTO wyrm
     IF ~PartyHasItem("S!scaler")~ THEN REPLY @578 GOTO ancient
@@ -138,7 +138,7 @@ REPLACE WSMITH01
     IF ~PartyHasItem("S!staf06") Global("Iastaf07forged","GLOBAL",0)~ THEN REPLY @588 GOTO staff2
     IF ~PartyHasItem("S!clck04") Class(Player1,MAGE_ALL)~ THEN REPLY @590 GOTO arcane
     IF ~PartyHasItem("S!helm07") GlobalGT("Iaoldsquijob","GLOBAL",3) GlobalGT("Iasquirjob","GLOBAL",8) Class(Player1,MAGE_ALL)~ THEN REPLY @592 GOTO scarlet
-    IF ~PartyHasItem("S!amul05") Class(Player1,MAGE_ALL) CheckStat(Player1,6,SCRIPTINGSTATE1) !Class(Player1,THIEF_ALL) !Class(Player1,FIGHTER_ALL) !Class(Player1,CLERIC_ALL) !Class(Player1,SORCERER)~ THEN REPLY @594 GOTO necro2
+    IF ~PartyHasItem("S!amul05") Class(Player1,MAGE_ALL) Kit(Player1,MAGESCHOOL_NECROMANCER) !Class(Player1,THIEF_ALL) !Class(Player1,FIGHTER_ALL) !Class(Player1,CLERIC_ALL) !Class(Player1,SORCERER)~ THEN REPLY @594 GOTO necro2
     IF ~PartyHasItem("leat09")~ THEN REPLY @596 GOTO swash
     IF ~GlobalGT("Chapter","GLOBAL",5) PartyHasItem("ohnmbird") PartyHasItem("ohnrobe2")~ THEN REPLY @598 GOTO neera
     IF ~GlobalGT("Chapter","GLOBAL",5) PartyHasItem("rsboot")~ THEN REPLY @600 GOTO rasaad
@@ -1745,7 +1745,7 @@ APPEND WSMITH01
 
   IF ~~ THEN BEGIN necro2
     SAY @595 IF ~~ THEN REPLY @2 GOTO 13
-    IF ~Global("Iaamul06forged","GLOBAL",0) Class(Player1,MAGE_ALL) CheckStat(Player1,6,SCRIPTINGSTATE1) !Class(Player1,THIEF_ALL) !Class(Player1,FIGHTER_ALL) !Class(Player1,CLERIC_ALL) !Class(Player1,SORCERER) PartyHasItem("S!amul05") Global("Iahespforged","GLOBAL",0) Dead("S!orcus") GlobalGT("Iaorcusdead","GLOBAL",0) PartyHasItem("S!misc06") PartyHasItem("S!misc29")
+    IF ~Global("Iaamul06forged","GLOBAL",0) Class(Player1,MAGE_ALL) Kit(Player1,MAGESCHOOL_NECROMANCER) !Class(Player1,THIEF_ALL) !Class(Player1,FIGHTER_ALL) !Class(Player1,CLERIC_ALL) !Class(Player1,SORCERER) PartyHasItem("S!amul05") Global("Iahespforged","GLOBAL",0) Dead("S!orcus") GlobalGT("Iaorcusdead","GLOBAL",0) PartyHasItem("S!misc06") PartyHasItem("S!misc29")
         PartyGoldGT(89999)~
       THEN REPLY @3
       DO ~TakePartyGold(90000)      DestroyGold(90000)
