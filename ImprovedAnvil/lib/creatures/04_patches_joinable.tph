@@ -1,163 +1,115 @@
 /// apply various patches to joinable NPCS ///
 
+// Anomen //
+
 COPY_EXISTING ~anomen6.cre~ ~override/anomen6.cre~
   WRITE_LONG  0x18  190000 // XP
   WRITE_BYTE  0x23b     17 // wisdom
-  READ_LONG 0x2A0 "knownsploffset"
-  READ_LONG 0x2A4 "knownsplcount"
-  READ_LONG 0x2A8 "smioffset"
-  READ_LONG 0x2B0 "msoffset"
-  READ_LONG 0x2B8 "isoffset"
-  READ_LONG 0x2BC "ioffset"
-  READ_LONG 0x2C4 "effoffset"
-  READ_LONG 0x2C8 "effcount"
-  SET "erasedeffects" = 0
-  WHILE ("%erasedeffects%" < "%effcount%") BEGIN
-   DELETE_BYTES "%effoffset%" 264
-   SET "erasedeffects" = "%erasedeffects%" + 1
+
+  SPRINT ~opcode_to_delete~ ~233~
+  LAUNCH_PATCH_MACRO ~DELETE_CRE_EFFECT~
+
+  // mace
+  LPF ~ADD_CRE_EFFECT~ INT_VAR
+    opcode = 233
+    timing = 9
+    parameter1 = 1
+    parameter2 = 101
+    probability1 = 100
   END
-  SET "moffset" = "%effoffset%"
-  INSERT_BYTES  "%moffset%" 264
-  WRITE_LONG  ("%moffset%"+ 8) 233
-  WRITE_LONG  ("%moffset%"+ 20) 1
-  WRITE_LONG  ("%moffset%"+ 24) 101
-  WRITE_LONG  ("%moffset%"+ 28) 9
-  WRITE_SHORT ("%moffset%"+ 36) 100
-  SET "moffset" = "%moffset%" + 264
-  INSERT_BYTES  "%moffset%" 264
-  WRITE_LONG  ("%moffset%"+ 8) 233
-  WRITE_LONG  ("%moffset%"+ 20) 36
-  WRITE_LONG  ("%moffset%"+ 24) 100
-  WRITE_LONG  ("%moffset%"+ 28) 9
-  WRITE_SHORT ("%moffset%"+ 36) 100
-  SET "moffset" = "%moffset%" + 264
-  INSERT_BYTES  "%moffset%" 264
-  WRITE_LONG  ("%moffset%"+ 8) 233
-  WRITE_LONG  ("%moffset%"+ 20) 18
-  WRITE_LONG  ("%moffset%"+ 24) 107
-  WRITE_LONG  ("%moffset%"+ 28) 9
-  WRITE_SHORT ("%moffset%"+ 36) 100
-  SET "moffset" = "%moffset%" + 264
-  INSERT_BYTES  "%moffset%" 264
-  WRITE_LONG  ("%moffset%"+ 8) 233
-  WRITE_LONG  ("%moffset%"+ 20) 2
-  WRITE_LONG  ("%moffset%"+ 24) 97
-  WRITE_LONG  ("%moffset%"+ 28) 9
-  WRITE_SHORT ("%moffset%"+ 36) 100
-  SET "moffset" = "%moffset%" + 264
-  INSERT_BYTES  "%moffset%" 264
-  WRITE_LONG  ("%moffset%"+ 8) 233
-  WRITE_LONG  ("%moffset%"+ 20) 1
-  WRITE_LONG  ("%moffset%"+ 24) 115
-  WRITE_LONG  ("%moffset%"+ 28) 9
-  WRITE_SHORT ("%moffset%"+ 36) 100
-  SET "moffset" = "%moffset%" + 264
-  WRITE_LONG 0x2C8 5
-  PATCH_IF ("%knownsploffset%" > "%effoffset%") BEGIN WRITE_LONG 0x2A0 ("%knownsploffset%" - ("%erasedeffects%" * 264) + 1320) END
-  PATCH_IF ("%smioffset%" > "%effoffset%") BEGIN WRITE_LONG 0x2A8 ("%smioffset%" - ("%erasedeffects%" * 264) + 1320) END
-  PATCH_IF ("%msoffset%" > "%effoffset%") BEGIN WRITE_LONG 0x2B0 ("%msoffset%" - ("%erasedeffects%" * 264) + 1320) END
-  PATCH_IF ("%isoffset%" > "%effoffset%") BEGIN WRITE_LONG 0x2B8 ("%isoffset%" - ("%erasedeffects%" * 264) + 1320) END
-  PATCH_IF ("%ioffset%" > "%effoffset%") BEGIN WRITE_LONG 0x2BC ("%ioffset%" - ("%erasedeffects%" * 264) + 1320) END
-   READ_LONG  0x2bc "itm_off"
-   READ_LONG  0x2c0 "itm_num"
-   FOR (index = 0; index < itm_num; index = index + 1) BEGIN
-    READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-    PATCH_IF ("%item%" STRING_COMPARE_CASE "blun04" = 0) BEGIN
-      WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~blun02~ #8
-    END
+
+  // flail
+  LPF ~ADD_CRE_EFFECT~ INT_VAR
+    opcode = 233
+    timing = 9
+    parameter1 = 36
+    parameter2 = 100
+    probability1 = 100
   END
+
+  // sling
+  LPF ~ADD_CRE_EFFECT~ INT_VAR
+    opcode = 233
+    timing = 9
+    parameter1 = 18
+    parameter2 = 107
+    probability1 = 100
+  END
+
+  // warhammer
+  LPF ~ADD_CRE_EFFECT~ INT_VAR
+    opcode = 233
+    timing = 9
+    parameter1 = 2
+    parameter2 = 97
+    probability1 = 100
+  END
+
+  // club
+  LPF ~ADD_CRE_EFFECT~ INT_VAR
+    opcode = 233
+    timing = 9
+    parameter1 = 1
+    parameter2 = 115
+    probability1 = 100
+  END
+
+  REPLACE_CRE_ITEM ~blun02~ #0 #0 #0 ~NONE~ ~WEAPON1~
 
 COPY_EXISTING ~anomen12.cre~ ~override/anomen12.cre~
   WRITE_BYTE  0x23b     17 // wisdom
-  READ_LONG 0x2A0 "knownsploffset"
-  READ_LONG 0x2A4 "knownsplcount"
-  PATCH_IF ("%knownsplcount%" > 0) BEGIN
-    READ_LONG 0x2A8 "smioffset"
-    READ_LONG 0x2B0 "msoffset"
-    READ_LONG 0x2B8 "isoffset"
-    READ_LONG 0x2BC "ioffset"
-    READ_LONG 0x2C4 "effoffset"
-    SET "erasedspells" = 0
-    SET "cnt" = "%knownsplcount%" - 1
-    WHILE ("%cnt%" >= 0) BEGIN
-      READ_ASCII ("%knownsploffset%" + "%cnt%"*12) "splresref"
-      PATCH_IF ("%splresref%" STRING_COMPARE_CASE "SPPR606" = 0)
-     BEGIN
-     DELETE_BYTES ("%knownsploffset%" + ("%cnt%"*12)) 12
-     SET "erasedspells" = "%erasedspells%" + 1
-     END
-    SET "cnt" = "%cnt%" - 1
-    END
-  WRITE_LONG 0x2A4 ("%knownsplcount%" - "%erasedspells%")
-  PATCH_IF ("%smioffset%" > "%knownsploffset%") BEGIN WRITE_LONG 0x2A8 ("%smioffset%" - ("%erasedspells%" * 12)) END
-  PATCH_IF ("%msoffset%" > "%knownsploffset%") BEGIN WRITE_LONG 0x2B0 ("%msoffset%" - ("%erasedspells%" * 12)) END
-  PATCH_IF ("%isoffset%" > "%knownsploffset%") BEGIN WRITE_LONG 0x2B8 ("%isoffset%" - ("%erasedspells%" * 12)) END
-  PATCH_IF ("%ioffset%" > "%knownsploffset%") BEGIN WRITE_LONG 0x2BC ("%ioffset%" - ("%erasedspells%" * 12)) END
-  PATCH_IF ("%effoffset%" > "%knownsploffset%") BEGIN WRITE_LONG 0x2C4 ("%effoffset%" - ("%erasedspells%" * 12)) END
+
+  REMOVE_KNOWN_SPELL ~SPPR606~
+
+  SPRINT ~opcode_to_delete~ ~233~
+  LAUNCH_PATCH_MACRO ~DELETE_CRE_EFFECT~
+
+  // mace
+  LPF ~ADD_CRE_EFFECT~ INT_VAR
+    opcode = 233
+    timing = 9
+    parameter1 = 1
+    parameter2 = 101
+    probability1 = 100
   END
-  READ_LONG 0x2A0 "knownsploffset"
-  READ_LONG 0x2A4 "knownsplcount"
-  READ_LONG 0x2A8 "smioffset"
-  READ_LONG 0x2B0 "msoffset"
-  READ_LONG 0x2B8 "isoffset"
-  READ_LONG 0x2BC "ioffset"
-  READ_LONG 0x2C4 "effoffset"
-  READ_LONG 0x2C8 "effcount"
-  SET "erasedeffects" = 0
-  WHILE ("%erasedeffects%" < "%effcount%") BEGIN
-   DELETE_BYTES "%effoffset%" 264
-   SET "erasedeffects" = "%erasedeffects%" + 1
+
+  // flail
+  LPF ~ADD_CRE_EFFECT~ INT_VAR
+    opcode = 233
+    timing = 9
+    parameter1 = 36
+    parameter2 = 100
+    probability1 = 100
   END
-  SET "moffset" = "%effoffset%"
-  INSERT_BYTES  "%moffset%" 264
-  WRITE_LONG  ("%moffset%"+ 8) 233
-  WRITE_LONG  ("%moffset%"+ 20) 1
-  WRITE_LONG  ("%moffset%"+ 24) 101
-  WRITE_LONG  ("%moffset%"+ 28) 9
-  WRITE_SHORT ("%moffset%"+ 36) 100
-  SET "moffset" = "%moffset%" + 264
-  INSERT_BYTES  "%moffset%" 264
-  WRITE_LONG  ("%moffset%"+ 8) 233
-  WRITE_LONG  ("%moffset%"+ 20) 36
-  WRITE_LONG  ("%moffset%"+ 24) 100
-  WRITE_LONG  ("%moffset%"+ 28) 9
-  WRITE_SHORT ("%moffset%"+ 36) 100
-  SET "moffset" = "%moffset%" + 264
-  INSERT_BYTES  "%moffset%" 264
-  WRITE_LONG  ("%moffset%"+ 8) 233
-  WRITE_LONG  ("%moffset%"+ 20) 19
-  WRITE_LONG  ("%moffset%"+ 24) 107
-  WRITE_LONG  ("%moffset%"+ 28) 9
-  WRITE_SHORT ("%moffset%"+ 36) 100
-  SET "moffset" = "%moffset%" + 264
-  INSERT_BYTES  "%moffset%" 264
-  WRITE_LONG  ("%moffset%"+ 8) 233
-  WRITE_LONG  ("%moffset%"+ 20) 2
-  WRITE_LONG  ("%moffset%"+ 24) 97
-  WRITE_LONG  ("%moffset%"+ 28) 9
-  WRITE_SHORT ("%moffset%"+ 36) 100
-  SET "moffset" = "%moffset%" + 264
-  INSERT_BYTES  "%moffset%" 264
-  WRITE_LONG  ("%moffset%"+ 8) 233
-  WRITE_LONG  ("%moffset%"+ 20) 1
-  WRITE_LONG  ("%moffset%"+ 24) 115
-  WRITE_LONG  ("%moffset%"+ 28) 9
-  WRITE_SHORT ("%moffset%"+ 36) 100
-  SET "moffset" = "%moffset%" + 264
-  WRITE_LONG 0x2C8 5
-  PATCH_IF ("%knownsploffset%" > "%effoffset%") BEGIN WRITE_LONG 0x2A0 ("%knownsploffset%" - ("%erasedeffects%" * 264) + 1320) END
-  PATCH_IF ("%smioffset%" > "%effoffset%") BEGIN WRITE_LONG 0x2A8 ("%smioffset%" - ("%erasedeffects%" * 264) + 1320) END
-  PATCH_IF ("%msoffset%" > "%effoffset%") BEGIN WRITE_LONG 0x2B0 ("%msoffset%" - ("%erasedeffects%" * 264) + 1320) END
-  PATCH_IF ("%isoffset%" > "%effoffset%") BEGIN WRITE_LONG 0x2B8 ("%isoffset%" - ("%erasedeffects%" * 264) + 1320) END
-  PATCH_IF ("%ioffset%" > "%effoffset%") BEGIN WRITE_LONG 0x2BC ("%ioffset%" - ("%erasedeffects%" * 264) + 1320) END
-   READ_LONG  0x2bc "itm_off"
-   READ_LONG  0x2c0 "itm_num"
-   FOR (index = 0; index < itm_num; index = index + 1) BEGIN
-    READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-    PATCH_IF ("%item%" STRING_COMPARE_CASE "blun33" = 0) BEGIN
-      WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~blun32~ #8
-    END
+
+  // sling
+  LPF ~ADD_CRE_EFFECT~ INT_VAR
+    opcode = 233
+    timing = 9
+    parameter1 = 19
+    parameter2 = 107
+    probability1 = 100
   END
+
+  // warhammer
+  LPF ~ADD_CRE_EFFECT~ INT_VAR
+    opcode = 233
+    timing = 9
+    parameter1 = 2
+    parameter2 = 97
+    probability1 = 100
+  END
+
+  // club
+  LPF ~ADD_CRE_EFFECT~ INT_VAR
+    opcode = 233
+    timing = 9
+    parameter1 = 1
+    parameter2 = 115
+    probability1 = 100
+  END
+
+  REPLACE_CRE_ITEM ~blun32~ #0 #0 #0 ~NONE~ ~WEAPON1~
 
 COPY_EXISTING ~anomen6.cre~ ~override/anomen7.cre~
 
@@ -167,90 +119,59 @@ COPY_EXISTING ~anomen6.cre~ ~override/anomen9.cre~
 
 COPY_EXISTING ~anomen6.cre~ ~override/anomen10.cre~
 
+// Nalia //
+
 COPY_EXISTING ~nalia10.cre~ ~Override/nalia10.cre~
   WRITE_BYTE  0x69     80 // Find traps
   WRITE_BYTE  0x6a      0 // Pick pockets
-  READ_LONG 0x2A0 "knownsploffset"
-  READ_LONG 0x2A4 "knownsplcount"
-  PATCH_IF ("%knownsplcount%" > 0) BEGIN
-    READ_LONG 0x2A8 "smioffset"
-    READ_LONG 0x2B0 "msoffset"
-    READ_LONG 0x2B8 "isoffset"
-    READ_LONG 0x2BC "ioffset"
-    READ_LONG 0x2C4 "effoffset"
-    SET "erasedspells" = 0
-    SET "cnt" = "%knownsplcount%" - 1
-    WHILE ("%cnt%" >= 0) BEGIN
-      READ_ASCII ("%knownsploffset%" + "%cnt%"*12) "splresref"
-      PATCH_IF ("%splresref%" STRING_COMPARE_CASE "SPWI703" = 0)
-     BEGIN
-     DELETE_BYTES ("%knownsploffset%" + ("%cnt%"*12)) 12
-     SET "erasedspells" = "%erasedspells%" + 1
-     END
-    SET "cnt" = "%cnt%" - 1
-    END
-  WRITE_LONG 0x2A4 ("%knownsplcount%" - "%erasedspells%")
-  PATCH_IF ("%smioffset%" > "%knownsploffset%") BEGIN WRITE_LONG 0x2A8 ("%smioffset%" - ("%erasedspells%" * 12)) END
-  PATCH_IF ("%msoffset%" > "%knownsploffset%") BEGIN WRITE_LONG 0x2B0 ("%msoffset%" - ("%erasedspells%" * 12)) END
-  PATCH_IF ("%isoffset%" > "%knownsploffset%") BEGIN WRITE_LONG 0x2B8 ("%isoffset%" - ("%erasedspells%" * 12)) END
-  PATCH_IF ("%ioffset%" > "%knownsploffset%") BEGIN WRITE_LONG 0x2BC ("%ioffset%" - ("%erasedspells%" * 12)) END
-  PATCH_IF ("%effoffset%" > "%knownsploffset%") BEGIN WRITE_LONG 0x2C4 ("%effoffset%" - ("%erasedspells%" * 12)) END
+
+  SPRINT ~opcode_to_delete~ ~233~
+  LAUNCH_PATCH_MACRO ~DELETE_CRE_EFFECT~
+
+  // short bow
+  LPF ~ADD_CRE_EFFECT~ INT_VAR
+    opcode = 233
+    timing = 9
+    parameter1 = 9 // active: 1 / original: 1
+    parameter2 = 105
+    probability1 = 100
   END
-  READ_LONG 0x2A0 "knownsploffset"
-  READ_LONG 0x2A4 "knownsplcount"
-  READ_LONG 0x2A8 "smioffset"
-  READ_LONG 0x2B0 "msoffset"
-  READ_LONG 0x2B8 "isoffset"
-  READ_LONG 0x2BC "ioffset"
-  READ_LONG 0x2C4 "effoffset"
-  READ_LONG 0x2C8 "effcount"
-  SET "erasedeffects" = 0
-  WHILE ("%erasedeffects%" < "%effcount%") BEGIN
-   DELETE_BYTES "%effoffset%" 264
-   SET "erasedeffects" = "%erasedeffects%" + 1
+
+  // short sword
+  LPF ~ADD_CRE_EFFECT~ INT_VAR
+    opcode = 233
+    timing = 9
+    parameter1 = 9 // active: 1 / original: 1
+    parameter2 = 91
+    probability1 = 100
   END
-  SET "moffset" = "%effoffset%"
-  INSERT_BYTES  "%moffset%" 264
-  WRITE_LONG  ("%moffset%"+ 8) 233
-  WRITE_LONG  ("%moffset%"+ 20) 9
-  WRITE_LONG  ("%moffset%"+ 24) 105
-  WRITE_LONG  ("%moffset%"+ 28) 9
-  WRITE_SHORT ("%moffset%"+ 36) 100
-  SET "moffset" = "%moffset%" + 264
-  INSERT_BYTES  "%moffset%" 264
-  WRITE_LONG  ("%moffset%"+ 8) 233
-  WRITE_LONG  ("%moffset%"+ 20) 9
-  WRITE_LONG  ("%moffset%"+ 24) 91
-  WRITE_LONG  ("%moffset%"+ 28) 9
-  WRITE_SHORT ("%moffset%"+ 36) 100
-  SET "moffset" = "%moffset%" + 264
-  INSERT_BYTES  "%moffset%" 264
-  WRITE_LONG  ("%moffset%"+ 8) 233
-  WRITE_LONG  ("%moffset%"+ 20) 9
-  WRITE_LONG  ("%moffset%"+ 24) 113
-  WRITE_LONG  ("%moffset%"+ 28) 9
-  WRITE_SHORT ("%moffset%"+ 36) 100
-  SET "moffset" = "%moffset%" + 264
-  INSERT_BYTES  "%moffset%" 264
-  WRITE_LONG  ("%moffset%"+ 8) 233
-  WRITE_LONG  ("%moffset%"+ 20) 1
-  WRITE_LONG  ("%moffset%"+ 24) 96
-  WRITE_LONG  ("%moffset%"+ 28) 9
-  WRITE_SHORT ("%moffset%"+ 36) 100
-  SET "moffset" = "%moffset%" + 264
-  INSERT_BYTES  "%moffset%" 264
-  WRITE_LONG  ("%moffset%"+ 8) 233
-  WRITE_LONG  ("%moffset%"+ 20) 1
-  WRITE_LONG  ("%moffset%"+ 24) 102
-  WRITE_LONG  ("%moffset%"+ 28) 9
-  WRITE_SHORT ("%moffset%"+ 36) 100
-  SET "moffset" = "%moffset%" + 264
-  WRITE_LONG 0x2C8 5
-  PATCH_IF ("%knownsploffset%" > "%effoffset%") BEGIN WRITE_LONG 0x2A0 ("%knownsploffset%" - ("%erasedeffects%" * 264) + 1320) END
-  PATCH_IF ("%smioffset%" > "%effoffset%") BEGIN WRITE_LONG 0x2A8 ("%smioffset%" - ("%erasedeffects%" * 264) + 1320) END
-  PATCH_IF ("%msoffset%" > "%effoffset%") BEGIN WRITE_LONG 0x2B0 ("%msoffset%" - ("%erasedeffects%" * 264) + 1320) END
-  PATCH_IF ("%isoffset%" > "%effoffset%") BEGIN WRITE_LONG 0x2B8 ("%isoffset%" - ("%erasedeffects%" * 264) + 1320) END
-  PATCH_IF ("%ioffset%" > "%effoffset%") BEGIN WRITE_LONG 0x2BC ("%ioffset%" - ("%erasedeffects%" * 264) + 1320) END
+
+  // single weapon
+  LPF ~ADD_CRE_EFFECT~ INT_VAR
+    opcode = 233
+    timing = 9
+    parameter1 = 9 // active: 1 / original: 1
+    parameter2 = 113
+    probability1 = 100
+  END
+
+  // dagger
+  LPF ~ADD_CRE_EFFECT~ INT_VAR
+    opcode = 233
+    timing = 9
+    parameter1 = 1 // active: 1 / original: 0
+    parameter2 = 96
+    probability1 = 100
+  END
+
+  // staff
+  LPF ~ADD_CRE_EFFECT~ INT_VAR
+    opcode = 233
+    timing = 9
+    parameter1 = 1 // active: 1 / original: 0
+    parameter2 = 102
+    probability1 = 100
+  END
 
   REMOVE_KNOWN_SPELL ~SPWI110~
   REMOVE_KNOWN_SPELL ~SPWI415~
@@ -259,6 +180,7 @@ COPY_EXISTING ~nalia10.cre~ ~Override/nalia10.cre~
   REMOVE_KNOWN_SPELL ~SPWI505~
   REMOVE_KNOWN_SPELL ~SPWI604~
   REMOVE_KNOWN_SPELL ~SPWI616~
+  REMOVE_KNOWN_SPELL ~SPWI703~
 
   REMOVE_MEMORIZED_SPELL ~SPWI416~
   REMOVE_MEMORIZED_SPELL ~SPWI505~
@@ -303,120 +225,15 @@ COPY_EXISTING ~nalia18.cre~ ~Override/nalia18.cre~
   ADD_MEMORIZED_SPELL ~SPWI411~ #3 ~wizard~ ( 1 )
   ADD_MEMORIZED_SPELL ~SPWI507~ #4 ~wizard~ ( 1 )
 
-
-COPY_EXISTING ~nalia8.cre~ ~Override/nalia8.cre~
-  WRITE_BYTE  0x69     80 // Find traps
-  WRITE_BYTE  0x6a      0 // Pick pockets
-  READ_LONG 0x2A0 "knownsploffset"
-  READ_LONG 0x2A4 "knownsplcount"
-  PATCH_IF ("%knownsplcount%" > 0) BEGIN
-    READ_LONG 0x2A8 "smioffset"
-    READ_LONG 0x2B0 "msoffset"
-    READ_LONG 0x2B8 "isoffset"
-    READ_LONG 0x2BC "ioffset"
-    READ_LONG 0x2C4 "effoffset"
-    SET "erasedspells" = 0
-    SET "cnt" = "%knownsplcount%" - 1
-    WHILE ("%cnt%" >= 0) BEGIN
-      READ_ASCII ("%knownsploffset%" + "%cnt%"*12) "splresref"
-      PATCH_IF ("%splresref%" STRING_COMPARE_CASE "SPWI703" = 0)
-     BEGIN
-     DELETE_BYTES ("%knownsploffset%" + ("%cnt%"*12)) 12
-     SET "erasedspells" = "%erasedspells%" + 1
-     END
-    SET "cnt" = "%cnt%" - 1
-    END
-  WRITE_LONG 0x2A4 ("%knownsplcount%" - "%erasedspells%")
-  PATCH_IF ("%smioffset%" > "%knownsploffset%") BEGIN WRITE_LONG 0x2A8 ("%smioffset%" - ("%erasedspells%" * 12)) END
-  PATCH_IF ("%msoffset%" > "%knownsploffset%") BEGIN WRITE_LONG 0x2B0 ("%msoffset%" - ("%erasedspells%" * 12)) END
-  PATCH_IF ("%isoffset%" > "%knownsploffset%") BEGIN WRITE_LONG 0x2B8 ("%isoffset%" - ("%erasedspells%" * 12)) END
-  PATCH_IF ("%ioffset%" > "%knownsploffset%") BEGIN WRITE_LONG 0x2BC ("%ioffset%" - ("%erasedspells%" * 12)) END
-  PATCH_IF ("%effoffset%" > "%knownsploffset%") BEGIN WRITE_LONG 0x2C4 ("%effoffset%" - ("%erasedspells%" * 12)) END
-  END
-  READ_LONG 0x2A0 "knownsploffset"
-  READ_LONG 0x2A4 "knownsplcount"
-  READ_LONG 0x2A8 "smioffset"
-  READ_LONG 0x2B0 "msoffset"
-  READ_LONG 0x2B8 "isoffset"
-  READ_LONG 0x2BC "ioffset"
-  READ_LONG 0x2C4 "effoffset"
-  READ_LONG 0x2C8 "effcount"
-  SET "erasedeffects" = 0
-  WHILE ("%erasedeffects%" < "%effcount%") BEGIN
-   DELETE_BYTES "%effoffset%" 264
-   SET "erasedeffects" = "%erasedeffects%" + 1
-  END
-  SET "moffset" = "%effoffset%"
-  INSERT_BYTES  "%moffset%" 264
-  WRITE_LONG  ("%moffset%"+ 8) 233
-  WRITE_LONG  ("%moffset%"+ 20) 9
-  WRITE_LONG  ("%moffset%"+ 24) 105
-  WRITE_LONG  ("%moffset%"+ 28) 9
-  WRITE_SHORT ("%moffset%"+ 36) 100
-  SET "moffset" = "%moffset%" + 264
-  INSERT_BYTES  "%moffset%" 264
-  WRITE_LONG  ("%moffset%"+ 8) 233
-  WRITE_LONG  ("%moffset%"+ 20) 9
-  WRITE_LONG  ("%moffset%"+ 24) 91
-  WRITE_LONG  ("%moffset%"+ 28) 9
-  WRITE_SHORT ("%moffset%"+ 36) 100
-  SET "moffset" = "%moffset%" + 264
-  INSERT_BYTES  "%moffset%" 264
-  WRITE_LONG  ("%moffset%"+ 8) 233
-  WRITE_LONG  ("%moffset%"+ 20) 9
-  WRITE_LONG  ("%moffset%"+ 24) 113
-  WRITE_LONG  ("%moffset%"+ 28) 9
-  WRITE_SHORT ("%moffset%"+ 36) 100
-  SET "moffset" = "%moffset%" + 264
-  INSERT_BYTES  "%moffset%" 264
-  WRITE_LONG  ("%moffset%"+ 8) 233
-  WRITE_LONG  ("%moffset%"+ 20) 1
-  WRITE_LONG  ("%moffset%"+ 24) 96
-  WRITE_LONG  ("%moffset%"+ 28) 9
-  WRITE_SHORT ("%moffset%"+ 36) 100
-  SET "moffset" = "%moffset%" + 264
-  INSERT_BYTES  "%moffset%" 264
-  WRITE_LONG  ("%moffset%"+ 8) 233
-  WRITE_LONG  ("%moffset%"+ 20) 1
-  WRITE_LONG  ("%moffset%"+ 24) 102
-  WRITE_LONG  ("%moffset%"+ 28) 9
-  WRITE_SHORT ("%moffset%"+ 36) 100
-  SET "moffset" = "%moffset%" + 264
-  WRITE_LONG 0x2C8 5
-  PATCH_IF ("%knownsploffset%" > "%effoffset%") BEGIN WRITE_LONG 0x2A0 ("%knownsploffset%" - ("%erasedeffects%" * 264) + 1320) END
-  PATCH_IF ("%smioffset%" > "%effoffset%") BEGIN WRITE_LONG 0x2A8 ("%smioffset%" - ("%erasedeffects%" * 264) + 1320) END
-  PATCH_IF ("%msoffset%" > "%effoffset%") BEGIN WRITE_LONG 0x2B0 ("%msoffset%" - ("%erasedeffects%" * 264) + 1320) END
-  PATCH_IF ("%isoffset%" > "%effoffset%") BEGIN WRITE_LONG 0x2B8 ("%isoffset%" - ("%erasedeffects%" * 264) + 1320) END
-  PATCH_IF ("%ioffset%" > "%effoffset%") BEGIN WRITE_LONG 0x2BC ("%ioffset%" - ("%erasedeffects%" * 264) + 1320) END
-
-  REMOVE_KNOWN_SPELL ~SPWI110~
-  REMOVE_KNOWN_SPELL ~SPWI415~
-  REMOVE_KNOWN_SPELL ~SPWI416~
-  REMOVE_KNOWN_SPELL ~SPWI502~
-  REMOVE_KNOWN_SPELL ~SPWI505~
-  REMOVE_KNOWN_SPELL ~SPWI604~
-  REMOVE_KNOWN_SPELL ~SPWI616~
-
-  REMOVE_MEMORIZED_SPELL ~SPWI416~
-  REMOVE_MEMORIZED_SPELL ~SPWI505~
-
-  ADD_KNOWN_SPELL ~SPWI112~ #0 ~wizard~
-  ADD_KNOWN_SPELL ~SPWI405~ #3 ~wizard~
-  ADD_KNOWN_SPELL ~SPWI411~ #3 ~wizard~
-  ADD_KNOWN_SPELL ~SPWI507~ #4 ~wizard~
-  ADD_KNOWN_SPELL ~SPWI510~ #4 ~wizard~
-  ADD_KNOWN_SPELL ~SPWI602~ #5 ~wizard~
-  ADD_KNOWN_SPELL ~SPWI618~ #5 ~wizard~
-
-  ADD_MEMORIZED_SPELL ~SPWI110~ #0 ~wizard~ ( 1 )
-  ADD_MEMORIZED_SPELL ~SPWI411~ #3 ~wizard~ ( 1 )
-  ADD_MEMORIZED_SPELL ~SPWI507~ #4 ~wizard~ ( 1 )
+COPY_EXISTING ~nalia10.cre~ ~Override/nalia8.cre~
 
 COPY_EXISTING ~nalia10.cre~ ~Override/nalia11.cre~
 
 COPY_EXISTING ~nalia10.cre~ ~Override/nalia13.cre~
 
 COPY_EXISTING ~nalia10.cre~ ~Override/nalia15.cre~
+
+// Jan //
 
 COPY_EXISTING ~jan8.cre~ ~Override/jan8.cre~
   WRITE_BYTE  0x10       0b01000000 // original class (thief)
@@ -497,6 +314,8 @@ COPY_EXISTING ~jan8.cre~ ~Override/jan11.cre~
 
 COPY_EXISTING ~jan8.cre~ ~Override/jan12.cre~
 
+// Cernd //
+
 COPY_EXISTING ~cernd10.cre~ ~Override/cernd10.cre~
   REMOVE_KNOWN_SPELL ~SPPR405~
   REMOVE_KNOWN_SPELL ~SPPR415~
@@ -520,6 +339,8 @@ COPY_EXISTING ~cernd14.cre~ ~Override/cernd14.cre~
   ADD_KNOWN_SPELL ~SPPR318~ #2 ~priest~
   ADD_KNOWN_SPELL ~SPPR403~ #3 ~priest~
   ADD_KNOWN_SPELL ~SPPR418~ #3 ~priest~
+
+// Jaheira //
 
 COPY_EXISTING ~jaheir7.cre~ ~Override/jaheir7.cre~
   WRITE_LONG  0x18 89000 // current XP
@@ -621,35 +442,21 @@ COPY_EXISTING ~jahei14.cre~ ~Override/jahei14.cre~
   ADD_KNOWN_SPELL ~SPPR218~ #1 ~priest~
   ADD_KNOWN_SPELL ~SPPR403~ #3 ~priest~
 
-COPY_EXISTING ~viconi16.cre~ ~Override/viconi16.cre~
-  READ_LONG 0x2A0 "knownsploffset"
-  READ_LONG 0x2A4 "knownsplcount"
-  PATCH_IF ("%knownsplcount%" > 0) BEGIN
-    READ_LONG 0x2A8 "smioffset"
-    READ_LONG 0x2B0 "msoffset"
-    READ_LONG 0x2B8 "isoffset"
-    READ_LONG 0x2BC "ioffset"
-    READ_LONG 0x2C4 "effoffset"
-    SET "erasedspells" = 0
-    SET "cnt" = "%knownsplcount%" - 1
-    WHILE ("%cnt%" >= 0) BEGIN
-      READ_ASCII ("%knownsploffset%" + "%cnt%"*12) "splresref"
-      PATCH_IF ("%splresref%" STRING_COMPARE_CASE "SPPR606" = 0)
-     BEGIN
-     DELETE_BYTES ("%knownsploffset%" + ("%cnt%"*12)) 12
-     SET "erasedspells" = "%erasedspells%" + 1
-     END
-    SET "cnt" = "%cnt%" - 1
-    END
-  WRITE_LONG 0x2A4 ("%knownsplcount%" - "%erasedspells%")
-  PATCH_IF ("%smioffset%" > "%knownsploffset%") BEGIN WRITE_LONG 0x2A8 ("%smioffset%" - ("%erasedspells%" * 12)) END
-  PATCH_IF ("%msoffset%" > "%knownsploffset%") BEGIN WRITE_LONG 0x2B0 ("%msoffset%" - ("%erasedspells%" * 12)) END
-  PATCH_IF ("%isoffset%" > "%knownsploffset%") BEGIN WRITE_LONG 0x2B8 ("%isoffset%" - ("%erasedspells%" * 12)) END
-  PATCH_IF ("%ioffset%" > "%knownsploffset%") BEGIN WRITE_LONG 0x2BC ("%ioffset%" - ("%erasedspells%" * 12)) END
-  PATCH_IF ("%effoffset%" > "%knownsploffset%") BEGIN WRITE_LONG 0x2C4 ("%effoffset%" - ("%erasedspells%" * 12)) END
-  END
+// Viconia //
 
-// Imoen
+COPY_EXISTING ~viconi8.cre~ ~Override/viconi6.cre~
+
+COPY_EXISTING ~viconi8.cre~ ~Override/viconi9.cre~
+
+COPY_EXISTING ~viconi8.cre~ ~Override/viconi11.cre~
+
+COPY_EXISTING ~viconi8.cre~ ~Override/viconi13.cre~
+
+COPY_EXISTING ~viconi16.cre~ ~Override/viconi16.cre~
+  REMOVE_KNOWN_SPELL ~SPPR606~
+
+// Imoen //
+
 COPY_EXISTING ~imoen213.cre~ ~override/imoen211.cre~
               ~imoen213.cre~ ~override/imoen213.cre~
   WRITE_SHORT 0x24   4 // current HP
@@ -765,127 +572,60 @@ COPY_EXISTING ~drim02.cre~ ~Override/drim02.cre~
   WRITE_BYTE   0x2d     59 // Minor Colour
   WRITE_BYTE   0x2e     60 // Major Colour
 
+
+// Keldorn //
+
 COPY_EXISTING ~keldor8.CRE~ ~override/keldor8.CRE~
   WRITE_BYTE  0x238     18 // strength
   WRITE_BYTE  0x239     57 // strength % bonus
   WRITE_BYTE  0x23b     14 // wisdom
   WRITE_BYTE  0x23d     18 // constitution
-  READ_LONG 0x2A0 "knownsploffset"
-  READ_LONG 0x2A4 "knownsplcount"
-  READ_LONG 0x2A8 "smioffset"
-  READ_LONG 0x2B0 "msoffset"
-  READ_LONG 0x2B8 "isoffset"
-  READ_LONG 0x2BC "ioffset"
-  READ_LONG 0x2C4 "effoffset"
-  READ_LONG 0x2C8 "effcount"
-  SET "erasedeffects" = 0
-  WHILE ("%erasedeffects%" < "%effcount%") BEGIN
-   DELETE_BYTES "%effoffset%" 264
-   SET "erasedeffects" = "%erasedeffects%" + 1
+
+  SPRINT ~opcode_to_delete~ ~233~
+  LAUNCH_PATCH_MACRO ~DELETE_CRE_EFFECT~
+
+  PATCH_FOR_EACH ~prof_code~ IN ~103~ ~111~ ~99~ ~102~ BEGIN
+    LPF ~ADD_CRE_EFFECT~ INT_VAR
+      opcode = 233
+      timing = 9
+      parameter1 = 1
+      parameter2 = ~prof_code~
+    END
   END
-  SET "moffset" = "%effoffset%"
-  INSERT_BYTES  "%moffset%" 264
-  WRITE_LONG  ("%moffset%"+ 8) 233
-  WRITE_LONG  ("%moffset%"+ 20) 1
-  WRITE_LONG  ("%moffset%"+ 24) 103
-  WRITE_LONG  ("%moffset%"+ 28) 9
-  WRITE_SHORT ("%moffset%"+ 36) 100
-  SET "moffset" = "%moffset%" + 264
-  INSERT_BYTES  "%moffset%" 264
-  WRITE_LONG  ("%moffset%"+ 8) 233
-  WRITE_LONG  ("%moffset%"+ 20) 2
-  WRITE_LONG  ("%moffset%"+ 24) 93
-  WRITE_LONG  ("%moffset%"+ 28) 9
-  WRITE_SHORT ("%moffset%"+ 36) 100
-  SET "moffset" = "%moffset%" + 264
-  INSERT_BYTES  "%moffset%" 264
-  WRITE_LONG  ("%moffset%"+ 8) 233
-  WRITE_LONG  ("%moffset%"+ 20) 1
-  WRITE_LONG  ("%moffset%"+ 24) 111
-  WRITE_LONG  ("%moffset%"+ 28) 9
-  WRITE_SHORT ("%moffset%"+ 36) 100
-  SET "moffset" = "%moffset%" + 264
-  INSERT_BYTES  "%moffset%" 264
-  WRITE_LONG  ("%moffset%"+ 8) 233
-  WRITE_LONG  ("%moffset%"+ 20) 1
-  WRITE_LONG  ("%moffset%"+ 24) 99
-  WRITE_LONG  ("%moffset%"+ 28) 9
-  WRITE_SHORT ("%moffset%"+ 36) 100
-  SET "moffset" = "%moffset%" + 264
-  INSERT_BYTES  "%moffset%" 264
-  WRITE_LONG  ("%moffset%"+ 8) 233
-  WRITE_LONG  ("%moffset%"+ 20) 1
-  WRITE_LONG  ("%moffset%"+ 24) 102
-  WRITE_LONG  ("%moffset%"+ 28) 9
-  WRITE_SHORT ("%moffset%"+ 36) 100
-  SET "moffset" = "%moffset%" + 264
-  WRITE_LONG 0x2C8 5
-  PATCH_IF ("%knownsploffset%" > "%effoffset%") BEGIN WRITE_LONG 0x2A0 ("%knownsploffset%" - ("%erasedeffects%" * 264) + 1320) END
-  PATCH_IF ("%smioffset%" > "%effoffset%") BEGIN WRITE_LONG 0x2A8 ("%smioffset%" - ("%erasedeffects%" * 264) + 1320) END
-  PATCH_IF ("%msoffset%" > "%effoffset%") BEGIN WRITE_LONG 0x2B0 ("%msoffset%" - ("%erasedeffects%" * 264) + 1320) END
-  PATCH_IF ("%isoffset%" > "%effoffset%") BEGIN WRITE_LONG 0x2B8 ("%isoffset%" - ("%erasedeffects%" * 264) + 1320) END
-  PATCH_IF ("%ioffset%" > "%effoffset%") BEGIN WRITE_LONG 0x2BC ("%ioffset%" - ("%erasedeffects%" * 264) + 1320) END
+
+  LPF ~ADD_CRE_EFFECT~ INT_VAR
+    opcode = 233
+    timing = 9
+    parameter1 = 2
+    parameter2 = 93
+  END
 
 COPY_EXISTING ~keldor14.CRE~ ~override/keldor14.CRE~
   WRITE_BYTE  0x238     18 // strength
   WRITE_BYTE  0x239     57 // strength % bonus
   WRITE_BYTE  0x23b     14 // wisdom
   WRITE_BYTE  0x23d     18 // constitution
-  READ_LONG 0x2A0 "knownsploffset"
-  READ_LONG 0x2A4 "knownsplcount"
-  READ_LONG 0x2A8 "smioffset"
-  READ_LONG 0x2B0 "msoffset"
-  READ_LONG 0x2B8 "isoffset"
-  READ_LONG 0x2BC "ioffset"
-  READ_LONG 0x2C4 "effoffset"
-  READ_LONG 0x2C8 "effcount"
-  SET "erasedeffects" = 0
-  WHILE ("%erasedeffects%" < "%effcount%") BEGIN
-   DELETE_BYTES "%effoffset%" 264
-   SET "erasedeffects" = "%erasedeffects%" + 1
+
+  SPRINT ~opcode_to_delete~ ~233~
+  LAUNCH_PATCH_MACRO ~DELETE_CRE_EFFECT~
+
+  PATCH_FOR_EACH ~prof_code~ IN ~103~ ~99~ BEGIN
+    LPF ~ADD_CRE_EFFECT~ INT_VAR
+      opcode = 233
+      timing = 9
+      parameter1 = 1
+      parameter2 = ~prof_code~
+    END
   END
-  SET "moffset" = "%effoffset%"
-  INSERT_BYTES  "%moffset%" 264
-  WRITE_LONG  ("%moffset%"+ 8) 233
-  WRITE_LONG  ("%moffset%"+ 20) 1
-  WRITE_LONG  ("%moffset%"+ 24) 103
-  WRITE_LONG  ("%moffset%"+ 28) 9
-  WRITE_SHORT ("%moffset%"+ 36) 100
-  SET "moffset" = "%moffset%" + 264
-  INSERT_BYTES  "%moffset%" 264
-  WRITE_LONG  ("%moffset%"+ 8) 233
-  WRITE_LONG  ("%moffset%"+ 20) 2
-  WRITE_LONG  ("%moffset%"+ 24) 93
-  WRITE_LONG  ("%moffset%"+ 28) 9
-  WRITE_SHORT ("%moffset%"+ 36) 100
-  SET "moffset" = "%moffset%" + 264
-  INSERT_BYTES  "%moffset%" 264
-  WRITE_LONG  ("%moffset%"+ 8) 233
-  WRITE_LONG  ("%moffset%"+ 20) 2
-  WRITE_LONG  ("%moffset%"+ 24) 111
-  WRITE_LONG  ("%moffset%"+ 28) 9
-  WRITE_SHORT ("%moffset%"+ 36) 100
-  SET "moffset" = "%moffset%" + 264
-  INSERT_BYTES  "%moffset%" 264
-  WRITE_LONG  ("%moffset%"+ 8) 233
-  WRITE_LONG  ("%moffset%"+ 20) 1
-  WRITE_LONG  ("%moffset%"+ 24) 99
-  WRITE_LONG  ("%moffset%"+ 28) 9
-  WRITE_SHORT ("%moffset%"+ 36) 100
-  SET "moffset" = "%moffset%" + 264
-  INSERT_BYTES  "%moffset%" 264
-  WRITE_LONG  ("%moffset%"+ 8) 233
-  WRITE_LONG  ("%moffset%"+ 20) 2
-  WRITE_LONG  ("%moffset%"+ 24) 102
-  WRITE_LONG  ("%moffset%"+ 28) 9
-  WRITE_SHORT ("%moffset%"+ 36) 100
-  SET "moffset" = "%moffset%" + 264
-  WRITE_LONG 0x2C8 5
-  PATCH_IF ("%knownsploffset%" > "%effoffset%") BEGIN WRITE_LONG 0x2A0 ("%knownsploffset%" - ("%erasedeffects%" * 264) + 1320) END
-  PATCH_IF ("%smioffset%" > "%effoffset%") BEGIN WRITE_LONG 0x2A8 ("%smioffset%" - ("%erasedeffects%" * 264) + 1320) END
-  PATCH_IF ("%msoffset%" > "%effoffset%") BEGIN WRITE_LONG 0x2B0 ("%msoffset%" - ("%erasedeffects%" * 264) + 1320) END
-  PATCH_IF ("%isoffset%" > "%effoffset%") BEGIN WRITE_LONG 0x2B8 ("%isoffset%" - ("%erasedeffects%" * 264) + 1320) END
-  PATCH_IF ("%ioffset%" > "%effoffset%") BEGIN WRITE_LONG 0x2BC ("%ioffset%" - ("%erasedeffects%" * 264) + 1320) END
+
+  PATCH_FOR_EACH ~prof_code~ IN ~93~ ~111~ ~102~ BEGIN
+    LPF ~ADD_CRE_EFFECT~ INT_VAR
+      opcode = 233
+      timing = 9
+      parameter1 = 2
+      parameter2 = ~prof_code~
+    END
+  END
 
 COPY_EXISTING ~keldor8.cre~ ~Override/keldor9.cre~
 
@@ -893,161 +633,78 @@ COPY_EXISTING ~keldor8.cre~ ~Override/keldor10.cre~
 
 COPY_EXISTING ~keldor8.cre~ ~Override/keldor12.cre~
 
+// Valygar //
+
 COPY_EXISTING ~VALYG8.CRE~ ~override/VALYG8.CRE~
   WRITE_BYTE  0x238     18 // strength
   WRITE_BYTE  0x239     61 // strength % bonus
   WRITE_BYTE  0x23d     17 // constitution
-  READ_LONG 0x2A0 "knownsploffset"
-  READ_LONG 0x2A4 "knownsplcount"
-  READ_LONG 0x2A8 "smioffset"
-  READ_LONG 0x2B0 "msoffset"
-  READ_LONG 0x2B8 "isoffset"
-  READ_LONG 0x2BC "ioffset"
-  READ_LONG 0x2C4 "effoffset"
-  READ_LONG 0x2C8 "effcount"
-  SET "erasedeffects" = 0
-  WHILE ("%erasedeffects%" < "%effcount%") BEGIN
-   DELETE_BYTES "%effoffset%" 264
-   SET "erasedeffects" = "%erasedeffects%" + 1
-  END
-  SET "moffset" = "%effoffset%"
-  INSERT_BYTES  "%moffset%" 264
-  WRITE_LONG  ("%moffset%"+ 8) 233
-  WRITE_LONG  ("%moffset%"+ 20) 2
-  WRITE_LONG  ("%moffset%"+ 24) 94
-  WRITE_LONG  ("%moffset%"+ 28) 9
-  WRITE_SHORT ("%moffset%"+ 36) 100
-  SET "moffset" = "%moffset%" + 264
-  INSERT_BYTES  "%moffset%" 264
-  WRITE_LONG  ("%moffset%"+ 8) 233
-  WRITE_LONG  ("%moffset%"+ 20) 1
-  WRITE_LONG  ("%moffset%"+ 24) 104
-  WRITE_LONG  ("%moffset%"+ 28) 9
-  WRITE_SHORT ("%moffset%"+ 36) 100
-  SET "moffset" = "%moffset%" + 264
-  INSERT_BYTES  "%moffset%" 264
-  WRITE_LONG  ("%moffset%"+ 8) 233
-  WRITE_LONG  ("%moffset%"+ 20) 3
-  WRITE_LONG  ("%moffset%"+ 24) 114
-  WRITE_LONG  ("%moffset%"+ 28) 9
-  WRITE_SHORT ("%moffset%"+ 36) 100
-  SET "moffset" = "%moffset%" + 264
-  INSERT_BYTES  "%moffset%" 264
-  WRITE_LONG  ("%moffset%"+ 8) 233
-  WRITE_LONG  ("%moffset%"+ 20) 1
-  WRITE_LONG  ("%moffset%"+ 24) 100
-  WRITE_LONG  ("%moffset%"+ 28) 9
-  WRITE_SHORT ("%moffset%"+ 36) 100
-  SET "moffset" = "%moffset%" + 264
-  INSERT_BYTES  "%moffset%" 264
-  WRITE_LONG  ("%moffset%"+ 8) 233
-  WRITE_LONG  ("%moffset%"+ 20) 1
-  WRITE_LONG  ("%moffset%"+ 24) 115
-  WRITE_LONG  ("%moffset%"+ 28) 9
-  WRITE_SHORT ("%moffset%"+ 36) 100
-  SET "moffset" = "%moffset%" + 264
-  WRITE_LONG 0x2C8 5
-  PATCH_IF ("%knownsploffset%" > "%effoffset%") BEGIN WRITE_LONG 0x2A0 ("%knownsploffset%" - ("%erasedeffects%" * 264) + 1320) END
-  PATCH_IF ("%smioffset%" > "%effoffset%") BEGIN WRITE_LONG 0x2A8 ("%smioffset%" - ("%erasedeffects%" * 264) + 1320) END
-  PATCH_IF ("%msoffset%" > "%effoffset%") BEGIN WRITE_LONG 0x2B0 ("%msoffset%" - ("%erasedeffects%" * 264) + 1320) END
-  PATCH_IF ("%isoffset%" > "%effoffset%") BEGIN WRITE_LONG 0x2B8 ("%isoffset%" - ("%erasedeffects%" * 264) + 1320) END
-  PATCH_IF ("%ioffset%" > "%effoffset%") BEGIN WRITE_LONG 0x2BC ("%ioffset%" - ("%erasedeffects%" * 264) + 1320) END
-   READ_LONG  0x2bc "itm_off"
-   READ_LONG  0x2c0 "itm_num"
-   FOR (index = 0; index < itm_num; index = index + 1) BEGIN
-    READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-    PATCH_IF ("%item%" STRING_COMPARE_CASE "sper01" = 0) BEGIN
-      WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~blun06~ #8
+
+  SPRINT ~opcode_to_delete~ ~233~
+  LAUNCH_PATCH_MACRO ~DELETE_CRE_EFFECT~
+
+  PATCH_FOR_EACH ~prof_code~ IN ~115~ ~100~ ~104~ BEGIN
+    LPF ~ADD_CRE_EFFECT~ INT_VAR
+      opcode = 233
+      timing = 9
+      parameter1 = 1
+      parameter2 = ~prof_code~
     END
   END
-   READ_LONG  0x2bc "itm_off"
-   READ_LONG  0x2c0 "itm_num"
-   FOR (index = 0; index < itm_num; index = index + 1) BEGIN
-    READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-    PATCH_IF ("%item%" STRING_COMPARE_CASE "dagg01" = 0) BEGIN
-      WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~blun01~ #8
-    END
+
+  LPF ~ADD_CRE_EFFECT~ INT_VAR
+    opcode = 233
+    timing = 9
+    parameter1 = 2
+    parameter2 = 94
   END
+
+  LPF ~ADD_CRE_EFFECT~ INT_VAR
+    opcode = 233
+    timing = 9
+    parameter1 = 3
+    parameter2 = 114
+  END
+
+  REPLACE_CRE_ITEM ~blun06~ #0 #0 #0 ~NONE~ ~WEAPON2~
+  REPLACE_CRE_ITEM ~blun01~ #0 #0 #0 ~NONE~ ~INV1~
 
 COPY_EXISTING ~VALYG14.CRE~ ~override/VALYG14.CRE~
   WRITE_BYTE  0x238     18 // strength
   WRITE_BYTE  0x239     61 // strength % bonus
   WRITE_BYTE  0x23d     17 // constitution
-  READ_LONG 0x2A0 "knownsploffset"
-  READ_LONG 0x2A4 "knownsplcount"
-  READ_LONG 0x2A8 "smioffset"
-  READ_LONG 0x2B0 "msoffset"
-  READ_LONG 0x2B8 "isoffset"
-  READ_LONG 0x2BC "ioffset"
-  READ_LONG 0x2C4 "effoffset"
-  READ_LONG 0x2C8 "effcount"
-  SET "erasedeffects" = 0
-  WHILE ("%erasedeffects%" < "%effcount%") BEGIN
-   DELETE_BYTES "%effoffset%" 264
-   SET "erasedeffects" = "%erasedeffects%" + 1
-  END
-  SET "moffset" = "%effoffset%"
-  INSERT_BYTES  "%moffset%" 264
-  WRITE_LONG  ("%moffset%"+ 8) 233
-  WRITE_LONG  ("%moffset%"+ 20) 2
-  WRITE_LONG  ("%moffset%"+ 24) 94
-  WRITE_LONG  ("%moffset%"+ 28) 9
-  WRITE_SHORT ("%moffset%"+ 36) 100
-  SET "moffset" = "%moffset%" + 264
-  INSERT_BYTES  "%moffset%" 264
-  WRITE_LONG  ("%moffset%"+ 8) 233
-  WRITE_LONG  ("%moffset%"+ 20) 1
-  WRITE_LONG  ("%moffset%"+ 24) 104
-  WRITE_LONG  ("%moffset%"+ 28) 9
-  WRITE_SHORT ("%moffset%"+ 36) 100
-  SET "moffset" = "%moffset%" + 264
-  INSERT_BYTES  "%moffset%" 264
-  WRITE_LONG  ("%moffset%"+ 8) 233
-  WRITE_LONG  ("%moffset%"+ 20) 3
-  WRITE_LONG  ("%moffset%"+ 24) 114
-  WRITE_LONG  ("%moffset%"+ 28) 9
-  WRITE_SHORT ("%moffset%"+ 36) 100
-  SET "moffset" = "%moffset%" + 264
-  INSERT_BYTES  "%moffset%" 264
-  WRITE_LONG  ("%moffset%"+ 8) 233
-  WRITE_LONG  ("%moffset%"+ 20) 2
-  WRITE_LONG  ("%moffset%"+ 24) 100
-  WRITE_LONG  ("%moffset%"+ 28) 9
-  WRITE_SHORT ("%moffset%"+ 36) 100
-  SET "moffset" = "%moffset%" + 264
-  INSERT_BYTES  "%moffset%" 264
-  WRITE_LONG  ("%moffset%"+ 8) 233
-  WRITE_LONG  ("%moffset%"+ 20) 2
-  WRITE_LONG  ("%moffset%"+ 24) 115
-  WRITE_LONG  ("%moffset%"+ 28) 9
-  WRITE_SHORT ("%moffset%"+ 36) 100
-  SET "moffset" = "%moffset%" + 264
-  WRITE_LONG 0x2C8 5
-  PATCH_IF ("%knownsploffset%" > "%effoffset%") BEGIN WRITE_LONG 0x2A0 ("%knownsploffset%" - ("%erasedeffects%" * 264) + 1320) END
-  PATCH_IF ("%smioffset%" > "%effoffset%") BEGIN WRITE_LONG 0x2A8 ("%smioffset%" - ("%erasedeffects%" * 264) + 1320) END
-  PATCH_IF ("%msoffset%" > "%effoffset%") BEGIN WRITE_LONG 0x2B0 ("%msoffset%" - ("%erasedeffects%" * 264) + 1320) END
-  PATCH_IF ("%isoffset%" > "%effoffset%") BEGIN WRITE_LONG 0x2B8 ("%isoffset%" - ("%erasedeffects%" * 264) + 1320) END
-  PATCH_IF ("%ioffset%" > "%effoffset%") BEGIN WRITE_LONG 0x2BC ("%ioffset%" - ("%erasedeffects%" * 264) + 1320) END
-   READ_LONG  0x2bc "itm_off"
-   READ_LONG  0x2c0 "itm_num"
-   FOR (index = 0; index < itm_num; index = index + 1) BEGIN
-    READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-    PATCH_IF ("%item%" STRING_COMPARE_CASE "sper06" = 0) BEGIN
-      WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~blun31~ #8
+
+  SPRINT ~opcode_to_delete~ ~233~
+  LAUNCH_PATCH_MACRO ~DELETE_CRE_EFFECT~
+
+  PATCH_FOR_EACH ~prof_code~ IN ~115~ ~100~ ~94~ BEGIN
+    LPF ~ADD_CRE_EFFECT~ INT_VAR
+      opcode = 233
+      timing = 9
+      parameter1 = 2
+      parameter2 = ~prof_code~
     END
   END
+
+  LPF ~ADD_CRE_EFFECT~ INT_VAR
+    opcode = 233
+    timing = 9
+    parameter1 = 1
+    parameter2 = 104
+  END
+
+  LPF ~ADD_CRE_EFFECT~ INT_VAR
+    opcode = 233
+    timing = 9
+    parameter1 = 3
+    parameter2 = 114
+  END
+
+  REPLACE_CRE_ITEM ~blun31~ #0 #0 #0 ~NONE~ ~WEAPON3~
+
   ADD_KNOWN_SPELL ~SPPR215~ #1 ~priest~
 
-COPY_EXISTING ~aerie12.cre~ ~Override/aerie12.cre~
-  WRITE_BYTE  0x23a 17 // intelligence
-  WRITE_BYTE  0x23b 17 // wisdom
-  WRITE_BYTE  0x23c 10 // dexterity
-  WRITE_BYTE  0x23d 16 // constitution
-  WRITE_SHORT 0x24 57 // current HP
-  WRITE_SHORT 0x26 57 // max HP
-
-  REMOVE_KNOWN_SPELL ~SPWI413~
-  REMOVE_KNOWN_SPELL ~SPWI613~
+// Aerie //
 
 COPY_EXISTING ~aerie7.cre~ ~Override/aerie7.cre~
   WRITE_BYTE  0x23a 17 // intelligence
@@ -1066,6 +723,27 @@ COPY_EXISTING ~aerie7.cre~ ~Override/aerie7.cre~
   REMOVE_KNOWN_SPELL ~SPWI318~
 
   ADD_KNOWN_SPELL ~SPWI305~ #2 ~wizard~
+
+COPY_EXISTING ~aerie12.cre~ ~Override/aerie12.cre~
+  WRITE_BYTE  0x23a 17 // intelligence
+  WRITE_BYTE  0x23b 17 // wisdom
+  WRITE_BYTE  0x23c 10 // dexterity
+  WRITE_BYTE  0x23d 16 // constitution
+  WRITE_SHORT 0x24 57 // current HP
+  WRITE_SHORT 0x26 57 // max HP
+
+  REMOVE_KNOWN_SPELL ~SPWI413~
+  REMOVE_KNOWN_SPELL ~SPWI613~
+
+COPY_EXISTING ~aerie7.cre~ ~Override/aerie6.cre~
+
+COPY_EXISTING ~aerie7.cre~ ~Override/aerie9.cre~
+
+COPY_EXISTING ~aerie7.cre~ ~Override/aerie10.cre~
+
+COPY_EXISTING ~aerie7.cre~ ~Override/aerie11.cre~
+
+// Edwin //
 
 COPY_EXISTING ~edwin9.cre~ ~Override/edwin9.cre~
   WRITE_SHORT 0x24 36 // current HP
@@ -1091,6 +769,16 @@ COPY_EXISTING ~edwin15.cre~ ~Override/edwin15.cre~
   REMOVE_KNOWN_SPELL ~SPWI607~
   REMOVE_KNOWN_SPELL ~SPWI712~
   REMOVE_KNOWN_SPELL ~SPWI710~
+
+COPY_EXISTING ~edwin9.cre~ ~Override/edwin7.cre~
+
+COPY_EXISTING ~edwin9.cre~ ~Override/edwin11.cre~
+
+COPY_EXISTING ~edwin9.cre~ ~Override/edwin12.cre~
+
+COPY_EXISTING ~edwin9.cre~ ~Override/edwin13.cre~
+
+// Mazzy //
 
 COPY_EXISTING ~MAZZY9.CRE~ ~override/MAZZY9.CRE~
   WRITE_BYTE  0x54       7 // save vs death
@@ -1198,6 +886,14 @@ COPY_EXISTING ~MAZZY15.CRE~ ~override/MAZZY15.CRE~
     parameter2 = 91
   END
 
+COPY_EXISTING ~mazzy9.cre~ ~Override/mazzy8.cre~
+
+COPY_EXISTING ~mazzy9.cre~ ~Override/mazzy11.cre~
+
+COPY_EXISTING ~mazzy9.cre~ ~Override/mazzy12.cre~
+
+// Korgan //
+
 COPY_EXISTING ~korgan8.CRE~ ~override/korgan8.CRE~
   WRITE_BYTE  0x54       9 // save vs death
   WRITE_BYTE  0x55      11 // save vs wands
@@ -1242,6 +938,14 @@ COPY_EXISTING ~korgan15.CRE~ ~override/korgan15.CRE~
   WRITE_BYTE  0x23c     17 // dexterity
   WRITE_BYTE  0x23a     10 // intelligence
 
+COPY_EXISTING ~korgan8.cre~ ~Override/korgan9.cre~
+
+COPY_EXISTING ~korgan8.cre~ ~Override/korgan11.cre~
+
+COPY_EXISTING ~korgan8.cre~ ~Override/korgan12.cre~
+
+// Minsc //
+
 COPY_EXISTING ~minsc7.cre~ ~Override/minsc7.cre~
               ~minsc8.cre~ ~Override/minsc8.cre~
   WRITE_SHORT 0x0024 84 // current HP
@@ -1279,7 +983,17 @@ COPY_EXISTING ~minsc7.cre~ ~Override/minsc7.cre~
     END
   END
 
-// Neera
+COPY_EXISTING ~minsc8.cre~ ~Override/minsc9.cre~
+
+COPY_EXISTING ~minsc8.cre~ ~Override/minsc10.cre~
+
+COPY_EXISTING ~minsc8.cre~ ~Override/minsc12.cre~
+
+COPY_EXISTING ~minsc14.cre~ ~Override/minsc14.cre~
+  ADD_KNOWN_SPELL ~SPPR215~ #1 ~priest~
+
+// Neera //
+
 COPY_EXISTING ~neera8.cre~ ~Override/neera8.cre~
   WRITE_SHORT 0x24 4 // current HP
   WRITE_SHORT 0x26 4 // max HP
@@ -1435,7 +1149,16 @@ COPY_EXISTING ~neera15.cre~ ~Override/neera15.cre~
    END
   END
 
-// Rasaad
+COPY_EXISTING ~neera8.cre~ ~Override/neera10.cre~
+
+COPY_EXISTING ~neera8.cre~ ~Override/neera11.cre~
+
+COPY_EXISTING ~neera8.cre~ ~Override/neera12.cre~
+
+COPY_EXISTING ~neera8.cre~ ~Override/neera13.cre~
+
+// Rasaad //
+
 COPY_EXISTING ~rasaad8.cre~ ~Override/rasaad8.cre~
   WRITE_SHORT 0x24 80 // current HP
   WRITE_SHORT 0x26 80 // max HP
@@ -1447,7 +1170,6 @@ COPY_EXISTING ~rasaad8.cre~ ~Override/rasaad8.cre~
   WRITE_BYTE  0x23d 17 // constitution
   WRITE_BYTE  0x23e 12 // charisma
 
-// Rasaad, ToB
 COPY_EXISTING ~rasaad12.cre~ ~Override/rasaad12.cre~
   WRITE_SHORT 0x24 98 // current HP
   WRITE_SHORT 0x26 98 // max HP
@@ -1459,64 +1181,6 @@ COPY_EXISTING ~rasaad12.cre~ ~Override/rasaad12.cre~
   WRITE_BYTE  0x23d 17 // constitution
   WRITE_BYTE  0x23e 12 // charisma
 
-COPY_EXISTING ~minsc8.cre~ ~Override/minsc9.cre~
-
-COPY_EXISTING ~minsc8.cre~ ~Override/minsc10.cre~
-
-COPY_EXISTING ~minsc8.cre~ ~Override/minsc12.cre~
-
-COPY_EXISTING ~minsc14.cre~ ~Override/minsc14.cre~
-  ADD_KNOWN_SPELL ~SPPR215~ #1 ~priest~
-
-COPY_EXISTING ~edwin9.cre~ ~Override/edwin11.cre~
-
-COPY_EXISTING ~edwin9.cre~ ~Override/edwin12.cre~
-
-COPY_EXISTING ~edwin9.cre~ ~Override/edwin13.cre~
-
-COPY_EXISTING ~edwin9.cre~ ~Override/edwin7.cre~
-
-COPY_EXISTING ~viconi8.cre~ ~Override/viconi9.cre~
-
-COPY_EXISTING ~viconi8.cre~ ~Override/viconi11.cre~
-
-COPY_EXISTING ~viconi8.cre~ ~Override/viconi13.cre~
-
-COPY_EXISTING ~viconi8.cre~ ~Override/viconi6.cre~
-
-COPY_EXISTING ~mazzy9.cre~ ~Override/mazzy8.cre~
-
-COPY_EXISTING ~mazzy9.cre~ ~Override/mazzy11.cre~
-
-COPY_EXISTING ~mazzy9.cre~ ~Override/mazzy12.cre~
-
-COPY_EXISTING ~korgan8.cre~ ~Override/korgan9.cre~
-
-COPY_EXISTING ~korgan8.cre~ ~Override/korgan11.cre~
-
-COPY_EXISTING ~korgan8.cre~ ~Override/korgan12.cre~
-
-COPY_EXISTING ~aerie7.cre~ ~Override/aerie6.cre~
-
-COPY_EXISTING ~aerie7.cre~ ~Override/aerie9.cre~
-
-COPY_EXISTING ~aerie7.cre~ ~Override/aerie10.cre~
-
-COPY_EXISTING ~aerie7.cre~ ~Override/aerie11.cre~
-
-COPY_EXISTING ~haer11.cre~ ~Override/haer13.cre~
-  WRITE_LONG  0x18  960000 // XP
-
-COPY_EXISTING ~haer13.cre~ ~Override/haer15.cre~
-
-COPY_EXISTING ~neera8.cre~ ~Override/neera10.cre~
-
-COPY_EXISTING ~neera8.cre~ ~Override/neera11.cre~
-
-COPY_EXISTING ~neera8.cre~ ~Override/neera12.cre~
-
-COPY_EXISTING ~neera8.cre~ ~Override/neera13.cre~
-
 COPY_EXISTING ~rasaad8.cre~ ~Override/rasaad9.cre~
 
 COPY_EXISTING ~rasaad8.cre~ ~Override/rasaad10.cre~
@@ -1525,7 +1189,15 @@ COPY_EXISTING ~rasaad8.cre~ ~Override/rasaad11.cre~
 
 COPY_EXISTING ~rasaad8.cre~ ~Override/rasaad13.cre~
 
-// Sarevok, ToB
+// Haer'Dalis //
+
+COPY_EXISTING ~haer11.cre~ ~Override/haer13.cre~
+  WRITE_LONG  0x18  960000 // XP
+
+COPY_EXISTING ~haer13.cre~ ~Override/haer15.cre~
+
+// Sarevok //
+
 COPY_EXISTING ~sarevok.cre~ ~Override/sarevok.cre~
 
   SPRINT ~opcode_to_delete~ ~248~
