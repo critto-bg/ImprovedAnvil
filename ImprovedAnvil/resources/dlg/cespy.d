@@ -126,7 +126,7 @@ REPLACE BOTSMITH
     IF ~OR(2) PartyHasItem("S!misc30")
               PartyHasItem("S!misc31")~
       THEN REPLY @570 GOTO ttruth
-    IF ~PartyHasItem("S!leat04") Class(Player1,RANGER_ALL) Kit(Player1,VAGRANT) Global("Iamvagrant","GLOBAL",1)~ THEN REPLY @572 GOTO vagran
+    IF ~PartyHasItem("S!leat04") Class(Player1,RANGER_ALL) Kit(Player1,VAGRANT)~ THEN REPLY @572 GOTO vagran
     IF ~PartyHasItem("npplat") Reputation(Player1,20)~ THEN REPLY @574 GOTO keldorn
     IF ~PartyHasItem("S!scaleg") !Alignment(Player1,MASK_EVIL) !GlobalGT("Iap1notgood","GLOBAL",0)~ THEN REPLY @576 GOTO wyrm
     IF ~PartyHasItem("S!scaler")~ THEN REPLY @578 GOTO ancient
@@ -1529,7 +1529,7 @@ APPEND BOTSMITH
 
   IF ~~ THEN BEGIN vagran
     SAY @671 IF ~~ THEN REPLY @2 GOTO 4
-    IF ~Global("Iacoralforged","GLOBAL",0) Class(Player1,RANGER_ALL) Global("Iamvagrant","GLOBAL",1) PartyHasItem("S!leat04") PartyHasItem("S!misc34") PartyHasItem("S!clck03")
+    IF ~Global("Iacoralforged","GLOBAL",0) Class(Player1,RANGER_ALL) Kit(Player1,VAGRANT) PartyHasItem("S!leat04") PartyHasItem("S!misc34") PartyHasItem("S!clck03")
         PartyGoldGT(59999)~
       THEN REPLY @3
       DO ~TakePartyGold(60000)      DestroyGold(60000)
