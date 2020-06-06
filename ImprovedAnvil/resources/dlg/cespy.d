@@ -173,6 +173,10 @@ REPLACE BOTSMITH
               PartyHasItem("s!misc65")~
       THEN REPLY @786 GOTO aeriehammer
     IF ~PartyHasItem("sw2h16")~ THEN REPLY @788 GOTO sarevoksword
+    IF ~OR(2) PartyHasItem("ohhcloak")
+              PartyHasItem("s!clck10")~    
+      THEN REPLY @790 GOTO hexxat1
+    IF ~PartyHasItem("s!clck08")~ THEN REPLY @792 GOTO hexxat2
     IF ~~ THEN REPLY #992 EXIT
   END
 END
@@ -2125,6 +2129,36 @@ IF ~~ THEN BEGIN treefist
       EXIT
   END
 
+  IF ~~ THEN BEGIN hexxat1
+    SAY @791 IF ~~ THEN REPLY @2 GOTO 13
+    IF ~PartyHasItem("ohhcloak") PartyGoldGT(24999) 
+	PartyHasItem("clck01") PartyHasItem("s!clck10")~
+      THEN REPLY @3
+      DO ~SetGlobal("IAhexxat1forged","GLOBAL",1)
+          TakePartyGold(25000)      DestroyGold(25000)
+          TakePartyItemNum("ohhcloak",1)   DestroyItem("ohhcloak")
+          TakePartyItemNum("clck01",1)   DestroyItem("clck01")
+          TakePartyItemNum("s!clck10",1)   DestroyItem("s!clck10")
+          GiveItemCreate("s!clck08",Player1,1,1,1)
+          CreateVisualEffect("spcrtwpn",[401.348])~
+      EXIT
+  END
+  
+  IF ~~ THEN BEGIN hexxat2
+    SAY @793 IF ~~ THEN REPLY @2 GOTO 13
+    IF ~PartyHasItem("s!clck08") PartyGoldGT(49999) 
+	PartyHasItem("clck01") PartyHasItem("dwdust") PartyHasItem("s!misc06") ~
+      THEN REPLY @3
+      DO ~SetGlobal("IAhexxat1forged","GLOBAL",1)
+          TakePartyGold(50000)      DestroyGold(50000)
+          TakePartyItemNum("s!clck08",1)   DestroyItem("s!clck08")
+          TakePartyItemNum("clck01",1)   DestroyItem("clck01")
+          TakePartyItemNum("dwdust",1)   DestroyItem("dwdust")
+          TakePartyItemNum("s!misc06",1)   DestroyItem("s!cmisc06")	
+          GiveItemCreate("s!clck09",Player1,1,1,1)
+          CreateVisualEffect("spcrtwpn",[401.348])~
+      EXIT
+  END
 
   IF ~~ THEN BEGIN regular
     SAY #66558 /* ~Ooo!  Needs must I to look through your belongings!  Match them to recipes, must I!  Let me see...~ [BOTSM19] */
