@@ -1415,6 +1415,68 @@ var gear = [
                     }
                 ],
                 "item_name": "Pendant of Recovered Light"
+            },
+            {
+                "components": [
+                    "Cloak of Dragomir",
+                    "Cloak of the Dead",
+                    "Cloak of Protection +1",
+                    "25,000 gp",
+                    "(Maheer and Cespenar only)"
+                ],
+                "attributes": [
+                    {
+                        "section_name": "Abilities",
+                        "section_items": [
+                            "+1 bonus to AC",
+                            "+1 bonus to saving throws",
+                            "+1 bonus to Constitution",
+                            "+1/2 bonus to attacks per round",
+                            "Allows a vampire to travel outside during the day and in full view of the sun, albeit with the following penalties:",
+                            "Strength: -1",
+                            "Dexterity: -1",
+                            "Intelligence: -1",
+                            "Wisdom: -1",
+                            "Charisma: -1"
+                        ]
+                    },
+                    {
+                        "section_name": "Usable by",
+                        "section_items": [
+                            "Vampires"
+                        ]
+                    }
+                ],
+                "item_name": "Enhanced Cloak of Dragomir"
+            },
+            {
+                "components": [
+                    "Enhanced Cloak of Dragomir",
+                    "Cloak of Protection +1",
+                    "Manual of Elaboration",
+                    "Adamantine Dust",
+                    "50,000 gp",
+                    "(Maheer and Cespenar only)"
+                ],
+                "attributes": [
+                    {
+                        "section_name": "Abilities",
+                        "section_items": [
+                            "+2 bonus to AC",
+                            "+2 bonus to saving throws",
+                            "+2 bonus to Constitution",
+                            "+1 bonus to attacks per round",
+                            "Allows a vampire to travel outside during the day and in full view of the sun."
+                        ]
+                    },
+                    {
+                        "section_name": "Usable by",
+                        "section_items": [
+                            "Vampires"
+                        ]
+                    }
+                ],
+                "item_name": "Cloak of the Daywalker"
             }
         ]
     }
