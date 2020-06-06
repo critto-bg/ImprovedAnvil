@@ -2134,7 +2134,7 @@ IF ~~ THEN BEGIN treefist
     IF ~PartyHasItem("ohhcloak") PartyGoldGT(24999) 
 	PartyHasItem("clck01") PartyHasItem("s!clck10")~
       THEN REPLY @3
-      DO ~SetGlobal("IAhexxat1forged","GLOBAL",1)
+      DO ~SetGlobal("Iahexxat01forged","GLOBAL",1)
           TakePartyGold(25000)      DestroyGold(25000)
           TakePartyItemNum("ohhcloak",1)   DestroyItem("ohhcloak")
           TakePartyItemNum("clck01",1)   DestroyItem("clck01")
@@ -2149,7 +2149,7 @@ IF ~~ THEN BEGIN treefist
     IF ~PartyHasItem("s!clck08") PartyGoldGT(49999) 
 	PartyHasItem("clck01") PartyHasItem("dwdust") PartyHasItem("s!misc06") ~
       THEN REPLY @3
-      DO ~SetGlobal("IAhexxat1forged","GLOBAL",1)
+      DO ~SetGlobal("Iahexxat02forged","GLOBAL",1)
           TakePartyGold(50000)      DestroyGold(50000)
           TakePartyItemNum("s!clck08",1)   DestroyItem("s!clck08")
           TakePartyItemNum("clck01",1)   DestroyItem("clck01")
