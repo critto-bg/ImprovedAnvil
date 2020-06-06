@@ -640,10 +640,13 @@ COPY_EXISTING ~VALYG8.CRE~ ~override/VALYG8.CRE~
   WRITE_BYTE  0x238     18 // strength
   WRITE_BYTE  0x239     61 // strength % bonus
   WRITE_BYTE  0x23d     17 // constitution
+  WRITE_SHORT 0x24      70 // current HP
+  WRITE_SHORT 0x26      70 // max HP
 
   SPRINT ~opcode_to_delete~ ~233~
   LAUNCH_PATCH_MACRO ~DELETE_CRE_EFFECT~
 
+  // club, flail, longbow
   PATCH_FOR_EACH ~prof_code~ IN ~115~ ~100~ ~104~ BEGIN
     LPF ~ADD_CRE_EFFECT~ INT_VAR
       opcode = 233
@@ -653,6 +656,7 @@ COPY_EXISTING ~VALYG8.CRE~ ~override/VALYG8.CRE~
     END
   END
 
+  // katana
   LPF ~ADD_CRE_EFFECT~ INT_VAR
     opcode = 233
     timing = 9
@@ -660,6 +664,7 @@ COPY_EXISTING ~VALYG8.CRE~ ~override/VALYG8.CRE~
     parameter2 = 94
   END
 
+  // dual-wielding
   LPF ~ADD_CRE_EFFECT~ INT_VAR
     opcode = 233
     timing = 9
@@ -909,8 +914,7 @@ COPY_EXISTING ~korgan8.CRE~ ~override/korgan8.CRE~
   LPF ~ADD_CRE_EFFECT~ INT_VAR
     opcode = 233
     timing = 9
-    target = 1
-    parameter1 = 3
+    parameter1 = 2
     parameter2 = 92
   END
 
@@ -918,8 +922,7 @@ COPY_EXISTING ~korgan8.CRE~ ~override/korgan8.CRE~
   LPF ~ADD_CRE_EFFECT~ INT_VAR
     opcode = 233
     timing = 9
-    target = 1
-    parameter1 = 1
+    parameter1 = 2
     parameter2 = 97
   END
 
@@ -927,7 +930,6 @@ COPY_EXISTING ~korgan8.CRE~ ~override/korgan8.CRE~
   LPF ~ADD_CRE_EFFECT~ INT_VAR
     opcode = 233
     timing = 9
-    target = 1
     parameter1 = 2
     parameter2 = 114
   END
@@ -948,7 +950,6 @@ COPY_EXISTING ~korgan8.cre~ ~Override/korgan12.cre~
 // Minsc //
 
 COPY_EXISTING ~minsc7.cre~ ~Override/minsc7.cre~
-              ~minsc8.cre~ ~Override/minsc8.cre~
   WRITE_SHORT 0x0024 84 // current HP
   WRITE_SHORT 0x0026 84 // maximum HP
   WRITE_BYTE  0x23c 18 // dexterity
@@ -983,6 +984,10 @@ COPY_EXISTING ~minsc7.cre~ ~Override/minsc7.cre~
       parameter2 = ~prof_code~
     END
   END
+
+COPY_EXISTING ~minsc7.cre~ ~Override/minsc8.cre~
+  WRITE_SHORT 0x0024 96 // current HP
+  WRITE_SHORT 0x0026 96 // maximum HP
 
 COPY_EXISTING ~minsc8.cre~ ~Override/minsc9.cre~
 
@@ -1203,6 +1208,43 @@ COPY_EXISTING ~sarevok.cre~ ~Override/sarevok.cre~
 
   SPRINT ~opcode_to_delete~ ~248~
   LAUNCH_PATCH_MACRO ~DELETE_CRE_EFFECT~
+
+  SPRINT ~opcode_to_delete~ ~233~
+  LAUNCH_PATCH_MACRO ~DELETE_CRE_EFFECT~
+
+  // halberd
+  LPF ~ADD_CRE_EFFECT~ INT_VAR
+    opcode = 233
+    timing = 9
+    parameter1 = 2
+    parameter2 = 99
+  END
+
+  // two-handed
+  LPF ~ADD_CRE_EFFECT~ INT_VAR
+    opcode = 233
+    timing = 9
+    parameter1 = 2
+    parameter2 = 111
+  END
+
+  // 2h sword
+  LPF ~ADD_CRE_EFFECT~ INT_VAR
+    opcode = 233
+    timing = 9
+    parameter1 = 5
+    parameter2 = 93
+  END
+
+// Yoshimo //
+
+COPY_EXISTING ~yoshi7.cre~ ~Override/yoshi8.cre~
+
+COPY_EXISTING ~yoshi7.cre~ ~Override/yoshi10.cre~
+
+COPY_EXISTING ~yoshi7.cre~ ~Override/yoshi11.cre~
+
+COPY_EXISTING ~yoshi7.cre~ ~Override/yoshi12.cre~
 
 // dynamic adjustment of XP for joinable NPCs //
 
