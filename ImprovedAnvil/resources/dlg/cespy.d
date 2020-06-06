@@ -2154,7 +2154,7 @@ IF ~~ THEN BEGIN treefist
           TakePartyItemNum("s!clck08",1)   DestroyItem("s!clck08")
           TakePartyItemNum("clck01",1)   DestroyItem("clck01")
           TakePartyItemNum("dwdust",1)   DestroyItem("dwdust")
-          TakePartyItemNum("s!misc06",1)   DestroyItem("s!cmisc06")	
+          TakePartyItemNum("s!misc06",1)   DestroyItem("s!misc06")	
           GiveItemCreate("s!clck09",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~
       EXIT
