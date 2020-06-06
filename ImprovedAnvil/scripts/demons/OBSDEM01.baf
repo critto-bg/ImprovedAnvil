@@ -37,6 +37,7 @@ IF
   Detect([PC])
   Global("summon","LOCALS",0)
   XPLT(Player1,2350000)
+  Global("Iahardmode","Global",0)  
 THEN
   RESPONSE #100
     SetInterrupt(FALSE)
@@ -59,7 +60,9 @@ END
 IF
   Detect([PC])
   Global("summon","LOCALS",0)
-  XPGT(Player1,2349999)
+  OR(2)
+    XPGT(Player1,2349999)
+    Global("Iahardmode","Global",1)
   GlobalLT("Chapter","GLOBAL",6)
 THEN
   RESPONSE #100
