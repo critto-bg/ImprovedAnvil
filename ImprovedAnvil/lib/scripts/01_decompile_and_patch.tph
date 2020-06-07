@@ -486,3 +486,24 @@ COPY_EXISTING ~OH4101.BCS~ ~override~
   DECOMPILE_AND_PATCH BEGIN
     REPLACE_TEXTUALLY ~GiveItemCreate("OHRSCRL1",Player1,1,1,1)~ ~GiveItemCreate("OHRSCRL1",Player1,5,0,0)~
   END
+
+COPY_EXISTING ~HEXXAT.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~!PartyHasItem("ohhcloak")~ ~TempVar1~
+    REPLACE_TEXTUALLY ~PartyHasItem("ohhcloak")~ ~OR(3) PartyHasItem("ohhcloak") PartyHasItem("S!clck08") PartyHasItem("S!clck09")~
+    REPLACE_TEXTUALLY ~TempVar1~ ~!PartyHasItem("ohhcloak") !PartyHasItem("S!clck08") !PartyHasItem("S!clck09")~
+    REPLACE_TEXTUALLY ~!HasItemEquiped("ohhcloak",Myself)~ ~TempVar2~
+    REPLACE_TEXTUALLY ~HasItemEquiped("ohhcloak",Myself)~ ~OR(3) HasItemEquiped("ohhcloak",Myself) HasItemEquiped("S!clck08",Myself) HasItemEquiped("S!clck09",Myself)~
+    REPLACE_TEXTUALLY ~TempVar2~ ~!HasItemEquiped("ohhcloak",Myself) !HasItemEquiped("S!clck08",Myself) !HasItemEquiped("S!clck09",Myself)~
+  END
+
+COPY_EXISTING ~HEXXAT25.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~!PartyHasItem("ohhcloak")~ ~TempVar1~
+    REPLACE_TEXTUALLY ~PartyHasItem("ohhcloak")~ ~OR(3) PartyHasItem("ohhcloak") PartyHasItem("S!clck08") PartyHasItem("S!clck09")~
+    REPLACE_TEXTUALLY ~TempVar1~ ~!PartyHasItem("ohhcloak") !PartyHasItem("S!clck08") !PartyHasItem("S!clck09")~
+    REPLACE_TEXTUALLY ~!HasItemEquiped("ohhcloak",Myself)~ ~TempVar2~
+    REPLACE_TEXTUALLY ~HasItemEquiped("ohhcloak",Myself)~ ~OR(3) HasItemEquiped("ohhcloak",Myself) HasItemEquiped("S!clck08",Myself) HasItemEquiped("S!clck09",Myself)~
+    REPLACE_TEXTUALLY ~TempVar2~ ~!HasItemEquiped("ohhcloak",Myself) !HasItemEquiped("S!clck08",Myself) !HasItemEquiped("S!clck09",Myself)~
+    REPLACE_TEXTUALLY ~PickUpItem("ohhcloak")~ ~PickUpItem("ohhcloak",Myself) PickUpItem("S!clck08",Myself) PickUpItem("S!clck09",Myself)~
+  END
