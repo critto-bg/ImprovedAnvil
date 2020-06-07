@@ -1,0 +1,74 @@
+// Remove class restrictions from item drops and forging restrictions
+
+
+// Red Coral Gem drop in pirate stronghold
+COPY_EXISTING ~override\AR0310.BCS~ ~override\AR0310.BCS~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~Class(Player1,RANGER_ALL)~ ~~
+    REPLACE_TEXTUALLY ~!Class(Player1,CLERIC_ALL)~ ~~
+    REPLACE_TEXTUALLY ~Kit(Player1, VAGRANT)~ ~~
+  END
+
+// Cloak of Magic Shielding in Spellhold
+COPY_EXISTING ~override\AR154.BCS~ ~override\AR1514.BCS~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~IF Global("Iaitem","AR1514",0) Global("closedDoor","AR1514",2) Class(Player1,RANGER_ALL) Kit(Player1,VAGRANT) !Class(Player1,CLERIC_ALL) THEN RESPONSE #100 SetGlobal("Iaitem","AR1514",1) GiveItemCreate("S!clck03",Player1,0,0,0) END~ ~IF Global("Iaitem","AR1514",0) Global("closedDoor","AR1514",2) THEN RESPONSE #100 IF SetGlobal("Iaitem","AR1514",1) GiveItemCreate("S!clck03",Player1,0,0,0) END~
+  END
+
+// Armor of Stamina in brynnlaw brothel
+COPY_EXISTING ~override\pirmur01.BCS~ ~override\pirmur01.BCS~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~Global("Iasingleswash","AR1610",1) OR(6) Kit(Player1,SWASHBUCKLER) Kit(Player2,SWASHBUCKLER) Kit(Player3,SWASHBUCKLER) Kit(Player4,SWASHBUCKLER) Kit(Player5,SWASHBUCKLER) Kit(Player6,SWASHBUCKLER)~ ~~
+  END
+
+// Red Star Garnet in Watcher's Keep level 3
+COPY_EXISTING ~override\AR3014.BCS~ ~override\AR3014.BCS~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~Kit(Player1,SWASHBUCKLER) !Class(Player1,FIGHTER_ALL) Class(Player1,CLERIC_ALL)!Class(Player1,MAGE_ALL)~ ~~
+  END
+
+// Robe the Apprenti forging in planar sphere
+COPY_EXISTING ~override\AR0411.BCS~ ~override\AR0411.BCS~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~Class(Player1,MAGE_ALL) !Class(Player1,SORCERER) !Class(Player1,THIEF_ALL) !Class(Player1,FIGHTER_ALL) !Class(Player1,BARD_ALL) !Class(Player1,CLERIC_ALL) Global("Iarotaforge","AR0411",0) CheckStatGT(Player1,17,WIS) Kit(LastSeenBy(Myself),MAGESCHOOL_NECROMANCER)~ ~Global("Iarotaforge","AR0411",0)~
+    REPLACE_TEXTUALLY ~Class(Player1,MAGE_ALL) Global("Iarotaforge","AR0411",1)~ ~Global("Iarotaforge","AR0411",1)~
+  END
+
+//  Item forging
+
+//  Cespenar forging dialogue
+COPY_EXISTING ~override\BOTSMITH.DLG~ ~override\BOTSMITH.DLG~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~Class(Player1,RANGER_ALL) !Class(Player1,CLERIC_ALL) Global("Iaflailplace","GLOBAL",3)~ ~Global("Iaflailplace","GLOBAL",3)~
+    REPLACE_TEXTUALLY ~PartyHasItem("waflail") Class(Player1,RANGER_ALL) !Class(Player1,CLERIC_ALL)~ ~PartyHasItem("waflail")~
+ 
+    REPLACE_TEXTUALLY ~Global("Iacoralforged","GLOBAL",0) Class(Player1,RANGER_ALL) Kit(Player1,VAGRANT)~ ~Global("Iacoralforged","GLOBAL",0)~
+    REPLACE_TEXTUALLY ~PartyHasItem("S!leat04") Class(Player1,RANGER_ALL) Kit(Player1,VAGRANT)~ ~PartyHasItem("S!leat04")~
+
+    REPLACE_TEXTUALLY ~Class(Player1,MAGE_ALL) !Class(Player1,CLERIC_ALL) !Class(Player1,FIGHTER_ALL) !Class(Player1,BARD_ALL) !Class(Player1,THIEF_ALL) PartyHasItem("clck29")~ ~PartyHasItem("clck29")~
+
+    REPLACE_TEXTUALLY ~PartyHasItem("S!helm07") GlobalGT("Iaoldsquijob","GLOBAL",3) GlobalGT("Iasquirjob","GLOBAL",8) Class(Player1,MAGE_ALL)~ ~PartyHasItem("S!helm07") GlobalGT("Iaoldsquijob","GLOBAL",3) GlobalGT("Iasquirjob","GLOBAL",8)~
+
+    REPLACE_TEXTUALLY ~PartyHasItem("S!amul05") Class(Player1,MAGE_ALL) Kit(Player1,MAGESCHOOL_NECROMANCER) !Class(Player1,THIEF_ALL) !Class(Player1,FIGHTER_ALL) !Class(Player1,CLERIC_ALL) !Class(Player1,SORCERER)~ ~PartyHasItem("S!amul05")~
+
+    REPLACE_TEXTUALLY ~Global("Iaamul06forged","GLOBAL",0) Class(Player1,MAGE_ALL) Kit(Player1,MAGESCHOOL_NECROMANCER) !Class(Player1,THIEF_ALL) !Class(Player1,FIGHTER_ALL) !Class(Player1,CLERIC_ALL) !Class(Player1,SORCERER) ~ ~Global("Iaamul06forged","GLOBAL",0)~
+  END
+
+//  Cromwell forging dialogue
+COPY_EXISTING ~override\WSMITH01.DLG~ ~override\WSMITH01.DLG~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~Class(Player1,RANGER_ALL) !Class(Player1,CLERIC_ALL) Global("Iaflailplace","GLOBAL",3)~ ~Global("Iaflailplace","GLOBAL",3)~
+    REPLACE_TEXTUALLY ~PartyHasItem("waflail") Class(Player1,RANGER_ALL) !Class(Player1,CLERIC_ALL)~ ~PartyHasItem("waflail")~
+ 
+    REPLACE_TEXTUALLY ~Global("Iacoralforged","GLOBAL",0) Class(Player1,RANGER_ALL) Kit(Player1,VAGRANT)~ ~Global("Iacoralforged","GLOBAL",0)~
+    REPLACE_TEXTUALLY ~PartyHasItem("S!leat04") Class(Player1,RANGER_ALL) Kit(Player1,VAGRANT)~ ~PartyHasItem("S!leat04")~
+
+    REPLACE_TEXTUALLY ~Class(Player1,MAGE_ALL) !Class(Player1,CLERIC_ALL) !Class(Player1,FIGHTER_ALL) !Class(Player1,BARD_ALL) !Class(Player1,THIEF_ALL) PartyHasItem("clck29")~ ~PartyHasItem("clck29")~
+
+    REPLACE_TEXTUALLY ~PartyHasItem("S!helm07") GlobalGT("Iaoldsquijob","GLOBAL",3) GlobalGT("Iasquirjob","GLOBAL",8) Class(Player1,MAGE_ALL)~ ~PartyHasItem("S!helm07") GlobalGT("Iaoldsquijob","GLOBAL",3) GlobalGT("Iasquirjob","GLOBAL",8)~
+
+    REPLACE_TEXTUALLY ~PartyHasItem("S!amul05") Class(Player1,MAGE_ALL) Kit(Player1,MAGESCHOOL_NECROMANCER) !Class(Player1,THIEF_ALL) !Class(Player1,FIGHTER_ALL) !Class(Player1,CLERIC_ALL) !Class(Player1,SORCERER)~ ~PartyHasItem("S!amul05")~
+
+    REPLACE_TEXTUALLY ~Global("Iaamul06forged","GLOBAL",0) Class(Player1,MAGE_ALL) Kit(Player1,MAGESCHOOL_NECROMANCER) !Class(Player1,THIEF_ALL) !Class(Player1,FIGHTER_ALL) !Class(Player1,CLERIC_ALL) !Class(Player1,SORCERER) ~ ~Global("Iaamul06forged","GLOBAL",0)~
+  END
+
