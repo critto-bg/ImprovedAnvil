@@ -1,0 +1,13 @@
+/// Remove class restrictions from Gypsey quests and Limak encounter.  Old ones quest is still necromancer only
+ 
+// Docks Limak encounter
+COPY_EXISTING ~override\AR0300.BCS~ ~override\AR0300.BCS~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~Class(Player1,MAGE_ALL)~ ~~
+  END
+
+// Planar Sphere 1st floor Gypsy quests, note old one tags use Fighter/Cleric/Thief and have necromancer tag whereas gypsey tags use Fighter/Thief/Cleric and ROTA has sorcerer tag
+COPY_EXISTING ~override\AR0411.BCS~ ~override\AR0411.BCS~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~Class(Player1,MAGE_ALL) !Class(Player1,FIGHTER_ALL) !Class(Player1,THIEF_ALL) !Class(Player1,CLERIC_ALL)~ ~~
+  END
