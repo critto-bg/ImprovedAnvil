@@ -1,0 +1,75 @@
+/// Remove class restrictions from ranger quests
+
+//Shadow temple initiate ranger quests
+COPY_EXISTING ~override\AR1401.BCS~ ~override\AR1401.BCS~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~Class(Player1,RANGER_ALL)~ ~~
+  END
+
+//Shimmering light Umar's Cave
+COPY_EXISTING ~override\AR1106.BCS~ ~override\AR1106.BCS~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~Class(Player1,RANGER_ALL)~ ~~
+  END
+
+//Shimmering light in Ranger Cabin
+COPY_EXISTING ~override\AR1107.BCS~ ~override\AR1107.BCS~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~Class(Player1,RANGER_ALL) Global("Iarangerjob","GLOBAL",1)~ ~Global("Iarangerjob","GLOBAL",1)~
+    REPLACE_TEXTUALLY ~Class(Player1,RANGER_ALL) Global("Iarangerjob","GLOBAL",5)~ ~Global("Iarangerjob","GLOBAL",5)~
+  END
+
+//Shimmering light in Umar Hills
+COPY_EXISTING ~override\AR1100.BCS~ ~override\AR1100.BCS~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~Global("Iarangerjob","GLOBAL",2) Class(Player1,RANGER_ALL)~ ~Global("Iarangerjob","GLOBAL",2)~
+    REPLACE_TEXTUALLY ~GlobalTimerExpired("Iad2appear","GLOBAL") Class(Player1,RANGER_ALL)~ ~GlobalTimerExpired("Iad2appear","GLOBAL")~
+    REPLACE_TEXTUALLY ~Global("Iacreature2","AR1100",0) Class(Player1,RANGER_ALL)~ ~Global("Iacreature2","AR1100",0)~
+    REPLACE_TEXTUALLY ~Global("Iacreature2","AR1100",1) Class(Player1,RANGER_ALL)~ ~Global("Iacreature2","AR1100",1)~
+    REPLACE_TEXTUALLY ~GlobalTimerExpired("Iad3appear","GLOBAL") Class(Player1,RANGER_ALL)~ ~GlobalTimerExpired("Iad3appear","GLOBAL")~
+    REPLACE_TEXTUALLY ~Global("Iacreature2","AR1100",1) Class(Player1,RANGER_ALL)~ ~Global("Iacreature2","AR1100",1)~
+    REPLACE_TEXTUALLY ~Global("Iacreature2","AR1100",2) Class(Player1,RANGER_ALL)~ ~Global("Iacreature2","AR1100",2)~
+    REPLACE_TEXTUALLY ~GlobalTimerExpired("Iaauriel","GLOBAL") Class(Player1,RANGER_ALL)~ ~GlobalTimerExpired("Iaauriel","GLOBAL")~
+  END
+
+//Grandfather of assassins note in Sewer's Beneath Coronet
+COPY_EXISTING ~override\AR0404.BCS~ ~override\AR0404.BCS~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~Class(Player1,RANGER_ALL)~ ~~
+  END
+
+//Good Bad Ugly in ranger cabin
+COPY_EXISTING ~override\AR1107.BCS~ ~override\AR1107.BCS~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~Class(Player1,RANGER_ALL) !Class(Player1,CLERIC_ALL) Kit(Player1,VAGRANT) GlobalGT("Iarangerjob","GLOBAL",11)~ ~Global("Iarangerjob","GLOBAL",11)~
+  END
+
+//Good Bad Ugly bridge encounter with Malbar
+COPY_EXISTING ~override\AR0500.BCS~ ~override\AR0500.BCS~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~Kit(Player1,VAGRANT)~ ~~
+  END
+
+// Good Bad Ugly inn encounter with Diviner
+COPY_EXISTING ~override\AR0511.BCS~ ~override\AR0511.BCS~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~Class(Player1,RANGER_ALL) Kit(Player1,VAGRANT)~ ~~
+  END
+
+//Good Bad Ugly in Umar Hills
+COPY_EXISTING ~override\AR1100.BCS~ ~override\AR1100.BCS~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~Kit(Player1,VAGRANT)~ ~~
+  END
+
+//Good Bad Ugly Mekrath's lair
+COPY_EXISTING ~override\AR0705.BCS~ ~override\AR0705.BCS~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~!Kit(Player1,VAGRANT)~ ~~
+  END
+
+//Good Bad Ugly Diviner's hideout
+COPY_EXISTING ~override\ARia18.BCS~ ~override\ARia18.BCS~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~Class(Player1,RANGER_ALL) !Kit(Player1,VAGRANT)~ ~~
+  END
