@@ -1,0 +1,36 @@
+// Remove class restrictions from nonessential kiit drios
+
+// Golden Girdle in Watcher's Keep level 4
+COPY_EXISTING ~override\AR3017.BCS~ ~override\AR3017.BCS~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~!Class(Player1,MAGE_ALL)~ ~~
+  END
+
+// Scroll of Memory Boosting in Spellhold
+COPY_EXISTING ~override\AR154.BCS~ ~override\AR1514.BCS~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~IF Global("Iaitem","AR1514",0) Global("closedDoor","AR1514",2) OR(2) Class(Player1,MAGE_ALL) Class(Player1,DRUID_ALL) !Class(Player1,FIGHTER_ALL) !Class(Player1,THIEF_ALL) !Class(Player1,CLERIC_ALL) THEN RESPONSE #100 SetGlobal("Iaitem","AR1514",1) GiveItemCreate("S!misc01",Player1,0,0,0) END~ ~IF Global("Iaitem1","AR1514",0) Global("closedDoor","AR1514",2) THEN RESPONSE #100 SetGlobal("Iaitem1","AR1514",1) GiveItemCreate("S!misc01",Player1,0,0,0) END~ 
+  END
+
+// Scrolls in Planar Sphere
+COPY_EXISTING ~override\AR0410.BCS~ ~override\AR0410.BCS~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~Class(Player1,MAGE_ALL)~ ~~
+    REPLACE_TEXTUALLY ~!Class(Player1,FIGHTER_ALL)~ ~~
+    REPLACE_TEXTUALLY ~!Class(Player1,THIEF_ALL)~ ~~
+    REPLACE_TEXTUALLY ~!Class(Player1,CLERIC_ALL)~ ~~
+    REPLACE_TEXTUALLY ~Kit(Player1, VAGRANT)~ ~~
+    REPLACE_TEXTUALLY ~OR(4) !Class(Player1,MAGE_ALL) Class(Player1,FIGHTER_ALL) Class(Player1,THIEF_ALL) Class(Player1,CLERIC_ALL)~ ~~
+  END
+
+// Rewards from Swanmay in Umar Hills
+COPY_EXISTING ~override\AR1100.BCS~ ~override\AR1100.BCS~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~	Global("ShadowLordDead","GLOBAL",1) Global("Iacreature","AR1100",0) Class(Player1,RANGER_ALL)~ ~Global("ShadowLordDead","GLOBAL",1) Global("Iacreature","AR1100",0)~
+  END
+
+// Potions in ranger cabin in Umar Hills
+COPY_EXISTING ~override\AR1107.BCS~ ~override\AR1107.BCS~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~Global("Iaitem","AR1107",0) Class(Player1,RANGER_ALL)~ ~Global("Iaitem","AR1107",0)~
+  END
