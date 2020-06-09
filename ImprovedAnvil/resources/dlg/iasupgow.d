@@ -203,5 +203,5 @@ END
 
 IF ~Global("Iasupgowsent","AR3011",3) Global("Iasupgowattack","AR3011",0)~ THEN BEGIN 50
   SAY @3594
-  IF ~~ THEN DO ~SetGlobal("Iasupgowattack","AR3011",1) ReputationInc(-2) Enemy()~ EXIT
+  IF ~~ THEN DO ~SetGlobal("Iasupgowattack","AR3011",1) ReputationInc(-3) Enemy()~ EXIT
 END
