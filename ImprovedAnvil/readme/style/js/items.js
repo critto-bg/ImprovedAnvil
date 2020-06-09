@@ -2938,8 +2938,9 @@ var weapons = [
                     {
                         "section_name": "Abilities",
                         "section_items": [
-                            "Wearer is under permanent Barbarian Rage",
-                            "Magic Resistance: +10%",
+                            "+10% bonus to Magic Resistance",
+                            "+2 bonus to Strength",
+                            "+1 bonus to Critical Hit range",
                             "Damage: 1D10 +5, +5 damage vs. Evil",
                             "10% chance to cause 10d6 cold damage on hit",
                             "10% chance to cause 10d6 magic damage on hit"
