@@ -1,0 +1,46 @@
+/// Custom kits: makes Imoen into a kensai ///
+
+SILENT
+
+COPY ~ImprovedAnvil/resources/creatures/vanilla/imoen10.cre~ ~override/imoen10.cre~
+     ~ImprovedAnvil/resources/creatures/vanilla/imoen15.cre~ ~override/imoen15.cre~
+     ~ImprovedAnvil/resources/creatures/vanilla/imoen213.cre~ ~override/imoen211.cre~
+     ~ImprovedAnvil/resources/creatures/vanilla/imoen213.cre~ ~override/imoen213.cre~
+  WRITE_SHORT 0x24   10 // current HP
+  WRITE_SHORT 0x26   10 // max HP
+  WRITE_SHORT 0x28  0x6110 // animation
+  WRITE_BYTE  0x234  1 // current level
+
+  WRITE_SHORT 0x244 0
+  WRITE_SHORT 0x246 0x4003 // kit
+  WRITE_BYTE  0x273 2 // class
+
+  REMOVE_KNOWN_SPELLS
+  REMOVE_MEMORIZED_SPELLS
+
+  SPRINT ~opcode_to_delete~ ~233~
+  LAUNCH_PATCH_MACRO ~DELETE_CRE_EFFECT~
+
+  // flails
+  LPF ~ADD_CRE_EFFECT~ INT_VAR
+    opcode = 233
+    timing = 9
+    parameter1 = 1
+    parameter2 = 100
+  END
+
+  // long swords
+  LPF ~ADD_CRE_EFFECT~ INT_VAR
+    opcode = 233
+    timing = 9
+    parameter1 = 1
+    parameter2 = 90
+  END
+
+  // dual-wielding
+  LPF ~ADD_CRE_EFFECT~ INT_VAR
+    opcode = 233
+    timing = 9
+    parameter1 = 2
+    parameter2 = 114
+  END
