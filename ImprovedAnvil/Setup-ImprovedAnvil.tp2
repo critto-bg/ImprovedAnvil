@@ -18,189 +18,14 @@ DESIGNATED 0
 REQUIRE_PREDICATE GAME_IS ~bg2ee~ @8901
 REQUIRE_PREDICATE FILE_EXISTS ~engine.lua~ @8902
 
-// Setting up environment //
-
-PRINT "Setting up..."
-
-SILENT
-
-INCLUDE "ImprovedAnvil/lib/core/setup.tph"
-
-// Patching IDS tables //
-
-PRINT "Patching IDS tables..."
-
-SILENT
-
-INCLUDE "ImprovedAnvil/lib/core/ids.tph"
-
-// Copying & patching items //
-
-PRINT "Copying & patching items..."
-
-SILENT
-
-INCLUDE "ImprovedAnvil/lib/tpa/items.tpa"
-
-INCLUDE "ImprovedAnvil/lib/items/00_copy_vanilla.tph"
-
-INCLUDE "ImprovedAnvil/lib/items/01_copy_new.tph"
-
-INCLUDE "ImprovedAnvil/lib/items/02_patches_vanilla.tph"
-
-INCLUDE "ImprovedAnvil/lib/items/03_patches_ee.tph"
-
-INCLUDE "ImprovedAnvil/lib/items/04_create_new.tph"
-
-INCLUDE "ImprovedAnvil/lib/items/05_replacements.tph"
-
-INCLUDE "ImprovedAnvil/lib/items/06_monk_fists.tph"
-
-// Copying & patching areas //
-
-PRINT "Copying & patching areas..."
-
-SILENT
-
-INCLUDE "ImprovedAnvil/lib/tpa/areas.tpa"
-
-INCLUDE "ImprovedAnvil/lib/areas/00_copy_new.tph"
-
-INCLUDE "ImprovedAnvil/lib/areas/01_patch_AR2810.tph"
-
-INCLUDE "ImprovedAnvil/lib/areas/02_patches_vanilla.tph"
-
-INCLUDE "ImprovedAnvil/lib/areas/03_patches_ee.tph"
-
-// Copying & patching eff files //
-
-PRINT "Copying & patching effects..."
-
-SILENT
-
-INCLUDE "ImprovedAnvil/lib/effects/00_copy_new.tph"
-
-INCLUDE "ImprovedAnvil/lib/effects/01_patch_vanilla.tph"
-
-// Copying & patching spells //
-
-PRINT "Copying & patching spells..."
-
-SILENT
-
-INCLUDE "ImprovedAnvil/lib/spells/00_copy_vanilla.tph"
-
-INCLUDE "ImprovedAnvil/lib/spells/01_copy_new.tph"
-
-INCLUDE "ImprovedAnvil/lib/spells/02_create_new.tph"
-
-INCLUDE "ImprovedAnvil/lib/spells/03_patches_vanilla.tph"
-
-INCLUDE "ImprovedAnvil/lib/spells/04_patches_ee.tph"
-
-// Copying & patching creatures //
-
-PRINT "Copying & patching creatures..."
-
-SILENT
-
-INCLUDE "ImprovedAnvil/lib/tpa/creatures.tpa"
-
-INCLUDE "ImprovedAnvil/lib/creatures/00_copy_vanilla.tph"
-
-INCLUDE "ImprovedAnvil/lib/creatures/01_copy_new.tph"
-
-INCLUDE "ImprovedAnvil/lib/creatures/02_patches_vanilla.tph"
-
-INCLUDE "ImprovedAnvil/lib/creatures/03_patches_ee.tph"
-
-INCLUDE "ImprovedAnvil/lib/creatures/04_patches_joinable.tph"
-
-INCLUDE "ImprovedAnvil/lib/creatures/05_creature_colours.tph"
-
-// Adding kits //
-
-PRINT "Installing kits..."
-
-SILENT
-
-INCLUDE "ImprovedAnvil/lib/tpa/fl#add_kit_ee.tpa"
-
-INCLUDE "ImprovedAnvil/lib/kits/vagrant.tph"
-
-INCLUDE "ImprovedAnvil/lib/kits/auramaster.tph"
-
-INCLUDE "ImprovedAnvil/lib/kits/riskbreaker.tph"
-
-INCLUDE "ImprovedAnvil/lib/kits/protector.tph"
-
-INCLUDE "ImprovedAnvil/lib/kits/arvoreen.tph"
-
-// Compiling & patching scripts //
-
-PRINT "Compiling & patching scripts..."
-
-SILENT
-
-INCLUDE "ImprovedAnvil/lib/scripts/00_compile.tph"
-
-INCLUDE "ImprovedAnvil/lib/scripts/01_decompile_and_patch.tph"
-
-INCLUDE "ImprovedAnvil/lib/scripts/02_extend.tph"
-
-// Compiling & patching dialogue files //
-
-PRINT "Compiling & patching dialogues..."
-
-SILENT
-
-INCLUDE "ImprovedAnvil/lib/dialogues/00_compile_new.tph"
-
-INCLUDE "ImprovedAnvil/lib/dialogues/01_replace.tph"
-
-INCLUDE "ImprovedAnvil/lib/dialogues/02_decompile_and_patch.tph"
-
-// Patching stores //
-
-PRINT "Patching stores..."
-
-SILENT
-
-INCLUDE "ImprovedAnvil/lib/stores/00_patch.tph"
-
-// Copying resources //
-
-PRINT "Copying resources..."
-
-SILENT
-
-INCLUDE "ImprovedAnvil/lib/core/resources.tph"
-
-// Copying & patching 2da files //
-
-PRINT "Copying & patching 2DA tables..."
-
-SILENT
-
-INCLUDE "ImprovedAnvil/lib/core/2da.tph"
-
-// Setting strings //
-
-PRINT "Setting strings..."
-
-INCLUDE "ImprovedAnvil/lib/core/strings.tph"
+INCLUDE "ImprovedAnvil/lib/core/main.tph"
 
 /// Reputation patch ///
 
 BEGIN @8904
 DESIGNATED 1
+GROUP @8908
 REQUIRE_COMPONENT ~ImprovedAnvil/Setup-ImprovedAnvil.tp2~ ~0~ @8903
-REQUIRE_PREDICATE GAME_IS ~bg2ee~ @8901
-REQUIRE_PREDICATE FILE_EXISTS ~engine.lua~ @8902
-
-PRINT "Updating 2da..."
-
-SILENT
 
 INCLUDE "ImprovedAnvil/lib/optional/happy_npc.tph"
 
@@ -208,13 +33,8 @@ INCLUDE "ImprovedAnvil/lib/optional/happy_npc.tph"
 
 BEGIN @8905
 DESIGNATED 2
+GROUP @8908
 REQUIRE_COMPONENT ~ImprovedAnvil/Setup-ImprovedAnvil.tp2~ ~0~ @8903
-REQUIRE_PREDICATE GAME_IS ~bg2ee~ @8901
-REQUIRE_PREDICATE FILE_EXISTS ~engine.lua~ @8902
-
-PRINT "Updating items..."
-
-SILENT
 
 INCLUDE "ImprovedAnvil/lib/optional/id_all_items.tph"
 
@@ -222,11 +42,101 @@ INCLUDE "ImprovedAnvil/lib/optional/id_all_items.tph"
 
 BEGIN @8907
 DESIGNATED 3
+GROUP @8908
 
 REQUIRE_COMPONENT ~ImprovedAnvil/Setup-ImprovedAnvil.tp2~ ~0~ @8903
-REQUIRE_PREDICATE GAME_IS ~bg2ee~ @8901
-REQUIRE_PREDICATE FILE_EXISTS ~engine.lua~ @8902
 
 INCLUDE "ImprovedAnvil/lib/optional/simplified_economy.tph"
 
-// The end //
+/// Custom kits ///
+
+BEGIN @8910 DESIGNATED 4
+GROUP @8906 SUBCOMPONENT @8909
+
+REQUIRE_COMPONENT ~ImprovedAnvil/Setup-ImprovedAnvil.tp2~ ~0~ @8903
+
+INCLUDE "ImprovedAnvil/lib/optional/custom_kits/imoen_rb.tph"
+
+BEGIN @8911 DESIGNATED 5
+GROUP @8906 SUBCOMPONENT @8909
+
+REQUIRE_COMPONENT ~ImprovedAnvil/Setup-ImprovedAnvil.tp2~ ~0~ @8903
+
+INCLUDE "ImprovedAnvil/lib/optional/custom_kits/imoen_kensai.tph"
+
+BEGIN @8913 DESIGNATED 6
+GROUP @8906 SUBCOMPONENT @8912
+
+REQUIRE_COMPONENT ~ImprovedAnvil/Setup-ImprovedAnvil.tp2~ ~0~ @8903
+
+INCLUDE "ImprovedAnvil/lib/optional/custom_kits/minsc_berserker.tph"
+
+BEGIN @8914 DESIGNATED 7
+GROUP @8906 SUBCOMPONENT @8912
+
+REQUIRE_COMPONENT ~ImprovedAnvil/Setup-ImprovedAnvil.tp2~ ~0~ @8903
+
+INCLUDE "ImprovedAnvil/lib/optional/custom_kits/minsc_protector.tph"
+
+BEGIN @8916 DESIGNATED 8
+GROUP @8906 SUBCOMPONENT @8915
+
+REQUIRE_COMPONENT ~ImprovedAnvil/Setup-ImprovedAnvil.tp2~ ~0~ @8903
+
+INCLUDE "ImprovedAnvil/lib/optional/custom_kits/valygar_vagrant.tph"
+
+BEGIN @8910 DESIGNATED 9
+GROUP @8906 SUBCOMPONENT @8915
+
+REQUIRE_COMPONENT ~ImprovedAnvil/Setup-ImprovedAnvil.tp2~ ~0~ @8903
+
+INCLUDE "ImprovedAnvil/lib/optional/custom_kits/valygar_rb.tph"
+
+BEGIN @8918 DESIGNATED 10
+GROUP @8906 SUBCOMPONENT @8917
+
+REQUIRE_COMPONENT ~ImprovedAnvil/Setup-ImprovedAnvil.tp2~ ~0~ @8903
+
+INCLUDE "ImprovedAnvil/lib/optional/custom_kits/nalia_fm.tph"
+
+BEGIN @8910 DESIGNATED 11
+GROUP @8906 SUBCOMPONENT @8919
+
+REQUIRE_COMPONENT ~ImprovedAnvil/Setup-ImprovedAnvil.tp2~ ~0~ @8903
+
+INCLUDE "ImprovedAnvil/lib/optional/custom_kits/yoshimo_rb.tph"
+
+BEGIN @8911 DESIGNATED 12
+GROUP @8906 SUBCOMPONENT @8919
+
+REQUIRE_COMPONENT ~ImprovedAnvil/Setup-ImprovedAnvil.tp2~ ~0~ @8903
+
+INCLUDE "ImprovedAnvil/lib/optional/custom_kits/yoshimo_kensai.tph"
+
+BEGIN @8911 DESIGNATED 13
+GROUP @8906 SUBCOMPONENT @8920
+
+REQUIRE_COMPONENT ~ImprovedAnvil/Setup-ImprovedAnvil.tp2~ ~0~ @8903
+
+INCLUDE "ImprovedAnvil/lib/optional/custom_kits/sarevok_kensai.tph"
+
+BEGIN @8913 DESIGNATED 14
+GROUP @8906 SUBCOMPONENT @8920
+
+REQUIRE_COMPONENT ~ImprovedAnvil/Setup-ImprovedAnvil.tp2~ ~0~ @8903
+
+INCLUDE "ImprovedAnvil/lib/optional/custom_kits/sarevok_berserker.tph"
+
+BEGIN @8922 DESIGNATED 15
+GROUP @8906 SUBCOMPONENT @8921
+
+REQUIRE_COMPONENT ~ImprovedAnvil/Setup-ImprovedAnvil.tp2~ ~0~ @8903
+
+INCLUDE "ImprovedAnvil/lib/optional/custom_kits/korgan_barbarian.tph"
+
+BEGIN @8923 DESIGNATED 16
+GROUP @8906 SUBCOMPONENT @8921
+
+REQUIRE_COMPONENT ~ImprovedAnvil/Setup-ImprovedAnvil.tp2~ ~0~ @8903
+
+INCLUDE "ImprovedAnvil/lib/optional/custom_kits/korgan_dd.tph"
