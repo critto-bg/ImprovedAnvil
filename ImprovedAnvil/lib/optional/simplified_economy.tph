@@ -61,30 +61,26 @@ PRINT "Replacing items on creatures with gold..."
 SILENT
 
 ACTION_PHP_EACH economy_creatures_items AS record => int BEGIN
-  ACTION_IF FILE_EXISTS_IN_GAME ~%record_0%.cre~ BEGIN
-    COPY_EXISTING ~%record_0%.cre~ ~override/%record_0%.cre~
-      GET_OFFSET_ARRAY items CRE_V10_ITEMS
+  COPY_EXISTING ~%record_0%.cre~ ~override/%record_0%.cre~
+    GET_OFFSET_ARRAY items CRE_V10_ITEMS
 
-      PHP_EACH items AS int => items_off BEGIN
-        READ_ASCII items_off item (8) NULL
+    PHP_EACH items AS int => items_off BEGIN
+      READ_ASCII items_off item (8) NULL
 
-        PATCH_IF ("%item%" STRING_COMPARE_CASE "%record_1%" = 0) BEGIN // find the item
-          READ_BYTE 0x010 + items_off itemflags
-          WRITE_BYTE 0x10 + items_off (itemflags BOR 0b00001010) // set Unstealable and undroppable flags
-        END
+      PATCH_IF ("%item%" STRING_COMPARE_CASE "%record_1%" = 0) BEGIN // find the item
+        READ_BYTE 0x010 + items_off itemflags
+        WRITE_BYTE 0x10 + items_off (itemflags BOR 0b00001010) // set Unstealable and undroppable flags
       END
+    END
 
-      BUT_ONLY
-  END
+    BUT_ONLY
 END
 
 ACTION_PHP_EACH economy_creatures_gold AS record => int BEGIN
-  ACTION_IF FILE_EXISTS_IN_GAME ~%record_0%.cre~ BEGIN
-    COPY_EXISTING ~%record_0%.cre~ ~override/%record_0%.cre~
-      ADD_CRE_ITEM ~MISC07~ (~%record_1%~) #0 #0 ~UNSTEALABLE~ ~INV~
+  COPY_EXISTING ~%record_0%.cre~ ~override/%record_0%.cre~
+    ADD_CRE_ITEM ~MISC07~ (~%record_1%~) #0 #0 ~UNSTEALABLE~ ~INV~
 
-      BUT_ONLY
-  END
+    BUT_ONLY
 END
 
 // do the cosmetics //
