@@ -159,14 +159,71 @@ COPY_EXISTING ~SPWI411.spl~ ~override/SPWI411.spl~
     parameter2 = 1
   END
 
+// Update Breach to its own new secondary type
+COPY_EXISTING ~spwi513.spl~  ~override/spwi513.spl~
+              ~spwish38.spl~ ~override/spwish38.spl~
+  WRITE_BYTE  0x27 ~%Breach%~ // secondary type
+
 COPY_EXISTING ~spwi516.spl~ ~override/spwi516.spl~
   WRITE_BYTE  0x27      0 // secondary type
+
+// Update Spell Shield to protect from Breach
+COPY_EXISTING ~spwi519.spl~ ~override/spwi519.spl~
+              ~spwii01.spl~ ~override/spwii01.spl~
+  LPF ~CLONE_EFFECT~
+    INT_VAR
+      check_globals = 0
+      match_opcode = 226
+      parameter2 = ~%Breach%~
+    STR_VAR
+      insert = ~below~
+  END
+
+  LPF ~CLONE_EFFECT~
+    INT_VAR
+      check_globals = 0
+      match_opcode = 226
+      match_parameter2 = ~%Breach%~
+      opcode = 328
+      parameter1 = 0
+      parameter2 = ~%spell_shield_state%~
+      special = 1
+    STR_VAR
+      insert = ~below~
+  END
 
 COPY_EXISTING ~spwi520.spl~ ~override/spwi520.spl~
   WRITE_BYTE  0x27      0 // secondary type
 
 COPY_EXISTING ~spwi521.spl~ ~override/spwi521.spl~
   WRITE_BYTE  0x27      0 // secondary type
+
+// Update Spell Turning to protect from Breach
+COPY_EXISTING ~spwi701.spl~ ~override/spwi701.spl~
+              ~spwii03.spl~ ~override/spwii03.spl~
+              ~spwii24.spl~ ~override/spwii24.spl~
+  LPF ~CLONE_EFFECT~
+    INT_VAR
+      check_globals = 0
+      match_opcode = 200
+      match_parameter2 = 9
+      opcode = 228
+      parameter2 = ~%Breach%~
+    STR_VAR
+      insert = ~below~
+  END
+
+  LPF ~CLONE_EFFECT~
+    INT_VAR
+      check_globals = 0
+      match_opcode = 228
+      opcode = 328
+      parameter1 = 0
+      parameter2 = ~%spell_turning_state%~
+      special = 1
+    STR_VAR
+      insert = ~below~
+  END
 
 // patch the display portrait icon value for PfME to point to the proper icon
 // Spell Shield is hardcoded to display 73, PfME points there by default as well
