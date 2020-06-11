@@ -27,6 +27,14 @@ COPY_EXISTING ~stats.ids~ ~override~
 APPEND ~SPELL.IDS~ ~1418 CLERIC_ACID_SHIELD~
 APPEND ~SPELL.IDS~ ~1218 CLERIC_ALICORN_LANCE~
 
+// Add new spell states to SPLSTATE.IDS //
+
+LAF resolve_state STR_VAR new_state_id = ~WIZARD_SPELL_TURNING~ RET new_state_index END
+OUTER_SET spell_turning_state = %new_state_index%
+
+LAF resolve_state STR_VAR new_state_id = ~WIZARD_SPELL_SHIELD~ RET new_state_index END
+OUTER_SET spell_shield_state = %new_state_index%
+
 // Fix KIT.IDS //
 
 COPY_EXISTING ~kit.ids~ ~override~
