@@ -845,22 +845,6 @@ COPY_EXISTING ~ar1305.are~ ~override/ar1305.are~
   READ_LONG 0xC0 "interroffset"
   WRITE_ASCII ("%interroffset%" + 72) ~S!trolr~ #8
 
-COPY_EXISTING ~ar1400.are~ ~override/ar1400.are~
- READ_SHORT 0x5A "icount"
- READ_LONG 0x5C "ioffset"
- SET "it" = 0
- WHILE ("%it%" < "%icount%") BEGIN
-  READ_ASCII ("%ioffset%" + "%it%" * 196) "iname" (6)
-  PATCH_IF ("%iname%" STRING_COMPARE_CASE "Mirror" = 0) BEGIN
-   WRITE_LONG ("%ioffset%" + ("%it%" * 196) + 52) 28
-   WRITE_LONG ("%ioffset%" + ("%it%" * 196) + 100) (BNOT 0)
-   WRITE_ASCII ("%ioffset%" + ("%it%" * 196) + 124) ~Trania22~
-   SET "it" = "%icount%"
-  END
- "it" = "%it%" + 1
-END
-EXTEND_BOTTOM ~ar1400.BCS~ ~ImprovedAnvil\scripts\areas\ar1400.BAF~
-
 COPY_EXISTING ~AR1401.ARE~ ~override/AR1401.are~
   READ_SHORT 0x64 "spcount"
   READ_LONG 0x60 "spoffset"
