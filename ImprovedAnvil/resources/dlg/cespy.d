@@ -155,7 +155,7 @@ REPLACE BOTSMITH
     IF ~PartyHasItem("S!shld04") Global("Iashld05forged","GLOBAL",0)~ THEN REPLY @770 GOTO mazzy2
 
     IF ~PartyHasItem("S!blun03")~ THEN REPLY @772 GOTO treefist
-    IF ~PartyHasItem("S!blun03")~ THEN REPLY @774 GOTO treefury
+    IF ~PartyHasItem("S!blun04")~ THEN REPLY @774 GOTO treefury
     IF ~OR(3) PartyHasItem("brac20")
               PartyHasItem("brac22")
               PartyHasItem("brac09")~
@@ -174,7 +174,7 @@ REPLACE BOTSMITH
       THEN REPLY @786 GOTO aeriehammer
     IF ~PartyHasItem("sw2h16")~ THEN REPLY @788 GOTO sarevoksword
     IF ~OR(2) PartyHasItem("ohhcloak")
-              PartyHasItem("s!clck10")~    
+              PartyHasItem("s!clck10")~
       THEN REPLY @790 GOTO hexxat1
     IF ~PartyHasItem("s!clck08")~ THEN REPLY @792 GOTO hexxat2
     IF ~~ THEN REPLY #992 EXIT
@@ -2131,7 +2131,7 @@ IF ~~ THEN BEGIN treefist
 
   IF ~~ THEN BEGIN hexxat1
     SAY @791 IF ~~ THEN REPLY @2 GOTO 13
-    IF ~PartyHasItem("ohhcloak") PartyGoldGT(24999) 
+    IF ~PartyHasItem("ohhcloak") PartyGoldGT(24999)
 	PartyHasItem("clck01") PartyHasItem("s!clck10")~
       THEN REPLY @3
       DO ~SetGlobal("Iahexxat01forged","GLOBAL",1)
@@ -2143,10 +2143,10 @@ IF ~~ THEN BEGIN treefist
           CreateVisualEffect("spcrtwpn",[401.348])~
       EXIT
   END
-  
+
   IF ~~ THEN BEGIN hexxat2
     SAY @793 IF ~~ THEN REPLY @2 GOTO 13
-    IF ~PartyHasItem("s!clck08") PartyGoldGT(49999) 
+    IF ~PartyHasItem("s!clck08") PartyGoldGT(49999)
 	PartyHasItem("clck01") PartyHasItem("dwdust") PartyHasItem("s!misc06") ~
       THEN REPLY @3
       DO ~SetGlobal("Iahexxat02forged","GLOBAL",1)
@@ -2154,7 +2154,7 @@ IF ~~ THEN BEGIN treefist
           TakePartyItemNum("s!clck08",1)   DestroyItem("s!clck08")
           TakePartyItemNum("clck01",1)   DestroyItem("clck01")
           TakePartyItemNum("dwdust",1)   DestroyItem("dwdust")
-          TakePartyItemNum("s!misc06",1)   DestroyItem("s!misc06")	
+          TakePartyItemNum("s!misc06",1)   DestroyItem("s!misc06")
           GiveItemCreate("s!clck09",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~
       EXIT
