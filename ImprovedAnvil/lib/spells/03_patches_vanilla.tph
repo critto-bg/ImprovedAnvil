@@ -101,6 +101,20 @@ COPY_EXISTING ~SPPR102.spl~ ~override/SPPR102.spl~
     parameter2 = 1
   END
 
+// spirit ward
+COPY_EXISTING ~SPPR150.spl~ ~override/SPPR150.spl~
+  SAY UNIDENTIFIED_DESC @10267
+
+  // remove attack roll penalty (219)
+  LPF DELETE_SPELL_EFFECT INT_VAR opcode_to_delete = 219 END
+
+  // update save vs. school bonus (349)
+  LPF ~ALTER_SPELL_EFFECT~ INT_VAR
+    check_headers = 1
+    match_opcode = 346
+    parameter1 = 6
+  END
+
 COPY_EXISTING ~SPPR318.spl~ ~override/SPPR318.spl~
   WRITE_SHORT  0x20      0 // Priest Type
 
