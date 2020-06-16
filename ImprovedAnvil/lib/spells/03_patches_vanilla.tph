@@ -350,3 +350,13 @@ COPY_EXISTING ~comet.pro~ ~override/comet.pro~
   READ_LONG 0x00200 "areaflags"
   WRITE_LONG 0x00200 ("%areaflags%" | BIT6)
   BUT_ONLY
+
+// fix Writhing Fog's projectile to affect only allies, caster included
+COPY_EXISTING ~writhing.pro~ ~override/writhing.pro~
+  READ_LONG  0x0c behavior
+  WRITE_LONG 0x0c ("%behavior%" ^^ BIT4)
+
+  READ_LONG 0x00200 "areaflags"
+  WRITE_LONG 0x00200 ("%areaflags%" | BIT6 | BIT7)
+
+  BUT_ONLY
