@@ -157,10 +157,7 @@ REPLACE WSMITH01
     IF ~PartyHasItem("S!shld04") Global("Iashld05forged","GLOBAL",0)~ THEN REPLY @620 GOTO mazzy2
     IF ~PartyHasItem("S!blun03")~ THEN REPLY @622 GOTO treefist
     IF ~PartyHasItem("S!blun04")~ THEN REPLY @624 GOTO treefury
-    IF ~OR(3) PartyHasItem("brac20")
-              PartyHasItem("brac22")
-              PartyHasItem("brac09")~
-      THEN REPLY @626 GOTO palbracers
+    IF ~PartyHasItem("brac22")~ THEN REPLY @626 GOTO palbracers
     IF ~OR(3) PartyHasItem("wastaff")
               PartyHasItem("staf16")
               PartyHasItem("staf14")~
@@ -2045,10 +2042,10 @@ APPEND WSMITH01
           TakePartyItemNum("brac22",1)   DestroyItem("brac22")
           TakePartyItemNum("brac09",1)   DestroyItem("brac09")
           TakePartyItemNum("brac20",1)   DestroyItem("brac20")
-          TakePartyItemNum("potn14",2)   DestroyItem("potn14")
-					 DestroyItem("potn14")
-          TakePartyItemNum("ring06",2)   DestroyItem("ring06")
-					 DestroyItem("ring06")
+          TakePartyItemNum("potn14",1)   DestroyItem("potn14")
+          TakePartyItemNum("potn14",1)   DestroyItem("potn14")
+          TakePartyItemNum("ring06",1)   DestroyItem("ring06")
+          TakePartyItemNum("ring06",1)   DestroyItem("ring06")
           TakePartyItemNum("s!misc02",1)   DestroyItem("s!misc02")
           GiveItemCreate("s!brac04",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~
