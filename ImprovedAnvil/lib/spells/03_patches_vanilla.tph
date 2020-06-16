@@ -125,6 +125,18 @@ COPY_EXISTING ~SPPR350.spl~ ~override/SPPR350.spl~
   // update casting speed
   LPF ~ALTER_SPELL_HEADER~ INT_VAR speed = 3 END
 
+// Spirit Fire
+COPY_EXISTING ~SPPR450.spl~ ~override/SPPR450.spl~
+  SAY UNIDENTIFIED_DESC @10323
+
+  // update cast spell (146)
+  LPF ~ALTER_SPELL_EFFECT~ INT_VAR
+    check_headers = 1
+    match_opcode = 146
+    probability1 = 100
+    savingthrow = 0
+  END
+
 COPY_EXISTING ~sppr506.spl~ ~override/sppr506.spl~
   SAY UNIDENTIFIED_DESC @10189
   WRITE_BYTE  0x27      7 // secondary type
