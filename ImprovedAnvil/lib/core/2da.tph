@@ -256,6 +256,9 @@ COPY_EXISTING ~statdesc.2da~ ~override/statdesc.2da~
   INSERT_2DA_ROW 205 ~colcount~ ~205         0         SPINI92D~
   SET_2DA_ENTRY 205 1 ~colcount~ RESOLVE_STR_REF (@10220)
 
+  INSERT_2DA_ROW 206 ~colcount~ ~206         0         SPSHI07D~
+  SET_2DA_ENTRY 206 1 ~colcount~ RESOLVE_STR_REF (@10341)
+
   PRETTY_PRINT_2DA
 
 // allow ZoSA to dispel certain projectiles
@@ -284,3 +287,26 @@ COPY_EXISTING ~msectype.2da~ ~override/msectype.2da~
 
 // copy a custom 2da to use in ZoSA opcode for the Soothing Fog spell
 COPY ~ImprovedAnvil/resources/2da/soothfog.2da~ ~override/soothfog.2da~
+
+// remove shamanic mend spells from spell books of the druid and ranger classes
+ACTION_DEFINE_ARRAY clab_files BEGIN
+  clabdr01 clabdr02 clabdr03 clabdr04
+  clabrn01 CLABRN02 CLABRN03 CLABRN04
+END
+
+OUTER_SPRINT row ""
+OUTER_FOR (i = 1; i < 41; i += 1) BEGIN
+   OUTER_SPRINT row "%row% AP_SPCLI22"
+END
+
+ACTION_PHP_EACH  clab_files AS null => clab BEGIN
+  COPY_EXISTING ~%clab%.2da~ ~override/%clab%.2da~
+    COUNT_2DA_COLS ~colcount~
+    COUNT_2DA_ROWS ~colcount~ ~rowcount~
+
+    SET num = rowcount + 1
+    SPRINT new_row "ABILITY%num% %row%"
+
+    INSERT_2DA_ROW rowcount colcount "%new_row%"
+    PRETTY_PRINT_2DA
+END
