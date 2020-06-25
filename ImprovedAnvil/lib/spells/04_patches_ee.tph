@@ -147,6 +147,35 @@ COPY_EXISTING ~SPCL940.spl~ ~override/SPCL940.spl~
 
   BUT_ONLY
 
+// Ethereal Retribution, Shaman's HLA
+COPY_EXISTING ~SPPR751.spl~ ~override/SPPR751.spl~
+  SAY UNIDENTIFIED_DESC @10343
+
+  // update opcode to bypass resistance
+  PATCH_FOR_EACH ~opcode~ IN ~12~ ~215~ ~44~ ~139~ ~142~ ~50~ ~174~ BEGIN
+    LPF ALTER_SPELL_EFFECT INT_VAR
+      check_headers = 1
+      match_opcode = ~%opcode%~
+      resist_dispel = 3
+    END
+  END
+
+  // change STR drain to THAC0 drain
+  LPF ALTER_SPELL_EFFECT INT_VAR
+    check_headers = 1
+    match_opcode = 44
+    new_opcode = 54
+  END
+
+  // change displayed string on THAC0 drain
+  LPF ALTER_SPELL_EFFECT INT_VAR
+    check_headers = 1
+    match_opcode = 139
+    parameter1 = 8320
+  END
+
+  BUT_ONLY
+
 // Aura of Despair, Blackguard's special ability
 COPY_EXISTING ~SPCL103.spl~ ~override/SPCL103.spl~
   SAY UNIDENTIFIED_DESC @10316
