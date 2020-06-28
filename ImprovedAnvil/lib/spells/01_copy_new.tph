@@ -387,6 +387,13 @@ COPY ~ImprovedAnvil\resources\spells\SPPR749.spl~ ~override/SPPR749.spl~
   SAY NAME1 @10351
   SAY UNIDENTIFIED_DESC @10352
 
+  // patch in a string for all Protection from Spell opcodes
+  LPF ~ALTER_SPELL_EFFECT~ INT_VAR
+    check_headers = 1
+    match_opcode = 206
+    parameter1 = RESOLVE_STR_REF (@10353)
+  END
+
 // wizard spells //
 
 COPY ~ImprovedAnvil\resources\spells\SPWII01.spl~ ~override/SPWII01.spl~
