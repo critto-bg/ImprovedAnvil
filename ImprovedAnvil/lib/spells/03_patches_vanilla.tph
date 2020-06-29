@@ -125,6 +125,7 @@ COPY_EXISTING ~SPPR350.spl~ ~override/SPPR350.spl~
   // update casting speed
   LPF ~ALTER_SPELL_HEADER~ INT_VAR speed = 3 END
 
+  // add prot from envelop
   LPF ~CLONE_EFFECT~
     INT_VAR
       check_globals = 0
@@ -133,6 +134,19 @@ COPY_EXISTING ~SPPR350.spl~ ~override/SPPR350.spl~
       match_resource = ~SPPR550~
       resource = ~S!misva2.spl~
   END
+
+  // remove stuff vs. fear
+  LPF DELETE_SPELL_EFFECT INT_VAR opcode_to_delete = 23 END
+  LPF DELETE_SPELL_EFFECT INT_VAR opcode_to_delete = 161 END
+  LPF DELETE_EFFECT INT_VAR match_opcode = 240 match_parameter2=36 END
+  LPF DELETE_EFFECT INT_VAR match_opcode = 321 STR_VAR match_resource=~SPIN105~ END
+  LPF DELETE_EFFECT INT_VAR match_opcode = 321 STR_VAR match_resource=~SPWI125~ END
+  LPF DELETE_EFFECT INT_VAR match_opcode = 321 STR_VAR match_resource=~SPWI205~ END
+  LPF DELETE_EFFECT INT_VAR match_opcode = 321 STR_VAR match_resource=~SPWI811~ END
+  LPF DELETE_EFFECT INT_VAR match_opcode = 321 STR_VAR match_resource=~SPIN895~ END
+  LPF DELETE_EFFECT INT_VAR match_opcode = 321 STR_VAR match_resource=~SPPR706~ END
+  LPF DELETE_EFFECT INT_VAR match_opcode = 321 STR_VAR match_resource=~SPPR416~ END
+  LPF DELETE_EFFECT INT_VAR match_opcode = 321 STR_VAR match_resource=~BDAURAFE~ END
 
 // Spirit Fire
 COPY_EXISTING ~SPPR450.spl~ ~override/SPPR450.spl~
