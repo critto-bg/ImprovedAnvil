@@ -1003,3 +1003,39 @@ COPY_EXISTING ~s!boot01.itm~ ~override/s!boot01.itm~
   WRITE_BYTE 0x29 0b11000000 // no barbarian, no wild mage
 
   BUT_ONLY
+
+// patch magically created quarterstaff +3 for use in SPPR445 //
+COPY_EXISTING ~enstaff.itm~ ~override/enstaff.itm~
+  SAY DESC      @10356
+
+  WRITE_ASCIIE 0x10 ~misc56~ #8
+
+  LPF ALTER_ITEM_HEADER INT_VAR
+    header_type = 1
+    drained = 2
+    flag_break = 1
+  END
+
+  BUT_ONLY
+
+// restore proper restrictions on usability of bows and axes for the shaman //
+ACTION_DEFINE_ARRAY items BEGIN
+  ~ax1h05~ ~ax1h06~ ~ax1h07~ ~ax1h08~ ~ax1h09~ ~ax1h12~ ~ax1h13~ ~ax1h15~ ~ax1h16~
+END
+
+ACTION_PHP_EACH  items AS null => item BEGIN
+  COPY_EXISTING ~%item%.itm~ ~override/%item%.itm~
+    // remove restriction for the druids by usability flag
+    READ_BYTE  0x21 usability
+    WRITE_BYTE 0x21 ("%usability%" ^^ BIT6)
+
+    // re-apply restriction via the 319 opcode
+    LPF ADD_ITEM_EQEFFECT INT_VAR
+      opcode = 319
+      target = 1
+      parameter1 = 11
+      parameter2 = 5
+      timing = 2
+    END
+  BUT_ONLY
+END
