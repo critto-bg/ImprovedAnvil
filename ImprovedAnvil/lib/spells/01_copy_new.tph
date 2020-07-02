@@ -367,6 +367,9 @@ COPY ~ImprovedAnvil\resources\spells\SPPRI23.spl~ ~override/SPPRI23.spl~
 COPY ~ImprovedAnvil\resources\spells\SPPRI24.spl~ ~override/SPPRI24.spl~
   SAY NAME1 @9578
 
+COPY ~ImprovedAnvil\resources\spells\SPPRI25.spl~ ~override/SPPRI25.spl~
+  SAY NAME1 @9525
+
 COPY ~ImprovedAnvil\resources\spells\SPPR445.spl~ ~override/SPPR445.spl~
   SAY NAME1 @10357
   SAY UNIDENTIFIED_DESC @10358
@@ -656,6 +659,17 @@ ACTION_PHP_EACH shaman_healing_spells AS record => int BEGIN
         match_opcode = 142
         parameter2 = record_5
       END
+    END
+
+    // add the split-second aura cleansing effect
+    LPF ADD_SPELL_EFFECT
+      INT_VAR
+        header = 1
+        opcode = 146
+        target = 1
+        parameter2 = 1
+      STR_VAR
+        resource = ~SPPRI25~
     END
 
   // resolve the spell's resource name

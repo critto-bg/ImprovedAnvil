@@ -404,3 +404,15 @@ COPY_EXISTING ~writhing.pro~ ~override/writhing.pro~
   WRITE_BYTE 0x00216 4 // trigger count
 
   BUT_ONLY
+
+// patch in removal of shaman's innate aura cleansing //
+/*
+COPY_EXISTING ~SPPR113.spl~ ~override/SPPR113.spl~
+  LPF ADD_SPELL_EFFECT
+    INT_VAR
+      opcode = 321
+      target = 1
+      insert_point = 0
+    STR_VAR
+      resource = ~SPPRI25~
+  END*/
