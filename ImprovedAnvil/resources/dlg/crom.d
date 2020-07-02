@@ -155,7 +155,7 @@ REPLACE WSMITH01
               PartyHasItem("Ax1h16f")~
       THEN REPLY @618 GOTO rage
     IF ~PartyHasItem("S!shld04") Global("Iashld05forged","GLOBAL",0)~ THEN REPLY @620 GOTO mazzy2
-    IF ~PartyHasItem("S!blun03")~ THEN REPLY @622 GOTO treefist
+    IF ~PartyHasItem("S!blun01")~ THEN REPLY @622 GOTO treefist
     IF ~PartyHasItem("S!blun04")~ THEN REPLY @624 GOTO treefury
     IF ~PartyHasItem("brac22")~ THEN REPLY @626 GOTO palbracers
     IF ~OR(3) PartyHasItem("wastaff")

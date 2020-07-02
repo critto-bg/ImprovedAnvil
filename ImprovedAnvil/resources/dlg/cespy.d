@@ -154,7 +154,7 @@ REPLACE BOTSMITH
       THEN REPLY @768 GOTO rage
     IF ~PartyHasItem("S!shld04") Global("Iashld05forged","GLOBAL",0)~ THEN REPLY @770 GOTO mazzy2
 
-    IF ~PartyHasItem("S!blun03")~ THEN REPLY @772 GOTO treefist
+    IF ~PartyHasItem("S!blun01")~ THEN REPLY @772 GOTO treefist
     IF ~PartyHasItem("S!blun04")~ THEN REPLY @774 GOTO treefury
     IF ~PartyHasItem("brac22")~ THEN REPLY @776 GOTO palbracers
     IF ~OR(3) PartyHasItem("wastaff")
