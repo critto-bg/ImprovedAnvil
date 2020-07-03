@@ -406,13 +406,26 @@ COPY_EXISTING ~writhing.pro~ ~override/writhing.pro~
   BUT_ONLY
 
 // patch in removal of shaman's innate aura cleansing //
-/*
-COPY_EXISTING ~SPPR113.spl~ ~override/SPPR113.spl~
-  LPF ADD_SPELL_EFFECT
-    INT_VAR
-      opcode = 321
-      target = 1
-      insert_point = 0
-    STR_VAR
-      resource = ~SPPRI25~
-  END*/
+
+COPY_EXISTING_REGEXP GLOB ~SPPR[1-7][0-5][0-9]+\.spl~ ~override~
+                          ~SPDR202.spl~ ~override~
+                          ~SPDR302.spl~ ~override~
+                          ~SPCL940.spl~ ~override~
+                          ~SPCL941.spl~ ~override~
+                          ~SPCLI12.spl~ ~override~
+                          ~SPCLI15.spl~ ~override~
+                          ~SPCLI16.spl~ ~override~
+  READ_BYTE 0x21 exc_flags
+
+  PATCH_IF ((exc_flags BAND BIT7) = 0) BEGIN
+    LPF ADD_SPELL_EFFECT
+      INT_VAR
+        opcode = 321
+        target = 1
+        insert_point = 0
+      STR_VAR
+        resource = ~SPPRI25~
+    END
+  END
+
+  BUT_ONLY
