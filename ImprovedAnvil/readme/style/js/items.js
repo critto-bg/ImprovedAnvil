@@ -2894,7 +2894,7 @@ var weapons = [
             {
                 "components": [
                     "Abyssal Blade",
-                    "Harbringer +3",
+                    "Harbinger +3",
                     "Soul Reaver +4",
                     "Rancor +1",
                     "Blood of a Greater Demon",
@@ -2922,7 +2922,7 @@ var weapons = [
                         ]
                     }
                 ],
-                "item_name": "Harbringer of the Abyss +5"
+                "item_name": "Harbinger of the Abyss +5"
             },
             {
                 "components": [
