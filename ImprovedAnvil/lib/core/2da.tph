@@ -343,3 +343,8 @@ ACTION_PHP_EACH  clab_files AS null => clab BEGIN
     INSERT_2DA_ROW rowcount colcount "%new_row%"
     PRETTY_PRINT_2DA
 END
+
+// disable automatic assignment of auto AI to the party
+COPY_EXISTING ~partyai.2da~ ~override~
+  REPLACE_TEXTUALLY ~BD[A-Z]+~ ~DEFAULT~
+  BUT_ONLY
