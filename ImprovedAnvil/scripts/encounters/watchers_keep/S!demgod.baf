@@ -812,6 +812,20 @@ END
 
 IF
   Allegiance(Myself,ENEMY)
+  See(NearestEnemyOfType([0.0.0.SHAMAN]))
+  !GlobalTimerNotExpired("spellturning","LOCALS")
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  GlobalLT("Iademgod24","LOCALS",1)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iademgod24","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SetGlobalTimer("spellturning","LOCALS",366)
+    ReallyForceSpellRES("SPWII03",Myself) //
+END
+
+IF
+  Allegiance(Myself,ENEMY)
   !GlobalTimerNotExpired("Iaspell","LOCALS")
   Global("Iapcastts","GLOBAL",0)
   See(Player1)

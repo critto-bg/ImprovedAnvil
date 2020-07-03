@@ -221,9 +221,10 @@ THEN
 END
 
 IF
-  OR(3)
+  OR(4)
     See(SecondNearestEnemyOfType([GOODCUTOFF.0.0.BARD]))
     See(SecondNearestEnemyOfType([GOODCUTOFF.0.0.DRUID_ALL]))
+    See(SecondNearestEnemyOfType([GOODCUTOFF.0.0.SHAMAN]))
     See(SecondNearestEnemyOfType([GOODCUTOFF.0.0.CLERIC_ALL]))
 THEN
   RESPONSE #100
@@ -231,9 +232,10 @@ THEN
 END
 
 IF
-  OR(3)
+  OR(4)
     See(NearestEnemyOfType([GOODCUTOFF.0.0.BARD]))
     See(NearestEnemyOfType([GOODCUTOFF.0.0.DRUID_ALL]))
+    See(NearestEnemyOfType([GOODCUTOFF.0.0.SHAMAN]))
     See(NearestEnemyOfType([GOODCUTOFF.0.0.CLERIC_ALL]))
 THEN
   RESPONSE #100
@@ -269,7 +271,7 @@ END
 
 IF
   Heard(NearestMyGroupOfType(Myself),ASSIST)
-  !HPLT(LastHeardBy(Myself),1)  
+  !HPLT(LastHeardBy(Myself),1)
   !StateCheck(LastAttackerOf(LastHeardBy(Myself)),STATE_INVISIBLE)
   !StateCheck(LastAttackerOf(LastHeardBy(Myself)),STATE_IMPROVEDINVISIBILITY)
   !StateCheck(LastAttackerOf(LastHeardBy(Myself)),STATE_CHARMED)
@@ -287,7 +289,7 @@ IF
   Heard(NearestMyGroupOfType,ASSIST)
   See(LastHeardBy(Myself))
   !See(LastAttackerOf(LastHeardBy(Myself)))
-  !HPLT(LastHeardBy(Myself),1)  
+  !HPLT(LastHeardBy(Myself),1)
   !StateCheck(LastAttackerOf(LastHeardBy(Myself)),STATE_INVISIBLE)
   !StateCheck(LastAttackerOf(LastHeardBy(Myself)),STATE_IMPROVEDINVISIBILITY)
   !StateCheck(LastAttackerOf(LastHeardBy(Myself)),STATE_CHARMED)
@@ -321,7 +323,7 @@ END
 IF
   Heard([EVILCUTOFF],ASSIST)
   InMyGroup(LastHeardBy(Myself))
-  !HPLT(LastHeardBy(Myself),1)  
+  !HPLT(LastHeardBy(Myself),1)
   LevelGT(LastHeardBy(Myself),10)
   !HPPercentLT(Myself,40)
   OR(2)
