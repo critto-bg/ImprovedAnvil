@@ -282,3 +282,43 @@ BEGIN
       old_item_name = EVALUATE_BUFFER "%file%M"
   END
 END
+
+// increased stacking, ported from Ease-of-Use //
+
+// also give a fresh potion bag to Ribald and Roger for
+// potion-stacking convenience
+
+COPY_EXISTING_REGEXP GLOB ~.*\.itm~ ~override~
+  READ_SHORT 0x1c type          ELSE 0
+  READ_SHORT 0x38 stack_amount
+  READ_SHORT 0x68 abil_count    ELSE 0
+  READ_SHORT 0x70 fx_count      ELSE 1
+
+  SET update_value = 0
+
+  PATCH_IF ((type = 9) AND (stack_amount > 1))  // potions, if already stackable
+           OR (type = 11)                       // scrolls
+           OR (((type =  1) OR                  // amulets
+                (type = 10) OR                  // rings
+                (type = 33) OR                  // gold
+                (type = 34))                    // gems
+                AND (fx_count = 0)              // with no magical properties
+                AND (abil_count = 0))
+           OR ((stack_amount > 1) AND           // stackable ammuntion
+               ((type = 5) OR
+                (type = 14) OR
+                (type = 31) OR
+                (type = 24) OR
+                (type = 25) OR
+                (type = 16)))
+  BEGIN
+    WRITE_SHORT 0x38 99
+  END
+
+  BUT_ONLY
+
+COPY_EXISTING ~BAG06.ITM~ ~override/S!bag02.itm~
+              ~BAG06.ITM~ ~override/S!bag03.itm~
+
+COPY_EXISTING ~BAG06.STO~ ~override/S!bag02.sto~
+              ~BAG06.STO~ ~override/S!bag03.sto~
