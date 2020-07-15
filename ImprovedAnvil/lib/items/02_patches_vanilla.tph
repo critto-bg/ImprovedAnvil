@@ -993,11 +993,13 @@ COPY_EXISTING ~sw1h66.itm~ ~override/sw1h66.itm~
 COPY_EXISTING ~s!boot01.itm~ ~override/s!boot01.itm~
               ~s!boot02.itm~ ~override/s!boot02.itm~
               ~s!boot03.itm~ ~override/s!boot03.itm~
-  LPF ALTER_ITEM_EFFECT
-    INT_VAR
-      check_globals = 1
-      match_opcode = 319
-      parameter1 = 209
-  END
+  // remove restriction by class
+  LPF DELETE_ITEM_EQEFFECT INT_VAR opcode_to_delete = 319 END
+
+  WRITE_BYTE 0x1e 0b11001010 // all non-evil and non-neutral alignments
+  WRITE_BYTE 0x1f 0b11111011 // allow cleric-ranger
+  WRITE_BYTE 0x20 0b01011111 // allow elf and ranger
+  WRITE_BYTE 0x21 0b01100000 // restrict from monk and druid
+  WRITE_BYTE 0x29 0b11000000 // no barbarian, no wild mage
 
   BUT_ONLY
