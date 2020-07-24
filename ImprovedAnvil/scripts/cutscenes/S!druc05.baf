@@ -1,0 +1,42 @@
+// Extended druid stronghold, Felaern and the party moves to the entrance of Dradeel's house //
+
+IF
+  True()
+THEN
+  RESPONSE #100
+    CutSceneId(Player1)
+
+    Wait(1)
+    FadeToColor([20.0],0)
+
+    JumpToPoint([4095.1700])
+    MoveViewObject(Myself,VERY_FAST)
+
+    ActionOverride("S!gdru02",JumpToPoint([3995.1705]))
+    ActionOverride("S!gdru02",FaceObject(Player1))
+
+    FaceObject("S!gdru02")
+
+    ActionOverride("S!drad01",JumpToPoint([4080.1745]))
+    ActionOverride("S!drad01",FaceObject("S!gdru02"))
+
+    ActionOverride(Player2,JumpToPoint([3945.1605]))
+    ActionOverride(Player2,FaceObject("s!gdru02"))
+    ActionOverride(Player3,JumpToPoint([3890.1650]))
+    ActionOverride(Player3,FaceObject("s!gdru02"))
+    ActionOverride(Player4,JumpToPoint([3850.1725]))
+    ActionOverride(Player4,FaceObject("s!gdru02"))
+    ActionOverride(Player5,JumpToPoint([3900.1805]))
+    ActionOverride(Player5,FaceObject("s!gdru02"))
+    ActionOverride(Player6,JumpToPoint([3785.1760]))
+    ActionOverride(Player6,FaceObject("s!gdru02"))
+
+    FadeFromColor([20.0],0)
+    Wait(2)
+    ActionOverride("S!drad01",DisplayStringHead(Myself,@5640))
+    Wait(3)
+
+    MultiPlayerSync()
+    ActionOverride("s!gdru02",StartDialogNoSet(Player1))
+    EndCutSceneMode()
+END

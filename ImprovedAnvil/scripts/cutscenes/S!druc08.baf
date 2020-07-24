@@ -1,0 +1,86 @@
+// Extended druid stronghold, party leaves Dradeel's house //
+
+IF
+  True()
+THEN
+  RESPONSE #100
+    CutSceneId(Player1)
+
+    SetInterrupt(FALSE)
+		FadeToColor([20.0],0)
+		Wait(1)
+
+    ActionOverride("s!drad01",DestroySelf())
+    ActionOverride("s!gdru02",DestroySelf())
+
+		LeaveAreaLUAPanic("S!0002","",[3680.1532],NE)
+		LeaveAreaLUA("S!0002","",[3680.1532],NE)
+
+		ActionOverride(Player2,LeaveAreaLUA("S!0002","",[3600.1380],E))
+		ActionOverride(Player3,LeaveAreaLUA("S!0002","",[3530.1290],E))
+		ActionOverride(Player4,LeaveAreaLUA("S!0002","",[3770.1750],N))
+		ActionOverride(Player5,LeaveAreaLUA("S!0002","",[3985.1715],N))
+		ActionOverride(Player6,LeaveAreaLUA("S!0002","",[3810.1795],N))
+    MoveViewObject(Myself,VERY_FAST)
+
+    CreateCreature("s!gdru02",[3730.1630],N)
+    CreateCreature("s!drad01",[3920.1630],N)
+
+    FadeFromColor([20.0],0)
+		Wait(1)
+
+    ActionOverride("S!drad01",DisplayStringHead(Myself,@5680))
+    Wait(2)
+    ActionOverride("S!gdru02",DisplayStringHead(Myself,@5681))
+    Wait(2)
+    DisplayStringHead(Myself,@5682)
+    Wait(2)
+
+    ActionOverride("S!drad01",MoveToPointNoInterrupt([3780.1310]))
+    Wait(2)
+
+    CreateCreature("s!wer04",[4400.965],N)
+    CreateCreature("s!wer05",[4435.1030],N)
+
+    ActionOverride("S!wer04",MoveToPointNoInterrupt([3790.1205]))
+    ActionOverride("S!wer05",MoveToPointNoInterrupt([3845.1255]))
+    Wait(2)
+
+    ActionOverride("S!wer04",DisplayStringHead(Myself,@5683))
+    Wait(2)
+    ActionOverride("S!wer05",DisplayStringHead(Myself,@5684))
+    Wait(2)
+    ActionOverride("S!wer04",DisplayStringHead(Myself,@5685))
+    Wait(2)
+    ActionOverride("S!drad01",DisplayStringHead(Myself,@5686))
+    Wait(2)
+    ActionOverride("S!gdru02",DisplayStringHead(Myself,@5687))
+    Wait(2)
+
+    // TODO:
+    // more werewolves appear from south and west, as the northern ones transform
+    // northern werewolves phase-attack Dradeel, Dradeel perishes
+
+    DisplayStringHead("s!drad01",@5688)
+    Wait(2)
+    ActionOverride("s!drad01",DestroyItem("minhp1"))
+    ActionOverride("s!drad01",Kill(Myself))
+    Wait(1)
+    ActionOverride("S!wer04",DisplayStringHead(Myself,@5689))
+    Wait(2)
+    ActionOverride("S!gdru02",DisplayStringHead(Myself,@5690))
+    Wait(2)
+    ActionOverride("S!gdru02",DisplayStringHead(Myself,@5691))
+    Wait(2)
+
+    // TODO:
+    // Felaern unloads magical barrage at the murder of Dradeel
+    // he loses his minhp1 and dies
+
+    SetGlobal("IAAmbush","S!0002",1)
+    Wait(1)
+    SetInterrupt(TRUE)
+
+    MultiPlayerSync()
+    EndCutSceneMode()
+END

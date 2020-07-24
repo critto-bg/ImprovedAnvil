@@ -1,0 +1,21 @@
+// disable triggers upon entering
+IF
+  OnCreation()
+	Global("IAExplored","S!0003",0)
+THEN
+	RESPONSE #100
+    SetGlobal("IAExplored","S!0003",1)
+    Explore()
+    TriggerActivation("Door1505",FALSE)
+    TriggerActivation("HiddenRoom",FALSE)
+END
+
+// enable hidden room trigger after the initial talk with Felaern
+IF
+  Global("IAHidden","S!0003",0)
+  Global("IADruidIsland","GLOBAL",3)
+THEN
+  RESPONSE #100
+    SetGlobal("IAHidden","S!0003",1)
+    TriggerActivation("HiddenRoom",TRUE)
+END
