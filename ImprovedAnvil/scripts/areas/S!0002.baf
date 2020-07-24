@@ -1,0 +1,31 @@
+IF
+  OnCreation()
+	Global("IAExplored","S!0002",0)
+THEN
+	RESPONSE #100
+    SetGlobal("IAExplored","S!0002",1)
+    AddJournalEntry(@5521,QUEST)
+    Explore()
+END
+
+IF
+  Global("IADruidIsland","GLOBAL",4)
+  Global("IAAmbush","S!0002",1)
+  Dead("S!wer04")
+  Dead("S!wer05")
+  CombatCounter(0)
+THEN
+  RESPONSE #100
+    SetGlobal("IAAmbush","S!0002",2)
+    SetGlobal("IADruidIsland","GLOBAL",5)
+    ActionOverride("s!gdru02",StartDialogNoSet(Player1))
+END
+
+IF
+  Global("IADruidIsland","GLOBAL",7)
+  Global("IAExplored","S!0002",1)
+THEN
+  RESPONSE #100
+    SetGlobal("IAExplored","S!0002",2)
+    AddJournalEntry(@5523,QUEST)
+END

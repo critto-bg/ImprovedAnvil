@@ -1,0 +1,39 @@
+// Extended druid stronghold, party enters the hidden room inside Dradeel's house //
+
+IF
+  True()
+THEN
+  RESPONSE #100
+    CutSceneId(Player1)
+    SetInterrupt(FALSE)
+
+    DisplayStringHead(Myself,@5664)
+    Wait(2)
+
+		FadeToColor([20.0],0)
+		Wait(1)
+
+		LeaveAreaLUAPanic("S!0004","",[235.200],NW)
+		LeaveAreaLUA("S!0004","",[235.200],NW)
+
+		ActionOverride(Player2,LeaveAreaLUA("S!0004","",[185.195],W))
+		ActionOverride(Player3,LeaveAreaLUA("S!0004","",[185.230],W))
+		ActionOverride(Player4,LeaveAreaLUA("S!0004","",[210.265],W))
+		ActionOverride(Player5,LeaveAreaLUA("S!0004","",[245.285],W))
+		ActionOverride(Player6,LeaveAreaLUA("S!0004","",[300.275],W))
+    MoveViewObject(Myself,VERY_FAST)
+
+		ActionOverride(Player2,FaceObject(Player1))
+		ActionOverride(Player3,FaceObject(Player1))
+		ActionOverride(Player4,FaceObject(Player1))
+		ActionOverride(Player5,FaceObject(Player1))
+		ActionOverride(Player6,FaceObject(Player1))
+
+    FadeFromColor([20.0],0)
+		Explore()
+		SetInterrupt(TRUE)
+		Wait(1)
+
+    MultiPlayerSync()
+    EndCutSceneMode()
+END

@@ -1,0 +1,54 @@
+// Extended druid stronghold, protagonist arrives to repel a werewolf attack on Trademeet //
+
+IF
+  True()
+THEN
+  RESPONSE #100
+    CutSceneId(Player1)
+
+    Wait(2)
+    FadeToColor([20.0],0)
+
+    CreateCreature("s!trgu01",[3450.2260],0)
+
+    JumpToPoint([3550.2325])
+    MoveViewObject(Myself,VERY_FAST)
+
+    FaceObject("s!trgu01")
+    ActionOverride("s!trgu01",FaceObject(Player1))
+
+    ActionOverride(Player2,JumpToPoint([3480.2380]))
+    ActionOverride(Player2,FaceObject("s!trgu01"))
+    ActionOverride(Player3,JumpToPoint([3535.2400]))
+    ActionOverride(Player3,FaceObject("s!trgu01"))
+    ActionOverride(Player4,JumpToPoint([3590.2370]))
+    ActionOverride(Player4,FaceObject("s!trgu01"))
+    ActionOverride(Player5,JumpToPoint([3635.2315]))
+    ActionOverride(Player5,FaceObject("s!trgu01"))
+    ActionOverride(Player6,JumpToPoint([3610.2270]))
+    ActionOverride(Player6,FaceObject("s!trgu01"))
+
+    FadeFromColor([20.0],0)
+    Wait(1)
+
+    DisplayStringHead("s!trgu01",@5400)
+    Wait(2)
+    DisplayStringHead(Player1,@5401)
+    Wait(2)
+    DisplayStringHead("s!trgu01",@5402)
+    Wait(2)
+    DisplayStringHead("s!trgu01",@5403)
+    Wait(2)
+    DisplayStringHead("s!trgu01",@5404)
+    Wait(2)
+    DisplayStringHead(Player1,@5405)
+
+    CreateCreature("s!jagdu",[3600.2180],0)
+    ActionOverride("s!jagdu",FaceObject(Player1))
+
+    SetGlobal("IADruidSiege","AR2000",1)
+    Wait(2)
+
+    MultiPlayerSync()
+    EndCutSceneMode()
+END

@@ -1,0 +1,22 @@
+// Extended druid stronghold, Felaern arrives at the docks of Balduran's Isle //
+
+IF
+  True()
+THEN
+  RESPONSE #100
+    CutSceneId(Player1)
+
+    Wait(1)
+    MoveViewObject(Myself,STANDARD)
+    SmallWait(1)
+    CreateCreatureObjectOffScreen("S!drue01",Player1,0,0,0) //
+    MoveToObject(Player1)
+
+    SmallWait(4)
+    ActionOverride("s!drue01",ForceSpellRES("S!dru01",Myself))
+    Wait(2)
+
+    MultiPlayerSync()
+    ActionOverride("s!gdru02",StartDialogNoSet(Player1))
+    EndCutSceneMode()
+END

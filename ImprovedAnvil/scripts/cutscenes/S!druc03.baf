@@ -1,0 +1,72 @@
+// Extended druid stronghold, great druid arrives to save the day during the attack on Trademeet //
+
+IF
+  True()
+THEN
+  RESPONSE #100
+    CutSceneId(Player1)
+
+    Wait(1)
+    DisplayStringHead(Player1,@5406)
+    Wait(3)
+    FadeToColor([20.0],0)
+
+    CreateCreature("s!logan",[1925.1360],0)
+
+    JumpToPoint([2020.1410])
+    MoveViewObject(Myself,VERY_FAST)
+
+    FaceObject("s!logan")
+    ActionOverride("s!logan",FaceObject(Player1))
+
+    ActionOverride(Player2,JumpToPoint([1860.1425]))
+    ActionOverride(Player2,FaceObject("s!logan"))
+    ActionOverride(Player3,JumpToPoint([2015.1320]))
+    ActionOverride(Player3,FaceObject("s!logan"))
+    ActionOverride(Player4,JumpToPoint([1760.1445]))
+    ActionOverride(Player4,FaceObject("s!logan"))
+    ActionOverride(Player5,JumpToPoint([1850.1505]))
+    ActionOverride(Player5,FaceObject("s!logan"))
+    ActionOverride(Player6,JumpToPoint([2080.1310]))
+    ActionOverride(Player6,FaceObject("s!logan"))
+
+    ActionOverride("S!jagdu",JumpToPoint([2830.1570]))
+    ActionOverride("S!jagdu",MoveToPointNoInterrupt([2100.1445]))
+    ActionOverride("S!jagdu",FaceObject(Player1))
+
+    FadeFromColor([20.0],0)
+    Wait(2)
+    DisplayStringHead("s!logan",@5407)
+    Wait(3)
+
+    CreateCreature("s!gdru01",[2700.1215],0)
+    CreateCreature("s!tslead",[2780.1258],0)
+
+    ActionOverride("S!gdru01",MoveToPointNoInterrupt([2180.1315]))
+    ActionOverride("S!gdru01",FaceObject("S!jagdu"))
+    ActionOverride("S!tslead",MoveToPointNoInterrupt([2235.1420]))
+    ActionOverride("S!tslead",FaceObject("S!jagdu"))
+
+    Wait(1)
+    DisplayStringHead("s!gdru01",@5408)
+    Wait(2)
+    DisplayStringHead("s!gdru01",@5409)
+    Wait(2)
+    DisplayStringHead("s!jagdu",@5410)
+    Wait(2)
+    ActionOverride("s!jagdu",DestroyItem("minhp1"))
+    ActionOverride("s!jagdu",Kill(Myself))
+
+    // TODO
+    // jagdu's death needs to be better animated with spell effects, etc.
+    // scripted werewolves run away
+    // corpith says something about making sure they flee and escapes, along with all the scripted guards
+
+    SetGlobal("IADruidSiege","AR2000",3)
+    SetGlobal("IADruidPlot","GLOBAL",5)
+    Wait(2)
+
+    MultiPlayerSync()
+    ActionOverride("s!gdru01",StartDialogNoSet(Player1))
+    EndCutSceneMode()
+END

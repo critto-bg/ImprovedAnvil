@@ -1,0 +1,49 @@
+EXTEND_TOP ~CORNEIL~ 0 #6
+  IF ~Global("IADruidPlot","GLOBAL",6) Global("IADruidTalk","LOCALS",0)~ THEN
+    DO ~SetGlobal("IADruidTalk","LOCALS",1)~
+    REPLY @5440 GOTO 15
+END
+
+APPEND ~CORNEIL~
+  IF ~~ THEN BEGIN 15
+    SAY @5441
+    IF ~~ THEN REPLY @5442 GOTO 16
+  END
+
+  IF ~~ THEN BEGIN 16
+    SAY @5443
+    IF ~~ THEN DO ~TakePartyItem("S!misc70")~ REPLY @5444 GOTO 17
+  END
+
+  IF ~~ THEN BEGIN 17
+    SAY @5445
+    IF ~~ THEN REPLY @5446 GOTO 18
+  END
+
+  IF ~~ THEN BEGIN 18
+    SAY @5447
+    IF ~~ THEN GOTO 19
+  END
+
+  IF ~~ THEN BEGIN 19
+    SAY @5448
+    IF ~~ THEN GOTO 20
+  END
+
+  IF ~~ THEN BEGIN 20
+    SAY @5449
+    IF ~~ THEN REPLY @5450 GOTO 21
+  END
+
+  IF ~~ THEN BEGIN 21
+    SAY @5451
+    IF ~~ THEN REPLY @5452 GOTO 22
+  END
+
+  IF ~~ THEN BEGIN 22
+    SAY @5453
+    IF ~~ THEN DO ~GiveItem("S!misc70",Player1)~
+    UNSOLVED_JOURNAL @5517
+    EXIT
+  END
+END

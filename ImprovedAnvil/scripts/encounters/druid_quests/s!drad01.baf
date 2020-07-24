@@ -1,0 +1,45 @@
+IF
+	Global("StealShip","GLOBAL",1)
+  Global("IADruidPlot","GLOBAL",7)
+  Global("IADradeel","GLOBAL",2)
+  Global("IATavern","LOCALS",0)
+	AreaCheck("AR1602")  // Brynnlaw's Inn
+  Detect(Player1)
+THEN
+	RESPONSE #100
+    StartDialogueNoSet(Player1)
+END
+
+// Dradeel leaves during the fight with pirates if the player has refused to go to the island
+IF
+  AreaCheck("AR1600")
+  Global("IADruidPlot","GLOBAL",17)
+  Global("IADradeel","GLOBAL",7)
+  Global("IAOnce","LOCALS",0)
+  !Dead("ppsaem3")
+THEN
+  RESPONSE #100
+    SetGlobal("IAOnce","LOCALS",1)
+    SetInterrupt(FALSE)
+    DisplayStringHead(Myself,@5609)
+    ForceSpell(Myself,DRYAD_TELEPORT)
+    Wait(1)
+    DestroySelf()
+END
+
+// Dradeel leaves if Saemon has perished during the scirmish at the docks
+IF
+  AreaCheck("AR1600")
+  Global("IADruidPlot","GLOBAL",7)
+  Global("IADradeel","GLOBAL",3)
+  Global("IAOnce","LOCALS",0)
+  Dead("ppsaem3")
+THEN
+  RESPONSE #100
+    SetGlobal("IAOnce","LOCALS",1)
+    SetInterrupt(FALSE)
+    DisplayStringHead(Myself,@5609)
+    ForceSpell(Myself,DRYAD_TELEPORT)
+    Wait(1)
+    DestroySelf()
+END

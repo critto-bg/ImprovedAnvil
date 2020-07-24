@@ -1,0 +1,39 @@
+// Extended druid stronghold, party arrive at the docks once again to leave the island //
+
+IF
+  True()
+THEN
+	RESPONSE #100
+		CutSceneId(Player1)
+		SetInterrupt(FALSE)
+
+    Wait(1)
+    FadeToColor([20.0],0)
+
+    JumpToPoint([4220.3195])
+    MoveViewObject(Myself,VERY_FAST)
+
+    ActionOverride("S!gdru02",JumpToPoint([4295.3180]))
+    ActionOverride("S!gdru02",FaceObject(Player1))
+
+    FaceObject("S!gdru02")
+
+    ActionOverride(Player2,JumpToPoint([4240.3265]))
+    ActionOverride(Player2,FaceObject("s!gdru02"))
+    ActionOverride(Player3,JumpToPoint([4360.3235]))
+    ActionOverride(Player3,FaceObject("s!gdru02"))
+    ActionOverride(Player4,JumpToPoint([4445.3190]))
+    ActionOverride(Player4,FaceObject("s!gdru02"))
+    ActionOverride(Player5,JumpToPoint([4735.3240]))
+    ActionOverride(Player5,FaceObject("s!gdru02"))
+    ActionOverride(Player6,JumpToPoint([4790.3375]))
+    ActionOverride(Player6,FaceObject("s!gdru02"))
+
+    FadeFromColor([20.0],0)
+    Wait(2)
+
+    MultiPlayerSync()
+		SetInterrupt(TRUE)
+    ActionOverride("ppsaem3",StartDialogNoSet(Player1))
+		EndCutSceneMode()
+END
