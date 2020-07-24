@@ -1,0 +1,192 @@
+// copy the resources //
+
+// new map icon
+COPY ~ImprovedAnvil/resources/druid/MAPICONS.BAM~ ~override/MAPICONS.BAM~
+COPY ~ImprovedAnvil/resources/druid/MOS1000.PVRZ~ ~override/MOS1000.PVRZ~
+COPY ~ImprovedAnvil/resources/druid/MOS1001.PVRZ~ ~override/MOS1001.PVRZ~
+COPY ~ImprovedAnvil/resources/druid/MOS1002.PVRZ~ ~override/MOS1002.PVRZ~
+COPY ~ImprovedAnvil/resources/druid/MOS1003.PVRZ~ ~override/MOS1003.PVRZ~
+COPY ~ImprovedAnvil/resources/druid/MOS1004.PVRZ~ ~override/MOS1004.PVRZ~
+COPY ~ImprovedAnvil/resources/druid/MOS1005.PVRZ~ ~override/MOS1005.PVRZ~
+COPY ~ImprovedAnvil/resources/druid/MOS1006.PVRZ~ ~override/MOS1006.PVRZ~
+COPY ~ImprovedAnvil/resources/druid/MOS1007.PVRZ~ ~override/MOS1007.PVRZ~
+
+// new areas
+COPY ~ImprovedAnvil/resources/druid/s!0001.are~ ~override/s!0001.are~
+COPY ~ImprovedAnvil/resources/druid/S!0001.MOS~ ~override/S!0001.MOS~
+COPY ~ImprovedAnvil/resources/druid/S!0001.WED~ ~override/S!0001.WED~
+COPY ~ImprovedAnvil/resources/druid/S!0001.tis~ ~override/S!0001.tis~
+COPY ~ImprovedAnvil/resources/druid/S!0001HT.BMP~ ~override/S!0001HT.BMP~
+COPY ~ImprovedAnvil/resources/druid/S!0001LM.BMP~ ~override/S!0001LM.BMP~
+COPY ~ImprovedAnvil/resources/druid/S!0001SR.BMP~ ~override/S!0001SR.BMP~
+COPY ~ImprovedAnvil/resources/druid/S000100.PVRZ~ ~override/S000100.PVRZ~
+COPY ~ImprovedAnvil/resources/druid/S000101.PVRZ~ ~override/S000101.PVRZ~
+COPY ~ImprovedAnvil/resources/druid/S000102.PVRZ~ ~override/S000102.PVRZ~
+COPY ~ImprovedAnvil/resources/druid/S000103.PVRZ~ ~override/S000103.PVRZ~
+COPY ~ImprovedAnvil/resources/druid/S000104.PVRZ~ ~override/S000104.PVRZ~
+COPY ~ImprovedAnvil/resources/druid/S000105.PVRZ~ ~override/S000105.PVRZ~
+COPY ~ImprovedAnvil/resources/druid/S000106.PVRZ~ ~override/S000106.PVRZ~
+COPY ~ImprovedAnvil/resources/druid/S000107.PVRZ~ ~override/S000107.PVRZ~
+COPY ~ImprovedAnvil/resources/druid/S000108.PVRZ~ ~override/S000108.PVRZ~
+COPY ~ImprovedAnvil/resources/druid/S000109.PVRZ~ ~override/S000109.PVRZ~
+COPY ~ImprovedAnvil/resources/druid/S000110.PVRZ~ ~override/S000110.PVRZ~
+COPY ~ImprovedAnvil/resources/druid/S000111.PVRZ~ ~override/S000111.PVRZ~
+
+// patch the areas //
+
+// add entrance point at the south-western edge of Small Teeth Pass
+COPY_EXISTING ~AR1700.ARE~ ~override/AR1700.ARE~
+  LPF fj_are_structure
+    INT_VAR
+      fj_loc_x = 640
+      fj_loc_y = 3030
+      fj_orientation = 8
+    STR_VAR
+      fj_name = ~ExitSW~
+      fj_structure_type = entrance
+  END
+BUT_ONLY
+
+// update the new area
+COPY_EXISTING ~s!0001.are~ ~override/s!0001.are~
+  LPF fj_are_structure
+    INT_VAR
+      fj_delete_mode = 3
+    STR_VAR
+      fj_structure_type = actor
+  END
+
+  LPF fj_are_structure
+    INT_VAR
+    fj_loc_x       = 80
+    fj_loc_y       = 410
+    fj_orientation = 10   // NW
+    STR_VAR
+    fj_structure_type = entrance
+    fj_name           = ExitNW
+  END
+
+  LPF fj_are_structure
+    INT_VAR
+    fj_loc_x       = 4000
+    fj_loc_y       = 80
+    fj_orientation = 0    // S
+    STR_VAR
+    fj_structure_type = entrance
+    fj_name           = ExitNE
+  END
+BUT_ONLY
+
+APPEND ~mastarea.2da~ ~S!0001     value~
+
+// patch the worldmap //
+
+LAF sc#addWmpAre
+  INT_VAR mapIcon         = 35
+          xCoord          = 864
+          yCoord          = 534
+          tTime           = 2
+          visible         = 1
+          reachable       = 1
+          visited         = 0
+          visibleAdjacent = 0
+          inclSv          = 0
+  STR_VAR areName = "S!0001"
+          strName = "Small Teeth Valley"
+          strDesc = ""
+END
+
+// from links
+ACTION_DEFINE_ARRAY nw_areas BEGIN
+  AR0020 AR0300 AR0400 AR0500 AR0700 AR0800 AR0900 AR1000 AR2500
+END
+
+ACTION_DEFINE_ARRAY ne_areas_far BEGIN
+  AR1100 AR1400 AR1404 AR1300 AR1304 AR2000 AR1200 AR1900 AR1800 AR2600 AR2800
+END
+
+ACTION_DEFINE_ARRAY ne_areas_closeby BEGIN
+  AR1700
+END
+
+// to links
+ACTION_DEFINE_ASSOCIATIVE_ARRAY to_areas BEGIN
+  AR0020 => ExitNE
+  AR0300 => ExitNE
+  AR0400 => ExitN
+  AR0500 => ExitNE
+  AR0700 => ExitE
+  AR0800 => ExitN
+  AR0900 => ExitNW
+  AR1000 => ExitN
+  AR2500 => CDExit
+  AR1100 => ExitSE
+  AR1400 => ExitW
+  AR1404 => ExitE
+  AR1300 => ExitSE
+  AR1304 => ExitSE
+  AR2000 => ExitNW
+  AR1200 => ExitW
+  AR1900 => ExitW
+  AR1800 => CDExit
+  AR2600 => CDExit
+END
+
+// set up the links
+COPY_EXISTING ~worldmap.wmp~ ~override~
+  PHP_EACH nw_areas AS null => area BEGIN
+    LPF ADD_WORLDMAP_LINKS
+      INT_VAR
+        default_entry  = 1
+        distance_scale = 2
+      STR_VAR
+        from_area = EVAL ~%area%~
+        to_area = ~S!0001~
+        entry = ~ExitNW~
+    END
+  END
+
+  PHP_EACH ne_areas_far AS null => area BEGIN
+    LPF ADD_WORLDMAP_LINKS
+      INT_VAR
+        default_entry  = 1
+        distance_scale = 2
+      STR_VAR
+        from_area = EVAL ~%area%~
+        to_area = ~S!0001~
+        entry = ~ExitNE~
+    END
+  END
+
+  PHP_EACH ne_areas_closeby AS null => area BEGIN
+    LPF ADD_WORLDMAP_LINKS
+      INT_VAR
+        default_entry  = 1
+        distance_scale = 0
+      STR_VAR
+        from_area = EVAL ~%area%~
+        to_area = ~S!0001~
+        entry = ~ExitNE~
+    END
+  END
+
+  PHP_EACH to_areas AS area => entry BEGIN
+    LPF ADD_WORLDMAP_LINKS
+      INT_VAR
+        distance_scale = 2
+      STR_VAR
+        from_area = ~S!0001~
+        to_area = EVAL ~%area%~
+        entry = EVAL ~%entry%~
+    END
+  END
+
+  LPF ADD_WORLDMAP_LINKS
+    INT_VAR
+      distance_scale = 0
+    STR_VAR
+      from_area = ~S!0001~
+      to_area = ~AR1700~
+      entry = ~ExitSW~
+  END
+BUT_ONLY
