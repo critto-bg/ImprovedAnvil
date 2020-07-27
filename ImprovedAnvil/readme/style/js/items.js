@@ -1421,7 +1421,7 @@ var gear = [
                     "Cloak of Dragomir",
                     "Cloak of the Dead",
                     "Cloak of Protection +1",
-                    "25,000 gp",
+                    "30,000 gp",
                     "(Maheer and Cespenar only)"
                 ],
                 "attributes": [
@@ -1455,7 +1455,7 @@ var gear = [
                     "Cloak of Protection +1",
                     "Manual of Elaboration",
                     "Adamantine Dust",
-                    "50,000 gp",
+                    "60,000 gp",
                     "(Maheer and Cespenar only)"
                 ],
                 "attributes": [
