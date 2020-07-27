@@ -533,7 +533,7 @@ var gear = [
                     "Two Oils of Speed",
                     "Two Rings of Protection +1",
                     "Permanency Scroll",
-                    "30,000 gp"
+                    "60,000 gp"
                 ],
                 "attributes": [
                     {

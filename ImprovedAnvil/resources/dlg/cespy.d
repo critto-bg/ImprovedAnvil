@@ -1986,11 +1986,11 @@ IF ~~ THEN BEGIN treefist
   IF ~~ THEN BEGIN palbracers
     SAY @777 IF ~~ THEN REPLY @2 GOTO 13
     IF ~PartyHasItem("brac22") PartyHasItem("brac09") PartyHasItem("brac20")
-	PartyGoldGT(29999) NumItemsPartyGT("potn14",1)
+	PartyGoldGT(59999) NumItemsPartyGT("potn14",1)
 	NumItemsPartyGT("ring06",1) PartyHasItem("s!misc02")~
       THEN REPLY @3
       DO ~SetGlobal("Iapalbracersforged","GLOBAL",1)
-          TakePartyGold(30000)      DestroyGold(30000)
+          TakePartyGold(60000)      DestroyGold(60000)
           TakePartyItemNum("brac22",1)   DestroyItem("brac22")
           TakePartyItemNum("brac09",1)   DestroyItem("brac09")
           TakePartyItemNum("brac20",1)   DestroyItem("brac20")
