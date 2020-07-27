@@ -2939,6 +2939,7 @@ var weapons = [
                         "section_name": "Abilities",
                         "section_items": [
                             "+10% bonus to Magic Resistance",
+                            "+10% bonus to DR",
                             "+2 bonus to Strength",
                             "+1 bonus to Critical Hit range",
                             "Damage: 1D10 +5, +5 damage vs. Evil",
