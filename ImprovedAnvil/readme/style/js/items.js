@@ -1394,7 +1394,7 @@ var gear = [
                     "Elven Holy Water",
                     "Cursed Vampire Ashes",
                     "Permanency Scroll",
-                    "30,000 gp"
+                    "60,000 gp"
                 ],
                 "attributes": [
                     {

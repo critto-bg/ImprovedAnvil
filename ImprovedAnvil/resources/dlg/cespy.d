@@ -2053,20 +2053,20 @@ IF ~~ THEN BEGIN treefist
   IF ~~ THEN BEGIN imoenamulet
     SAY @783 IF ~~ THEN REPLY @2 GOTO 13
     IF ~PartyHasItem("s!misc63") PartyHasItem("s!misc02") PartyHasItem("miscau")
-	PartyGoldGT(29999) NumItemsPartyGT("potn09",1) NumItemsPartyGT("amul14",1)
+	PartyGoldGT(59999) NumItemsPartyGT("potn09",1) NumItemsPartyGT("amul14",1)
 	NumItemsPartyGT("potn35",1)~
       THEN REPLY @3
       DO ~SetGlobal("Iaimoenamuletforged","GLOBAL",1)
-          TakePartyGold(30000)      DestroyGold(30000)
+          TakePartyGold(60000)      DestroyGold(60000)
           TakePartyItemNum("s!misc63",1)   DestroyItem("s!misc63")
           TakePartyItemNum("s!misc02",1)   DestroyItem("s!misc02")
           TakePartyItemNum("miscau",1)   DestroyItem("miscau")
           TakePartyItemNum("potn09",2)   DestroyItem("potn09")
-					 DestroyItem("potn09")
+					                               DestroyItem("potn09")
           TakePartyItemNum("amul14",2)   DestroyItem("amul14")
-					 DestroyItem("amul14")
+                                         DestroyItem("amul14")
           TakePartyItemNum("potn35",2)   DestroyItem("potn35")
-					 DestroyItem("potn35")
+					                               DestroyItem("potn35")
           GiveItemCreate("s!amul08",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~
       EXIT
