@@ -1465,7 +1465,7 @@ var gear = [
                             "+2 bonus to AC",
                             "+2 bonus to saving throws",
                             "+2 bonus to Constitution",
-                            "+1 bonus to attacks per round",
+                            "+1/2 bonus to attacks per round",
                             "Allows a vampire to travel outside during the day and in full view of the sun."
                         ]
                     },
