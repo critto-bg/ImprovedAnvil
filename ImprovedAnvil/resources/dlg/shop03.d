@@ -42,10 +42,10 @@ APPEND ~SHOP03~
   IF ~~ THEN BEGIN hexxat1
     SAY @5111
     IF ~~ THEN REPLY @5108 GOTO 22
-    IF ~PartyHasItem("ohhcloak") PartyGoldGT(24999) PartyHasItem("clck01") PartyHasItem("s!clck10")~
+    IF ~PartyHasItem("ohhcloak") PartyGoldGT(29999) PartyHasItem("clck01") PartyHasItem("s!clck10")~
       THEN REPLY @5109
       DO ~SetGlobal("Iahexxat01forged","GLOBAL",1)
-          TakePartyGold(25000)      DestroyGold(25000)
+          TakePartyGold(30000)      DestroyGold(30000)
           TakePartyItemNum("ohhcloak",1)   DestroyItem("ohhcloak")
           TakePartyItemNum("clck01",1)   DestroyItem("clck01")
           TakePartyItemNum("s!clck10",1)   DestroyItem("s!clck10")
@@ -57,10 +57,10 @@ APPEND ~SHOP03~
   IF ~~ THEN BEGIN hexxat2
     SAY @5113
     IF ~~ THEN REPLY @5108 GOTO 22
-    IF ~PartyHasItem("s!clck08") PartyGoldGT(49999) PartyHasItem("clck01") PartyHasItem("dwdust") PartyHasItem("s!misc06") ~
+    IF ~PartyHasItem("s!clck08") PartyGoldGT(59999) PartyHasItem("clck01") PartyHasItem("dwdust") PartyHasItem("s!misc06") ~
       THEN REPLY @5109
       DO ~SetGlobal("Iahexxat02forged","GLOBAL",1)
-          TakePartyGold(50000)      DestroyGold(50000)
+          TakePartyGold(60000)      DestroyGold(60000)
           TakePartyItemNum("s!clck08",1)   DestroyItem("s!clck08")
           TakePartyItemNum("clck01",1)   DestroyItem("clck01")
           TakePartyItemNum("dwdust",1)   DestroyItem("dwdust")
