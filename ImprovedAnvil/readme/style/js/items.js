@@ -1594,15 +1594,15 @@ var weapons = [
                     "Wyvern’s Tail +2",
                     "Blood of a Royal Troll",
                     "Manual of Elaboration",
-                    "25,000 gp"
+                    "50,000 gp"
                 ],
                 "attributes": [
                     {
                         "section_name": "Abilities",
                         "section_items": [
                             "+1 bonus to Strength",
-                            "THAC0: +4",
-                            "Damage: 1D6 +4, +5 damage to unnatural creatures, +2 crushing damage",
+                            "THAC0: +4, +6 vs. unnatural creatures",
+                            "Damage: 1D6 +4, +6 damage to unnatural creatures, +2 crushing damage",
                             "5% chance to inflict 8d6 points of acid damage on hit",
                             "5% chance to inflict 8d6 points of poison damage on hit"
                         ]
