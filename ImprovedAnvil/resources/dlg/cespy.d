@@ -1951,10 +1951,10 @@ APPEND BOTSMITH
 IF ~~ THEN BEGIN treefist
     SAY @773 IF ~~ THEN REPLY @2 GOTO 13
     IF ~PartyHasItem("s!blun01") PartyHasItem("blun23") PartyHasItem("blun18")
-	PartyHasItem("blun17") PartyGoldGT(24999) PartyHasItem("s!misc62") PartyHasItem("s!misc06")~
+	PartyHasItem("blun17") PartyGoldGT(49999) PartyHasItem("s!misc62") PartyHasItem("s!misc06")~
       THEN REPLY @3
       DO ~SetGlobal("Iatreefistforged","GLOBAL",1)
-          TakePartyGold(25000)      DestroyGold(25000)
+          TakePartyGold(50000)      DestroyGold(50000)
           TakePartyItemNum("s!blun01",1)   DestroyItem("s!blun01")
           TakePartyItemNum("blun23",1)   DestroyItem("blun23")
           TakePartyItemNum("blun17",1)   DestroyItem("blun17")
