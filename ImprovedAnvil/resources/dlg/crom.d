@@ -2016,10 +2016,10 @@ APPEND WSMITH01
   IF ~~ THEN BEGIN treefury
     SAY @625 IF ~~ THEN REPLY @2 GOTO 13
     IF ~PartyHasItem("s!blun04") PartyHasItem("blun28") PartyHasItem("blun26")
-	PartyHasItem("s!blun02") PartyGoldGT(49999) PartyHasItem("s!scrl07") PartyHasItem("s!misc06")~
+	PartyHasItem("s!blun02") PartyGoldGT(74999) PartyHasItem("s!scrl07") PartyHasItem("s!misc06")~
       THEN REPLY @3
       DO ~SetGlobal("Iatreefuryforged","GLOBAL",1)
-          TakePartyGold(50000)      DestroyGold(50000)
+          TakePartyGold(75000)      DestroyGold(75000)
           TakePartyItemNum("s!blun04",1)   DestroyItem("s!blun04")
           TakePartyItemNum("s!blun02",1)   DestroyItem("s!blun02")
           TakePartyItemNum("blun28",1)   DestroyItem("blun28")
