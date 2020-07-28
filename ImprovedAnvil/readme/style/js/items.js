@@ -1624,15 +1624,15 @@ var weapons = [
                     "Rimed Club +4",
                     "Scroll of Giant Strength",
                     "Manual of Elaboration",
-                    "50,000 gp"
+                    "75,000 gp"
                 ],
                 "attributes": [
                     {
                         "section_name": "Abilities",
                         "section_items": [
                             "+2 bonus to Strength",
-                            "THAC0: +5",
-                            "Damage: 1D6 +5, +5 damage to unnatural creatures, +10 crushing damage",
+                            "THAC0: +5, +7 vs. unnatural creatures",
+                            "Damage: 1D6 +5, +10 vs. unnatural creatures, +5 crushing damage",
                             "5% chance to inflict 8d6 points of acid damage on hit",
                             "5% chance to inflict 8d6 points of fire damage on hit",
                             "5% chance to inflict 8d6 points of cold damage on hit",
