@@ -3124,7 +3124,7 @@ var misc = [
                     "Black Spider Figurine",
                     "Spider Queen's Eggs",
                     "Manual of Elaboration",
-                    "60,000 gp"
+                    "75,000 gp"
                 ],
                 "attributes": [
                     {

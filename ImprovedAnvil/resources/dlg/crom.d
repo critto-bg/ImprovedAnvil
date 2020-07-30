@@ -1514,9 +1514,9 @@ APPEND WSMITH01
   IF ~~ THEN BEGIN spider
     SAY @565 IF ~~ THEN REPLY @2 GOTO 13
     IF ~Global("Iaspideqdead","GLOBAL",1) PartyHasItem("misc3e") PartyHasItem("S!misc18") PartyHasItem("S!misc06")
-        PartyGoldGT(59999)~
+        PartyGoldGT(74999)~
       THEN REPLY @3
-      DO ~TakePartyGold(60000)      DestroyGold(60000)
+      DO ~TakePartyGold(75000)      DestroyGold(75000)
           TakePartyItemNum("misc3e",1)   DestroyItem("misc3e")
           TakePartyItemNum("S!misc18",1)   DestroyItem("S!misc18")
           TakePartyItemNum("S!misc06",1)   DestroyItem("S!misc06")
