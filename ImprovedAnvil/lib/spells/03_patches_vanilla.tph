@@ -429,3 +429,21 @@ COPY_EXISTING_REGEXP GLOB ~SPPR[1-7][0-5][0-9]+\.spl~ ~override~
   END
 
   BUT_ONLY
+
+// patch on-hit magic shield on Keldorn's items to prevent resonating shield effect //
+
+COPY_EXISTING ~keldorn.spl~ ~override/keldorn.spl~
+  LPF ~CLONE_EFFECT~
+    INT_VAR
+      check_globals = 0
+      match_opcode  = 12
+      opcode        = 206
+      parameter1    = 0
+      parameter2    = 0
+      timing        = 0
+      duration      = 1
+    STR_VAR
+      insert        = ~last~
+      resource      = ~keldorn~
+  END
+BUT_ONLY

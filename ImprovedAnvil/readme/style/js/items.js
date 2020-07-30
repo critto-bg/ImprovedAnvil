@@ -1243,6 +1243,7 @@ var gear = [
             {
                 "components": [
                     "Firecam Full-Plate Armor",
+                    "Hallowed Redeemer +2",
                     "Armor of the Hart",
                     "T'rahcie's Plate +5",
                     "Scroll of Protection From Magic Energy",
@@ -1260,11 +1261,13 @@ var gear = [
                         "section_items": [
                             "Armor Class: -3",
                             "+2 Bonus to all Saving Throws",
-                            "+40% Resistance to Magic Damage"
+                            "+40% Resistance to Magic Damage",
+                            "+20% damage dealt when using slashing weapons",
+                            "5 points of Magic Damage to any who damage Keldorn"
                         ]
                     }
                 ],
-                "item_name": "Improved Firecam Armor"
+                "item_name": "Improved Firecam Armor +4"
             },
             {
                 "components": [
