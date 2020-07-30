@@ -1586,13 +1586,15 @@ APPEND WSMITH01
 
   IF ~~ THEN BEGIN keldorn
     SAY @575 IF ~~ THEN REPLY @2 GOTO 13
-    IF ~Global("Iaplat04forged","GLOBAL",0) Reputation(Player1,20) PartyHasItem("npplat") PartyHasItem("belt10") PartyHasItem("plat17") PartyHasItem("S!misc06") NumItemsPartyGT("misc6z",2) NumItemsPartyGT("misc41",4)
+    IF ~Global("Iaplat04forged","GLOBAL",0) Reputation(Player1,20) PartyHasItem("npplat") PartyHasItem("plat16") PartyHasItem("plat17") PartyHasItem("scrl7j")
+        PartyHasItem("S!misc06") NumItemsPartyGT("misc6z",2) NumItemsPartyGT("misc41",4)
         PartyGoldGT(74999)~
       THEN REPLY @3
       DO ~TakePartyGold(75000)      DestroyGold(75000)
           TakePartyItemNum("npplat",1)   DestroyItem("npplat")
-          TakePartyItemNum("belt10",1)   DestroyItem("belt10")
+          TakePartyItemNum("plat16",1)   DestroyItem("plat16")
           TakePartyItemNum("plat17",1)   DestroyItem("plat17")
+          TakePartyItemNum("scrl7j",1)   DestroyItem("scrl7j")
           TakePartyItemNum("S!misc06",1)   DestroyItem("S!misc06")
           TakePartyItemNum("misc6z",3)   DestroyItem("misc6z")
                                          DestroyItem("misc6z")

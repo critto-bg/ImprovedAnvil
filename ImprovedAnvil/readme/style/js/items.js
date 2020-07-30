@@ -1243,8 +1243,9 @@ var gear = [
             {
                 "components": [
                     "Firecam Full-Plate Armor",
-                    "Belt of Inertial Barrier",
+                    "Armor of the Hart",
                     "T'rahcie's Plate +5",
+                    "Scroll of Protection From Magic Energy",
                     "Three Beljurils",
                     "Manual of Elaboration",
                     "Party Reputation is 20",
@@ -1257,10 +1258,9 @@ var gear = [
                     {
                         "section_name": "Abilities",
                         "section_items": [
-                            "Armor Class: -2",
+                            "Armor Class: -3",
                             "+2 Bonus to all Saving Throws",
-                            "+40% Resistance to Magic Damage",
-                            "+25% Resistance to Missile Damage"
+                            "+40% Resistance to Magic Damage"
                         ]
                     }
                 ],
