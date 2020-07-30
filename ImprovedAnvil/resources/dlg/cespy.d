@@ -705,12 +705,12 @@ APPEND BOTSMITH
 
   IF ~~ THEN BEGIN r4
     SAY @2030 IF ~~ THEN REPLY @2 GOTO 4
-    IF ~Global("Iakeepdagg21","GLOBAL",1) PartyHasItem("ring39") PartyHasItem("S!ring01") PartyHasItem("ring31") PartyHasItem("scrl07")
-        PartyGoldGT(119999)~
+    IF ~Global("Iakeepdagg21","GLOBAL",1) PartyHasItem("ring39") PartyHasItem("ring41") PartyHasItem("ring31") PartyHasItem("scrl07")
+        PartyGoldGT(149999)~
       THEN REPLY @3
-      DO ~TakePartyGold(120000)      DestroyGold(120000)
+      DO ~TakePartyGold(150000)      DestroyGold(150000)
           TakePartyItemNum("ring39",1)   DestroyItem("ring39")
-          TakePartyItemNum("S!ring01",1)   DestroyItem("S!ring01")
+          TakePartyItemNum("ring41",1)   DestroyItem("ring41")
           TakePartyItemNum("ring31",1)   DestroyItem("ring31")
           TakePartyItemNum("scrl07",1)   DestroyItem("scrl07")
           GiveItemCreate("S!ring02",Player1,1,1,1)

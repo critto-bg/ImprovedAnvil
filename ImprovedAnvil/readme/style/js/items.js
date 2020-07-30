@@ -823,17 +823,17 @@ var gear = [
             {
                 "components": [
                     "Ring of Gaxx",
-                    "Ring of Protection +4",
+                    "Ring of Protection +3",
                     "Ring of Regeneration",
                     "The lost Scroll of Protection From Magic",
-                    "120,000 gp"
+                    "150,000 gp"
                 ],
                 "attributes": [
                     {
                         "section_name": "Abilities",
                         "section_items": [
-                            "Armor Class: +5 Bonus",
-                            "Saving Throws: +5 Bonus",
+                            "Armor Class: +3 Bonus",
+                            "Saving Throws: +3 Bonus",
                             "Magic Resistance: +20% Bonus",
                             "Equipped Abilities: Wearer regenerates 1 hit point every 2 seconds",
                             "Special Use: Invisibility, once per day",
