@@ -1353,7 +1353,8 @@ var gear = [
                         "section_name": "Abilities",
                         "section_items": [
                             "+3 Armor Class",
-                            "+10% Magic Resistance",
+                            "+25% Magic Damage Resistance",
+                            "Wearer remains under constant effect of the Bless spell",
                             "Wearer can cast Armor of Faith, Chaotic Commands, Death Ward and Heal on himself 1\/day"
                         ]
                     },
