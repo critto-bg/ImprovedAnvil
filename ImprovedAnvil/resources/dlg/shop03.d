@@ -18,6 +18,7 @@ APPEND ~SHOP03~
     IF ~PartyHasItem("s!misc61") Global("Iabrac02forged","GLOBAL",0)~ THEN REPLY @5106 GOTO misc61
     IF ~PartyHasItem("ohhcloak") Global("Iahexxat01forged","GLOBAL",0)~ THEN REPLY @5110 GOTO hexxat1
     IF ~PartyHasItem("s!clck08") Global("Iahexxat02orged","GLOBAL",0)~ THEN REPLY @5112 GOTO hexxat2
+    IF ~PartyHasItem("s!chan01") Global("Iabloodforged","GLOBAL",0)~ THEN REPLY @5114 GOTO blood
   END
 
   IF ~~ THEN BEGIN 23
@@ -66,6 +67,23 @@ APPEND ~SHOP03~
           TakePartyItemNum("dwdust",1)   DestroyItem("dwdust")
           TakePartyItemNum("s!misc06",1)   DestroyItem("s!misc06")
           GiveItemCreate("s!clck09",Player1,1,1,1)
+          CreateVisualEffectObject("spcrtwpn","maheer")~
+      EXIT
+  END
+
+  IF ~~ THEN BEGIN blood
+    SAY @5115
+    IF ~~ THEN REPLY @5108 GOTO 22
+    IF ~PartyHasItem("s!chan01") PartyGoldGT(59999) PartyHasItem("s!misc66") PartyHasItem("S!misc68") PartyHasItem("S!misc69") PartyHasItem("s!misc06")~
+      THEN REPLY @5109
+      DO ~SetGlobal("Iabloodforged","GLOBAL",1)
+          TakePartyGold(60000)      DestroyGold(60000)
+          TakePartyItemNum("s!chan01",1)   DestroyItem("s!chan01")
+          TakePartyItemNum("s!misc66",1)   DestroyItem("s!misc66")
+          TakePartyItemNum("S!misc68",1)   DestroyItem("S!misc68")
+          TakePartyItemNum("S!misc69",1)   DestroyItem("S!misc69")
+          TakePartyItemNum("s!misc06",1)   DestroyItem("s!misc06")
+          GiveItemCreate("s!chan03",Player1,1,1,1)
           CreateVisualEffectObject("spcrtwpn","maheer")~
       EXIT
   END

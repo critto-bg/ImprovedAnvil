@@ -83,6 +83,44 @@ var gear = [
             },
             {
                 "components": [
+                    "Supreme Chain Mail +6",
+                    "Blood of a Chromatic Demon",
+                    "Blood of a Green Wyrm",
+                    "Blood of a Minotaur Chieftain",
+                    "Manual of Elaboration",
+                    "60,000 gp",
+                    "(Maheer only)"
+                ],
+                "attributes": [
+                    {
+                        "section_name": "Special abilities",
+                        "section_items": [
+                            "- War Paint: enemies that hit the wearer suffer non-cumulative 15% loss to the amount of physical damage that they deal for 2 rounds",
+                            "- Blood Rage:",
+                            "wearer gains +3 to THAC0, +3 to damage, +2 to Strength, Improved Haste, immunity to Fear, +5 bonus to Critical Chance for 1 turn",
+                            "while under the effect of the spell, the warrior suffers +5 penalty to AC and loses awareness of the damage he suffers (The Hit Points are masked for the duration of the spell)"
+                        ]
+                    },
+                    {
+                        "section_name": "Abilities",
+                        "section_items": [
+                            "Armor Class: -1",
+                            "+50% Resistance to Fire",
+                            "Weight: 7",
+                            "Requires: 8 Strength"
+                        ]
+                    },
+                    {
+                        "section_name": "Usable by",
+                        "section_items": [
+                            "Barbarians"
+                        ]
+                    }
+                ],
+                "item_name": "Stained in Blood +6"
+            },
+            {
+                "components": [
                     "Armor of the Hart",
                     "Doomplate",
                     "Two non-magical full plate mails",
@@ -2900,7 +2938,7 @@ var weapons = [
                     "Harbinger +3",
                     "Soul Reaver +4",
                     "Rancor +1",
-                    "Blood of a Greater Demon",
+                    "Blood of a Chromatic Demon",
                     "Skull of Death",
                     "Manual of Elaboration",
                     "75,000 gp"
