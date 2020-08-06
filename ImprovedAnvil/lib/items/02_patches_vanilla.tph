@@ -1036,3 +1036,13 @@ ACTION_PHP_EACH  items AS null => item BEGIN
     END
   BUT_ONLY
 END
+
+// patch Yoshimo's katana to remove unnecessary restriction flags //
+COPY_EXISTING ~npsw02.itm~ ~override/npsw02.itm~
+  WRITE_LONG 0x1e 0
+  WRITE_BYTE 0x29 0b00000000
+  WRITE_BYTE 0x2b 0b00000000
+  WRITE_BYTE 0x2d 0b00000000
+  WRITE_BYTE 0x2f 0b00000000
+
+BUT_ONLY
