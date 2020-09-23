@@ -1,3 +1,5 @@
+// init dialogue //
+
 IF
   NumTimesTalkedTo(0)
   Global("Iapcastts","GLOBAL",0)
@@ -6,6 +8,8 @@ THEN
   RESPONSE #100
     StartDialogueNoSet([PC])
 END
+
+// summon help //
 
 IF
   Allegiance(Myself,ENEMY)
@@ -19,6 +23,8 @@ THEN
     CreateCreatureObject("S!salam3",Myself,0,0,0) //
     SetGlobal("Iacreature","AR3024",1)
 END
+
+// pre-buff //
 
 IF
   InMyArea(Player1)
@@ -37,6 +43,8 @@ THEN
     ReallyForceSpellRES("SPWII03",Myself) //
 END
 
+// reset the 'party fled' flag //
+
 IF
   See(NearestEnemyOf(Myself))
   Global("partyfled","LOCALS",1)
@@ -44,6 +52,8 @@ THEN
   RESPONSE #100
     SetGlobal("partyfled","LOCALS",0)
 END
+
+// turn fire elementals into enemies //
 
 IF
   OR(2)
@@ -54,6 +64,8 @@ THEN
   RESPONSE #100
     ActionOverride(LastSeenBy(Myself),Enemy())
 END
+
+// CC ADHW //
 
 IF
   Allegiance(Myself,ENEMY)
@@ -74,6 +86,8 @@ THEN
     ReallyForceSpell(LastSeenBy(Myself),WIZARD_ABI_DALZIMS_HORRID_WILTING)
     DisplayString(Myself,19054) // ~Your life ends here.~
 END
+
+// Greater Silence //
 
 IF
   Allegiance(Myself,ENEMY)
@@ -171,6 +185,8 @@ THEN
     SetInterrupt(TRUE)
 END
 
+// item randomizer (robe of vecna) //
+
 IF
   Detect([PC])
   Global("Iatreasure","LOCALS",0)
@@ -183,6 +199,8 @@ THEN
     GiveItemCreate("wa2robe",Myself,0,0,0) //
 END
 
+// item randomizer (sling of everard) //
+
 IF
   Detect([PC])
   Global("Iatreasure2","LOCALS",0)
@@ -194,6 +212,8 @@ THEN
     SetGlobal("Iatreasure2","LOCALS",1)
     GiveItemCreate("wasling",Myself,0,0,0) //
 END
+
+// item randomizer (short sword of mask) //
 
 IF
   Detect([PC])
@@ -208,6 +228,8 @@ THEN
     GiveItemCreate("sw1h58",Myself,0,0,0) //
 END
 
+// JD essense //
+
 IF
   Detect([PC])
   Alignment(Player1,MASK_GOOD)
@@ -219,6 +241,8 @@ THEN
     SetGlobal("Iatreasure4","LOCALS",1)
     GiveItemCreate("S!misc08",Myself,0,0,0) //
 END
+
+// scroll drops //
 
 IF
   Detect([PC])
@@ -240,6 +264,8 @@ THEN
     GiveItemCreate("S!scrl10",Myself,0,0,0) //
 END
 
+// stoneskin //
+
 IF
   See(NearestEnemyOf(Myself))
   CheckStatLT(Myself,1,STONESKINS)
@@ -250,6 +276,8 @@ THEN
     IncrementGlobal("Iafsdra13","LOCALS",1)
     ForceSpell(Myself,DRAGON_STONE_SKIN)
 END
+
+// PfMW //
 
 IF
   CheckStatLT(Myself,1,STONESKINS)
@@ -268,6 +296,8 @@ THEN
     ForceSpell(Myself,PROTECTION_MAGIC_WEAPON_NOEFF)
 END
 
+// Greater Silence //
+
 IF
   Allegiance(Myself,ENEMY)
   Global("Iapcastts","GLOBAL",0)
@@ -435,6 +465,8 @@ THEN
     ActionOverride(LastSeenBy(Myself),EquipMostDamagingMelee())
     SetInterrupt(TRUE)
 END
+
+// Death spell //
 
 IF
   Allegiance(Myself,ENEMY)
@@ -456,6 +488,8 @@ THEN
     ForceSpell(LastSeenBy(Myself),WIZARD_DEATH_SPELL)
 END
 
+// Armor of Faith //
+
 IF
   !GlobalTimerNotExpired("Iafaith","LOCALS")
   CheckStatLT(Myself,1,STONESKINS)
@@ -470,6 +504,8 @@ THEN
     ForceSpellRES("SPPRI05",Myself) //
 END
 
+// True Sight //
+
 IF
   Allegiance(Myself,ENEMY)
   See([PC])
@@ -508,6 +544,8 @@ THEN
     SetInterrupt(TRUE)
 END
 
+// Remove Magic //
+
 IF
   Allegiance(Myself,ENEMY)
   !GlobalTimerNotExpired("Iaexrm","LOCALS")
@@ -545,6 +583,8 @@ THEN
     SetGlobalTimer("Iaexrm","LOCALS",24)
     ForceSpell(LastSeenBy(Myself),WIZARD_DISPEL_MAGIC)
 END
+
+// Cure Critical Wounds //
 
 IF
   Allegiance(Myself,ENEMY)
@@ -556,6 +596,8 @@ THEN
     ForceSpell(Myself,CLERIC_CURE_CRITICAL_WOUNDS)
 END
 
+// Heal //
+
 IF
   Allegiance(Myself,ENEMY)
   HPPercentLT(Myself,25)
@@ -565,6 +607,8 @@ THEN
     SetGlobal("Iacure","LOCALS",1)
     ForceSpellRES("SPPRI10",Myself)
 END
+
+// Regeneration //
 
 IF
   Allegiance(Myself,ENEMY)
@@ -586,6 +630,8 @@ THEN
     ForceSpell(Myself,CLERIC_REGENERATE)
 END
 
+// Magic Resistance //
+
 IF
   Allegiance(Myself,ENEMY)
   Global("Iafsdra15","LOCALS",0)
@@ -595,6 +641,8 @@ THEN
     IncrementGlobal("Iafsdra15","LOCALS",1)
     ForceSpellRES("SPPRI01",Myself) //
 END
+
+// Wing Buffet //
 
 IF
   Allegiance(Myself,ENEMY)
@@ -607,6 +655,8 @@ THEN
     ForceSpell(LastSeenBy(Myself),DRAGON_WING_BUFFET)
 END
 
+// Set up attack timer //
+
 IF
   Allegiance(Myself,ENEMY)
   See(NearestEnemyOf(Myself))
@@ -617,6 +667,8 @@ THEN
     SetGlobalTimer("Iaattacking","LOCALS",6)
 END
 
+// expire attack timer //
+
 IF
   Allegiance(Myself,ENEMY)
   See(NearestEnemyOf(Myself))
@@ -626,6 +678,8 @@ THEN
   RESPONSE #100
     SetGlobal("Iaattack","LOCALS",2)
 END
+
+// attack for one round (no pfmw+) //
 
 IF
   Allegiance(Myself,ENEMY)
@@ -648,6 +702,8 @@ THEN
   RESPONSE #100
     AttackOneRound(LastSeenBy(Myself))
 END
+
+// RRoR + Breach //
 
 IF
   Allegiance(Myself,ENEMY)
@@ -931,23 +987,23 @@ IF
   !GlobalTimerNotExpired("Iafmbreach","LOCALS")
   GlobalLT("Iacastbreach","LOCALS",6)
   Global("Iapcastts","GLOBAL",0)
-  See(Player1)
-  Range(Player1,18)
-  !StateCheck(Player1,STATE_IMPROVEDINVISIBILITY)
-  !StateCheck(Player1,STATE_INVISIBLE)
-  !CheckStat(Player1,1,SCRIPTINGSTATE7)
+  See(Player4)
+  Range(Player4,18)
+  !StateCheck(Player4,STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(Player4,STATE_INVISIBLE)
+  !CheckStat(Player4,1,SCRIPTINGSTATE7)
   !CheckSpellState(LastSeenBy(Myself),WIZARD_SPELL_TURNING)
   !CheckSpellState(LastSeenBy(Myself),SPELL_SHIELD)
   OR(2)
-   CheckStatGT(Player1,2,SCRIPTINGSTATE6)
-   CheckStat(Player1,1,SCRIPTINGSTATE11)
+   CheckStatGT(Player4,2,SCRIPTINGSTATE6)
+   CheckStat(Player4,1,SCRIPTINGSTATE11)
 THEN
   RESPONSE #100
     IncrementGlobal("Iacastbreach","LOCALS",1)
     SetGlobal("Iap1nb","GLOBAL",0)
     SetGlobal("Iaattack","LOCALS",0)
     SetGlobalTimer("Iafmbreach","LOCALS",12)
-    ForceSpell(Player1,WIZARD_BREACH)
+    ForceSpell(Player4,WIZARD_BREACH)
 END
 
 IF
@@ -1134,6 +1190,8 @@ THEN
     ForceSpell(Player6,WIZARD_BREACH)
 END
 
+// Remove Magic //
+
 IF
   Allegiance(Myself,ENEMY)
   Global("Iapcastts","GLOBAL",0)
@@ -1232,6 +1290,8 @@ THEN
     SetGlobal("RemoveMagic2","LOCALS",1)
     ForceSpell(LastSeenBy(Myself),WIZARD_DISPEL_MAGIC)
 END
+
+// Wing Buffet //
 
 IF
   Allegiance(Myself,ENEMY)
@@ -1243,6 +1303,8 @@ THEN
     SetGlobal("Iaonewing","LOCALS",2)
     ForceSpell(LastSeenBy(Myself),DRAGON_WING_BUFFET)
 END
+
+// RRoR //
 
 IF
   Allegiance(Myself,ENEMY)
@@ -1460,6 +1522,8 @@ THEN
     ForceSpell(Player6,WIZARD_RUBY_RAY_OF_REVERSAL)
 END
 
+// True Sight //
+
 IF
   !GlobalTimerNotExpired("truesight","LOCALS")
   See(NearestEnemyOfType([0.0.0.0.0.ILLUSIONARY.0]))
@@ -1472,6 +1536,8 @@ THEN
     SetInterrupt(TRUE)
 END
 
+// Remove Magic //
+
 IF
   See(NearestEnemyOfType([0.0.0.0.0.ILLUSIONARY.0]))
   Global("Iaremove","LOCALS",0)
@@ -1481,6 +1547,8 @@ THEN
     ForceSpell(LastSeenBy(Myself),WIZARD_DISPEL_MAGIC)
 END
 
+// Lower Resistance //
+
 IF
   GlobalLT("Iafsdra14","LOCALS",2)
   Allegiance(Myself,ENEMY)
@@ -1535,6 +1603,8 @@ THEN
     SetInterrupt(TRUE)
 END
 
+// Sequencer - Malison/Emotion/Slow //
+
 IF
   Allegiance(Myself,ENEMY)
   Global("Iapcastts","GLOBAL",0)
@@ -1570,6 +1640,8 @@ THEN
     ReallyForceSpell(LastSeenBy(Myself),WIZARD_EMOTION_HOPELESSNESS)
     ReallyForceSpell(LastSeenBy(Myself),WIZARD_SLOW)
 END
+
+// Greater Doom //
 
 IF
   Allegiance(Myself,ENEMY)
@@ -1612,6 +1684,8 @@ THEN
     SetGlobalTimer("Iagdoom","LOCALS",12)
     ForceSpellRES("SPINI68",LastSeenBy(Myself))
 END
+
+// Wing Buffet //
 
 IF
   Allegiance(Myself,ENEMY)
@@ -1624,6 +1698,8 @@ THEN
     ForceSpell(LastSeenBy(Myself),DRAGON_WING_BUFFET)
 END
 
+// Fire Storm //
+
 IF
   Allegiance(Myself,ENEMY)
   Global("Iapcastts","GLOBAL",0)
@@ -1662,6 +1738,8 @@ THEN
     SetGlobalTimer("Iacloud","LOCALS",60)
     ForceSpell(LastSeenBy(Myself),CLERIC_FIRE_STORM)
 END
+
+// Improved Fireball //
 
 IF
   Allegiance(Myself,ENEMY)
@@ -2001,6 +2079,8 @@ THEN
     SetInterrupt(TRUE)
 END
 
+// Spell Trigger - Chaos/Chaos/Emotion //
+
 IF
   Global("Iafsdra02","LOCALS",1)
   Global("Iapcastts","GLOBAL",0)
@@ -2061,6 +2141,8 @@ THEN
     ReallyForceSpell(LastSeenBy(Myself),WIZARD_EMOTION_HOPELESSNESS)
 END
 
+// Remove Magic //
+
 IF
   Allegiance(Myself,ENEMY)
   Global("Iapcastts","GLOBAL",0)
@@ -2114,6 +2196,8 @@ THEN
     SetGlobal("RemoveMagic","LOCALS",1)
     ForceSpell(LastSeenBy(Myself),WIZARD_DISPEL_MAGIC)
 END
+
+// Lower Fire Resistance //
 
 IF
   Allegiance(Myself,ENEMY)
@@ -2163,6 +2247,8 @@ THEN
     ForceSpell(NearestEnemyOf(Myself),DRAGON_LOWER_FIRE)
 END
 
+// Greater Command //
+
 IF
   Allegiance(Myself,ENEMY)
   Global("Iapcastts","GLOBAL",0)
@@ -2235,6 +2321,8 @@ THEN
     ForceSpell(LastSeenBy(Myself),CLERIC_GREATER_COMMAND)
 END
 
+// Dragon Fear //
+
 IF
   See(NearestEnemyOf(Myself))
   !CheckSpellState(LastSeenBy(Myself),IMMUNE_FEAR)
@@ -2245,6 +2333,8 @@ THEN
     SetGlobalTimer("Iafsdra04","GLOBAL",1)
     ReallyForceSpell(NearestEnemyOf(Myself),DRAGON_FEAR)
 END
+
+// Wing Buffet //
 
 IF
   GlobalTimerExpired("Iafsdra04","GLOBAL")
@@ -2257,6 +2347,8 @@ THEN
     ForceSpell(LastSeenBy(Myself),DRAGON_WING_BUFFET)
 END
 
+// Red Dragon Breath //
+
 IF
   See(NearestEnemyOf(Myself))
   GlobalTimerExpired("Iafsdra04","GLOBAL")
@@ -2268,6 +2360,8 @@ THEN
     SetGlobalTimer("Iafsdra04","GLOBAL",18)
 END
 
+// reset special ability timer //
+
 IF
   Global("Iafsdra05","LOCALS",1)
   See(NearestEnemyOf(Myself))
@@ -2277,6 +2371,8 @@ THEN
     SetGlobal("Iafsdra05","LOCALS",0)
     SetGlobalTimer("Iafsdra04","GLOBAL",18)
 END
+
+// init chase timer (party fled) //
 
 IF
   !Detect([PC])
@@ -2289,6 +2385,8 @@ THEN
     SetGlobalTimer("chase","LOCALS",90)
     SetGlobal("partyfled","LOCALS",1)
 END
+
+// chase the protagonist //
 
 IF
   !Detect([PC])
@@ -2303,6 +2401,8 @@ THEN
     MoveToObject(Player1)
 END
 
+// move to protagonist (attack out of sight attempted) //
+
 IF
   !Detect([PC])
   !Detect([GOODCUTOFF])
@@ -2314,6 +2414,8 @@ THEN
   RESPONSE #100
     MoveToObject(Player1)
 END
+
+// party escaped, reset all timers and pre-buff sequence //
 
 IF
   Allegiance(Myself,ENEMY)
@@ -2350,6 +2452,8 @@ THEN
     ReallyForceSpellRES("SPWII07",Myself)
 END
 
+// common attacks //
+
 IF
   See(NearestEnemyOf(Myself))
   !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
@@ -2380,6 +2484,8 @@ THEN
   RESPONSE #100
     AttackOneRound(LastSeenBy(Myself))
 END
+
+// prep initiated without the talk - move toward the player //
 
 IF
   NumTimesTalkedTo(0)
