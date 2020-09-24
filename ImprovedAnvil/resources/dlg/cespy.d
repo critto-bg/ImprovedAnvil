@@ -118,7 +118,7 @@ REPLACE BOTSMITH
     IF ~PartyHasItem("staf18")~ THEN REPLY @552 GOTO quarter
     IF ~PartyHasItem("S!misc16")~ THEN REPLY @554 GOTO elf
     IF ~PartyHasItem("sw1h41")~ THEN REPLY @556 GOTO long
-    IF ~PartyHasItem("S!misc36") Global("Iahelm05forged","GLOBAL",0)~ THEN REPLY @558 GOTO charm
+    IF ~PartyHasItem("S!misc36") Global("Iapotn22forged","GLOBAL",0)~ THEN REPLY @558 GOTO charm
     IF ~PartyHasItem("xbow12")~ THEN REPLY @560 GOTO janc
     IF ~PartyHasItem("sw1h28")~ THEN REPLY @562 GOTO throat
     IF ~PartyHasItem("misc3e")~ THEN REPLY @564 GOTO spider
@@ -1423,23 +1423,13 @@ APPEND BOTSMITH
 
   IF ~~ THEN BEGIN charm
     SAY @659 IF ~~ THEN REPLY @2 GOTO 4
-    IF ~Global("Iahelm05forged","GLOBAL",0) Global("EnteredAR0907","GLOBAL",1) PartyHasItem("helm06") PartyHasItem("S!misc02")  PartyHasItem("S!misc36") PartyHasItem("potn33") PartyHasItem("S!helm06") NumItemsPartyGT("scrl5f",5)
-        PartyGoldGT(59999)~
+    IF ~Global("Iapotn22forged","GLOBAL",0) Global("EnteredAR0907","GLOBAL",1) PartyHasItem("S!misc06") PartyHasItem("S!misc36") PartyGoldGT(49999)~
       THEN REPLY @3
-      DO ~TakePartyGold(60000)      DestroyGold(60000)
-          TakePartyItemNum("helm06",1)   DestroyItem("helm06")
-          TakePartyItemNum("S!misc02",1)   DestroyItem("S!misc02")
+      DO ~TakePartyGold(50000)             DestroyGold(50000)
+          TakePartyItemNum("S!misc06",1)   DestroyItem("S!misc06")
           TakePartyItemNum("S!misc36",1)   DestroyItem("S!misc36")
-          TakePartyItemNum("potn33",1)   DestroyItem("potn33")
-          TakePartyItemNum("S!helm06",1)   DestroyItem("S!helm06")
-          TakePartyItemNum("scrl5f",6)   DestroyItem("scrl5f")
-                                         DestroyItem("scrl5f")
-                                         DestroyItem("scrl5f")
-                                         DestroyItem("scrl5f")
-                                         DestroyItem("scrl5f")
-                                         DestroyItem("scrl5f")
-          SetGlobal("Iahelm05forged","GLOBAL",1)
-          GiveItemCreate("S!helm05",Player1,1,1,1)
+          SetGlobal("Iapotn22forged","GLOBAL",1)
+          GiveItemCreate("S!potn22",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~ EXIT
   END
 
