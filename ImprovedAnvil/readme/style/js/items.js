@@ -744,36 +744,6 @@ var gear = [
             },
             {
                 "components": [
-                    "Helm of Charm Protection",
-                    "Six Scrolls of Chaotic Commands",
-                    "Essence of Chaos",
-                    "Potion of Barbarian Essence",
-                    "Crimson Ioun Stone",
-                    "Permanency Scroll",
-                    "60,000 gp"
-                ],
-                "attributes": [
-                    {
-                        "section_name": "Abilities",
-                        "section_items": [
-                            "Armor Class Bonus: +2",
-                            "Protects Against Critical Hits",
-                            "Wearer is immune to charm and confusion",
-                            "+1 bonus to all saving throws",
-                            "+5% Resistance to Physical damage"
-                        ]
-                    },
-                    {
-                        "section_name": "Usable by",
-                        "section_items": [
-                            "Druid"
-                        ]
-                    }
-                ],
-                "item_name": "Helm of Clarity"
-            },
-            {
-                "components": [
                     "Carmine Ioun Stone",
                     "Crimson Ioun Stone",
                     "Ruby of The Gods",
@@ -3135,6 +3105,23 @@ var misc = [
                     }
                 ],
                 "item_name": "Potion of Superior Mentality"
+            },
+            {
+                "components": [
+                    "Essence of Chaos",
+                    "Manual of Elaboration",
+                    "50,000 gp"
+                ],
+                "attributes": [
+                    {
+                        "section_name": "Abilities",
+                        "section_items": [
+                            "Grants permanent immunity to charm and confusion",
+                            "Applies permanent -10% resistance to electrical damage"
+                        ]
+                    }
+                ],
+                "item_name": "Potion of Clear Thinking"
             }
         ]
     },
