@@ -1,0 +1,21 @@
+IF
+	Global("TethyrBattleStart","GLOBAL",1)
+	!Allegiance(Myself,ENEMY)
+	OR(2)
+		Range([GOODCUTOFF],30)
+		See([GOODCUTOFF])
+THEN
+	RESPONSE #100
+		Enemy()
+END
+
+IF
+  !Allegiance(Myself,ENEMY)
+  OR(3)
+    Global("TethyrBattleStart","GLOBAL",1)
+    Heard([EVILCUTOFF],ALERT)
+    Allegiance("amtgen01",ENEMY)
+THEN
+  RESPONSE #100
+    Enemy()
+END
