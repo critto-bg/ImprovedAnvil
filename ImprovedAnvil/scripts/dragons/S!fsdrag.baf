@@ -685,17 +685,43 @@ IF
   Allegiance(Myself,ENEMY)
   GlobalTimerNotExpired("Iaattacking","LOCALS")
   See(NearestEnemyOf(Myself))
+  !Range(LastSeenBy(Myself),4)
   !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
   Global("Iaattack","LOCALS",1)
 THEN
   RESPONSE #100
-    AttackOneRound(NearestEnemyOf(Myself))
+    MoveToObject(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  GlobalTimerNotExpired("Iaattacking","LOCALS")
+  See(NearestEnemyOf(Myself))
+  Range(LastSeenBy(Myself),4)
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  Global("Iaattack","LOCALS",1)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
 END
 
 IF
   Allegiance(Myself,ENEMY)
   GlobalTimerNotExpired("Iaattacking","LOCALS")
   See(SecondNearestEnemyOf(Myself))
+  !Range(LastSeenBy(Myself),4)
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  Global("Iaattack","LOCALS",1)
+THEN
+  RESPONSE #100
+    MoveToObject(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  GlobalTimerNotExpired("Iaattacking","LOCALS")
+  See(SecondNearestEnemyOf(Myself))
+  Range(LastSeenBy(Myself),4)
   !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
   Global("Iaattack","LOCALS",1)
 THEN
@@ -1706,7 +1732,7 @@ IF
   !GlobalTimerNotExpired("Iacloud","LOCALS")
   See(ThirdNearest([PC]))
   !CheckStat(LastSeenBy(Myself),4,SCRIPTINGSTATE7)
-  CheckstatLT(LastSeenBy(Myself),100,RESISTFIRE)
+  CheckStatLT(LastSeenBy(Myself),100,RESISTFIRE)
 THEN
   RESPONSE #100
     SetGlobalTimer("Iacloud","LOCALS",60)
@@ -1719,7 +1745,7 @@ IF
   !GlobalTimerNotExpired("Iacloud","LOCALS")
   See(SecondNearest([PC]))
   !CheckStat(LastSeenBy(Myself),4,SCRIPTINGSTATE7)
-  CheckstatLT(LastSeenBy(Myself),100,RESISTFIRE)
+  CheckStatLT(LastSeenBy(Myself),100,RESISTFIRE)
 THEN
   RESPONSE #100
     SetGlobalTimer("Iacloud","LOCALS",60)
@@ -1732,7 +1758,7 @@ IF
   !GlobalTimerNotExpired("Iacloud","LOCALS")
   See([PC])
   !CheckStat(LastSeenBy(Myself),4,SCRIPTINGSTATE7)
-  CheckstatLT(LastSeenBy(Myself),100,RESISTFIRE)
+  CheckStatLT(LastSeenBy(Myself),100,RESISTFIRE)
 THEN
   RESPONSE #100
     SetGlobalTimer("Iacloud","LOCALS",60)
@@ -2459,7 +2485,7 @@ IF
   !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
 THEN
   RESPONSE #100
-    AttackOneRound(NearestEnemyOf(Myself))
+    AttackOneRound(LastSeenBy(Myself))
 END
 
 IF
@@ -2497,4 +2523,15 @@ THEN
   RESPONSE #100
     SetGlobal("Iapcprep","AR3024",2)
     MoveToObject(Player1)
+END
+
+// init melee attack if no actions are available //
+
+IF
+  ActionListEmpty()
+  Global("Iafsdra01","LOCALS",1)
+  Global("Iaattack","LOCALS",2)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaattack","LOCALS",0)
 END
