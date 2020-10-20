@@ -7016,6 +7016,68 @@ COPY_EXISTING ~sendai3.cre~ ~override/sendai3.cre~
   WRITE_ASCII 0x248 ~S!chase~ #8 // override script
   WRITE_ASCII 0x268 ~sendai3~ #8 // default script
 
+
+// Lesser Demon Lord
+COPY_EXISTING ~uddemon.cre~ ~override/uddemon.cre~
+  WRITE_SHORT 0x24     160 // current hp
+  WRITE_SHORT 0x26     160 // max hp
+  WRITE_SHORT 0x46   (0 - 6) // AC (natural)
+  WRITE_SHORT 0x48   (0 - 6) // AC (effective)
+  WRITE_BYTE  0x52       1 // thac0
+  WRITE_BYTE  0x53       4 // number of attacks
+  WRITE_BYTE  0x54       3 // save vs death
+  WRITE_BYTE  0x55       5 // save vs wands
+  WRITE_BYTE  0x56       4 // save vs polymorph
+  WRITE_BYTE  0x57       4 // save vs breath
+  WRITE_BYTE  0x58       6 // save vs spell
+  WRITE_BYTE  0x59     125 // resist fire
+  WRITE_BYTE  0x5a      10 // resist cold
+  WRITE_BYTE  0x5b      50 // resist electricity
+  WRITE_BYTE  0x5c     100 // resist acid
+  WRITE_BYTE  0x5e     100 // resist magic fire
+  WRITE_BYTE  0x5f      10 // resist magic cold
+  WRITE_BYTE  0x60      75 // resist slashing
+  WRITE_BYTE  0x61      75 // resist crushing
+  WRITE_BYTE  0x62      75 // resist piercing
+  WRITE_BYTE  0x63     100 // resist missile
+  WRITE_BYTE  0x234     30 // level
+  WRITE_BYTE  0x238     25 // strength
+  WRITE_BYTE  0x23c     19 // dexterity
+  WRITE_BYTE  0x23f     19 // morale
+  WRITE_BYTE  0x240      1 // morale Break
+  WRITE_BYTE  0x242      1 // morale Recovery
+  WRITE_BYTE  0x273    0x1 // class mage
+
+  ADD_CRE_ITEM ~S!dracon~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~GLOVES~
+  ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
+  ADD_CRE_ITEM ~halb06~ #0 #3 #0 ~UNSTEALABLE~ ~INV~
+  ADD_CRE_ITEM ~misc6m~ #0 #0 #0 ~UNSTEALABLE~ ~INV~
+  ADD_CRE_ITEM ~misc07~ #15000 #0 #0 ~UNSTEALABLE~ ~INV~
+  ADD_CRE_ITEM ~s!misc06~ #0 #0 #0 ~UNSTEALABLE~ ~INV~
+
+  REPLACE_CRE_ITEM ~b1-12m4~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~WEAPON1~
+
+  // AC bonus
+  LPF ~ADD_CRE_EFFECT~ INT_VAR
+    opcode = 0
+    target = 1
+    timing = 9
+    parameter1 = 9
+    parameter2 = 2
+  END
+
+  // immunity to timestop
+  LPF ~ADD_CRE_EFFECT~ INT_VAR
+    opcode = 310
+    target = 1
+    timing = 9
+    parameter2 = 1
+  END
+
+  LPF DELETE_CRE_EFFECT INT_VAR opcode_to_delete = 120 END
+
+  LPF DELETE_CRE_EFFECT INT_VAR opcode_to_delete = 126 END
+
 // batch processing //
 
 // custom animation for all skeleton lords

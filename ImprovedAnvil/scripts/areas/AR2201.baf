@@ -1,0 +1,112 @@
+// inc the variable if the fight is over
+
+IF
+  Global("Iafight","AR2201",1)
+  Dead("uddemon")
+  CombatCounter(0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iafight","AR2201",2)
+END
+
+// the initial summon //
+
+IF
+  Global("Iafight","AR2201",1)
+  Global("Iasummon","AR2201",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iasummon","AR2201",1)
+    CreateCreatureObjectDoor("S!ladyud",[700.435],0,0,0)
+    CreateCreatureObjectDoor("s!bongol",[1160.395],0,0,0)
+END
+
+// summon demon knight / vargouilles //
+
+IF
+  Global("Iafight","AR2201",1)
+  Global("Iapcastts","GLOBAL",0)
+  GlobalTimerExpired("Iacreature1","AR2201")
+  !Dead("uddemon")
+  RandomNumLT(4,3)
+THEN
+  RESPONSE #50
+    SetGlobalTimer("Iacreature1","AR2201",30)
+    CreateCreatureObjectDoor("s!lvarg",[670.410],0,0,0)
+    CreateCreatureObjectDoor("s!lvarg",[1160.395],0,0,0)
+  RESPONSE #50
+    SetGlobalTimer("Iacreature1","AR2201",30)
+    CreateCreatureObjectDoor("uddeath",[960.525],0,0,0)
+END
+
+// summon bone golems //
+
+IF
+  Global("Iafight","AR2201",1)
+  Global("Iapcastts","GLOBAL",0)
+  GlobalTimerExpired("Iacreature2","AR2201")
+  !Dead("uddemon")
+  RandomNumLT(4,3)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iacreature2","AR2201",18)
+    CreateCreatureObjectDoor("icbone01",[700.435],0,0,0)
+    CreateCreatureObjectDoor("icbone01",[1160.395],0,0,0)
+END
+
+// exit control //
+
+IF
+  Global("Iaexit","AR2201",0)
+  Global("Iafight","AR2201",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR2201",1)
+    CloseDoor("Door01")
+    Lock("Door01")
+    TriggerActivation("Tran2200",FALSE)
+END
+
+IF
+  Global("Iaexit","AR2201",1)
+  Global("Iafight","AR2201",2)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaexit","AR2201",2)
+    Unlock("Door01")
+    TriggerActivation("Tran2200",TRUE)
+END
+
+// door opener //
+
+/*IF
+  OpenState("Door01",TRUE)
+  Global("Door01Opened","AR2201",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door01Opened","AR2201",1)
+END
+
+IF
+  OpenState("Door01",FALSE)
+  Global("Door01Opened","AR2201",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door01")
+END
+
+IF
+  OpenState("Door02",TRUE)
+  Global("Door02Opened","AR2201",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Door02Opened","AR2201",1)
+END
+
+IF
+  OpenState("Door02",FALSE)
+  Global("Door02Opened","AR2201",1)
+THEN
+  RESPONSE #100
+    OpenDoor("Door02")
+END*/
