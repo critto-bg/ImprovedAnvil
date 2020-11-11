@@ -1,0 +1,6 @@
+BEGIN ~IAIGUARD~
+
+IF ~NumTimesTalkedTo(0)~ THEN BEGIN 0
+  SAY @5310
+  IF ~~ THEN DO ~Enemy()~ EXIT
+END

@@ -7016,7 +7016,6 @@ COPY_EXISTING ~sendai3.cre~ ~override/sendai3.cre~
   WRITE_ASCII 0x248 ~S!chase~ #8 // override script
   WRITE_ASCII 0x268 ~sendai3~ #8 // default script
 
-
 // Lesser Demon Lord
 COPY_EXISTING ~uddemon.cre~ ~override/uddemon.cre~
   WRITE_SHORT 0x24     160 // current hp
@@ -7077,6 +7076,207 @@ COPY_EXISTING ~uddemon.cre~ ~override/uddemon.cre~
   LPF DELETE_CRE_EFFECT INT_VAR opcode_to_delete = 120 END
 
   LPF DELETE_CRE_EFFECT INT_VAR opcode_to_delete = 126 END
+
+// Cambion, Irenicus' dungeon
+COPY_EXISTING ~idemon02.cre~ ~override/idemon02.cre~
+  WRITE_SHORT 0x46   (0 - 2) // AC (natural)
+  WRITE_SHORT 0x48   (0 - 2) // AC (effective)
+  WRITE_BYTE  0x60        20 // resist slashing
+  WRITE_BYTE  0x61        20 // resist crushing
+  WRITE_BYTE  0x62        20 // resist piercing
+  WRITE_BYTE  0x63        20 // resist missile
+
+  ADD_CRE_ITEM ~helmnoan~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~HELMET~
+
+// Otyugh, Irenicus' dungeon
+COPY_EXISTING ~iotyugh.cre~ ~override/iotyugh.cre~
+  SAY NAME1 #54353
+  SAY NAME2 #54353
+
+  WRITE_LONG  0x14      1500 // xp
+  WRITE_SHORT 0x24        82 // current hp
+  WRITE_SHORT 0x26        82 // max hp
+  WRITE_SHORT 0x46         0 // AC (natural)
+  WRITE_SHORT 0x48         0 // AC (effective)
+  WRITE_BYTE  0x52        10 // thac0
+  WRITE_BYTE  0x238       15 // strength
+  WRITE_BYTE  0x23f       14 // morale
+
+// duergar warriors, Irenicus' dungeon
+COPY_EXISTING ~duegau01.cre~ ~override/duegau01.cre~
+              ~duegau02.cre~ ~override/duegau02.cre~
+              ~duergar1.cre~ ~override/duergar1.cre~
+  WRITE_SHORT 0x24      50 // current hp
+  WRITE_SHORT 0x26      50 // max hp
+  WRITE_BYTE  0x52      13 // thac0
+  WRITE_BYTE  0x53       7 // number of attacks
+  WRITE_BYTE  0x54       8 // save vs death
+  WRITE_BYTE  0x55      10 // save vs wands
+  WRITE_BYTE  0x56      11 // save vs polymorph
+  WRITE_BYTE  0x57      12 // save vs breath
+  WRITE_BYTE  0x58      11 // save vs spell
+  WRITE_BYTE  0x234      7 // level
+  WRITE_BYTE  0x238     17 // strength
+  WRITE_SHORT 0x246 0x4001 // kit
+
+  // axes
+  LPF ~ADD_CRE_EFFECT~ INT_VAR
+    opcode = 233
+    timing = 9
+    parameter1 = 2
+    parameter2 = 92
+  END
+
+  // sword & shield
+  LPF ~ADD_CRE_EFFECT~ INT_VAR
+    opcode = 233
+    timing = 9
+    parameter1 = 2
+    parameter2 = 112
+  END
+
+  ADD_CRE_ITEM ~potn08~ #2 #0 #0 ~NONE~ ~INV~
+
+  REMOVE_CRE_ITEM ~slng01~
+  REMOVE_CRE_ITEM ~bull01~
+
+// duergar archer, Irenicus' dungeon
+COPY_EXISTING ~duearc01.cre~ ~override/duearc01.cre~
+  WRITE_SHORT 0x24      30 // current hp
+  WRITE_SHORT 0x26      30 // max hp
+  WRITE_BYTE  0x52      14 // thac0
+  WRITE_BYTE  0x53       7 // number of attacks
+  WRITE_BYTE  0x54       8 // save vs death
+  WRITE_BYTE  0x55      10 // save vs wands
+  WRITE_BYTE  0x56      11 // save vs polymorph
+  WRITE_BYTE  0x57      12 // save vs breath
+  WRITE_BYTE  0x58      11 // save vs spell
+  WRITE_BYTE  0x234      7 // level
+  WRITE_BYTE  0x238     14 // strength
+
+  // axes
+  LPF ~ADD_CRE_EFFECT~ INT_VAR
+    opcode = 233
+    timing = 9
+    parameter1 = 1
+    parameter2 = 92
+  END
+
+  // single weapon
+  LPF ~ADD_CRE_EFFECT~ INT_VAR
+    opcode = 233
+    timing = 9
+    parameter1 = 1
+    parameter2 = 113
+  END
+
+  // crossbow
+  LPF ~ADD_CRE_EFFECT~ INT_VAR
+    opcode = 233
+    timing = 9
+    parameter1 = 2
+    parameter2 = 103
+  END
+
+// duergar mage, Irenicus' dungeon
+COPY_EXISTING ~duemag01.cre~ ~override/duemag01.cre~
+              ~duemag02.cre~ ~override/duemag02.cre~
+  WRITE_ASCII 0x268 ~mage6a~ #8 // default script
+
+  REMOVE_KNOWN_SPELL ~SPWI215~
+  REMOVE_KNOWN_SPELL ~SPWI217~
+
+  REMOVE_MEMORIZED_SPELL ~SPWI215~
+  REMOVE_MEMORIZED_SPELL ~SPWI217~
+
+  ADD_KNOWN_SPELL ~SPWI205~ #1 ~wizard~
+  ADD_KNOWN_SPELL ~SPWI211~ #1 ~wizard~
+  ADD_KNOWN_SPELL ~SPWI306~ #1 ~wizard~
+
+  ADD_MEMORIZED_SPELL ~SPWI205~ #1 ~wizard~ ( 1 )
+  ADD_MEMORIZED_SPELL ~SPWI211~ #1 ~wizard~ ( 1 )
+  ADD_MEMORIZED_SPELL ~SPWI306~ #2 ~wizard~ ( 1 )
+
+// Ilyich, Irenicus' dungeon
+COPY_EXISTING ~duecla01.cre~ ~override/duecla01.cre~
+  WRITE_SHORT 0x24      80 // current hp
+  WRITE_SHORT 0x26      80 // max hp
+  WRITE_BYTE  0x52      13 // thac0
+  WRITE_BYTE  0x53       7 // number of attacks
+  WRITE_BYTE  0x54       8 // save vs death
+  WRITE_BYTE  0x55      10 // save vs wands
+  WRITE_BYTE  0x56      11 // save vs polymorph
+  WRITE_BYTE  0x57      12 // save vs breath
+  WRITE_BYTE  0x58      11 // save vs spell
+  WRITE_BYTE  0x60       5 // resist slashing
+  WRITE_BYTE  0x61       5 // resist crushing
+  WRITE_BYTE  0x62       5 // resist piercing
+  WRITE_BYTE  0x63       5 // resist missile
+  WRITE_BYTE  0x234      7 // level
+  WRITE_SHORT 0x246 0x4022 // kit
+
+  WRITE_ASCII 0x268 ~s!ilyich~ #8 // default script
+
+  // warhammer
+  LPF ~ADD_CRE_EFFECT~ INT_VAR
+    opcode = 233
+    timing = 9
+    parameter1 = 2
+    parameter2 = 97
+  END
+
+  // sword & shield
+  LPF ~ADD_CRE_EFFECT~ INT_VAR
+    opcode = 233
+    timing = 9
+    parameter1 = 2
+    parameter2 = 112
+  END
+
+  ADD_CRE_ITEM ~potn08~ #3 #0 #0 ~NONE~ ~INV~
+  REPLACE_CRE_ITEM ~hamm02~ #0 #0 #0 ~UNSTEALABLE~ ~WEAPON1~
+
+  REMOVE_CRE_ITEM ~slng01~
+  REMOVE_CRE_ITEM ~bull01~
+
+// shadow thieves, Irenicus' dungeon
+COPY_EXISTING ~ishadth1.cre~ ~override/ishadth1.cre~
+              ~ishadft1.cre~ ~override/ishadft1.cre~
+  WRITE_ASCII 0x268 ~s!ithief~ #8 // default script
+
+  ADD_CRE_ITEM ~potn10~ #3 #0 #0 ~NONE~ ~INV~
+
+  // short sword
+  LPF ~ADD_CRE_EFFECT~ INT_VAR
+    opcode = 233
+    timing = 9
+    parameter1 = 2
+    parameter2 = 91
+  END
+
+  // single weapon
+  LPF ~ADD_CRE_EFFECT~ INT_VAR
+    opcode = 233
+    timing = 9
+    parameter1 = 2
+    parameter2 = 113
+  END
+
+// shadow thief leader, Irenicus' dungeon
+COPY_EXISTING ~ishadmt1.cre~ ~override/ishadmt1.cre~
+  WRITE_ASCII 0x260 ~mage6a~ #8 // general script
+
+  ADD_CRE_ITEM ~potn08~ #3 #0 #0 ~NONE~ ~INV~
+
+  ADD_KNOWN_SPELL ~SPWI306~ #1 ~wizard~
+  ADD_MEMORIZED_SPELL ~SPWI306~ #2 ~wizard~ ( 1 )
+
+// Ulvaryl, Irenicus' dungeon
+COPY_EXISTING ~ulvaryl.cre~ ~override/ulvaryl.cre~
+  WRITE_BYTE  0x53       2 // number of attacks
+  WRITE_BYTE  0x234      7 // level
+  WRITE_ASCII 0x268 ~s!vamp1~ #8 // default script
+  WRITE_BYTE  0x273    163 // class vampire
 
 // batch processing //
 

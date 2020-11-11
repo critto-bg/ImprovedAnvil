@@ -414,71 +414,94 @@ COPY_EXISTING ~ar0530.are~ ~override/ar0530.are~
   EXTEND_BOTTOM ~AR0530.BCS~ ~ImprovedAnvil\scripts\areas\AR0530.BAF~
 
 COPY_EXISTING ~AR0602.ARE~ ~override/AR0602.ARE~
-  READ_SHORT 0x64 "spcount"
-  READ_LONG 0x60 "spoffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%spcount%") BEGIN
-   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
-   PATCH_IF (("%spname%" STRING_COMPARE_CASE "Spawn Point 3" = 0) OR
-             ("%spname%" STRING_COMPARE_CASE "Spawn Point 4" = 0) OR
-             ("%spname%" STRING_COMPARE_CASE "Spawn Point 9" = 0)) BEGIN
-    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~S!spyran~ #8
-   END
-"it" = "%it%" + 1
-END
-  READ_SHORT 0x64 "spcount"
-  READ_LONG 0x60 "spoffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%spcount%") BEGIN
-   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (14)
-   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 11" = 0) BEGIN
-    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~MEPEAR01~ #8
-   END
-"it" = "%it%" + 1
-END
-  READ_SHORT 0x64 "spcount"
-  READ_LONG 0x60 "spoffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%spcount%") BEGIN
-   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (14)
-   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 12" = 0) BEGIN
-    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~S!spyran~ #8
-   END
-"it" = "%it%" + 1
-END
-  READ_SHORT 0x64 "spcount"
-  READ_LONG 0x60 "spoffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%spcount%") BEGIN
-   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
-   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 1" = 0) BEGIN
-    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 44) ~MEPEAR01~ #8
-    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 116) 2
-   END
-"it" = "%it%" + 1
-END
-  READ_SHORT 0x64 "spcount"
-  READ_LONG 0x60 "spoffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%spcount%") BEGIN
-   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
-   PATCH_IF (("%spname%" STRING_COMPARE_CASE "Spawn Point 2" = 0) OR
-             ("%spname%" STRING_COMPARE_CASE "Spawn Point 8" = 0)) BEGIN
-    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 116) 1
-   END
-"it" = "%it%" + 1
-END
-  READ_SHORT 0x64 "spcount"
-  READ_LONG 0x60 "spoffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%spcount%") BEGIN
-   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (14)
-   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 13" = 0) BEGIN
-    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~S!spyran~ #8
-    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
-   END
-"it" = "%it%" + 1
-END
+
+  GET_OFFSET_ARRAY actors ARE_V10_ACTORS
+
+  PHP_EACH actors AS int => off BEGIN
+    READ_ASCII   off actor_name (32) NULL
+
+    PATCH_IF "%actor_name%" STRING_EQUAL_CASE "Goblin" BEGIN
+      WRITE_ASCII  off         ~Orc~ #32
+      WRITE_LONG  (off + 0x30) 59392
+      WRITE_ASCII (off + 0x80) ~orc01~ #8
+    END
+  END
+
+  LPF fj_are_structure
+    INT_VAR
+      fj_loc_x       = 1315
+      fj_loc_y       = 840
+      fj_dest_x      = 1315
+      fj_dest_y      = 840
+      fj_loaded      = 1
+      fj_animation   = 24833
+      fj_orientation = 3
+    STR_VAR
+      fj_structure_type = actor
+      fj_name           = ~Library Keeper~
+      fj_cre_resref     = ~S!libmag~
+  END
+
+  LPF fj_are_structure
+    INT_VAR
+      fj_loc_x       = 4110
+      fj_loc_y       = 1265
+      fj_dest_x      = 4110
+      fj_dest_y      = 1265
+      fj_loaded      = 1
+      fj_animation   = 24833
+      fj_orientation = 8
+    STR_VAR
+      fj_structure_type = actor
+      fj_name           = ~Bodyguard~
+      fj_cre_resref     = ~S!iguard~
+  END
+
+  GET_OFFSET_ARRAY points ARE_V10_SPAWN_POINTS
+
+  PHP_EACH points AS int => off BEGIN
+    READ_ASCII   off point_name (32) NULL
+
+    PATCH_IF (("%point_name%" STRING_EQUAL_CASE "Spawn Point 1"))
+    BEGIN
+      WRITE_ASCII off + 0x2c ~MEPEAR01~ #8
+      WRITE_SHORT off + 0x74 2 // creature count
+    END
+
+    PATCH_IF (("%point_name%" STRING_EQUAL_CASE "Spawn Point 2"))
+    BEGIN
+      WRITE_SHORT off + 0x86 0 // creature count
+    END
+
+    PATCH_IF (("%point_name%" STRING_EQUAL_CASE "Spawn Point 8"))
+    BEGIN
+      WRITE_SHORT off + 0x74 1 // creature count
+    END
+
+    PATCH_IF (("%point_name%" STRING_EQUAL_CASE "Spawn Point 4") OR
+              ("%point_name%" STRING_EQUAL_CASE "Spawn Point 9") OR
+              ("%point_name%" STRING_EQUAL_CASE "Spawn Point 12"))
+    BEGIN
+      WRITE_ASCII off + 0x24 ~S!spyran~ #8
+    END
+
+    PATCH_IF (("%point_name%" STRING_EQUAL_CASE "Spawn Point 3"))
+    BEGIN
+      WRITE_ASCII off + 0x24 ~S!SPIDE3~ #8
+    END
+
+    PATCH_IF (("%point_name%" STRING_EQUAL_CASE "Spawn Point 11"))
+    BEGIN
+      WRITE_ASCII off + 0x24 ~MEPEAR01~ #8
+    END
+
+    PATCH_IF (("%point_name%" STRING_EQUAL_CASE "Spawn Point 13"))
+    BEGIN
+      WRITE_ASCII off + 0x24 ~tanthf01~ #8
+      WRITE_ASCII off + 0x2c ~tanthf01~ #8
+      WRITE_SHORT off + 0x7a 2 // disable after spawn
+    END
+  END
 
 COPY_EXISTING ~AR0603.ARE~ ~override/AR0603.ARE~
   READ_SHORT 0x64 "spcount"
