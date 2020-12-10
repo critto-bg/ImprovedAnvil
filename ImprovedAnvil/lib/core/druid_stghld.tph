@@ -7,6 +7,11 @@ COPY ~ImprovedAnvil/resources/items/new/S!misc76.itm~ ~override/S!misc76.itm~
 
   WRITE_LONG 0x0050 (0 - 1) // unid. desc
 
+// Grancor's note
+COPY ~ImprovedAnvil/resources/items/new/S!misc77.itm~ ~override/S!misc77.itm~
+  SAY NAME2     @12055
+  SAY DESC      @12056
+
 // copy creatures //
 
 COPY ~ImprovedAnvil/resources/creatures/new/S!wer01.cre~         ~override/S!wer01.cre~
@@ -209,9 +214,58 @@ END
 
 EXTEND_TOP ~AR1400.BCS~ ~.../inlined/ar1400.baf~
 
+<<<<<<<< .../inlined/ar1202.baf
+IF
+  Global("IADruidWolves01","GLOBAL",0)
+  Global("IAItemCheck","LOCALS",0)
+  Exists("firwlf01")
+  !Dead("firwlf01")
+  !PartyHasItem("S!misc77")
+  OR(2)
+    Class(Player1,DRUID_ALL)
+    Class(Player1,SHAMAN)
+THEN
+  RESPONSE #100
+    SetGlobal("IAItemCheck","LOCALS",1)
+    GiveItemCreate("S!misc77","firwlf01",0,0,0)
+END
+
+IF
+  Global("IADruidWolves01","GLOBAL",0)
+  Global("IAItemCheck","LOCALS",1)
+  PartyHasItem("S!misc77")
+THEN
+  RESPONSE #100
+    SetGlobal("IADruidWolves01","GLOBAL",1)
+    SetGlobal("IAItemCheck","LOCALS",2)
+END
+
+IF
+  Global("IADruidWolves01","GLOBAL",1)
+  Global("IADruidPlot","GLOBAL",2)
+  Global("IAItemCheck","LOCALS",2)
+THEN
+  RESPONSE #100
+    SetGlobal("IADruidWolves01","GLOBAL",2)
+    SetGlobal("IAItemCheck","LOCALS",3)
+    AddJournalEntry(@5513,QUEST)
+END
+
+IF
+  Global("IADruidWolves01","GLOBAL",1)
+  Global("IAItemCheck","LOCALS",2)
+THEN
+  RESPONSE #100
+    SetGlobal("IAItemCheck","LOCALS",3)
+    SetGlobal("IADruidWolves01","GLOBAL",2)
+END
+>>>>>>>>
+
+EXTEND_TOP ~AR1202.BCS~ ~.../inlined/ar1202.baf~
+
 // journal stuff //
 
-ADD_JOURNAL @5510 @5511 @5512 USING ~%LANGUAGE%druidq.tra~
+ADD_JOURNAL @5510 @5511 @5512 @5513 USING ~%LANGUAGE%druidq.tra~
 
 // patch the dialogues //
 
