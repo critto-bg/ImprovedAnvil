@@ -216,7 +216,7 @@ EXTEND_TOP ~AR1400.BCS~ ~.../inlined/ar1400.baf~
 
 <<<<<<<< .../inlined/ar1202.baf
 IF
-  Global("IADruidWolves01","GLOBAL",0)
+  Global("IADruidGrancorNote","GLOBAL",0)
   Global("IAItemCheck","LOCALS",0)
   Exists("firwlf01")
   !Dead("firwlf01")
@@ -231,33 +231,33 @@ THEN
 END
 
 IF
-  Global("IADruidWolves01","GLOBAL",0)
+  Global("IADruidGrancorNote","GLOBAL",0)
   Global("IAItemCheck","LOCALS",1)
   PartyHasItem("S!misc77")
 THEN
   RESPONSE #100
-    SetGlobal("IADruidWolves01","GLOBAL",1)
+    SetGlobal("IADruidGrancorNote","GLOBAL",1)
     SetGlobal("IAItemCheck","LOCALS",2)
 END
 
 IF
-  Global("IADruidWolves01","GLOBAL",1)
+  Global("IADruidGrancorNote","GLOBAL",1)
   Global("IADruidPlot","GLOBAL",2)
   Global("IAItemCheck","LOCALS",2)
 THEN
   RESPONSE #100
-    SetGlobal("IADruidWolves01","GLOBAL",2)
+    SetGlobal("IADruidGrancorNote","GLOBAL",2)
     SetGlobal("IAItemCheck","LOCALS",3)
     AddJournalEntry(@5513,QUEST)
 END
 
 IF
-  Global("IADruidWolves01","GLOBAL",1)
+  Global("IADruidGrancorNote","GLOBAL",1)
   Global("IAItemCheck","LOCALS",2)
 THEN
   RESPONSE #100
     SetGlobal("IAItemCheck","LOCALS",3)
-    SetGlobal("IADruidWolves01","GLOBAL",2)
+    SetGlobal("IADruidGrancorNote","GLOBAL",2)
 END
 >>>>>>>>
 
@@ -271,7 +271,7 @@ IF
   Global("IADruidPlot","GLOBAL",2)
   GlobalGT("IADruidAnathNote","GLOBAL",0)
   GlobalGT("IADruidMerellaTalk","GLOBAL",0)
-  GlobalGT("IADruidWolves01","GLOBAL",0)
+  GlobalGT("IADruidGrancorNote","GLOBAL",0)
 THEN
 	RESPONSE #100
 		SetGlobal("IADruidPlot","GLOBAL",3)
@@ -283,7 +283,7 @@ EXTEND_TOP ~BALDUR.BCS~ ~.../inlined/baldur.baf~
 
 // journal stuff //
 
-ADD_JOURNAL @5510 @5511 @5512 @5513 @5514 USING ~%LANGUAGE%druidq.tra~
+ADD_JOURNAL @5510 @5511 @5512 @5513 @5514 @5515 USING ~%LANGUAGE%druidq.tra~
 
 // patch the dialogues //
 
@@ -299,6 +299,84 @@ APPEND ~CECHALLE~
     THEN BEGIN 17
     SAY @5320
     IF ~~ THEN EXIT
+  END
+
+  IF WEIGHT #3 ~OR(2) Global("IADruidPlot","GLOBAL",2) Global("IADruidPlot","GLOBAL",3) Global("IACluesFirstTalk","LOCALS",0)~
+    THEN BEGIN 18
+    SAY @5380
+    IF ~~ THEN REPLY @5381 DO ~SetGlobal("IACluesFirstTalk","LOCALS",1)~ GOTO 20
+  END
+
+  IF WEIGHT #4 ~OR(2) Global("IADruidPlot","GLOBAL",2) Global("IADruidPlot","GLOBAL",3) Global("IACluesFirstTalk","LOCALS",1)~
+    THEN BEGIN 19
+    SAY @5382
+    IF ~~ THEN REPLY @5383 GOTO 20
+  END
+
+  IF WEIGHT #5 ~Global("IADruidPlot","GLOBAL",4)~
+    THEN BEGIN 29
+    SAY @5399
+    IF ~~ THEN EXIT
+  END
+
+  IF ~~ THEN BEGIN 20
+    SAY @5384
+
+    // first clue
+    IF ~GlobalGT("IADruidAnathNote","GLOBAL",0) GlobalLT("IADruidAnathNote","GLOBAL",3)~ THEN REPLY @5386 GOTO 21
+
+    // second clue
+    IF ~GlobalGT("IADruidMerellaTalk","GLOBAL",0) GlobalLT("IADruidMerellaTalk","GLOBAL",3)~ THEN REPLY @5388 GOTO 22
+
+    // third clue
+    IF ~GlobalGT("IADruidGrancorNote","GLOBAL",0) GlobalLT("IADruidGrancorNote","GLOBAL",3)~ THEN REPLY @5390 GOTO 23
+
+    // no clues anymore, still looking for more
+    IF ~OR(3) GlobalLT("IADruidAnathNote","GLOBAL",3) GlobalLT("IADruidMerellaTalk","GLOBAL",3) GlobalLT("IADruidGrancorNote","GLOBAL",3)~ THEN REPLY @5392 GOTO 24
+
+    // no clues anymore, all clues found
+    IF ~Global("IADruidPlot","GLOBAL",3) Global("IADruidAnathNote","GLOBAL",3) Global("IADruidMerellaTalk","GLOBAL",3) Global("IADruidGrancorNote","GLOBAL",3)~ THEN REPLY @5392 GOTO 25
+  END
+
+  IF ~~ THEN BEGIN 21
+    SAY @5387
+    IF ~~ THEN REPLY @5385 DO ~SetGlobal("IADruidAnathNote","GLOBAL",3)~ GOTO 20
+  END
+
+  IF ~~ THEN BEGIN 22
+    SAY @5389
+    IF ~~ THEN REPLY @5385 DO ~SetGlobal("IADruidMerellaTalk","GLOBAL",3)~ GOTO 20
+  END
+
+  IF ~~ THEN BEGIN 23
+    SAY @5391
+    IF ~~ THEN REPLY @5385 DO ~SetGlobal("IADruidGrancorNote","GLOBAL",3)~ GOTO 20
+  END
+
+  IF ~~ THEN BEGIN 24
+    SAY @5393
+    IF ~~ THEN EXIT
+  END
+
+  IF ~~ THEN BEGIN 25
+    SAY @5394
+    IF ~~ THEN GOTO 26
+  END
+
+  IF ~~ THEN BEGIN 26
+    SAY @5395
+    IF ~~ THEN GOTO 27
+  END
+
+  IF ~~ THEN BEGIN 27
+    SAY @5396
+    IF ~~ THEN REPLY @5397 GOTO 28
+  END
+
+  IF ~~ THEN BEGIN 28
+    SAY @5398
+    IF ~~ THEN DO ~SetGlobal("IADruidPlot","GLOBAL",4) AddJournalEntry(@5515,QUEST)~
+    EXIT
   END
 END
 >>>>>>>>
