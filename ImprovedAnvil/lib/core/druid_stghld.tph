@@ -185,9 +185,33 @@ END
 EXTEND_TOP ~AR1403.BCS~ ~.../inlined/ar140x.baf~
 EXTEND_TOP ~AR1404.BCS~ ~.../inlined/ar140x.baf~
 
+<<<<<<<< .../inlined/ar1400.baf
+IF
+  Global("IADruidMerellaTalk","GLOBAL",1)
+  Global("IADruidPlot","GLOBAL",2)
+  Global("IAMerellaCheck","AR1400",0)
+THEN
+  RESPONSE #100
+    SetGlobal("IADruidMerellaTalk","GLOBAL",2)
+    SetGlobal("IAMerellaCheck","AR1400",1)
+    AddJournalEntry(@5512,QUEST)
+END
+
+IF
+  Global("IAMerellaCheck","AR1400",0)
+  Global("IADruidMerellaTalk","GLOBAL",1)
+THEN
+  RESPONSE #100
+    SetGlobal("IAMerellaCheck","AR1400",1)
+    SetGlobal("IADruidMerellaTalk","GLOBAL",2)
+END
+>>>>>>>>
+
+EXTEND_TOP ~AR1400.BCS~ ~.../inlined/ar1400.baf~
+
 // journal stuff //
 
-ADD_JOURNAL @5510 @5511 USING ~%LANGUAGE%druidq.tra~
+ADD_JOURNAL @5510 @5511 @5512 USING ~%LANGUAGE%druidq.tra~
 
 // patch the dialogues //
 
@@ -213,6 +237,50 @@ COPY_EXISTING ~RNGWLF01.DLG~ ~override~
   DECOMPILE_AND_PATCH BEGIN
     REPLACE_TEXTUALLY ~ReallyForceSpell(Myself,ANATH_WEREWOLF2)~ ~DestroyItem("S!misc76") ReallyForceSpell(Myself,ANATH_WEREWOLF2)~
   END
+
+COPY_EXISTING ~UHRANG01.DLG~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~True()~ ~NumTimesTalkedTo(0) !Class(Player1,DRUID_ALL) !Class(Player1,SHAMAN)~
+  END
+
+<<<<<<<< .../inlined/uhrang01.d
+APPEND ~uhrang01~
+  IF ~NumTimesTalkedTo(0) OR(2) Class(Player1,DRUID_ALL) Class(Player1,SHAMAN)~
+    THEN BEGIN 1
+    SAY @5360
+    IF ~~ THEN REPLY @5361 GOTO 2
+  END
+
+  IF ~~ THEN BEGIN 2
+    SAY @5362
+    IF ~~ THEN REPLY @5363 GOTO 3
+  END
+
+  IF ~~ THEN BEGIN 3
+    SAY @5364
+    IF ~GlobalGT("IADruidPlot","GLOBAL",0)~ THEN REPLY @5365 GOTO 4
+    IF ~Global("IADruidPlot","GLOBAL",0)~ THEN REPLY @5366 GOTO 4
+  END
+
+  IF ~~ THEN BEGIN 4
+    SAY @5367
+    IF ~~ THEN REPLY @5368 GOTO 5
+  END
+
+  IF ~~ THEN BEGIN 5
+    SAY @5369
+    IF ~~ THEN REPLY @5370 GOTO 6
+  END
+
+  IF ~~ THEN BEGIN 6
+    SAY @5371
+    IF ~~ THEN DO ~SetGlobal("IADruidMerellaTalk","GLOBAL",1) Kill(Myself)~
+    EXIT
+  END
+END
+>>>>>>>>
+
+COMPILE ~.../inlined/uhrang01.d~ USING ~%LANGUAGE%druidq.tra~
 
 // compile the dialogues //
 
