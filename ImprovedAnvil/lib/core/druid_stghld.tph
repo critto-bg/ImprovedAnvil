@@ -48,7 +48,7 @@ COPY_EXISTING ~RNGWLF01.BCS~ ~override~
 
 COMPILE ~ImprovedAnvil/scripts/cutscenes/S!druc01.baf~ USING ~%LANGUAGE%druidq.tra~
 
-// patch the areas //
+// extend the scripts //
 
 <<<<<<<< .../inlined/ar1900.baf
 IF
@@ -263,9 +263,27 @@ END
 
 EXTEND_TOP ~AR1202.BCS~ ~.../inlined/ar1202.baf~
 
+<<<<<<<< .../inlined/baldur.baf
+IF
+  OR(2)
+    Global("Chapter","GLOBAL",2)
+    Global("Chapter","GLOBAL",3)
+  Global("IADruidPlot","GLOBAL",2)
+  GlobalGT("IADruidAnathNote","GLOBAL",0)
+  GlobalGT("IADruidMerellaTalk","GLOBAL",0)
+  GlobalGT("IADruidWolves01","GLOBAL",0)
+THEN
+	RESPONSE #100
+		SetGlobal("IADruidPlot","GLOBAL",3)
+    AddJournalEntry(@5514,QUEST)
+END
+>>>>>>>>
+
+EXTEND_TOP ~BALDUR.BCS~ ~.../inlined/baldur.baf~
+
 // journal stuff //
 
-ADD_JOURNAL @5510 @5511 @5512 @5513 USING ~%LANGUAGE%druidq.tra~
+ADD_JOURNAL @5510 @5511 @5512 @5513 @5514 USING ~%LANGUAGE%druidq.tra~
 
 // patch the dialogues //
 
