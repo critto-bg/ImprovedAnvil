@@ -1,3 +1,21 @@
+// copy creatures //
+
+COPY ~ImprovedAnvil/resources/creatures/new/S!wer01.cre~         ~override/S!wer01.cre~
+  SAY NAME1     @12050
+  SAY NAME2     @12050
+
+COPY ~ImprovedAnvil/resources/creatures/new/S!wer02.cre~         ~override/S!wer02.cre~
+  SAY NAME1     @12051
+  SAY NAME2     @12051
+
+COPY ~ImprovedAnvil/resources/creatures/new/S!wer03.cre~         ~override/S!wer03.cre~
+  SAY NAME1     @12051
+  SAY NAME2     @12051
+
+COPY ~ImprovedAnvil/resources/creatures/new/S!vert01.cre~         ~override/S!vert01.cre~
+  SAY NAME1     @12052
+  SAY NAME2     @12052
+
 // patch the scripts //
 
 COPY_EXISTING ~BALDUR.BCS~ ~override~
@@ -5,7 +23,49 @@ COPY_EXISTING ~BALDUR.BCS~ ~override~
     REPLACE_TEXTUALLY ~Global("GreatDruid","GLOBAL",0)~ ~Global("GreatDruid","GLOBAL",0) Global("IADruidPlot","GLOBAL",0)~
   END
 
+// compile the scripts //
+
+COMPILE ~ImprovedAnvil/scripts/cutscenes/S!druc01.baf~ USING ~%LANGUAGE%druidq.tra~
+
 // patch the areas //
+
+<<<<<<<< .../inlined/ar1900.baf
+IF
+  Global("IADruidPlot","GLOBAL",1)
+  Global("IADruidAmbush","AR1900",0)
+  Global("IADruCut01","AR1900",0)
+THEN
+  RESPONSE #100
+    SetGlobal("IADruCut01","AR1900",1)
+    ClearAllActions()
+    StartCutSceneMode()
+    StartCutScene("S!druc01")
+END
+
+IF
+  Global("IADruidPlot","GLOBAL",1)
+  Global("IADruidAmbush","AR1900",1)
+  Global("IADruCut01","AR1900",1)
+  Dead("S!wer01")
+  Dead("S!wer02")
+  Dead("S!wer03")
+  CombatCounter(0)
+THEN
+  RESPONSE #100
+    SetGlobal("IADruidAmbush","AR1900",2)
+END
+
+IF
+  Global("IADruidPlot","GLOBAL",1)
+  Global("IADruidAmbush","AR1900",2)
+THEN
+  RESPONSE #100
+    SetGlobal("IADruidAmbush","AR1900",3)
+    CreateCreatureObject("S!vert01",Player1,0,0,0)
+END
+>>>>>>>>
+
+EXTEND_BOTTOM ~AR1900.BCS~ ~.../inlined/ar1900.baf~
 
 <<<<<<<< .../inlined/ar1901.baf
 IF
@@ -23,12 +83,33 @@ END
 
 EXTEND_TOP ~AR1901.BCS~ ~.../inlined/ar1901.baf~
 
+// journal stuff //
+
+ADD_JOURNAL @5510 USING ~%LANGUAGE%druidq.tra~
+
 // patch the dialogues //
 
 COPY_EXISTING ~CECHALLE.DLG~ ~override~
   DECOMPILE_AND_PATCH BEGIN
     REPLACE_TEXTUALLY ~True()~ ~Global("IADruidPlot","GLOBAL",0)~
+    REPLACE_TEXTUALLY ~Global("GreatDruid","GLOBAL",1)~ ~Global("GreatDruid","GLOBAL",1) Global("IADruidPlot","GLOBAL",0)~
   END
+
+<<<<<<<< .../inlined/cechalle.d
+APPEND ~CECHALLE~
+  IF WEIGHT #2 ~Global("IADruidPlot","GLOBAL",1)~
+    THEN BEGIN 17
+    SAY @5320
+    IF ~~ THEN EXIT
+  END
+END
+>>>>>>>>
+
+COMPILE ~.../inlined/cechalle.d~ USING ~%LANGUAGE%druidq.tra~
+
+// compile the dialogues //
+
+COMPILE ~ImprovedAnvil/resources/dlg/iavert01.d~ USING ~%LANGUAGE%druidq.tra~
 
 // copy the resources //
 

@@ -1,0 +1,70 @@
+// Extended druid stronghold, protagonist attacked by werewolves in the druid grove //
+
+IF
+  True()
+THEN
+  RESPONSE #100
+    CutSceneId(Player1)
+
+    Wait(3)
+    FadeToColor([20.0],0)
+    Wait(1)
+
+    CreateCreature("s!wer01",[1155.760],0)
+    CreateCreature("s!wer02",[945.765],0)
+    CreateCreature("s!wer03",[1330.670],0)
+
+    JumpToPoint([1075.620])
+    MoveViewObject(Myself,VERY_FAST)
+    FaceObject("s!wer01")
+
+    ActionOverride("s!wer01",FaceObject(Player1))
+    ActionOverride("s!wer02",FaceObject(Player1))
+    ActionOverride("s!wer03",FaceObject(Player1))
+
+    ActionOverride(Player2,JumpToPoint([1130.550]))
+    ActionOverride(Player2,FaceObject("s!wer01"))
+    ActionOverride(Player3,JumpToPoint([1010.610]))
+    ActionOverride(Player3,FaceObject("s!wer01"))
+    ActionOverride(Player4,JumpToPoint([890.530]))
+    ActionOverride(Player4,FaceObject("s!wer01"))
+    ActionOverride(Player5,JumpToPoint([1130.470]))
+    ActionOverride(Player5,FaceObject("s!wer01"))
+    ActionOverride(Player6,JumpToPoint([950.450]))
+    ActionOverride(Player6,FaceObject("s!wer01"))
+
+    FadeFromColor([20.0],0)
+    Wait(1)
+
+    DisplayStringHead("s!wer02",@5330)
+    Wait(1)
+    DisplayStringHead("s!wer02",@5331)
+    Wait(2)
+    DisplayStringHead("s!wer01",@5332)
+    Wait(2)
+    DisplayStringHead("s!wer01",@5333)
+    Wait(2)
+    DisplayStringHead("s!wer01",@5334)
+    Wait(3)
+    DisplayStringHead("s!wer03",@5335)
+    Wait(2)
+    DisplayStringHead("s!wer03",@5336)
+    Wait(2)
+    DisplayStringHead("s!wer01",@5337)
+    Wait(2)
+    DisplayStringHead("s!wer01",@5338)
+    Wait(2)
+    ActionOverride("s!wer01",ForceSpell(Myself,GREATER_WOLFWERE_CHANGE))
+    Wait(1)
+    DisplayStringHead("s!wer02",@5339)
+    DisplayStringHead("s!wer03",@5339)
+    Wait(2)
+    ActionOverride("s!wer02",ForceSpell(Myself,WOLFWERE_CHANGE))
+    ActionOverride("s!wer03",ForceSpell(Myself,WOLFWERE_CHANGE))
+
+    SetGlobal("IADruidAmbush","AR1900",1)
+    Wait(2)
+
+    MultiPlayerSync()
+    EndCutSceneMode()
+END
