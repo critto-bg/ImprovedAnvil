@@ -12,6 +12,11 @@ COPY ~ImprovedAnvil/resources/items/new/S!misc77.itm~ ~override/S!misc77.itm~
   SAY NAME2     @12055
   SAY DESC      @12056
 
+// Jagdu's note
+COPY ~ImprovedAnvil/resources/items/new/S!misc70.itm~ ~override/S!misc70.itm~
+  SAY NAME2     @12061
+  SAY DESC      @12062
+
 // copy creatures //
 
 COPY ~ImprovedAnvil/resources/creatures/new/S!wer01.cre~         ~override/S!wer01.cre~
@@ -30,7 +35,33 @@ COPY ~ImprovedAnvil/resources/creatures/new/S!vert01.cre~         ~override/S!ve
   SAY NAME1     @12052
   SAY NAME2     @12052
 
+COPY ~ImprovedAnvil/resources/creatures/new/S!trgu01.cre~         ~override/S!trgu01.cre~
+  SAY NAME1     @12057
+  SAY NAME2     @12057
+
+COPY ~ImprovedAnvil/resources/creatures/new/S!jagdu.cre~         ~override/S!jagdu.cre~
+  SAY NAME1     @12058
+  SAY NAME2     @12058
+
+  ADD_CRE_ITEM ~minhp1~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~AMULET~
+
+COPY ~ImprovedAnvil/resources/creatures/new/S!gdru01.cre~         ~override/S!gdru01.cre~
+  SAY NAME1     @12059
+  SAY NAME2     @12059
+
+  WRITE_ASCII 0x2cc ~iagdru01~ #8 // dialogue
+
+COPY ~ImprovedAnvil/resources/creatures/new/S!tslead.cre~         ~override/S!tslead.cre~
+  SAY NAME1     @12060
+  SAY NAME2     @12060
+
+  WRITE_ASCII 0x2cc ~iatslead~ #8 // dialogue
+
 // patch creatures //
+
+COPY_EXISTING ~trcut07.cre~ ~overide/s!logan.cre~
+  WRITE_ASCII 0x280 ~s!logan~ #32 // death variable
+  WRITE_ASCII 0x2cc ~~ #8         // dialogue
 
 // patch the scripts //
 
@@ -44,9 +75,20 @@ COPY_EXISTING ~RNGWLF01.BCS~ ~override~
     REPLACE_TEXTUALLY ~ForceSpell(Myself,ANATH_WEREWOLF)~ ~DestroyItem("S!misc76") ForceSpell(Myself,ANATH_WEREWOLF)~
   END
 
+COPY_EXISTING ~AR2000.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~Global("didthis2","AR2000",0)~ ~!Global("IADruidPlot","GLOBAL",4) Global("didthis2","AR2000",0)~
+    REPLACE_TEXTUALLY ~Global("JeniaSpawn","AR2000",0)~ ~!Global("IADruidPlot","GLOBAL",4) Global("JeniaSpawn","AR2000",0)~
+    REPLACE_TEXTUALLY ~Global("OpenedAR2000Tomb","GLOBAL",0)~ ~!Global("IADruidPlot","GLOBAL",4) Global("OpenedAR2000Tomb","GLOBAL",0)~
+    REPLACE_TEXTUALLY ~Global("LorenSpawn","AR2000",0)~ ~!Global("IADruidPlot","GLOBAL",4) Global("LorenSpawn","AR2000",0)~
+    REPLACE_TEXTUALLY ~Global("ChaosSpawn","AR2000",0)~ ~!Global("IADruidPlot","GLOBAL",4) Global("ChaosSpawn","AR2000",0)~
+  END
+
 // compile the scripts //
 
 COMPILE ~ImprovedAnvil/scripts/cutscenes/S!druc01.baf~ USING ~%LANGUAGE%druidq.tra~
+COMPILE ~ImprovedAnvil/scripts/cutscenes/S!druc02.baf~ USING ~%LANGUAGE%druidq.tra~
+COMPILE ~ImprovedAnvil/scripts/cutscenes/S!druc03.baf~ USING ~%LANGUAGE%druidq.tra~
 
 // extend the scripts //
 
@@ -263,6 +305,165 @@ END
 
 EXTEND_TOP ~AR1202.BCS~ ~.../inlined/ar1202.baf~
 
+<<<<<<<< .../inlined/ar2000.baf
+IF
+  Global("IADruidPlot","GLOBAL",4)
+  Global("IADruidSiege","AR2000",0)
+  Global("IADruCut","AR2000",0)
+THEN
+  RESPONSE #100
+    SetGlobal("IADruCut","AR2000",1)
+    ClearAllActions()
+    StartCutSceneMode()
+    StartCutScene("S!druc02")
+END
+
+IF
+  Global("IADruidPlot","GLOBAL",4)
+  Global("IADruidSiege","AR2000",1)
+  Global("IADruCut","AR2000",1)
+  Exists("S!jagdu")
+  !Dead("S!jagdu")
+  HPLT("S!jagdu",10)
+THEN
+  RESPONSE #100
+    SetGlobal("IADruCut","AR2000",2)
+    SetGlobal("IADruidSiege","AR2000",2)
+END
+
+IF
+  Global("IADruidPlot","GLOBAL",4)
+  Global("IADruidSiege","AR2000",2)
+  Global("IADruCut","AR2000",2)
+THEN
+  RESPONSE #100
+    SetGlobal("IADruCut","AR2000",3)
+    ClearAllActions()
+    StartCutSceneMode()
+    StartCutScene("S!druc03")
+END
+
+IF
+  Global("IADruidSiege","AR2000",1)
+  Global("IAExit","AR2000",0)
+THEN
+  RESPONSE #100
+    SetGlobal("IAExit","AR2000",1)
+    TriggerActivation("Tran2001",FALSE)
+    TriggerActivation("Tran2006",FALSE)
+    TriggerActivation("Tran2007",FALSE)
+    TriggerActivation("Tran2010",FALSE)
+    TriggerActivation("Tran2011",FALSE)
+    TriggerActivation("Tran2012",FALSE)
+    TriggerActivation("Tran2013",FALSE)
+    TriggerActivation("Tran2014",FALSE)
+    TriggerActivation("Tran2015",FALSE)
+    TriggerActivation("Tran2016",FALSE)
+    TriggerActivation("Tran2017",FALSE)
+END
+
+IF
+  Global("IADruidSiege","AR2000",3)
+  Global("IAExit","AR2000",1)
+THEN
+  RESPONSE #100
+    SetGlobal("IAExit","AR2000",2)
+    TriggerActivation("Tran2001",TRUE)
+    TriggerActivation("Tran2006",TRUE)
+    TriggerActivation("Tran2007",TRUE)
+    TriggerActivation("Tran2010",TRUE)
+    TriggerActivation("Tran2011",TRUE)
+    TriggerActivation("Tran2012",TRUE)
+    TriggerActivation("Tran2013",TRUE)
+    TriggerActivation("Tran2014",TRUE)
+    TriggerActivation("Tran2015",TRUE)
+    TriggerActivation("Tran2016",TRUE)
+    TriggerActivation("Tran2017",TRUE)
+END
+
+IF
+  Global("IADruidSiege","AR2000",1)
+  Global("IAExit2","AR2000",0)
+  Global("FentanDoors","AR2000",0)
+THEN
+  RESPONSE #100
+    SetGlobal("IAExit2","AR2000",1)
+    TriggerActivation("Tran2002b",FALSE)
+END
+
+IF
+  Global("IADruidSiege","AR2000",3)
+  Global("IAExit2","AR2000",1)
+  Global("FentanDoors","AR2000",0)
+THEN
+  RESPONSE #100
+    SetGlobal("IAExit2","AR2000",2)
+    TriggerActivation("Tran2002b",TRUE)
+END
+
+IF
+  Global("IADruidSiege","AR2000",1)
+  Global("IAExit3","AR2000",0)
+  Global("FentanDoors","AR2000",1)
+THEN
+  RESPONSE #100
+    SetGlobal("IAExit3","AR2000",1)
+    TriggerActivation("Tran2002",FALSE)
+END
+
+IF
+  Global("IADruidSiege","AR2000",3)
+  Global("IAExit3","AR2000",1)
+  Global("FentanDoors","AR2000",1)
+THEN
+  RESPONSE #100
+    SetGlobal("IAExit3","AR2000",2)
+    TriggerActivation("Tran2002",TRUE)
+END
+
+IF
+  Global("IADruidSiege","AR2000",1)
+  Global("IAExit4","AR2000",0)
+  Global("TempleDoors","AR2000",1)
+THEN
+  RESPONSE #100
+    SetGlobal("IAExit4","AR2000",1)
+    TriggerActivation("Tran2008",FALSE)
+END
+
+IF
+  Global("IADruidSiege","AR2000",3)
+  Global("IAExit4","AR2000",1)
+  Global("TempleDoors","AR2000",1)
+THEN
+  RESPONSE #100
+    SetGlobal("IAExit4","AR2000",2)
+    TriggerActivation("Tran2008",TRUE)
+END
+
+IF
+  Global("IADruidSiege","AR2000",1)
+  Global("IAExit5","AR2000",0)
+  Global("TempleDoors","AR2000",0)
+THEN
+  RESPONSE #100
+    SetGlobal("IAExit5","AR2000",1)
+    TriggerActivation("Tran2008b",FALSE)
+END
+
+IF
+  Global("IADruidSiege","AR2000",3)
+  Global("IAExit5","AR2000",1)
+  Global("TempleDoors","AR2000",0)
+THEN
+  RESPONSE #100
+    SetGlobal("IAExit5","AR2000",2)
+    TriggerActivation("Tran2008b",TRUE)
+END
+>>>>>>>>
+
+EXTEND_BOTTOM ~AR2000.BCS~ ~.../inlined/ar2000.baf~
+
 <<<<<<<< .../inlined/baldur.baf
 IF
   OR(2)
@@ -283,7 +484,7 @@ EXTEND_TOP ~BALDUR.BCS~ ~.../inlined/baldur.baf~
 
 // journal stuff //
 
-ADD_JOURNAL @5510 @5511 @5512 @5513 @5514 @5515 USING ~%LANGUAGE%druidq.tra~
+ADD_JOURNAL @5510 @5511 @5512 @5513 @5514 @5515 @5516 USING ~%LANGUAGE%druidq.tra~
 
 // patch the dialogues //
 
@@ -435,6 +636,8 @@ COMPILE ~.../inlined/uhrang01.d~ USING ~%LANGUAGE%druidq.tra~
 // compile the dialogues //
 
 COMPILE ~ImprovedAnvil/resources/dlg/iavert01.d~ USING ~%LANGUAGE%druidq.tra~
+COMPILE ~ImprovedAnvil/resources/dlg/iagdru01.d~ USING ~%LANGUAGE%druidq.tra~
+COMPILE ~ImprovedAnvil/resources/dlg/iatslead.d~ USING ~%LANGUAGE%druidq.tra~
 
 // copy the resources //
 
