@@ -59,7 +59,7 @@ COPY ~ImprovedAnvil/resources/creatures/new/S!tslead.cre~         ~override/S!ts
 
 // patch creatures //
 
-COPY_EXISTING ~trcut07.cre~ ~overide/s!logan.cre~
+COPY_EXISTING ~trcut07.cre~ ~override/s!logan.cre~
   WRITE_ASCII 0x280 ~s!logan~ #32 // death variable
   WRITE_ASCII 0x2cc ~~ #8         // dialogue
 
@@ -516,6 +516,22 @@ END
 >>>>>>>>
 
 EXTEND_TOP ~BALDUR.BCS~ ~.../inlined/baldur.baf~
+
+<<<<<<<< .../inlined/s!ppdra2.baf
+IF
+  Global("IADruidPlot","GLOBAL",7)
+  Global("IADradeel","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("IADradeel","GLOBAL",1)
+    DisplayStringHead(Myself,@5483)
+    ForceSpell(Myself,DRYAD_TELEPORT)
+		Wait(1)
+		DestroySelf()
+END
+>>>>>>>>
+
+EXTEND_TOP ~s!ppdra2.BCS~ ~.../inlined/s!ppdra2.baf~
 
 // journal stuff //
 
