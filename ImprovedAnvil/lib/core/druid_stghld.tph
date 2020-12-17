@@ -57,11 +57,20 @@ COPY ~ImprovedAnvil/resources/creatures/new/S!tslead.cre~         ~override/S!ts
 
   WRITE_ASCII 0x2cc ~iatslead~ #8 // dialogue
 
-// patch creatures //
+// patch/create creatures //
 
 COPY_EXISTING ~trcut07.cre~ ~override/s!logan.cre~
   WRITE_ASCII 0x280 ~s!logan~ #32 // death variable
   WRITE_ASCII 0x2cc ~~ #8         // dialogue
+
+COPY_EXISTING ~ppdra2.cre~ ~override/s!drad01.cre~
+  WRITE_ASCII 0x248 ~~ #8          // override script
+  WRITE_ASCII 0x250 ~~ #8          // class script
+  WRITE_ASCII 0x258 ~~ #8          // race script
+  WRITE_ASCII 0x260 ~s!drad01~ #8  // general script
+  WRITE_ASCII 0x268 ~~ #8          // default script
+  WRITE_ASCII 0x280 ~s!drad01~ #32 // death variable
+  WRITE_ASCII 0x2cc ~iadrad~ #8    // dialogue
 
 // patch the scripts //
 
@@ -89,6 +98,7 @@ COPY_EXISTING ~AR2000.BCS~ ~override~
 COMPILE ~ImprovedAnvil/scripts/cutscenes/S!druc01.baf~ USING ~%LANGUAGE%druidq.tra~
 COMPILE ~ImprovedAnvil/scripts/cutscenes/S!druc02.baf~ USING ~%LANGUAGE%druidq.tra~
 COMPILE ~ImprovedAnvil/scripts/cutscenes/S!druc03.baf~ USING ~%LANGUAGE%druidq.tra~
+COMPILE ~ImprovedAnvil/scripts/encounters/druid_quests/S!drad01.baf~ USING ~%LANGUAGE%druidq.tra~
 
 // extend the scripts //
 
@@ -486,6 +496,21 @@ END
 
 EXTEND_BOTTOM ~AR1600.BCS~ ~.../inlined/ar1600.baf~
 
+<<<<<<<< .../inlined/ar1602.baf
+IF
+  Global("IADruidPlot","GLOBAL",7)
+  Global("IADradeel","GLOBAL",1)
+  Global("IASpawn","AR1602",0)
+  Global("create","AR1602",1)
+THEN
+	RESPONSE #100
+    SetGlobal("IASpawn","AR1602",1)
+    CreateCreatureObject("S!drad01","ppsaem3",0,0,0)
+END
+>>>>>>>>
+
+EXTEND_BOTTOM ~AR1602.BCS~ ~.../inlined/ar1602.baf~
+
 <<<<<<<< .../inlined/ar1515.baf
 IF
   Global("IADruidPlot","GLOBAL",6)
@@ -824,11 +849,77 @@ END
 
 COMPILE ~.../inlined/ppdra2.d~ USING ~%LANGUAGE%druidq.tra~
 
+<<<<<<<< .../inlined/ppsaem3.d
+ALTER_TRANS ~PPSAEM3~
+  BEGIN 12 END
+  BEGIN 2 END
+BEGIN
+  "TRIGGER" ~Global("IADradeel","GLOBAL",0)~
+END
+
+ALTER_TRANS ~PPSAEM3~
+  BEGIN 10 14 15 17 END
+  BEGIN 0 END
+BEGIN
+  "TRIGGER" ~Global("IADradeel","GLOBAL",0)~
+END
+
+EXTEND_BOTTOM ~PPSAEM3~ 10 #0
+  IF ~Global("IADradeel","GLOBAL",1)~ THEN REPLY #45623 EXTERN ~IADRAD~ 0
+END
+
+EXTEND_BOTTOM ~PPSAEM3~ 12 #1
+  IF ~Global("IADradeel","GLOBAL",1)~ THEN REPLY @5494 GOTO 74
+END
+
+EXTEND_BOTTOM ~PPSAEM3~ 14 #1
+  IF ~Global("IADradeel","GLOBAL",1)~ THEN REPLY @5495 GOTO 74
+END
+
+EXTEND_BOTTOM ~PPSAEM3~ 15 #1
+  IF ~Global("IADradeel","GLOBAL",1)~ THEN REPLY @5496 GOTO 74
+END
+
+EXTEND_BOTTOM ~PPSAEM3~ 17 #1
+  IF ~Global("IADradeel","GLOBAL",1)~ THEN REPLY @5497 GOTO 74
+END
+
+APPEND ~PPSAEM3~
+  IF ~~ THEN BEGIN 73
+    SAY @5492
+    IF ~~ THEN REPLY @5493 GOTO 11
+  END
+
+  IF ~~ THEN BEGIN 74
+    SAY @5498
+    IF ~~ THEN REPLY @5499 GOTO 75
+  END
+
+  IF ~~ THEN BEGIN 75
+    SAY @5600
+    IF ~~ THEN REPLY @5601 EXTERN ~IADRAD~ 1
+  END
+
+  IF ~~ THEN BEGIN 76
+    SAY @5604
+    IF ~~ THEN REPLY @5605 GOTO 77
+  END
+
+  IF ~~ THEN BEGIN 77
+    SAY @5606
+    IF ~~ THEN REPLY @5607 GOTO 18
+  END
+END
+>>>>>>>>
+
+COMPILE ~.../inlined/ppsaem3.d~ USING ~%LANGUAGE%druidq.tra~
+
 // compile the dialogues //
 
 COMPILE ~ImprovedAnvil/resources/dlg/iavert01.d~ USING ~%LANGUAGE%druidq.tra~
 COMPILE ~ImprovedAnvil/resources/dlg/iagdru01.d~ USING ~%LANGUAGE%druidq.tra~
 COMPILE ~ImprovedAnvil/resources/dlg/iatslead.d~ USING ~%LANGUAGE%druidq.tra~
+COMPILE ~ImprovedAnvil/resources/dlg/iadrad.d~ USING ~%LANGUAGE%druidq.tra~
 
 // copy the resources //
 

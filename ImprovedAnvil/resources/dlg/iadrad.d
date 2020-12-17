@@ -1,0 +1,17 @@
+BEGIN ~IADRAD~
+
+IF ~Global("IADradeel","GLOBAL",2) Global("IATavern","LOCALS",0)~ THEN BEGIN 2
+  SAY @5608
+  IF ~~ THEN DO ~SetGlobal("IATavern","LOCALS",1) EscapeArea()~
+  EXIT
+END
+
+IF ~~ THEN BEGIN 0
+  SAY @5490
+  IF ~~ THEN REPLY @5491 EXTERN ~PPSAEM3~ 73
+END
+
+IF ~~ THEN BEGIN 1
+  SAY @5602
+  IF ~~ THEN REPLY @5603 DO ~SetGlobal("IADradeel","GLOBAL",2)~ EXTERN ~PPSAEM3~ 76
+END
