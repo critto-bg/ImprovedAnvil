@@ -93,6 +93,11 @@ COPY_EXISTING ~AR2000.BCS~ ~override~
     REPLACE_TEXTUALLY ~Global("ChaosSpawn","AR2000",0)~ ~!Global("IADruidPlot","GLOBAL",4) Global("ChaosSpawn","AR2000",0)~
   END
 
+COPY_EXISTING ~CUT41Q.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~True()~ ~!Global("IADruidPlot","GLOBAL",7) !Global("IADradeel","GLOBAL",3)~
+  END
+
 // compile the scripts //
 
 COMPILE ~ImprovedAnvil/scripts/cutscenes/S!druc01.baf~ USING ~%LANGUAGE%druidq.tra~
@@ -504,6 +509,17 @@ THEN
     SetGlobal("IASpawn","AR1600",1)
     CreateCreatureObject("S!drad01","ppsaem3",0,0,0)
 END
+
+IF
+  Global("IADruidPlot","GLOBAL",7)
+  Global("IADradeel","GLOBAL",3)
+  Global("AsylumPlot","GLOBAL",78)
+  Dead("ppsaem3")
+THEN
+  RESPONSE #100
+    SetGlobal("IADruidPlot","GLOBAL",17)
+    SetGlobal("IADradeel","GLOBAL",7)
+END
 >>>>>>>>
 
 EXTEND_BOTTOM ~AR1600.BCS~ ~.../inlined/ar1600.baf~
@@ -569,6 +585,38 @@ END
 >>>>>>>>
 
 EXTEND_TOP ~s!ppdra2.BCS~ ~.../inlined/s!ppdra2.baf~
+
+<<<<<<<< .../inlined/CUT41Q.baf
+IF
+	Global("IADruidPlot","GLOBAL",7)
+	Global("IADradeel","GLOBAL",3)
+THEN
+	RESPONSE #100
+		CutSceneId(Player1)
+		ClearAllActions()
+		SetInterrupt(FALSE)
+		FadeToColor([20.0],0)
+		Wait(1)
+    ActionOverride("s!drad01",DestroySelf())
+    // TODO: proper coordinates, create Saemon and Felaern
+		LeaveAreaLUAPanic("ARIA28","",[347.1823],SWW)
+		LeaveAreaLUA("ARIA28","",[347.1823],SWW)
+		ActionOverride(Player2,LeaveAreaLUA("ARIA28","",[262.1766],SWW))
+		ActionOverride(Player3,LeaveAreaLUA("ARIA28","",[306.1721],SWW))
+		ActionOverride(Player4,LeaveAreaLUA("ARIA28","",[490.1854],SWW))
+		ActionOverride(Player5,LeaveAreaLUA("ARIA28","",[394.1873],SWW))
+		ActionOverride(Player6,LeaveAreaLUA("ARIA28","",[514.1620],SWW))
+		MultiPlayerSync()
+		FadeFromColor([20.0],0)
+		Explore()
+		SetInterrupt(TRUE)
+		EndCutSceneMode()
+		SmallWait(1)
+		ActionOverride("ppsaem3",StartDialogNoSet(Player1))
+END
+>>>>>>>>
+
+EXTEND_BOTTOM ~CUT41Q.BCS~ ~.../inlined/CUT41Q.baf~
 
 // journal stuff //
 
@@ -861,7 +909,13 @@ END
 
 COMPILE ~.../inlined/ppdra2.d~ USING ~%LANGUAGE%druidq.tra~
 
+COPY_EXISTING ~PPSAEM3.DLG~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~StartCutSceneEx("Cut41q",FALSE)~ ~StartCutSceneEx("Cut41q",TRUE)~
+  END
+
 <<<<<<<< .../inlined/ppsaem3.d
+// in the inn
 ALTER_TRANS ~PPSAEM3~
   BEGIN 12 END
   BEGIN 2 END
@@ -876,6 +930,15 @@ BEGIN
   "TRIGGER" ~Global("IADradeel","GLOBAL",0)~
 END
 
+// at the docks
+ALTER_TRANS ~PPSAEM3~
+  BEGIN 27 END
+  BEGIN 1 END
+BEGIN
+  "TRIGGER" ~Global("IADradeel","GLOBAL",0) PartyHasItem("misc9g")~
+END
+
+// in the inn
 EXTEND_BOTTOM ~PPSAEM3~ 10 #0
   IF ~Global("IADradeel","GLOBAL",1)~ THEN REPLY #45623 EXTERN ~IADRAD~ 0
 END
@@ -896,7 +959,13 @@ EXTEND_BOTTOM ~PPSAEM3~ 17 #1
   IF ~Global("IADradeel","GLOBAL",1)~ THEN REPLY @5497 GOTO 74
 END
 
+// at the docks
+EXTEND_BOTTOM ~PPSAEM3~ 27 #1
+  IF ~Global("IADradeel","GLOBAL",2) PartyHasItem("misc9g")~ THEN REPLY #45757 GOTO 78
+END
+
 APPEND ~PPSAEM3~
+  // at the inn
   IF ~~ THEN BEGIN 73
     SAY @5492
     IF ~~ THEN REPLY @5493 GOTO 11
@@ -920,6 +989,35 @@ APPEND ~PPSAEM3~
   IF ~~ THEN BEGIN 77
     SAY @5606
     IF ~~ THEN REPLY @5607 GOTO 18
+  END
+
+  // at the docks
+  IF ~~ THEN BEGIN 78
+    SAY @5610
+    // opt out of travel
+    IF ~~ THEN REPLY @5611 DO ~SetGlobal("IADradeel","GLOBAL",7) SetGlobal("IADruidPlot","GLOBAL",17)~ GOTO 79
+    // opt in
+    IF ~~ THEN REPLY @5614 DO ~SetGlobal("IADradeel","GLOBAL",3)~ GOTO 80
+  END
+
+  IF ~~ THEN BEGIN 79
+    SAY @5612
+    IF ~~ THEN REPLY @5613 DO ~TakePartyItem("misc9g") DestroyItem("misc9g") SetGlobal("GaveSaemTheHorn","LOCALS",1)~ GOTO 29
+  END
+
+  IF ~~ THEN BEGIN 80
+    SAY @5615
+    IF ~~ THEN EXTERN ~IADRAD~ 3
+  END
+
+  IF ~~ THEN BEGIN 81
+    SAY @5617
+    IF ~~ THEN REPLY @5618 GOTO 82
+  END
+
+  IF ~~ THEN BEGIN 82
+    SAY @5619
+    IF ~~ THEN REPLY @5613 DO ~TakePartyItem("misc9g") DestroyItem("misc9g") SetGlobal("GaveSaemTheHorn","LOCALS",1)~ GOTO 29
   END
 END
 >>>>>>>>
