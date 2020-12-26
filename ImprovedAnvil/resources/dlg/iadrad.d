@@ -6,6 +6,11 @@ IF ~Global("IADradeel","GLOBAL",2) Global("IATavern","LOCALS",0)~ THEN BEGIN 2
   EXIT
 END
 
+IF ~OR(2) Global("IADradeel","GLOBAL",1) AreaCheck("AR1600")~ THEN BEGIN 3
+  SAY @5483
+  IF ~~ THEN EXIT
+END
+
 // in the inn
 IF ~~ THEN BEGIN 0
   SAY @5490
