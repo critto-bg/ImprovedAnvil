@@ -6,7 +6,7 @@ IF ~Global("IADradeel","GLOBAL",2) Global("IATavern","LOCALS",0)~ THEN BEGIN 2
   EXIT
 END
 
-IF ~OR(3) Global("IADradeel","GLOBAL",1) AreaCheck("AR1600") AreaCheck("S!0002")~ THEN BEGIN 3
+IF ~OR(3) Global("IADradeel","GLOBAL",1) AreaCheck("AR1600") AreaCheck("S!0002")~ THEN BEGIN 4
   SAY @5483
   IF ~~ THEN EXIT
 END
@@ -26,4 +26,15 @@ END
 IF ~~ THEN BEGIN 3
   SAY @5616
   IF ~~ THEN EXTERN ~PPSAEM3~ 81
+END
+
+// arrival on the island
+IF ~~ THEN BEGIN 5
+  SAY @5630
+  IF ~~ THEN REPLY @5631 EXTERN ~IAGDRU02~ 3
+END
+
+IF ~~ THEN BEGIN 6
+  SAY @5635
+  IF ~~ THEN REPLY @5636 EXTERN ~IAGDRU02~ 5
 END

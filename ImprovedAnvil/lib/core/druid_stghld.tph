@@ -17,6 +17,10 @@ COPY ~ImprovedAnvil/resources/items/new/S!misc70.itm~ ~override/S!misc70.itm~
   SAY NAME2     @12061
   SAY DESC      @12062
 
+// copy spells //
+
+COPY ~ImprovedAnvil/resources/spells/S!dru01.spl~ ~override/S!dru01.spl~
+
 // copy creatures //
 
 COPY ~ImprovedAnvil/resources/creatures/new/S!wer01.cre~         ~override/S!wer01.cre~
@@ -51,11 +55,18 @@ COPY ~ImprovedAnvil/resources/creatures/new/S!gdru01.cre~         ~override/S!gd
 
   WRITE_ASCII 0x2cc ~iagdru01~ #8 // dialogue
 
+COPY ~ImprovedAnvil/resources/creatures/new/S!gdru02.cre~         ~override/S!gdru02.cre~
+  SAY NAME1     @12059
+  SAY NAME2     @12059
+
 COPY ~ImprovedAnvil/resources/creatures/new/S!tslead.cre~         ~override/S!tslead.cre~
   SAY NAME1     @12060
   SAY NAME2     @12060
 
   WRITE_ASCII 0x2cc ~iatslead~ #8 // dialogue
+
+COPY ~ImprovedAnvil/resources/creatures/new/S!drue01.cre~         ~override/S!drue01.cre~
+  WRITE_ASCII 0x280 ~s!drue01~ #32 // death variable
 
 // patch/create creatures //
 
@@ -104,6 +115,7 @@ COMPILE ~ImprovedAnvil/scripts/areas/S!0002.baf~
 COMPILE ~ImprovedAnvil/scripts/cutscenes/S!druc01.baf~ USING ~%LANGUAGE%druidq.tra~
 COMPILE ~ImprovedAnvil/scripts/cutscenes/S!druc02.baf~ USING ~%LANGUAGE%druidq.tra~
 COMPILE ~ImprovedAnvil/scripts/cutscenes/S!druc03.baf~ USING ~%LANGUAGE%druidq.tra~
+COMPILE ~ImprovedAnvil/scripts/cutscenes/S!druc04.baf~ USING ~%LANGUAGE%druidq.tra~
 COMPILE ~ImprovedAnvil/scripts/encounters/druid_quests/S!drad01.baf~ USING ~%LANGUAGE%druidq.tra~
 
 // extend the scripts //
@@ -1019,6 +1031,18 @@ APPEND ~PPSAEM3~
     SAY @5619
     IF ~~ THEN REPLY @5613 DO ~TakePartyItem("misc9g") DestroyItem("misc9g") SetGlobal("GaveSaemTheHorn","LOCALS",1)~ GOTO 29
   END
+
+  // on the island
+  IF ~AreaCheck("S!0002") Global("IADruidIsland","GLOBAL",0)~ THEN BEGIN 83
+    SAY @5620
+    IF ~~ THEN REPLY @5621 GOTO 84
+  END
+
+  IF ~~ THEN BEGIN 84
+    SAY @5622
+    IF ~~ THEN DO ~ClearAllActions() StartCutSceneMode() StartCutScene("S!druc04")~
+    EXIT
+  END
 END
 >>>>>>>>
 
@@ -1028,6 +1052,7 @@ COMPILE ~.../inlined/ppsaem3.d~ USING ~%LANGUAGE%druidq.tra~
 
 COMPILE ~ImprovedAnvil/resources/dlg/iavert01.d~ USING ~%LANGUAGE%druidq.tra~
 COMPILE ~ImprovedAnvil/resources/dlg/iagdru01.d~ USING ~%LANGUAGE%druidq.tra~
+COMPILE ~ImprovedAnvil/resources/dlg/iagdru02.d~ USING ~%LANGUAGE%druidq.tra~
 COMPILE ~ImprovedAnvil/resources/dlg/iatslead.d~ USING ~%LANGUAGE%druidq.tra~
 COMPILE ~ImprovedAnvil/resources/dlg/iadrad.d~ USING ~%LANGUAGE%druidq.tra~
 
