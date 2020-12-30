@@ -1,0 +1,46 @@
+// Extended druid stronghold, Felaern and the party moves inside Dradeel's house //
+
+IF
+  True()
+THEN
+  RESPONSE #100
+    CutSceneId(Player1)
+
+		SetInterrupt(FALSE)
+		FadeToColor([20.0],0)
+		Wait(1)
+
+    ActionOverride("s!drad01",DestroySelf())
+    ActionOverride("s!gdru02",DestroySelf())
+
+		LeaveAreaLUAPanic("S!0003","",[470.315],W)
+		LeaveAreaLUA("S!0003","",[470.315],W)
+
+		ActionOverride(Player2,LeaveAreaLUA("S!0003","",[485.340],W))
+		ActionOverride(Player3,LeaveAreaLUA("S!0003","",[520.330],W))
+		ActionOverride(Player4,LeaveAreaLUA("S!0003","",[520.375],W))
+		ActionOverride(Player5,LeaveAreaLUA("S!0003","",[570.350],W))
+		ActionOverride(Player6,LeaveAreaLUA("S!0003","",[435.240],W))
+    MoveViewObject(Myself,VERY_FAST)
+
+    CreateCreature("s!gdru02",[500.290],0)
+    CreateCreature("s!drad01",[210.445],0)
+
+    FaceObject("S!gdru02")
+    ActionOverride("S!drad01",FaceObject("S!gdru02"))
+    ActionOverride("S!gdru02",FaceObject(Myself))
+		ActionOverride(Player2,FaceObject("S!gdru02"))
+		ActionOverride(Player3,FaceObject("S!gdru02"))
+		ActionOverride(Player4,FaceObject("S!gdru02"))
+		ActionOverride(Player5,FaceObject("S!gdru02"))
+		ActionOverride(Player6,FaceObject("S!gdru02"))
+
+    FadeFromColor([20.0],0)
+		Explore()
+		SetInterrupt(TRUE)
+		Wait(1)
+
+    MultiPlayerSync()
+    ActionOverride("s!gdru02",StartDialogNoSet(Player1))
+    EndCutSceneMode()
+END
