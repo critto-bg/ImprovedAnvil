@@ -36,3 +36,20 @@ IF ~~ THEN BEGIN 5
         StartCutScene("S!druc05")~
   EXIT
 END
+
+// near Dradeel's house
+IF ~Global("IADruidIsland","GLOBAL",1)~ THEN BEGIN 6
+  SAY @5641
+  IF ~~ THEN REPLY @5642 GOTO 7
+END
+
+IF ~~ THEN BEGIN 7
+  SAY @5643
+  IF ~~ THEN
+    DO ~SetGlobal("IADradeel","GLOBAL",5)
+        SetGlobal("IADruidIsland","GLOBAL",2)
+        ClearAllActions()
+        StartCutSceneMode()
+        StartCutScene("S!druc06")~
+  EXIT
+END
