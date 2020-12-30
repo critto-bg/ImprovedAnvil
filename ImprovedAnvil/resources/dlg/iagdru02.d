@@ -28,6 +28,11 @@ END
 
 IF ~~ THEN BEGIN 5
   SAY @5637
-  IF ~~ THEN DO ~SetGlobal("IADruidIsland","GLOBAL",1)~
+  IF ~~ THEN
+    DO ~SetGlobal("IADradeel","GLOBAL",4)
+        SetGlobal("IADruidIsland","GLOBAL",1)
+        ClearAllActions()
+        StartCutSceneMode()
+        StartCutScene("S!druc05")~
   EXIT
 END
