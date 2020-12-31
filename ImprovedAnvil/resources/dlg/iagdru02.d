@@ -81,3 +81,19 @@ IF ~Global("IADruidIsland","GLOBAL",3)~ THEN BEGIN 12
   SAY @5653
   IF ~~ THEN EXIT
 END
+
+// inside the house, found the hidden room
+IF ~~ THEN BEGIN 13
+  SAY @5661
+  IF ~~ THEN REPLY @5662 GOTO 14
+END
+
+IF ~~ THEN BEGIN 14
+  SAY @5663
+  IF ~~ THEN GOTO 15
+END
+
+IF ~~ THEN BEGIN 15
+  SAY @5664
+  IF ~~ THEN DO ~SetGlobal("IADradeel","GLOBAL",6)~ EXIT
+END

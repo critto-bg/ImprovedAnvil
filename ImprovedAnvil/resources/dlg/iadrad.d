@@ -1,5 +1,6 @@
 BEGIN ~IADRAD~
 
+// one-liners when talked to between plot events
 IF ~Global("IADradeel","GLOBAL",2) Global("IATavern","LOCALS",0)~ THEN BEGIN 2
   SAY @5608
   IF ~~ THEN DO ~SetGlobal("IATavern","LOCALS",1) EscapeArea()~
@@ -11,8 +12,13 @@ IF ~OR(3) Global("IADradeel","GLOBAL",1) AreaCheck("AR1600") AreaCheck("S!0002")
   IF ~~ THEN EXIT
 END
 
-IF ~Global("IADradeel","GLOBAL",5) AreaCheck("S!0003")~ THEN BEGIN 9
+IF ~Global("IADradeel","GLOBAL",5) AreaCheck("S!0003") Global("IAClicked","S!0003",0)~ THEN BEGIN 9
   SAY @5651
+  IF ~~ THEN EXIT
+END
+
+IF ~Global("IADradeel","GLOBAL",6) AreaCheck("S!0003")~ THEN BEGIN 11
+  SAY @5660
   IF ~~ THEN EXIT
 END
 
@@ -53,4 +59,10 @@ END
 IF ~~ THEN BEGIN 8
   SAY @5651
   IF ~~ THEN EXTERN ~IAGDRU02~ 11
+END
+
+// hidden room found
+IF ~Global("IADradeel","GLOBAL",5) AreaCheck("S!0003") Global("IAClicked","S!0003",1)~ THEN BEGIN 10
+  SAY @5660
+  IF ~~ THEN EXTERN ~IAGDRU02~ 13
 END

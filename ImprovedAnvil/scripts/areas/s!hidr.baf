@@ -5,3 +5,23 @@ THEN
   RESPONSE #100
     DisplayString(Myself,14702)  // ~You are too far away to use that.~
 END
+
+IF
+  Clicked([ANYONE])
+  Range(LastTrigger,10)
+  Global("IADruidIsland","GLOBAL",3)
+  Global("IAClicked","MYAREA",0)
+THEN
+  RESPONSE #100
+    ClearAllActions()
+    StartCutSceneMode()
+    SmallWait(2)
+    SetGlobal("IAClicked","MYAREA",1)
+    ActionOverride("S!drad01",SetInterrupt(FALSE))
+    ActionOverride("S!drad01",DisplayString(Myself,@5654))
+    Wait(1)
+    ActionOverride("S!drad01",SetInterrupt(TRUE))
+    MultiPlayerSync()
+    ActionOverride("s!drad01",StartDialogNoSet(Player1))
+    EndCutSceneMode()
+END
