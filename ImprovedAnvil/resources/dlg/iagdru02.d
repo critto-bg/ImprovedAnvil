@@ -53,3 +53,25 @@ IF ~~ THEN BEGIN 7
         StartCutScene("S!druc06")~
   EXIT
 END
+
+// inside Dradeel's house
+IF ~Global("IADruidIsland","GLOBAL",2)~ THEN BEGIN 8
+  SAY @5645
+  IF ~~ THEN REPLY @5646 EXTERN ~IADRAD~ 7
+END
+
+IF ~~ THEN BEGIN 9
+  SAY @5648
+  IF ~~ THEN REPLY @5649 GOTO 10
+END
+
+IF ~~ THEN BEGIN 10
+  SAY @5650
+  IF ~~ THEN EXTERN ~IADRAD~ 8
+END
+
+IF ~~ THEN BEGIN 11
+  SAY @5652
+  IF ~~ THEN DO ~SetGlobal("IADruidIsland","GLOBAL",3)~
+  EXIT
+END
