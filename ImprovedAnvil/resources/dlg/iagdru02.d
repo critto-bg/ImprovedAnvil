@@ -75,3 +75,9 @@ IF ~~ THEN BEGIN 11
   IF ~~ THEN DO ~SetGlobal("IADruidIsland","GLOBAL",3)~
   EXIT
 END
+
+// inside the house, while the search is in progress
+IF ~Global("IADruidIsland","GLOBAL",3)~ THEN BEGIN 12
+  SAY @5653
+  IF ~~ THEN EXIT
+END
