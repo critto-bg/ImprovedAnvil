@@ -11,6 +11,11 @@ IF ~OR(3) Global("IADradeel","GLOBAL",1) AreaCheck("AR1600") AreaCheck("S!0002")
   IF ~~ THEN EXIT
 END
 
+IF ~Global("IADradeel","GLOBAL",5) AreaCheck("S!0003")~ THEN BEGIN 9
+  SAY @5651
+  IF ~~ THEN EXIT
+END
+
 // in the inn
 IF ~~ THEN BEGIN 0
   SAY @5490
