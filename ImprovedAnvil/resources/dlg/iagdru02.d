@@ -77,7 +77,7 @@ IF ~~ THEN BEGIN 11
 END
 
 // inside the house, while the search is in progress
-IF ~Global("IADruidIsland","GLOBAL",3)~ THEN BEGIN 12
+IF ~Global("IADruidIsland","GLOBAL",3) OR(2) !PartyHasItem("S!misc71") !PartyHasItem("S!misc43")~ THEN BEGIN 12
   SAY @5653
   IF ~~ THEN EXIT
 END
@@ -96,4 +96,36 @@ END
 IF ~~ THEN BEGIN 15
   SAY @5664
   IF ~~ THEN DO ~SetGlobal("IADradeel","GLOBAL",6)~ EXIT
+END
+
+// inside the house, found the items
+IF ~Global("IADruidIsland","GLOBAL",3) PartyHasItem("S!misc71") PartyHasItem("S!misc43")~ THEN BEGIN 16
+  SAY @5670
+  IF ~~ THEN REPLY @5671 GOTO 17
+END
+
+IF ~~ THEN BEGIN 17
+  SAY @5672
+  IF ~~ THEN DO ~TakePartyItem("S!misc71") TakePartyItem("S!misc43")~ GOTO 18
+END
+
+IF ~~ THEN BEGIN 18
+  SAY @5673
+  IF ~~ THEN GOTO 19
+END
+
+IF ~~ THEN BEGIN 19
+  SAY @5674
+  IF ~~ THEN REPLY @5675 GOTO 20
+END
+
+IF ~~ THEN BEGIN 20
+  SAY @5676
+  IF ~~ THEN REPLY @5677 GOTO 21
+END
+
+IF ~~ THEN BEGIN 21
+  SAY @5678
+  IF ~~ THEN DO ~GiveItem("S!misc71",Player1) SetGlobal("IADruidIsland","GLOBAL",4)~
+  EXIT
 END
