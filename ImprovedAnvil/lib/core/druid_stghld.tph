@@ -115,6 +115,11 @@ COPY_EXISTING ~AR2000.BCS~ ~override~
     REPLACE_TEXTUALLY ~Global("ChaosSpawn","AR2000",0)~ ~!Global("IADruidPlot","GLOBAL",4) Global("ChaosSpawn","AR2000",0)~
   END
 
+COPY_EXISTING ~AR2500.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~RevealAreaOnMap("ar1700")~ ~~
+  END
+
 COPY_EXISTING ~CUT41Q.BCS~ ~override~
   DECOMPILE_AND_PATCH BEGIN
     REPLACE_TEXTUALLY ~True()~ ~!Global("IADruidPlot","GLOBAL",7) !Global("IADradeel","GLOBAL",3)~
@@ -581,6 +586,22 @@ END
 >>>>>>>>
 
 EXTEND_BOTTOM ~AR1515.BCS~ ~.../inlined/ar1515.baf~
+
+<<<<<<<< .../inlined/ar2500.baf
+IF
+  OnCreation()
+  Global("RevealMap","ar2500",0)
+  OR(2)
+    Global("IADruidPlot","GLOBAL",0)
+    GlobalGT("IADruidPlot","GLOBAL",15)
+THEN
+  RESPONSE #100
+    RevealAreaOnMap("ar1700")
+    Continue()
+END
+>>>>>>>>
+
+EXTEND_TOP ~AR2500.BCS~ ~.../inlined/ar2500.baf~
 
 <<<<<<<< .../inlined/baldur.baf
 IF
