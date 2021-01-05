@@ -126,6 +126,6 @@ END
 
 IF ~~ THEN BEGIN 21
   SAY @5678
-  IF ~~ THEN DO ~GiveItem("S!misc71",Player1) SetGlobal("IADruidIsland","GLOBAL",4)~
+  IF ~~ THEN DO ~SetGlobal("IADruidIsland","GLOBAL",4)~
   EXIT
 END
