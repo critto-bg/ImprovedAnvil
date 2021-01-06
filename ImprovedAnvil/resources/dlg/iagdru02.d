@@ -126,6 +126,9 @@ END
 
 IF ~~ THEN BEGIN 21
   SAY @5678
-  IF ~~ THEN DO ~SetGlobal("IADruidIsland","GLOBAL",4)~
+  IF ~~ THEN DO ~SetGlobal("IADruidIsland","GLOBAL",4)
+                 ClearAllActions()
+                 StartCutSceneMode()
+                 StartCutScene("S!druc08")~
   EXIT
 END
