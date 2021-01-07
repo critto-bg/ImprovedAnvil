@@ -819,99 +819,6 @@ COPY_EXISTING ~UHRANG01.DLG~ ~override~
     REPLACE_TEXTUALLY ~True()~ ~NumTimesTalkedTo(0) !Class(Player1,DRUID_ALL) !Class(Player1,SHAMAN)~
   END
 
-<<<<<<<< .../inlined/uhrang01.d
-APPEND ~uhrang01~
-  IF ~NumTimesTalkedTo(0) OR(2) Class(Player1,DRUID_ALL) Class(Player1,SHAMAN)~
-    THEN BEGIN 1
-    SAY @5360
-    IF ~~ THEN REPLY @5361 GOTO 2
-  END
-
-  IF ~~ THEN BEGIN 2
-    SAY @5362
-    IF ~~ THEN REPLY @5363 GOTO 3
-  END
-
-  IF ~~ THEN BEGIN 3
-    SAY @5364
-    IF ~GlobalGT("IADruidPlot","GLOBAL",0)~ THEN REPLY @5365 GOTO 4
-    IF ~Global("IADruidPlot","GLOBAL",0)~ THEN REPLY @5366 GOTO 4
-  END
-
-  IF ~~ THEN BEGIN 4
-    SAY @5367
-    IF ~~ THEN REPLY @5368 GOTO 5
-  END
-
-  IF ~~ THEN BEGIN 5
-    SAY @5369
-    IF ~~ THEN REPLY @5370 GOTO 6
-  END
-
-  IF ~~ THEN BEGIN 6
-    SAY @5371
-    IF ~~ THEN DO ~SetGlobal("IADruidMerellaTalk","GLOBAL",1) Kill(Myself)~
-    EXIT
-  END
-END
->>>>>>>>
-
-COMPILE ~.../inlined/uhrang01.d~ USING ~%LANGUAGE%druidq.tra~
-
-<<<<<<<< .../inlined/corneil.d
-EXTEND_TOP ~CORNEIL~ 0 #6
-  IF ~Global("IADruidPlot","GLOBAL",6) Global("IADruidTalk","LOCALS",0)~ THEN
-    DO ~SetGlobal("IADruidTalk","LOCALS",1)~
-    REPLY @5440 GOTO 15
-END
-
-APPEND ~CORNEIL~
-  IF ~~ THEN BEGIN 15
-    SAY @5441
-    IF ~~ THEN REPLY @5442 GOTO 16
-  END
-
-  IF ~~ THEN BEGIN 16
-    SAY @5443
-    IF ~~ THEN DO ~TakePartyItem("S!misc70")~ REPLY @5444 GOTO 17
-  END
-
-  IF ~~ THEN BEGIN 17
-    SAY @5445
-    IF ~~ THEN REPLY @5446 GOTO 18
-  END
-
-  IF ~~ THEN BEGIN 18
-    SAY @5447
-    IF ~~ THEN GOTO 19
-  END
-
-  IF ~~ THEN BEGIN 19
-    SAY @5448
-    IF ~~ THEN GOTO 20
-  END
-
-  IF ~~ THEN BEGIN 20
-    SAY @5449
-    IF ~~ THEN REPLY @5450 GOTO 21
-  END
-
-  IF ~~ THEN BEGIN 21
-    SAY @5451
-    IF ~~ THEN REPLY @5452 GOTO 22
-  END
-
-  IF ~~ THEN BEGIN 22
-    SAY @5453
-    IF ~~ THEN DO ~GiveItem("S!misc70",Player1)~
-    UNSOLVED_JOURNAL @5517
-    EXIT
-  END
-END
->>>>>>>>
-
-COMPILE ~.../inlined/corneil.d~ USING ~%LANGUAGE%druidq.tra~
-
 COPY_EXISTING ~PPSAEM3.DLG~ ~override~
   DECOMPILE_AND_PATCH BEGIN
     REPLACE_TEXTUALLY ~StartCutSceneEx("Cut41q",FALSE)~ ~StartCutSceneEx("Cut41q",TRUE)~
@@ -924,6 +831,9 @@ COMPILE ~ImprovedAnvil/resources/dlg/iagdru01.d~ USING ~%LANGUAGE%druidq.tra~
 COMPILE ~ImprovedAnvil/resources/dlg/iagdru02.d~ USING ~%LANGUAGE%druidq.tra~
 COMPILE ~ImprovedAnvil/resources/dlg/iatslead.d~ USING ~%LANGUAGE%druidq.tra~
 COMPILE ~ImprovedAnvil/resources/dlg/iadrad.d~ USING ~%LANGUAGE%druidq.tra~
+
+COMPILE ~ImprovedAnvil/resources/dlg/uhrang01.d~ USING ~%LANGUAGE%druidq.tra~
+COMPILE ~ImprovedAnvil/resources/dlg/corneil.d~ USING ~%LANGUAGE%druidq.tra~
 COMPILE ~ImprovedAnvil/resources/dlg/ppdradee.d~ USING ~%LANGUAGE%druidq.tra~
 COMPILE ~ImprovedAnvil/resources/dlg/ppdra2.d~ USING ~%LANGUAGE%druidq.tra~
 COMPILE ~ImprovedAnvil/resources/dlg/ppsaem3.d~ USING ~%LANGUAGE%druidq.tra~
