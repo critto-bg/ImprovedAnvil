@@ -132,3 +132,29 @@ IF ~~ THEN BEGIN 21
                  StartCutScene("S!druc08")~
   EXIT
 END
+
+// outside the house, after the ambush
+IF ~Global("IADruidIsland","GLOBAL",5)~ THEN BEGIN 22
+  SAY @5692
+  IF ~~ THEN REPLY @5693 GOTO 23
+END
+
+IF ~~ THEN BEGIN 23
+  SAY @5694
+  IF ~~ THEN REPLY @5695 GOTO 24
+END
+
+IF ~~ THEN BEGIN 24
+  SAY @5696
+  IF ~~ THEN REPLY @5697 GOTO 25
+END
+
+IF ~~ THEN BEGIN 25
+  SAY @5698
+  IF ~~ THEN REPLY @5699 GOTO 26
+END
+
+IF ~~ THEN BEGIN 26
+  SAY @5700
+  IF ~~ THEN DO ~SetGlobal("IADruidIsland","GLOBAL",6)~ EXIT
+END
