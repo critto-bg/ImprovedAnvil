@@ -162,3 +162,38 @@ IF ~~ THEN BEGIN 26
                  StartCutScene("S!druc09")~
   EXIT
 END
+
+// at the docks, preparing to leave the island
+IF ~~ THEN BEGIN 27
+  SAY @5711
+  IF ~~ THEN REPLY @5712 GOTO 28
+END
+
+IF ~~ THEN BEGIN 28
+  SAY @5713
+  IF ~~ THEN REPLY @5714 GOTO 29
+END
+
+IF ~~ THEN BEGIN 29
+  SAY @5715
+  IF ~~ THEN REPLY @5716 GOTO 30
+END
+
+IF ~~ THEN BEGIN 30
+  SAY @5717
+  IF ~~ THEN REPLY @5718 EXTERN ~PPSAEM3~ 86
+END
+
+IF ~~ THEN BEGIN 31
+  SAY @5720
+  IF ~~ THEN REPLY @5721 GOTO 32
+END
+
+IF ~~ THEN BEGIN 32
+  SAY @5722
+  IF ~~ THEN DO ~SetGlobal("IADruidIsland","GLOBAL",7)
+                 ClearAllActions()
+                 StartCutSceneMode()
+                 StartCutScene("S!druc10")~
+  EXIT
+END
