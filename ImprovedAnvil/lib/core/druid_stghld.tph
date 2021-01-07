@@ -687,7 +687,7 @@ EXTEND_BOTTOM ~CUT41Q.BCS~ ~.../inlined/CUT41Q.baf~
 
 // journal stuff //
 
-ADD_JOURNAL @5510 @5511 @5512 @5513 @5514 @5515 @5516 @5517 @5518 @5519 @5520 @5521 @5522
+ADD_JOURNAL @5510 @5511 @5512 @5513 @5514 @5515 @5516 @5517 @5518 @5519 @5520 @5521 @5522 @5523
   USING ~%LANGUAGE%druidq.tra~
 
 // patch the dialogues //
@@ -1109,6 +1109,27 @@ APPEND ~PPSAEM3~
   IF ~~ THEN BEGIN 86
     SAY @5719
     IF ~~ THEN EXTERN ~IAGDRU02~ 31
+  END
+
+  // last talk before leaving the island
+  IF ~AreaCheck("S!0002") Global("IADruidIsland","GLOBAL",7)~ THEN BEGIN 87
+    SAY @5730
+    IF ~~ THEN REPLY @5731 GOTO 88
+  END
+
+  IF ~~ THEN BEGIN 88
+    SAY @5732
+    IF ~~ THEN REPLY @5733 GOTO 89
+  END
+
+  IF ~~ THEN BEGIN 89
+    SAY @5734
+    IF ~~ THEN DO ~SetGlobal("IADruidPlot","GLOBAL",8)
+                   StartCutSceneMode()
+                   StartCutSceneEx("Cut41q",TRUE)
+                   Wait(1)
+                   DestroySelf()~
+    EXIT
   END
 END
 >>>>>>>>

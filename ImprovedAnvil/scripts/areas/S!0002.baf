@@ -20,3 +20,12 @@ THEN
     SetGlobal("IADruidIsland","GLOBAL",5)
     ActionOverride("s!gdru02",StartDialogNoSet(Player1))
 END
+
+IF
+  Global("IADruidIsland","GLOBAL",7)
+  Global("IAExplored","S!0002",1)
+THEN
+  RESPONSE #100
+    SetGlobal("IAExplored","S!0002",2)
+    AddJournalEntry(@5523,QUEST)
+END
