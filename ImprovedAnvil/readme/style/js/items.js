@@ -371,6 +371,63 @@ var gear = [
                     }
                 ],
                 "item_name": "Enhanced Armor of Stamina +6"
+            },
+            {
+                "components": [
+                    "Yeti Hide",
+                    "Studded Leather Armor +1",
+                    "10,000 gp",
+                    "(Maheer only)"
+                ],
+                "attributes": [
+                    {
+                        "section_name": "Abilities",
+                        "section_items": [
+                            "Armor Class: 4",
+                            "Cold Resistance: +50%"
+                        ]
+                    }
+                ],
+                "item_name": "Yeti Hide Armor"
+            },
+            {
+                "components": [
+                    "Yeti Hide Armor",
+                    "Blood of a Barbarian Warrior",
+                    "Permanency scroll",
+                    "50,000 gp",
+                    "(Cromwell only)"
+                ],
+                "attributes": [
+                    {
+                        "section_name": "Abilities",
+                        "section_items": [
+                            "Armor Class: 2",
+                            "Damage Resistance: +10%",
+                            "Cold Resistance: +50%"
+                        ]
+                    }
+                ],
+                "item_name": "Improved Yeti Hide Armor"
+            },
+            {
+                "components": [
+                    "Improved Yeti Hide Armor",
+                    "Rust Dragon Scales",
+                    "Manual of Elaboration",
+                    "60,000 gp"
+                ],
+                "attributes": [
+                    {
+                        "section_name": "Abilities",
+                        "section_items": [
+                            "Armor Class: 0",
+                            "Damage Resistance: +25%",
+                            "Cold Resistance: +50%"
+                        ]
+                    }
+                ],
+                "item_name": "Rust Dragon Armor"
             }
         ]
     },
@@ -1116,6 +1173,65 @@ var gear = [
                     }
                 ],
                 "item_name": "Lord of the Underworld"
+            },
+            {
+                "components": [
+                    "Yeti Hide",
+                    "Cloak of Protection +1",
+                    "10,000 gp",
+                    "(Maheer only)"
+                ],
+                "attributes": [
+                    {
+                        "section_name": "Abilities",
+                        "section_items": [
+                            "Armor Class: +1",
+                            "Saving Throws: +1",
+                            "Cold Resistance: +50%"
+                        ]
+                    }
+                ],
+                "item_name": "Yeti Hide Cloak"
+            },
+            {
+                "components": [
+                    "Yeti Hide Cloak",
+                    "Cloak of Protection +1",
+                    "Permanency Scroll",
+                    "30,000 gp",
+                    "(Cromwell only)"
+                ],
+                "attributes": [
+                    {
+                        "section_name": "Abilities",
+                        "section_items": [
+                            "Armor Class: +2",
+                            "Saving Throws: +2",
+                            "Cold Resistance: +50%"
+                        ]
+                    }
+                ],
+                "item_name": "Improved Yeti Hide Cloak"
+            },
+            {
+                "components": [
+                    "Improved Yeti Hide Cloak",
+                    "Rust Dragon Hide",
+                    "Manual of Elaboration",
+                    "60,000 gp"
+                ],
+                "attributes": [
+                    {
+                        "section_name": "Abilities",
+                        "section_items": [
+                            "Armor Class: +3",
+                            "Saving Throws: +3",
+                            "Damage Resistance: +10%",
+                            "Cold Resistance: +50%"
+                        ]
+                    }
+                ],
+                "item_name": "Rust Dragon Cloak"
             }
         ]
     },
