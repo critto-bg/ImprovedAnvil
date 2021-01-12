@@ -58,6 +58,8 @@ IF
   Allegiance(Myself,ENEMY)
   Alignment(Player1,MASK_GOOD)
   Class(Player1,MAGE_ALL)
+  !Class(Player1,DRUID_ALL)
+  !Class(Player1,SHAMAN)
   !Class(Player1,FIGHTER_ALL)
   !Class(Player1,THIEF_ALL)
   !Class(Player1,CLERIC_ALL)
@@ -71,13 +73,22 @@ END
 IF
   Global("Iatreasure","LOCALS",0)
   Allegiance(Myself,ENEMY)
-  OR(6)
-   !Class(Player1,MAGE_ALL)
-   !Alignment(Player1,MASK_GOOD)
-   Class(Player1,FIGHTER_ALL)
-   Class(Player1,THIEF_ALL)
-   Class(Player1,CLERIC_ALL)
-   !Kit(Player1,MAGESCHOOL_NECROMANCER)
+  OR(2)
+    Class(Player1,DRUID_ALL)
+    Class(Player1,SHAMAN)
+  !Class(Player1,MAGE_ALL)
+  !Class(Player1,FIGHTER_ALL)
+  !Class(Player1,THIEF_ALL)
+  !Class(Player1,CLERIC_ALL)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatreasure","LOCALS",1)
+    GiveItemCreate("S!misc52",Myself,0,0,0) //
+END
+
+IF
+  Global("Iatreasure","LOCALS",0)
+  Allegiance(Myself,ENEMY)
 THEN
   RESPONSE #100
     SetGlobal("Iatreasure","LOCALS",1)
