@@ -534,10 +534,10 @@ EXTEND_BOTTOM ~AR2000.BCS~ ~.../inlined/ar2000.baf~
 <<<<<<<< .../inlined/ar1600.baf
 IF
   GlobalLT("IADruidPlot","GLOBAL",6)
-  GlobalGT("IADruidFailed","LOCALS",0)
+  Global("IADruidFailed","GLOBAL",0)
 THEN
 	RESPONSE #100
-    SetGlobal("IADruidFailed","LOCALS",1)
+    SetGlobal("IADruidFailed","GLOBAL",1)
 		SetGlobal("IADruidPlot","GLOBAL",16)
     EraseJournalEntry(@5510)
     EraseJournalEntry(@5511)
@@ -575,6 +575,33 @@ END
 >>>>>>>>
 
 EXTEND_BOTTOM ~AR1600.BCS~ ~.../inlined/ar1600.baf~
+
+<<<<<<<< .../inlined/ar2300.baf
+IF
+  Global("IADruidPlot","GLOBAL",17)
+  Global("IADruidFailed","GLOBAL",0)
+THEN
+	RESPONSE #100
+    SetGlobal("IADruidFailed","GLOBAL",1)
+    EraseJournalEntry(@5510)
+    EraseJournalEntry(@5511)
+    EraseJournalEntry(@5512)
+    EraseJournalEntry(@5513)
+    EraseJournalEntry(@5514)
+    EraseJournalEntry(@5515)
+    EraseJournalEntry(@5516)
+    EraseJournalEntry(@5517)
+    EraseJournalEntry(@5519)
+    EraseJournalEntry(@5520)
+    EraseJournalEntry(@5521)
+    EraseJournalEntry(@5522)
+    EraseJournalEntry(@5523)
+    AddJournalEntry(@5524,QUEST_DONE)
+END
+>>>>>>>>
+
+EXTEND_BOTTOM ~AR2300.BCS~ ~.../inlined/ar2300.baf~
+EXTEND_BOTTOM ~AR2100.BCS~ ~.../inlined/ar2300.baf~
 
 <<<<<<<< .../inlined/ar1602.baf
 IF
@@ -619,6 +646,18 @@ END
 >>>>>>>>
 
 EXTEND_TOP ~AR2500.BCS~ ~.../inlined/ar2500.baf~
+
+<<<<<<<< .../inlined/ar2500b.baf
+IF
+  Global("IADruidPlot","GLOBAL",8)
+THEN
+  RESPONSE #100
+    SetGlobal("IADruidPlot","GLOBAL",9)
+    AddJournalEntry(@5525,QUEST)
+END
+>>>>>>>>
+
+EXTEND_BOTTOM ~AR2500.BCS~ ~.../inlined/ar2500b.baf~
 
 <<<<<<<< .../inlined/baldur.baf
 IF
@@ -687,7 +726,7 @@ EXTEND_BOTTOM ~CUT41Q.BCS~ ~.../inlined/CUT41Q.baf~
 
 // journal stuff //
 
-ADD_JOURNAL @5510 @5511 @5512 @5513 @5514 @5515 @5516 @5517 @5518 @5519 @5520 @5521 @5522 @5523
+ADD_JOURNAL @5510 @5511 @5512 @5513 @5514 @5515 @5516 @5517 @5518 @5519 @5520 @5521 @5522 @5523 @5524 @5525
   USING ~%LANGUAGE%druidq.tra~
 
 // patch the dialogues //
@@ -716,33 +755,6 @@ APPEND ~CECHALLE~
     THEN BEGIN 19
     SAY @5382
     IF ~~ THEN REPLY @5383 GOTO 20
-  END
-
-  IF WEIGHT #5 ~Global("IADruidPlot","GLOBAL",4)~
-    THEN BEGIN 29
-    SAY @5399
-    IF ~~ THEN EXIT
-  END
-
-  IF WEIGHT #6 ~GlobalGT("IADruidPlot","GLOBAL",4) GlobalLT("IADruidPlot","GLOBAL",9)~
-    THEN BEGIN 30
-    SAY @5460
-    IF ~~ THEN GOTO 31
-  END
-
-  IF ~~ THEN BEGIN 31
-    SAY @5461
-    IF ~~ THEN REPLY @5462 GOTO 32
-  END
-
-  IF ~~ THEN BEGIN 32
-    SAY @5463
-    IF ~~ THEN REPLY @5464 GOTO 33
-  END
-
-  IF ~~ THEN BEGIN 33
-    SAY @5465
-    IF ~~ THEN EXIT
   END
 
   IF ~~ THEN BEGIN 20
@@ -803,6 +815,101 @@ APPEND ~CECHALLE~
     SAY @5398
     IF ~~ THEN DO ~SetGlobal("IADruidPlot","GLOBAL",4) AddJournalEntry(@5515,QUEST)~
     EXIT
+  END
+
+  IF WEIGHT #5 ~Global("IADruidPlot","GLOBAL",4)~
+    THEN BEGIN 29
+    SAY @5399
+    IF ~~ THEN EXIT
+  END
+
+  IF WEIGHT #6 ~GlobalGT("IADruidPlot","GLOBAL",4) GlobalLT("IADruidPlot","GLOBAL",9)~
+    THEN BEGIN 30
+    SAY @5460
+    IF ~~ THEN GOTO 31
+  END
+
+  IF ~~ THEN BEGIN 31
+    SAY @5461
+    IF ~~ THEN REPLY @5462 GOTO 32
+  END
+
+  IF ~~ THEN BEGIN 32
+    SAY @5463
+    IF ~~ THEN REPLY @5464 GOTO 33
+  END
+
+  IF ~~ THEN BEGIN 33
+    SAY @5465
+    IF ~~ THEN EXIT
+  END
+
+  IF WEIGHT #7 ~Global("IADruidPlot","GLOBAL",9) Global("IAAmbushFirstTalk","LOCALS",0)~
+    THEN BEGIN 34
+    SAY @5740
+    IF ~~ THEN REPLY @5741 GOTO 35
+  END
+
+  IF ~~
+    THEN BEGIN 35
+    SAY @5742
+    IF ~~ THEN REPLY @5743 GOTO 36
+  END
+
+  IF ~~
+    THEN BEGIN 36
+    SAY @5744
+    IF ~~ THEN REPLY @5745 GOTO 37
+  END
+
+  IF ~~
+    THEN BEGIN 37
+    SAY @5746
+    IF ~~ THEN REPLY @5747 GOTO 38
+  END
+
+  IF ~~
+    THEN BEGIN 38
+    SAY @5748
+    IF ~~ THEN DO ~RevealAreaOnMap("ar1700") SetGlobal("IAAmbushFirstTalk","LOCALS",1)~
+    EXIT
+  END
+
+  IF WEIGHT #8 ~Global("IADruidPlot","GLOBAL",9) Global("IAAmbushFirstTalk","LOCALS",1)~
+    THEN BEGIN 39
+    SAY @5748
+    IF ~~ THEN EXIT
+  END
+
+  IF WEIGHT #9 ~OR(2) Global("IADruidPlot","GLOBAL",16) Global("IADruidPlot","GLOBAL",17) Global("IAFailedFirstTalk","LOCALS",0)~
+    THEN BEGIN 40
+    SAY @5750
+    IF ~~ THEN REPLY @5751 GOTO 41
+  END
+
+  IF ~~
+    THEN BEGIN 41
+    SAY @5752
+    IF ~~ THEN REPLY @5753 GOTO 42
+  END
+
+  IF ~~
+    THEN BEGIN 42
+    SAY @5754
+    IF ~~ THEN REPLY @5755 GOTO 43
+  END
+
+  IF ~~
+    THEN BEGIN 43
+    SAY @5756
+    IF ~~ THEN REPLY @5757 DO ~SetGlobal("IAFailedFirstTalk","LOCALS",1)~
+    EXIT
+  END
+
+  IF WEIGHT #10 ~OR(2) Global("IADruidPlot","GLOBAL",16) Global("IADruidPlot","GLOBAL",17) Global("IAFailedFirstTalk","LOCALS",1)~
+    THEN BEGIN 44
+    SAY @5756
+    IF ~~ THEN EXIT
   END
 END
 >>>>>>>>
