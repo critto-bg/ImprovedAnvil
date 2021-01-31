@@ -36,3 +36,53 @@ IF ~~ THEN BEGIN 6
   UNSOLVED_JOURNAL @5516
   EXIT
 END
+
+IF ~Global("IADruidPlot","GLOBAL",9)~ 7
+  SAY @5760
+  ++ @5761 + 8
+END
+
+IF ~~ 8
+  SAY @5762
+  ++ @5763 + 9
+END
+
+IF ~~ 9
+  SAY @5764
+  ++ @5765 + 10
+END
+
+IF ~~ 10
+  SAY @5766
+  ++ @5767 + 11
+END
+
+IF ~~ 11
+  SAY @5768
+  ++ @5769 + 12
+END
+
+IF ~~ 12
+  SAY @5770
+  ++ @5771 + 13
+END
+
+IF ~~ THEN BEGIN 13
+  SAY @5772
+  IF ~~ THEN DO
+    ~SetGlobal("IADruidPlot","GLOBAL",10)
+     ClearAllActions()
+     StartCutSceneMode()
+     StartCutSceneEx("S!druc11",TRUE)~
+  EXIT
+END
+
+IF ~~ THEN BEGIN 14
+  SAY @5786
+  IF ~~ THEN EXTERN ~IAGDRU03~ 1
+END
+
+IF ~~ THEN BEGIN 15
+  SAY @5829
+  IF ~~ THEN REPLY @5830 EXTERN ~IAGDRU03~ 11
+END

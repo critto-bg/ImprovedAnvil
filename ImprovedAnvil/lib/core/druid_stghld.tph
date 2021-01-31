@@ -80,6 +80,12 @@ COPY ~ImprovedAnvil/resources/creatures/new/S!gdru02.cre~         ~override/S!gd
   SAY NAME1     @12059
   SAY NAME2     @12059
 
+COPY ~ImprovedAnvil/resources/creatures/new/S!gdru03.cre~         ~override/S!gdru03.cre~
+  SAY NAME1     @12059
+  SAY NAME2     @12059
+
+  WRITE_ASCII 0x2cc ~iagdru03~ #8 // dialogue
+
 COPY ~ImprovedAnvil/resources/creatures/new/S!tslead.cre~         ~override/S!tslead.cre~
   SAY NAME1     @12060
   SAY NAME2     @12060
@@ -141,6 +147,7 @@ COPY_EXISTING ~CUT41Q.BCS~ ~override~
 
 // compile the scripts //
 
+COMPILE ~ImprovedAnvil/scripts/areas/S!0001.baf~
 COMPILE ~ImprovedAnvil/scripts/areas/S!0002.baf~
 COMPILE ~ImprovedAnvil/scripts/areas/S!0003.baf~
 COMPILE ~ImprovedAnvil/scripts/areas/S!0004.baf~ USING ~%LANGUAGE%druidq.tra~
@@ -155,6 +162,8 @@ COMPILE ~ImprovedAnvil/scripts/cutscenes/S!druc07.baf~ USING ~%LANGUAGE%druidq.t
 COMPILE ~ImprovedAnvil/scripts/cutscenes/S!druc08.baf~ USING ~%LANGUAGE%druidq.tra~
 COMPILE ~ImprovedAnvil/scripts/cutscenes/S!druc09.baf~
 COMPILE ~ImprovedAnvil/scripts/cutscenes/S!druc10.baf~
+COMPILE ~ImprovedAnvil/scripts/cutscenes/S!druc11.baf~ USING ~%LANGUAGE%druidq.tra~
+COMPILE ~ImprovedAnvil/scripts/cutscenes/S!druc12.baf~
 COMPILE ~ImprovedAnvil/scripts/encounters/druid_quests/S!drad01.baf~ USING ~%LANGUAGE%druidq.tra~
 
 // extend the scripts //
@@ -659,6 +668,80 @@ END
 
 EXTEND_BOTTOM ~AR2500.BCS~ ~.../inlined/ar2500b.baf~
 
+<<<<<<<< .../inlined/ar1700.baf
+IF
+  Global("IADruidPlot","GLOBAL",9)
+  Global("IASpawns","AR1700",0)
+THEN
+  RESPONSE #100
+    SetInterrupt(FALSE)
+    SetGlobal("IASpawns","AR1700",1)
+    SpawnPtDeactivate("Spawn Point 1")
+    SpawnPtDeactivate("Spawn Point 2")
+    SpawnPtDeactivate("Spawn Point 3")
+    SpawnPtDeactivate("Spawn Point 6")
+    // @TODO: add dram kallen's companions as well
+    CreateCreature("s!tslead",[3000.865],N)
+    ActionOverride("s!tslead",StartDialogNoSet(Player1))
+    SetInterrupt(TRUE)
+END
+
+IF
+  Global("IADruidPlot","GLOBAL",10)
+  Global("IAfight","AR1700",1)
+  CombatCounter(0)
+THEN
+  RESPONSE #100
+    SetGlobal("IAfight","AR1700",2)
+    ClearAllActions()
+    StartCutSceneMode()
+    StartCutSceneEx("S!druc11",TRUE)
+END
+
+IF
+  Global("IADruidPlot","GLOBAL",10)
+  Global("IAfight","AR1700",3)
+  CombatCounter(0)
+THEN
+  RESPONSE #100
+    SetGlobal("IAfight","AR1700",4)
+    RevealAreaOnMap("S!0001")
+    ClearAllActions()
+    StartCutSceneMode()
+    StartCutSceneEx("S!druc11",TRUE)
+END
+>>>>>>>>
+
+EXTEND_BOTTOM ~AR1700.BCS~ ~.../inlined/ar1700.baf~
+
+<<<<<<<< .../inlined/ar1203.baf
+IF
+  Global("IADruidPlot","GLOBAL",11)
+  Global("Chapter","GLOBAL",6)
+  Global("Iaonce","AR1203",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaonce","AR1203",1)
+    ContainerEnable("druidq",TRUE)
+END
+
+IF
+  Global("IADruidPlot","GLOBAL",11)
+  Global("Chapter","GLOBAL",6)
+  Global("Iaonce","AR1203",1)
+  PartyHasItem("S!misc75")
+  Exists("firkra02")
+  !Dead("firkra02")
+  !Allegiance("firkra02",ENEMY)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaonce","AR1203",2)
+    ChangeEnemyAlly("firkra02",ENEMY)
+END
+>>>>>>>>
+
+EXTEND_BOTTOM ~AR1203.BCS~ ~.../inlined/ar1203.baf~
+
 <<<<<<<< .../inlined/baldur.baf
 IF
   OR(2)
@@ -726,7 +809,7 @@ EXTEND_BOTTOM ~CUT41Q.BCS~ ~.../inlined/CUT41Q.baf~
 
 // journal stuff //
 
-ADD_JOURNAL @5510 @5511 @5512 @5513 @5514 @5515 @5516 @5517 @5518 @5519 @5520 @5521 @5522 @5523 @5524 @5525
+ADD_JOURNAL @5510 @5511 @5512 @5513 @5514 @5515 @5516 @5517 @5518 @5519 @5520 @5521 @5522 @5523 @5524 @5525 @5526 @5527
   USING ~%LANGUAGE%druidq.tra~
 
 // patch the dialogues //
@@ -936,8 +1019,10 @@ COPY_EXISTING ~PPSAEM3.DLG~ ~override~
 COMPILE ~ImprovedAnvil/resources/dlg/iavert01.d~ USING ~%LANGUAGE%druidq.tra~
 COMPILE ~ImprovedAnvil/resources/dlg/iagdru01.d~ USING ~%LANGUAGE%druidq.tra~
 COMPILE ~ImprovedAnvil/resources/dlg/iagdru02.d~ USING ~%LANGUAGE%druidq.tra~
+COMPILE ~ImprovedAnvil/resources/dlg/iagdru03.d~ USING ~%LANGUAGE%druidq.tra~
 COMPILE ~ImprovedAnvil/resources/dlg/iatslead.d~ USING ~%LANGUAGE%druidq.tra~
 COMPILE ~ImprovedAnvil/resources/dlg/iadrad.d~ USING ~%LANGUAGE%druidq.tra~
+COMPILE ~ImprovedAnvil/resources/dlg/iaferr01.d~ USING ~%LANGUAGE%druidq.tra~
 
 COMPILE ~ImprovedAnvil/resources/dlg/uhrang01.d~ USING ~%LANGUAGE%druidq.tra~
 COMPILE ~ImprovedAnvil/resources/dlg/corneil.d~ USING ~%LANGUAGE%druidq.tra~
@@ -1084,6 +1169,30 @@ COPY_EXISTING ~AR1700.ARE~ ~override/AR1700.ARE~
   END
 BUT_ONLY
 
+// add a hidden container to Firkraag's area
+COPY_EXISTING ~AR1203.ARE~ ~override/AR1203.ARE~
+  LPF fj_are_structure
+    INT_VAR
+      fj_loc_x       = 2230
+      fj_loc_y       = 1692
+      fj_type        = 4
+      fj_flags       = 0b00100000
+      fj_lock_diff   = 0
+      fj_trap_active = 0
+      fj_box_left    = 2261
+      fj_box_top     = 1705
+      fj_box_right   = 2228
+      fj_box_bottom  = 1678
+      fj_vertex_0    = 2242 + (1678 << 16)
+      fj_vertex_1    = 2261 + (1695 << 16)
+      fj_vertex_2    = 2238 + (1705 << 16)
+      fj_vertex_3    = 2228 + (1687 << 16)
+    STR_VAR
+      fj_name = ~druidq~
+      fj_structure_type = container
+  END
+BUT_ONLY
+
 // update the new area (Helter Steps)
 COPY_EXISTING ~s!0001.are~ ~override/s!0001.are~
   LPF fj_are_structure
@@ -1111,6 +1220,20 @@ COPY_EXISTING ~s!0001.are~ ~override/s!0001.are~
     STR_VAR
     fj_structure_type = entrance
     fj_name           = ExitNE
+  END
+
+  LPF ~ALTER_AREA_REGION~
+    INT_VAR
+      info_point = RESOLVE_STR_REF (@12069)
+    STR_VAR
+      region_name = ~Cave1~
+  END
+
+  LPF ~ALTER_AREA_REGION~
+    INT_VAR
+      info_point = RESOLVE_STR_REF (@12069)
+    STR_VAR
+      region_name = ~Cave2~
   END
 BUT_ONLY
 
