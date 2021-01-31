@@ -155,6 +155,7 @@ COMPILE ~ImprovedAnvil/scripts/cutscenes/S!druc07.baf~ USING ~%LANGUAGE%druidq.t
 COMPILE ~ImprovedAnvil/scripts/cutscenes/S!druc08.baf~ USING ~%LANGUAGE%druidq.tra~
 COMPILE ~ImprovedAnvil/scripts/cutscenes/S!druc09.baf~
 COMPILE ~ImprovedAnvil/scripts/cutscenes/S!druc10.baf~
+COMPILE ~ImprovedAnvil/scripts/cutscenes/S!druc11.baf~ USING ~%LANGUAGE%druidq.tra~
 COMPILE ~ImprovedAnvil/scripts/encounters/druid_quests/S!drad01.baf~ USING ~%LANGUAGE%druidq.tra~
 
 // extend the scripts //
@@ -659,6 +660,52 @@ END
 
 EXTEND_BOTTOM ~AR2500.BCS~ ~.../inlined/ar2500b.baf~
 
+<<<<<<<< .../inlined/ar1700.baf
+IF
+  Global("IADruidPlot","GLOBAL",9)
+  Global("IASpawns","AR1700",0)
+THEN
+  RESPONSE #100
+    SetInterrupt(FALSE)
+    SetGlobal("IASpawns","AR1700",1)
+    SpawnPtDeactivate("Spawn Point 1")
+    SpawnPtDeactivate("Spawn Point 2")
+    SpawnPtDeactivate("Spawn Point 3")
+    SpawnPtDeactivate("Spawn Point 6")
+    // @TODO: add dram kallen's companions as well
+    CreateCreature("s!tslead",[3000.865],N)
+    ActionOverride("s!tslead",StartDialogNoSet(Player1))
+    SetInterrupt(TRUE)
+END
+
+IF
+  Global("IADruidPlot","GLOBAL",10)
+  Global("IAfight","AR1700",1)
+  CombatCounter(0)
+THEN
+  RESPONSE #100
+    SetGlobal("IAfight","AR1700",2)
+    ClearAllActions()
+    StartCutSceneMode()
+    StartCutSceneEx("S!druc11",TRUE)
+END
+
+IF
+  Global("IADruidPlot","GLOBAL",10)
+  Global("IAfight","AR1700",3)
+  CombatCounter(0)
+THEN
+  RESPONSE #100
+    SetGlobal("IAfight","AR1700",4)
+    RevealAreaOnMap("S!0001")
+    ClearAllActions()
+    StartCutSceneMode()
+    StartCutSceneEx("S!druc11",TRUE)
+END
+>>>>>>>>
+
+EXTEND_BOTTOM ~AR1700.BCS~ ~.../inlined/ar1700.baf~
+
 <<<<<<<< .../inlined/baldur.baf
 IF
   OR(2)
@@ -726,7 +773,7 @@ EXTEND_BOTTOM ~CUT41Q.BCS~ ~.../inlined/CUT41Q.baf~
 
 // journal stuff //
 
-ADD_JOURNAL @5510 @5511 @5512 @5513 @5514 @5515 @5516 @5517 @5518 @5519 @5520 @5521 @5522 @5523 @5524 @5525
+ADD_JOURNAL @5510 @5511 @5512 @5513 @5514 @5515 @5516 @5517 @5518 @5519 @5520 @5521 @5522 @5523 @5524 @5525 @5526
   USING ~%LANGUAGE%druidq.tra~
 
 // patch the dialogues //
