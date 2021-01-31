@@ -1,0 +1,81 @@
+// Extended druid stronghold, Helter Steps cutscenes //
+
+IF
+  Global("IADruidPlot","GLOBAL",10)
+  Global("IADramDies","GLOBAL",0)
+THEN
+  RESPONSE #100
+    CutSceneId(Player1)
+    SetInterrupt(FALSE)
+
+    Wait(1)
+    FadeToColor([20.0],0)
+
+    CreateCreature("s!gdru03",[3060.985],S)
+    CreateCreature("s!tslead",[2920.1050],S)
+
+    JumpToPoint([3050.1080])
+    MoveViewObject(Myself,VERY_FAST)
+
+    FaceObject("s!gdru03")
+    ActionOverride("s!tslead",FaceObject("s!gdru03"))
+
+    ActionOverride(Player2,JumpToPoint([2660.1000]))
+    ActionOverride(Player2,FaceObject("s!gdru02"))
+    ActionOverride(Player3,JumpToPoint([2655.1120]))
+    ActionOverride(Player3,FaceObject("s!gdru02"))
+    ActionOverride(Player4,JumpToPoint([3080.1260]))
+    ActionOverride(Player4,FaceObject("s!gdru02"))
+    ActionOverride(Player5,JumpToPoint([3505.1105]))
+    ActionOverride(Player5,FaceObject("s!gdru02"))
+    ActionOverride(Player6,JumpToPoint([3485.1275]))
+    ActionOverride(Player6,FaceObject("s!gdru02"))
+
+    FadeFromColor([20.0],0)
+    Wait(2)
+
+    ActionOverride("s!gdru03",StartDialogNoSet(Player1))
+
+    MultiPlayerSync()
+    SetInterrupt(TRUE)
+    EndCutSceneMode()
+END
+
+IF
+  Global("IADruidPlot","GLOBAL",10)
+  Global("IADramDies","GLOBAL",1)
+THEN
+  RESPONSE #100
+    CutSceneId(Player1)
+    SetInterrupt(FALSE)
+
+    Wait(1)
+    FadeToColor([20.0],0)
+
+    CreateCreature("s!gdru03",[3060.985],S)
+
+    JumpToPoint([3050.1080])
+    MoveViewObject(Myself,VERY_FAST)
+
+    FaceObject("s!gdru03")
+
+    ActionOverride(Player2,JumpToPoint([2660.1000]))
+    ActionOverride(Player2,FaceObject("s!gdru02"))
+    ActionOverride(Player3,JumpToPoint([2655.1120]))
+    ActionOverride(Player3,FaceObject("s!gdru02"))
+    ActionOverride(Player4,JumpToPoint([3080.1260]))
+    ActionOverride(Player4,FaceObject("s!gdru02"))
+    ActionOverride(Player5,JumpToPoint([3505.1105]))
+    ActionOverride(Player5,FaceObject("s!gdru02"))
+    ActionOverride(Player6,JumpToPoint([3485.1275]))
+    ActionOverride(Player6,FaceObject("s!gdru02"))
+
+    FadeFromColor([20.0],0)
+    Wait(2)
+
+    ActionOverride("s!gdru03",StartDialogNoSet(Player1))
+
+    MultiPlayerSync()
+    SetInterrupt(TRUE)
+    EndCutSceneMode()
+END
