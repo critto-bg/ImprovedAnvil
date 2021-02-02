@@ -76,3 +76,8 @@ IF ~~ THEN BEGIN 13
      StartCutSceneEx("S!druc11",TRUE)~
   EXIT
 END
+
+IF ~~ THEN BEGIN 14
+  SAY @5786
+  IF ~~ THEN EXTERN ~IAGDRU03~ 1
+END
