@@ -33,7 +33,7 @@ IF ~~ THEN BEGIN 5
   IF ~~ THEN EXTERN ~IAFERR01~ 4
 END
 
-IF ~Global("IADruidPlot","GLOBAL",10) GlobalGT("IAPlot","S!0001",1)~ THEN BEGIN 6
+IF ~Global("IADruidPlot","GLOBAL",10) Global("IAPlot","S!0001",3)~ THEN BEGIN 6
   SAY @5815
   IF ~~ THEN EXTERN ~IAFERR01~ 7
 END
@@ -41,4 +41,46 @@ END
 IF ~~ THEN BEGIN 7
   SAY @5818
   IF ~~ THEN EXTERN ~IAFERR01~ 9
+END
+
+IF ~Global("IADruidPlot","GLOBAL",10) Global("IAPlot","S!0001",4)~ 8
+  SAY @5825
+  ++ @5826 + 9
+END
+
+IF ~~ 9
+  SAY @5827
+  = @5828
+  IF ~Global("IADramDies","GLOBAL",0)~ THEN EXTERN ~IATSLEAD~ 15
+  IF ~Global("IADramDies","GLOBAL",1)~ THEN REPLY @5830 GOTO 11
+END
+
+IF ~~ 11
+  SAY @5831
+  ++ @5832 + 12
+END
+
+IF ~~ 12
+  SAY @5833
+  ++ @5834 + 13
+END
+
+IF ~~ 13
+  SAY @5835
+  ++ @5836 + 14
+END
+
+IF ~~ 14
+  SAY @5837
+  ++ @5838 + 15
+END
+
+IF ~~ 15
+  SAY @5839
+  IF ~~ THEN DO ~SetGlobal("IADruidPlot","GLOBAL",11) AddJournalEntry(@5527,QUEST)~ EXIT
+END
+
+IF ~Global("IADruidPlot","GLOBAL",11)~ 16
+  SAY @5840
+  IF ~~ THEN EXIT
 END
