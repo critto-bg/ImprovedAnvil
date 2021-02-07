@@ -714,6 +714,34 @@ END
 
 EXTEND_BOTTOM ~AR1700.BCS~ ~.../inlined/ar1700.baf~
 
+<<<<<<<< .../inlined/ar1203.baf
+IF
+  Global("IADruidPlot","GLOBAL",11)
+  Global("Chapter","GLOBAL",6)
+  Global("Iaonce","AR1203",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaonce","AR1203",1)
+    ContainerEnable("druidq",TRUE)
+END
+
+IF
+  Global("IADruidPlot","GLOBAL",11)
+  Global("Chapter","GLOBAL",6)
+  Global("Iaonce","AR1203",1)
+  PartyHasItem("S!misc75")
+  Exists("firkra02")
+  !Dead("firkra02")
+  !Allegiance("firkra02",ENEMY)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaonce","AR1203",2)
+    ChangeEnemyAlly("firkra02",ENEMY)
+END
+>>>>>>>>
+
+EXTEND_BOTTOM ~AR1203.BCS~ ~.../inlined/ar1203.baf~
+
 <<<<<<<< .../inlined/baldur.baf
 IF
   OR(2)
@@ -1138,6 +1166,30 @@ COPY_EXISTING ~AR1700.ARE~ ~override/AR1700.ARE~
     STR_VAR
       fj_name = ~ExitSW~
       fj_structure_type = entrance
+  END
+BUT_ONLY
+
+// add a hidden container to Firkraag's area
+COPY_EXISTING ~AR1203.ARE~ ~override/AR1203.ARE~
+  LPF fj_are_structure
+    INT_VAR
+      fj_loc_x       = 2230
+      fj_loc_y       = 1692
+      fj_type        = 4
+      fj_flags       = 0b00100000
+      fj_lock_diff   = 0
+      fj_trap_active = 0
+      fj_box_left    = 2261
+      fj_box_top     = 1705
+      fj_box_right   = 2228
+      fj_box_bottom  = 1678
+      fj_vertex_0    = 2242 + (1678 << 16)
+      fj_vertex_1    = 2261 + (1695 << 16)
+      fj_vertex_2    = 2238 + (1705 << 16)
+      fj_vertex_3    = 2228 + (1687 << 16)
+    STR_VAR
+      fj_name = ~druidq~
+      fj_structure_type = container
   END
 BUT_ONLY
 
