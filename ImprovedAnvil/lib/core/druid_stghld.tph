@@ -1,3 +1,11 @@
+INCLUDE "ImprovedAnvil/lib/tpa/creatures.tpa"
+INCLUDE "ImprovedAnvil/lib/tpa/ids.tpa"
+
+LAF resolve_state STR_VAR new_state_id = ~WEREWOLF_CURSE~ RET new_state_index END
+OUTER_SET werewolf_curse_state = %new_state_index%
+
+CLEAR_IDS_MAP
+
 // copy items //
 
 // Anath's note
@@ -22,17 +30,75 @@ COPY ~ImprovedAnvil/resources/items/new/S!misc71.itm~ ~override/S!misc71.itm~
   SAY NAME2     @12066
   SAY DESC      @12067
 
+COPY ~ImprovedAnvil/resources/items/new/S!werim1.itm~ ~override/S!werim1.itm~
+
+COPY ~ImprovedAnvil/resources/items/new/S!regw1.itm~ ~override/S!regw1.itm~
+
+COPY ~ImprovedAnvil/resources/items/new/S!regw2.itm~ ~override/S!regw2.itm~
+
+COPY ~ImprovedAnvil/resources/items/new/S!regw3.itm~ ~override/S!regw3.itm~
+
+COPY ~ImprovedAnvil/resources/items/new/S!claw01.itm~ ~override/S!claw01.itm~
+
+COPY ~ImprovedAnvil/resources/items/new/S!claw02.itm~ ~override/S!claw02.itm~
+
+COPY ~ImprovedAnvil/resources/items/new/S!claw03.itm~ ~override/S!claw03.itm~
+
+COPY
+  ~ImprovedAnvil/resources/items/new/S!bite01.itm~ ~override/S!bite01.itm~
+  ~ImprovedAnvil/resources/items/new/S!bite02.itm~ ~override/S!bite02.itm~
+  ~ImprovedAnvil/resources/items/new/S!bite03.itm~ ~override/S!bite03.itm~
+  LPF ALTER_ITEM_EFFECT
+    INT_VAR
+      check_headers = 1
+      match_opcode = 139
+      parameter1 = RESOLVE_STR_REF (@12071)
+  END
+
 // patch items //
 
 // Iron Sigil
 COPY_EXISTING ~S!misc43.itm~ ~override/S!misc43.itm~
   SAY DESC      @12065
 
+// copy effects //
+
+COPY ~ImprovedAnvil/resources/effects/S!cursw1.eff~ ~override/S!cursw1.eff~
+
+COPY ~ImprovedAnvil/resources/effects/S!cursw2.eff~ ~override/S!cursw2.eff~
+
+COPY ~ImprovedAnvil/resources/effects/S!poisw1.eff~ ~override/S!poisw1.eff~
+
+COPY ~ImprovedAnvil/resources/effects/S!poisw2.eff~ ~override/S!poisw2.eff~
+
+COPY ~ImprovedAnvil/resources/effects/S!poisw3.eff~ ~override/S!poisw3.eff~
+
 // copy spells //
 
 COPY ~ImprovedAnvil/resources/spells/S!dru01.spl~ ~override/S!dru01.spl~
 
 COPY ~ImprovedAnvil/resources/spells/S!dru02.spl~ ~override/S!dru02.spl~
+
+COPY ~ImprovedAnvil/resources/spells/S!werhwl.spl~ ~override/S!werhwl.spl~
+  SAY NAME1 @12072
+
+COPY ~ImprovedAnvil/resources/spells/S!werrag.spl~ ~override/S!werrag.spl~
+  SAY NAME1 @12073
+
+// patch spells //
+
+COPY_EXISTING ~spwi410.spl~ ~override/spwi410.spl~
+              ~sppr307.spl~ ~override/sppr307.spl~
+  LPF ADD_SPELL_EFFECT
+    INT_VAR
+      opcode = 321
+      target = 2
+      insert_point = 0
+    STR_VAR
+      resource = ~S!werrag~
+  END
+
+  BUT_ONLY
 
 // copy creatures //
 
@@ -113,6 +179,57 @@ COPY_EXISTING ~ppdra2.cre~ ~override/s!drad01.cre~
   WRITE_ASCII 0x2cc ~iadrad~ #8    // dialogue
 
   ADD_CRE_ITEM ~minhp1~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~AMULET~
+
+COPY_EXISTING ~werewo01.cre~ ~override/werewo01.cre~
+  WRITE_LONG  0x14      8000 // xp
+  WRITE_LONG  0x18      13 // xp
+  WRITE_SHORT 0x24      80 // current hp
+  WRITE_SHORT 0x26      80 // max hp
+  WRITE_SHORT 0x46  (0 - 4) // base ac
+  WRITE_SHORT 0x48  (0 - 4) // effective ac
+  WRITE_BYTE  0x52      7 // thac0
+  WRITE_BYTE  0x53      7 // number of attacks
+  WRITE_BYTE  0x54      5 // save vs death
+  WRITE_BYTE  0x55      7 // save vs wands
+  WRITE_BYTE  0x56      6 // save vs polymorph
+  WRITE_BYTE  0x57      5 // save vs breath
+  WRITE_BYTE  0x58      8 // save vs spell
+  WRITE_BYTE  0x59      40 // resist fire
+  WRITE_BYTE  0x5a      80 // resist cold
+  WRITE_BYTE  0x5b      80 // resist electricity
+  WRITE_BYTE  0x5c      80 // resist acid
+  WRITE_BYTE  0x5d      40 // resist magic
+  WRITE_BYTE  0x5e      40 // resist magic fire
+  WRITE_BYTE  0x5f      80 // resist magic cold
+  WRITE_BYTE  0x60      40 // resist slashing
+  WRITE_BYTE  0x61      40 // resist crushing
+  WRITE_BYTE  0x62      40 // resist piercing
+  WRITE_BYTE  0x63      40 // resist missile
+  WRITE_BYTE  0x234      9 // level
+  WRITE_BYTE  0x23f     19 // morale
+  //WRITE_ASCII 0x248 ~~ #8 // override script
+
+  REPLACE_CRE_ITEM ~s!werim1~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~LRING~
+  REPLACE_CRE_ITEM ~s!claw01~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~WEAPON1~
+  ADD_CRE_ITEM ~helmnoan~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~HELMET~
+  ADD_CRE_ITEM ~s!regw1~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~RRING~
+  ADD_CRE_ITEM ~s!bite01~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~WEAPON2~
+
+// Greater Werewolf //
+
+ACTION_FOR_EACH ~file~ IN
+                ~WEREGR01~
+                ~WEREWO01~
+BEGIN
+  LAF ~S!CHANGE_CREATURE_COLOURS~
+    STR_VAR
+      file = EVALUATE_BUFFER "%file%"
+      opcode = "51"
+      parameter1 = "1600086016"
+  END
+END
+
+// loup garou: 51 - 1684340480
 
 // patch the scripts //
 
