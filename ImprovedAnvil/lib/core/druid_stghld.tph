@@ -1,4 +1,10 @@
 INCLUDE "ImprovedAnvil/lib/tpa/creatures.tpa"
+INCLUDE "ImprovedAnvil/lib/tpa/ids.tpa"
+
+LAF resolve_state STR_VAR new_state_id = ~WEREWOLF_CURSE~ RET new_state_index END
+OUTER_SET werewolf_curse_state = %new_state_index%
+
+CLEAR_IDS_MAP
 
 // copy items //
 
@@ -26,11 +32,29 @@ COPY ~ImprovedAnvil/resources/items/new/S!misc71.itm~ ~override/S!misc71.itm~
 
 COPY ~ImprovedAnvil/resources/items/new/S!werim1.itm~ ~override/S!werim1.itm~
 
+COPY ~ImprovedAnvil/resources/items/new/S!claw01.itm~ ~override/S!claw01.itm~
+
+COPY ~ImprovedAnvil/resources/items/new/S!bite01.itm~ ~override/S!bite01.itm~
+  LPF ALTER_ITEM_EFFECT
+    INT_VAR
+      check_headers = 1
+      match_opcode = 139
+      parameter1 = RESOLVE_STR_REF (@12071)
+  END
+
 // patch items //
 
 // Iron Sigil
 COPY_EXISTING ~S!misc43.itm~ ~override/S!misc43.itm~
   SAY DESC      @12065
+
+// copy effects //
+
+COPY ~ImprovedAnvil/resources/effects/S!cursw1.eff~ ~override/S!cursw1.eff~
+
+COPY ~ImprovedAnvil/resources/effects/S!cursw2.eff~ ~override/S!cursw2.eff~
+
+COPY ~ImprovedAnvil/resources/effects/S!poisw1.eff~ ~override/S!poisw1.eff~
 
 // copy spells //
 
@@ -123,8 +147,8 @@ COPY_EXISTING ~werewo01.cre~ ~override/werewo01.cre~
   WRITE_LONG  0x18      13 // xp
   WRITE_SHORT 0x24      80 // current hp
   WRITE_SHORT 0x26      80 // max hp
-  WRITE_SHORT 0x46  (0 - 1) // base ac
-  WRITE_SHORT 0x48  (0 - 1) // effective ac
+  WRITE_SHORT 0x46  (0 - 4) // base ac
+  WRITE_SHORT 0x48  (0 - 4) // effective ac
   WRITE_BYTE  0x52      7 // thac0
   WRITE_BYTE  0x53      7 // number of attacks
   WRITE_BYTE  0x54      5 // save vs death
@@ -148,7 +172,9 @@ COPY_EXISTING ~werewo01.cre~ ~override/werewo01.cre~
   //WRITE_ASCII 0x248 ~~ #8 // override script
 
   REPLACE_CRE_ITEM ~s!werim1~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~LRING~
+  REPLACE_CRE_ITEM ~s!claw01~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~WEAPON1~
   ADD_CRE_ITEM ~helmnoan~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~HELMET~
+  ADD_CRE_ITEM ~s!bite01~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~WEAPON2~
 
 // Greater Werewolf //
 
