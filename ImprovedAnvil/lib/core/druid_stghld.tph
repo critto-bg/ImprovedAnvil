@@ -85,6 +85,21 @@ COPY ~ImprovedAnvil/resources/spells/S!werhwl.spl~ ~override/S!werhwl.spl~
 COPY ~ImprovedAnvil/resources/spells/S!werrag.spl~ ~override/S!werrag.spl~
   SAY NAME1 @12073
 
+// patch spells //
+
+COPY_EXISTING ~spwi410.spl~ ~override/spwi410.spl~
+              ~sppr307.spl~ ~override/sppr307.spl~
+  LPF ADD_SPELL_EFFECT
+    INT_VAR
+      opcode = 321
+      target = 2
+      insert_point = 0
+    STR_VAR
+      resource = ~S!werrag~
+  END
+
+  BUT_ONLY
+
 // copy creatures //
 
 COPY ~ImprovedAnvil/resources/creatures/new/S!wer01.cre~         ~override/S!wer01.cre~
