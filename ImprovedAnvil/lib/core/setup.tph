@@ -41,17 +41,18 @@ COPY - "ImprovedAnvil/lib/tables/item_enchantments.2da" "inlined/item_enchantmen
   END
 
 COPY - "ImprovedAnvil/lib/tables/shaman_healing_spells.2da" "inlined/shaman_healing_spells.2da"
-  COUNT_2DA_ROWS 6 num_rows
+  COUNT_2DA_ROWS 7 num_rows
 
   FOR (num = 1; num < num_rows; num += 1) BEGIN
-    READ_2DA_ENTRY num 0 6 spell_file
-    READ_2DA_ENTRY num 1 6 spell_level
-    READ_2DA_ENTRY num 2 6 symbolic_name
-    READ_2DA_ENTRY num 3 6 name_ref
-    READ_2DA_ENTRY num 4 6 desc_ref
-    READ_2DA_ENTRY num 5 6 portrait_icon
+    READ_2DA_ENTRY num 0 7 spell_file
+    READ_2DA_ENTRY num 1 7 spell_level
+    READ_2DA_ENTRY num 2 7 symbolic_name
+    READ_2DA_ENTRY num 3 7 name_ref
+    READ_2DA_ENTRY num 4 7 desc_ref
+    READ_2DA_ENTRY num 5 7 portrait_icon
+    READ_2DA_ENTRY num 6 7 old_symbolic_name
 
     TO_LOWER spell_file
 
-    SPRINT $shaman_healing_spells("%spell_file%" "%spell_level%" "%symbolic_name%" "%name_ref%" "%desc_ref%" "%portrait_icon%") "%num%"
+    SPRINT $shaman_healing_spells("%spell_file%" "%spell_level%" "%symbolic_name%" "%name_ref%" "%desc_ref%" "%portrait_icon%" "%old_symbolic_name%") "%num%"
   END

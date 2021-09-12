@@ -1,0 +1,10 @@
+IF
+    Global("Ia%SpellRes%P%PlayerNum%","GLOBAL",0)
+    Class(Player%PlayerNum%,SHAMAN)
+    TriggerOverride(Player%PlayerNum%,HaveKnownSpell(%OldSpellSymbolicName%))
+THEN
+  RESPONSE #100
+    SetGlobal("Ia%SpellRes%P%PlayerNum%","GLOBAL",1)
+    ApplySpellRES("%SpellRes%",Player%PlayerNum%)
+    DisplayString(Player%PlayerNum%,%StrRef%)
+END

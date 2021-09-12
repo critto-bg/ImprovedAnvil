@@ -327,29 +327,6 @@ COPY_EXISTING ~hidespl.2da~ ~override/hidespl.2da~
   INSERT_2DA_ROW ~rowcount~ ~colcount~ ~SPPR749 1 0 0~
   PRETTY_PRINT_2DA
 
-// remove shamanic mend spells from spell books of the druid and ranger classes
-ACTION_DEFINE_ARRAY clab_files BEGIN
-  clabdr01 clabdr02 clabdr03 clabdr04
-  clabrn01 CLABRN02 CLABRN03 CLABRN04
-END
-
-OUTER_SPRINT row ""
-OUTER_FOR (i = 1; i < 41; i += 1) BEGIN
-   OUTER_SPRINT row "%row% AP_SPCLI22"
-END
-
-ACTION_PHP_EACH  clab_files AS null => clab BEGIN
-  COPY_EXISTING ~%clab%.2da~ ~override/%clab%.2da~
-    COUNT_2DA_COLS ~colcount~
-    COUNT_2DA_ROWS ~colcount~ ~rowcount~
-
-    SET num = rowcount + 1
-    SPRINT new_row "ABILITY%num% %row%"
-
-    INSERT_2DA_ROW rowcount colcount "%new_row%"
-    PRETTY_PRINT_2DA
-END
-
 // disable automatic assignment of auto AI to the party
 COPY_EXISTING ~partyai.2da~ ~override~
   REPLACE_TEXTUALLY ~BD[A-Z]+~ ~DEFAULT~
@@ -365,6 +342,7 @@ COPY_EXISTING ~clastext.2da~ ~override/clastext.2da~
   FOR (i = 0; i < rowcount; i += 1) BEGIN
     READ_2DA_ENTRY i 1 colcount classid
 
+    // the shaman class
     PATCH_IF ("%classid%" STRING_COMPARE_CASE "21" = 0) AND (column_patched = 0) BEGIN
       READ_2DA_ENTRY i 4 colcount descstr
       SET_2DA_ENTRY i 4 colcount RESOLVE_STR_REF (@11114)
