@@ -650,11 +650,8 @@ COPY ~ImprovedAnvil\resources\spells\S!helmb4.spl~ ~override/S!helmb4.spl~
 
 // Add new healing spells for the Shaman //
 
-// this is a spell to use inside CLABs remove newly added healing spells from other classes
-COPY ~ImprovedAnvil/resources/intermediate/shaman_hide_spells.spl~ ~override/spcli22.spl~
-
 ACTION_PHP_EACH shaman_healing_spells AS record => int BEGIN
-  // add the spell into the game
+  // add the new spell into the game
   ADD_SPELL ~ImprovedAnvil\resources\spells\%record_0%.spl~ 1 record_1 ~%record_2%~
     SAY NAME1 (AT record_3)
     SAY NAME2 (AT record_3)
@@ -688,9 +685,6 @@ ACTION_PHP_EACH shaman_healing_spells AS record => int BEGIN
         resource = ~SPPRI25~
     END
 
-  // resolve the spell's resource name
-  LAF RES_NAME_OF_SPELL_NUM INT_VAR spell_num = EVALUATE_BUFFER ~%record_2%~ RET spell_res END
-
   // copy the spell icons
   COPY ~ImprovedAnvil\resources\bam\%record_0%b.bam~ ~override/%record_0%b.bam~
   COPY ~ImprovedAnvil\resources\bam\%record_0%c.bam~ ~override/%record_0%c.bam~
@@ -699,26 +693,53 @@ ACTION_PHP_EACH shaman_healing_spells AS record => int BEGIN
     COPY ~ImprovedAnvil\resources\bam\%record_0%d.bam~ ~override/%record_0%d.bam~
   END
 
-  // update the CLAB ability that removes the new spell from druid/ranger spellbooks
-  COPY_EXISTING ~spcli22.spl~ ~override/spcli22.spl~
-    LPF ADD_SPELL_EFFECT
+  // create a spell that removes the default "cure XX wounds" spell and replaces it with the new one
+  COPY ~ImprovedAnvil/resources/intermediate/shaman_replace_spells.spl~ ~override/%record_0%r.spl~
+    LPF ALTER_SPELL_HEADER
       INT_VAR
-        header = 1
-        opcode = 172
         target = 1
-        timing = 9
-      STR_VAR
-        resource = EVALUATE_BUFFER "%spell_res%"
     END
+
+    // resolve the old spell's resource name
+    LPF RES_NUM_OF_SPELL_NAME STR_VAR spell_name = EVALUATE_BUFFER ~%record_6%~ RET spell_res END
 
     LPF ADD_SPELL_EFFECT
       INT_VAR
         header = 1
         opcode = 172
-        target = 1
-        timing = 4
-        duration = 1
+        target = 2
+        timing = 9
       STR_VAR
         resource = EVALUATE_BUFFER "%spell_res%"
     END
+
+    // resolve the new spell's resource name
+    LPF RES_NAME_OF_SPELL_NUM INT_VAR spell_num = EVALUATE_BUFFER ~%record_2%~ RET spell_res END
+
+    LPF ADD_SPELL_EFFECT
+      INT_VAR
+        header = 1
+        opcode = 171
+        target = 2
+        timing = 9
+      STR_VAR
+        resource = EVALUATE_BUFFER "%spell_res%"
+    END
+
+  // add the new spell to a list of exclusion from automatically learnable spells
+  COPY_EXISTING ~hidespl.2da~ ~override/hidespl.2da~
+    COUNT_2DA_COLS ~colcount~
+    COUNT_2DA_ROWS ~colcount~ ~rowcount~
+    INSERT_2DA_ROW ~rowcount~ ~colcount~ ~%spell_res% 1 0 0~
+    PRETTY_PRINT_2DA
+
+  // generate code for baldur.bcs that checks and applies spell replacement when necessary
+  OUTER_SPRINT OldSpellSymbolicName ~%record_6%~
+  OUTER_SPRINT SpellRes ~%record_0%r~
+
+  OUTER_FOR (PlayerNum = 6; PlayerNum > 0; PlayerNum -= 1) BEGIN
+    EXTEND_TOP ~BALDUR.BCS~ ~ImprovedAnvil/resources/intermediate/shaman_replace_spells.baf~
+      SET StrRef = RESOLVE_STR_REF (@11128)
+      EVALUATE_BUFFER
+  END
 END
