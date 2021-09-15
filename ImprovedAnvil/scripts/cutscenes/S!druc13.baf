@@ -1,0 +1,59 @@
+// Extended druid stronghold, Helter Steps, Felearn, casts enchantment from the scroll and teleports the party to the final area //
+
+IF
+    TRUE()
+THEN
+  RESPONSE #100
+    CutSceneId(Player1)
+    SetInterrupt(FALSE)
+
+    SetGlobal("IAPlot","S!0001",6)
+
+    Wait(1)
+    MoveViewObject("S!gdru03",STANDARD)
+    Wait(2)
+
+    // TODO: adjust spell sounds to mimic other teleport-style spells?
+    ActionOverride("S!gdru03",ForceSpellRES("S!DRU03",Myself))
+
+    Wait(2)
+    FadeToColor([20.0],0)
+    Wait(1)
+
+    ActionOverride("s!gdru03",DestroySelf())
+
+    LeaveAreaLUAPanic("S!0005","",[470.315],W)
+    LeaveAreaLUA("S!0005","",[470.315],W)
+
+    ActionOverride(Player2,LeaveAreaLUA("S!0005","",[485.340],W))
+    ActionOverride(Player3,LeaveAreaLUA("S!0005","",[520.330],W))
+    ActionOverride(Player4,LeaveAreaLUA("S!0005","",[520.375],W))
+    ActionOverride(Player5,LeaveAreaLUA("S!0005","",[570.350],W))
+    ActionOverride(Player6,LeaveAreaLUA("S!0005","",[435.240],W))
+    MoveViewObject(Myself,VERY_FAST)
+
+    CreateCreature("s!gdru04",[500.290],0)
+
+    FaceObject("S!gdru04")
+    ActionOverride("S!gdru04",FaceObject(Myself))
+    ActionOverride(Player2,FaceObject("S!gdru04"))
+    ActionOverride(Player3,FaceObject("S!gdru04"))
+    ActionOverride(Player4,FaceObject("S!gdru04"))
+    ActionOverride(Player5,FaceObject("S!gdru04"))
+    ActionOverride(Player6,FaceObject("S!gdru04"))
+
+    FadeFromColor([20.0],0)
+    Explore()
+    SetInterrupt(TRUE)
+    Wait(1)
+
+    // overhead dialogue
+    // ...
+    //
+
+    AddJournalEntry(@5528,QUEST)
+
+    MultiPlayerSync()
+    SetInterrupt(TRUE)
+    EndCutSceneMode()
+END
