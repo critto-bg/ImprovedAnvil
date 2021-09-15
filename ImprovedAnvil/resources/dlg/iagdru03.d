@@ -84,3 +84,41 @@ IF ~Global("IADruidPlot","GLOBAL",11)~ 16
   SAY @5840
   IF ~~ THEN EXIT
 END
+
+IF ~Global("IADruidPlot","GLOBAL",12) !PartyHasItem("S!misc72")~ 17
+  SAY @5840
+  IF ~~ THEN EXIT
+END
+
+IF ~Global("IADruidPlot","GLOBAL",12) PartyHasItem("S!misc72")~ 18
+  SAY @5845
+  IF ~~ THEN DO ~SetGlobal("IAPlot","S!0001",5) TakePartyItem("S!misc72")~ REPLY @5846 GOTO 19
+END
+
+IF ~~ 19
+  SAY @5847
+  ++ @5848 + 20
+END
+
+IF ~~ 20
+  SAY @5849
+  = @5850
+  ++ @5851 + 21
+END
+
+IF ~~ 21
+  SAY @5852
+  = @5853
+  ++ @5854 + 22
+END
+
+IF ~~ 22
+  SAY @5855
+  ++ @5856 + 23
+END
+
+IF ~~ 23
+  SAY @5857
+  = @5858
+  IF ~~ THEN DO ~ClearAllActions() StartCutSceneMode() StartCutScene("S!druc13")~ EXIT
+END
