@@ -1,0 +1,33 @@
+BEGIN ~IADRACOF~
+
+IF ~NumTimesTalkedTo(0)~ 0
+  SAY @5885
+  = @5886
+  IF ~~ THEN EXTERN ~IAGDRU04~ 4
+END
+
+IF ~Global("IAPlot","S!0005",5)~ 2
+  SAY @5895
+  = @5896
+  IF ~~ THEN EXTERN ~IADRUDIV~ 0
+END
+
+IF ~~ 4
+  SAY @5898
+  IF ~~ THEN EXTERN ~IADRUDIV~ 1
+END
+
+IF ~~ 5
+  SAY @5900
+  IF ~~ THEN EXTERN ~IADRUDIV~ 2
+END
+
+IF ~~ 6
+  SAY @5903
+  IF ~~ THEN EXTERN ~IADRUDIV~ 4
+END
+
+IF ~~ 7
+  SAY @5906
+  IF ~~ THEN DO ~ClearAllActions() StartCutSceneMode() StartCutScene("S!druc17")~ EXIT
+END

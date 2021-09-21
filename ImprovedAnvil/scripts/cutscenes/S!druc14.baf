@@ -1,0 +1,23 @@
+// Extended druid stronghold, the party engages in final conflict with Ferrou //
+
+IF
+  TRUE()
+THEN
+  RESPONSE #100
+    CutSceneId(Player1)
+    SetInterrupt(FALSE)
+
+    // TODO: walk the party and the great druid to an appropriate spot
+    MoveViewObject(Myself,STANDARD)
+
+    // TODO: create Ferrou and his leutenants off-screen and walk them towards the party
+
+    Wait(1)
+
+    SetGlobal("IAPlot","S!0005",2)
+    ActionOverride("s!ferr02",StartDialogNoSet(Player1))
+
+    MultiPlayerSync()
+    SetInterrupt(TRUE)
+    EndCutSceneMode()
+END

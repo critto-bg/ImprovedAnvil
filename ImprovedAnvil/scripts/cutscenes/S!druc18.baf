@@ -1,0 +1,48 @@
+// Extended druid stronghold, the Diviner teleports away with the codex //
+
+IF
+  TRUE()
+THEN
+  RESPONSE #100
+    CutSceneId(Player1)
+    SetInterrupt(FALSE)
+
+    Wait(1)
+    // TODO: the Diviner casts teleport and leaves
+
+    Wait(2)
+    FadeToColor([20.0],0)
+    Wait(1)
+
+    ActionOverride("s!gdru04",DestroySelf())
+
+    LeaveAreaLUAPanic("S!0005","",[1630.960],W)
+    LeaveAreaLUA("S!0005","",[1630.960],W)
+
+    // TODO correct the arrival coordinates
+    ActionOverride(Player2,LeaveAreaLUA("S!0001","",[1570.1000],W))
+    ActionOverride(Player3,LeaveAreaLUA("S!0001","",[1485.1015],W))
+    ActionOverride(Player4,LeaveAreaLUA("S!0001","",[1420.975],W))
+    ActionOverride(Player5,LeaveAreaLUA("S!0001","",[1385.925],W))
+    ActionOverride(Player6,LeaveAreaLUA("S!0001","",[1415.860],W))
+    MoveViewObject(Myself,VERY_FAST)
+
+    CreateCreature("s!gdru04",[1515.910],0)
+
+    FaceObject("S!gdru04")
+    ActionOverride("S!gdru04",FaceObject(Myself))
+    ActionOverride(Player2,FaceObject("S!gdru04"))
+    ActionOverride(Player3,FaceObject("S!gdru04"))
+    ActionOverride(Player4,FaceObject("S!gdru04"))
+    ActionOverride(Player5,FaceObject("S!gdru04"))
+    ActionOverride(Player6,FaceObject("S!gdru04"))
+
+    FadeFromColor([20.0],0)
+    Wait(1)
+
+    ActionOverride("S!gdru04",StartDialogNoSet(Player1))
+
+    MultiPlayerSync()
+    SetInterrupt(TRUE)
+    EndCutSceneMode()
+END

@@ -1,7 +1,7 @@
 // Extended druid stronghold, Helter Steps, Felearn, casts enchantment from the scroll and teleports the party to the final area //
 
 IF
-    TRUE()
+  TRUE()
 THEN
   RESPONSE #100
     CutSceneId(Player1)
@@ -22,17 +22,17 @@ THEN
 
     ActionOverride("s!gdru03",DestroySelf())
 
-    LeaveAreaLUAPanic("S!0005","",[470.315],W)
-    LeaveAreaLUA("S!0005","",[470.315],W)
+    LeaveAreaLUAPanic("S!0005","",[1630.960],W)
+    LeaveAreaLUA("S!0005","",[1630.960],W)
 
-    ActionOverride(Player2,LeaveAreaLUA("S!0005","",[485.340],W))
-    ActionOverride(Player3,LeaveAreaLUA("S!0005","",[520.330],W))
-    ActionOverride(Player4,LeaveAreaLUA("S!0005","",[520.375],W))
-    ActionOverride(Player5,LeaveAreaLUA("S!0005","",[570.350],W))
-    ActionOverride(Player6,LeaveAreaLUA("S!0005","",[435.240],W))
+    ActionOverride(Player2,LeaveAreaLUA("S!0005","",[1570.1000],W))
+    ActionOverride(Player3,LeaveAreaLUA("S!0005","",[1485.1015],W))
+    ActionOverride(Player4,LeaveAreaLUA("S!0005","",[1420.975],W))
+    ActionOverride(Player5,LeaveAreaLUA("S!0005","",[1385.925],W))
+    ActionOverride(Player6,LeaveAreaLUA("S!0005","",[1415.860],W))
     MoveViewObject(Myself,VERY_FAST)
 
-    CreateCreature("s!gdru04",[500.290],0)
+    CreateCreature("s!gdru04",[1515.910],0)
 
     FaceObject("S!gdru04")
     ActionOverride("S!gdru04",FaceObject(Myself))
@@ -44,12 +44,14 @@ THEN
 
     FadeFromColor([20.0],0)
     Explore()
-    SetInterrupt(TRUE)
     Wait(1)
 
-    // overhead dialogue
-    // ...
-    //
+    ActionOverride("S!gdru04",DisplayStringHead(Myself,@5860))
+    Wait(1)
+    ActionOverride("S!gdru04",DisplayStringHead(Myself,@5861))
+    Wait(1)
+    ActionOverride("S!gdru04",DisplayStringHead(Myself,@5862))
+    Wait(1)
 
     AddJournalEntry(@5528,QUEST)
 

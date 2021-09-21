@@ -61,11 +61,20 @@ COPY
 COPY_EXISTING ~S!misc43.itm~ ~override/S!misc43.itm~
   SAY DESC      @12065
 
-// Decrepit Scroll
+// Agmantian's Scroll
 COPY_EXISTING ~SCRLAG.itm~ ~override/S!misc72.itm~
   SAY NAME1     @12074
   SAY NAME2     @12074
   SAY DESC      @12075
+
+// Mysterious Codex
+COPY_EXISTING ~BOOK06.itm~ ~override/S!misc73.itm~
+  SAY NAME1     @12078
+  SAY NAME2     @12078
+  SAY DESC      @12079
+
+  READ_BYTE  0x18 droppable
+  WRITE_BYTE 0x18 ("%droppable%" ^^ BIT2)
 
 // copy effects //
 
@@ -159,6 +168,12 @@ COPY ~ImprovedAnvil/resources/creatures/new/S!gdru03.cre~         ~override/S!gd
   SAY NAME2     @12059
 
   WRITE_ASCII 0x2cc ~iagdru03~ #8 // dialogue
+
+COPY ~ImprovedAnvil/resources/creatures/new/S!gdru04.cre~         ~override/S!gdru04.cre~
+  SAY NAME1     @12059
+  SAY NAME2     @12059
+
+  WRITE_ASCII 0x2cc ~iagdru04~ #8 // dialogue
 
 COPY ~ImprovedAnvil/resources/creatures/new/S!tslead.cre~         ~override/S!tslead.cre~
   SAY NAME1     @12060
@@ -276,6 +291,8 @@ COMPILE ~ImprovedAnvil/scripts/areas/S!0001.baf~
 COMPILE ~ImprovedAnvil/scripts/areas/S!0002.baf~
 COMPILE ~ImprovedAnvil/scripts/areas/S!0003.baf~
 COMPILE ~ImprovedAnvil/scripts/areas/S!0004.baf~ USING ~%LANGUAGE%druidq.tra~
+COMPILE ~ImprovedAnvil/scripts/areas/S!0005.baf~
+COMPILE ~ImprovedAnvil/scripts/areas/S!0006.baf~
 COMPILE ~ImprovedAnvil/scripts/areas/S!hidr.baf~ USING ~%LANGUAGE%druidq.tra~
 COMPILE ~ImprovedAnvil/scripts/cutscenes/S!druc01.baf~ USING ~%LANGUAGE%druidq.tra~
 COMPILE ~ImprovedAnvil/scripts/cutscenes/S!druc02.baf~ USING ~%LANGUAGE%druidq.tra~
@@ -289,7 +306,12 @@ COMPILE ~ImprovedAnvil/scripts/cutscenes/S!druc09.baf~
 COMPILE ~ImprovedAnvil/scripts/cutscenes/S!druc10.baf~
 COMPILE ~ImprovedAnvil/scripts/cutscenes/S!druc11.baf~ USING ~%LANGUAGE%druidq.tra~
 COMPILE ~ImprovedAnvil/scripts/cutscenes/S!druc12.baf~
-COMPILE ~ImprovedAnvil/scripts/cutscenes/S!druc13.baf~
+COMPILE ~ImprovedAnvil/scripts/cutscenes/S!druc13.baf~ USING ~%LANGUAGE%druidq.tra~
+COMPILE ~ImprovedAnvil/scripts/cutscenes/S!druc14.baf~
+COMPILE ~ImprovedAnvil/scripts/cutscenes/S!druc15.baf~ USING ~%LANGUAGE%druidq.tra~
+COMPILE ~ImprovedAnvil/scripts/cutscenes/S!druc16.baf~ USING ~%LANGUAGE%druidq.tra~
+COMPILE ~ImprovedAnvil/scripts/cutscenes/S!druc17.baf~
+COMPILE ~ImprovedAnvil/scripts/cutscenes/S!druc18.baf~
 COMPILE ~ImprovedAnvil/scripts/encounters/druid_quests/S!drad01.baf~ USING ~%LANGUAGE%druidq.tra~
 
 // extend the scripts //
@@ -947,7 +969,7 @@ EXTEND_BOTTOM ~CUT41Q.BCS~ ~.../inlined/CUT41Q.baf~
 
 // journal stuff //
 
-ADD_JOURNAL @5510 @5511 @5512 @5513 @5514 @5515 @5516 @5517 @5518 @5519 @5520 @5521 @5522 @5523 @5524 @5525 @5526 @5527 @5528
+ADD_JOURNAL @5510 @5511 @5512 @5513 @5514 @5515 @5516 @5517 @5518 @5519 @5520 @5521 @5522 @5523 @5524 @5525 @5526 @5527 @5528 @5529
   USING ~%LANGUAGE%druidq.tra~
 
 // patch the dialogues //
@@ -1158,9 +1180,13 @@ COMPILE ~ImprovedAnvil/resources/dlg/iavert01.d~ USING ~%LANGUAGE%druidq.tra~
 COMPILE ~ImprovedAnvil/resources/dlg/iagdru01.d~ USING ~%LANGUAGE%druidq.tra~
 COMPILE ~ImprovedAnvil/resources/dlg/iagdru02.d~ USING ~%LANGUAGE%druidq.tra~
 COMPILE ~ImprovedAnvil/resources/dlg/iagdru03.d~ USING ~%LANGUAGE%druidq.tra~
+COMPILE ~ImprovedAnvil/resources/dlg/iagdru04.d~ USING ~%LANGUAGE%druidq.tra~
 COMPILE ~ImprovedAnvil/resources/dlg/iatslead.d~ USING ~%LANGUAGE%druidq.tra~
 COMPILE ~ImprovedAnvil/resources/dlg/iadrad.d~ USING ~%LANGUAGE%druidq.tra~
 COMPILE ~ImprovedAnvil/resources/dlg/iaferr01.d~ USING ~%LANGUAGE%druidq.tra~
+COMPILE ~ImprovedAnvil/resources/dlg/iaferr02.d~ USING ~%LANGUAGE%druidq.tra~
+COMPILE ~ImprovedAnvil/resources/dlg/iadracof.d~ USING ~%LANGUAGE%druidq.tra~
+COMPILE ~ImprovedAnvil/resources/dlg/iadrudiv.d~ USING ~%LANGUAGE%druidq.tra~
 
 COMPILE ~ImprovedAnvil/resources/dlg/uhrang01.d~ USING ~%LANGUAGE%druidq.tra~
 COMPILE ~ImprovedAnvil/resources/dlg/corneil.d~ USING ~%LANGUAGE%druidq.tra~
@@ -1262,6 +1288,20 @@ COPY ~ImprovedAnvil/resources/druid/AR1505LM.BMP~ ~override/S!0003LM.BMP~
 COPY ~ImprovedAnvil/resources/druid/AR1505SR.BMP~ ~override/S!0003SR.BMP~
 COPY ~ImprovedAnvil/resources/druid/A150500.PVRZ~ ~override/S000300.PVRZ~
 
+COPY ~ImprovedAnvil/resources/druid/S!0005.are~ ~override/S!0005.are~
+COPY ~ImprovedAnvil/resources/druid/S!0005.MOS~ ~override/S!0005.MOS~
+COPY ~ImprovedAnvil/resources/druid/S!0005.WED~ ~override/S!0005.WED~
+COPY ~ImprovedAnvil/resources/druid/S!0005.tis~ ~override/S!0005.tis~
+COPY ~ImprovedAnvil/resources/druid/S!0005HT.BMP~ ~override/S!0005HT.BMP~
+COPY ~ImprovedAnvil/resources/druid/S!0005LM.BMP~ ~override/S!0005LM.BMP~
+COPY ~ImprovedAnvil/resources/druid/S!0005SR.BMP~ ~override/S!0005SR.BMP~
+COPY ~ImprovedAnvil/resources/druid/S000500.PVRZ~ ~override/S000500.PVRZ~
+COPY ~ImprovedAnvil/resources/druid/S000501.PVRZ~ ~override/S000501.PVRZ~
+COPY ~ImprovedAnvil/resources/druid/S000502.PVRZ~ ~override/S000502.PVRZ~
+COPY ~ImprovedAnvil/resources/druid/S000503.PVRZ~ ~override/S000503.PVRZ~
+COPY ~ImprovedAnvil/resources/druid/S000504.PVRZ~ ~override/S000504.PVRZ~
+COPY ~ImprovedAnvil/resources/druid/S000505.PVRZ~ ~override/S000505.PVRZ~
+
 COPY ~ImprovedAnvil/resources/druid/S!0004.are~ ~override/S!0004.are~
 COPY ~ImprovedAnvil/resources/druid/S!0004.MOS~ ~override/S!0004.MOS~
 COPY ~ImprovedAnvil/resources/druid/S!0004.WED~ ~override/S!0004.WED~
@@ -1270,6 +1310,14 @@ COPY ~ImprovedAnvil/resources/druid/S!0004HT.BMP~ ~override/S!0004HT.BMP~
 COPY ~ImprovedAnvil/resources/druid/S!0004LM.BMP~ ~override/S!0004LM.BMP~
 COPY ~ImprovedAnvil/resources/druid/S!0004SR.BMP~ ~override/S!0004SR.BMP~
 COPY ~ImprovedAnvil/resources/druid/S000400.PVRZ~ ~override/S000400.PVRZ~
+
+COPY ~ImprovedAnvil/resources/druid/S!0006.are~ ~override/S!0006.are~
+COPY ~ImprovedAnvil/resources/druid/S!0006.WED~ ~override/S!0006.WED~
+COPY ~ImprovedAnvil/resources/druid/S!0006.tis~ ~override/S!0006.tis~
+COPY ~ImprovedAnvil/resources/druid/S!0006HT.BMP~ ~override/S!0006HT.BMP~
+COPY ~ImprovedAnvil/resources/druid/S!0006LM.BMP~ ~override/S!0006LM.BMP~
+COPY ~ImprovedAnvil/resources/druid/S!0006SR.BMP~ ~override/S!0006SR.BMP~
+COPY ~ImprovedAnvil/resources/druid/S000600.PVRZ~ ~override/S000600.PVRZ~
 
 COPY ~ImprovedAnvil/resources/druid/amb_e10a.wav~ ~override/amb_e10a.wav~
 COPY ~ImprovedAnvil/resources/druid/amb_e05a.wav~ ~override/amb_e05a.wav~
@@ -1291,6 +1339,7 @@ COPY ~ImprovedAnvil/resources/druid/amb_e21a.wav~ ~override/amb_e21a.wav~
 COPY ~ImprovedAnvil/resources/druid/amb_e21d.wav~ ~override/amb_e21d.wav~
 COPY ~ImprovedAnvil/resources/druid/AMB_N10A.WAV~ ~override/AMB_N10A.WAV~
 COPY ~ImprovedAnvil/resources/druid/AM_5000.WAV~ ~override/AM_5000.WAV~
+COPY ~ImprovedAnvil/resources/druid/AMBDCWND.WAV~ ~override/AMBDCWND.WAV~
 
 // patch the areas //
 
@@ -1422,9 +1471,46 @@ COPY_EXISTING ~s!0002.are~ ~override/s!0002.are~
   END
 BUT_ONLY
 
+// update the new area (Final Confrontation Chamber)
+COPY_EXISTING ~S!0005.are~ ~override/S!0005.are~
+  LPF fj_are_structure
+    INT_VAR
+      fj_loc_x       = 79
+      fj_loc_y       = 977
+      fj_note_strref = RESOLVE_STR_REF(@12076)
+      fj_strref_loc  = 1
+      fj_color       = 0
+      fj_note_id     = 0
+    STR_VAR
+      fj_structure_type = note
+  END
+BUT_ONLY
+
+// update the new area (Mysterious Book Storage)
+COPY_EXISTING ~S!0006.are~ ~override/S!0006.are~
+  LPF fj_are_structure
+    INT_VAR
+      fj_loc_x       = 603
+      fj_loc_y       = 375
+      fj_note_strref = RESOLVE_STR_REF(@12077)
+      fj_strref_loc  = 1
+      fj_color       = 0
+      fj_note_id     = 0
+    STR_VAR
+      fj_structure_type = note
+  END
+
+  LPF ~ADD_AREA_ITEM~
+    STR_VAR
+      item_to_add = ~s!misc73~ // Mysterious Codex
+      container_to_add_to = ~1~
+  END
+BUT_ONLY
+
 // update the list of master areas
 APPEND ~mastarea.2da~ ~S!0001     value~
 APPEND ~mastarea.2da~ ~S!0002     value~
+APPEND ~mastarea.2da~ ~S!0005     value~
 
 // patch the worldmap //
 

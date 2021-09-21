@@ -1,0 +1,38 @@
+IF
+  InMyArea(Player1)
+  Global("IAPlot","S!0005",0)
+  Global("IADruidPlot","GLOBAL",13)
+  PartyHasItem("S!misc73")
+THEN
+  RESPONSE #100
+    SetGlobal("IAPlot","S!0005",1)
+    ClearAllActions()
+    StartCutSceneMode()
+    StartCutScene("S!druc14")
+END
+
+// TODO: check for deadness of the leutenants here as well
+// TODO: adjust Draco's HPLT trigger according to his actual health
+IF
+  InMyArea(Player1)
+  Global("IAPlot","S!0005",4)
+  Global("IADruidPlot","GLOBAL",13)
+  CombatCounterGT(0)
+  Exists("S!dracof")
+  !Dead("S!dracof")
+  HPLT("S!dracof",15)
+THEN
+  RESPONSE #100
+    SetGlobal("IAPlot","S!0005",5)
+    ClearAllActions()
+    StartCutSceneMode()
+    CutSceneId(Player1)
+    SetInterrupt(FALSE)
+    Wait(1)
+    ActionOverride("S!dracof",ChangeEnemyAlly(Myself,NEUTRAL))
+    Wait(1)
+    ActionOverride("S!dracof",StartDialogueNoSet(Player1))
+    MultiPlayerSync()
+    SetInterrupt(TRUE)
+    EndCutSceneMode()
+END

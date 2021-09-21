@@ -1,0 +1,29 @@
+// Extended druid stronghold, Ferrou drink Red Dragon's blood //
+
+IF
+  TRUE()
+THEN
+  RESPONSE #100
+    CutSceneId(Player1)
+    SetInterrupt(FALSE)
+
+    Wait(1)
+    ActionOverride("s!ferr02",MoveViewObject(Myself,STANDARD))
+    Wait(2)
+
+    // TODO: gulp potion text & anim, wait, transform to Draco Ferrous
+    // TODO: what to do with the leutenants?
+
+    Wait(1)
+
+    ActionOverride("S!dracof",DisplayStringHead(Myself,@5879))
+    Wait(1)
+    ActionOverride("S!dracof",DisplayStringHead(Myself,@5880))
+    Wait(1)
+
+    SetGlobal("IAPlot","S!0005",4)
+
+    MultiPlayerSync()
+    SetInterrupt(TRUE)
+    EndCutSceneMode()
+END

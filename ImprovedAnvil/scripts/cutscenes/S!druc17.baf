@@ -1,0 +1,22 @@
+// Extended druid stronghold, the Diviner kills Ferrou //
+
+IF
+  TRUE()
+THEN
+  RESPONSE #100
+    CutSceneId(Player1)
+    SetInterrupt(FALSE)
+
+    Wait(1)
+
+    // TODO: the Diviner casts Finger of Death on Draco
+    Kill("S!Dracof")
+    Wait(2)
+
+    SetGlobal("IAPlot","S!0005",6)
+    ActionOverride("S!gdru04",StartDialogNoSet(Player1))
+
+    MultiPlayerSync()
+    SetInterrupt(TRUE)
+    EndCutSceneMode()
+END
