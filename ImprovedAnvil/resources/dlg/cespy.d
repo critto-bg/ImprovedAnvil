@@ -2068,13 +2068,13 @@ IF ~~ THEN BEGIN treefist
   IF ~~ THEN BEGIN minscblade
     SAY @785 IF ~~ THEN REPLY @2 GOTO 13
     IF ~PartyHasItem("was2h") PartyHasItem("bdsw2h01") PartyHasItem("sw2h12")
-	PartyGoldGT(74999) PartyHasItem("s!scrl07")
+	PartyGoldGT(74999) PartyHasItem("potn33")
 	PartyHasItem("s!misc06") PartyHasItem("sw2h02")~
       THEN REPLY @3
       DO ~SetGlobal("Iaminscbladeforged","GLOBAL",1)
           TakePartyGold(75000)      DestroyGold(75000)
           TakePartyItemNum("was2h",1)   DestroyItem("was2h")
-          TakePartyItemNum("bdws2h01",1)   DestroyItem("bdws2h01")
+          TakePartyItemNum("bdsw2h01",1)   DestroyItem("bdsw2h01")
           TakePartyItemNum("sw2h12",1)   DestroyItem("sw2h12")
           TakePartyItemNum("potn33",1)   DestroyItem("potn33")
           TakePartyItemNum("s!misc06",1)   DestroyItem("s!misc06")
