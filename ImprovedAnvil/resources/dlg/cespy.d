@@ -1950,6 +1950,7 @@ IF ~~ THEN BEGIN treefist
           TakePartyGold(50000)      DestroyGold(50000)
           TakePartyItemNum("s!blun01",1)   DestroyItem("s!blun01")
           TakePartyItemNum("blun23",1)   DestroyItem("blun23")
+          TakePartyItemNum("blun18",1)   DestroyItem("blun18")
           TakePartyItemNum("blun17",1)   DestroyItem("blun17")
           TakePartyItemNum("s!misc62",1)   DestroyItem("s!misc62")
           TakePartyItemNum("s!misc06",1)   DestroyItem("s!misc06")
