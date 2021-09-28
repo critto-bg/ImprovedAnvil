@@ -1736,7 +1736,7 @@ var weapons = [
                             "THAC0: +5",
                             "Damage: 1D6 +6 (crushing)",
                             "Special ability:",
-                            "One round after a successful hit, the weapon starts to inflict five points of bleeding (Piercing) damage per round for 10 rounds (save vs. wands)",
+                            "One round after a successful hit, the weapon starts to inflict five points of bleeding (Piercing) damage per round for 5 rounds (save vs. wands with -4 penalty)",
                             "This is cumulative with additional successful hits",
                             "Proficiency type: Flail"
                         ]
@@ -2101,7 +2101,7 @@ var weapons = [
                     {
                         "section_name": "Combat abilities",
                         "section_items": [
-                            "One round after each successful hit, the target begins to take 4 extra points of slashing damage every round for five rounds (save vs. Death)",
+                            "One round after each successful hit, the target begins to take 4 extra points of bleeding (slashing) damage every round for five rounds (save vs. Wands with -4 penalty)",
                             "THAC0: +4 bonus",
                             "Damage: 2D4 +4",
                             "Damage type: slashing",
