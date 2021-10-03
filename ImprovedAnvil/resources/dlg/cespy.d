@@ -2105,7 +2105,7 @@ IF ~~ THEN BEGIN treefist
 
   IF ~~ THEN BEGIN sarevoksword
     SAY @789 IF ~~ THEN REPLY @2 GOTO 13
-    IF ~PartyHasItem("sw2h16") NumItemsPartyGT("s!misc66",2)
+    IF ~PartyHasItem("sw2h16") NumItemsPartyGT("s!misc67",2)
 	PartyGoldGT(74999) PartyHasItem("s!misc02")~
       THEN REPLY @3
       DO ~SetGlobal("IAsarevokswordforged","GLOBAL",1)
