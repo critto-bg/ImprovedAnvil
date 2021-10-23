@@ -182,6 +182,7 @@ COPY_EXISTING ~nalia10.cre~ ~Override/nalia10.cre~
   REMOVE_KNOWN_SPELL ~SPWI616~
   REMOVE_KNOWN_SPELL ~SPWI703~
 
+  REMOVE_MEMORIZED_SPELL ~SPWI118~
   REMOVE_MEMORIZED_SPELL ~SPWI416~
   REMOVE_MEMORIZED_SPELL ~SPWI505~
 
@@ -196,6 +197,24 @@ COPY_EXISTING ~nalia10.cre~ ~Override/nalia10.cre~
   ADD_MEMORIZED_SPELL ~SPWI110~ #0 ~wizard~ ( 1 )
   ADD_MEMORIZED_SPELL ~SPWI411~ #3 ~wizard~ ( 1 )
   ADD_MEMORIZED_SPELL ~SPWI507~ #4 ~wizard~ ( 1 )
+
+  READ_LONG  0x2a8 "mem_off"
+  READ_LONG  0x2ac "mem_num"
+  FOR (index = 0; index < mem_num; index = index + 1) BEGIN // searches through memorization tables
+   READ_SHORT ("%mem_off%" + 0x0 + (0x10 * "%index%")) "spell_level"
+   READ_SHORT ("%mem_off%" + 0x6 + (0x10 * "%index%")) "spell_type"
+
+   PATCH_IF (spell_type = 1) BEGIN
+     PATCH_MATCH %spell_level% WITH
+       0
+       BEGIN
+         WRITE_SHORT ("%mem_off%" + 0x2 + (0x10 * "%index%")) 4 // write new amount
+         WRITE_SHORT ("%mem_off%" + 0x4 + (0x10 * "%index%")) 4 // write new amount
+       END
+       DEFAULT
+     END
+   END
+  END
 
 COPY_EXISTING ~nalia18.cre~ ~Override/nalia18.cre~
   WRITE_BYTE  0x69     80 // Find traps
@@ -256,6 +275,8 @@ COPY_EXISTING ~jan8.cre~ ~Override/jan8.cre~
   REMOVE_KNOWN_SPELL ~SPWI302~
   REMOVE_KNOWN_SPELL ~SPWI607~
 
+  REMOVE_MEMORIZED_SPELL ~SPWI105~
+  REMOVE_MEMORIZED_SPELL ~SPWI206~
   REMOVE_MEMORIZED_SPELL ~SPWI302~
 
   READ_LONG  0x2a8 "mem_off"
@@ -268,26 +289,26 @@ COPY_EXISTING ~jan8.cre~ ~Override/jan8.cre~
      PATCH_MATCH %spell_level% WITH
        0
        BEGIN
-         WRITE_SHORT ("%mem_off%" + 0x2 + (0x10 * "%index%")) 5 // write new amount
-         WRITE_SHORT ("%mem_off%" + 0x4 + (0x10 * "%index%")) 5 // write new amount
-       END
-
-       1 2
-       BEGIN
          WRITE_SHORT ("%mem_off%" + 0x2 + (0x10 * "%index%")) 4 // write new amount
          WRITE_SHORT ("%mem_off%" + 0x4 + (0x10 * "%index%")) 4 // write new amount
        END
 
-       3
+       1 2
        BEGIN
          WRITE_SHORT ("%mem_off%" + 0x2 + (0x10 * "%index%")) 3 // write new amount
          WRITE_SHORT ("%mem_off%" + 0x4 + (0x10 * "%index%")) 3 // write new amount
        END
 
-       4
+       3
        BEGIN
          WRITE_SHORT ("%mem_off%" + 0x2 + (0x10 * "%index%")) 2 // write new amount
          WRITE_SHORT ("%mem_off%" + 0x4 + (0x10 * "%index%")) 2 // write new amount
+       END
+
+       4
+       BEGIN
+         WRITE_SHORT ("%mem_off%" + 0x2 + (0x10 * "%index%")) 1 // write new amount
+         WRITE_SHORT ("%mem_off%" + 0x4 + (0x10 * "%index%")) 1 // write new amount
        END
 
        DEFAULT
