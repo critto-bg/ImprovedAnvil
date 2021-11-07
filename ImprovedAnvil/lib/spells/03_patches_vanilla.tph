@@ -101,6 +101,18 @@ COPY_EXISTING ~SPPR102.spl~ ~override/SPPR102.spl~
     parameter2 = 1
   END
 
+// Bless
+COPY_EXISTING ~SPPR101.spl~ ~override/SPPR101.spl~
+  // add spell state
+  LPF ~CLONE_EFFECT~
+    INT_VAR
+      check_globals = 0
+      match_opcode = 130
+      opcode = 328
+      parameter2 = 22
+      special = 1
+  END
+
 // Spirit Ward
 COPY_EXISTING ~SPPR150.spl~ ~override/SPPR150.spl~
   SAY UNIDENTIFIED_DESC @10267
@@ -113,6 +125,16 @@ COPY_EXISTING ~SPPR150.spl~ ~override/SPPR150.spl~
     check_headers = 1
     match_opcode = 346
     parameter1 = 6
+  END
+
+// Draw Upon Holy Might
+COPY_EXISTING ~SPPR214.spl~ ~override/SPPR214.spl~
+  // add spell state
+  LPF ~CLONE_EFFECT~
+    INT_VAR
+      check_globals = 0
+      match_opcode = 328
+      parameter2 = 25
   END
 
 COPY_EXISTING ~SPPR318.spl~ ~override/SPPR318.spl~
@@ -171,6 +193,16 @@ COPY_EXISTING ~sppr506.spl~ ~override/sppr506.spl~
   WHILE ("%it%" < "%icount%") BEGIN
     WRITE_SHORT (%ioffset% + ("%it%" * 0x28) + 0x12) 1
     "it" = "%it%" + 1
+  END
+
+// Righteous Magic
+COPY_EXISTING ~SPPR513.spl~ ~override/SPPR513.spl~
+  // add spell state
+  LPF ~CLONE_EFFECT~
+    INT_VAR
+      check_globals = 0
+      match_opcode = 328
+      parameter2 = ~%righteous_magic_state%~
   END
 
 // Recall Spirit
