@@ -104,7 +104,16 @@ $(this).toggleClass("active").next(".togglebox").slideToggle("slow");
 return true;
 });
 });
-
+$(document).ready(function(){
+$( "#show_all" ).click(function() {
+  $(".togglebox").show();
+});
+});
+$(document).ready(function(){
+$( "#hide_all" ).click(function() {
+  $(".togglebox").hide();
+});
+});
 /*-----------------------------------------------------------------------------------*/
 /*	TABS
 /*-----------------------------------------------------------------------------------*/
