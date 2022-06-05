@@ -227,6 +227,12 @@ COPY ~ImprovedAnvil\resources\spells\SPPR218.spl~  ~override/SPPR218.spl~
   SAY NAME2 @10300
   SAY UNIDENTIFIED_DESC @10301
 
+  // Dynamically assign proper projectile
+  LAUNCH_PATCH_FUNCTION ~ALTER_SPELL_HEADER~ INT_VAR
+    header_type = 2
+    projectile = ~%S!IWD298%~
+  END
+
   // Set a custom string for Display String opcode
   LAUNCH_PATCH_FUNCTION ~ALTER_SPELL_EFFECT~ INT_VAR
     check_headers = 1
