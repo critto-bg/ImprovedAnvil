@@ -57,10 +57,14 @@ INT_VAR
   header_type        = "0" // 0 by default, otherwise use value here
   identify           = "0" // identify to use? at 0x01
   location           = "0" // ability location at 0x02
+  alt_dice_size      = "0" // alternate dice size at 0x03
   target             = "0" // target at 0x0c
+  target_count       = "0" // target_count at 0x0d
   range              = "0" // range at 0x0e
   launcher           = "0" // launcher required at 0x10
+  alt_dice_thrown    = "0" // alternative dice thrown at 0x11
   speed              = "0" // speed at 0x12
+  alt_dmg_bonus      = "0" // alternative damage bonus at 0x13
   thac0_bonus        = "0" // to-hit bonus at 0x14
   dicesize           = "0" // dice size at 0x16
   primary_type       = "0" // primary school at 0x17
@@ -85,6 +89,7 @@ INT_VAR
   flag_break         = "0" // breakable, bit1
   flag_damage        = "0" // ee only, damage strength bonus, bit2
   flag_thac0         = "0" // ee only, thac0 strength bonus, bit3
+  flag_sanctuary     = "0" // ee only, break sanctuary, bit9
   flag_hostile       = "0" // hostile, bit10
   flag_recharge      = "0" // recharge after resting, bit11
   flag_bypass        = "0" // bypass armor, bit16
@@ -112,6 +117,7 @@ BEGIN
   PATCH_IF (flag_break = 1)          BEGIN SET flags = flags | BIT1   END
   PATCH_IF (flag_damage = 1)         BEGIN SET flags = flags | BIT2   END
   PATCH_IF (flag_thac0 = 1)          BEGIN SET flags = flags | BIT3   END
+  PATCH_IF (flag_sanctuary = 1)      BEGIN SET flags = flags | BIT9   END
   PATCH_IF (flag_hostile = 1)        BEGIN SET flags = flags | BIT10  END
   PATCH_IF (flag_recharge = 1)       BEGIN SET flags = flags | BIT11  END
   PATCH_IF (flag_bypass = 1)         BEGIN SET flags = flags | BIT16  END
@@ -126,11 +132,15 @@ BEGIN
   WRITE_BYTE   (%abil_off% + %abil_num% * 0x38        )   header_type        // Attack Type
   WRITE_BYTE   (%abil_off% + %abil_num% * 0x38 + 0x001)   identify           // ID required
   WRITE_BYTE   (%abil_off% + %abil_num% * 0x38 + 0x002)   location           // Location
+  WRITE_BYTE   (%abil_off% + %abil_num% * 0x38 + 0x003)   alt_dice_size      // Alternative dice sides
   WRITE_ASCIIE (%abil_off% + %abil_num% * 0x38 + 0x004)   "%icon%" #8        // Icon
   WRITE_BYTE   (%abil_off% + %abil_num% * 0x38 + 0x00c)   target             // Target type
+  WRITE_BYTE   (%abil_off% + %abil_num% * 0x38 + 0x00d)   target_count       // Target count
   WRITE_SHORT  (%abil_off% + %abil_num% * 0x38 + 0x00e)   range              // Range
   WRITE_BYTE   (%abil_off% + %abil_num% * 0x38 + 0x010)   launcher           // Projectile type
+  WRITE_BYTE   (%abil_off% + %abil_num% * 0x38 + 0x011)   alt_dice_thrown    // Alternative dice thrown
   WRITE_BYTE   (%abil_off% + %abil_num% * 0x38 + 0x012)   speed              // Speed
+  WRITE_BYTE   (%abil_off% + %abil_num% * 0x38 + 0x013)   alt_dmg_bonus      // Alternative damage bonus
   WRITE_SHORT  (%abil_off% + %abil_num% * 0x38 + 0x014)   thac0_bonus        // THAC0 bonus
   WRITE_BYTE   (%abil_off% + %abil_num% * 0x38 + 0x016)   dicesize           // Dice sides
   WRITE_BYTE   (%abil_off% + %abil_num% * 0x38 + 0x017)   primary_type       // Primary type
