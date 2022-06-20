@@ -1926,7 +1926,7 @@ APPEND WSMITH01
   IF ~~ THEN BEGIN dakkon
     SAY @617 IF ~~ THEN REPLY @2 GOTO 13
     IF ~PartyHasItem("wa2dak") PartyHasItem("s!sw20") PartyHasItem("s!sw21")
-        PartyHasItem("sw2h15") PartyHasItem("S!misc02") PartyHasItem("S!misc01")
+        PartyHasItem("sw2h15") PartyHasItem("s!misc02") PartyHasItem("s!misc01")
         NumItemsPartyGT("misc9y",2) PartyGoldGT(74999) Global("Iadakkonforged","GLOBAL",0)~
       THEN REPLY @3
       DO ~SetGlobal("Iadakkonforged","GLOBAL",1)
@@ -1934,7 +1934,7 @@ APPEND WSMITH01
           TakePartyItemNum("wa2dak",1)   DestroyItem("wa2dak")
           TakePartyItemNum("s!sw20",1)   DestroyItem("s!sw20")
           TakePartyItemNum("s!sw21",1)   DestroyItem("s!sw21")
-          TakePartyItemNum("gith",1)   DestroyItem("gith")
+          TakePartyItemNum("sw2h15",1)   DestroyItem("sw2h15")
           TakePartyItemNum("s!misc02",1)   DestroyItem("s!misc02")
           TakePartyItemNum("s!misc01",1)   DestroyItem("s!misc01")
           TakePartyItemNum("misc9y",3)   DestroyItem("misc9y")
