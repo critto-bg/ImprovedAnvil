@@ -1456,7 +1456,7 @@ APPEND WSMITH01
 
   IF ~~ THEN BEGIN charm
     SAY @559 IF ~~ THEN REPLY @2 GOTO 13
-    IF ~Global("Iapotn22forged","GLOBAL",0) Global("EnteredAR0907","GLOBAL",1) PartyHasItem("S!misc06") PartyHasItem("S!misc36") PartyGoldGT(49999)~
+    IF ~Global("Iapotn22forged","GLOBAL",0) PartyHasItem("S!misc06") PartyHasItem("S!misc36") PartyGoldGT(49999)~
       THEN REPLY @3
       DO ~TakePartyGold(50000)             DestroyGold(50000)
           TakePartyItemNum("S!misc06",1)   DestroyItem("S!misc06")
