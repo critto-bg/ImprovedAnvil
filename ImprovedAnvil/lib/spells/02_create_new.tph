@@ -155,6 +155,14 @@ COPY_EXISTING ~SPWI418.spl~ ~override/sppr418.spl~
       parameter2 = ~%acid_shield_state%~
   END
 
+  // remove old spell state
+  LAUNCH_PATCH_FUNCTION ~DELETE_EFFECT~
+    INT_VAR
+      check_globals = 0
+      match_opcode = 328
+      match_parameter2 = 5
+  END
+
   // modify "play spell animation" abilities
   // there's no nice way to do this via macros
   READ_LONG  0x64 "abil_off"
