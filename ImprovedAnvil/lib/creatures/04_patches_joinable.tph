@@ -258,18 +258,14 @@ COPY_EXISTING ~nalia10.cre~ ~Override/nalia15.cre~
 // Jan //
 
 COPY_EXISTING ~jan8.cre~ ~Override/jan8.cre~
-  WRITE_BYTE  0x10       0b01000000 // original class (thief)
   WRITE_SHORT 0x24      36 // current HP
   WRITE_SHORT 0x26      36 // max HP
-  WRITE_BYTE  0x55       9 // save vs wands
-  WRITE_BYTE  0x58      10 // save vs spell
   WRITE_BYTE  0x64      50 // Detect Illusion
   WRITE_BYTE  0x66      27 // Lore
   WRITE_BYTE  0x67      65 // Open Locks
   WRITE_BYTE  0x69      80 // Find traps
   WRITE_BYTE  0x6a       0 // Pick pockets
   WRITE_BYTE  0x23a     17 // intelligence
-  WRITE_BYTE  0x234      9 // mage level
 
   REMOVE_KNOWN_SPELL ~SPWI703~
   REMOVE_KNOWN_SPELL ~SPWI302~
@@ -279,57 +275,8 @@ COPY_EXISTING ~jan8.cre~ ~Override/jan8.cre~
   REMOVE_MEMORIZED_SPELL ~SPWI206~
   REMOVE_MEMORIZED_SPELL ~SPWI302~
 
-  READ_LONG  0x2a8 "mem_off"
-  READ_LONG  0x2ac "mem_num"
-  FOR (index = 0; index < mem_num; index = index + 1) BEGIN // searches through memorization tables
-   READ_SHORT ("%mem_off%" + 0x0 + (0x10 * "%index%")) "spell_level"
-   READ_SHORT ("%mem_off%" + 0x6 + (0x10 * "%index%")) "spell_type"
-
-   PATCH_IF (spell_type = 1) BEGIN
-     PATCH_MATCH %spell_level% WITH
-       0
-       BEGIN
-         WRITE_SHORT ("%mem_off%" + 0x2 + (0x10 * "%index%")) 4 // write new amount
-         WRITE_SHORT ("%mem_off%" + 0x4 + (0x10 * "%index%")) 4 // write new amount
-       END
-
-       1 2
-       BEGIN
-         WRITE_SHORT ("%mem_off%" + 0x2 + (0x10 * "%index%")) 3 // write new amount
-         WRITE_SHORT ("%mem_off%" + 0x4 + (0x10 * "%index%")) 3 // write new amount
-       END
-
-       3
-       BEGIN
-         WRITE_SHORT ("%mem_off%" + 0x2 + (0x10 * "%index%")) 2 // write new amount
-         WRITE_SHORT ("%mem_off%" + 0x4 + (0x10 * "%index%")) 2 // write new amount
-       END
-
-       4
-       BEGIN
-         WRITE_SHORT ("%mem_off%" + 0x2 + (0x10 * "%index%")) 1 // write new amount
-         WRITE_SHORT ("%mem_off%" + 0x4 + (0x10 * "%index%")) 1 // write new amount
-       END
-
-       DEFAULT
-         WRITE_SHORT ("%mem_off%" + 0x2 + (0x10 * "%index%")) 0 // write new amount
-         WRITE_SHORT ("%mem_off%" + 0x4 + (0x10 * "%index%")) 0 // write new amount
-     END
-   END
-  END
-
 COPY_EXISTING ~jan15.cre~ ~Override/jan15.cre~
-  WRITE_BYTE  0x10       0b01000000 // original class (thief)
-  WRITE_BYTE  0x55       6 // save vs wands
-  WRITE_BYTE  0x58       7 // save vs spell
-  WRITE_BYTE  0x64      50 // Detect Illusion
-  WRITE_BYTE  0x66      27 // Lore
-  WRITE_BYTE  0x67      65 // Open Locks
-  WRITE_BYTE  0x69      80 // Find traps
-  WRITE_BYTE  0x6a       0 // Pick pockets
   WRITE_BYTE  0x23a     17 // intelligence
-  WRITE_BYTE  0x234     13 // mage level
-  WRITE_BYTE  0x235     8  // thief level
 
   REMOVE_KNOWN_SPELL ~SPWI703~
   REMOVE_KNOWN_SPELL ~SPWI613~

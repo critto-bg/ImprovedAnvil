@@ -523,6 +523,16 @@ COPY_EXISTING ~nparm.itm~ ~override/nparm.itm~
     END
   END
 
+// Jan's gloves and scopes
+COPY_EXISTING ~npmisc2.itm~ ~override/npmisc2.itm~
+              ~npmisc1.itm~ ~override/npmisc1.itm~
+              ~nparm.itm~ ~override/nparm.itm~
+  // remove restriction for the mages by usability flag
+  READ_BYTE  0x20 usability
+  WRITE_BYTE 0x20 ("%usability%" ^^ BIT2)
+
+  WRITE_BYTE 0x002c 0 // min dex
+
 // Plate of the Dark +1
 COPY_EXISTING ~plat14.itm~ ~override/plat14.itm~
   WRITE_LONG   0x000c   6684          // ID name
