@@ -144,6 +144,32 @@ END
  * ===================================================
  */
 
+// Animated Plate, Bronze (SoD/IWD)
+// uses IWD slot 0xE240
+// INI included in BG2EE
+// don't overwrite assets if already included by other mods (IAv6, EET)
+
+ACTION_IF (NOT FILE_EXISTS_IN_GAME ~mania1.BAM~) BEGIN
+	COPY ~ImprovedAnvil\resources\animations\animated_plate_bronze~ ~override~
+END
+
+// Translucent variant, because previous versions of IA garbled the Ghost slot for this monster with it's translucent=1 setting
+// uses custom INI not included in BG2EE
+// uses IWD slot allocated dynamically
+// requires patching during mod install because of dynamic allocation 
+// WRITE_LONG 0x28 (IDS_OF_SYMBOL (~animate~ ~ANVIL_ANIMATED_PLATE_BRONZE~))
+
+LAF FIND_FREE_ANIM_SLOT INT_VAR slotMin = 0xe000 slotMax = 0xefff RET slot END
+ACTION_IF (slot <= 0) BEGIN
+  FAIL ~No free creature animation slot found.~
+END
+
+LAF TO_HEX_NUMBER INT_VAR value = slot minDigits = 4 RET hexNumber END
+APPEND ~animate.ids~ ~0x%hexNumber% ANVIL_ANIMATED_PLATE_BRONZE~ UNLESS ~ANVIL_ANIMATED_PLATE_BRONZE~
+CLEAR_IDS_MAP
+
+COPY ~ImprovedAnvil\resources\animations\ini\anvil_animated_plate_bronze.ini~ ~override\%hexNumber%.ini~
+
 // Animated Plate, Green (SoD/IWD)
 // uses IWD slot 0xE242
 // INI included in BG2EE
