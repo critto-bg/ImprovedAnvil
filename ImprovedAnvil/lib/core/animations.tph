@@ -172,7 +172,18 @@ LAF TO_HEX_NUMBER INT_VAR value = slot minDigits = 4 RET hexNumber END
 APPEND ~animate.ids~ ~0x%hexNumber% ANVIL_GHOUL_QUEEN~ UNLESS ~ANVIL_GHOUL_QUEEN~
 CLEAR_IDS_MAP
 
-COPY ~ImprovedAnvil\resources\animations\ini\anvil_ghoul_queen.ini~ ~override/%hexNumber%.ini~
+COPY ~ImprovedAnvil\resources\animations\ini\anvil_ghoul_queen.ini~ ~override\%hexNumber%.ini~
+
+// Orog Shaman (SoD/IWD2)
+// uses IWD slot 0xE279
+// INI included in BG2EE
+// don't overwrite assets if already included by other mods (IAv6, EET)
+
+ACTION_IF (NOT FILE_EXISTS_IN_GAME ~mnosa1.BAM~) BEGIN
+	COPY ~ImprovedAnvil\resources\animations\orog_shaman~ ~override~
+END
+
+
 
 
 // Worg (SoD/IWD2)
@@ -180,6 +191,6 @@ COPY ~ImprovedAnvil\resources\animations\ini\anvil_ghoul_queen.ini~ ~override/%h
 // INI included in BG2EE
 // don't overwrite assets if already included by other mods (IAv6, EET)
 
-ACTION_IF (NOT FILE_EXISTS_IN_GAME ~MWORA1.BAM~) BEGIN
+ACTION_IF (NOT FILE_EXISTS_IN_GAME ~mwora1.BAM~) BEGIN
 	COPY ~ImprovedAnvil\resources\animations\worg~ ~override~
 END
