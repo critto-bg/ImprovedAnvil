@@ -218,10 +218,19 @@ CLEAR_IDS_MAP
 
 COPY ~ImprovedAnvil\resources\animations\ini\anvil_ghoul_queen.ini~ ~override\%hexNumber%.ini~
 
+// Goblin Shaman (SoD/IWD2)
+// uses IWD slot 0xE271
+// INI included in BG2EE
+// don't overwrite assets if already included by other mods (IAv6, EET)
+
+ACTION_IF (NOT FILE_EXISTS_IN_GAME ~mgoca1.BAM~) BEGIN
+	COPY ~ImprovedAnvil\resources\animations\goblin_shaman~ ~override~
+END
+
 // Golem, Iron IWD (IWD)
 // uses IWD slot 0xE250
 // INI included in BG2EE
-// don't overwrite assets if already included by other mods (IAv6, EET)
+// don't overwrite assets if already included by other mods (IAv6, Golem Construction)
 
 ACTION_IF (NOT FILE_EXISTS_IN_GAME ~MGIRA1.BAM~) BEGIN
 	COPY ~ImprovedAnvil\resources\animations\golem_iron_iwd~ ~override~
@@ -235,9 +244,6 @@ END
 ACTION_IF (NOT FILE_EXISTS_IN_GAME ~mnosa1.BAM~) BEGIN
 	COPY ~ImprovedAnvil\resources\animations\orog_shaman~ ~override~
 END
-
-
-
 
 // Worg (SoD/IWD2)
 // uses IWD slot 0xE280
