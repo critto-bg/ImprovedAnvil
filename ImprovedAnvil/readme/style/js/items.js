@@ -1837,7 +1837,7 @@ var weapons = [
                     "Defender of Easthaven",
                     "Gnasher club",
                     "Two +3 Flails",
-                    "Ten Mithril Tokens",
+                    "Ten Mithral Tokens",
                     "150,000 gp"
                 ],
                 "simplified": [
