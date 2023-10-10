@@ -37,7 +37,9 @@ APPEND ~UDDEMON~
                    EraseJournalEntry(15793)
                    EraseJournalEntry(15792)
                    EraseJournalEntry(23424)
-                   EraseJournalEntry(15797)
-                   Enemy()~ EXIT
+                   Enemy()~
+
+                   SOLVED_JOURNAL #10104
+                   EXIT
   END
 END
