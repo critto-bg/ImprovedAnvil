@@ -763,7 +763,8 @@ var gear = [
                     {
                         "section_name": "Usable by",
                         "section_items": [
-                            "Druids"
+                            "Druids",
+                            "Shamans"
                         ]
                     }
                 ],
