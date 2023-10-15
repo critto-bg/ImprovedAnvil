@@ -1,9 +1,20 @@
 IF
   Global("IAOnce","S!0004",0)
+  OnCreation()
+THEN
+  RESPONSE #100
+    SetGlobal("IAOnce","S!0004",1)
+    TriggerActivation("ToS0003",FALSE)
+END
+
+
+IF
+  Global("IAOnce","S!0004",1)
   PartyHasItem("S!misc71")
   PartyHasItem("S!misc43")
 THEN
   RESPONSE #100
-    SetGlobal("IAOnce","S!0004",1)
+    SetGlobal("IAOnce","S!0004",2)
+    TriggerActivation("ToS0003",TRUE)
     AddJournalEntry(@5522,QUEST)
 END

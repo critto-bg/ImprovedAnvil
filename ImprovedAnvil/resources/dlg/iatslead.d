@@ -32,7 +32,7 @@ END
 
 IF ~~ THEN BEGIN 6
   SAY @5436
-  IF ~~ THEN DO ~SetGlobal("IADruidPlot","GLOBAL",6) ActionOverride("S!gdru01",EscapeArea()) EscapeArea()~
+  IF ~~ THEN DO ~SetGlobal("IADruidPlot","GLOBAL",6) ActionOverride("S!gdru01",EscapeArea()) ActionOverride("S!logan",EscapeArea()) EscapeArea()~
   UNSOLVED_JOURNAL @5516
   EXIT
 END

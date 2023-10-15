@@ -1,0 +1,380 @@
+// @TODO: clean up the script
+
+// enemy detection //
+
+IF
+  Allegiance(Myself,ENEMY)
+  Detect([GOODCUTOFF])
+  Global("partyfled","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("partyfled","LOCALS",0)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  Global("EnemySeen","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("EnemySeen","LOCALS",1)
+END
+
+// chase mechanics //
+
+IF
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Global("partyfled","LOCALS",0)
+  Allegiance(Myself,ENEMY)
+  Global("EnemySeen","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("chase","LOCALS",60)
+    SetGlobal("partyfled","LOCALS",1)
+END
+
+IF
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_CONFUSED)
+  !StateCheck(Myself,STATE_STUNNED)
+  !StateCheck(Myself,STATE_PANIC)
+  !StateCheck(Myself,STATE_CHARMED)
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Global("partyfled","LOCALS",1)
+  GlobalTimerNotExpired("chase","LOCALS")
+  InMyArea(Player1)
+  Allegiance(Myself,ENEMY)
+  Global("EnemySeen","LOCALS",1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Allegiance(Myself,ENEMY)
+  GlobalTimerExpired("chase","LOCALS")
+  Global("partyfled","LOCALS",1)
+  Global("EnemySeen","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("EnemySeen","LOCALS",0)
+    ReallyForceSpellRES("SPWII07",Myself)
+END
+
+// remove regen based on fire damage taken //
+
+IF
+  InMyArea(Player1)
+  Allegiance(Myself,ENEMY)
+  Global("IaNoRegen","LOCALS",0)
+  TookDamage()
+  OR(2)
+    HitBy([ANYONE],FIRE)
+    HitBy([ANYONE],MAGICFIRE)
+  //DamageTakenGT(10)
+  RandomNumGT(10,3)
+  HPPercentLT(Myself,75)
+  HasItem("S!regw1",Myself)
+  !StateCheck(Myself,STATE_REALLY_DEAD)
+  !StateCheck(Myself,STATE_PANIC)
+THEN
+  RESPONSE #100
+    SetGlobal("IaNoRegen","LOCALS",1)
+    DestroyItem("S!regw1")
+    DisplayString(Myself,@12080)
+    Continue()
+END
+
+// morale and panic management //
+
+IF
+  InMyArea(Player1)
+  Allegiance(Myself,ENEMY)
+  StateCheck(Myself,STATE_PANIC)
+THEN
+  RESPONSE #100
+    EscapeArea()
+END
+
+IF
+  InMyArea(Player1)
+  Allegiance(Myself,ENEMY)
+  Global("IaNoRegen","LOCALS",1)
+  !GlobalTimerNotExpired("IaMoraleHitTimer","LOCALS")
+  HPPercentLT(Myself,25)
+  RandomNumGT(10,7)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("IaMoraleHitTimer","LOCALS",6)
+    ReallyForceSpellRES("SPWII58",Myself)
+END
+
+// weapon select (claws vs. bites) //
+
+IF
+  InMyArea(Player1)
+  Allegiance(Myself,ENEMY)
+  !StateCheck(Myself,STATE_PANIC)
+  Global("IaNoRegen","LOCALS",0)
+  !GlobalTimerNotExpired("IaSwitchWeapons","LOCALS")
+  HPPercentGT(Myself,75)
+  HasItem("S!bite01",Myself)
+THEN
+  RESPONSE #90
+    SetGlobalTimer("IaSwitchWeapons","LOCALS",6)
+    SelectWeaponAbility(SLOT_WEAPON0,0)
+    //DisplayStringHead(Myself,5200) // @DEBUG
+    Continue()
+  RESPONSE #10
+    SetGlobalTimer("IaSwitchWeapons","LOCALS",6)
+    SelectWeaponAbility(SLOT_WEAPON1,0)
+    //DisplayStringHead(Myself,33447) // @DEBUG
+    Continue()
+END
+
+IF
+  InMyArea(Player1)
+  Allegiance(Myself,ENEMY)
+  !StateCheck(Myself,STATE_PANIC)
+  OR(2)
+    Global("IaNoRegen","LOCALS",1)
+    HPPercentLT(Myself,75)
+  !GlobalTimerNotExpired("IaSwitchWeapons","LOCALS")
+  HasItem("S!bite01",Myself)
+THEN
+  RESPONSE #70
+    SetGlobalTimer("IaSwitchWeapons","LOCALS",6)
+    SelectWeaponAbility(SLOT_WEAPON0,0)
+    //DisplayStringHead(Myself,5200) // @DEBUG
+    Continue()
+  RESPONSE #30
+    SetGlobalTimer("IaSwitchWeapons","LOCALS",6)
+    SelectWeaponAbility(SLOT_WEAPON1,0)
+    //DisplayStringHead(Myself,33447) // @DEBUG
+    Continue()
+END
+
+IF
+  InMyArea(Player1)
+  Allegiance(Myself,ENEMY)
+  !StateCheck(Myself,STATE_PANIC)
+  Global("IaNoRegen","LOCALS",1)
+  HPPercentLT(Myself,50)
+  !GlobalTimerNotExpired("IaSwitchWeapons","LOCALS")
+  HasItem("S!bite01",Myself)
+THEN
+  RESPONSE #50
+    SetGlobalTimer("IaSwitchWeapons","LOCALS",6)
+    SelectWeaponAbility(SLOT_WEAPON0,0)
+    //DisplayStringHead(Myself,5200) // @DEBUG
+    Continue()
+  RESPONSE #50
+    SetGlobalTimer("IaSwitchWeapons","LOCALS",6)
+    SelectWeaponAbility(SLOT_WEAPON1,0)
+    //DisplayStringHead(Myself,33447) // @DEBUG
+    Continue()
+END
+
+// general attack with the claws/bites (reevaluate after half a round) //
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(SecondNearestEnemyOf(Myself))
+  OR(2)
+    CheckStatLT(LastSeenBy(Myself),90,RESISTSLASHING)
+    CheckStatLT(LastSeenBy(Myself),90,RESISTPIERCING)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  CheckStatLT(LastSeenBy(Myself),1,STONESKINS)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+  !CheckSpellState(LastSeenBy(Myself),RED_FIRESHIELD)
+  CheckStat(LastSeenBy(Myself),0,EXTRAPROFICIENCY11)
+  HasItemEquipedReal("S!claw01",Myself)
+  RandomNumGT(6,3)
+  OR(2)
+   AttackedBy(LastSeenBy(Myself),MELEE)
+   Range(LastSeenBy(Myself),3)
+THEN
+  RESPONSE #100
+    AttackReevaluate(LastSeenBy(Myself),45)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(SecondNearestEnemyOf(Myself))
+  CheckStatLT(LastSeenBy(Myself),90,RESISTPIERCING)
+  CheckStatLT(LastSeenBy(Myself),100,RESISTPOISON)
+  !HasItemEquiped("AMUL22",LastSeenBy(Myself))
+  !HasItemEquiped("RING39",LastSeenBy(Myself))
+  !HasItemEquiped("S!RING02",LastSeenBy(Myself))
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  CheckStatLT(LastSeenBy(Myself),1,STONESKINS)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+  !StateCheck(LastSeenBy(Myself),STATE_POISONED)
+  !CheckSpellState(LastSeenBy(Myself),RED_FIRESHIELD)
+  CheckStat(LastSeenBy(Myself),0,EXTRAPROFICIENCY11)
+  HasItemEquipedReal("S!bite01",Myself)
+  RandomNumGT(6,3)
+  OR(2)
+   AttackedBy(LastSeenBy(Myself),MELEE)
+   Range(LastSeenBy(Myself),3)
+THEN
+  RESPONSE #100
+    AttackReevaluate(LastSeenBy(Myself),45)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  CheckStatLT(LastSeenBy(Myself),1,STONESKINS)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+  !CheckSpellState(LastSeenBy(Myself),RED_FIRESHIELD)
+  CheckStat(LastSeenBy(Myself),0,EXTRAPROFICIENCY11)
+THEN
+  RESPONSE #100
+    AttackReevaluate(LastSeenBy(Myself),45)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(SecondNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  CheckStatLT(LastSeenBy(Myself),1,STONESKINS)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+  !CheckSpellState(LastSeenBy(Myself),RED_FIRESHIELD)
+  CheckStat(LastSeenBy(Myself),0,EXTRAPROFICIENCY11)
+  Range(LastSeenBy(Myself),3)
+THEN
+  RESPONSE #100
+    AttackReevaluate(LastSeenBy(Myself),45)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(ThirdNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  CheckStatLT(LastSeenBy(Myself),1,STONESKINS)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+  !CheckSpellState(LastSeenBy(Myself),RED_FIRESHIELD)
+  CheckStat(LastSeenBy(Myself),0,EXTRAPROFICIENCY11)
+  Range(LastSeenBy(Myself),3)
+THEN
+  RESPONSE #100
+    AttackReevaluate(LastSeenBy(Myself),45)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(SecondNearestEnemyOf(Myself))
+  OR(2)
+    CheckStatLT(LastSeenBy(Myself),90,RESISTSLASHING)
+    CheckStatLT(LastSeenBy(Myself),90,RESISTPIERCING)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+  !CheckSpellState(LastSeenBy(Myself),RED_FIRESHIELD)
+  CheckStat(LastSeenBy(Myself),0,EXTRAPROFICIENCY11)
+  HasItemEquipedReal("S!claw01",Myself)
+  RandomNumGT(6,3)
+  OR(2)
+   AttackedBy(LastSeenBy(Myself),MELEE)
+   Range(LastSeenBy(Myself),3)
+THEN
+  RESPONSE #100
+    AttackReevaluate(LastSeenBy(Myself),45)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(SecondNearestEnemyOf(Myself))
+  CheckStatLT(LastSeenBy(Myself),90,RESISTPIERCING)
+  CheckStatLT(LastSeenBy(Myself),100,RESISTPOISON)
+  !HasItemEquiped("AMUL22",LastSeenBy(Myself))
+  !HasItemEquiped("RING39",LastSeenBy(Myself))
+  !HasItemEquiped("S!RING02",LastSeenBy(Myself))
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+  !StateCheck(LastSeenBy(Myself),STATE_POISONED)
+  !CheckSpellState(LastSeenBy(Myself),RED_FIRESHIELD)
+  CheckStat(LastSeenBy(Myself),0,EXTRAPROFICIENCY11)
+  HasItemEquipedReal("S!bite01",Myself)
+  RandomNumGT(6,3)
+  OR(2)
+   AttackedBy(LastSeenBy(Myself),MELEE)
+   Range(LastSeenBy(Myself),3)
+THEN
+  RESPONSE #100
+    AttackReevaluate(LastSeenBy(Myself),45)
+END
+
+// fallback attack pattern //
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  !CheckSpellState(LastSeenBy(Myself),RED_FIRESHIELD)
+  CheckStat(LastSeenBy(Myself),0,EXTRAPROFICIENCY11)
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(SecondNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  !CheckSpellState(LastSeenBy(Myself),RED_FIRESHIELD)
+  CheckStat(LastSeenBy(Myself),0,EXTRAPROFICIENCY11)
+  Range(LastSeenBy(Myself),3)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(ThirdNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  !CheckSpellState(LastSeenBy(Myself),RED_FIRESHIELD)
+  CheckStat(LastSeenBy(Myself),0,EXTRAPROFICIENCY11)
+  Range(LastSeenBy(Myself),3)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+// general movement //
+
+IF
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  InMyArea(Player1)
+  Allegiance(Myself,ENEMY)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END

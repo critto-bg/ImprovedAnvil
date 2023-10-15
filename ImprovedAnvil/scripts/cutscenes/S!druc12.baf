@@ -2,20 +2,21 @@
 
 IF
   Global("IADruidPlot","GLOBAL",10)
+  Global("IAPlot","S!0001",0)
   Global("IADramDies","GLOBAL",0)
 THEN
   RESPONSE #100
     CutSceneId(Player1)
-    SetInterrupt(FALSE)
 
     Wait(1)
     FadeToColor([20.0],0)
+    Wait(1)
 
     CreateCreature("s!gdru03",[3060.985],S)
     CreateCreature("s!tslead",[2920.1050],S)
 
     JumpToPoint([3050.1080])
-    MoveViewObject(Myself,VERY_FAST)
+    MoveViewObject(Myself,INSTANT)
 
     FaceObject("s!gdru03")
     ActionOverride("s!tslead",FaceObject("s!gdru03"))
@@ -31,32 +32,32 @@ THEN
     ActionOverride(Player6,JumpToPoint([3485.1275]))
     ActionOverride(Player6,FaceObject("s!gdru02"))
 
+    Wait(1)
     FadeFromColor([20.0],0)
     Wait(2)
 
     ActionOverride("s!gdru03",StartDialogNoSet(Player1))
 
     MultiPlayerSync()
-    SetInterrupt(TRUE)
     EndCutSceneMode()
 END
 
 IF
   Global("IADruidPlot","GLOBAL",10)
+  Global("IAPlot","S!0001",0)
   Global("IADramDies","GLOBAL",1)
 THEN
   RESPONSE #100
     CutSceneId(Player1)
-    SetInterrupt(FALSE)
 
     Wait(1)
     FadeToColor([20.0],0)
+    Wait(1)
 
     CreateCreature("s!gdru03",[3060.985],S)
 
     JumpToPoint([3050.1080])
-    MoveViewObject(Myself,VERY_FAST)
-
+    MoveViewObject(Myself,INSTANT)
     FaceObject("s!gdru03")
 
     ActionOverride(Player2,JumpToPoint([2660.1000]))
@@ -70,12 +71,34 @@ THEN
     ActionOverride(Player6,JumpToPoint([3485.1275]))
     ActionOverride(Player6,FaceObject("s!gdru02"))
 
+    Wait(1)
     FadeFromColor([20.0],0)
     Wait(2)
 
     ActionOverride("s!gdru03",StartDialogNoSet(Player1))
 
     MultiPlayerSync()
-    SetInterrupt(TRUE)
+    EndCutSceneMode()
+END
+
+// Ferrou Gan teleports away
+IF
+  Global("IADruidPlot","GLOBAL",10)
+  Global("IAPlot","S!0001",3)
+THEN
+  RESPONSE #100
+    CutSceneId(Player1)
+
+    Wait(1)
+    ActionOverride("S!ferr01",ForceSpell(Myself,DRYAD_TELEPORT))
+    Wait(2)
+    ActionOverride("S!ferr01",DestroySelf())
+    Wait(2)
+
+    SetGlobal("IAPlot","S!0001",4)
+    ActionOverride("s!tslead",EscapeArea())
+    ActionOverride("s!gdru03",StartDialogNoSet(Player1))
+
+    MultiPlayerSync()
     EndCutSceneMode()
 END

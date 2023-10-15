@@ -4,17 +4,18 @@ IF
   True()
 THEN
   RESPONSE #100
-    CutSceneId("s!gdru02")
+    CutSceneId(Player1)
 
     Wait(1)
-    MoveViewObject(Myself,STANDARD)
+    MoveViewObject(Myself,VERY_FAST)
+    Wait(1)
 
     SmallWait(4)
-    ForceSpellRES("S!dru02",Myself)
+    ActionOverride("S!gdru02",ForceSpell(Myself,DRYAD_TELEPORT))
     Wait(2)
+    ActionOverride("S!gdru02",DestroySelf())
+    Wait(1)
 
     MultiPlayerSync()
-    ActionOverride("s!drue02",EscapeArea())
-    SmallWait(4)
     EndCutSceneMode()
 END

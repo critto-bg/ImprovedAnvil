@@ -22,6 +22,8 @@ IF ~~ 4
   IF ~~ THEN EXTERN ~IADRACOF~ 7
 END
 
+// draco has been killed, final talk with diviner
+
 IF ~~ 6
   SAY @5913
   = @5914

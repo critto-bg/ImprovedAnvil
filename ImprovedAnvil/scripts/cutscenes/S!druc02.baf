@@ -6,48 +6,62 @@ THEN
   RESPONSE #100
     CutSceneId(Player1)
 
-    Wait(2)
+    Wait(1)
     FadeToColor([20.0],0)
+    Wait(1)
 
+    LeaveAreaLUAPanic("S!0007","",[3550.2325],0)
+    LeaveAreaLUA("S!0007","",[3550.2325],0)
+    ActionOverride(Player2,LeaveAreaLUA("S!0007","",[3480.2380],0))
+    ActionOverride(Player3,LeaveAreaLUA("S!0007","",[3535.2400],0))
+    ActionOverride(Player4,LeaveAreaLUA("S!0007","",[3590.2370],0))
+    ActionOverride(Player5,LeaveAreaLUA("S!0007","",[3635.2315],0))
+    ActionOverride(Player6,LeaveAreaLUA("S!0007","",[3610.2270],0))
+    Wait(1)
+
+    Explore()
+    DayNight(DAWN_END)
     CreateCreature("s!trgu01",[3450.2260],0)
-
-    JumpToPoint([3550.2325])
-    MoveViewObject(Myself,VERY_FAST)
+    MoveViewObject(Myself,INSTANT)
 
     FaceObject("s!trgu01")
     ActionOverride("s!trgu01",FaceObject(Player1))
 
-    ActionOverride(Player2,JumpToPoint([3480.2380]))
     ActionOverride(Player2,FaceObject("s!trgu01"))
-    ActionOverride(Player3,JumpToPoint([3535.2400]))
     ActionOverride(Player3,FaceObject("s!trgu01"))
-    ActionOverride(Player4,JumpToPoint([3590.2370]))
     ActionOverride(Player4,FaceObject("s!trgu01"))
-    ActionOverride(Player5,JumpToPoint([3635.2315]))
     ActionOverride(Player5,FaceObject("s!trgu01"))
-    ActionOverride(Player6,JumpToPoint([3610.2270]))
     ActionOverride(Player6,FaceObject("s!trgu01"))
 
     FadeFromColor([20.0],0)
-    Wait(1)
+    Wait(2)
+
+    SetGlobal("IADruidSiege","GLOBAL",1)
+
+    SetAreaScript("S!skipc",OVERRIDE)
+    SetGlobal("IA_CUTSCENE_BREAKABLE","GLOBAL",201)
+    SetCutSceneBreakable(TRUE)
 
     ActionOverride("s!trgu01",DisplayStringHead(Myself,@5400))
-    Wait(2)
+    Wait(3)
     DisplayStringHead(Player1,@5401)
-    Wait(2)
+    Wait(3)
     ActionOverride("s!trgu01",DisplayStringHead(Myself,@5402))
-    Wait(2)
+    Wait(3)
     ActionOverride("s!trgu01",DisplayStringHead(Myself,@5403))
-    Wait(2)
+    Wait(3)
     ActionOverride("s!trgu01",DisplayStringHead(Myself,@5404))
-    Wait(2)
+    Wait(3)
     DisplayStringHead(Player1,@5405)
 
     CreateCreature("s!jagdu",[3600.2180],0)
     ActionOverride("s!jagdu",FaceObject(Player1))
 
-    SetGlobal("IADruidSiege","AR2000",1)
     Wait(2)
+
+    SetCutSceneBreakable(FALSE)
+    SetGlobal("IA_CUTSCENE_BREAKABLE","GLOBAL",0)
+    SetAreaScript("",OVERRIDE)
 
     MultiPlayerSync()
     EndCutSceneMode()

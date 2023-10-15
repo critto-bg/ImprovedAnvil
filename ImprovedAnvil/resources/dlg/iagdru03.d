@@ -1,6 +1,8 @@
 BEGIN ~IAGDRU03~
 
-IF ~Global("IADruidPlot","GLOBAL",10) Global("IAPlot","S!0001",1)~ THEN BEGIN 0
+// greets the party upon arrival
+
+IF ~Global("IADruidPlot","GLOBAL",10) Global("IAPlot","S!0001",0)~ THEN BEGIN 0
   SAY @5785
   IF ~Global("IADramDies","GLOBAL",0)~ THEN EXTERN ~IATSLEAD~ 14
   IF ~Global("IADramDies","GLOBAL",1)~ THEN REPLY @5789 GOTO 2
@@ -8,7 +10,7 @@ END
 
 IF ~~ THEN BEGIN 1
   SAY @5787
-  IF ~~ THEN DO ~SetGlobal("IAPlot","S!0001",2)~ REPLY @5788
+  IF ~~ THEN DO ~SetGlobal("IAPlot","S!0001",1)~ REPLY @5788
   EXIT
 END
 
@@ -19,9 +21,11 @@ END
 
 IF ~~ THEN BEGIN 3
   SAY @5792
-  IF ~~ THEN DO ~SetGlobal("IAPlot","S!0001",2)~
+  IF ~~ THEN DO ~SetGlobal("IAPlot","S!0001",1)~
   EXIT
 END
+
+// first interaction with Ferrou
 
 IF ~~ THEN BEGIN 4
   SAY @5802
@@ -33,6 +37,8 @@ IF ~~ THEN BEGIN 5
   IF ~~ THEN EXTERN ~IAFERR01~ 4
 END
 
+// ferrou gan is heavily injured
+
 IF ~Global("IADruidPlot","GLOBAL",10) Global("IAPlot","S!0001",3)~ THEN BEGIN 6
   SAY @5815
   IF ~~ THEN EXTERN ~IAFERR01~ 7
@@ -42,6 +48,8 @@ IF ~~ THEN BEGIN 7
   SAY @5818
   IF ~~ THEN EXTERN ~IAFERR01~ 9
 END
+
+// ferrou gan left, post-combat talk
 
 IF ~Global("IADruidPlot","GLOBAL",10) Global("IAPlot","S!0001",4)~ 8
   SAY @5825
@@ -80,15 +88,21 @@ IF ~~ 15
   IF ~~ THEN DO ~SetGlobal("IADruidPlot","GLOBAL",11) AddJournalEntry(@5527,QUEST)~ EXIT
 END
 
+// waiting for the scroll
+
 IF ~Global("IADruidPlot","GLOBAL",11)~ 16
   SAY @5840
   IF ~~ THEN EXIT
 END
 
+// still waiting for the scroll
+
 IF ~Global("IADruidPlot","GLOBAL",12) !PartyHasItem("S!misc72")~ 17
   SAY @5840
   IF ~~ THEN EXIT
 END
+
+// brought the scroll
 
 IF ~Global("IADruidPlot","GLOBAL",12) PartyHasItem("S!misc72")~ 18
   SAY @5845

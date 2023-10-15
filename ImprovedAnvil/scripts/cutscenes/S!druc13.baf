@@ -5,18 +5,26 @@ IF
 THEN
   RESPONSE #100
     CutSceneId(Player1)
-    SetInterrupt(FALSE)
 
     SetGlobal("IAPlot","S!0001",6)
 
     Wait(1)
-    MoveViewObject("S!gdru03",STANDARD)
-    Wait(2)
+    MoveViewObject("S!gdru03",INSTANT)
+    Wait(1)
 
     // TODO: adjust spell sounds to mimic other teleport-style spells?
     ActionOverride("S!gdru03",ForceSpellRES("S!DRU03",Myself))
+    Wait(5)
 
-    Wait(2)
+    ForceSpell(Myself,DRYAD_TELEPORT)
+    ActionOverride("S!gdru03",ForceSpell(Myself,DRYAD_TELEPORT))
+    ActionOverride(Player2,ForceSpell(Myself,DRYAD_TELEPORT))
+    ActionOverride(Player3,ForceSpell(Myself,DRYAD_TELEPORT))
+    ActionOverride(Player4,ForceSpell(Myself,DRYAD_TELEPORT))
+    ActionOverride(Player5,ForceSpell(Myself,DRYAD_TELEPORT))
+    ActionOverride(Player6,ForceSpell(Myself,DRYAD_TELEPORT))
+
+    Wait(1)
     FadeToColor([20.0],0)
     Wait(1)
 
@@ -30,7 +38,7 @@ THEN
     ActionOverride(Player4,LeaveAreaLUA("S!0005","",[1420.975],W))
     ActionOverride(Player5,LeaveAreaLUA("S!0005","",[1385.925],W))
     ActionOverride(Player6,LeaveAreaLUA("S!0005","",[1415.860],W))
-    MoveViewObject(Myself,VERY_FAST)
+    MoveViewObject(Myself,INSTANT)
 
     CreateCreature("s!gdru04",[1515.910],0)
 
@@ -42,20 +50,20 @@ THEN
     ActionOverride(Player5,FaceObject("S!gdru04"))
     ActionOverride(Player6,FaceObject("S!gdru04"))
 
-    FadeFromColor([20.0],0)
     Explore()
+    Wait(1)
+    FadeFromColor([20.0],0)
     Wait(1)
 
     ActionOverride("S!gdru04",DisplayStringHead(Myself,@5860))
-    Wait(1)
+    Wait(3)
     ActionOverride("S!gdru04",DisplayStringHead(Myself,@5861))
-    Wait(1)
+    Wait(3)
     ActionOverride("S!gdru04",DisplayStringHead(Myself,@5862))
-    Wait(1)
+    Wait(3)
 
     AddJournalEntry(@5528,QUEST)
 
     MultiPlayerSync()
-    SetInterrupt(TRUE)
     EndCutSceneMode()
 END

@@ -1,21 +1,22 @@
 // Extended druid stronghold, protagonist attacked by werewolves in the druid grove //
 
 IF
-  True()
+  Global("IADruidPlot","GLOBAL",1)
+  Global("IADruidAmbush","AR1900",0)
 THEN
   RESPONSE #100
     CutSceneId(Player1)
 
-    Wait(3)
+    Wait(2)
     FadeToColor([20.0],0)
     Wait(1)
 
-    CreateCreature("s!wer01",[1155.760],0)
+    CreateCreature("s!wer01",[1210.760],0)
     CreateCreature("s!wer02",[945.765],0)
     CreateCreature("s!wer03",[1330.670],0)
 
     JumpToPoint([1075.620])
-    MoveViewObject(Myself,VERY_FAST)
+    MoveViewObject(Myself,INSTANT)
     FaceObject("s!wer01")
 
     ActionOverride("s!wer01",FaceObject(Player1))
@@ -34,37 +35,112 @@ THEN
     ActionOverride(Player6,FaceObject("s!wer01"))
 
     FadeFromColor([20.0],0)
-    Wait(1)
+
+    SetGlobal("IADruidAmbush","AR1900",1)
+
+    SetAreaScript("S!skipc",OVERRIDE)
+    SetGlobal("IA_CUTSCENE_BREAKABLE","GLOBAL",101)
+    SetCutSceneBreakable(TRUE)
+
+    Wait(3)
 
     ActionOverride("s!wer02",DisplayStringHead(Myself,@5330))
-    Wait(1)
+    Wait(3)
     ActionOverride("s!wer02",DisplayStringHead(Myself,@5331))
-    Wait(2)
+    Wait(3)
     ActionOverride("s!wer01",DisplayStringHead(Myself,@5332))
-    Wait(2)
+    Wait(3)
     ActionOverride("s!wer01",DisplayStringHead(Myself,@5333)
-    Wait(2)
+    Wait(3)
     ActionOverride("s!wer01",DisplayStringHead(Myself,@5334)
     Wait(3)
     ActionOverride("s!wer03",DisplayStringHead(Myself,@5335))
-    Wait(2)
+    Wait(3)
     ActionOverride("s!wer03",DisplayStringHead(Myself,@5336))
-    Wait(2)
+    Wait(3)
     ActionOverride("s!wer01",DisplayStringHead(Myself,@5337)
-    Wait(2)
+    Wait(3)
     ActionOverride("s!wer01",DisplayStringHead(Myself,@5338)
-    Wait(2)
-    ActionOverride("s!wer01",ForceSpell(Myself,GREATER_WOLFWERE_CHANGE))
-    Wait(1)
+    Wait(3)
+    ActionOverride("s!wer01",ForceSpell(Myself,WEREWOLF_CHANGE))
+    Wait(3)
     ActionOverride("s!wer02",DisplayStringHead(Myself,@5339))
     ActionOverride("s!wer03",DisplayStringHead(Myself,@5339))
-    Wait(2)
-    ActionOverride("s!wer02",ForceSpell(Myself,WOLFWERE_CHANGE))
-    ActionOverride("s!wer03",ForceSpell(Myself,WOLFWERE_CHANGE))
+    Wait(1)
+    ActionOverride("s!wer02",ForceSpell(Myself,WEREWOLF_CHANGE))
+    ActionOverride("s!wer03",ForceSpell(Myself,WEREWOLF_CHANGE))
 
-    SetGlobal("IADruidAmbush","AR1900",1)
     Wait(2)
+
+    SetCutSceneBreakable(FALSE)
+    SetGlobal("IA_CUTSCENE_BREAKABLE","GLOBAL",0)
+    SetAreaScript("",OVERRIDE)
 
     MultiPlayerSync()
+    EndCutSceneMode()
+END
+
+// Extended druid stronghold, Verthan aids the protagonist to repel werewolves in the druid grove //
+
+IF
+  Global("IADruidPlot","GLOBAL",1)
+  Global("IADruidAmbush","AR1900",2)
+THEN
+  RESPONSE #100
+    CutSceneId(Player1)
+
+    Wait(1)
+    FadeToColor([20.0],0)
+    Wait(1)
+
+    JumpToPoint([1075.620])
+    MoveViewObject(Myself,INSTANT)
+    Face(NNW)
+
+    ActionOverride(Player2,JumpToPoint([1130.550]))
+    ActionOverride(Player2,Face(NNW))
+    ActionOverride(Player3,JumpToPoint([1010.610]))
+    ActionOverride(Player3,Face(NNW))
+    ActionOverride(Player4,JumpToPoint([890.530]))
+    ActionOverride(Player4,Face(NNW))
+    ActionOverride(Player5,JumpToPoint([1130.470]))
+    ActionOverride(Player5,Face(NNW))
+    ActionOverride(Player6,JumpToPoint([950.450]))
+    ActionOverride(Player6,Face(NNW))
+
+    CreateCreature("S!vert01",[845.334],0)
+    CreateCreature("S!wer01c",[1708.617],0)
+    ActionOverride("S!vert01",FaceObject(Player1))
+    ActionOverride("S!wer01c",FaceObject(Player1))
+
+    FadeFromColor([20.0],0)
+
+    SetGlobal("IADruidAmbush","AR1900",3)
+
+    SetAreaScript("S!skipc",OVERRIDE)
+    SetGlobal("IA_CUTSCENE_BREAKABLE","GLOBAL",102)
+    SetCutSceneBreakable(TRUE)
+
+    Wait(2)
+
+    ActionOverride("S!vert01",MoveToPointNoInterrupt([1035.548]))
+    Wait(5)
+    ActionOverride("S!wer01c",MoveToPointNoInterrupt([1411.617]))
+    Wait(3)
+    ActionOverride("s!vert01",DisplayStringHead(Myself,@5355)
+    Wait(1)
+    SmallWait(15)
+    ActionOverride("s!vert01",ForceSpell("S!wer01c",WIZARD_FLAME_ARROW))
+		Wait(1)
+    ActionOverride("s!vert01",ForceSpell("S!wer01c",CLERIC_FLAME_STRIKE))
+		Wait(2)
+    ActionOverride("S!wer01c",EscapeArea())
+    Wait(3)
+
+    SetCutSceneBreakable(FALSE)
+    SetGlobal("IA_CUTSCENE_BREAKABLE","GLOBAL",0)
+    SetAreaScript("",OVERRIDE)
+
+    ActionOverride("S!vert01",StartDialogNoSet(Player1))
     EndCutSceneMode()
 END

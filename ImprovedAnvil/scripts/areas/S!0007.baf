@@ -1,0 +1,26 @@
+IF
+  InMyArea(Player1)
+  Global("IADruidPlot","GLOBAL",4)
+  Global("IADruidSiege","GLOBAL",1)
+  Global("IADruCut","S!0007",0)
+  Exists("S!jagdu")
+  !Dead("S!jagdu")
+  HPLT("S!jagdu",10)
+THEN
+  RESPONSE #100
+    SetGlobal("IADruCut","S!0007",1)
+    SetGlobal("IADruidSiege","GLOBAL",2)
+END
+
+IF
+  InMyArea(Player1)
+  Global("IADruidPlot","GLOBAL",4)
+  Global("IADruidSiege","GLOBAL",2)
+  Global("IADruCut","S!0007",1)
+THEN
+  RESPONSE #100
+    SetGlobal("IADruCut","S!0007",2)
+    ClearAllActions()
+    StartCutSceneMode()
+    StartCutScene("S!druc03")
+END

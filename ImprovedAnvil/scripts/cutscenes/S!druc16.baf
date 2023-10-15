@@ -5,22 +5,19 @@ IF
 THEN
   RESPONSE #100
     CutSceneId(Player1)
-    SetInterrupt(FALSE)
 
     Wait(1)
+    CreateCreatureObjectDoor("S!drudiv","S!ferr02",0,0,0)
+    Wait(4)
 
-    // TODO: the Diviner teleports in via the portal
-
-    Wait(2)
-
+    ActionOverride("S!drudiv",FaceObject("S!dragol"))
     ActionOverride("S!drudiv",DisplayStringHead(Myself,@5889))
-    Wait(1)
+    Wait(4)
     ActionOverride("S!drudiv",DisplayStringHead(Myself,@5890))
-    Wait(1)
+    Wait(4)
 
-    ActionOverride("S!dracof",StartDialogNoSet(Player1))
+    ActionOverride("S!dragol",StartDialogNoSet(Player1))
 
     MultiPlayerSync()
-    SetInterrupt(TRUE)
     EndCutSceneMode()
 END

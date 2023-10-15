@@ -12,27 +12,26 @@ THEN
 END
 
 // TODO: check for deadness of the leutenants here as well
-// TODO: adjust Draco's HPLT trigger according to his actual health
 IF
   InMyArea(Player1)
   Global("IAPlot","S!0005",4)
   Global("IADruidPlot","GLOBAL",13)
-  CombatCounterGT(0)
-  Exists("S!dracof")
-  !Dead("S!dracof")
-  HPLT("S!dracof",15)
+  !Dead("S!dragol")
+  HPPercentLT("S!dragol",10)
 THEN
   RESPONSE #100
+    SetInterrupt(FALSE)
     SetGlobal("IAPlot","S!0005",5)
+
     ClearAllActions()
     StartCutSceneMode()
     CutSceneId(Player1)
-    SetInterrupt(FALSE)
+
     Wait(1)
-    ActionOverride("S!dracof",ChangeEnemyAlly(Myself,NEUTRAL))
+    ActionOverride("S!dragol",ChangeEnemyAlly(Myself,NEUTRAL))
     Wait(1)
-    ActionOverride("S!dracof",StartDialogueNoSet(Player1))
-    MultiPlayerSync()
-    SetInterrupt(TRUE)
+    ActionOverride("S!dragol",StartDialogueNoSet(Player1))
+
     EndCutSceneMode()
+    SetInterrupt(TRUE)
 END

@@ -1,8 +1,11 @@
 INCLUDE "ImprovedAnvil/lib/tpa/creatures.tpa"
 INCLUDE "ImprovedAnvil/lib/tpa/ids.tpa"
 
+// @TODO remove
 LAF resolve_state STR_VAR new_state_id = ~WEREWOLF_CURSE~ RET new_state_index END
 OUTER_SET werewolf_curse_state = %new_state_index%
+
+APPEND ~SPELL.IDS~ ~2966 LESSER_WEREWOLF_CHANGE~
 
 CLEAR_IDS_MAP
 
@@ -44,6 +47,16 @@ COPY ~ImprovedAnvil/resources/items/new/S!claw02.itm~ ~override/S!claw02.itm~
 
 COPY ~ImprovedAnvil/resources/items/new/S!claw03.itm~ ~override/S!claw03.itm~
 
+// testing stuff
+COPY ~ImprovedAnvil/resources/items/new/SUPRWAND.itm~ ~override/SUPRWAND.itm~
+  SAY NAME1 ~Wand of Dispel Everything~
+  SAY NAME2 ~Wand of Dispel Everything~
+
+COPY ~ImprovedAnvil/resources/items/new/SWANDDMG.itm~ ~override/SWANDDMG.itm~
+  SAY NAME1 ~Wand of Destruction~
+  SAY NAME2 ~Wand of Destruction~
+
+// @TODO: remove the curse string
 COPY
   ~ImprovedAnvil/resources/items/new/S!bite01.itm~ ~override/S!bite01.itm~
   ~ImprovedAnvil/resources/items/new/S!bite02.itm~ ~override/S!bite02.itm~
@@ -78,20 +91,29 @@ COPY_EXISTING ~BOOK06.itm~ ~override/S!misc73.itm~
 
 // copy effects //
 
-COPY ~ImprovedAnvil/resources/effects/S!cursw1.eff~ ~override/S!cursw1.eff~
+//COPY ~ImprovedAnvil/resources/effects/S!cursw1.eff~ ~override/S!cursw1.eff~
 
-COPY ~ImprovedAnvil/resources/effects/S!cursw2.eff~ ~override/S!cursw2.eff~
+// @TODO: insert the werewolf curse state from variable
+//COPY ~ImprovedAnvil/resources/effects/S!cursw2.eff~ ~override/S!cursw2.eff~
 
-COPY ~ImprovedAnvil/resources/effects/S!poisw1.eff~ ~override/S!poisw1.eff~
+// @TODO: remove these from resources
+//COPY ~ImprovedAnvil/resources/effects/S!poisw1.eff~ ~override/S!poisw1.eff~
 
-COPY ~ImprovedAnvil/resources/effects/S!poisw2.eff~ ~override/S!poisw2.eff~
+//COPY ~ImprovedAnvil/resources/effects/S!poisw2.eff~ ~override/S!poisw2.eff~
 
-COPY ~ImprovedAnvil/resources/effects/S!poisw3.eff~ ~override/S!poisw3.eff~
+//COPY ~ImprovedAnvil/resources/effects/S!poisw3.eff~ ~override/S!poisw3.eff~
+
+// install projectiles //
+
+ADD_PROJECTILE ~ImprovedAnvil\resources\projectiles\S!SUPER.PRO~
 
 // copy spells //
 
+COPY ~ImprovedAnvil/resources/spells/S!dru00.spl~ ~override/S!dru00.spl~
+
 COPY ~ImprovedAnvil/resources/spells/S!dru01.spl~ ~override/S!dru01.spl~
 
+// TODO: delete these two
 COPY ~ImprovedAnvil/resources/spells/S!dru02.spl~ ~override/S!dru02.spl~
 
 COPY ~ImprovedAnvil/resources/spells/S!dru03.spl~ ~override/S!dru03.spl~
@@ -101,6 +123,44 @@ COPY ~ImprovedAnvil/resources/spells/S!werhwl.spl~ ~override/S!werhwl.spl~
 
 COPY ~ImprovedAnvil/resources/spells/S!werrag.spl~ ~override/S!werrag.spl~
   SAY NAME1 @12073
+
+COPY ~ImprovedAnvil\resources\spells\SPWII58.spl~ ~override/SPWII58.spl~
+
+// testing stuff
+COPY ~ImprovedAnvil\resources\spells\SUPERSPL.spl~ ~override/SUPERSPL.spl~
+
+  SAY NAME1 ~Dispel Everything~
+
+  LAUNCH_PATCH_FUNCTION ~ALTER_SPELL_HEADER~ INT_VAR
+    header_type = 1
+    projectile = ~%S!SUPER%~
+  END
+
+	LPF ALTER_EFFECT
+		INT_VAR
+			check_headers = 1
+			match_target = 5
+      target = 2
+	END
+
+  LPF CLONE_EFFECT
+    INT_VAR
+      check_globals = 0
+      match_opcode = 58
+      opcode = 139
+      parameter1 = 14056
+    STR_VAR
+      insert = ~below~
+  END
+
+COPY ~ImprovedAnvil\resources\spells\SUPERDMG.spl~ ~override/SUPERDMG.spl~
+
+  SAY NAME1 ~Destroy Everything~
+
+  LAUNCH_PATCH_FUNCTION ~ALTER_SPELL_HEADER~ INT_VAR
+    header_type = 2
+    projectile = ~%S!SUPER%~
+  END
 
 // patch spells //
 
@@ -117,7 +177,23 @@ COPY_EXISTING ~spwi410.spl~ ~override/spwi410.spl~
 
   BUT_ONLY
 
+COPY_EXISTING ~spwi948.spl~ ~override/spwi966.spl~
+  LAUNCH_PATCH_FUNCTION ~ALTER_SPELL_EFFECT~
+    INT_VAR
+      check_headers = 1
+      match_opcode = 151
+    STR_VAR
+      resource = ~S!lwer01~
+  END
+
 // copy creatures //
+
+// TODO: rename this
+COPY ~ImprovedAnvil/resources/creatures/new/S!dragol.cre~         ~override/S!dragol.cre~
+ SAY NAME1     @11018
+ SAY NAME2     @11018
+
+ ADD_CRE_ITEM ~minhp1~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~AMULET~
 
 COPY ~ImprovedAnvil/resources/creatures/new/S!wer01.cre~         ~override/S!wer01.cre~
   SAY NAME1     @12050
@@ -181,10 +257,14 @@ COPY ~ImprovedAnvil/resources/creatures/new/S!tslead.cre~         ~override/S!ts
 
   WRITE_ASCII 0x2cc ~iatslead~ #8 // dialogue
 
-COPY ~ImprovedAnvil/resources/creatures/new/S!drue01.cre~         ~override/S!drue01.cre~
-  WRITE_ASCII 0x280 ~s!drue01~ #32 // death variable
+COPY ~ImprovedAnvil/resources/creatures/new/S!drudiv.cre~         ~override/S!drudiv.cre~
+  SAY NAME1     @12083
+  SAY NAME2     @12083
 
-COPY ~ImprovedAnvil/resources/creatures/new/S!drue02.cre~         ~override/S!drue02.cre~
+// TODO: remove this
+//COPY ~ImprovedAnvil/resources/creatures/new/S!drue01.cre~         ~override/S!drue01.cre~
+//  WRITE_ASCII 0x280 ~s!drue01~ #32 // death variable
+//COPY ~ImprovedAnvil/resources/creatures/new/S!drue02.cre~         ~override/S!drue02.cre~
 
 // patch/create creatures //
 
@@ -203,13 +283,29 @@ COPY_EXISTING ~ppdra2.cre~ ~override/s!drad01.cre~
 
   ADD_CRE_ITEM ~minhp1~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~AMULET~
 
+COPY ~ImprovedAnvil/resources/creatures/new/S!ferr01.cre~ ~override/S!ferr01.cre~
+  SAY NAME1     @12070
+  SAY NAME2     @12070
+
+  ADD_CRE_ITEM ~minhp1~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~AMULET~
+
+  WRITE_ASCII 0x2cc ~iaferr01~ #8 // dialogue
+
+COPY ~ImprovedAnvil/resources/creatures/new/S!ferr02.cre~ ~override/S!ferr02.cre~
+  SAY NAME1     @12070
+  SAY NAME2     @12070
+
+  ADD_CRE_ITEM ~minhp1~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~AMULET~
+
+  WRITE_ASCII 0x2cc ~iaferr02~ #8 // dialogue
+
 COPY_EXISTING ~werewo01.cre~ ~override/werewo01.cre~
   WRITE_LONG  0x14      8000 // xp
   WRITE_LONG  0x18      13 // xp
   WRITE_SHORT 0x24      80 // current hp
   WRITE_SHORT 0x26      80 // max hp
-  WRITE_SHORT 0x46  (0 - 4) // base ac
-  WRITE_SHORT 0x48  (0 - 4) // effective ac
+  WRITE_SHORT 0x46      0 // base ac
+  WRITE_SHORT 0x48      0 // effective ac
   WRITE_BYTE  0x52      7 // thac0
   WRITE_BYTE  0x53      7 // number of attacks
   WRITE_BYTE  0x54      5 // save vs death
@@ -217,20 +313,23 @@ COPY_EXISTING ~werewo01.cre~ ~override/werewo01.cre~
   WRITE_BYTE  0x56      6 // save vs polymorph
   WRITE_BYTE  0x57      5 // save vs breath
   WRITE_BYTE  0x58      8 // save vs spell
-  WRITE_BYTE  0x59      40 // resist fire
+  WRITE_BYTE  0x59      20 // resist fire
   WRITE_BYTE  0x5a      80 // resist cold
   WRITE_BYTE  0x5b      80 // resist electricity
   WRITE_BYTE  0x5c      80 // resist acid
-  WRITE_BYTE  0x5d      40 // resist magic
-  WRITE_BYTE  0x5e      40 // resist magic fire
+  WRITE_BYTE  0x5d      20 // resist magic
+  WRITE_BYTE  0x5e      20 // resist magic fire
   WRITE_BYTE  0x5f      80 // resist magic cold
   WRITE_BYTE  0x60      40 // resist slashing
   WRITE_BYTE  0x61      40 // resist crushing
   WRITE_BYTE  0x62      40 // resist piercing
   WRITE_BYTE  0x63      40 // resist missile
-  WRITE_BYTE  0x234      9 // level
-  WRITE_BYTE  0x23f     19 // morale
-  //WRITE_ASCII 0x248 ~~ #8 // override script
+  WRITE_BYTE  0x234     13 // level
+  WRITE_BYTE  0x23f     15 // morale
+  WRITE_BYTE  0x240      5 // morale break
+  WRITE_LONG  0x242    100 // morale recovery
+  WRITE_ASCII 0x248 ~s!morale~ #8 // override script
+  WRITE_ASCII 0x250 ~s!were~   #8 // class script
 
   REPLACE_CRE_ITEM ~s!werim1~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~LRING~
   REPLACE_CRE_ITEM ~s!claw01~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~WEAPON1~
@@ -238,11 +337,40 @@ COPY_EXISTING ~werewo01.cre~ ~override/werewo01.cre~
   ADD_CRE_ITEM ~s!regw1~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~RRING~
   ADD_CRE_ITEM ~s!bite01~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~WEAPON2~
 
+COPY_EXISTING ~werewo01.cre~ ~override/S!wer01c.cre~
+  WRITE_ASCII 0x248 ~~         #8 // override script
+  WRITE_ASCII 0x250 ~~         #8 // class script
+  WRITE_ASCII 0x280 ~s!wer01c~ #32 // death variable
+
+// young werewolf
+COPY_EXISTING ~werewo01.cre~ ~override/S!lwer01.cre~
+  WRITE_LONG  0x14      4000 // xp
+  WRITE_LONG  0x18      9 // xp
+  WRITE_SHORT 0x24      50 // current hp
+  WRITE_SHORT 0x26      50 // max hp
+  WRITE_SHORT 0x46      5 // base ac
+  WRITE_SHORT 0x48      5 // effective ac
+  WRITE_BYTE  0x52     11 // thac0
+  WRITE_BYTE  0x53      7 // number of attacks
+  WRITE_BYTE  0x54      5 // save vs death
+  WRITE_BYTE  0x55      7 // save vs wands
+  WRITE_BYTE  0x56      6 // save vs polymorph
+  WRITE_BYTE  0x57      5 // save vs breath
+  WRITE_BYTE  0x58      8 // save vs spell
+  WRITE_BYTE  0x59      0 // resist fire
+  WRITE_BYTE  0x5d      0 // resist magic
+  WRITE_BYTE  0x5e      0 // resist magic fire
+  WRITE_BYTE  0x234     9 // level
+
+  REMOVE_CRE_ITEM ~S!bite01~
+
+  SAY NAME1 @12081
+  SAY NAME2 @12081
+
 // Greater Werewolf //
 
 ACTION_FOR_EACH ~file~ IN
                 ~WEREGR01~
-                ~WEREWO01~
 BEGIN
   LAF ~S!CHANGE_CREATURE_COLOURS~
     STR_VAR
@@ -266,6 +394,7 @@ COPY_EXISTING ~RNGWLF01.BCS~ ~override~
     REPLACE_TEXTUALLY ~ForceSpell(Myself,ANATH_WEREWOLF)~ ~DestroyItem("S!misc76") ForceSpell(Myself,ANATH_WEREWOLF)~
   END
 
+// make sure the trademeet siege does not overlapse with the other potential Trademeet events
 COPY_EXISTING ~AR2000.BCS~ ~override~
   DECOMPILE_AND_PATCH BEGIN
     REPLACE_TEXTUALLY ~Global("didthis2","AR2000",0)~ ~!Global("IADruidPlot","GLOBAL",4) Global("didthis2","AR2000",0)~
@@ -293,6 +422,7 @@ COMPILE ~ImprovedAnvil/scripts/areas/S!0003.baf~
 COMPILE ~ImprovedAnvil/scripts/areas/S!0004.baf~ USING ~%LANGUAGE%druidq.tra~
 COMPILE ~ImprovedAnvil/scripts/areas/S!0005.baf~
 COMPILE ~ImprovedAnvil/scripts/areas/S!0006.baf~
+COMPILE ~ImprovedAnvil/scripts/areas/S!0007.baf~
 COMPILE ~ImprovedAnvil/scripts/areas/S!hidr.baf~ USING ~%LANGUAGE%druidq.tra~
 COMPILE ~ImprovedAnvil/scripts/cutscenes/S!druc01.baf~ USING ~%LANGUAGE%druidq.tra~
 COMPILE ~ImprovedAnvil/scripts/cutscenes/S!druc02.baf~ USING ~%LANGUAGE%druidq.tra~
@@ -312,12 +442,17 @@ COMPILE ~ImprovedAnvil/scripts/cutscenes/S!druc15.baf~ USING ~%LANGUAGE%druidq.t
 COMPILE ~ImprovedAnvil/scripts/cutscenes/S!druc16.baf~ USING ~%LANGUAGE%druidq.tra~
 COMPILE ~ImprovedAnvil/scripts/cutscenes/S!druc17.baf~
 COMPILE ~ImprovedAnvil/scripts/cutscenes/S!druc18.baf~
+COMPILE ~ImprovedAnvil/scripts/cutscenes/S!skipc.baf~
 COMPILE ~ImprovedAnvil/scripts/encounters/druid_quests/S!drad01.baf~ USING ~%LANGUAGE%druidq.tra~
+COMPILE ~ImprovedAnvil/scripts/lycanthropes/S!were.baf~ USING ~%LANGUAGE%druidq.tra~
+COMPILE ~ImprovedAnvil/scripts/misc/S!morale.baf~ USING ~%LANGUAGE%druidq.tra~
 
 // extend the scripts //
 
+// druid grove exterior
 <<<<<<<< .../inlined/ar1900.baf
 IF
+  InMyArea(Player1)
   Global("IADruidPlot","GLOBAL",1)
   Global("IADruidAmbush","AR1900",0)
   Global("IADruCut01","AR1900",0)
@@ -326,10 +461,11 @@ THEN
     SetGlobal("IADruCut01","AR1900",1)
     ClearAllActions()
     StartCutSceneMode()
-    StartCutScene("S!druc01")
+    StartCutSceneEx("S!druc01",TRUE)
 END
 
 IF
+  InMyArea(Player1)
   Global("IADruidPlot","GLOBAL",1)
   Global("IADruidAmbush","AR1900",1)
   Global("IADruCut01","AR1900",1)
@@ -343,19 +479,25 @@ THEN
 END
 
 IF
+  InMyArea(Player1)
   Global("IADruidPlot","GLOBAL",1)
   Global("IADruidAmbush","AR1900",2)
+  Global("IADruCut01","AR1900",1)
 THEN
   RESPONSE #100
-    SetGlobal("IADruidAmbush","AR1900",3)
-    CreateCreatureObject("S!vert01",Player1,0,0,0)
+    SetGlobal("IADruCut01","AR1900",2)
+    ClearAllActions()
+    StartCutSceneMode()
+    StartCutSceneEx("S!druc01",TRUE)
 END
 >>>>>>>>
 
 EXTEND_BOTTOM ~AR1900.BCS~ ~.../inlined/ar1900.baf~
 
+// druid grove interior
 <<<<<<<< .../inlined/ar1901.baf
 IF
+  InMyArea(Player1)
   Global("DruidFight","AR1901",10)
   Global("IADruidPlot","GLOBAL",0)
   Global("GrovePoisoned","GLOBAL",0)
@@ -370,12 +512,31 @@ END
 
 EXTEND_TOP ~AR1901.BCS~ ~.../inlined/ar1901.baf~
 
+/**
+ * Shadow Temple area
+ *
+ * Anath's numerous forms, how the item s!misc76 from the druid quest is placed:
+ *
+ * rngwlf01 - the human form, added to the inventory,
+ *            replaces herself with rngwlf04 or rngwlf05 through dialogue, dies if shade lord is finished
+ * rngwlf02 - ignored
+ * rngwlf03 - added at Kill(Myself); runs into cave at first meeting, or dies near the mirror
+ *.rngwlf04 - added to inventory, shapes into this using spell spin876 when she turns enemy and attacks in her cave
+ * rngwlf05 - ignored; shapes into this from spell spin875, when she turns wolf in her cave and runs away,
+              or dies if shade lord is finished
+ *
+ * To summarize:
+ * - add to rngwlf01's inventory through a script, remove at dialogue/script actions if she turns to either werewolf form
+ * - add to rngwlf03's inventory at Kill(Myself)
+ * - add to rngwlf04's inventory through a script
+ */
+
 <<<<<<<< .../inlined/ar140x.baf
 // Anath's human form in the cave
 IF
   AreaCheck("AR1403")
   Global("IADruidAnathNote","GLOBAL",0)
-  Global("IAItemCheck","LOCALS",0)
+  Global("IAItemCheck","AR1403",0)
   Exists("rngwlf01")
   !Dead("rngwlf01")
   !PartyHasItem("S!misc76")
@@ -384,7 +545,7 @@ IF
     Class(Player1,SHAMAN)
 THEN
   RESPONSE #100
-    SetGlobal("IAItemCheck","LOCALS",1)
+    SetGlobal("IAItemCheck","AR1403",1)
     GiveItemCreate("S!misc76","rngwlf01",0,0,0)
 END
 
@@ -392,7 +553,7 @@ END
 IF
   AreaCheck("AR1403")
   Global("IADruidAnathNote","GLOBAL",0)
-  Global("IAItemCheck2","LOCALS",0)
+  Global("IAItemCheck2","AR1403",0)
   Exists("rngwlf04")
   !Dead("rngwlf04")
   !PartyHasItem("S!misc76")
@@ -401,7 +562,7 @@ IF
     Class(Player1,SHAMAN)
 THEN
   RESPONSE #100
-    SetGlobal("IAItemCheck2","LOCALS",1)
+    SetGlobal("IAItemCheck2","AR1403",1)
     GiveItemCreate("S!misc76","rngwlf04",0,0,0)
 END
 
@@ -409,7 +570,7 @@ END
 IF
   AreaCheck("AR1404")
   Global("IADruidAnathNote","GLOBAL",0)
-  Global("IAItemCheck3","LOCALS",0)
+  Global("IAItemCheck3","AR1404",0)
   Global("SpawnAnathHuman","GLOBAL",1)
   Exists("rngwlf03")
   !Dead("rngwlf03")
@@ -419,36 +580,40 @@ IF
     Class(Player1,SHAMAN)
 THEN
   RESPONSE #100
-    SetGlobal("IAItemCheck3","LOCALS",1)
+    SetGlobal("IAItemCheck3","AR1404",1)
     GiveItemCreate("S!misc76","rngwlf03",0,0,0)
 END
 
 IF
+  OR(2)
+    AreaCheck("AR1403")
+    AreaCheck("AR1404")
   Global("IADruidAnathNote","GLOBAL",0)
   PartyHasItem("S!misc76")
 THEN
   RESPONSE #100
     SetGlobal("IADruidAnathNote","GLOBAL",1)
-    SetGlobal("IAJournalCheck","LOCALS",1)
 END
 
 IF
+  OR(2)
+    AreaCheck("AR1403")
+    AreaCheck("AR1404")
   Global("IADruidAnathNote","GLOBAL",1)
   Global("IADruidPlot","GLOBAL",2)
-  Global("IAJournalCheck","LOCALS",1)
 THEN
   RESPONSE #100
     SetGlobal("IADruidAnathNote","GLOBAL",2)
-    SetGlobal("IAJournalCheck","LOCALS",2)
     AddJournalEntry(@5511,QUEST)
 END
 
 IF
+  OR(2)
+    AreaCheck("AR1403")
+    AreaCheck("AR1404")
   Global("IADruidAnathNote","GLOBAL",1)
-  Global("IAJournalCheck","LOCALS",1)
 THEN
   RESPONSE #100
-    SetGlobal("IAJournalCheck","LOCALS",2)
     SetGlobal("IADruidAnathNote","GLOBAL",2)
 END
 >>>>>>>>
@@ -456,8 +621,10 @@ END
 EXTEND_TOP ~AR1403.BCS~ ~.../inlined/ar140x.baf~
 EXTEND_TOP ~AR1404.BCS~ ~.../inlined/ar140x.baf~
 
+// Shadow Temple area, restored
 <<<<<<<< .../inlined/ar1400.baf
 IF
+  InMyArea(Player1)
   Global("IADruidMerellaTalk","GLOBAL",1)
   Global("IADruidPlot","GLOBAL",2)
   Global("IAMerellaCheck","AR1400",0)
@@ -469,6 +636,7 @@ THEN
 END
 
 IF
+  InMyArea(Player1)
   Global("IAMerellaCheck","AR1400",0)
   Global("IADruidMerellaTalk","GLOBAL",1)
 THEN
@@ -480,10 +648,12 @@ END
 
 EXTEND_TOP ~AR1400.BCS~ ~.../inlined/ar1400.baf~
 
+// firkraag's lair dungeon
 <<<<<<<< .../inlined/ar1202.baf
 IF
+  InMyArea(Player1)
   Global("IADruidGrancorNote","GLOBAL",0)
-  Global("IAItemCheck","LOCALS",0)
+  Global("IAItemCheck","AR1202",0)
   Exists("firwlf01")
   !Dead("firwlf01")
   !PartyHasItem("S!misc77")
@@ -492,47 +662,52 @@ IF
     Class(Player1,SHAMAN)
 THEN
   RESPONSE #100
-    SetGlobal("IAItemCheck","LOCALS",1)
+    SetGlobal("IAItemCheck","AR1202",1)
     GiveItemCreate("S!misc77","firwlf01",0,0,0)
 END
 
 IF
+  InMyArea(Player1)
   Global("IADruidGrancorNote","GLOBAL",0)
-  Global("IAItemCheck","LOCALS",1)
+  Global("IAItemCheck","AR1202",1)
   PartyHasItem("S!misc77")
 THEN
   RESPONSE #100
     SetGlobal("IADruidGrancorNote","GLOBAL",1)
-    SetGlobal("IAItemCheck","LOCALS",2)
+    SetGlobal("IAItemCheck","AR1202",2)
 END
 
 IF
+  InMyArea(Player1)
   Global("IADruidGrancorNote","GLOBAL",1)
+  Global("IAItemCheck","AR1202",2)
   Global("IADruidPlot","GLOBAL",2)
-  Global("IAItemCheck","LOCALS",2)
 THEN
   RESPONSE #100
     SetGlobal("IADruidGrancorNote","GLOBAL",2)
-    SetGlobal("IAItemCheck","LOCALS",3)
+    SetGlobal("IAItemCheck","AR1202",3)
     AddJournalEntry(@5513,QUEST)
 END
 
 IF
+  InMyArea(Player1)
   Global("IADruidGrancorNote","GLOBAL",1)
-  Global("IAItemCheck","LOCALS",2)
+  Global("IAItemCheck","AR1202",2)
 THEN
   RESPONSE #100
-    SetGlobal("IAItemCheck","LOCALS",3)
+    SetGlobal("IAItemCheck","AR1202",3)
     SetGlobal("IADruidGrancorNote","GLOBAL",2)
 END
 >>>>>>>>
 
 EXTEND_TOP ~AR1202.BCS~ ~.../inlined/ar1202.baf~
 
+// Trademeet
 <<<<<<<< .../inlined/ar2000.baf
 IF
+  InMyArea(Player1)
   Global("IADruidPlot","GLOBAL",4)
-  Global("IADruidSiege","AR2000",0)
+  Global("IADruidSiege","GLOBAL",0)
   Global("IADruCut","AR2000",0)
 THEN
   RESPONSE #100
@@ -541,155 +716,14 @@ THEN
     StartCutSceneMode()
     StartCutScene("S!druc02")
 END
-
-IF
-  Global("IADruidPlot","GLOBAL",4)
-  Global("IADruidSiege","AR2000",1)
-  Global("IADruCut","AR2000",1)
-  Exists("S!jagdu")
-  !Dead("S!jagdu")
-  HPLT("S!jagdu",10)
-THEN
-  RESPONSE #100
-    SetGlobal("IADruCut","AR2000",2)
-    SetGlobal("IADruidSiege","AR2000",2)
-END
-
-IF
-  Global("IADruidPlot","GLOBAL",4)
-  Global("IADruidSiege","AR2000",2)
-  Global("IADruCut","AR2000",2)
-THEN
-  RESPONSE #100
-    SetGlobal("IADruCut","AR2000",3)
-    ClearAllActions()
-    StartCutSceneMode()
-    StartCutScene("S!druc03")
-END
-
-IF
-  Global("IADruidSiege","AR2000",1)
-  Global("IAExit","AR2000",0)
-THEN
-  RESPONSE #100
-    SetGlobal("IAExit","AR2000",1)
-    TriggerActivation("Tran2001",FALSE)
-    TriggerActivation("Tran2006",FALSE)
-    TriggerActivation("Tran2007",FALSE)
-    TriggerActivation("Tran2010",FALSE)
-    TriggerActivation("Tran2011",FALSE)
-    TriggerActivation("Tran2012",FALSE)
-    TriggerActivation("Tran2013",FALSE)
-    TriggerActivation("Tran2014",FALSE)
-    TriggerActivation("Tran2015",FALSE)
-    TriggerActivation("Tran2016",FALSE)
-    TriggerActivation("Tran2017",FALSE)
-END
-
-IF
-  Global("IADruidSiege","AR2000",3)
-  Global("IAExit","AR2000",1)
-THEN
-  RESPONSE #100
-    SetGlobal("IAExit","AR2000",2)
-    TriggerActivation("Tran2001",TRUE)
-    TriggerActivation("Tran2006",TRUE)
-    TriggerActivation("Tran2007",TRUE)
-    TriggerActivation("Tran2010",TRUE)
-    TriggerActivation("Tran2011",TRUE)
-    TriggerActivation("Tran2012",TRUE)
-    TriggerActivation("Tran2013",TRUE)
-    TriggerActivation("Tran2014",TRUE)
-    TriggerActivation("Tran2015",TRUE)
-    TriggerActivation("Tran2016",TRUE)
-    TriggerActivation("Tran2017",TRUE)
-END
-
-IF
-  Global("IADruidSiege","AR2000",1)
-  Global("IAExit2","AR2000",0)
-  Global("FentanDoors","AR2000",0)
-THEN
-  RESPONSE #100
-    SetGlobal("IAExit2","AR2000",1)
-    TriggerActivation("Tran2002b",FALSE)
-END
-
-IF
-  Global("IADruidSiege","AR2000",3)
-  Global("IAExit2","AR2000",1)
-  Global("FentanDoors","AR2000",0)
-THEN
-  RESPONSE #100
-    SetGlobal("IAExit2","AR2000",2)
-    TriggerActivation("Tran2002b",TRUE)
-END
-
-IF
-  Global("IADruidSiege","AR2000",1)
-  Global("IAExit3","AR2000",0)
-  Global("FentanDoors","AR2000",1)
-THEN
-  RESPONSE #100
-    SetGlobal("IAExit3","AR2000",1)
-    TriggerActivation("Tran2002",FALSE)
-END
-
-IF
-  Global("IADruidSiege","AR2000",3)
-  Global("IAExit3","AR2000",1)
-  Global("FentanDoors","AR2000",1)
-THEN
-  RESPONSE #100
-    SetGlobal("IAExit3","AR2000",2)
-    TriggerActivation("Tran2002",TRUE)
-END
-
-IF
-  Global("IADruidSiege","AR2000",1)
-  Global("IAExit4","AR2000",0)
-  Global("TempleDoors","AR2000",1)
-THEN
-  RESPONSE #100
-    SetGlobal("IAExit4","AR2000",1)
-    TriggerActivation("Tran2008",FALSE)
-END
-
-IF
-  Global("IADruidSiege","AR2000",3)
-  Global("IAExit4","AR2000",1)
-  Global("TempleDoors","AR2000",1)
-THEN
-  RESPONSE #100
-    SetGlobal("IAExit4","AR2000",2)
-    TriggerActivation("Tran2008",TRUE)
-END
-
-IF
-  Global("IADruidSiege","AR2000",1)
-  Global("IAExit5","AR2000",0)
-  Global("TempleDoors","AR2000",0)
-THEN
-  RESPONSE #100
-    SetGlobal("IAExit5","AR2000",1)
-    TriggerActivation("Tran2008b",FALSE)
-END
-
-IF
-  Global("IADruidSiege","AR2000",3)
-  Global("IAExit5","AR2000",1)
-  Global("TempleDoors","AR2000",0)
-THEN
-  RESPONSE #100
-    SetGlobal("IAExit5","AR2000",2)
-    TriggerActivation("Tran2008b",TRUE)
-END
 >>>>>>>>
 
 EXTEND_BOTTOM ~AR2000.BCS~ ~.../inlined/ar2000.baf~
 
+// Brynnlaw
 <<<<<<<< .../inlined/ar1600.baf
 IF
+  InMyArea(Player1)
   GlobalLT("IADruidPlot","GLOBAL",6)
   Global("IADruidFailed","GLOBAL",0)
 THEN
@@ -708,6 +742,7 @@ THEN
 END
 
 IF
+  InMyArea(Player1)
   Global("IADruidPlot","GLOBAL",7)
   Global("IADradeel","GLOBAL",2)
   Global("IASpawn","AR1600",0)
@@ -720,6 +755,7 @@ THEN
 END
 
 IF
+  InMyArea(Player1)
   Global("IADruidPlot","GLOBAL",7)
   Global("IADradeel","GLOBAL",3)
   Global("AsylumPlot","GLOBAL",78)
@@ -733,9 +769,13 @@ END
 
 EXTEND_BOTTOM ~AR1600.BCS~ ~.../inlined/ar1600.baf~
 
+// Sahuagin city / Underdark (quest failure state)
 <<<<<<<< .../inlined/ar2300.baf
 IF
-  Global("IADruidPlot","GLOBAL",17)
+  InMyArea(Player1)
+  OR(2)
+    GlobalLT("IADruidPlot","GLOBAL",8)
+    Global("IADruidPlot","GLOBAL",17)
   Global("IADruidFailed","GLOBAL",0)
 THEN
 	RESPONSE #100
@@ -760,8 +800,10 @@ END
 EXTEND_BOTTOM ~AR2300.BCS~ ~.../inlined/ar2300.baf~
 EXTEND_BOTTOM ~AR2100.BCS~ ~.../inlined/ar2300.baf~
 
+// Brynnlaw tavern
 <<<<<<<< .../inlined/ar1602.baf
 IF
+  InMyArea(Player1)
   Global("IADruidPlot","GLOBAL",7)
   Global("IADradeel","GLOBAL",1)
   Global("IASpawn","AR1602",0)
@@ -775,8 +817,10 @@ END
 
 EXTEND_BOTTOM ~AR1602.BCS~ ~.../inlined/ar1602.baf~
 
+// Spellhold, prison cell area
 <<<<<<<< .../inlined/ar1515.baf
 IF
+  InMyArea(Player1)
   Global("IADruidPlot","GLOBAL",6)
   Global("IATalk","AR1515",1)
 THEN
@@ -788,6 +832,8 @@ END
 
 EXTEND_BOTTOM ~AR1515.BCS~ ~.../inlined/ar1515.baf~
 
+// Exit from Underdark
+// TODO: push it below the first OnCreation() block somehow?
 <<<<<<<< .../inlined/ar2500.baf
 IF
   OnCreation()
@@ -800,41 +846,57 @@ THEN
     RevealAreaOnMap("ar1700")
     Continue()
 END
->>>>>>>>
 
-EXTEND_TOP ~AR2500.BCS~ ~.../inlined/ar2500.baf~
-
-<<<<<<<< .../inlined/ar2500b.baf
 IF
+  OnCreation()
   Global("IADruidPlot","GLOBAL",8)
 THEN
   RESPONSE #100
     SetGlobal("IADruidPlot","GLOBAL",9)
     AddJournalEntry(@5525,QUEST)
+    Continue()
 END
 >>>>>>>>
 
-EXTEND_BOTTOM ~AR2500.BCS~ ~.../inlined/ar2500b.baf~
+EXTEND_TOP ~AR2500.BCS~ ~.../inlined/ar2500.baf~
 
+// Small Teeth Pass
 <<<<<<<< .../inlined/ar1700.baf
 IF
+  InMyArea(Player1)
+  OnCreation()
   Global("IADruidPlot","GLOBAL",9)
   Global("IASpawns","AR1700",0)
 THEN
   RESPONSE #100
-    SetInterrupt(FALSE)
+    Explore()
+    DayNight(DAWN_END)
+    MoveViewObject(Player1,INSTANT)
     SetGlobal("IASpawns","AR1700",1)
     SpawnPtDeactivate("Spawn Point 1")
     SpawnPtDeactivate("Spawn Point 2")
     SpawnPtDeactivate("Spawn Point 3")
     SpawnPtDeactivate("Spawn Point 6")
-    // @TODO: add dram kallen's companions as well
-    CreateCreature("s!tslead",[3000.865],N)
-    ActionOverride("s!tslead",StartDialogNoSet(Player1))
-    SetInterrupt(TRUE)
+    SpawnPtDeactivate("Spawn Ankheg")
+    Continue()
 END
 
 IF
+  InMyArea(Player1)
+  Global("IADruidPlot","GLOBAL",9)
+  Global("IASpawns","AR1700",1)
+THEN
+  RESPONSE #100
+    SetGlobal("IASpawns","AR1700",2)
+    CreateCreature("s!tslead",[3295.275],N)
+    ClearAllActions()
+    StartCutSceneMode()
+    Wait(2)
+    ActionOverride("s!tslead",StartDialogNoSet(Player1))
+END
+
+IF
+  InMyArea(Player1)
   Global("IADruidPlot","GLOBAL",10)
   Global("IAfight","AR1700",1)
   CombatCounter(0)
@@ -847,6 +909,7 @@ THEN
 END
 
 IF
+  InMyArea(Player1)
   Global("IADruidPlot","GLOBAL",10)
   Global("IAfight","AR1700",3)
   CombatCounter(0)
@@ -860,10 +923,12 @@ THEN
 END
 >>>>>>>>
 
-EXTEND_BOTTOM ~AR1700.BCS~ ~.../inlined/ar1700.baf~
+EXTEND_TOP ~AR1700.BCS~ ~.../inlined/ar1700.baf~
 
+// Firkraag's Lair
 <<<<<<<< .../inlined/ar1203.baf
 IF
+  InMyArea(Player1)
   Global("IADruidPlot","GLOBAL",11)
   Global("Chapter","GLOBAL",6)
   Global("Iaonce","AR1203",0)
@@ -875,6 +940,7 @@ THEN
 END
 
 IF
+  InMyArea(Player1)
   Global("IADruidPlot","GLOBAL",11)
   Global("Chapter","GLOBAL",6)
   Global("Iaonce","AR1203",1)
@@ -889,6 +955,7 @@ THEN
 END
 
 IF
+  InMyArea(Player1)
   Global("IADruidPlot","GLOBAL",11)
   Global("Chapter","GLOBAL",6)
   PartyHasItem("S!MISC72")
@@ -902,6 +969,7 @@ END
 
 EXTEND_BOTTOM ~AR1203.BCS~ ~.../inlined/ar1203.baf~
 
+// BALDUR.BCS
 <<<<<<<< .../inlined/baldur.baf
 IF
   OR(2)
@@ -920,10 +988,12 @@ END
 
 EXTEND_TOP ~BALDUR.BCS~ ~.../inlined/baldur.baf~
 
+// Dradeel, combat script during fight with Irenicus
 <<<<<<<< .../inlined/s!ppdra2.baf
 IF
   Global("IADruidPlot","GLOBAL",7)
   Global("IADradeel","GLOBAL",0)
+  Name("PPDRA2",Myself)
 THEN
   RESPONSE #100
     SetGlobal("IADradeel","GLOBAL",1)
@@ -936,6 +1006,7 @@ END
 
 EXTEND_TOP ~s!ppdra2.BCS~ ~.../inlined/s!ppdra2.baf~
 
+// Cutscene to Sahuagin city
 <<<<<<<< .../inlined/CUT41Q.baf
 IF
 	Global("IADruidPlot","GLOBAL",7)
@@ -944,9 +1015,11 @@ THEN
 	RESPONSE #100
 		CutSceneId(Player1)
 		ClearAllActions()
+
 		SetInterrupt(FALSE)
 		FadeToColor([20.0],0)
 		Wait(1)
+
     ActionOverride("s!drad01",DestroySelf())
 		LeaveAreaLUAPanic("S!0002","",[4220.3195],W)
 		LeaveAreaLUA("S!0002","",[4220.3195],W)
@@ -955,11 +1028,17 @@ THEN
 		ActionOverride(Player4,LeaveAreaLUA("S!0002","",[4445.3190],W))
 		ActionOverride(Player5,LeaveAreaLUA("S!0002","",[4735.3240],W))
 		ActionOverride(Player6,LeaveAreaLUA("S!0002","",[4790.3375],W))
-    MoveViewObject(Myself,VERY_FAST)
-		MultiPlayerSync()
-    FadeFromColor([20.0],0)
+
+    MoveViewObject(Myself,INSTANT)
 		Explore()
+    DayNight(DAWN_END)
+
+    Wait(3)
+    FadeFromColor([20.0],0)
+    Wait(3)
+
 		SetInterrupt(TRUE)
+    MultiPlayerSync()
 		EndCutSceneMode()
 		SmallWait(1)
 END
@@ -980,9 +1059,14 @@ COPY_EXISTING ~CECHALLE.DLG~ ~override~
     REPLACE_TEXTUALLY ~Global("GreatDruid","GLOBAL",1)~ ~Global("GreatDruid","GLOBAL",1) Global("IADruidPlot","GLOBAL",0)~
   END
 
+COPY_EXISTING ~AEWERE5.DLG~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~WEREWOLF_CHANGE~ ~LESSER_WEREWOLF_CHANGE~
+  END
+
 <<<<<<<< .../inlined/cechalle.d
 APPEND ~CECHALLE~
-  IF WEIGHT #2 ~Global("IADruidPlot","GLOBAL",1)~
+  IF WEIGHT #2 ~OR(2) Global("IADruidPlot","GLOBAL",1) Global("IADruidPlot","GLOBAL",15)~
     THEN BEGIN 17
     SAY @5320
     IF ~~ THEN EXIT
@@ -1004,13 +1088,22 @@ APPEND ~CECHALLE~
     SAY @5384
 
     // first clue
-    IF ~GlobalGT("IADruidAnathNote","GLOBAL",0) GlobalLT("IADruidAnathNote","GLOBAL",3)~ THEN REPLY @5386 GOTO 21
+    IF ~GlobalGT("IADruidAnathNote","GLOBAL",0) GlobalLT("IADruidAnathNote","GLOBAL",3)~ THEN
+      REPLY @5386
+      DO ~SetGlobal("IADruidAnathNote","GLOBAL",3)~
+      GOTO 21
 
     // second clue
-    IF ~GlobalGT("IADruidMerellaTalk","GLOBAL",0) GlobalLT("IADruidMerellaTalk","GLOBAL",3)~ THEN REPLY @5388 GOTO 22
+    IF ~GlobalGT("IADruidMerellaTalk","GLOBAL",0) GlobalLT("IADruidMerellaTalk","GLOBAL",3)~ THEN
+      REPLY @5388
+      DO ~SetGlobal("IADruidMerellaTalk","GLOBAL",3)~
+      GOTO 22
 
     // third clue
-    IF ~GlobalGT("IADruidGrancorNote","GLOBAL",0) GlobalLT("IADruidGrancorNote","GLOBAL",3)~ THEN REPLY @5390 GOTO 23
+    IF ~GlobalGT("IADruidGrancorNote","GLOBAL",0) GlobalLT("IADruidGrancorNote","GLOBAL",3)~ THEN
+      REPLY @5390
+      DO ~SetGlobal("IADruidGrancorNote","GLOBAL",3)~
+      GOTO 23
 
     // no clues anymore, still looking for more
     IF ~OR(3) GlobalLT("IADruidAnathNote","GLOBAL",3) GlobalLT("IADruidMerellaTalk","GLOBAL",3) GlobalLT("IADruidGrancorNote","GLOBAL",3)~ THEN REPLY @5392 GOTO 24
@@ -1021,17 +1114,17 @@ APPEND ~CECHALLE~
 
   IF ~~ THEN BEGIN 21
     SAY @5387
-    IF ~~ THEN REPLY @5385 DO ~SetGlobal("IADruidAnathNote","GLOBAL",3)~ GOTO 20
+    IF ~~ THEN REPLY @5385 GOTO 20
   END
 
   IF ~~ THEN BEGIN 22
     SAY @5389
-    IF ~~ THEN REPLY @5385 DO ~SetGlobal("IADruidMerellaTalk","GLOBAL",3)~ GOTO 20
+    IF ~~ THEN REPLY @5385 GOTO 20
   END
 
   IF ~~ THEN BEGIN 23
     SAY @5391
-    IF ~~ THEN REPLY @5385 DO ~SetGlobal("IADruidGrancorNote","GLOBAL",3)~ GOTO 20
+    IF ~~ THEN REPLY @5385 GOTO 20
   END
 
   IF ~~ THEN BEGIN 24
@@ -1118,7 +1211,7 @@ APPEND ~CECHALLE~
     EXIT
   END
 
-  IF WEIGHT #8 ~Global("IADruidPlot","GLOBAL",9) Global("IAAmbushFirstTalk","LOCALS",1)~
+  IF WEIGHT #8 ~GlobalGT("IADruidPlot","GLOBAL",8) GlobalLT("IADruidPlot","GLOBAL",15) Global("IAAmbushFirstTalk","LOCALS",1)~
     THEN BEGIN 39
     SAY @5748
     IF ~~ THEN EXIT
@@ -1172,6 +1265,7 @@ COPY_EXISTING ~UHRANG01.DLG~ ~override~
 COPY_EXISTING ~PPSAEM3.DLG~ ~override~
   DECOMPILE_AND_PATCH BEGIN
     REPLACE_TEXTUALLY ~StartCutSceneEx("Cut41q",FALSE)~ ~StartCutSceneEx("Cut41q",TRUE)~
+    REPLACE_TEXTUALLY ~Global("AsylumPlot","GLOBAL",78)~ ~Global("AsylumPlot","GLOBAL",78) !AreaCheck("S!0002")~
   END
 
 // compile the dialogues //
@@ -1207,6 +1301,9 @@ COPY ~ImprovedAnvil/resources/druid/MOS1005.PVRZ~ ~override/MOS1005.PVRZ~
 COPY ~ImprovedAnvil/resources/druid/MOS1006.PVRZ~ ~override/MOS1006.PVRZ~
 COPY ~ImprovedAnvil/resources/druid/MOS1007.PVRZ~ ~override/MOS1007.PVRZ~
 
+// new search map for AR1700
+COPY ~ImprovedAnvil/resources/druid/AR1700SR.bmp~ ~override/AR1700SR.bmp~
+
 // new areas
 COPY ~ImprovedAnvil/resources/druid/s!0001.are~ ~override/s!0001.are~
 COPY ~ImprovedAnvil/resources/druid/S!0001.MOS~ ~override/S!0001.MOS~
@@ -1228,6 +1325,7 @@ COPY ~ImprovedAnvil/resources/druid/S000109.PVRZ~ ~override/S000109.PVRZ~
 COPY ~ImprovedAnvil/resources/druid/S000110.PVRZ~ ~override/S000110.PVRZ~
 COPY ~ImprovedAnvil/resources/druid/S000111.PVRZ~ ~override/S000111.PVRZ~
 
+// TODO: rename these source files
 COPY ~ImprovedAnvil/resources/druid/ARIA28.are~ ~override/S!0002.are~
 COPY ~ImprovedAnvil/resources/druid/ARIA28.MOS~ ~override/S!0002.MOS~
 COPY ~ImprovedAnvil/resources/druid/ARIA28.WED~ ~override/S!0002.WED~
@@ -1288,6 +1386,15 @@ COPY ~ImprovedAnvil/resources/druid/AR1505LM.BMP~ ~override/S!0003LM.BMP~
 COPY ~ImprovedAnvil/resources/druid/AR1505SR.BMP~ ~override/S!0003SR.BMP~
 COPY ~ImprovedAnvil/resources/druid/A150500.PVRZ~ ~override/S000300.PVRZ~
 
+COPY ~ImprovedAnvil/resources/druid/S!0004.are~ ~override/S!0004.are~
+COPY ~ImprovedAnvil/resources/druid/S!0004.MOS~ ~override/S!0004.MOS~
+COPY ~ImprovedAnvil/resources/druid/S!0004.WED~ ~override/S!0004.WED~
+COPY ~ImprovedAnvil/resources/druid/S!0004.tis~ ~override/S!0004.tis~
+COPY ~ImprovedAnvil/resources/druid/S!0004HT.BMP~ ~override/S!0004HT.BMP~
+COPY ~ImprovedAnvil/resources/druid/S!0004LM.BMP~ ~override/S!0004LM.BMP~
+COPY ~ImprovedAnvil/resources/druid/S!0004SR.BMP~ ~override/S!0004SR.BMP~
+COPY ~ImprovedAnvil/resources/druid/S000400.PVRZ~ ~override/S000400.PVRZ~
+
 COPY ~ImprovedAnvil/resources/druid/S!0005.are~ ~override/S!0005.are~
 COPY ~ImprovedAnvil/resources/druid/S!0005.MOS~ ~override/S!0005.MOS~
 COPY ~ImprovedAnvil/resources/druid/S!0005.WED~ ~override/S!0005.WED~
@@ -1302,15 +1409,6 @@ COPY ~ImprovedAnvil/resources/druid/S000503.PVRZ~ ~override/S000503.PVRZ~
 COPY ~ImprovedAnvil/resources/druid/S000504.PVRZ~ ~override/S000504.PVRZ~
 COPY ~ImprovedAnvil/resources/druid/S000505.PVRZ~ ~override/S000505.PVRZ~
 
-COPY ~ImprovedAnvil/resources/druid/S!0004.are~ ~override/S!0004.are~
-COPY ~ImprovedAnvil/resources/druid/S!0004.MOS~ ~override/S!0004.MOS~
-COPY ~ImprovedAnvil/resources/druid/S!0004.WED~ ~override/S!0004.WED~
-COPY ~ImprovedAnvil/resources/druid/S!0004.tis~ ~override/S!0004.tis~
-COPY ~ImprovedAnvil/resources/druid/S!0004HT.BMP~ ~override/S!0004HT.BMP~
-COPY ~ImprovedAnvil/resources/druid/S!0004LM.BMP~ ~override/S!0004LM.BMP~
-COPY ~ImprovedAnvil/resources/druid/S!0004SR.BMP~ ~override/S!0004SR.BMP~
-COPY ~ImprovedAnvil/resources/druid/S000400.PVRZ~ ~override/S000400.PVRZ~
-
 COPY ~ImprovedAnvil/resources/druid/S!0006.are~ ~override/S!0006.are~
 COPY ~ImprovedAnvil/resources/druid/S!0006.WED~ ~override/S!0006.WED~
 COPY ~ImprovedAnvil/resources/druid/S!0006.tis~ ~override/S!0006.tis~
@@ -1318,6 +1416,8 @@ COPY ~ImprovedAnvil/resources/druid/S!0006HT.BMP~ ~override/S!0006HT.BMP~
 COPY ~ImprovedAnvil/resources/druid/S!0006LM.BMP~ ~override/S!0006LM.BMP~
 COPY ~ImprovedAnvil/resources/druid/S!0006SR.BMP~ ~override/S!0006SR.BMP~
 COPY ~ImprovedAnvil/resources/druid/S000600.PVRZ~ ~override/S000600.PVRZ~
+
+COPY ~ImprovedAnvil/resources/druid/S!0007.are~ ~override/S!0007.are~
 
 COPY ~ImprovedAnvil/resources/druid/amb_e10a.wav~ ~override/amb_e10a.wav~
 COPY ~ImprovedAnvil/resources/druid/amb_e05a.wav~ ~override/amb_e05a.wav~
@@ -1343,8 +1443,8 @@ COPY ~ImprovedAnvil/resources/druid/AMBDCWND.WAV~ ~override/AMBDCWND.WAV~
 
 // patch the areas //
 
-// add entrance point at the south-western edge of Small Teeth Pass
 COPY_EXISTING ~AR1700.ARE~ ~override/AR1700.ARE~
+  // add entrance point at the south-western edge of Small Teeth Pass
   LPF fj_are_structure
     INT_VAR
       fj_loc_x = 640
@@ -1354,26 +1454,51 @@ COPY_EXISTING ~AR1700.ARE~ ~override/AR1700.ARE~
       fj_name = ~ExitSW~
       fj_structure_type = entrance
   END
+
+  // replace ankheg actors with a proper spawn point
+  LPF ALTER_AREA_ACTOR
+    INT_VAR
+      expiry = 0
+    STR_VAR
+      actor_name = ~Ankheg~
+  END
+
+  LPF fj_are_structure
+    INT_VAR
+      fj_loc_x      = 635
+      fj_loc_y      = 2605
+      fj_spawn_num  = 1
+      fj_difficulty = 2
+      fj_delay      = 1
+      fj_method     = 2
+      fj_max_num    = 3
+    STR_VAR
+      fj_structure_type = spawn
+      fj_name           = ~Spawn Ankheg~
+      fj_cre_resref0    = ~ANKHEG01~
+      fj_cre_resref1    = ~ANKHEG01~
+      fj_cre_resref2    = ~ANKHEG01~
+  END
 BUT_ONLY
 
 // add a hidden container to Firkraag's area
 COPY_EXISTING ~AR1203.ARE~ ~override/AR1203.ARE~
   LPF fj_are_structure
     INT_VAR
-      fj_loc_x       = 2230
-      fj_loc_y       = 1692
-      fj_type        = 4
+      fj_loc_x       = 2245
+      fj_loc_y       = 1685
+      fj_type        = 8
       fj_flags       = 0b00100000
       fj_lock_diff   = 0
       fj_trap_active = 0
-      fj_box_left    = 2261
-      fj_box_top     = 1705
-      fj_box_right   = 2228
-      fj_box_bottom  = 1678
-      fj_vertex_0    = 2242 + (1678 << 16)
+      fj_box_left    = 2238
+      fj_box_top     = 1678
+      fj_box_right   = 2261
+      fj_box_bottom  = 1695
+      fj_vertex_0    = 2261 + (1678 << 16)
       fj_vertex_1    = 2261 + (1695 << 16)
-      fj_vertex_2    = 2238 + (1705 << 16)
-      fj_vertex_3    = 2228 + (1687 << 16)
+      fj_vertex_2    = 2238 + (1695 << 16)
+      fj_vertex_3    = 2238 + (1678 << 16)
     STR_VAR
       fj_name = ~druidq~
       fj_structure_type = container
@@ -1514,18 +1639,21 @@ APPEND ~mastarea.2da~ ~S!0005     value~
 
 // patch the worldmap //
 
+OUTER_SET str_name_ref = RESOLVE_STR_REF (@12082)
+ACTION_GET_STRREF str_name_ref str_name
+
 LAF sc#addWmpAre
   INT_VAR mapIcon         = 35
           xCoord          = 864
           yCoord          = 534
           tTime           = 2
-          visible         = 1
+          visible         = 0
           reachable       = 1
           visited         = 0
           visibleAdjacent = 0
           inclSv          = 0
   STR_VAR areName = "S!0001"
-          strName = "Helter Steps"
+          strName = EVALUATE_BUFFER "%str_name%"
           strDesc = ""
 END
 
@@ -1623,3 +1751,7 @@ COPY_EXISTING ~worldmap.wmp~ ~override~
       entry = ~ExitSW~
   END
 BUT_ONLY
+
+// autobuffs //
+
+INCLUDE "ImprovedAnvil/lib/core/autobuffs.tph"

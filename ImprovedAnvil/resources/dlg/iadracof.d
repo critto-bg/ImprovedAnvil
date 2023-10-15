@@ -1,12 +1,16 @@
 BEGIN ~IADRACOF~
 
-IF ~NumTimesTalkedTo(0)~ 0
+// almost dead, calls upon the diviner
+
+IF ~Global("IAPlot","S!0005",5) NumTimesTalkedTo(0)~ 0
   SAY @5885
   = @5886
   IF ~~ THEN EXTERN ~IAGDRU04~ 4
 END
 
-IF ~Global("IAPlot","S!0005",5)~ 2
+// final talk with the diviner
+
+IF ~Global("IAPlot","S!0005",5) NumTimesTalkedToGT(0)~ 2
   SAY @5895
   = @5896
   IF ~~ THEN EXTERN ~IADRUDIV~ 0

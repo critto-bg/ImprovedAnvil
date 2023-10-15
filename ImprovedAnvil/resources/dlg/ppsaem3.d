@@ -85,7 +85,7 @@ APPEND ~PPSAEM3~
 
   IF ~~ THEN BEGIN 79
     SAY @5612
-    IF ~~ THEN REPLY @5613 DO ~TakePartyItem("misc9g") DestroyItem("misc9g") SetGlobal("GaveSaemTheHorn","LOCALS",1)~ GOTO 29
+    IF ~~ THEN REPLY @5613 DO ~ActionOverride("S!drad01",JumpToPoint([2260.2530])) TakePartyItem("misc9g") DestroyItem("misc9g") SetGlobal("GaveSaemTheHorn","LOCALS",1)~ GOTO 29
   END
 
   IF ~~ THEN BEGIN 80
@@ -100,7 +100,7 @@ APPEND ~PPSAEM3~
 
   IF ~~ THEN BEGIN 82
     SAY @5619
-    IF ~~ THEN REPLY @5613 DO ~TakePartyItem("misc9g") DestroyItem("misc9g") SetGlobal("GaveSaemTheHorn","LOCALS",1)~ GOTO 29
+    IF ~~ THEN REPLY @5613 DO ~ActionOverride("S!drad01",JumpToPoint([2260.2530])) TakePartyItem("misc9g") DestroyItem("misc9g") SetGlobal("GaveSaemTheHorn","LOCALS",1)~ GOTO 29
   END
 
   // on the island

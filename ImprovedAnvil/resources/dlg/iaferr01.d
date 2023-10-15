@@ -28,8 +28,10 @@ END
 
 IF ~~ 6
   SAY @5811
-  IF ~~ THEN EXIT
+  IF ~~ THEN DO ~SetGlobal("IAPlot","S!0001",2)~ EXIT
 END
+
+//
 
 IF ~~ 7
   SAY @5816
@@ -44,5 +46,5 @@ END
 
 IF ~~ 10
   SAY @5821
-  IF ~~ THEN EXIT
+  IF ~~ THEN DO ~ClearAllActions() StartCutSceneMode() StartCutSceneEx("S!druc12",TRUE)~ EXIT
 END

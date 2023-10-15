@@ -16,11 +16,15 @@ IF ~~ THEN BEGIN 3
   IF ~~ THEN EXTERN ~IAFERR02~ 8
 END
 
+// draco ferrous nearly dead, appearance of the diviner
+
 IF ~~ THEN BEGIN 4
   SAY @5887
   = @5888
   IF ~~ THEN DO ~ClearAllActions() StartCutSceneMode() StartCutScene("S!druc16")~ EXIT
 END
+
+// diviner has killed draco ferrous
 
 IF ~Global("IADruidPlot","GLOBAL",13) Global("IAPlot","S!0005",6)~ 6
   SAY @5910
@@ -44,6 +48,8 @@ IF ~~ 11
   IF ~~ THEN REPLY @5931 EXTERN ~IADRUDIV~ 16
 END
 
+// finale
+
 IF ~Global("IADruidPlot","GLOBAL",14)~ 12
   SAY @5935
   = @5936
@@ -61,3 +67,12 @@ IF ~~ 17
   SAY @5942
   IF ~~ THEN DO ~SetGlobal("IADruidPlot","GLOBAL",15)~ EXIT
 END
+
+//
+
+IF ~Global("IADruidPlot","GLOBAL",12)~ 18
+  SAY @5860
+
+  IF ~~ THEN EXIT
+END
+

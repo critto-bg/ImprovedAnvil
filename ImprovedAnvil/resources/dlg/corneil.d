@@ -1,5 +1,5 @@
 EXTEND_TOP ~CORNEIL~ 0 #6
-  IF ~Global("IADruidPlot","GLOBAL",6) Global("IADruidTalk","LOCALS",0)~ THEN
+  IF ~Global("IADruidPlot","GLOBAL",6) PartyHasItem("S!misc70") Global("IADruidTalk","LOCALS",0)~ THEN
     DO ~SetGlobal("IADruidTalk","LOCALS",1)~
     REPLY @5440 GOTO 15
 END

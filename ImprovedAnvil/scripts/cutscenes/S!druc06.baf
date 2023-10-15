@@ -21,7 +21,7 @@ THEN
 		ActionOverride(Player4,LeaveAreaLUA("S!0003","",[520.375],W))
 		ActionOverride(Player5,LeaveAreaLUA("S!0003","",[570.350],W))
 		ActionOverride(Player6,LeaveAreaLUA("S!0003","",[435.240],W))
-    MoveViewObject(Myself,VERY_FAST)
+    MoveViewObject(Myself,INSTANT)
 
     CreateCreature("s!gdru02",[500.290],0)
     CreateCreature("s!drad01",[210.445],0)
@@ -35,12 +35,13 @@ THEN
 		ActionOverride(Player5,FaceObject("S!gdru02"))
 		ActionOverride(Player6,FaceObject("S!gdru02"))
 
-    FadeFromColor([20.0],0)
 		Explore()
 		SetInterrupt(TRUE)
+    Wait(3)
+    FadeFromColor([20.0],0)
 		Wait(1)
 
-    MultiPlayerSync()
     ActionOverride("s!gdru02",StartDialogNoSet(Player1))
+    MultiPlayerSync()
     EndCutSceneMode()
 END

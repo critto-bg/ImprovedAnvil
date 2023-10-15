@@ -1,0 +1,259 @@
+// key pressed – start buffing
+IF
+  Global("IaBuff","LOCALS",0)
+  HotKey(B)
+THEN
+  RESPONSE #100
+    SetGlobal("IaBuff","LOCALS",1)
+    DisplayStringHead(Myself,9889)
+END
+
+// key pressed again - stop buffing
+IF
+  Global("IaBuff","LOCALS",1)
+  HotKey(B)
+THEN
+  RESPONSE #100
+    SetGlobal("IaBuff","LOCALS",0)
+END
+
+/* CLERIC / DRUID / SHAMAN / RANGER / PALADIN */
+
+// Iron Skins, 12 hours
+// SPPR506
+IF
+  Global("IaBuff","LOCALS",1)
+	HaveSpell(CLERIC_IRONSKIN)
+	CheckStatLT(Myself,1,STONESKINS)
+THEN
+	RESPONSE #100
+		// Spell(Myself,CLERIC_IRONSKIN)
+    ReallyForceSpell(Myself,CLERIC_IRONSKIN)
+    RemoveSpell(CLERIC_IRONSKIN)
+    Continue()
+END
+
+// Armor of Faith, 15 rounds
+// SPPR111
+IF
+  Global("IaBuff","LOCALS",1)
+  HaveSpell(CLERIC_ARMOR_OF_FAITH)
+  !CheckSpellState(Myself,ARMOR_OF_FAITH)
+THEN
+  RESPONSE #100
+    // Spell(Myself,CLERIC_ARMOR_OF_FAITH)
+    ReallyForceSpell(Myself,CLERIC_ARMOR_OF_FAITH)
+    RemoveSpell(CLERIC_ARMOR_OF_FAITH)
+    Continue()
+END
+
+// Barkskin, 10+ rounds
+// SPPR202
+IF
+  Global("IaBuff","LOCALS",1)
+  HaveSpell(CLERIC_BARKSKIN)
+  !CheckSpellState(Myself,BARKSKIN)
+THEN
+  RESPONSE #100
+    // Spell(Myself,CLERIC_BARKSKIN)
+    ReallyForceSpell(Myself,CLERIC_BARKSKIN)
+    RemoveSpell(CLERIC_BARKSKIN)
+    Continue()
+END
+
+// Holy Power, ~10+ rounds
+// SPPR412
+IF
+  Global("IaBuff","LOCALS",1)
+  HaveSpell(CLERIC_HOLY_POWER)
+  !CheckSpellState(Myself,HOLY_POWER)
+THEN
+  RESPONSE #100
+    // Spell(Myself,CLERIC_HOLY_POWER)
+    ReallyForceSpell(Myself,CLERIC_HOLY_POWER)
+    RemoveSpell(CLERIC_HOLY_POWER)
+    Continue()
+END
+
+// Righteous Magic, 10+ rounds
+// goes after Holy Power, since it stacks on top of its 18/00 STR bonus
+// SPPR513
+IF
+  Global("IaBuff","LOCALS",1)
+  HaveSpell(CLERIC_RIGHTEOUS_MAGIC)
+  !CheckSpellState(Myself,RIGHTEOUS_MAGIC)
+THEN
+  RESPONSE #100
+    // Spell(Myself,CLERIC_RIGHTEOUS_MAGIC)
+    ReallyForceSpell(Myself,CLERIC_RIGHTEOUS_MAGIC)
+    RemoveSpell(CLERIC_RIGHTEOUS_MAGIC)
+    Continue()
+END
+
+// Draw Upon Holy Might, 10 rounds
+// goes after Holy Power, since it stacks on top of its 18/00 STR bonus
+// not used if Righteous Magic is active since its effects are similar
+// SPPR214
+IF
+  Global("IaBuff","LOCALS",1)
+  HaveSpell(CLERIC_DRAW_UPON_HOLY_MIGHT)
+  !CheckSpellState(Myself,DRAW_UPON_HOLY_MIGHT)
+  !CheckSpellState(Myself,RIGHTEOUS_MAGIC)
+THEN
+  RESPONSE #100
+    // Spell(Myself,CLERIC_DRAW_UPON_HOLY_MIGHT)
+    ReallyForceSpell(Myself,CLERIC_DRAW_UPON_HOLY_MIGHT)
+    RemoveSpell(CLERIC_DRAW_UPON_HOLY_MIGHT)
+    Continue()
+END
+
+// Acid Shield, 10+ rounds
+// SPPR418
+IF
+  Global("IaBuff","LOCALS",1)
+  HaveSpell(CLERIC_ACID_SHIELD)
+  !CheckSpellState(Myself,ACID_SHIELD)
+THEN
+  RESPONSE #100
+    // Spell(Myself,CLERIC_ACID_SHIELD)
+    ReallyForceSpell(Myself,CLERIC_ACID_SHIELD)
+    RemoveSpell(CLERIC_ACID_SHIELD)
+    Continue()
+END
+
+// Shield of the Archons, 10 rounds
+// SPPR701
+IF
+  Global("IaBuff","LOCALS",1)
+  HaveSpell(CLERIC_SHIELD_OF_THE_ARCHONS)
+  CheckStat(Myself,0,SCRIPTINGSTATE19)
+THEN
+  RESPONSE #100
+    // Spell(Myself,CLERIC_SHIELD_OF_THE_ARCHONS)
+    ReallyForceSpell(Myself,CLERIC_SHIELD_OF_THE_ARCHONS)
+    RemoveSpell(CLERIC_SHIELD_OF_THE_ARCHONS)
+    Continue()
+END
+
+// Bless, 6 rounds
+// SPPR101
+IF
+  Global("IaBuff","LOCALS",1)
+  HaveSpell(CLERIC_BLESS)
+  !CheckSpellState(Myself,BLESS)
+THEN
+  RESPONSE #100
+    // Spell(Myself,CLERIC_BLESS)
+    ReallyForceSpell(Myself,CLERIC_BLESS)
+    RemoveSpell(CLERIC_BLESS)
+    Continue()
+END
+
+// Defensive Harmony, 6 rounds
+// SPPR406
+IF
+  Global("IaBuff","LOCALS",1)
+  HaveSpell(CLERIC_DEFENSIVE_HARMONY)
+  CheckStat(Myself,0,EXTRAPROFICIENCY19)
+THEN
+  RESPONSE #100
+    // Spell(Myself,CLERIC_DEFENSIVE_HARMONY)
+    ReallyForceSpell(Myself,CLERIC_DEFENSIVE_HARMONY)
+    RemoveSpell(CLERIC_DEFENSIVE_HARMONY)
+    Continue()
+END
+
+/* WIZARD / SORCERER / BARD */
+
+// Stoneskin, 12 hours
+// SPWI408
+IF
+  Global("IaBuff","LOCALS",1)
+	HaveSpell(WIZARD_STONE_SKIN)
+	CheckStatLT(Myself,1,STONESKINS)
+THEN
+	RESPONSE #100
+		// Spell(Myself,WIZARD_STONE_SKIN)
+    ReallyForceSpell(Myself,WIZARD_STONE_SKIN)
+    RemoveSpell(WIZARD_STONE_SKIN)
+    Continue()
+END
+
+// Blur, ~20+ rounds
+// SPWI201
+IF
+  Global("IaBuff","LOCALS",1)
+	HaveSpell(WIZARD_BLUR)
+	!StateCheck(Myself,STATE_BLUR)
+THEN
+	RESPONSE #100
+		// Spell(Myself,WIZARD_BLUR)
+    ReallyForceSpell(Myself,WIZARD_BLUR)
+    RemoveSpell(WIZARD_BLUR)
+    Continue()
+END
+
+// Mirror Image, ~15+ rounds
+// SPWI212
+IF
+  Global("IaBuff","LOCALS",1)
+	HaveSpell(WIZARD_MIRROR_IMAGE)
+	!StateCheck(Myself,STATE_MIRRORIMAGE)
+THEN
+	RESPONSE #100
+		// Spell(Myself,WIZARD_MIRROR_IMAGE)
+    ReallyForceSpell(Myself,WIZARD_MIRROR_IMAGE)
+    RemoveSpell(WIZARD_MIRROR_IMAGE)
+    Continue()
+END
+
+// Haste, ~15+ rounds
+// SPWI305
+IF
+  Global("IaBuff","LOCALS",1)
+	HaveSpell(WIZARD_HASTE)
+	!StateCheck(Myself,STATE_HASTED)
+  CheckStat(Myself,0,IMPROVEDHASTE)
+THEN
+	RESPONSE #100
+		// Spell(Myself,WIZARD_HASTE)
+    ReallyForceSpell(Myself,WIZARD_HASTE)
+    RemoveSpell(WIZARD_HASTE)
+    Continue()
+END
+
+// Minor Globe of Invulnerability, 15 rounds
+// SPWI406
+IF
+  Global("IaBuff","LOCALS",1)
+	HaveSpell(WIZARD_MINOR_GLOBE_OF_INVULNERABILITY)
+	CheckStat(Myself,0,MINORGLOBE)
+THEN
+	RESPONSE #100
+		// Spell(Myself,WIZARD_MINOR_GLOBE_OF_INVULNERABILITY)
+    ReallyForceSpell(Myself,WIZARD_MINOR_GLOBE_OF_INVULNERABILITY)
+    RemoveSpell(WIZARD_MINOR_GLOBE_OF_INVULNERABILITY)
+    Continue()
+END
+
+// Melf's Minute Meteors, special
+// SPWI325
+IF
+  Global("IaBuff","LOCALS",1)
+	HaveSpell(WIZARD_MELF_METEOR)
+	!HasItem("melfmet",Myself)
+THEN
+	RESPONSE #100
+		// Spell(Myself,WIZARD_MELF_METEOR)
+    ReallyForceSpell(Myself,WIZARD_MELF_METEOR)
+    RemoveSpell(WIZARD_MELF_METEOR)
+    Continue()
+END
+
+// end of buffing sequence
+IF
+  Global("IaBuff","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("IaBuff","LOCALS",0)
+END

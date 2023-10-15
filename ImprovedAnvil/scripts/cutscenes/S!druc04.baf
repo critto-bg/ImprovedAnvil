@@ -7,16 +7,14 @@ THEN
     CutSceneId(Player1)
 
     Wait(1)
-    MoveViewObject(Myself,STANDARD)
+    MoveViewObject(Myself,INSTANT)
     SmallWait(1)
-    CreateCreatureObjectOffScreen("S!drue01",Player1,0,0,0) //
-    MoveToObject(Player1)
+    CreateCreatureDoor("S!gdru02",[4200.3195],0)
+    Wait(5)
 
-    SmallWait(4)
-    ActionOverride("s!drue01",ForceSpellRES("S!dru01",Myself))
-    Wait(2)
+    ActionOverride("s!gdru02",FaceObject(Player1))
+    ActionOverride("s!gdru02",StartDialogNoSet(Player1))
 
     MultiPlayerSync()
-    ActionOverride("s!gdru02",StartDialogNoSet(Player1))
     EndCutSceneMode()
 END

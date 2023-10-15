@@ -5,29 +5,30 @@ IF
 THEN
   RESPONSE #100
     CutSceneId(Player1)
-    SetInterrupt(FALSE)
 
     Wait(1)
-    // TODO: the Diviner casts teleport and leaves
+    ActionOverride("S!drudiv",ForceSpell(Myself,DRYAD_TELEPORT))
+    Wait(2)
+    ActionOverride("S!drudiv",DestroySelf())
 
     Wait(2)
     FadeToColor([20.0],0)
     Wait(1)
 
+    CopyGroundPilesTo("S!0001",[3000.1080])
     ActionOverride("s!gdru04",DestroySelf())
 
-    LeaveAreaLUAPanic("S!0005","",[1630.960],W)
-    LeaveAreaLUA("S!0005","",[1630.960],W)
+    LeaveAreaLUAPanic("S!0001","",[3050.1080],W)
+    LeaveAreaLUA("S!0001","",[3050.1080],W)
 
-    // TODO correct the arrival coordinates
-    ActionOverride(Player2,LeaveAreaLUA("S!0001","",[1570.1000],W))
-    ActionOverride(Player3,LeaveAreaLUA("S!0001","",[1485.1015],W))
-    ActionOverride(Player4,LeaveAreaLUA("S!0001","",[1420.975],W))
-    ActionOverride(Player5,LeaveAreaLUA("S!0001","",[1385.925],W))
-    ActionOverride(Player6,LeaveAreaLUA("S!0001","",[1415.860],W))
-    MoveViewObject(Myself,VERY_FAST)
+    ActionOverride(Player2,LeaveAreaLUA("S!0001","",[2660.1000],W))
+    ActionOverride(Player3,LeaveAreaLUA("S!0001","",[2655.1120],W))
+    ActionOverride(Player4,LeaveAreaLUA("S!0001","",[3080.1260],W))
+    ActionOverride(Player5,LeaveAreaLUA("S!0001","",[3505.1105],W))
+    ActionOverride(Player6,LeaveAreaLUA("S!0001","",[3485.1275],W))
+    MoveViewObject(Myself,INSTANT)
 
-    CreateCreature("s!gdru04",[1515.910],0)
+    CreateCreature("s!gdru04",[3060.985],0)
 
     FaceObject("S!gdru04")
     ActionOverride("S!gdru04",FaceObject(Myself))
@@ -37,12 +38,12 @@ THEN
     ActionOverride(Player5,FaceObject("S!gdru04"))
     ActionOverride(Player6,FaceObject("S!gdru04"))
 
+    Wait(1)
     FadeFromColor([20.0],0)
     Wait(1)
 
     ActionOverride("S!gdru04",StartDialogNoSet(Player1))
 
     MultiPlayerSync()
-    SetInterrupt(TRUE)
     EndCutSceneMode()
 END

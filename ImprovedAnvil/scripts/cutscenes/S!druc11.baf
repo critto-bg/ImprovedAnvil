@@ -7,16 +7,20 @@ IF
 THEN
   RESPONSE #100
     CutSceneId(Player1)
-    SetInterrupt(FALSE)
 
-    // movement to the bridge
-    // @TODO: add dram kallen's companions
-    // animate the movement properly
+    SetGlobal("IAFight","AR1700",1)
+    SetAreaScript("S!skipc",OVERRIDE)
+    SetGlobal("IA_CUTSCENE_BREAKABLE","GLOBAL",1101)
+    SetCutSceneBreakable(TRUE)
+
+    Wait(1)
+    FadeToColor([20.0],0)
+    Wait(1)
+
     JumpToPoint([3120.1750])
-    MoveViewObject(Myself,STANDARD)
+    MoveViewObject(Myself,INSTANT)
     ActionOverride("S!tslead",JumpToPoint([2940.1710]))
     ActionOverride("S!tslead",FaceObject(Player1))
-    FaceObject("S!tslead")
 
     ActionOverride(Player2,JumpToPoint([3245.1690]))
     ActionOverride(Player2,FaceObject("s!tslead"))
@@ -29,55 +33,64 @@ THEN
     ActionOverride(Player6,JumpToPoint([2980.1400]))
     ActionOverride(Player6,FaceObject("s!tslead"))
 
+    Wait(1)
+    FadeFromColor([20.0],0)
     Wait(2)
 
     // dialog at the bridge
+    FaceObject("S!tslead")
     ActionOverride("S!tslead",DisplayStringHead(Myself,@5773))
-    Wait(2)
+    Wait(3)
     DisplayStringHead(Myself,@5774)
-    Wait(2)
+    Wait(3)
 
-    // move across the bridge
-    // @TODO: animate the movement properly
+    // @TODO: add dram kallen's companions
     // @TODO: create and position enemies beforehand
-    JumpToPoint([1660.2480])
-    MoveViewObject(Myself,STANDARD)
-    ActionOverride("S!tslead",JumpToPoint([1935.2490]))
-    ActionOverride("S!tslead",FaceObject(Player1))
+    MoveViewPoint([1660.2480],VERY_FAST)
+    ActionOverride("S!tslead",MoveToPointNoInterrupt([1935.2490]))
+    ActionOverride(Player2,MoveToPointNoInterrupt([1745.2400]))
+    ActionOverride(Player3,MoveToPointNoInterrupt([2050.2550]))
+    ActionOverride(Player4,MoveToPointNoInterrupt([2270.2530]))
+    ActionOverride(Player5,MoveToPointNoInterrupt([2210.2305]))
+    ActionOverride(Player6,MoveToPointNoInterrupt([2290.2365]))
+    MoveToPointNoInterrupt([1660.2480])
 
-    ActionOverride(Player2,JumpToPoint([1745.2400]))
+    FaceObject("S!tslead")
+    ActionOverride("S!tslead",FaceObject(Player1))
     ActionOverride(Player2,FaceObject("s!tslead"))
-    ActionOverride(Player3,JumpToPoint([2050.2550]))
     ActionOverride(Player3,FaceObject("s!tslead"))
-    ActionOverride(Player4,JumpToPoint([2270.2530]))
     ActionOverride(Player4,FaceObject("s!tslead"))
-    ActionOverride(Player5,JumpToPoint([2210.2305]))
     ActionOverride(Player5,FaceObject("s!tslead"))
-    ActionOverride(Player6,JumpToPoint([2290.2365]))
     ActionOverride(Player6,FaceObject("s!tslead"))
 
-    Wait(2)
+    Wait(15)
+    CreateCreatureObject("werewo01",Myself,0,0,0)
+    Wait(1)
 
-    SetGlobal("IAFight","AR1700",1)
+    SetCutSceneBreakable(FALSE)
+    SetGlobal("IA_CUTSCENE_BREAKABLE","GLOBAL",0)
+    SetAreaScript("",OVERRIDE)
+
     MultiPlayerSync()
-    SetInterrupt(TRUE)
     EndCutSceneMode()
 END
 
 // movement after the fight at the bridge
+// TODO: make a version if Dram died after the first ambush? Or just have him drop minhp1 after the first ambush?
 IF
   Global("IADruidPlot","GLOBAL",10)
   Global("IAFight","AR1700",2)
 THEN
   RESPONSE #100
     CutSceneId(Player1)
-    SetInterrupt(FALSE)
 
-    // move towards the ambush point
-    // @TODO: animate the movement properly
+    Wait(1)
+    FadeToColor([20.0],0)
+    Wait(1)
+
     // @TODO: create and position enemies beforehand
-    JumpToPoint([710.2620])
-    MoveViewObject(Myself,STANDARD)
+    JumpToPoint([730.2660])
+    MoveViewObject(Myself,INSTANT)
     ActionOverride("S!tslead",JumpToPoint([630.2615]))
     ActionOverride("S!tslead",FaceObject(Player1))
 
@@ -92,18 +105,24 @@ THEN
     ActionOverride(Player6,JumpToPoint([500.2560]))
     ActionOverride(Player6,FaceObject("s!tslead"))
 
+    Wait(1)
+    FadeFromColor([20.0],0)
     Wait(2)
 
     // dialog before the ambush
+    FaceObject("S!tslead")
     ActionOverride("S!tslead",DisplayStringHead(Myself,@5775))
-    Wait(2)
+    Wait(3)
     DisplayStringHead(Myself,@5776)
-    Wait(2)
+    Wait(3)
 
-    AddJournalEntry(@5526,QUEST)
+    CreateCreatureObject("c6were2",Myself,0,0,0)
+    Wait(1)
+    ActionOverride("c6were2",ChangeEnemyAlly(Myself,ENEMY))
+    ActionOverride("c6were2",AttackReevaluate(Player1,15))
     SetGlobal("IAFight","AR1700",3)
+
     MultiPlayerSync()
-    SetInterrupt(TRUE)
     EndCutSceneMode()
 END
 
@@ -116,27 +135,37 @@ IF
 THEN
   RESPONSE #100
     CutSceneId(Player1)
-    SetInterrupt(FALSE)
-    MoveViewObject(Myself,STANDARD)
 
-    ActionOverride("S!tslead",MoveToObjectNoInterrupt(Player1))
+    Wait(1)
+    FadeToColor([20.0],0)
     Wait(1)
 
-    ActionOverride("S!tslead",DisplayStringHead(Myself,@5777))
-    Wait(2)
-    DisplayStringHead(Myself,@5778)
-    Wait(2)
-    ActionOverride("S!tslead",DisplayStringHead(Myself,@5779))
-    Wait(2)
-    ActionOverride("S!tslead",DisplayStringHead(Myself,@5780))
-    SmallWait(2)
+    JumpToPoint([555.3040])
+    ActionOverride("S!tslead",JumpToPoint([765.3040]))
+    ActionOverride("S!tslead",FaceObject(Player1))
+    MoveViewObject(Myself,INSTANT)
 
-    ActionOverride("S!tslead",EscapeArea())
+    Wait(1)
+    FadeFromColor([20.0],0)
+    Wait(2)
+
+    FaceObject("S!tslead")
+    ActionOverride("S!tslead",DisplayStringHead(Myself,@5777))
+    Wait(3)
+    DisplayStringHead(Myself,@5778)
+    Wait(3)
+    ActionOverride("S!tslead",DisplayStringHead(Myself,@5779))
+    Wait(3)
+    ActionOverride("S!tslead",DisplayStringHead(Myself,@5780))
+    Wait(3)
+
+    ActionOverride("S!tslead",MoveToPointNoInterrupt([645.3075]))
+    ActionOverride("S!tslead",DestroySelf())
+    Wait(3)
 
     // @TODO: the rest of dram's party leaves
 
-    MultiPlayerSync()
-    SetInterrupt(TRUE)
+    AddJournalEntry(@5526,QUEST)
     EndCutSceneMode()
 END
 
@@ -149,19 +178,26 @@ IF
 THEN
   RESPONSE #100
     CutSceneId(Player1)
-    SetInterrupt(FALSE)
-    MoveViewObject(Myself,STANDARD)
 
+    Wait(1)
+    FadeToColor([20.0],0)
+    Wait(1)
+
+    JumpToPoint([555.3040])
+    MoveViewObject(Myself,INSTANT)
+
+    Wait(1)
+    FadeFromColor([20.0],0)
     Wait(2)
+
     DisplayStringHead(Myself,@5781)
-    Wait(2)
+    Wait(3)
     DisplayStringHead(Myself,@5782)
-    SmallWait(2)
+    Wait(3)
 
     // @TODO: the rest of dram's party leaves
 
-    MultiPlayerSync()
+    AddJournalEntry(@5526,QUEST)
     SetGlobal("IADramDies","GLOBAL",1)
-    SetInterrupt(TRUE)
     EndCutSceneMode()
 END

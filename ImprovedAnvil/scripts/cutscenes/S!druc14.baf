@@ -5,19 +5,38 @@ IF
 THEN
   RESPONSE #100
     CutSceneId(Player1)
-    SetInterrupt(FALSE)
 
-    // TODO: walk the party and the great druid to an appropriate spot
-    MoveViewObject(Myself,STANDARD)
+    Wait(1)
+    FadeToColor([20.0],0)
+    Wait(1)
 
-    // TODO: create Ferrou and his leutenants off-screen and walk them towards the party
+    JumpToPoint([1630.960])
+    ActionOverride("s!gdru04",JumpToPoint([1515.910]))
+    ActionOverride(Player2,JumpToPoint([1570.1000]))
+    ActionOverride(Player3,JumpToPoint([1485.1015]))
+    ActionOverride(Player4,JumpToPoint([1420.975]))
+    ActionOverride(Player5,JumpToPoint([1385.925]))
+    ActionOverride(Player6,JumpToPoint([1415.860]))
+    MoveViewObject(Myself,INSTANT)
 
+    Wait(1)
+    FadeFromColor([20.0],0)
+    Wait(1)
+
+    CreateCreatureDoor("s!ferr02",[1060.1000],E)
+    Wait(4)
+    FaceObject("S!ferr02")
+    ActionOverride("s!gdru04",FaceObject("S!ferr02"))
+    ActionOverride(Player2,FaceObject("S!ferr02"))
+    ActionOverride(Player3,FaceObject("S!ferr02"))
+    ActionOverride(Player4,FaceObject("S!ferr02"))
+    ActionOverride(Player5,FaceObject("S!ferr02"))
+    ActionOverride(Player6,FaceObject("S!ferr02"))
     Wait(1)
 
     SetGlobal("IAPlot","S!0005",2)
     ActionOverride("s!ferr02",StartDialogNoSet(Player1))
 
     MultiPlayerSync()
-    SetInterrupt(TRUE)
     EndCutSceneMode()
 END
