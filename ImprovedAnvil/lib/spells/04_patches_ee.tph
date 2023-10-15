@@ -69,7 +69,9 @@ COPY_EXISTING ~SPCL941.spl~ ~override/SPCL941.spl~
   END
 
   // re-setup 174 opcodes (play sound) because we can't target delayed effect directly
+  // re-setup 232 opcode because it needs to be the last in the list
   LPF DELETE_SPELL_EFFECT INT_VAR opcode_to_delete = 174 END
+  LPF DELETE_SPELL_EFFECT INT_VAR opcode_to_delete = 232 END
 
   LPF ADD_SPELL_EFFECT
     INT_VAR
@@ -90,6 +92,19 @@ COPY_EXISTING ~SPCL941.spl~ ~override/SPCL941.spl~
       duration = 120
     STR_VAR
       resource = ~EFF_E07~
+  END
+
+  LPF ADD_SPELL_EFFECT
+    INT_VAR
+      opcode = 232
+      target = 1
+      parameter1 = 0
+      parameter2 = 4
+      timing = 0
+      resist_dispel = 2
+      duration = 120
+    STR_VAR
+      resource = ~SPCL941B~
   END
 
   BUT_ONLY
