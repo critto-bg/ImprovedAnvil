@@ -1,6 +1,33 @@
 //Sahuagin City //////////////
 
 IF
+  !Exists("Sahoty01")
+  Global("KilledSahoty01","AR2300",2)
+  Global("IaSpawnSahoty01","AR2300",0)
+THEN
+  RESPONSE #100
+    SetGlobal("IaSpawnSahoty01","AR2300",1)
+    SaveGame(6)
+END
+
+IF
+  !Exists("Sahoty01")
+  Global("KilledSahoty01","AR2300",2)
+  Global("IaSpawnSahoty01","AR2300",1)
+THEN
+  RESPONSE #100
+    SetGlobal("IaSpawnSahoty01","AR2300",2)
+    SetInterrupt(FALSE)
+    StartCutSceneMode()
+    StartCutScene()
+    Wait(1)
+    CreateCreatureDoor("Sahoty01",[1195.1292],SE)
+    Wait(2)
+    EndCutSceneMode()
+    SetInterrupt(TRUE)
+END
+
+IF
   Dead("Sahoty01")
   Global("KilledSahoty01","AR2300",2)
   Global("Hostilecity","GLOBAL",0)
