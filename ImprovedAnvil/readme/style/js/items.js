@@ -2112,7 +2112,7 @@ var weapons = [
         "items": [
             {
                 "components": [
-                    "Protagonist is good aligned",
+                    "Protagonist is a good aligned single-class warrior",
                     "Judgement Day Essence (Barbarian half)",
                     "Judgement Day Essence (Mage half)",
                     "Blood of a Demon Lord",

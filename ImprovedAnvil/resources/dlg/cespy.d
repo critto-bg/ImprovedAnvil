@@ -428,7 +428,7 @@ APPEND BOTSMITH
 
   IF ~~ THEN BEGIN judge
     SAY @2013 IF ~~ THEN REPLY @2 GOTO 4
-    IF ~Alignment(Player1,MASK_GOOD) Global("Iajdplot","GLOBAL",1) Dead("gorgit") Dead("S!dlord") PartyHasItem("S!misc07") PartyHasItem("S!misc17") PartyHasItem("S!misc06") PartyHasItem("S!misc08") PartyHasItem("S!misc02") PartyHasItem("sw1h60") PartyHasItem("scrl9x") PartyHasItem("scrl9d") PartyHasItem("scrlb4") Dead("fsdragon")
+    IF ~Alignment(Player1,MASK_GOOD) Global("Iajdplot","GLOBAL",1) Dead("gorgit") Dead("S!dlord") PartyHasItem("S!misc07") PartyHasItem("S!misc17") PartyHasItem("S!misc06") PartyHasItem("S!misc08") PartyHasItem("S!misc02") PartyHasItem("sw1h60") PartyHasItem("scrl9x") PartyHasItem("scrl9d") PartyHasItem("scrlb4") !Class(Player1,THIEF_ALL) !Class(Player1,BARD_ALL) !Class(Player1,CLERIC_ALL) !Class(Player1,MAGE_ALL) !Class(Player1,DRUID_ALL) !Class(Player1,MONK) Dead("fsdragon")
         PartyGoldGT(249999)~
       THEN REPLY @3
       DO ~TakePartyGold(250000)      DestroyGold(250000)
