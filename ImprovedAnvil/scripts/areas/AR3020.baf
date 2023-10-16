@@ -80,6 +80,20 @@ THEN
     CreateCreature("S!dembom",[663.1150],0)
 END
 
+// if Rozvankee is dead and the player has picked up her Long Sword +4, set the forging variable //
+
+IF
+  InMyArea(Player1)
+  Global("DemogorgonChange","GLOBAL",1)
+  Exists("S!rozvan")
+  Dead("S!rozvan")
+  PartyHasItem("S!sw17")
+  Global("Ialongfforged","GLOBAL",0)
+THEN
+	RESPONSE #100
+    SetGlobal("Ialongfforged","GLOBAL",1)
+END
+
 // appearance of helm's apparition when demogorgon is dead //
 
 IF
