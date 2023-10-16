@@ -183,6 +183,7 @@ ActionOverride("Kaol",Enemy())
 ActionOverride("Chak",Enemy())
 ActionOverride("Legdor",Enemy())
 ActionOverride("Deshar",Enemy())
+SetGlobal("Iaskelw","AR1202",1)
 Enemy()~ SOLVED_JOURNAL #7168 EXIT
 END
 
@@ -197,7 +198,7 @@ IF ~~ THEN BEGIN 27
 END
 
 IF ~~ THEN BEGIN 28
-  SAY #59902 
+  SAY #59902
   IF ~~ THEN EXIT
 END
 
