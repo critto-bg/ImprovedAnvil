@@ -226,6 +226,16 @@ COPY_EXISTING ~sppr710.spl~ ~override/sppr710.spl~
 COPY_EXISTING ~sppr715.spl~ ~override/sppr715.spl~
   WRITE_BYTE  0x27    0xc // secondary type
 
+COPY_EXISTING ~sppr730.spl~ ~override/sppr730.spl~
+  // add new spell state
+  LAUNCH_PATCH_FUNCTION ~CLONE_EFFECT~
+    INT_VAR
+      check_globals = 0
+      match_opcode = 328
+      match_parameter2 = 65
+      parameter2 = 5
+  END
+
 COPY_EXISTING ~sppr983.spl~ ~override/sppr983.spl~
   WRITE_BYTE  0x25      4 // primary type
   WRITE_BYTE  0x27     11 // secondary type

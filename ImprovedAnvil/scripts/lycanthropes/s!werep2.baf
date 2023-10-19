@@ -1,0 +1,33 @@
+// prep script for werewolf AI (greater werewolf) //
+// set up variables and common blocks to be used in the primary AI script later //
+
+IF
+  InMyArea(Player1)
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  Global("Prep","LOCALS",0)
+  !HPLT(Myself,1)
+THEN
+  RESPONSE #100
+    SetGlobal("Prep","LOCALS",1)
+    SetGlobal("IaRegenTotalHits","LOCALS",3)
+    SetGlobal("IaCanPanic","LOCALS",1)
+    SetGlobal("IaCanHowl","LOCALS",1)
+    SetGlobal("IaHowlTotalAmount","LOCALS",3)
+    Continue()
+END
+
+// prevent Anath from panicking
+IF
+  InMyArea(Player1)
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  Global("Prep","LOCALS",1)
+  Global("IaOnce1","LOCALS",0)
+  Name("rngwlf04",Myself)
+THEN
+  RESPONSE #100
+    SetGlobal("IaOnce1","LOCALS",1)
+    SetGlobal("IaCanPanic","LOCALS",0)
+    Continue()
+END

@@ -1,10 +1,6 @@
 INCLUDE "ImprovedAnvil/lib/tpa/creatures.tpa"
 INCLUDE "ImprovedAnvil/lib/tpa/ids.tpa"
 
-// @TODO remove
-LAF resolve_state STR_VAR new_state_id = ~WEREWOLF_CURSE~ RET new_state_index END
-OUTER_SET werewolf_curse_state = %new_state_index%
-
 APPEND ~SPELL.IDS~ ~2966 LESSER_WEREWOLF_CHANGE~
 
 CLEAR_IDS_MAP
@@ -35,6 +31,8 @@ COPY ~ImprovedAnvil/resources/items/new/S!misc71.itm~ ~override/S!misc71.itm~
 
 COPY ~ImprovedAnvil/resources/items/new/S!werim1.itm~ ~override/S!werim1.itm~
 
+COPY ~ImprovedAnvil/resources/items/new/S!werim2.itm~ ~override/S!werim2.itm~
+
 COPY ~ImprovedAnvil/resources/items/new/S!regw1.itm~ ~override/S!regw1.itm~
 
 COPY ~ImprovedAnvil/resources/items/new/S!regw2.itm~ ~override/S!regw2.itm~
@@ -56,17 +54,11 @@ COPY ~ImprovedAnvil/resources/items/new/SWANDDMG.itm~ ~override/SWANDDMG.itm~
   SAY NAME1 ~Wand of Destruction~
   SAY NAME2 ~Wand of Destruction~
 
-// @TODO: remove the curse string
-COPY
-  ~ImprovedAnvil/resources/items/new/S!bite01.itm~ ~override/S!bite01.itm~
-  ~ImprovedAnvil/resources/items/new/S!bite02.itm~ ~override/S!bite02.itm~
-  ~ImprovedAnvil/resources/items/new/S!bite03.itm~ ~override/S!bite03.itm~
-  LPF ALTER_ITEM_EFFECT
-    INT_VAR
-      check_headers = 1
-      match_opcode = 139
-      parameter1 = RESOLVE_STR_REF (@12071)
-  END
+COPY ~ImprovedAnvil/resources/items/new/S!bite01.itm~ ~override/S!bite01.itm~
+
+COPY ~ImprovedAnvil/resources/items/new/S!bite02.itm~ ~override/S!bite02.itm~
+
+COPY ~ImprovedAnvil/resources/items/new/S!bite03.itm~ ~override/S!bite03.itm~
 
 // patch items //
 
@@ -91,17 +83,9 @@ COPY_EXISTING ~BOOK06.itm~ ~override/S!misc73.itm~
 
 // copy effects //
 
-//COPY ~ImprovedAnvil/resources/effects/S!cursw1.eff~ ~override/S!cursw1.eff~
+COPY ~ImprovedAnvil/resources/effects/S!bite2p.eff~ ~override/S!bite2p.eff~
 
-// @TODO: insert the werewolf curse state from variable
-//COPY ~ImprovedAnvil/resources/effects/S!cursw2.eff~ ~override/S!cursw2.eff~
-
-// @TODO: remove these from resources
-//COPY ~ImprovedAnvil/resources/effects/S!poisw1.eff~ ~override/S!poisw1.eff~
-
-//COPY ~ImprovedAnvil/resources/effects/S!poisw2.eff~ ~override/S!poisw2.eff~
-
-//COPY ~ImprovedAnvil/resources/effects/S!poisw3.eff~ ~override/S!poisw3.eff~
+COPY ~ImprovedAnvil/resources/effects/S!bite3p.eff~ ~override/S!bite3p.eff~
 
 // install projectiles //
 
@@ -118,6 +102,16 @@ COPY ~ImprovedAnvil/resources/spells/S!dru02.spl~ ~override/S!dru02.spl~
 COPY ~ImprovedAnvil/resources/spells/S!werhwl.spl~ ~override/S!werhwl.spl~
   SAY NAME1 @12072
 
+  // TODO: this is hardcoded for now, uncomment when moving to the main component
+  /*LPF ~ALTER_SPELL_EFFECT~
+    INT_VAR
+      check_globals = 1
+      check_headers = 0
+      match_opcode = 328
+      parameter2 = ~%immune_fear_state%~
+  END*/
+
+// TODO: what are these for?
 COPY ~ImprovedAnvil/resources/spells/S!werrag.spl~ ~override/S!werrag.spl~
   SAY NAME1 @12073
 
@@ -161,6 +155,7 @@ COPY ~ImprovedAnvil\resources\spells\SUPERDMG.spl~ ~override/SUPERDMG.spl~
 
 // patch spells //
 
+// TODO: re-check these
 COPY_EXISTING ~spwi410.spl~ ~override/spwi410.spl~
               ~sppr307.spl~ ~override/sppr307.spl~
   LPF ADD_SPELL_EFFECT
@@ -174,6 +169,7 @@ COPY_EXISTING ~spwi410.spl~ ~override/spwi410.spl~
 
   BUT_ONLY
 
+// Lesser Werewolf Change
 COPY_EXISTING ~spwi948.spl~ ~override/spwi966.spl~
   LAUNCH_PATCH_FUNCTION ~ALTER_SPELL_EFFECT~
     INT_VAR
@@ -307,7 +303,7 @@ COPY_EXISTING ~werewo01.cre~ ~override/werewo01.cre~
   WRITE_BYTE  0x59      20 // resist fire
   WRITE_BYTE  0x5a      80 // resist cold
   WRITE_BYTE  0x5b      80 // resist electricity
-  WRITE_BYTE  0x5c      80 // resist acid
+  WRITE_BYTE  0x5c      20 // resist acid
   WRITE_BYTE  0x5d      20 // resist magic
   WRITE_BYTE  0x5e      20 // resist magic fire
   WRITE_BYTE  0x5f      80 // resist magic cold
@@ -318,9 +314,10 @@ COPY_EXISTING ~werewo01.cre~ ~override/werewo01.cre~
   WRITE_BYTE  0x234     13 // level
   WRITE_BYTE  0x23f     15 // morale
   WRITE_BYTE  0x240      5 // morale break
-  WRITE_LONG  0x242    100 // morale recovery
-  WRITE_ASCII 0x248 ~s!morale~ #8 // override script
-  WRITE_ASCII 0x250 ~s!were~   #8 // class script
+  WRITE_LONG  0x242     20 // morale recovery
+  WRITE_ASCII 0x248 ~s!werep1~ #8 // override script
+  WRITE_ASCII 0x250 ~~ #8 // class script
+  WRITE_ASCII 0x260 ~s!were~ #8 // general script
 
   REPLACE_CRE_ITEM ~s!werim1~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~LRING~
   REPLACE_CRE_ITEM ~s!claw01~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~WEAPON1~
@@ -342,13 +339,14 @@ COPY_EXISTING ~werewo01.cre~ ~override/S!lwer01.cre~
   WRITE_SHORT 0x46      5 // base ac
   WRITE_SHORT 0x48      5 // effective ac
   WRITE_BYTE  0x52     11 // thac0
-  WRITE_BYTE  0x53      7 // number of attacks
+  WRITE_BYTE  0x53      7 // number of attacks (1.5)
   WRITE_BYTE  0x54      5 // save vs death
   WRITE_BYTE  0x55      7 // save vs wands
   WRITE_BYTE  0x56      6 // save vs polymorph
   WRITE_BYTE  0x57      5 // save vs breath
   WRITE_BYTE  0x58      8 // save vs spell
   WRITE_BYTE  0x59      0 // resist fire
+  WRITE_BYTE  0x5c      0 // resist acid
   WRITE_BYTE  0x5d      0 // resist magic
   WRITE_BYTE  0x5e      0 // resist magic fire
   WRITE_BYTE  0x234     9 // level
@@ -358,10 +356,49 @@ COPY_EXISTING ~werewo01.cre~ ~override/S!lwer01.cre~
   SAY NAME1 @12081
   SAY NAME2 @12081
 
-// Greater Werewolf //
+// greater werewolf
+COPY_EXISTING ~WEREGR01.cre~ ~override/weregr01.cre~
+              ~RNGWLF04.cre~ ~override/RNGWLF04.cre~
+  WRITE_LONG  0x14      15000 // xp
+  WRITE_LONG  0x18      18 // xp
+  WRITE_SHORT 0x24      130 // current hp
+  WRITE_SHORT 0x26      130 // max hp
+  WRITE_SHORT 0x46      (0 - 3) // base ac
+  WRITE_SHORT 0x48      (0 - 3) // effective ac
+  WRITE_BYTE  0x52      3 // thac0
+  WRITE_BYTE  0x53      3 // number of attacks
+  WRITE_BYTE  0x54      3 // save vs death
+  WRITE_BYTE  0x55      5 // save vs wands
+  WRITE_BYTE  0x56      4 // save vs polymorph
+  WRITE_BYTE  0x57      5 // save vs breath
+  WRITE_BYTE  0x58      6 // save vs spell
+  WRITE_BYTE  0x59      50 // resist fire
+  WRITE_BYTE  0x5a      90 // resist cold
+  WRITE_BYTE  0x5b      90 // resist electricity
+  WRITE_BYTE  0x5c      50 // resist acid
+  WRITE_BYTE  0x5d      50 // resist magic
+  WRITE_BYTE  0x5e      50 // resist magic fire
+  WRITE_BYTE  0x5f      90 // resist magic cold
+  WRITE_BYTE  0x60      60 // resist slashing
+  WRITE_BYTE  0x61      60 // resist crushing
+  WRITE_BYTE  0x62      60 // resist piercing
+  WRITE_BYTE  0x63      60 // resist missile
+  WRITE_BYTE  0x234     18 // level
+  WRITE_BYTE  0x23f     15 // morale
+  WRITE_BYTE  0x240      5 // morale break
+  WRITE_LONG  0x242     20 // morale recovery
+  WRITE_ASCII 0x248 ~s!werep2~ #8 // override script
+  WRITE_ASCII 0x260 ~s!were~ #8 // general script
+
+  REPLACE_CRE_ITEM ~s!werim2~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~LRING~
+  REPLACE_CRE_ITEM ~s!claw02~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~WEAPON1~
+  ADD_CRE_ITEM ~helmnoan~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~HELMET~
+  ADD_CRE_ITEM ~s!regw2~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~RRING~
+  ADD_CRE_ITEM ~s!bite02~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~WEAPON2~
 
 ACTION_FOR_EACH ~file~ IN
                 ~WEREGR01~
+                ~RNGWLF04~
 BEGIN
   LAF ~S!CHANGE_CREATURE_COLOURS~
     STR_VAR
@@ -436,7 +473,8 @@ COMPILE ~ImprovedAnvil/scripts/cutscenes/S!druc18.baf~
 COMPILE ~ImprovedAnvil/scripts/cutscenes/S!skipc.baf~
 COMPILE ~ImprovedAnvil/scripts/encounters/druid_quests/S!drad01.baf~ USING ~%LANGUAGE%druidq.tra~
 COMPILE ~ImprovedAnvil/scripts/lycanthropes/S!were.baf~ USING ~%LANGUAGE%druidq.tra~
-COMPILE ~ImprovedAnvil/scripts/misc/S!morale.baf~ USING ~%LANGUAGE%druidq.tra~
+COMPILE ~ImprovedAnvil/scripts/lycanthropes/S!werep1.baf~
+COMPILE ~ImprovedAnvil/scripts/lycanthropes/S!werep2.baf~
 
 // extend the scripts //
 
