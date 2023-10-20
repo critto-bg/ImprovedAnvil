@@ -2152,7 +2152,7 @@ var weapons = [
                     {
                         "section_name": "Usable by",
                         "section_items": [
-                            "Good aligned warriors (Single Class)"
+                            "Good aligned single-class fighters and paladins"
                         ]
                     }
                 ],
