@@ -95,6 +95,19 @@ END
 
 IF
   Allegiance(Myself,ENEMY)
+  Detect([PC])
+  Global("Iatreasure","LOCALS",0)
+  Global("Iawoodlandsplace","GLOBAL",1)
+  Global("Iapcastts","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iawoodlandsplace","GLOBAL",4)
+    SetGlobal("Iatreasure","LOCALS",1)
+    GiveItemCreate("staf14",Myself,20,20,20)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
   !HasItem("minhp1",Myself)
   !StateCheck(Myself,STATE_SILENCED)
   !StateCheck(Myself,STATE_HELPLESS)

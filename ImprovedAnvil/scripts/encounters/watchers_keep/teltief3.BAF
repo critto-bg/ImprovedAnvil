@@ -587,6 +587,19 @@ END
 
 IF
   Allegiance(Myself,ENEMY)
+  Detect([PC])
+  Global("Iatreasure2","LOCALS",0)
+  Global("Iawoodlandsplace","GLOBAL",2)
+  Global("Iapcastts","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iawoodlandsplace","GLOBAL",4)
+    SetGlobal("Iatreasure2","LOCALS",1)
+    GiveItemCreate("staf14",Myself,20,20,20)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
   CheckStatLT(Myself,1,STONESKINS)
   See(NearestEnemyOf(Myself))
   Global("Iatelm19","LOCALS",3)
