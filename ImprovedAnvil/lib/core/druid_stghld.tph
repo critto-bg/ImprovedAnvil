@@ -359,6 +359,7 @@ COPY_EXISTING ~werewo01.cre~ ~override/S!lwer01.cre~
 // greater werewolf
 COPY_EXISTING ~WEREGR01.cre~ ~override/weregr01.cre~
               ~RNGWLF04.cre~ ~override/RNGWLF04.cre~
+              ~firamb01.cre~ ~override/firamb01.cre~
   WRITE_LONG  0x14      15000 // xp
   WRITE_LONG  0x18      18 // xp
   WRITE_SHORT 0x24      130 // current hp
@@ -387,8 +388,12 @@ COPY_EXISTING ~WEREGR01.cre~ ~override/weregr01.cre~
   WRITE_BYTE  0x23f     15 // morale
   WRITE_BYTE  0x240      5 // morale break
   WRITE_LONG  0x242     20 // morale recovery
-  WRITE_ASCII 0x248 ~s!werep2~ #8 // override script
-  WRITE_ASCII 0x260 ~s!were~ #8 // general script
+
+  PATCH_IF !(~%SOURCE_RES%~ STRING_EQUAL_CASE ~firamb01~) BEGIN
+    WRITE_ASCII 0x248 ~s!werep2~ #8 // override script
+    WRITE_ASCII 0x250 ~~ #8 // class script
+    WRITE_ASCII 0x260 ~s!were~ #8 // general script
+  END
 
   REPLACE_CRE_ITEM ~s!werim2~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~LRING~
   REPLACE_CRE_ITEM ~s!claw02~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~WEAPON1~
@@ -399,6 +404,7 @@ COPY_EXISTING ~WEREGR01.cre~ ~override/weregr01.cre~
 ACTION_FOR_EACH ~file~ IN
                 ~WEREGR01~
                 ~RNGWLF04~
+                ~firamb01~
 BEGIN
   LAF ~S!CHANGE_CREATURE_COLOURS~
     STR_VAR
@@ -1291,6 +1297,11 @@ COPY_EXISTING ~FIRWLF01.DLG~ ~override~
     REPLACE_TEXTUALLY ~wolfwe02~ ~werewo01~
     REPLACE_TEXTUALLY ~GREATER_WOLFWERE_CHANGE~ ~GREATER_WEREWOLF_CHANGE~
     REPLACE_TEXTUALLY ~WOLFWERE_CHANGE~ ~WEREWOLF_CHANGE~
+  END
+
+COPY_EXISTING ~FIRAMB01.DLG~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~Enemy()~ ~ChangeAIScript("s!werep2",OVERRIDE) ChangeAIScript("s!were",GENERAL) ChangeAIScript("",DEFAULT) Enemy()~
   END
 
 COPY_EXISTING ~UHRANG01.DLG~ ~override~
