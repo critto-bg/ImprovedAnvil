@@ -1,0 +1,16 @@
+// prep script for werewolf AI (dread & vampiric wolf) //
+// set up variables and common blocks to be used in the primary AI script later //
+
+IF
+  InMyArea(Player1)
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  Global("Prep","LOCALS",0)
+  !HPLT(Myself,1)
+THEN
+  RESPONSE #100
+    SetGlobal("Prep","LOCALS",1)
+    SetGlobal("IaRegenTotalHits","LOCALS",1)
+    SetGlobal("IaCanPanic","LOCALS",1)
+    Continue()
+END

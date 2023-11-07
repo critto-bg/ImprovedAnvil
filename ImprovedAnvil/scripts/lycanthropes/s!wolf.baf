@@ -1,0 +1,160 @@
+// remove regen based on fire damage taken //
+
+IF
+  InMyArea(Player1)
+  Allegiance(Myself,ENEMY)
+  Global("IaNoRegen","LOCALS",0)
+  !GlobalTimerNotExpired("IaRegenHitTimer","LOCALS")
+  TookDamage()
+  OR(3)
+    HitBy([ANYONE],FIRE)
+    HitBy([ANYONE],MAGICFIRE)
+    HitBy([ANYONE],ACID)
+  RandomNumGT(10,3)
+  HPPercentLT(Myself,60)
+  HasItem("S!regw1",Myself)
+  !StateCheck(Myself,STATE_REALLY_DEAD)
+  !StateCheck(Myself,STATE_PANIC)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("IaRegenHitTimer","LOCALS",6)
+    IncrementGlobal("IaRegenHits","LOCALS",1)
+END
+
+IF
+  InMyArea(Player1)
+  Allegiance(Myself,ENEMY)
+  Global("IaNoRegen","LOCALS",0)
+  !GlobalTimerNotExpired("IaRegenHitTimer","LOCALS")
+  TookDamage()
+  OR(3)
+    HitBy([ANYONE],FIRE)
+    HitBy([ANYONE],MAGICFIRE)
+    HitBy([ANYONE],ACID)
+  RandomNumLT(8,3)
+  HPPercentLT(Myself,75)
+  HasItem("S!regw1",Myself)
+  !StateCheck(Myself,STATE_REALLY_DEAD)
+  !StateCheck(Myself,STATE_PANIC)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("IaRegenHitTimer","LOCALS",6)
+    IncrementGlobal("IaRegenHits","LOCALS",1)
+END
+
+IF
+  InMyArea(Player1)
+  Allegiance(Myself,ENEMY)
+  Global("IaNoRegen","LOCALS",0)
+  OR(2)
+    LocalsEqual("IaRegenHits","IaRegenTotalHits")
+    LocalsGT("IaRegenHits","IaRegenTotalHits")
+  !StateCheck(Myself,STATE_REALLY_DEAD)
+  !StateCheck(Myself,STATE_PANIC)
+THEN
+  RESPONSE #100
+    SetGlobal("IaNoRegen","LOCALS",1)
+    DestroyItem("S!regw1")
+    DisplayString(Myself,@12080)
+    Continue()
+END
+
+// morale and panic management //
+
+IF
+  InMyArea(Player1)
+  Allegiance(Myself,ENEMY)
+  StateCheck(Myself,STATE_PANIC)
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_STUNNED)
+  Global("IaPanic","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("IaPanic","LOCALS",2)
+    AddXPWorth(Myself)
+    EscapeArea()
+END
+
+IF
+  InMyArea(Player1)
+  Allegiance(Myself,ENEMY)
+  Global("IaNoRegen","LOCALS",1)
+  Global("IaCanPanic","LOCALS",1)
+  Global("IaPanic","LOCALS",0)
+  !CheckSpellState(Myself,IMMUNE_FEAR)
+  !GlobalTimerNotExpired("IaPanicTimer","LOCALS")
+  HPPercentLT(Myself,40)
+  RandomNumGT(10,5)
+THEN
+  RESPONSE #100
+    SetGlobal("IaPanic","LOCALS",1)
+    ReallyForceSpellRES("SPWII58",Myself)
+END
+
+IF
+  InMyArea(Player1)
+  Allegiance(Myself,ENEMY)
+  Global("IaNoRegen","LOCALS",1)
+  Global("IaCanPanic","LOCALS",1)
+  Global("IaPanic","LOCALS",0)
+  !GlobalTimerNotExpired("IaPanicTimer","LOCALS")
+  HPPercentLT(Myself,40)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("IaPanicTimer","LOCALS",6)
+END
+
+// basic attack pattern //
+
+IF
+  Allegiance(Myself,ENEMY)
+  See([PC])
+  Range(LastSeenBy(Myself),2)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(SecondNearestEnemyOf(Myself))
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(ThirdNearestEnemyOf(Myself))
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+// basic movement //
+
+IF
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  InMyArea(Player1)
+  Allegiance(Myself,ENEMY)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END

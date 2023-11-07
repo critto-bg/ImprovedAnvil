@@ -29,6 +29,8 @@ COPY ~ImprovedAnvil/resources/items/new/S!misc71.itm~ ~override/S!misc71.itm~
   SAY NAME2     @12066
   SAY DESC      @12067
 
+COPY ~ImprovedAnvil/resources/items/new/S!werim0.itm~ ~override/S!werim0.itm~
+
 COPY ~ImprovedAnvil/resources/items/new/S!werim1.itm~ ~override/S!werim1.itm~
 
 COPY ~ImprovedAnvil/resources/items/new/S!werim2.itm~ ~override/S!werim2.itm~
@@ -44,6 +46,8 @@ COPY ~ImprovedAnvil/resources/items/new/S!claw01.itm~ ~override/S!claw01.itm~
 COPY ~ImprovedAnvil/resources/items/new/S!claw02.itm~ ~override/S!claw02.itm~
 
 COPY ~ImprovedAnvil/resources/items/new/S!claw03.itm~ ~override/S!claw03.itm~
+
+COPY ~ImprovedAnvil/resources/items/new/S!wolf1.itm~ ~override/S!wolf1.itm~
 
 // testing stuff
 COPY ~ImprovedAnvil/resources/items/new/SUPRWAND.itm~ ~override/SUPRWAND.itm~
@@ -289,6 +293,49 @@ COPY ~ImprovedAnvil/resources/creatures/new/S!ferr02.cre~ ~override/S!ferr02.cre
 
   WRITE_ASCII 0x2cc ~iaferr02~ #8 // dialogue
 
+// dread wolf
+COPY_EXISTING ~wolfdr01.cre~ ~override/wolfdr01.cre~
+  WRITE_LONG  0x14      10000 // xp
+  WRITE_LONG  0x18      8 // xp
+  WRITE_SHORT 0x24      100 // current hp
+  WRITE_SHORT 0x26      100 // max hp
+  WRITE_SHORT 0x46      (0 - 2) // base ac
+  WRITE_SHORT 0x48      (0 - 2) // effective ac
+  WRITE_BYTE  0x52      6 // thac0
+  WRITE_BYTE  0x53      1 // number of attacks
+  WRITE_BYTE  0x54      4 // save vs death
+  WRITE_BYTE  0x55      6 // save vs wands
+  WRITE_BYTE  0x56      5 // save vs polymorph
+  WRITE_BYTE  0x57      4 // save vs breath
+  WRITE_BYTE  0x58      7 // save vs spell
+  WRITE_BYTE  0x59      20 // resist fire
+  WRITE_BYTE  0x5a      80 // resist cold
+  WRITE_BYTE  0x5b      80 // resist electricity
+  WRITE_BYTE  0x5c      20 // resist acid
+  WRITE_BYTE  0x5d      20 // resist magic
+  WRITE_BYTE  0x5e      20 // resist magic fire
+  WRITE_BYTE  0x5f      80 // resist magic cold
+  WRITE_BYTE  0x60      20 // resist slashing
+  WRITE_BYTE  0x61      20 // resist crushing
+  WRITE_BYTE  0x62      20 // resist piercing
+  WRITE_BYTE  0x63      20 // resist missile
+  WRITE_BYTE  0x234     13 // level
+  WRITE_BYTE  0x238 	  18 // strength
+  WRITE_BYTE  0x23c     18 // dexterity
+  WRITE_BYTE  0x23d     18 // constitution
+  WRITE_BYTE  0x23f     15 // morale
+  WRITE_BYTE  0x240      5 // morale break
+  WRITE_LONG  0x242     20 // morale recovery
+  WRITE_ASCII 0x248 ~s!wolfp1~ #8 // override script
+  WRITE_ASCII 0x250 ~~ #8 // class script
+  WRITE_ASCII 0x260 ~s!wolf~ #8 // general script
+  WRITE_ASCII 0x268 ~~ #8 // default script
+
+  REPLACE_CRE_ITEM ~s!werim0~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~LRING~
+  ADD_CRE_ITEM ~s!regw1~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~RRING~
+  REPLACE_CRE_ITEM ~s!wolf1~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~WEAPON1~
+
+// werewolf
 COPY_EXISTING ~werewo01.cre~ ~override/werewo01.cre~
   WRITE_LONG  0x14      8000 // xp
   WRITE_LONG  0x18      13 // xp
@@ -314,7 +361,10 @@ COPY_EXISTING ~werewo01.cre~ ~override/werewo01.cre~
   WRITE_BYTE  0x61      40 // resist crushing
   WRITE_BYTE  0x62      40 // resist piercing
   WRITE_BYTE  0x63      40 // resist missile
-  WRITE_BYTE  0x234     13 // level
+  WRITE_BYTE  0x234     15 // level
+  WRITE_BYTE  0x238     21 // strength
+  WRITE_BYTE  0x23c     18 // dexterity
+  WRITE_BYTE  0x23d     18 // constitution
   WRITE_BYTE  0x23f     15 // morale
   WRITE_BYTE  0x240      5 // morale break
   WRITE_LONG  0x242     20 // morale recovery
@@ -353,6 +403,9 @@ COPY_EXISTING ~werewo01.cre~ ~override/S!lwer01.cre~
   WRITE_BYTE  0x5d      0 // resist magic
   WRITE_BYTE  0x5e      0 // resist magic fire
   WRITE_BYTE  0x234     9 // level
+  WRITE_BYTE  0x238     21 // strength
+  WRITE_BYTE  0x23c     18 // dexterity
+  WRITE_BYTE  0x23d     18 // constitution
 
   REMOVE_CRE_ITEM ~S!bite01~
 
@@ -388,6 +441,9 @@ COPY_EXISTING ~WEREGR01.cre~ ~override/weregr01.cre~
   WRITE_BYTE  0x62      60 // resist piercing
   WRITE_BYTE  0x63      60 // resist missile
   WRITE_BYTE  0x234     18 // level
+  WRITE_BYTE  0x238     24 // strength
+  WRITE_BYTE  0x23c     21 // dexterity
+  WRITE_BYTE  0x23d     18 // constitution
   WRITE_BYTE  0x23f     15 // morale
   WRITE_BYTE  0x240      5 // morale break
   WRITE_LONG  0x242     20 // morale recovery
@@ -482,8 +538,10 @@ COMPILE ~ImprovedAnvil/scripts/cutscenes/S!druc18.baf~
 COMPILE ~ImprovedAnvil/scripts/cutscenes/S!skipc.baf~
 COMPILE ~ImprovedAnvil/scripts/encounters/druid_quests/S!drad01.baf~ USING ~%LANGUAGE%druidq.tra~
 COMPILE ~ImprovedAnvil/scripts/lycanthropes/S!were.baf~ USING ~%LANGUAGE%druidq.tra~
+COMPILE ~ImprovedAnvil/scripts/lycanthropes/S!wolf.baf~ USING ~%LANGUAGE%druidq.tra~
 COMPILE ~ImprovedAnvil/scripts/lycanthropes/S!werep1.baf~
 COMPILE ~ImprovedAnvil/scripts/lycanthropes/S!werep2.baf~
+COMPILE ~ImprovedAnvil/scripts/lycanthropes/S!wolfp1.baf~
 
 // extend the scripts //
 
