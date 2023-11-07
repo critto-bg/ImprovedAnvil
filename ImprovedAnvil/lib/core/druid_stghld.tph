@@ -260,6 +260,22 @@ COPY ~ImprovedAnvil/resources/creatures/new/S!drudiv.cre~         ~override/S!dr
   SAY NAME1     @12083
   SAY NAME2     @12083
 
+COPY ~ImprovedAnvil/resources/creatures/new/S!ferr01.cre~ ~override/S!ferr01.cre~
+  SAY NAME1     @12070
+  SAY NAME2     @12070
+
+  ADD_CRE_ITEM ~minhp1~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~AMULET~
+
+  WRITE_ASCII 0x2cc ~iaferr01~ #8 // dialogue
+
+COPY ~ImprovedAnvil/resources/creatures/new/S!ferr02.cre~ ~override/S!ferr02.cre~
+  SAY NAME1     @12070
+  SAY NAME2     @12070
+
+  ADD_CRE_ITEM ~minhp1~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~AMULET~
+
+  WRITE_ASCII 0x2cc ~iaferr02~ #8 // dialogue
+
 // patch/create creatures //
 
 COPY_EXISTING ~trcut07.cre~ ~override/s!logan.cre~
@@ -277,21 +293,11 @@ COPY_EXISTING ~ppdra2.cre~ ~override/s!drad01.cre~
 
   ADD_CRE_ITEM ~minhp1~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~AMULET~
 
-COPY ~ImprovedAnvil/resources/creatures/new/S!ferr01.cre~ ~override/S!ferr01.cre~
-  SAY NAME1     @12070
-  SAY NAME2     @12070
+COPY_EXISTING ~firamb03.cre~ ~override/firamb03.cre~
+  WRITE_SHORT 0x24      40 // current hp
+  WRITE_SHORT 0x26      40 // max hp
 
-  ADD_CRE_ITEM ~minhp1~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~AMULET~
-
-  WRITE_ASCII 0x2cc ~iaferr01~ #8 // dialogue
-
-COPY ~ImprovedAnvil/resources/creatures/new/S!ferr02.cre~ ~override/S!ferr02.cre~
-  SAY NAME1     @12070
-  SAY NAME2     @12070
-
-  ADD_CRE_ITEM ~minhp1~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~AMULET~
-
-  WRITE_ASCII 0x2cc ~iaferr02~ #8 // dialogue
+  REMOVE_CRE_ITEM ~MONHP1~
 
 // dread wolf
 COPY_EXISTING ~wolfdr01.cre~ ~override/wolfdr01.cre~
@@ -1358,6 +1364,7 @@ COPY_EXISTING ~FIRWLF01.DLG~ ~override~
     REPLACE_TEXTUALLY ~wolfwe02~ ~werewo01~
     REPLACE_TEXTUALLY ~GREATER_WOLFWERE_CHANGE~ ~GREATER_WEREWOLF_CHANGE~
     REPLACE_TEXTUALLY ~WOLFWERE_CHANGE~ ~WEREWOLF_CHANGE~
+    REPLACE_TEXTUALLY ~ForceSpell(Myself,GREATER_WEREWOLF_CHANGE)~ ~OpenDoor("DOOR43") OpenDoor("DOOR44") ForceSpell(Myself,GREATER_WEREWOLF_CHANGE)~
   END
 
 COPY_EXISTING ~FIRAMB01.DLG~ ~override~
