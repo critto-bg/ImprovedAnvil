@@ -4431,25 +4431,39 @@ COPY_EXISTING ~c6drizz3.cre~ ~override/c6drizz3.cre~
   WRITE_SHORT 0x24      98 // current hp
   WRITE_SHORT 0x26      98 // max hp
   WRITE_BYTE  0x52       3 // thac0
-  WRITE_BYTE  0x53       1 // number of attacks
+  WRITE_BYTE  0x53       2 // number of attacks
   WRITE_BYTE  0x54       3 // save vs death
   WRITE_BYTE  0x55       5 // save vs wands
   WRITE_BYTE  0x56       4 // save vs polymorph
   WRITE_BYTE  0x57       4 // save vs breath
   WRITE_BYTE  0x58       6 // save vs spell
+  WRITE_BYTE  0x59      50 // resist fire
+  WRITE_BYTE  0x60      80 // resist slashing
+  WRITE_BYTE  0x61      80 // resist crushing
   WRITE_BYTE  0x234     18 // level
+  WRITE_BYTE  0x238     19 // strength
+
+  ADD_CRE_ITEM ~HELM06~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~HELMET~
+  REPLACE_CRE_ITEM ~AMUL21~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~AMULET~
 
 COPY_EXISTING ~c6drizz2.cre~ ~override/c6drizz2.cre~
   WRITE_SHORT 0x24      98 // current hp
   WRITE_SHORT 0x26      98 // max hp
   WRITE_BYTE  0x52       3 // thac0
-  WRITE_BYTE  0x53       1 // number of attacks
+  WRITE_BYTE  0x53       2 // number of attacks
   WRITE_BYTE  0x54       3 // save vs death
   WRITE_BYTE  0x55       5 // save vs wands
   WRITE_BYTE  0x56       4 // save vs polymorph
   WRITE_BYTE  0x57       4 // save vs breath
   WRITE_BYTE  0x58       6 // save vs spell
+  WRITE_BYTE  0x59      50 // resist fire
+  WRITE_BYTE  0x60      80 // resist slashing
+  WRITE_BYTE  0x61      80 // resist crushing
   WRITE_BYTE  0x234     18 // level
+  WRITE_BYTE  0x238     19 // strength
+
+  ADD_CRE_ITEM ~HELM06~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~HELMET~
+  REPLACE_CRE_ITEM ~AMUL21~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~AMULET~
 
 COPY_EXISTING ~c6drizz.cre~ ~override/c6drizz.cre~
   WRITE_SHORT 0x24      98 // current hp
@@ -4462,6 +4476,44 @@ COPY_EXISTING ~c6drizz.cre~ ~override/c6drizz.cre~
   WRITE_BYTE  0x57       4 // save vs breath
   WRITE_BYTE  0x58       6 // save vs spell
   WRITE_BYTE  0x234     18 // level
+
+COPY_EXISTING ~c6eric.cre~ ~override/c6eric.cre~
+              ~c6eric3.cre~ ~override/c6eric3.cre~
+
+  WRITE_BYTE 0x52   1 // thac0
+  WRITE_BYTE 0x53   2 // number of attacks
+  WRITE_BYTE 0x60   40 // resist slashing
+  WRITE_BYTE 0x61   40 // resist crushing
+  WRITE_BYTE 0x238  19 // strength
+
+  ADD_CRE_ITEM ~AMUL21~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~AMULET~
+  ADD_CRE_ITEM ~BOOT01~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BOOTS~
+
+  REPLACE_CRE_ITEM ~HELM06~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~HELMET~
+  REPLACE_CRE_ITEM ~STAF21~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~WEAPON1~ EQUIP TWOHANDED
+
+COPY_EXISTING ~c6arkan.cre~ ~override/c6arkan.cre~
+              ~c6arkan3.cre~ ~override/c6arkan3.cre~
+
+  WRITE_BYTE 0x52   1 // thac0
+  WRITE_BYTE 0x60   50 // resist slashing
+  WRITE_BYTE 0x61   50 // resist crushing
+
+  ADD_CRE_ITEM ~AMUL21~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~AMULET~
+  ADD_CRE_ITEM ~HELM06~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~HELMET~
+  ADD_CRE_ITEM ~BOOT01~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BOOTS~
+
+  REPLACE_CRE_ITEM ~SW1H28~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~WEAPON1~ EQUIP
+
+  PATCH_IF (~%SOURCE_RES%~ STRING_EQUAL_CASE ~c6arkan3~) BEGIN
+    LPF ~ADD_CRE_EFFECT~ INT_VAR
+      opcode = 263
+      target = 1
+      timing = 9
+      parameter1 = 5
+      parameter2 = 1
+    END
+  END
 
 COPY_EXISTING ~gorbat5.cre~ ~override/gorbat5.cre~
   WRITE_LONG  0x14       0 // xp

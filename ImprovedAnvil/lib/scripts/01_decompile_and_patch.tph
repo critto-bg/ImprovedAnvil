@@ -553,3 +553,27 @@ COPY_EXISTING ~IDRYAD01.BCS~ ~override/IDRYAD01.BCS~
   DECOMPILE_AND_PATCH BEGIN
     REPLACE_TEXTUALLY ~Global("spoke","LOCALS",0)~ ~Global("spoke","LOCALS",0) CombatCounter(0) Dead("S!iguard")~
   END
+
+// update condition to leave the final confrontation with Bodhi for Arkanis
+<<<<<<<< .../inlined/old.baf
+IF
+	Dead("c6bodhi")
+THEN
+	RESPONSE #100
+		EscapeArea()
+END
+>>>>>>>>
+
+<<<<<<<< .../inlined/new.baf
+IF
+	Dead("c6bodhi")
+  CombatCounter(0)
+THEN
+	RESPONSE #100
+		EscapeArea()
+END
+>>>>>>>>
+
+COPY_EXISTING ~C6ARKAN.BCS~ ~override/C6ARKAN.bcs~
+  REPLACE_BCS_BLOCK ~.../inlined/old.baf~ ~.../inlined/new.baf~
+  BUT_ONLY_IF_IT_CHANGES

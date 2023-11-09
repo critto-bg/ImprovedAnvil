@@ -1,0 +1,22 @@
+IF
+  Global("IaEquip","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("IaEquip","LOCALS",1)
+    EquipMostDamagingMelee()
+END
+
+IF
+  AreaCheck("AR0809")
+  Global("C6BodhiFight","AR0809",1)
+  HPPercentLT(Myself,75)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !GlobalTimerNotExpired("IaHardinessTimer","LOCALS")
+  GlobalLT("IaHardiness","LOCALS",3)
+THEN
+  RESPONSE #100
+    IncrementGlobal("IaHardiness","LOCALS",1)
+    SetGlobalTimer("IaHardinessTimer","LOCALS",61)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    ForceSpell(Myself,WARRIOR_HARDINESS)
+END

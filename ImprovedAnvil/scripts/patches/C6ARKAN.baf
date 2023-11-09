@@ -1,0 +1,64 @@
+IF
+  Global("IaEquip","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("IaEquip","LOCALS",1)
+    EquipMostDamagingMelee()
+END
+
+IF
+  AreaCheck("AR0809")
+  Global("C6BodhiFight","AR0809",1)
+  !GlobalTimerNotExpired("IaBackstabTimer","LOCALS")
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  GlobalLT("IaAbility","LOCALS",5)
+  OR(3)
+    !HasItemEquiped("S!skel",NearestEnemyOf(Myself))
+    !HasItemEquiped("S!skel",SecondNearestEnemyOf(Myself))
+    !HasItemEquiped("S!skel",ThirdNearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    IncrementGlobal("IaAbility","LOCALS",1)
+    SetGlobalTimer("IaBackstabTimer","LOCALS",7)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    ForceSpell(Myself,ROGUE_ASSASINATION)
+END
+
+IF
+  AreaCheck("AR0809")
+  Global("C6BodhiFight","AR0809",1)
+  HPPercentLT(Myself,75)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !GlobalTimerNotExpired("IaHardinessTimer","LOCALS")
+  GlobalLT("IaAbility","LOCALS",5)
+THEN
+  RESPONSE #100
+    IncrementGlobal("IaAbility","LOCALS",1)
+    SetGlobalTimer("IaHardinessTimer","LOCALS",61)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    ForceSpell(Myself,WARRIOR_HARDINESS)
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  !HasItemEquiped("S!skel",LastSeenBy(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(SecondNearestEnemyOf(Myself))
+  !HasItemEquiped("S!skel",LastSeenBy(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(ThirdNearestEnemyOf(Myself))
+  !HasItemEquiped("S!skel",LastSeenBy(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
