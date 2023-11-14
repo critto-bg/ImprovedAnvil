@@ -106,7 +106,7 @@ END
 
 IF ~~ THEN BEGIN 17
   SAY @5672
-  IF ~~ THEN DO ~TakePartyItem("S!misc71") TakePartyItem("S!misc43")~ GOTO 18
+  IF ~~ THEN DO ~TakePartyItem("S!misc71") TakePartyItem("S!misc43") DestroyItem("S!misc71") DestroyItem("S!misc43")~ GOTO 18
 END
 
 IF ~~ THEN BEGIN 18
