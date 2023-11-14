@@ -4,13 +4,16 @@
 COPY_EXISTING ~spdwd02.spl~ ~override/spdwd02.spl~
   SAY UNIDENTIFIED_DESC @10216
 
+  // designate as combat protections
+  WRITE_BYTE 0x27 7 // secondary type
+
   // reduce DR bonus
   PATCH_FOR_EACH ~opcode_number~ IN ~86~ ~87~ ~88~ ~89~ BEGIN
     LPF ~ALTER_SPELL_EFFECT~ INT_VAR
       check_headers = 1
       header_type = 1
       match_opcode = ~%opcode_number%~
-      parameter1 = 25
+      parameter1 = 20
     END
   END
 
@@ -26,6 +29,18 @@ COPY_EXISTING ~spdwd02.spl~ ~override/spdwd02.spl~
       STR_VAR
         resource = EVALUATE_BUFFER ~%res%~
     END
+  END
+
+  // add scripting state
+  LPF ~ADD_SPELL_EFFECT~
+    INT_VAR
+      opcode = 282
+      target = 1
+      timing = 0
+      resist_dispel = 2
+      parameter1 = 1
+      parameter2 = 10
+      duration = 60
   END
 
   BUT_ONLY
