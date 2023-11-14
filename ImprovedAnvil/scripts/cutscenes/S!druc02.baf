@@ -10,18 +10,36 @@ THEN
     FadeToColor([20.0],0)
     Wait(1)
 
-    LeaveAreaLUAPanic("S!0007","",[3550.2325],0)
-    LeaveAreaLUA("S!0007","",[3550.2325],0)
-    ActionOverride(Player2,LeaveAreaLUA("S!0007","",[3480.2380],0))
-    ActionOverride(Player3,LeaveAreaLUA("S!0007","",[3535.2400],0))
-    ActionOverride(Player4,LeaveAreaLUA("S!0007","",[3590.2370],0))
-    ActionOverride(Player5,LeaveAreaLUA("S!0007","",[3635.2315],0))
-    ActionOverride(Player6,LeaveAreaLUA("S!0007","",[3610.2270],0))
+    LeaveAreaLUAPanic("S!0007","",[2040.1200],E)
+    LeaveAreaLUA("S!0007","",[2040.1200],E)
+    ActionOverride(Player2,LeaveAreaLUA("S!0007","",[-1.-1],0))
+    ActionOverride(Player3,LeaveAreaLUA("S!0007","",[-1.-1],0))
+    ActionOverride(Player4,LeaveAreaLUA("S!0007","",[-1.-1],0))
+    ActionOverride(Player5,LeaveAreaLUA("S!0007","",[-1.-1],0))
+    ActionOverride(Player6,LeaveAreaLUA("S!0007","",[-1.-1],0))
     Wait(1)
+
+    ActionOverride(Player2,JumpToPoint([2025.1300]))
+    ActionOverride(Player3,JumpToPoint([1940.1370]))
+    ActionOverride(Player4,JumpToPoint([1805.1435]))
+    ActionOverride(Player5,JumpToPoint([1675.1405]))
+    ActionOverride(Player6,JumpToPoint([1540.1350]))
+
+    CreateCreature("s!trgu02",[1600.1085],S)
+    CreateCreature("s!trgu02",[1885.1070],S)
+
+    CreateCreature("s!trgu02",[1235.1565],SW)
+    CreateCreature("s!trgu02",[1330.1600],SW)
+
+    CreateCreature("s!trgu02",[1875.1720],S)
+    CreateCreature("s!trgu02",[2020.1705],S)
+
+    CreateCreature("s!trgu02",[2385.1415],SE)
+    CreateCreature("s!trgu02",[2405.1315],SE)
 
     Explore()
     DayNight(DAWN_END)
-    CreateCreature("s!trgu01",[3450.2260],0)
+    CreateCreature("s!trgu01",[2125.1300],0)
     MoveViewObject(Myself,INSTANT)
 
     FaceObject("s!trgu01")
@@ -54,10 +72,10 @@ THEN
     Wait(3)
     DisplayStringHead(Player1,@5405)
 
-    CreateCreature("s!jagdu",[3600.2180],0)
-    ActionOverride("s!jagdu",FaceObject(Player1))
-
     Wait(2)
+
+    ActionOverride("s!trgu01",ReallyForceSpellRES("SPWII58",Myself))
+    ActionOverride("s!trgu01",EscapeArea())
 
     SetCutSceneBreakable(FALSE)
     SetGlobal("IA_CUTSCENE_BREAKABLE","GLOBAL",0)

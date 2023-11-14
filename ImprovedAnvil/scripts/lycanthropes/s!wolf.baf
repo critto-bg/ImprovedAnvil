@@ -1,3 +1,17 @@
+// this forces werewolves to escape the area at the end of trademeet siege event //
+
+IF
+  Allegiance(Myself,ENEMY)
+  AreaCheck("S!0007")
+  Global("IADruidSiege","GLOBAL",3)
+  Global("IaFlee","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("IaFlee","LOCALS",1)
+    ReallyForceSpellRES("SPWII58",Myself)
+    EscapeArea()
+END
+
 // remove regen based on fire damage taken //
 
 IF
@@ -12,13 +26,13 @@ IF
     HitBy([ANYONE],MAGICFIRE)
     HitBy([ANYONE],ACID)
   RandomNumGT(10,3)
-  HPPercentLT(Myself,60)
+  HPPercentLT(Myself,75)
   HasItem("S!regw1",Myself)
   !StateCheck(Myself,STATE_REALLY_DEAD)
   !StateCheck(Myself,STATE_PANIC)
 THEN
   RESPONSE #100
-    SetGlobalTimer("IaRegenHitTimer","LOCALS",6)
+    SetGlobalTimer("IaRegenHitTimer","LOCALS",3)
     IncrementGlobal("IaRegenHits","LOCALS",1)
 END
 
@@ -33,14 +47,35 @@ IF
     HitBy([ANYONE],FIRE)
     HitBy([ANYONE],MAGICFIRE)
     HitBy([ANYONE],ACID)
-  RandomNumLT(8,3)
-  HPPercentLT(Myself,75)
+  RandomNumLT(8,4)
+  HPPercentLT(Myself,85)
   HasItem("S!regw1",Myself)
   !StateCheck(Myself,STATE_REALLY_DEAD)
   !StateCheck(Myself,STATE_PANIC)
 THEN
   RESPONSE #100
-    SetGlobalTimer("IaRegenHitTimer","LOCALS",6)
+    SetGlobalTimer("IaRegenHitTimer","LOCALS",3)
+    IncrementGlobal("IaRegenHits","LOCALS",1)
+END
+
+IF
+  InMyArea(Player1)
+  Allegiance(Myself,ENEMY)
+  Global("IaNoRegen","LOCALS",0)
+  Global("Prep","LOCALS",1)
+  !GlobalTimerNotExpired("IaRegenHitTimer","LOCALS")
+  TookDamage()
+  OR(3)
+    HitBy([ANYONE],FIRE)
+    HitBy([ANYONE],MAGICFIRE)
+    HitBy([ANYONE],ACID)
+  RandomNum(9,4)
+  HasItem("S!regw1",Myself)
+  !StateCheck(Myself,STATE_REALLY_DEAD)
+  !StateCheck(Myself,STATE_PANIC)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("IaRegenHitTimer","LOCALS",3)
     IncrementGlobal("IaRegenHits","LOCALS",1)
 END
 
@@ -105,6 +140,77 @@ IF
 THEN
   RESPONSE #100
     SetGlobalTimer("IaPanicTimer","LOCALS",6)
+END
+
+// attack with level drain for vampiric wolf //
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),1,SCRIPTINGSTATE6)
+  !Kit(LastSeenBy(Myself),UNDEADHUNTER)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE4)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE19)
+  !HasItemEquiped("S!sw06",LastSeenBy(Myself))  // Hesperus +5
+  !HasItemEquiped("S!amul08",LastSeenBy(Myself))  // Pendant of Recovered Light
+  !HasItemEquiped("S!skelsu",LastSeenBy(Myself))
+  !HasItemEquiped("S!swansu",LastSeenBy(Myself))  // No such index
+  !HasItemEquiped("S!gswan",LastSeenBy(Myself))  // No such index
+  !HasItemEquiped("S!swanq",LastSeenBy(Myself))  // No such index
+  !HasItemEquiped("S!gscim",LastSeenBy(Myself))  // Skull
+  !HasItemEquiped("ring95",LastSeenBy(Myself))  // Ring
+  !HasItemEquiped("amul21",LastSeenBy(Myself))  // Amulet of Power
+  !HasItemEquiped("S!amul05",LastSeenBy(Myself))  // Amulet of Hades
+  !HasItemEquiped("S!amul06",LastSeenBy(Myself))  // Lord of the Underworld
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(SecondNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),1,SCRIPTINGSTATE6)
+  !Kit(LastSeenBy(Myself),UNDEADHUNTER)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE4)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE19)
+  !HasItemEquiped("S!sw06",LastSeenBy(Myself))  // Hesperus +5
+  !HasItemEquiped("S!amul08",LastSeenBy(Myself))  // Pendant of Recovered Light
+  !HasItemEquiped("S!skelsu",LastSeenBy(Myself))
+  !HasItemEquiped("S!swansu",LastSeenBy(Myself))  // No such index
+  !HasItemEquiped("S!gswan",LastSeenBy(Myself))  // No such index
+  !HasItemEquiped("S!swanq",LastSeenBy(Myself))  // No such index
+  !HasItemEquiped("S!gscim",LastSeenBy(Myself))  // Skull
+  !HasItemEquiped("ring95",LastSeenBy(Myself))  // Ring
+  !HasItemEquiped("amul21",LastSeenBy(Myself))  // Amulet of Power
+  !HasItemEquiped("S!amul05",LastSeenBy(Myself))  // Amulet of Hades
+  !HasItemEquiped("S!amul06",LastSeenBy(Myself))  // Lord of the Underworld
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(ThirdNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),1,SCRIPTINGSTATE6)
+  !Kit(LastSeenBy(Myself),UNDEADHUNTER)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE4)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE19)
+  !HasItemEquiped("S!sw06",LastSeenBy(Myself))  // Hesperus +5
+  !HasItemEquiped("S!amul08",LastSeenBy(Myself))  // Pendant of Recovered Light
+  !HasItemEquiped("S!skelsu",LastSeenBy(Myself))
+  !HasItemEquiped("S!swansu",LastSeenBy(Myself))  // No such index
+  !HasItemEquiped("S!gswan",LastSeenBy(Myself))  // No such index
+  !HasItemEquiped("S!swanq",LastSeenBy(Myself))  // No such index
+  !HasItemEquiped("S!gscim",LastSeenBy(Myself))  // Skull
+  !HasItemEquiped("ring95",LastSeenBy(Myself))  // Ring
+  !HasItemEquiped("amul21",LastSeenBy(Myself))  // Amulet of Power
+  !HasItemEquiped("S!amul05",LastSeenBy(Myself))  // Amulet of Hades
+  !HasItemEquiped("S!amul06",LastSeenBy(Myself))  // Lord of the Underworld
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
 END
 
 // basic attack pattern //

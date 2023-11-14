@@ -1,26 +1,227 @@
+// Trademeet, druid quest siege event //
+
+// the first wave
+IF
+  InMyArea(Player1)
+  Global("IADruidSiege","GLOBAL",1)
+  Global("IaWaves","S!0007",0)
+THEN
+  RESPONSE #100
+    IncrementGlobal("IaWaves","S!0007",1)
+    SetGlobalTimer("IaReinfTimer","S!0007",13)
+    SetGlobalTimer("IaWaveTimer","S!0007",24)
+    SetGlobalTimer("IaExtraEnemiesTimer","S!0007",12)
+
+    CreateCreature("S!lwer01",[1100.1800],0)
+    CreateCreature("werewo01",[1100.1800],0)
+    CreateCreature("wolfdr01",[1100.1800],0)
+
+    CreateCreature("S!lwer01",[1950.1950],0)
+    CreateCreature("werewo01",[1950.1950],0)
+    CreateCreature("wolfdr01",[1950.1950],0)
+
+    CreateCreature("S!lwer01",[2800.1600],0)
+    CreateCreature("werewo01",[2800.1600],0)
+    CreateCreature("wolfdr01",[2800.1600],0)
+END
+
+// second wave
+IF
+  InMyArea(Player1)
+  Global("IADruidSiege","GLOBAL",1)
+  Global("IaWaves","S!0007",1)
+  GlobalTimerExpired("IaWaveTimer","S!0007")
+THEN
+  RESPONSE #33
+    IncrementGlobal("IaWaves","S!0007",1)
+    SetGlobalTimer("IaWaveTimer","S!0007",24)
+
+    CreateCreature("weregr01",[1100.1800],0)
+    CreateCreature("werewo01",[1100.1800],0)
+    CreateCreature("werewo01",[1100.1800],0)
+    CreateCreature("wolfdr01",[1100.1800],0)
+  RESPONSE #33
+    IncrementGlobal("IaWaves","S!0007",1)
+    SetGlobalTimer("IaWaveTimer","S!0007",24)
+
+    CreateCreature("weregr01",[1950.1950],0)
+    CreateCreature("werewo01",[1950.1950],0)
+    CreateCreature("werewo01",[1950.1950],0)
+    CreateCreature("wolfdr01",[1950.1950],0)
+  RESPONSE #34
+    IncrementGlobal("IaWaves","S!0007",1)
+    SetGlobalTimer("IaWaveTimer","S!0007",24)
+
+    CreateCreature("weregr01",[2800.1600],0)
+    CreateCreature("werewo01",[2800.1600],0)
+    CreateCreature("werewo01",[2800.1600],0)
+    CreateCreature("wolfdr01",[2800.1600],0)
+END
+
+// third wave
+IF
+  InMyArea(Player1)
+  Global("IADruidSiege","GLOBAL",1)
+  Global("IaWaves","S!0007",2)
+  GlobalTimerExpired("IaWaveTimer","S!0007")
+THEN
+  RESPONSE #33
+    IncrementGlobal("IaWaves","S!0007",1)
+    SetGlobalTimer("IaWaveTimer","S!0007",24)
+
+    CreateCreature("weregr01",[1100.1800],0)
+    CreateCreature("werewo01",[1100.1800],0)
+    CreateCreature("werewo01",[1100.1800],0)
+    CreateCreature("wolfva01",[1100.1800],0)
+  RESPONSE #33
+    IncrementGlobal("IaWaves","S!0007",1)
+    SetGlobalTimer("IaWaveTimer","S!0007",24)
+
+    CreateCreature("weregr01",[1950.1950],0)
+    CreateCreature("werewo01",[1950.1950],0)
+    CreateCreature("werewo01",[1950.1950],0)
+    CreateCreature("wolfva01",[1950.1950],0)
+  RESPONSE #34
+    IncrementGlobal("IaWaves","S!0007",1)
+    SetGlobalTimer("IaWaveTimer","S!0007",24)
+
+    CreateCreature("weregr01",[2800.1600],0)
+    CreateCreature("werewo01",[2800.1600],0)
+    CreateCreature("werewo01",[2800.1600],0)
+    CreateCreature("wolfva01",[2800.1600],0)
+END
+
+// fourth wave
+IF
+  InMyArea(Player1)
+  Global("IADruidSiege","GLOBAL",1)
+  Global("IaWaves","S!0007",3)
+  GlobalTimerExpired("IaWaveTimer","S!0007")
+THEN
+  RESPONSE #33
+    IncrementGlobal("IaWaves","S!0007",1)
+    SetGlobalTimer("IaWaveTimer","S!0007",24)
+
+    CreateCreature("weregr01",[1100.1800],0)
+    CreateCreature("weregr01",[1100.1800],0)
+    CreateCreature("wolfva01",[1100.1800],0)
+    CreateCreature("wolfva01",[1100.1800],0)
+  RESPONSE #33
+    IncrementGlobal("IaWaves","S!0007",1)
+    SetGlobalTimer("IaWaveTimer","S!0007",24)
+
+    CreateCreature("weregr01",[1950.1950],0)
+    CreateCreature("weregr01",[1950.1950],0)
+    CreateCreature("wolfva01",[1950.1950],0)
+    CreateCreature("wolfva01",[1950.1950],0)
+  RESPONSE #34
+    IncrementGlobal("IaWaves","S!0007",1)
+    SetGlobalTimer("IaWaveTimer","S!0007",24)
+
+    CreateCreature("weregr01",[2800.1600],0)
+    CreateCreature("weregr01",[2800.1600],0)
+    CreateCreature("wolfva01",[2800.1600],0)
+    CreateCreature("wolfva01",[2800.1600],0)
+END
+
+// spawn jagdu
+IF
+  InMyArea(Player1)
+  Global("IADruidSiege","GLOBAL",1)
+  Global("IaWaves","S!0007",4)
+  Global("IaJagdu","S!0007",0)
+THEN
+  RESPONSE #100
+    SetGlobal("IaJagdu","S!0007",1)
+    CreateCreatureDoor("s!jagdu",[2100.1445],0)
+END
+
+// reinforcements
+IF
+  InMyArea(Player1)
+  Global("IADruidSiege","GLOBAL",1)
+  GlobalLT("IaWaves","S!0007",4)
+  GlobalTimerExpired("IaReinfTimer","S!0007")
+THEN
+  RESPONSE #33
+    SetGlobalTimer("IaReinfTimer","S!0007",13)
+    CreateCreature("s!trgu02",[1300.1000],S)
+  RESPONSE #33
+    SetGlobalTimer("IaReinfTimer","S!0007",13)
+    CreateCreature("s!trgu02",[1065.1355],S)
+  RESPONSE #34
+    SetGlobalTimer("IaReinfTimer","S!0007",13)
+    CreateCreature("s!trgu02",[1950.900],S)
+END
+
+// minor enemies
+IF
+  InMyArea(Player1)
+  Global("IADruidSiege","GLOBAL",1)
+  GlobalTimerExpired("IaExtraEnemiesTimer","S!0007")
+THEN
+  RESPONSE #20
+    SetGlobalTimer("IaExtraEnemiesTimer","S!0007",12)
+    CreateCreature("S!lwer01",[3000.1100],0)
+    CreateCreature("wolfdr01",[3000.1100],0)
+  RESPONSE #20
+    SetGlobalTimer("IaExtraEnemiesTimer","S!0007",12)
+    CreateCreature("S!lwer01",[2800.1600],0)
+    CreateCreature("wolfdr01",[2800.1600],0)
+  RESPONSE #20
+    SetGlobalTimer("IaExtraEnemiesTimer","S!0007",12)
+    CreateCreature("S!lwer01",[1950.1950],0)
+    CreateCreature("wolfdr01",[1950.1950],0)
+  RESPONSE #20
+    SetGlobalTimer("IaExtraEnemiesTimer","S!0007",12)
+    CreateCreature("S!lwer01",[1100.1800],0)
+    CreateCreature("wolfdr01",[1100.1800],0)
+  RESPONSE #5
+    SetGlobalTimer("IaExtraEnemiesTimer","S!0007",12)
+    CreateCreature("werewo01",[3000.1100],0)
+  RESPONSE #5
+    SetGlobalTimer("IaExtraEnemiesTimer","S!0007",12)
+    CreateCreature("werewo01",[2800.1600],0)
+  RESPONSE #5
+    SetGlobalTimer("IaExtraEnemiesTimer","S!0007",12)
+    CreateCreature("weregr01",[1950.1950],0)
+  RESPONSE #5
+    SetGlobalTimer("IaExtraEnemiesTimer","S!0007",12)
+    CreateCreature("weregr01",[1100.1800],0)
+END
+
+// finale - great druid arrives
 IF
   InMyArea(Player1)
   Global("IADruidPlot","GLOBAL",4)
   Global("IADruidSiege","GLOBAL",1)
-  Global("IADruCut","S!0007",0)
+  Global("IaWaves","S!0007",4)
+  Global("IaJagdu","S!0007",1)
   Exists("S!jagdu")
   !Dead("S!jagdu")
   HPLT("S!jagdu",10)
 THEN
   RESPONSE #100
-    SetGlobal("IADruCut","S!0007",1)
+    SetInterrupt(FALSE)
+    SetGlobal("IaJagdu","S!0007",2)
     SetGlobal("IADruidSiege","GLOBAL",2)
-END
-
-IF
-  InMyArea(Player1)
-  Global("IADruidPlot","GLOBAL",4)
-  Global("IADruidSiege","GLOBAL",2)
-  Global("IADruCut","S!0007",1)
-THEN
-  RESPONSE #100
-    SetGlobal("IADruCut","S!0007",2)
     ClearAllActions()
     StartCutSceneMode()
-    StartCutScene("S!druc03")
+    StartCutSceneEx("S!druc03",TRUE)
+END
+
+// leave the area
+IF
+  InMyArea(Player1)
+  Global("IADruidSiege","GLOBAL",3)
+  Global("IaJagdu","S!0007",2)
+THEN
+  RESPONSE #100
+    SetInterrupt(FALSE)
+    SetGlobal("IaJagdu","S!0007",3)
+    Wait(5) // this is to give great druid and werewolves time to escape
+    ClearAllActions()
+    StartCutSceneMode()
+    StartCutSceneEx("S!druc03",TRUE)
+    SetInterrupt(TRUE)
 END

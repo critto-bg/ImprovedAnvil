@@ -49,6 +49,8 @@ COPY ~ImprovedAnvil/resources/items/new/S!claw03.itm~ ~override/S!claw03.itm~
 
 COPY ~ImprovedAnvil/resources/items/new/S!wolf1.itm~ ~override/S!wolf1.itm~
 
+COPY ~ImprovedAnvil/resources/items/new/S!wolf2.itm~ ~override/S!wolf2.itm~
+
 // testing stuff
 COPY ~ImprovedAnvil/resources/items/new/SUPRWAND.itm~ ~override/SUPRWAND.itm~
   SAY NAME1 ~Wand of Dispel Everything~
@@ -222,11 +224,18 @@ COPY ~ImprovedAnvil/resources/creatures/new/S!trgu01.cre~         ~override/S!tr
   SAY NAME1     @12057
   SAY NAME2     @12057
 
+COPY ~ImprovedAnvil/resources/creatures/new/S!trgu02.cre~         ~override/S!trgu02.cre~
+  SAY NAME1     @12057
+  SAY NAME2     @12057
+
+  WRITE_ASCII 0x248 ~S!trgua~ #8 // override script
+  WRITE_ASCII 0x280 ~s!trgu02~ #32 // death variable
+
 COPY ~ImprovedAnvil/resources/creatures/new/S!jagdu.cre~         ~override/S!jagdu.cre~
   SAY NAME1     @12058
   SAY NAME2     @12058
 
-  ADD_CRE_ITEM ~minhp1~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~AMULET~
+  WRITE_ASCII 0x248 ~MAGE16M~ #8 // override script
 
 COPY ~ImprovedAnvil/resources/creatures/new/S!gdru01.cre~         ~override/S!gdru01.cre~
   SAY NAME1     @12059
@@ -306,9 +315,9 @@ COPY_EXISTING ~wolfdr01.cre~ ~override/wolfdr01.cre~
   WRITE_SHORT 0x24      100 // current hp
   WRITE_SHORT 0x26      100 // max hp
   WRITE_LONG  0x28      0xe280 // animation
-  WRITE_SHORT 0x46      (0 - 2) // base ac
-  WRITE_SHORT 0x48      (0 - 2) // effective ac
-  WRITE_BYTE  0x52      6 // thac0
+  WRITE_SHORT 0x46      0 // base ac
+  WRITE_SHORT 0x48      0 // effective ac
+  WRITE_BYTE  0x52      7 // thac0
   WRITE_BYTE  0x53      1 // number of attacks
   WRITE_BYTE  0x54      4 // save vs death
   WRITE_BYTE  0x55      6 // save vs wands
@@ -341,6 +350,49 @@ COPY_EXISTING ~wolfdr01.cre~ ~override/wolfdr01.cre~
   REPLACE_CRE_ITEM ~s!werim0~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~LRING~
   ADD_CRE_ITEM ~s!regw1~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~RRING~
   REPLACE_CRE_ITEM ~s!wolf1~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~WEAPON1~
+
+// vampiric wolf
+COPY_EXISTING ~wolfva01.cre~ ~override/wolfva01.cre~
+  WRITE_LONG  0x14      15000 // xp
+  WRITE_LONG  0x18      8 // xp
+  WRITE_SHORT 0x24      130 // current hp
+  WRITE_SHORT 0x26      130 // max hp
+  WRITE_LONG  0x28      0xe280 // animation
+  WRITE_SHORT 0x46      (0 - 2) // base ac
+  WRITE_SHORT 0x48      (0 - 2) // effective ac
+  WRITE_BYTE  0x52      7 // thac0
+  WRITE_BYTE  0x53      2 // number of attacks
+  WRITE_BYTE  0x54      4 // save vs death
+  WRITE_BYTE  0x55      6 // save vs wands
+  WRITE_BYTE  0x56      5 // save vs polymorph
+  WRITE_BYTE  0x57      4 // save vs breath
+  WRITE_BYTE  0x58      7 // save vs spell
+  WRITE_BYTE  0x59      40 // resist fire
+  WRITE_BYTE  0x5a      80 // resist cold
+  WRITE_BYTE  0x5b      80 // resist electricity
+  WRITE_BYTE  0x5c      40 // resist acid
+  WRITE_BYTE  0x5d      40 // resist magic
+  WRITE_BYTE  0x5e      40 // resist magic fire
+  WRITE_BYTE  0x5f      80 // resist magic cold
+  WRITE_BYTE  0x60      40 // resist slashing
+  WRITE_BYTE  0x61      40 // resist crushing
+  WRITE_BYTE  0x62      40 // resist piercing
+  WRITE_BYTE  0x63      40 // resist missile
+  WRITE_BYTE  0x234     15 // level
+  WRITE_BYTE  0x238 	  18 // strength
+  WRITE_BYTE  0x23c     18 // dexterity
+  WRITE_BYTE  0x23d     18 // constitution
+  WRITE_BYTE  0x23f     15 // morale
+  WRITE_BYTE  0x240      5 // morale break
+  WRITE_LONG  0x242     20 // morale recovery
+  WRITE_ASCII 0x248 ~s!wolfp1~ #8 // override script
+  WRITE_ASCII 0x250 ~~ #8 // class script
+  WRITE_ASCII 0x260 ~s!wolf~ #8 // general script
+  WRITE_ASCII 0x268 ~~ #8 // default script
+
+  REPLACE_CRE_ITEM ~s!werim0~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~LRING~
+  REPLACE_CRE_ITEM ~s!regw1~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~RRING~
+  REPLACE_CRE_ITEM ~s!wolf2~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~WEAPON1~
 
 // werewolf
 COPY_EXISTING ~werewo01.cre~ ~override/werewo01.cre~
@@ -389,6 +441,12 @@ COPY_EXISTING ~werewo01.cre~ ~override/S!wer01c.cre~
   WRITE_ASCII 0x248 ~~         #8 // override script
   WRITE_ASCII 0x250 ~~         #8 // class script
   WRITE_ASCII 0x280 ~s!wer01c~ #32 // death variable
+
+COPY_EXISTING ~werewo01.cre~ ~override/S!wer02c.cre~
+  WRITE_ASCII 0x248 ~~         #8 // override script
+  WRITE_ASCII 0x250 ~~         #8 // class script
+  WRITE_ASCII 0x280 ~s!wer02c~ #32 // death variable
+
 
 // young werewolf
 COPY_EXISTING ~werewo01.cre~ ~override/S!lwer01.cre~
@@ -476,7 +534,19 @@ BEGIN
     STR_VAR
       file = EVALUATE_BUFFER "%file%"
       opcode = "51"
-      parameter1 = "1600086016"
+      //parameter1 = "1600086016"
+      parameter1 = "16762880"
+  END
+END
+
+ACTION_FOR_EACH ~file~ IN
+                ~WOLFVA01~
+BEGIN
+  LAF ~S!CHANGE_CREATURE_COLOURS~
+    STR_VAR
+      file = EVALUATE_BUFFER "%file%"
+      opcode = "51"
+      parameter1 = "906032896"
   END
 END
 
@@ -544,6 +614,7 @@ COMPILE ~ImprovedAnvil/scripts/cutscenes/S!druc17.baf~
 COMPILE ~ImprovedAnvil/scripts/cutscenes/S!druc18.baf~
 COMPILE ~ImprovedAnvil/scripts/cutscenes/S!skipc.baf~
 COMPILE ~ImprovedAnvil/scripts/encounters/druid_quests/S!drad01.baf~ USING ~%LANGUAGE%druidq.tra~
+COMPILE ~ImprovedAnvil/scripts/encounters/druid_quests/S!trgua.baf~
 COMPILE ~ImprovedAnvil/scripts/lycanthropes/S!were.baf~ USING ~%LANGUAGE%druidq.tra~
 COMPILE ~ImprovedAnvil/scripts/lycanthropes/S!wolf.baf~ USING ~%LANGUAGE%druidq.tra~
 COMPILE ~ImprovedAnvil/scripts/lycanthropes/S!werep1.baf~
@@ -1751,6 +1822,7 @@ BUT_ONLY
 APPEND ~mastarea.2da~ ~S!0001     value~
 APPEND ~mastarea.2da~ ~S!0002     value~
 APPEND ~mastarea.2da~ ~S!0005     value~
+APPEND ~mastarea.2da~ ~S!0007     value~
 
 // patch the worldmap //
 
