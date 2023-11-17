@@ -1909,10 +1909,10 @@ APPEND WSMITH01
 
   IF ~~ THEN BEGIN brac03
     SAY @615 IF ~~ THEN REPLY @2 GOTO 13
-    IF ~PartyHasItem("s!brac02") PartyHasItem("s!misc02") NumItemsPartyGT("potn14",2) PartyGoldGT(29999) Global("Iabrac03forged","GLOBAL",0)~
+    IF ~PartyHasItem("s!brac02") PartyHasItem("s!misc02") NumItemsPartyGT("potn14",2) PartyGoldGT(49999) Global("Iabrac03forged","GLOBAL",0)~
       THEN REPLY @3
       DO ~SetGlobal("Iabrac03forged","GLOBAL",1)
-          TakePartyGold(30000)      DestroyGold(30000)
+          TakePartyGold(50000)      DestroyGold(50000)
           TakePartyItemNum("s!brac02",1)   DestroyItem("s!brac02")
           TakePartyItemNum("s!misc02",1)   DestroyItem("s!misc02")
           TakePartyItemNum("potn14",3)   DestroyItem("potn14")
@@ -2157,12 +2157,11 @@ APPEND WSMITH01
   IF ~~ THEN BEGIN yeticloak
     SAY @645
     IF ~~ THEN REPLY @2 GOTO 13
-    IF ~PartyHasItem("s!clck11") PartyHasItem("s!misc02") PartyHasItem("clck01") PartyGoldGT(29999)~
+    IF ~PartyHasItem("s!clck11") PartyHasItem("clck01") PartyGoldGT(29999)~
       THEN REPLY @3
       DO ~SetGlobal("Iahideforged","GLOBAL",2)
           TakePartyGold(30000)      DestroyGold(30000)
           TakePartyItemNum("s!clck11",1)   DestroyItem("s!clck11")
-          TakePartyItemNum("s!misc02",1)   DestroyItem("s!misc02")
           TakePartyItemNum("clck01",1)   DestroyItem("clck01")
           GiveItemCreate("s!clck12",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~

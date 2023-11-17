@@ -423,6 +423,7 @@ var gear = [
                         "section_items": [
                             "Armor Class: 0",
                             "Damage Resistance: +25%",
+                            "Magic Resistance: +25%",
                             "Cold Resistance: +50%"
                         ]
                     }
@@ -601,7 +602,7 @@ var gear = [
                     "Thistledown Gloves",
                     "Three Oils of Speed",
                     "Permanency Scroll",
-                    "30,000 gp",
+                    "50,000 gp",
                     "(Cromwell only)"
                 ],
                 "attributes": [
@@ -1198,7 +1199,6 @@ var gear = [
                 "components": [
                     "Yeti Hide Cloak",
                     "Cloak of Protection +1",
-                    "Permanency Scroll",
                     "30,000 gp",
                     "(Cromwell only)"
                 ],
@@ -1228,6 +1228,7 @@ var gear = [
                             "Armor Class: +3",
                             "Saving Throws: +3",
                             "Damage Resistance: +10%",
+                            "Magic Resistance: +25%",
                             "Cold Resistance: +50%"
                         ]
                     }
@@ -2588,7 +2589,7 @@ var weapons = [
                             "Immunity to Death Fog spell",
                             "15% chance to inflict 20 Acid damage per hit",
                             "THAC0: +5",
-                            "Damage: 1D10 +5, +10 Piercing damage, +5 Acid damage to Trolls",
+                            "Damage: 1D10 +5, +10 Piercing damage, +5 Acid damage to Trolls and Werewolves",
                             "Proficiency Type: Spear",
                             "Damage Type: Piercing"
                         ]
@@ -2698,7 +2699,8 @@ var weapons = [
                     {
                         "section_name": "Usable by",
                         "section_items": [
-                            "Druid"
+                            "Druid",
+                            "Shaman"
                         ]
                     }
                 ],
@@ -3233,8 +3235,7 @@ var misc = [
                     {
                         "section_name": "Abilities",
                         "section_items": [
-                            "Grants permanent immunity to charm and confusion",
-                            "Applies permanent -10% resistance to electrical damage"
+                            "Grants permanent immunity to charm and confusion"
                         ]
                     }
                 ],
