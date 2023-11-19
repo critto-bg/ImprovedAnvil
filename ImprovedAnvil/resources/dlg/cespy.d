@@ -1899,9 +1899,8 @@ APPEND BOTSMITH
 
   IF ~~ THEN BEGIN rage
     SAY @769 IF ~~ THEN REPLY @2 GOTO 4
-    IF ~PartyHasItem("SW2H03") PartyHasItem("BLUN09") NumItemsPartyGT("potn33",2)
+    IF ~PartyHasItem("SW2H03") PartyHasItem("BLUN09") PartyHasItem("S!MISC02")
         NumItemsPartyGT("potn28",2) NumItemsPartyGT("potn05",2) PartyGoldGT(74999)
-        PartyHasItem("S!MISC02")
         OR(3) PartyHasItem("Ax1h16") PartyHasItem("Ax1h16m") PartyHasItem("Ax1h16f")~
       THEN REPLY @3
       DO ~TakePartyGold(75000)      DestroyGold(75000)
@@ -1910,9 +1909,6 @@ APPEND BOTSMITH
           TakePartyItemNum("Ax1h16m",1)   DestroyItem("Ax1h16m")
           TakePartyItemNum("SW2H03",1)   DestroyItem("SW2H03")
           TakePartyItemNum("BLUN09",1)   DestroyItem("BLUN09")
-          TakePartyItemNum("potn33",3)   DestroyItem("potn33")
-                                         DestroyItem("potn33")
-                                         DestroyItem("potn33")
           TakePartyItemNum("potn28",3)   DestroyItem("potn28")
                                          DestroyItem("potn28")
                                          DestroyItem("potn28")

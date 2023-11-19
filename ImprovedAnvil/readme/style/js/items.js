@@ -1647,7 +1647,6 @@ var weapons = [
                     "K'logarath +4",
                     "Cursed Berserking Sword +3",
                     "Kiel's Morning Star",
-                    "3 Potions of Barbarian Essense",
                     "3 Potions of Fortitude",
                     "3 Potions of Fire Giant Strength",
                     "Permanency scroll",
