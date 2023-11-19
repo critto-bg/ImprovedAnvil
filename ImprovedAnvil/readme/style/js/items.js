@@ -2690,9 +2690,9 @@ var weapons = [
                             "Wielder may summon an Elemental Prince for 20 rounds once per day",
                             "THAC0: +4",
                             "Damage: 1D6 +4, +10 crushing damage",
-                            "5% chance on hit to cause an additional 5d6 + 20 crushing damage",
-                            "5% chance on hit to cause an additional 5d6 + 20 poison damage",
-                            "5% chance on hit to cause an additional 5d6 + 20 acid damage",
+                            "10% chance on hit to cause an additional 5d6 crushing damage",
+                            "10% chance on hit to cause an additional 5d6 poison damage",
+                            "10% chance on hit to cause an additional 5d6 acid damage",
                             "Thunderclap: 10% chance of stunning hit target for 2 rounds (Save vs. Spell negates)"
                         ]
                     },
