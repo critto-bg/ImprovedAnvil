@@ -2129,20 +2129,9 @@ var weapons = [
                             "Immunity to Fear, Charm, Confusion and Backstab",
                             "+2 Bonus to Strength",
                             "+30 Max hp while equipped",
-                            "+20% Resistance to Crushing, Slashing, piercing and missile damage",
+                            "+10% Resistance to Crushing, Slashing, piercing and missile damage",
                             "10% chance to heal the wielder for 40 points (with each successful hit)",
-                            "40% chance to trigger a random beneficial mage spell. The total 40% probability is distributed as follows:",
-                            " - Blur: 3%",
-                            " - Mirror Image: 5%",
-                            " - Stoneskin: 5%",
-                            " - Oracle: 4%",
-                            " - Lower Resistance (on target): 5%",
-                            " - Improved Haste: 3%",
-                            " - Protection from Magical Weapons: 5%",
-                            " - Globe of invulnerability: 4%",
-                            " - Spell turning: 2%",
-                            " - Protection from Energy: 2%",
-                            " - Wish: 2%",
+                            "10% chance to cast Stoneskin on the wielder",
                             "THAC0: +5 bonus",
                             "Damage:  2D8 + 5",
                             "Proficiency Type: Long Sword",
@@ -2152,7 +2141,7 @@ var weapons = [
                     {
                         "section_name": "Usable by",
                         "section_items": [
-                            "Good aligned single-class fighters and paladins"
+                            "Good aligned warriors (single class)"
                         ]
                     }
                 ],
