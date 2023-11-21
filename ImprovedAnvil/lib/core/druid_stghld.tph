@@ -517,6 +517,7 @@ COPY_EXISTING ~WEREGR01.cre~ ~override/weregr01.cre~
   PATCH_IF !(~%SOURCE_RES%~ STRING_EQUAL_CASE ~firamb01~) BEGIN
     WRITE_ASCII 0x248 ~s!werep2~ #8 // override script
     WRITE_ASCII 0x250 ~~ #8 // class script
+    WRITE_ASCII 0x258 ~~ #8 // race script
     WRITE_ASCII 0x260 ~s!were~ #8 // general script
   END
 
@@ -563,6 +564,11 @@ COPY_EXISTING ~BALDUR.BCS~ ~override~
 COPY_EXISTING ~RNGWLF01.BCS~ ~override~
   DECOMPILE_AND_PATCH BEGIN
     REPLACE_TEXTUALLY ~ForceSpell(Myself,ANATH_WEREWOLF)~ ~DestroyItem("S!misc76") ForceSpell(Myself,ANATH_WEREWOLF)~
+  END
+
+COPY_EXISTING ~RNGWLF05.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~Kill(Myself)~ ~GiveItemCreate("S!misc76",Myself,0,0,0) Kill(Myself)~
   END
 
 // make sure the trademeet siege does not overlapse with the other potential Trademeet events
@@ -697,13 +703,14 @@ EXTEND_TOP ~AR1901.BCS~ ~.../inlined/ar1901.baf~
  * rngwlf02 - ignored
  * rngwlf03 - added at Kill(Myself); runs into cave at first meeting, or dies near the mirror
  *.rngwlf04 - added to inventory, shapes into this using spell spin876 when she turns enemy and attacks in her cave
- * rngwlf05 - ignored; shapes into this from spell spin875, when she turns wolf in her cave and runs away,
+ * rngwlf05 - shapes into this from spell spin875, when she turns wolf in her cave and runs away,
               or dies if shade lord is finished
  *
  * To summarize:
  * - add to rngwlf01's inventory through a script, remove at dialogue/script actions if she turns to either werewolf form
- * - add to rngwlf03's inventory at Kill(Myself)
+ * - add to rngwlf03's inventory through a script
  * - add to rngwlf04's inventory through a script
+ * - add to rngwlf05's inventory at Kill(Myself)
  */
 
 <<<<<<<< .../inlined/ar140x.baf
@@ -747,6 +754,7 @@ IF
   Global("IADruidAnathNote","GLOBAL",0)
   Global("IAItemCheck3","AR1404",0)
   Global("SpawnAnathHuman","GLOBAL",1)
+  Global("AnathSpawn","AR1404",1)
   Exists("rngwlf03")
   !Dead("rngwlf03")
   !PartyHasItem("S!misc76")
