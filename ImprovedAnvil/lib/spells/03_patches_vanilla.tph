@@ -117,6 +117,9 @@ COPY_EXISTING ~SPPR101.spl~ ~override/SPPR101.spl~
 COPY_EXISTING ~SPPR150.spl~ ~override/SPPR150.spl~
   SAY UNIDENTIFIED_DESC @10267
 
+  // update casting speed
+  LPF ~ALTER_SPELL_HEADER~ INT_VAR speed = 3 END
+
   // remove attack roll penalty (219)
   LPF DELETE_SPELL_EFFECT INT_VAR opcode_to_delete = 219 END
 
@@ -145,17 +148,7 @@ COPY_EXISTING ~SPPR350.spl~ ~override/SPPR350.spl~
   SAY UNIDENTIFIED_DESC @10268
 
   // update casting speed
-  LPF ~ALTER_SPELL_HEADER~ INT_VAR speed = 3 END
-
-  // add prot from envelop
-  LPF ~CLONE_EFFECT~
-    INT_VAR
-      check_globals = 0
-      match_opcode = 321
-    STR_VAR
-      match_resource = ~SPPR550~
-      resource = ~S!misva2.spl~
-  END
+  LPF ~ALTER_SPELL_HEADER~ INT_VAR speed = 5 END
 
   // remove stuff vs. fear
   LPF DELETE_SPELL_EFFECT INT_VAR opcode_to_delete = 23 END
@@ -169,6 +162,8 @@ COPY_EXISTING ~SPPR350.spl~ ~override/SPPR350.spl~
   LPF DELETE_EFFECT INT_VAR match_opcode = 321 STR_VAR match_resource=~SPPR706~ END
   LPF DELETE_EFFECT INT_VAR match_opcode = 321 STR_VAR match_resource=~SPPR416~ END
   LPF DELETE_EFFECT INT_VAR match_opcode = 321 STR_VAR match_resource=~BDAURAFE~ END
+  LPF DELETE_EFFECT INT_VAR match_opcode = 321 STR_VAR match_resource=~BDMYCSP1~ END
+  LPF DELETE_EFFECT INT_VAR match_opcode = 321 STR_VAR match_resource=~BDMYCSP2~ END
 
 // Spirit Fire
 COPY_EXISTING ~SPPR450.spl~ ~override/SPPR450.spl~
