@@ -151,6 +151,18 @@ COPY_EXISTING ~SPCL940.spl~ ~override/SPCL940.spl~
     END
   END
 
+  // immunity to wish: hardiness
+  LPF ADD_SPELL_EFFECT
+    INT_VAR
+      opcode = 206
+      target = 1
+      timing = 0
+      resist_dispel = 0
+      duration = 30
+    STR_VAR
+      resource = ~SPWISH12~
+  END
+
   // immunity to detect invisibility
   PATCH_FOR_EACH ~effect~ IN ~116~ ~220~ BEGIN
     LPF ADD_SPELL_EFFECT
