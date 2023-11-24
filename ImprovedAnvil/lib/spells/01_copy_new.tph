@@ -678,7 +678,7 @@ ACTION_PHP_EACH shaman_healing_spells AS record => int BEGIN
     // add the split-second aura cleansing effect
     LPF ADD_SPELL_EFFECT
       INT_VAR
-        header = 1
+        header = 2
         opcode = 146
         target = 1
         parameter2 = 1
@@ -694,24 +694,11 @@ ACTION_PHP_EACH shaman_healing_spells AS record => int BEGIN
     COPY ~ImprovedAnvil\resources\bam\%record_0%d.bam~ ~override/%record_0%d.bam~
   END
 
-  // create a spell that removes the default "cure XX wounds" spell and replaces it with the new one
+  // create a spell that gives this mending spell when a "cure XX wounds" spell is detected
   COPY ~ImprovedAnvil/resources/intermediate/shaman_replace_spells.spl~ ~override/%record_0%r.spl~
     LPF ALTER_SPELL_HEADER
       INT_VAR
         target = 1
-    END
-
-    // resolve the old spell's resource name
-    LPF RES_NUM_OF_SPELL_NAME STR_VAR spell_name = EVALUATE_BUFFER ~%record_6%~ RET spell_res END
-
-    LPF ADD_SPELL_EFFECT
-      INT_VAR
-        header = 1
-        opcode = 172
-        target = 2
-        timing = 9
-      STR_VAR
-        resource = EVALUATE_BUFFER "%spell_res%"
     END
 
     // resolve the new spell's resource name
