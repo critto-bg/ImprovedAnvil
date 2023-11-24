@@ -157,3 +157,54 @@ THEN
     SetGlobal("Iacromwellshut","GLOBAL",3)
     TriggerActivation("TRAN0334",TRUE)
 END
+
+IF
+  GlobalTimerExpired("KPPlotTime","GLOBAL")
+  InMyArea(Player1)
+  GlobalGT("Chapter","GLOBAL",5)
+  Global("KeepPlot","GLOBAL",4)
+  InParty("Nalia")
+  Global("NaliaIsaeaPlotDone","GLOBAL",1)
+  Global("KPRunnerSpawn","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("KPRunnerSpawn","GLOBAL",1)
+    CreateCreatureObjectOffScreen("KPRUNN01",Player1,0,0,0)
+END
+
+IF
+  GlobalTimerExpired("KPPlotTime","GLOBAL")
+  InMyArea(Player1)
+  GlobalGT("Chapter","GLOBAL",5)
+  Global("KeepPlot","GLOBAL",4)
+  !InParty("Nalia")
+  Global("KPRunnerSpawn","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("KPRunnerSpawn","GLOBAL",1)
+    CreateCreatureObjectOffScreen("KPRUNN01",Player1,0,0,0)
+END
+
+IF
+  GlobalTimerExpired("KPPlotTime","GLOBAL")
+  InMyArea(Player1)
+  GlobalGT("Chapter","GLOBAL",5)
+  Global("KeepPlot","GLOBAL",7)
+  Global("KPRunnerSpawn","GLOBAL",1)
+THEN
+  RESPONSE #100
+    SetGlobal("KPRunnerSpawn","GLOBAL",2)
+    CreateCreatureObjectOffScreen("KPRUNN01",Player1,0,0,0)
+END
+
+IF
+  GlobalTimerExpired("KPPlotTime","GLOBAL")
+  InMyArea(Player1)
+  GlobalGT("Chapter","GLOBAL",5)
+  Global("KeepPlot","GLOBAL",8)
+  Global("KPRunnerSpawn","GLOBAL",2)
+THEN
+  RESPONSE #100
+    SetGlobal("KPRunnerSpawn","GLOBAL",3)
+    CreateCreatureObjectOffScreen("KPRUNN01",Player1,0,0,0)
+END
