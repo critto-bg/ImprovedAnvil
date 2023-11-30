@@ -363,6 +363,16 @@ COPY_EXISTING ~wish.2da~  ~override/wish.2da~
   REPLACE_TEXTUALLY ~27.+27.+22~ ~27 27 18~
   PRETTY_PRINT_2DA
 
+// add custom conditions for splprot
+COPY_EXISTING ~splprot.2da~ ~override/splprot.2da~
+  COUNT_2DA_COLS ~colcount~
+  COUNT_2DA_ROWS ~colcount~ ~rowcount~
+
+  // add a condition to check if HP is lower than given value
+  SET hp_lower_than = %rowcount%
+  INSERT_2DA_ROW ~rowcount~ ~colcount~ ~%hp_lower_than%_HP<n 0x000 -1 2~
+  PRETTY_PRINT_2DA
+
 // Add projectiles //
 
 ADD_PROJECTILE ~ImprovedAnvil\resources\projectiles\S!IWD298.PRO~

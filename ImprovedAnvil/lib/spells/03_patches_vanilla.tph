@@ -117,6 +117,12 @@ COPY_EXISTING ~SPPR101.spl~ ~override/SPPR101.spl~
 COPY_EXISTING ~SPPR150.spl~ ~override/SPPR150.spl~
   SAY UNIDENTIFIED_DESC @10267
 
+  // delete all headers but the first one
+  PATCH_FOR_EACH ~min_level~ IN 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
+  BEGIN
+    LPF ~DELETE_SPELL_HEADER~ INT_VAR header_type = ~-1~ min_level = ~%min_level%~ END
+  END
+
   // update casting speed
   LPF ~ALTER_SPELL_HEADER~ INT_VAR speed = 3 END
 
@@ -128,6 +134,12 @@ COPY_EXISTING ~SPPR150.spl~ ~override/SPPR150.spl~
     check_headers = 1
     match_opcode = 346
     parameter1 = 6
+  END
+
+  // update duration
+  LPF ~ALTER_SPELL_EFFECT~ INT_VAR
+    check_headers = 1
+    duration_high = 60
   END
 
 // Draw Upon Holy Might

@@ -17,8 +17,8 @@ COPY_EXISTING ~spdwd02.spl~ ~override/spdwd02.spl~
     END
   END
 
-  // add protection from Hardiness for the duration of the spell
-  PATCH_FOR_EACH ~res~ IN ~SPCL907~ ~SPWISH12~ BEGIN
+  // add protection from Hardiness and Entropy Shield for the duration of the spell
+  PATCH_FOR_EACH ~res~ IN ~SPCL907~ ~SPWISH12~ ~SPPR546~ ~SPPR547~ ~SPPR548~ ~SPPR549~ BEGIN
     LPF ~ADD_SPELL_EFFECT~
       INT_VAR
         opcode = 206
@@ -111,18 +111,28 @@ COPY_EXISTING ~SPCL941.spl~ ~override/SPCL941.spl~
 
   LPF ADD_SPELL_EFFECT
     INT_VAR
-      opcode = 232
+      opcode = 177
       target = 1
       parameter1 = 0
-      parameter2 = 4
+      parameter2 = 2
       timing = 0
       resist_dispel = 2
       duration = 120
     STR_VAR
-      resource = ~SPCL941B~
+      resource = ~S!favor~
   END
 
   BUT_ONLY
+
+COPY_EXISTING ~SPCL941b.spl~ ~override/SPCL941b.spl~
+  LPF ADD_SPELL_EFFECT
+    INT_VAR
+      opcode = 295
+      target = 2
+      parameter2 = 1
+      duration = 1
+      insert_point = 0
+  END
 
 // Spirit Form, Shaman's HLA
 COPY_EXISTING ~SPCL940.spl~ ~override/SPCL940.spl~
