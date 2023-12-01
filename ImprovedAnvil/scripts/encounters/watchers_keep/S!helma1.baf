@@ -3,7 +3,6 @@
 // Helm's blessing: permanent rewards to party members based on characters' classes //
 
 // Order of checks:
-// 0) The protagonist, if he's Vagrant or Necromancer, does not receive any bonus (sorry guys, you're too powerful already)
 // 1) multiclasses receive experience bonus
 // 2) Riskbreakers get %DR
 // 3) Paladins, bards, thieves get APR bonus
@@ -11,20 +10,6 @@
 // 5) All casters get casting speed bonus
 
 // Player1
-IF
-  InMyArea(Player1)
-  Global("DemoGorgonIsDead","GLOBAL",1)
-  Global("IaApparition","AR3020",3)
-  Global("IaHelmBlessP1","AR3020",0)
-  OR(2)
-    Kit(Player1,MAGESCHOOL_NECROMANCER)
-    Kit(Player1,VAGRANT)
-THEN
-  RESPONSE #100
-    SetGlobal("IaHelmBlessP1","AR3020",1)
-    CreateVisualEffectObject("ICPRAYI",Player1)
-END
-
 IF
   InMyArea(Player1)
   Global("DemoGorgonIsDead","GLOBAL",1)
