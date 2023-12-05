@@ -1094,3 +1094,10 @@ BUT_ONLY
 // fix the desc for ring of djinni summoning //
 COPY_EXISTING ~RING26.itm~ ~override/RING26.itm~
   SAY DESC @11134
+
+// fix selling price of deck of many things //
+COPY_EXISTING ~DECK.itm~ ~override/DECK.itm~
+  READ_BYTE 0x18 flags
+  WRITE_BYTE 0x18 (flags BXOR 0b00000001) // remove Critical Item falg
+
+  WRITE_LONG 0x34 80000 // price
