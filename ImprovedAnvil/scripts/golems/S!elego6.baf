@@ -1,0 +1,85 @@
+IF
+    Detect([PC])
+    Global("Iatimer","LOCALS",0)
+THEN
+    RESPONSE #100
+        SetGlobalTimer("golemcall","LOCALS",THREE_ROUNDS)
+        SetGlobal("Iatimer","LOCALS",1)
+END
+
+IF
+    See([PC])
+    !GlobalTimerNotExpired("golemcall","LOCALS")
+    GlobalLT("golems","LOCALS",6)
+    !HPLT(Myself,1)
+THEN
+    RESPONSE #50
+        SetGlobalTimer("golemcall","LOCALS",SIX_ROUNDS)
+        IncrementGlobal("golems","LOCALS",1)
+        CreateCreatureObject("S!coin",Myself,0,0,0)  // Coin Golem
+    RESPONSE #50
+        SetGlobalTimer("golemcall","LOCALS",SIX_ROUNDS)
+        IncrementGlobal("golems","LOCALS",1)
+        CreateCreatureObject("S!gem",Myself,0,0,0)  // Gem Golem
+END
+
+IF
+    Allegiance(Myself,ENEMY)
+    See(SecondNearestEnemyOf(Myself))
+    CheckStatLT(LastSeenBy(Myself),90,RESISTCRUSHING)
+    !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+    RandomNumGT(6,4)
+    Range(LastSeenBy(Myself),3)
+THEN
+    RESPONSE #100
+        AttackOneRound(LastSeenBy(Myself))
+        AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+    See(NearestEnemyOf(Myself))
+    !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+    RESPONSE #100
+        AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+    See(SecondNearestEnemyOf(Myself))
+    !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+    RESPONSE #100
+        AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+    See(ThirdNearestEnemyOf(Myself))
+    !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+    RESPONSE #100
+        AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+    See(FourthNearestEnemyOf(Myself))
+    !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+    RESPONSE #100
+        AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+    See(NearestEnemyOf(Myself))
+THEN
+    RESPONSE #100
+        AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+    !Detect([PC])
+    !Detect([GOODCUTOFF])
+    InMyArea(Player1)
+THEN
+    RESPONSE #100
+        MoveToObject(Player1)
+END
