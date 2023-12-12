@@ -33,15 +33,29 @@ THEN
 END
 
 IF
-  Allegiance(Myself,ENEMY)
-  Detect([PC])
-  !HPLT(Myself,1)
-  Global("weaguasummons","LOCALS",0)
+    Dead("S!elego6")
+    Dead("S!elego7")
+    HasItem("S!minhp1",Myself)  // No such index
+    Global("weagua_vuln","LOCALS",0)
 THEN
-  RESPONSE #100
-    SetGlobal("weaguasummons","LOCALS",1)
-    CreateCreatureObjectEffect("S!bongol","",Myself)  // Greater Bone Golem
-    CreateCreatureObjectEffect("S!bongol","",Myself)  // Greater Bone Golem
+    RESPONSE #100
+        DestroyItem("S!minhp1")  // No such index
+        SetGlobal("weagua_vuln","LOCALS",1)
+END
+
+IF
+    Allegiance(Myself,ENEMY)
+    Detect([PC])
+    !HPLT(Myself,1)
+    GlobalLT("weaguasummons","LOCALS",3)
+    !GlobalTimerNotExpired("weaguasummons","LOCALS")
+THEN
+    RESPONSE #100
+        IncrementGlobal("weaguasummons","LOCALS",1)
+        SetGlobalTimer("weaguasummons","LOCALS",EIGHT_ROUNDS)
+        DisplayStringHead(Myself,70998)  // Come, my minions!
+        CreateCreatureObject("S!bongol",Myself,0,0,0)  // Greater Bone Golem
+        CreateCreatureObject("S!bongol",Myself,0,0,0)  // Greater Bone Golem
 END
 
 IF
