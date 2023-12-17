@@ -53,40 +53,29 @@ IF
   Global("Iadevaevil","LOCALS",0)
 THEN
   RESPONSE #100
+    SetInterrupt(FALSE)
     SetGlobal("Iadevaevil","LOCALS",1)
     SetGlobalTimer("Iaspell","LOCALS",6)
     ReallyForceSpell(Myself,CLERIC_GLOBE_OF_BLADES)
+    SetInterrupt(TRUE)
 END
 
 IF
-  ActionListEmpty()
-  !Allegiance(Myself,ENEMY)
+  !CheckStatGT(Myself,0,SCRIPTINGSTATE9)
   HPPercentLT(Myself,25)
   !HPLT(Myself,1)
   Global("DevaHeal","LOCALS",0)
   !GlobalTimerNotExpired("Iaspell","LOCALS")
 THEN
   RESPONSE #100
+    SetInterrupt(FALSE)
     SetGlobal("DevaHeal","LOCALS",1)
     SetGlobalTimer("Iaspell","LOCALS",6)
-    ReallyForceSpellRES("devaheal",Myself)  // ~Heal~
+    ReallyForceSpellRES("SPPR607",Myself)  // ~Heal~
+    SetInterrupt(TRUE)
 END
 
 IF
-  Allegiance(Myself,ENEMY)
-  HPPercentLT(Myself,25)
-  !HPLT(Myself,1)
-  Global("DevaHeal","LOCALS",0)
-  !GlobalTimerNotExpired("Iaspell","LOCALS")
-THEN
-  RESPONSE #100
-    SetGlobal("DevaHeal","LOCALS",1)
-    SetGlobalTimer("Iaspell","LOCALS",6)
-    ReallyForceSpellRES("devaheal",Myself)  // ~Heal~
-END
-
-IF
-  ActionListEmpty()
   !Allegiance(Myself,ENEMY)
   !CheckStatGT(Myself,0,SCRIPTINGSTATE9)
   See(NearestEnemyOf(Player1))
@@ -102,13 +91,14 @@ IF
   Global("Iavengeance","LOCALS",0)
 THEN
   RESPONSE #100
+    SetInterrupt(FALSE)
     SetGlobalTimer("Iaspell","LOCALS",6)
     SetGlobal("Iavengeance","LOCALS",1)
     ReallyForceSpellRES("SPPR722",LastSeenBy(Myself))
+    SetInterrupt(TRUE)
 END
 
 IF
-  ActionListEmpty()
   !Allegiance(Myself,ENEMY)
   !CheckStatGT(Myself,0,SCRIPTINGSTATE9)
   See(SecondNearestEnemyOf(Player1))
@@ -124,13 +114,14 @@ IF
   Global("Iavengeance","LOCALS",0)
 THEN
   RESPONSE #100
+    SetInterrupt(FALSE)
     SetGlobalTimer("Iaspell","LOCALS",6)
     SetGlobal("Iavengeance","LOCALS",1)
     ReallyForceSpellRES("SPPR722",LastSeenBy(Myself))
+    SetInterrupt(TRUE)
 END
 
 IF
-  ActionListEmpty()
   !Allegiance(Myself,ENEMY)
   !CheckStatGT(Myself,0,SCRIPTINGSTATE9)
   See(ThirdNearestEnemyOf(Player1))
@@ -146,13 +137,14 @@ IF
   Global("Iavengeance","LOCALS",0)
 THEN
   RESPONSE #100
+    SetInterrupt(FALSE)
     SetGlobalTimer("Iaspell","LOCALS",6)
     SetGlobal("Iavengeance","LOCALS",1)
     ReallyForceSpellRES("SPPR722",LastSeenBy(Myself))
+    SetInterrupt(TRUE)
 END
 
 IF
-  ActionListEmpty()
   !Allegiance(Myself,ENEMY)
   !CheckStatGT(Myself,0,SCRIPTINGSTATE9)
   See(FourthNearestEnemyOf(Player1))
@@ -168,123 +160,137 @@ IF
   Global("Iavengeance","LOCALS",0)
 THEN
   RESPONSE #100
+    SetInterrupt(FALSE)
     SetGlobalTimer("Iaspell","LOCALS",6)
     SetGlobal("Iavengeance","LOCALS",1)
     ReallyForceSpellRES("SPPR722",LastSeenBy(Myself))
+    SetInterrupt(TRUE)
 END
 
 IF
   Allegiance(Myself,ENEMY)
   !CheckStatGT(Myself,0,SCRIPTINGSTATE9)
-  See([PC])
+  See(Player1)
   OR(3)
-    Class(LastSeenBy(Myself),DRUID_ALL)
-    Class(LastSeenBy(Myself),CLERIC_ALL)
-    Class(LastSeenBy(Myself),MAGE_ALL)
-  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-  !StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
+    Class(Player1,DRUID_ALL)
+    Class(Player1,CLERIC_ALL)
+    Class(Player1,MAGE_ALL)
+  !StateCheck(Player1,STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(Player1,STATE_INVISIBLE)
   !GlobalTimerNotExpired("Iaspell","LOCALS")
   Global("Iavengeance","LOCALS",0)
 THEN
   RESPONSE #100
+    SetInterrupt(FALSE)
     SetGlobalTimer("Iaspell","LOCALS",6)
     SetGlobal("Iavengeance","LOCALS",1)
-    ReallyForceSpellRES("SPPR722",LastSeenBy(Myself))
+    ReallyForceSpellRES("SPPR722",Player1)
+    SetInterrupt(TRUE)
 END
 
 IF
   Allegiance(Myself,ENEMY)
   !CheckStatGT(Myself,0,SCRIPTINGSTATE9)
-  See(SecondNearest([PC]))
+  See(Player2)
   OR(3)
-    Class(LastSeenBy(Myself),DRUID_ALL)
-    Class(LastSeenBy(Myself),CLERIC_ALL)
-    Class(LastSeenBy(Myself),MAGE_ALL)
-  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-  !StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
+    Class(Player2,DRUID_ALL)
+    Class(Player2,CLERIC_ALL)
+    Class(Player2,MAGE_ALL)
+  !StateCheck(Player2,STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(Player2,STATE_INVISIBLE)
   !GlobalTimerNotExpired("Iaspell","LOCALS")
   Global("Iavengeance","LOCALS",0)
 THEN
   RESPONSE #100
+    SetInterrupt(FALSE)
     SetGlobalTimer("Iaspell","LOCALS",6)
     SetGlobal("Iavengeance","LOCALS",1)
-    ReallyForceSpellRES("SPPR722",LastSeenBy(Myself))
+    ReallyForceSpellRES("SPPR722",Player2)
+    SetInterrupt(TRUE)
 END
 
 IF
   Allegiance(Myself,ENEMY)
   !CheckStatGT(Myself,0,SCRIPTINGSTATE9)
-  See(ThirdNearest([PC]))
+  See(Player3)
   OR(3)
-    Class(LastSeenBy(Myself),DRUID_ALL)
-    Class(LastSeenBy(Myself),CLERIC_ALL)
-    Class(LastSeenBy(Myself),MAGE_ALL)
-  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-  !StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
+    Class(Player3,DRUID_ALL)
+    Class(Player3,CLERIC_ALL)
+    Class(Player3,MAGE_ALL)
+  !StateCheck(Player3,STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(Player3,STATE_INVISIBLE)
   !GlobalTimerNotExpired("Iaspell","LOCALS")
   Global("Iavengeance","LOCALS",0)
 THEN
   RESPONSE #100
+    SetInterrupt(FALSE)
     SetGlobalTimer("Iaspell","LOCALS",6)
     SetGlobal("Iavengeance","LOCALS",1)
-    ReallyForceSpellRES("SPPR722",LastSeenBy(Myself))
+    ReallyForceSpellRES("SPPR722",Player3)
+    SetInterrupt(TRUE)
 END
 
 IF
   Allegiance(Myself,ENEMY)
   !CheckStatGT(Myself,0,SCRIPTINGSTATE9)
-  See(FourthNearest([PC]))
+  See(Player4)
   OR(3)
-    Class(LastSeenBy(Myself),DRUID_ALL)
-    Class(LastSeenBy(Myself),CLERIC_ALL)
-    Class(LastSeenBy(Myself),MAGE_ALL)
-  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-  !StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
+    Class(Player4,DRUID_ALL)
+    Class(Player4,CLERIC_ALL)
+    Class(Player4,MAGE_ALL)
+  !StateCheck(Player4,STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(Player4,STATE_INVISIBLE)
   !GlobalTimerNotExpired("Iaspell","LOCALS")
   Global("Iavengeance","LOCALS",0)
 THEN
   RESPONSE #100
+    SetInterrupt(FALSE)
     SetGlobalTimer("Iaspell","LOCALS",6)
     SetGlobal("Iavengeance","LOCALS",1)
-    ReallyForceSpellRES("SPPR722",LastSeenBy(Myself))
+    ReallyForceSpellRES("SPPR722",Player4)
+    SetInterrupt(TRUE)
 END
 
 IF
   Allegiance(Myself,ENEMY)
   !CheckStatGT(Myself,0,SCRIPTINGSTATE9)
-  See(FifthNearest([PC]))
+  See(Player5)
   OR(3)
-    Class(LastSeenBy(Myself),DRUID_ALL)
-    Class(LastSeenBy(Myself),CLERIC_ALL)
-    Class(LastSeenBy(Myself),MAGE_ALL)
-  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-  !StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
+    Class(Player5,DRUID_ALL)
+    Class(Player5,CLERIC_ALL)
+    Class(Player5,MAGE_ALL)
+  !StateCheck(Player5,STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(Player5,STATE_INVISIBLE)
   !GlobalTimerNotExpired("Iaspell","LOCALS")
   Global("Iavengeance","LOCALS",0)
 THEN
   RESPONSE #100
+    SetInterrupt(FALSE)
     SetGlobalTimer("Iaspell","LOCALS",6)
     SetGlobal("Iavengeance","LOCALS",1)
-    ReallyForceSpellRES("SPPR722",LastSeenBy(Myself))
+    ReallyForceSpellRES("SPPR722",Player5)
+    SetInterrupt(TRUE)
 END
 
 IF
   Allegiance(Myself,ENEMY)
   !CheckStatGT(Myself,0,SCRIPTINGSTATE9)
-  See(SixthNearest([PC]))
+  See(Player6)
   OR(3)
-    Class(LastSeenBy(Myself),DRUID_ALL)
-    Class(LastSeenBy(Myself),CLERIC_ALL)
-    Class(LastSeenBy(Myself),MAGE_ALL)
-  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-  !StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
+    Class(Player6,DRUID_ALL)
+    Class(Player6,CLERIC_ALL)
+    Class(Player6,MAGE_ALL)
+  !StateCheck(Player6,STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(Player6,STATE_INVISIBLE)
   !GlobalTimerNotExpired("Iaspell","LOCALS")
   Global("Iavengeance","LOCALS",0)
 THEN
   RESPONSE #100
+    SetInterrupt(FALSE)
     SetGlobalTimer("Iaspell","LOCALS",6)
     SetGlobal("Iavengeance","LOCALS",1)
-    ReallyForceSpellRES("SPPR722",LastSeenBy(Myself))
+    ReallyForceSpellRES("SPPR722",Player6)
+    SetInterrupt(TRUE)
 END
 
 IF
@@ -296,9 +302,11 @@ IF
   See(NearestEnemyOf(Player1))
 THEN
   RESPONSE #100
+    SetInterrupt(FALSE)
     SetGlobalTimer("Iaspell","LOCALS",6)
     SetGlobal("IaRmagic","LOCALS",1)
     ReallyForceSpellRES("SPPR513",Myself)
+    SetInterrupt(TRUE)
 END
 
 IF
@@ -309,115 +317,249 @@ IF
   See(NearestEnemyOf(Myself))
 THEN
   RESPONSE #100
+    SetInterrupt(FALSE)
     SetGlobalTimer("Iaspell","LOCALS",6)
     SetGlobal("IaRmagic","LOCALS",1)
     ReallyForceSpellRES("SPPR513",Myself)
+    SetInterrupt(TRUE)
 END
 
 IF
   !Allegiance(Myself,ENEMY)
   !CheckStatGT(Myself,0,SCRIPTINGSTATE9)
-  ActionListEmpty()
   !GlobalTimerNotExpired("Iaspell","LOCALS")
   GlobalLT("Iamasscure","LOCALS",6)
-  See([PC])
-  HPPercentLT(LastSeenBy(Myself),50)
-  !HPLT(LastSeenBy(Myself),1)
-  Range(LastSeenBy(Myself),6)
+  See(Player1)
+  HPPercentLT(Player1,50)
+  Range(Player1,6)
 THEN
   RESPONSE #100
+    SetInterrupt(FALSE)
     SetGlobalTimer("Iaspell","LOCALS",6)
     IncrementGlobal("Iamasscure","LOCALS",1)
     ReallyForceSpellRES("SPPR514",Myself)
+    SetInterrupt(TRUE)
 END
 
 IF
   !Allegiance(Myself,ENEMY)
   !CheckStatGT(Myself,0,SCRIPTINGSTATE9)
-  ActionListEmpty()
   !GlobalTimerNotExpired("Iaspell","LOCALS")
   GlobalLT("Iamasscure","LOCALS",6)
-  See(SecondNearest([PC]))
-  HPPercentLT(LastSeenBy(Myself),50)
-  !HPLT(LastSeenBy(Myself),1)
-  Range(LastSeenBy(Myself),6)
+  See(Player2)
+  HPPercentLT(Player2,50)
+  !HPLT(Player2,1)
+  Range(Player2,6)
 THEN
   RESPONSE #100
+    SetInterrupt(FALSE)
     SetGlobalTimer("Iaspell","LOCALS",6)
     IncrementGlobal("Iamasscure","LOCALS",1)
     ReallyForceSpellRES("SPPR514",Myself)
+    SetInterrupt(TRUE)
 END
 
 IF
   !Allegiance(Myself,ENEMY)
   !CheckStatGT(Myself,0,SCRIPTINGSTATE9)
-  ActionListEmpty()
   !GlobalTimerNotExpired("Iaspell","LOCALS")
   GlobalLT("Iamasscure","LOCALS",6)
-  See(ThirdNearest([PC]))
-  HPPercentLT(LastSeenBy(Myself),50)
-  !HPLT(LastSeenBy(Myself),1)
-  Range(LastSeenBy(Myself),6)
+  See(Player3)
+  HPPercentLT(Player3,50)
+  !HPLT(Player3,1)
+  Range(Player3,6)
 THEN
   RESPONSE #100
+    SetInterrupt(FALSE)
     SetGlobalTimer("Iaspell","LOCALS",6)
     IncrementGlobal("Iamasscure","LOCALS",1)
     ReallyForceSpellRES("SPPR514",Myself)
+    SetInterrupt(TRUE)
+END
+
+IF
+  !Allegiance(Myself,ENEMY)
+  !CheckStatGT(Myself,0,SCRIPTINGSTATE9)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  GlobalLT("Iamasscure","LOCALS",6)
+  See(Player4)
+  HPPercentLT(Player4,50)
+  !HPLT(Player4,1)
+  Range(Player4,6)
+THEN
+  RESPONSE #100
+    SetInterrupt(FALSE)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    IncrementGlobal("Iamasscure","LOCALS",1)
+    ReallyForceSpellRES("SPPR514",Myself)
+    SetInterrupt(TRUE)
+END
+
+IF
+  !Allegiance(Myself,ENEMY)
+  !CheckStatGT(Myself,0,SCRIPTINGSTATE9)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  GlobalLT("Iamasscure","LOCALS",6)
+  See(Player5)
+  HPPercentLT(Player5,50)
+  !HPLT(Player5,1)
+  Range(Player5,6)
+THEN
+  RESPONSE #100
+    SetInterrupt(FALSE)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    IncrementGlobal("Iamasscure","LOCALS",1)
+    ReallyForceSpellRES("SPPR514",Myself)
+    SetInterrupt(TRUE)
+END
+
+IF
+  !Allegiance(Myself,ENEMY)
+  !CheckStatGT(Myself,0,SCRIPTINGSTATE9)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  GlobalLT("Iamasscure","LOCALS",6)
+  See(Player6)
+  HPPercentLT(Player6,50)
+  !HPLT(Player6,1)
+  Range(Player6,6)
+THEN
+  RESPONSE #100
+    SetInterrupt(FALSE)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    IncrementGlobal("Iamasscure","LOCALS",1)
+    ReallyForceSpellRES("SPPR514",Myself)
+    SetInterrupt(TRUE)
+END
+
+IF
+  !Allegiance(Myself,ENEMY)
+  !CheckStatGT(Myself,0,SCRIPTINGSTATE9)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  GlobalLT("Iamasscure","LOCALS",6)
+  See(NearestEnemyOf(Myself))
+  HPPercentLT(Myself,50)
+  !HPLT(Myself,1)
+  Global("DevaHeal","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetInterrupt(FALSE)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    IncrementGlobal("Iamasscure","LOCALS",1)
+    ReallyForceSpellRES("SPPR514",Myself)
+    SetInterrupt(TRUE)
 END
 
 IF
   Allegiance(Myself,ENEMY)
   !GlobalTimerNotExpired("Iaspell","LOCALS")
   !CheckStatGT(Myself,0,SCRIPTINGSTATE9)
-  See([PC])
+  See(Player1)
   OR(2)
-    StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-    StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
+    StateCheck(Player1,STATE_IMPROVEDINVISIBILITY)
+    StateCheck(Player1,STATE_INVISIBLE)
   !GlobalTimerNotExpired("truesight","LOCALS")
 THEN
   RESPONSE #100
+    SetInterrupt(FALSE)
     SetGlobalTimer("truesight","LOCALS",60)
     SetGlobalTimer("Iaspell","LOCALS",6)
     ReallyForceSpell(Myself,CLERIC_TRUE_SIGHT)
+    SetInterrupt(TRUE)
 END
 
 IF
   Allegiance(Myself,ENEMY)
   !GlobalTimerNotExpired("Iaspell","LOCALS")
   !CheckStatGT(Myself,0,SCRIPTINGSTATE9)
-  See(SecondNearest([PC]))
+  See(Player2)
   OR(2)
-    StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-    StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
+    StateCheck(Player2,STATE_IMPROVEDINVISIBILITY)
+    StateCheck(Player2,STATE_INVISIBLE)
   !GlobalTimerNotExpired("truesight","LOCALS")
 THEN
   RESPONSE #100
+    SetInterrupt(FALSE)
     SetGlobalTimer("truesight","LOCALS",60)
     SetGlobalTimer("Iaspell","LOCALS",6)
     ReallyForceSpell(Myself,CLERIC_TRUE_SIGHT)
+    SetInterrupt(TRUE)
 END
 
 IF
-  Allegiance(Myself,ENEMY)
   !GlobalTimerNotExpired("Iaspell","LOCALS")
   !CheckStatGT(Myself,0,SCRIPTINGSTATE9)
-  See(ThirdNearest([PC]))
+  See(Player3)
   OR(2)
-    StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
-    StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
+    StateCheck(Player3,STATE_IMPROVEDINVISIBILITY)
+    StateCheck(Player3,STATE_INVISIBLE)
   !GlobalTimerNotExpired("truesight","LOCALS")
 THEN
   RESPONSE #100
+    SetInterrupt(FALSE)
     SetGlobalTimer("truesight","LOCALS",60)
     SetGlobalTimer("Iaspell","LOCALS",6)
     ReallyForceSpell(Myself,CLERIC_TRUE_SIGHT)
+    SetInterrupt(TRUE)
 END
 
 IF
   Allegiance(Myself,ENEMY)
   !GlobalTimerNotExpired("Iaspell","LOCALS")
   !CheckStatGT(Myself,0,SCRIPTINGSTATE9)
-  See(ThirdNearest([PC]))
+  See(Player4)
+  OR(2)
+    StateCheck(Player4,STATE_IMPROVEDINVISIBILITY)
+    StateCheck(Player4,STATE_INVISIBLE)
+  !GlobalTimerNotExpired("truesight","LOCALS")
+THEN
+  RESPONSE #100
+    SetInterrupt(FALSE)
+    SetGlobalTimer("truesight","LOCALS",60)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    ReallyForceSpell(Myself,CLERIC_TRUE_SIGHT)
+    SetInterrupt(TRUE)
+END
+
+IF
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !CheckStatGT(Myself,0,SCRIPTINGSTATE9)
+  See(Player5)
+  OR(2)
+    StateCheck(Player5,STATE_IMPROVEDINVISIBILITY)
+    StateCheck(Player5,STATE_INVISIBLE)
+  !GlobalTimerNotExpired("truesight","LOCALS")
+THEN
+  RESPONSE #100
+    SetInterrupt(FALSE)
+    SetGlobalTimer("truesight","LOCALS",60)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    ReallyForceSpell(Myself,CLERIC_TRUE_SIGHT)
+    SetInterrupt(TRUE)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !CheckStatGT(Myself,0,SCRIPTINGSTATE9)
+  See(Player6)
+  OR(2)
+    StateCheck(Player6,STATE_IMPROVEDINVISIBILITY)
+    StateCheck(Player6,STATE_INVISIBLE)
+  !GlobalTimerNotExpired("truesight","LOCALS")
+THEN
+  RESPONSE #100
+    SetInterrupt(FALSE)
+    SetGlobalTimer("truesight","LOCALS",60)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    ReallyForceSpell(Myself,CLERIC_TRUE_SIGHT)
+    SetInterrupt(TRUE)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !CheckStatGT(Myself,0,SCRIPTINGSTATE9)
+  See(Player1)
   !StateCheck(LastSeenBy(Myself),STATE_STUNNED)
   !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
   !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
@@ -440,7 +582,7 @@ IF
   Allegiance(Myself,ENEMY)
   !GlobalTimerNotExpired("Iaspell","LOCALS")
   !CheckStatGT(Myself,0,SCRIPTINGSTATE9)
-  See(SecondNearest([PC]))
+  See(Player2)
   !StateCheck(LastSeenBy(Myself),STATE_STUNNED)
   !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
   !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
@@ -463,7 +605,76 @@ IF
   Allegiance(Myself,ENEMY)
   !GlobalTimerNotExpired("Iaspell","LOCALS")
   !CheckStatGT(Myself,0,SCRIPTINGSTATE9)
-  See([PC])
+  See(Player3)
+  !StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !StateCheck(LastSeenBy(Myself),STATE_PANIC)
+  CheckStatLT(LastSeenBy(Myself),75,RESISTMAGIC)
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE4)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE8)
+  !CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE7)
+  !StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
+  Global("IaGcommand","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SetGlobal("IaGcommand","LOCALS",1)
+    ReallyForceSpell(LastSeenBy(Myself),CLERIC_GREATER_COMMAND)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !CheckStatGT(Myself,0,SCRIPTINGSTATE9)
+  See(Player4)
+  !StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !StateCheck(LastSeenBy(Myself),STATE_PANIC)
+  CheckStatLT(LastSeenBy(Myself),75,RESISTMAGIC)
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE4)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE8)
+  !CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE7)
+  !StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
+  Global("IaGcommand","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SetGlobal("IaGcommand","LOCALS",1)
+    ReallyForceSpell(LastSeenBy(Myself),CLERIC_GREATER_COMMAND)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !CheckStatGT(Myself,0,SCRIPTINGSTATE9)
+  See(Player5)
+  !StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !StateCheck(LastSeenBy(Myself),STATE_PANIC)
+  CheckStatLT(LastSeenBy(Myself),75,RESISTMAGIC)
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE4)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE8)
+  !CheckStat(LastSeenBy(Myself),3,SCRIPTINGSTATE7)
+  !StateCheck(LastSeenBy(Myself),STATE_INVISIBLE)
+  Global("IaGcommand","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SetGlobal("IaGcommand","LOCALS",1)
+    ReallyForceSpell(LastSeenBy(Myself),CLERIC_GREATER_COMMAND)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !CheckStatGT(Myself,0,SCRIPTINGSTATE9)
+  See(Player6)
   !StateCheck(LastSeenBy(Myself),STATE_STUNNED)
   !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
   !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
@@ -493,7 +704,7 @@ THEN
     AttackOneRound(LastSeenBy(Myself))
 END
 
-IF
+IF                      
   Allegiance(Myself,ENEMY)
   See(NearestEnemyOf(Myself))
   !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
