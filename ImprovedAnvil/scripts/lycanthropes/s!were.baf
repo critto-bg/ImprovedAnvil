@@ -92,9 +92,10 @@ IF
     HitBy([ANYONE],ACID)
   RandomNumGT(10,3)
   HPPercentLT(Myself,75)
-  OR(2)
+  OR(3)
     HasItem("S!regw1",Myself)
     HasItem("S!regw2",Myself)
+    HasItem("S!regw3",Myself)
   !StateCheck(Myself,STATE_REALLY_DEAD)
   !StateCheck(Myself,STATE_PANIC)
 THEN
@@ -116,9 +117,10 @@ IF
     HitBy([ANYONE],ACID)
   RandomNumLT(8,4)
   HPPercentLT(Myself,85)
-  OR(2)
+  OR(3)
     HasItem("S!regw1",Myself)
     HasItem("S!regw2",Myself)
+    HasItem("S!regw3",Myself)
   !StateCheck(Myself,STATE_REALLY_DEAD)
   !StateCheck(Myself,STATE_PANIC)
 THEN
@@ -139,9 +141,10 @@ IF
     HitBy([ANYONE],MAGICFIRE)
     HitBy([ANYONE],ACID)
   RandomNum(9,4)
-  OR(2)
+  OR(3)
     HasItem("S!regw1",Myself)
     HasItem("S!regw2",Myself)
+    HasItem("S!regw3",Myself)
   !StateCheck(Myself,STATE_REALLY_DEAD)
   !StateCheck(Myself,STATE_PANIC)
 THEN
@@ -165,6 +168,7 @@ THEN
     SetGlobal("IaNoRegen","LOCALS",1)
     DestroyItem("S!regw1")
     DestroyItem("S!regw2")
+    DestroyItem("S!regw3")
     DisplayString(Myself,@12080)
     Continue()
 END
@@ -214,6 +218,165 @@ THEN
     SetGlobalTimer("IaPanicTimer","LOCALS",6)
 END
 
+// summoning wolves //
+
+IF
+  InMyArea(Player1)
+  Allegiance(Myself,ENEMY)
+  Global("Prep","LOCALS",1)
+  Global("IaPanic","LOCALS",0)
+  Global("IaCanSummon","LOCALS",1)
+  See([PC])
+  !GlobalTimerNotExpired("IaSummonTimer","LOCALS")
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  LocalsLT("IaSummons","IaSummonTotalAmount")
+THEN
+  RESPONSE #50
+    SetGlobalTimer("IaSummonTimer","LOCALS",18)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    IncrementGlobal("IaSummons","LOCALS",1)
+    CreateCreatureObject("wolfdr01",Myself,0,0,0)
+  RESPONSE #50
+    SetGlobalTimer("IaSummonTimer","LOCALS",18)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    IncrementGlobal("IaSummons","LOCALS",1)
+    CreateCreatureObject("wolfva01",Myself,0,0,0)
+END
+
+// maddening gaze //
+
+IF
+  InMyArea(Player1)
+  Allegiance(Myself,ENEMY)
+  Global("Prep","LOCALS",1)
+  Global("IaPanic","LOCALS",0)
+  Global("IaCanGaze","LOCALS",1)
+  See(Nearest([PC]))
+  Range(LastSeenBy(Myself),10)
+  OR(5)
+    Class(LastSeenBy(Myself),FIGHTER_ALL)
+    Class(LastSeenBy(Myself),RANGER_ALL)
+    Class(LastSeenBy(Myself),PALADIN_ALL)
+    Class(LastSeenBy(Myself),MONK)
+    Kit(LastSeenBy(Myself),BARBARIAN)
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(LastSeenBy(Myself),STATE_PANIC)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !StateCheck(LastSeenBy(Myself),STATE_BERSERK)
+  !CheckSpellState(LastSeenBy(Myself),STATE_ENRAGED)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE8)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE4)
+  !GlobalTimerNotExpired("IaWereGazeTimer","LOCALS")
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  LocalsLT("IaGazes","IaGazeTotalAmount")
+THEN
+  RESPONSE #100
+    SetGlobalTimer("IaWereGazeTimer","LOCALS",12)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    IncrementGlobal("IaGazes","LOCALS",1)
+    ReallyForceSpellRES("S!werrag",LastSeenBy(Myself))
+END
+
+IF
+  InMyArea(Player1)
+  Allegiance(Myself,ENEMY)
+  Global("Prep","LOCALS",1)
+  Global("IaPanic","LOCALS",0)
+  Global("IaCanGaze","LOCALS",1)
+  See(SecondNearest([PC]))
+  Range(LastSeenBy(Myself),10)
+  OR(5)
+    Class(LastSeenBy(Myself),FIGHTER_ALL)
+    Class(LastSeenBy(Myself),RANGER_ALL)
+    Class(LastSeenBy(Myself),PALADIN_ALL)
+    Class(LastSeenBy(Myself),MONK)
+    Kit(LastSeenBy(Myself),BARBARIAN)
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(LastSeenBy(Myself),STATE_PANIC)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !StateCheck(LastSeenBy(Myself),STATE_BERSERK)
+  !CheckSpellState(LastSeenBy(Myself),STATE_ENRAGED)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE8)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE4)
+  !GlobalTimerNotExpired("IaWereGazeTimer","LOCALS")
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  LocalsLT("IaGazes","IaGazeTotalAmount")
+THEN
+  RESPONSE #100
+    SetGlobalTimer("IaWereGazeTimer","LOCALS",12)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    IncrementGlobal("IaGazes","LOCALS",1)
+    ReallyForceSpellRES("S!werrag",LastSeenBy(Myself))
+END
+
+IF
+  InMyArea(Player1)
+  Allegiance(Myself,ENEMY)
+  Global("Prep","LOCALS",1)
+  Global("IaPanic","LOCALS",0)
+  Global("IaCanGaze","LOCALS",1)
+  See(ThirdNearest([PC]))
+  Range(LastSeenBy(Myself),10)
+  OR(5)
+    Class(LastSeenBy(Myself),FIGHTER_ALL)
+    Class(LastSeenBy(Myself),RANGER_ALL)
+    Class(LastSeenBy(Myself),PALADIN_ALL)
+    Class(LastSeenBy(Myself),MONK)
+    Kit(LastSeenBy(Myself),BARBARIAN)
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(LastSeenBy(Myself),STATE_PANIC)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !StateCheck(LastSeenBy(Myself),STATE_BERSERK)
+  !CheckSpellState(LastSeenBy(Myself),STATE_ENRAGED)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE8)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE4)
+  !GlobalTimerNotExpired("IaWereGazeTimer","LOCALS")
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  LocalsLT("IaGazes","IaGazeTotalAmount")
+THEN
+  RESPONSE #100
+    SetGlobalTimer("IaWereGazeTimer","LOCALS",12)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    IncrementGlobal("IaGazes","LOCALS",1)
+    ReallyForceSpellRES("S!werrag",LastSeenBy(Myself))
+END
+
+IF
+  InMyArea(Player1)
+  Allegiance(Myself,ENEMY)
+  Global("Prep","LOCALS",1)
+  Global("IaPanic","LOCALS",0)
+  Global("IaCanGaze","LOCALS",1)
+  See(FourthNearest([PC]))
+  Range(LastSeenBy(Myself),10)
+  OR(5)
+    Class(LastSeenBy(Myself),FIGHTER_ALL)
+    Class(LastSeenBy(Myself),RANGER_ALL)
+    Class(LastSeenBy(Myself),PALADIN_ALL)
+    Class(LastSeenBy(Myself),MONK)
+    Kit(LastSeenBy(Myself),BARBARIAN)
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(LastSeenBy(Myself),STATE_PANIC)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !StateCheck(LastSeenBy(Myself),STATE_BERSERK)
+  !CheckSpellState(LastSeenBy(Myself),STATE_ENRAGED)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE8)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE4)
+  !GlobalTimerNotExpired("IaWereGazeTimer","LOCALS")
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  LocalsLT("IaGazes","IaGazeTotalAmount")
+THEN
+  RESPONSE #100
+    SetGlobalTimer("IaWereGazeTimer","LOCALS",12)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    IncrementGlobal("IaGazes","LOCALS",1)
+    ReallyForceSpellRES("S!werrag",LastSeenBy(Myself))
+END
+
 // werewolf howl //
 
 IF
@@ -236,11 +399,13 @@ IF
   !CheckSpellState(LastSeenBy(Myself),IMMUNE_FEAR)
   RandomNumGT(10,4)
   !GlobalTimerNotExpired("IaWereHowl","GLOBAL")
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
   LocalsLT("IaHowls","IaHowlTotalAmount")
 THEN
   RESPONSE #100
     SetInterrupt(FALSE)
     SetGlobalTimer("IaWereHowl","GLOBAL",18)
+    SetGlobalTimer("Iaspell","LOCALS",6)
     IncrementGlobal("IaHowls","LOCALS",1)
     ReallyForceSpellRES("S!werhwl",Myself)
     SetInterrupt(TRUE)
@@ -267,11 +432,13 @@ IF
   !CheckSpellState(LastSeenBy(Myself),IMMUNE_FEAR)
   RandomNumLT(8,4)
   !GlobalTimerNotExpired("IaWereHowl","GLOBAL")
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
   LocalsLT("IaHowls","IaHowlTotalAmount")
 THEN
   RESPONSE #100
     SetInterrupt(FALSE)
     SetGlobalTimer("IaWereHowl","GLOBAL",18)
+    SetGlobalTimer("Iaspell","LOCALS",6)
     IncrementGlobal("IaHowls","LOCALS",1)
     ReallyForceSpellRES("S!werhwl",Myself)
     SetInterrupt(TRUE)
@@ -298,11 +465,13 @@ IF
   !CheckSpellState(LastSeenBy(Myself),IMMUNE_FEAR)
   RandomNum(5,2)
   !GlobalTimerNotExpired("IaWereHowl","GLOBAL")
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
   LocalsLT("IaHowls","IaHowlTotalAmount")
 THEN
   RESPONSE #100
     SetInterrupt(FALSE)
     SetGlobalTimer("IaWereHowl","GLOBAL",18)
+    SetGlobalTimer("Iaspell","LOCALS",6)
     IncrementGlobal("IaHowls","LOCALS",1)
     ReallyForceSpellRES("S!werhwl",Myself)
     SetInterrupt(TRUE)
@@ -319,9 +488,10 @@ IF
   Global("IaNoRegen","LOCALS",0)
   !GlobalTimerNotExpired("IaSwitchWeapons","LOCALS")
   HPPercentGT(Myself,75)
-  OR(2)
+  OR(3)
     HasItem("S!bite01",Myself)
     HasItem("S!bite02",Myself)
+    HasItem("S!bite03",Myself)
 THEN
   RESPONSE #80
     SetGlobalTimer("IaSwitchWeapons","LOCALS",6)
@@ -343,9 +513,10 @@ IF
     Global("IaNoRegen","LOCALS",1)
     HPPercentLT(Myself,75)
   !GlobalTimerNotExpired("IaSwitchWeapons","LOCALS")
-  OR(2)
+  OR(3)
     HasItem("S!bite01",Myself)
     HasItem("S!bite02",Myself)
+    HasItem("S!bite03",Myself)
 THEN
   RESPONSE #60
     SetGlobalTimer("IaSwitchWeapons","LOCALS",6)
@@ -366,9 +537,10 @@ IF
   Global("IaNoRegen","LOCALS",1)
   HPPercentLT(Myself,50)
   !GlobalTimerNotExpired("IaSwitchWeapons","LOCALS")
-  OR(2)
+  OR(3)
     HasItem("S!bite01",Myself)
     HasItem("S!bite02",Myself)
+    HasItem("S!bite03",Myself)
 THEN
   RESPONSE #40
     SetGlobalTimer("IaSwitchWeapons","LOCALS",6)
@@ -399,13 +571,14 @@ IF
   !CheckSpellState(LastSeenBy(Myself),RED_FIRESHIELD)
   !CheckSpellState(LastSeenBy(Myself),ACID_SHIELD)
   CheckStat(LastSeenBy(Myself),0,EXTRAPROFICIENCY11)
-  OR(2)
+  OR(3)
     HasItemEquipedReal("S!claw01",Myself)
     HasItemEquipedReal("S!claw02",Myself)
+    HasItemEquipedReal("S!claw03",Myself)
   RandomNumGT(6,3)
   OR(2)
-   AttackedBy(LastSeenBy(Myself),MELEE)
-   Range(LastSeenBy(Myself),3)
+    AttackedBy(LastSeenBy(Myself),MELEE)
+    Range(LastSeenBy(Myself),3)
 THEN
   RESPONSE #100
     AttackReevaluate(LastSeenBy(Myself),45)
@@ -431,13 +604,14 @@ IF
   !CheckSpellState(LastSeenBy(Myself),RED_FIRESHIELD)
   !CheckSpellState(LastSeenBy(Myself),ACID_SHIELD)
   CheckStat(LastSeenBy(Myself),0,EXTRAPROFICIENCY11)
-  OR(2)
+  OR(3)
     HasItemEquipedReal("S!bite01",Myself)
     HasItemEquipedReal("S!bite02",Myself)
+    HasItemEquipedReal("S!bite03",Myself)
   RandomNumGT(6,3)
   OR(2)
-   AttackedBy(LastSeenBy(Myself),MELEE)
-   Range(LastSeenBy(Myself),3)
+    AttackedBy(LastSeenBy(Myself),MELEE)
+    Range(LastSeenBy(Myself),3)
 THEN
   RESPONSE #100
     AttackReevaluate(LastSeenBy(Myself),45)
@@ -517,13 +691,14 @@ IF
   !CheckSpellState(LastSeenBy(Myself),RED_FIRESHIELD)
   !CheckSpellState(LastSeenBy(Myself),ACID_SHIELD)
   CheckStat(LastSeenBy(Myself),0,EXTRAPROFICIENCY11)
-  OR(2)
+  OR(3)
     HasItemEquipedReal("S!claw01",Myself)
     HasItemEquipedReal("S!claw02",Myself)
+    HasItemEquipedReal("S!claw03",Myself)
   RandomNumGT(6,3)
   OR(2)
-   AttackedBy(LastSeenBy(Myself),MELEE)
-   Range(LastSeenBy(Myself),3)
+    AttackedBy(LastSeenBy(Myself),MELEE)
+    Range(LastSeenBy(Myself),3)
 THEN
   RESPONSE #100
     AttackReevaluate(LastSeenBy(Myself),45)
@@ -547,13 +722,14 @@ IF
   !CheckSpellState(LastSeenBy(Myself),RED_FIRESHIELD)
   !CheckSpellState(LastSeenBy(Myself),ACID_SHIELD)
   CheckStat(LastSeenBy(Myself),0,EXTRAPROFICIENCY11)
-  OR(2)
+  OR(3)
     HasItemEquipedReal("S!bite01",Myself)
     HasItemEquipedReal("S!bite02",Myself)
+    HasItemEquipedReal("S!bite03",Myself)
   RandomNumGT(6,3)
   OR(2)
-   AttackedBy(LastSeenBy(Myself),MELEE)
-   Range(LastSeenBy(Myself),3)
+    AttackedBy(LastSeenBy(Myself),MELEE)
+    Range(LastSeenBy(Myself),3)
 THEN
   RESPONSE #100
     AttackReevaluate(LastSeenBy(Myself),45)

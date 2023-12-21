@@ -6,21 +6,20 @@ THEN
   RESPONSE #100
     CutSceneId(Player1)
 
-    SetInterrupt(FALSE)
-		FadeToColor([20.0],0)
-		Wait(1)
+    FadeToColor([20.0],0)
+    Wait(1)
 
     ActionOverride("s!drad01",DestroySelf())
     ActionOverride("s!gdru02",DestroySelf())
 
-		LeaveAreaLUAPanic("S!0002","",[3680.1532],NE)
-		LeaveAreaLUA("S!0002","",[3680.1532],NE)
+    LeaveAreaLUAPanic("S!0002","",[3680.1532],NE)
+    LeaveAreaLUA("S!0002","",[3680.1532],NE)
 
-		ActionOverride(Player2,LeaveAreaLUA("S!0002","",[3600.1380],E))
-		ActionOverride(Player3,LeaveAreaLUA("S!0002","",[3530.1290],E))
-		ActionOverride(Player4,LeaveAreaLUA("S!0002","",[3770.1750],N))
-		ActionOverride(Player5,LeaveAreaLUA("S!0002","",[3985.1715],N))
-		ActionOverride(Player6,LeaveAreaLUA("S!0002","",[3810.1795],N))
+    ActionOverride(Player2,LeaveAreaLUA("S!0002","",[3600.1380],E))
+    ActionOverride(Player3,LeaveAreaLUA("S!0002","",[3530.1290],E))
+    ActionOverride(Player4,LeaveAreaLUA("S!0002","",[3770.1750],N))
+    ActionOverride(Player5,LeaveAreaLUA("S!0002","",[3985.1715],N))
+    ActionOverride(Player6,LeaveAreaLUA("S!0002","",[3810.1795],N))
 
     MoveViewObject(Myself,INSTANT)
     TriggerActivation("Door1505",FALSE)
@@ -30,7 +29,13 @@ THEN
 
     Wait(1)
     FadeFromColor([20.0],0)
-		Wait(2)
+    Wait(2)
+
+    SetGlobal("IAAmbush","S!0002",1)
+
+    SetAreaScript("S!skipc",OVERRIDE)
+    SetGlobal("IA_CUTSCENE_BREAKABLE","GLOBAL",801)
+    SetCutSceneBreakable(TRUE)
 
     ActionOverride("S!drad01",DisplayStringHead(Myself,@5680))
     Wait(4)
@@ -61,31 +66,29 @@ THEN
     ActionOverride("S!gdru02",DisplayStringHead(Myself,@5687))
     Wait(3)
 
-    // TODO:
-    // more werewolves appear from south and west, as the northern ones transform
-    // northern werewolves phase-attack Dradeel, Dradeel perishes
-
-    DisplayStringHead("s!drad01",@5688)
-    Wait(3)
+    DisplayStringHead("S!drad01",@5688)
+    Wait(2)
     ActionOverride("s!drad01",DestroyItem("minhp1"))
-    ActionOverride("s!drad01",Kill(Myself))
+    ActionOverride("s!wer04",ForceSpellRES("S!dru03",Myself))
+    ActionOverride("s!wer05",ForceSpellRES("S!dru04",Myself))
+    Wait(2)
+    ActionOverride("S!loup02",MoveToObjectNoInterrupt("S!drad01"))
+    Wait(1)
+    ActionOverride("S!loup02",AttackReevaluate("S!drad01",30))
+    SmallWait(30)
+    ActionOverride("S!drad01",Kill(Myself))
     Wait(3)
-    ActionOverride("S!wer04",DisplayStringHead(Myself,@5689))
+
+    ActionOverride("S!loup02",DisplayStringHead(Myself,@5689))
     Wait(3)
     ActionOverride("S!gdru02",DisplayStringHead(Myself,@5690))
     Wait(3)
     ActionOverride("S!gdru02",DisplayStringHead(Myself,@5691))
     Wait(3)
 
-    // TODO:
-    // Felaern unloads magical barrage at the murderer of Dradeel
-    // he loses his minhp1 and dies
-
-    ActionOverride("S!wer04",Enemy())
-    ActionOverride("S!wer05",Enemy())
-    SetGlobal("IAAmbush","S!0002",1)
-    Wait(1)
-    SetInterrupt(TRUE)
+    SetCutSceneBreakable(FALSE)
+    SetGlobal("IA_CUTSCENE_BREAKABLE","GLOBAL",0)
+    SetAreaScript("",OVERRIDE)
 
     MultiPlayerSync()
     EndCutSceneMode()

@@ -35,6 +35,8 @@ COPY ~ImprovedAnvil/resources/items/new/S!werim1.itm~ ~override/S!werim1.itm~
 
 COPY ~ImprovedAnvil/resources/items/new/S!werim2.itm~ ~override/S!werim2.itm~
 
+COPY ~ImprovedAnvil/resources/items/new/S!werim3.itm~ ~override/S!werim3.itm~
+
 COPY ~ImprovedAnvil/resources/items/new/S!regw1.itm~ ~override/S!regw1.itm~
 
 COPY ~ImprovedAnvil/resources/items/new/S!regw2.itm~ ~override/S!regw2.itm~
@@ -108,6 +110,10 @@ COPY ~ImprovedAnvil/resources/spells/S!dru01.spl~ ~override/S!dru01.spl~
 
 COPY ~ImprovedAnvil/resources/spells/S!dru02.spl~ ~override/S!dru02.spl~
 
+COPY ~ImprovedAnvil/resources/spells/S!dru03.spl~ ~override/S!dru03.spl~
+
+COPY ~ImprovedAnvil/resources/spells/S!dru04.spl~ ~override/S!dru04.spl~
+
 COPY ~ImprovedAnvil/resources/spells/S!werhwl.spl~ ~override/S!werhwl.spl~
   SAY NAME1 @12072
 
@@ -171,20 +177,6 @@ COPY ~ImprovedAnvil\resources\spells\SUPERDMG.spl~ ~override/SUPERDMG.spl~
   END
 
 // patch spells //
-
-// TODO: re-check these
-COPY_EXISTING ~spwi410.spl~ ~override/spwi410.spl~
-              ~sppr307.spl~ ~override/sppr307.spl~
-  LPF ADD_SPELL_EFFECT
-    INT_VAR
-      opcode = 321
-      target = 2
-      insert_point = 0
-    STR_VAR
-      resource = ~S!werrag~
-  END
-
-  BUT_ONLY
 
 // Lesser Werewolf Change
 COPY_EXISTING ~spwi948.spl~ ~override/spwi966.spl~
@@ -255,6 +247,8 @@ COPY ~ImprovedAnvil/resources/creatures/new/S!gdru02.cre~         ~override/S!gd
   SAY NAME1     @12059
   SAY NAME2     @12059
 
+  WRITE_ASCII 0x248 ~S!GDRU02~ #8 // override script
+
 COPY ~ImprovedAnvil/resources/creatures/new/S!gdru03.cre~         ~override/S!gdru03.cre~
   SAY NAME1     @12059
   SAY NAME2     @12059
@@ -300,6 +294,8 @@ COPY_EXISTING ~trcut07.cre~ ~override/s!logan.cre~
   WRITE_ASCII 0x2cc ~~ #8         // dialogue
 
 COPY_EXISTING ~ppdra2.cre~ ~override/s!drad01.cre~
+  WRITE_SHORT 0x24 20              // current hp
+  WRITE_SHORT 0x26 20              // max hp
   WRITE_ASCII 0x248 ~~ #8          // override script
   WRITE_ASCII 0x250 ~~ #8          // class script
   WRITE_ASCII 0x258 ~~ #8          // race script
@@ -324,8 +320,8 @@ COPY_EXISTING ~wolfdr01.cre~ ~override/wolfdr01.cre~
   WRITE_SHORT 0x24      100 // current hp
   WRITE_SHORT 0x26      100 // max hp
   WRITE_LONG  0x28      0xe280 // animation
-  WRITE_SHORT 0x46      0 // base ac
-  WRITE_SHORT 0x48      0 // effective ac
+  WRITE_SHORT 0x46      4 // base ac
+  WRITE_SHORT 0x48      4 // effective ac
   WRITE_BYTE  0x52      7 // thac0
   WRITE_BYTE  0x53      1 // number of attacks
   WRITE_BYTE  0x54      4 // save vs death
@@ -367,8 +363,8 @@ COPY_EXISTING ~wolfva01.cre~ ~override/wolfva01.cre~
   WRITE_SHORT 0x24      130 // current hp
   WRITE_SHORT 0x26      130 // max hp
   WRITE_LONG  0x28      0xe280 // animation
-  WRITE_SHORT 0x46      (0 - 2) // base ac
-  WRITE_SHORT 0x48      (0 - 2) // effective ac
+  WRITE_SHORT 0x46      2 // base ac
+  WRITE_SHORT 0x48      2 // effective ac
   WRITE_BYTE  0x52      7 // thac0
   WRITE_BYTE  0x53      2 // number of attacks
   WRITE_BYTE  0x54      4 // save vs death
@@ -409,8 +405,8 @@ COPY_EXISTING ~werewo01.cre~ ~override/werewo01.cre~
   WRITE_LONG  0x18      13 // xp
   WRITE_SHORT 0x24      80 // current hp
   WRITE_SHORT 0x26      80 // max hp
-  WRITE_SHORT 0x46      0 // base ac
-  WRITE_SHORT 0x48      0 // effective ac
+  WRITE_SHORT 0x46      2 // base ac
+  WRITE_SHORT 0x48      2 // effective ac
   WRITE_BYTE  0x52      7 // thac0
   WRITE_BYTE  0x53      7 // number of attacks
   WRITE_BYTE  0x54      5 // save vs death
@@ -456,15 +452,14 @@ COPY_EXISTING ~werewo01.cre~ ~override/S!wer02c.cre~
   WRITE_ASCII 0x250 ~~         #8 // class script
   WRITE_ASCII 0x280 ~s!wer02c~ #32 // death variable
 
-
 // young werewolf
 COPY_EXISTING ~werewo01.cre~ ~override/S!lwer01.cre~
   WRITE_LONG  0x14      4000 // xp
   WRITE_LONG  0x18      9 // xp
   WRITE_SHORT 0x24      50 // current hp
   WRITE_SHORT 0x26      50 // max hp
-  WRITE_SHORT 0x46      5 // base ac
-  WRITE_SHORT 0x48      5 // effective ac
+  WRITE_SHORT 0x46      6 // base ac
+  WRITE_SHORT 0x48      6 // effective ac
   WRITE_BYTE  0x52     11 // thac0
   WRITE_BYTE  0x53      7 // number of attacks (1.5)
   WRITE_BYTE  0x54      5 // save vs death
@@ -494,8 +489,8 @@ COPY_EXISTING ~WEREGR01.cre~ ~override/weregr01.cre~
   WRITE_LONG  0x18      18 // xp
   WRITE_SHORT 0x24      130 // current hp
   WRITE_SHORT 0x26      130 // max hp
-  WRITE_SHORT 0x46      (0 - 3) // base ac
-  WRITE_SHORT 0x48      (0 - 3) // effective ac
+  WRITE_SHORT 0x46      0 // base ac
+  WRITE_SHORT 0x48      0 // effective ac
   WRITE_BYTE  0x52      3 // thac0
   WRITE_BYTE  0x53      3 // number of attacks
   WRITE_BYTE  0x54      3 // save vs death
@@ -535,6 +530,66 @@ COPY_EXISTING ~WEREGR01.cre~ ~override/weregr01.cre~
   ADD_CRE_ITEM ~s!regw2~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~RRING~
   ADD_CRE_ITEM ~s!bite02~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~WEAPON2~
 
+// loup garou
+COPY_EXISTING ~WEREGR01.cre~ ~override/S!loup01.cre~
+              ~WEREGR01.cre~ ~override/S!loup02.cre~
+              ~WEREGR01.cre~ ~override/S!loup03.cre~
+  SAY NAME1 @12071
+  SAY NAME2 @12071
+
+  WRITE_LONG  0x14      50000 // xp
+  WRITE_LONG  0x18      200 // xp
+  WRITE_SHORT 0x24      200 // current hp
+  WRITE_SHORT 0x26      200 // max hp
+  WRITE_SHORT 0x46      (0 - 5) // base ac
+  WRITE_SHORT 0x48      (0 - 5) // effective ac
+  WRITE_BYTE  0x52      (0 - 4) // thac0
+  WRITE_BYTE  0x53      3 // number of attacks
+  WRITE_BYTE  0x54      3 // save vs death
+  WRITE_BYTE  0x55      5 // save vs wands
+  WRITE_BYTE  0x56      4 // save vs polymorph
+  WRITE_BYTE  0x57      5 // save vs breath
+  WRITE_BYTE  0x58      6 // save vs spell
+  WRITE_BYTE  0x59      80 // resist fire
+  WRITE_BYTE  0x5a      90 // resist cold
+  WRITE_BYTE  0x5b      90 // resist electricity
+  WRITE_BYTE  0x5c      80 // resist acid
+  WRITE_BYTE  0x5d      80 // resist magic
+  WRITE_BYTE  0x5e      80 // resist magic fire
+  WRITE_BYTE  0x5f      90 // resist magic cold
+  WRITE_BYTE  0x60      70 // resist slashing
+  WRITE_BYTE  0x61      70 // resist crushing
+  WRITE_BYTE  0x62      70 // resist piercing
+  WRITE_BYTE  0x63      90 // resist missile
+  WRITE_BYTE  0x234     25 // level
+  WRITE_BYTE  0x238     25 // strength
+  WRITE_BYTE  0x23c     21 // dexterity
+  WRITE_BYTE  0x23d     18 // constitution
+  WRITE_BYTE  0x23f     15 // morale
+  WRITE_BYTE  0x240      5 // morale break
+  WRITE_LONG  0x242     20 // morale recovery
+
+  WRITE_ASCII 0x248 ~s!werep3~ #8 // override script
+  WRITE_ASCII 0x250 ~~ #8 // class script
+  WRITE_ASCII 0x258 ~~ #8 // race script
+  WRITE_ASCII 0x260 ~s!were~ #8 // general script
+
+  LPF DELETE_CRE_EFFECT INT_VAR opcode_to_delete = 101 END
+  LPF DELETE_CRE_EFFECT INT_VAR opcode_to_delete = 51 END
+
+  REPLACE_CRE_ITEM ~s!werim3~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~LRING~
+  REPLACE_CRE_ITEM ~s!claw03~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~WEAPON1~
+  REPLACE_CRE_ITEM ~s!regw3~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~RRING~
+  REPLACE_CRE_ITEM ~s!bite03~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~WEAPON2~
+
+  PATCH_IF (~%DEST_RES%~ STRING_EQUAL_CASE ~S!loup02~) BEGIN
+    WRITE_ASCII 0x280 ~s!loup02~ #32 // death variable
+  END
+
+  PATCH_IF (~%DEST_RES%~ STRING_EQUAL_CASE ~S!loup03~) BEGIN
+    WRITE_ASCII 0x280 ~s!loup03~ #32 // death variable
+  END
+
 ACTION_FOR_EACH ~file~ IN
                 ~WEREGR01~
                 ~RNGWLF04~
@@ -560,7 +615,18 @@ BEGIN
   END
 END
 
-// loup garou: 51 - 1684340480
+ACTION_FOR_EACH ~file~ IN
+                ~S!LOUP01~
+                ~S!LOUP02~
+                ~S!LOUP03~
+BEGIN
+  LAF ~S!CHANGE_CREATURE_COLOURS~
+    STR_VAR
+      file = EVALUATE_BUFFER "%file%"
+      opcode = "51"
+      parameter1 = "1684340480"
+  END
+END
 
 // patch the scripts //
 
@@ -602,7 +668,7 @@ COPY_EXISTING ~CUT41Q.BCS~ ~override~
 // compile the scripts //
 
 COMPILE ~ImprovedAnvil/scripts/areas/S!0001.baf~
-COMPILE ~ImprovedAnvil/scripts/areas/S!0002.baf~
+COMPILE ~ImprovedAnvil/scripts/areas/S!0002.baf~ USING ~%LANGUAGE%druidq.tra~
 COMPILE ~ImprovedAnvil/scripts/areas/S!0003.baf~
 COMPILE ~ImprovedAnvil/scripts/areas/S!0004.baf~ USING ~%LANGUAGE%druidq.tra~
 COMPILE ~ImprovedAnvil/scripts/areas/S!0005.baf~
@@ -630,10 +696,12 @@ COMPILE ~ImprovedAnvil/scripts/cutscenes/S!druc18.baf~
 COMPILE ~ImprovedAnvil/scripts/cutscenes/S!skipc.baf~
 COMPILE ~ImprovedAnvil/scripts/encounters/druid_quests/S!drad01.baf~ USING ~%LANGUAGE%druidq.tra~
 COMPILE ~ImprovedAnvil/scripts/encounters/druid_quests/S!trgua.baf~
+COMPILE ~ImprovedAnvil/scripts/encounters/druid_quests/S!gdru02.baf~
 COMPILE ~ImprovedAnvil/scripts/lycanthropes/S!were.baf~ USING ~%LANGUAGE%druidq.tra~
 COMPILE ~ImprovedAnvil/scripts/lycanthropes/S!wolf.baf~ USING ~%LANGUAGE%druidq.tra~
 COMPILE ~ImprovedAnvil/scripts/lycanthropes/S!werep1.baf~
 COMPILE ~ImprovedAnvil/scripts/lycanthropes/S!werep2.baf~
+COMPILE ~ImprovedAnvil/scripts/lycanthropes/S!werep3.baf~
 COMPILE ~ImprovedAnvil/scripts/lycanthropes/S!wolfp1.baf~
 
 // extend the scripts //
@@ -690,6 +758,9 @@ IF
   Global("DruidFight","AR1901",10)
   Global("IADruidPlot","GLOBAL",0)
   Global("GrovePoisoned","GLOBAL",0)
+  OR(2)
+    Global("Chapter","GLOBAL",2)
+    Global("Chapter","GLOBAL",3)
   OR(2)
     Class(Player1,DRUID_ALL)
     Class(Player1,SHAMAN)

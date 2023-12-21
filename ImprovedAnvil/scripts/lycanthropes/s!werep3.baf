@@ -1,0 +1,22 @@
+// prep script for werewolf AI (loup garou) //
+// set up variables and common blocks to be used in the primary AI script later //
+
+IF
+  InMyArea(Player1)
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  Global("Prep","LOCALS",0)
+  !HPLT(Myself,1)
+THEN
+  RESPONSE #100
+    SetGlobal("Prep","LOCALS",1)
+    SetGlobal("IaRegenTotalHits","LOCALS",3)
+    SetGlobal("IaCanPanic","LOCALS",0)
+    SetGlobal("IaCanHowl","LOCALS",1)
+    SetGlobal("IaHowlTotalAmount","LOCALS",3)
+    SetGlobal("IaCanGaze","LOCALS",1)
+    SetGlobal("IaGazeTotalAmount","LOCALS",3)
+    SetGlobal("IaCanSummon","LOCALS",1)
+    SetGlobal("IaSummonTotalAmount","LOCALS",6)
+    Continue()
+END
