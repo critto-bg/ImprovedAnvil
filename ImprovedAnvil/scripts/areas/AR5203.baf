@@ -1,6 +1,19 @@
 // Yaga-Shura's Camp /////
 
 IF
+  InMyArea(Player1)
+  Global("IaOnce","AR5203",0)
+  Global("Iacreature","AR5203",2)
+  Global("Iapcastts","GLOBAL",0)
+  HasItem("SUREHP1","YAGA01")
+THEN
+  RESPONSE #100
+    SetGlobal("IaOnce","AR5203",1)
+    ActionOverride("YAGA01",ReallyForceSpellRES("SPWII07",Myself))
+    ActionOverride("YAGA01",DestroyItem("SUREHP1"))
+END
+
+IF
   Global("Iayagatimer","AR5203",0)
   GlobalGT("YagaShuraSpawn","AR5203",0)
 THEN
