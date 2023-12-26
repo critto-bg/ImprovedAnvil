@@ -493,17 +493,6 @@ END
 
 IF
   Allegiance(Myself,ENEMY)
-  Global("Iagorsal04","LOCALS",0)
-  See(NearestEnemyOf(Myself))
-  CheckStatLT(Myself,40,RESISTMAGIC)
-THEN
-  RESPONSE #100
-    SetGlobal("Iagorsal04","LOCALS",1)
-    ForceSpellRES("SPPRI01",Myself) //
-END
-
-IF
-  Allegiance(Myself,ENEMY)
   !GlobalTimerNotExpired("truesight","LOCALS")
   See([PC])
   OR(4)
@@ -1336,68 +1325,6 @@ THEN
 END
 
 IF
-  Global("Iafcloud","LOCALS",0)
-  See(NearestEnemyOf(Myself))
-  !CheckStat(LastSeenBy(Myself),4,SCRIPTINGSTATE7)
-  CheckStatLT(LastSeenBy(Myself),50,RESISTFIRE)
-THEN
-  RESPONSE #100
-    SetGlobal("Iafcloud","LOCALS",1)
-    SetGlobalTimer("Ianextcloud","LOCALS",60)
-    ForceSpell(LastSeenBy(Myself),WIZARD_INCENDIARY_CLOUD)
-END
-
-IF
-  Global("Iafcloud","LOCALS",0)
-  See(SecondNearestEnemyOf(Myself))
-  !CheckStat(LastSeenBy(Myself),4,SCRIPTINGSTATE7)
-  CheckStatLT(LastSeenBy(Myself),50,RESISTFIRE)
-THEN
-  RESPONSE #100
-    SetGlobal("Iafcloud","LOCALS",1)
-    SetGlobalTimer("Ianextcloud","LOCALS",60)
-    ForceSpell(LastSeenBy(Myself),WIZARD_INCENDIARY_CLOUD)
-END
-
-IF
-  GlobalTimerExpired("Ianextcloud","LOCALS")
-  Global("Iacloud","LOCALS",0)
-  Global("Iafcloud","LOCALS",1)
-  See(NearestEnemyOf(Myself))
-  !CheckStat(LastSeenBy(Myself),4,SCRIPTINGSTATE7)
-  CheckStatLT(LastSeenBy(Myself),50,RESISTFIRE)
-  RandomNumGT(4,2)
-THEN
-  RESPONSE #100
-    SetGlobal("Iacloud","LOCALS",1)
-    ForceSpell(LastSeenBy(Myself),WIZARD_INCENDIARY_CLOUD)
-END
-
-IF
-  GlobalTimerExpired("Ianextcloud","LOCALS")
-  Global("Iacloud","LOCALS",0)
-  Global("Iafcloud","LOCALS",1)
-  See(SecondNearestEnemyOf(Myself))
-  !CheckStat(LastSeenBy(Myself),4,SCRIPTINGSTATE7)
-  CheckStatLT(LastSeenBy(Myself),50,RESISTFIRE)
-  RandomNumLT(6,4)
-THEN
-  RESPONSE #100
-    SetGlobal("Iacloud","LOCALS",1)
-    ForceSpell(LastSeenBy(Myself),WIZARD_INCENDIARY_CLOUD)
-END
-
-IF
-  GlobalTimerExpired("Ianextcloud","LOCALS")
-  Global("Iacloud","LOCALS",0)
-  Global("Iafcloud","LOCALS",1)
-  See(NearestEnemyOf(Myself))
-THEN
-  RESPONSE #100
-    SetGlobal("Iacloud","LOCALS",1)
-END
-
-IF
   Allegiance(Myself,ENEMY)
   See(NearestEnemyOfType([GOODCUTOFF.0.0.0.0.SUMMONED]))
   OR(3)
@@ -1775,18 +1702,6 @@ THEN
 END
 
 IF
-  HPPercentLT(Myself,90)
-  InMyArea(Player1)
-  Allegiance(Myself,ENEMY)
-  Global("Iagorsal01","LOCALS",1)
-  Global("Iacure","LOCALS",0)
-THEN
-  RESPONSE #100
-    SetGlobal("Iacure","LOCALS",1)
-    ForceSpell(Myself,CLERIC_CURE_CRITICAL_WOUNDS)
-END
-
-IF
   Allegiance(Myself,ENEMY)
   See([PC])
   !StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -1913,7 +1828,6 @@ THEN
   RESPONSE #100
     SetGlobalTimer("WINGBUFFET","LOCALS",24)
     ForceSpell(LastSeenBy(Myself),DRAGON_WING_BUFFET)
-    SetGlobal("Iacloud","LOCALS",0)
 END
 
 IF
@@ -1924,7 +1838,6 @@ IF
 THEN
   RESPONSE #100
     IncrementGlobal("Iagorsal07","LOCALS",1)
-    SetGlobal("Iacloud","LOCALS",0)
     SetGlobalTimer("WINGBUFFET2","LOCALS",54)
     ForceSpell(LastSeenBy(Myself),DRAGON_WING_BUFFET)
     ForceSpell(LastSeenBy(Myself),WIZARD_FIREBALL)
