@@ -58,7 +58,7 @@ THEN
 END
 
 IF
-  !HasItem("fblade",Myself)
+  !CheckSpellState(Myself,FLAME_BLADE)
   !GlobalTimerNotExpired("Iaspell","LOCALS")
   GlobalLT("Iafblade","LOCALS",8)
   OR(2)
@@ -381,7 +381,7 @@ THEN
 END
 
 IF
-  HasItem("fblade",Myself)
+  CheckSpellState(Myself,FLAME_BLADE)
   OR(2)
     See(NearestEnemyOfType([0.0.0.DRUID_ALL]))
     See("Cernd")  // Cernd
@@ -391,7 +391,7 @@ THEN
 END
 
 IF
-  !HasItem("fblade",Myself)
+  !CheckSpellState(Myself,FLAME_BLADE)
   OR(2)
     See(NearestEnemyOfType([0.0.0.DRUID_ALL]))
     See("Cernd")  // Cernd
@@ -430,7 +430,7 @@ THEN
 END
 
 IF
-  !HasItem("fblade",Myself)
+  !CheckSpellState(Myself,FLAME_BLADE)
   !GlobalTimerNotExpired("Iaspell","LOCALS")
   GlobalLT("Iafblade","LOCALS",8)
   See(NearestEnemyOf(Myself))
@@ -642,7 +642,7 @@ END
 
 IF
   Allegiance(Myself,ENEMY)
-  HasItem("fblade",Myself)
+  CheckSpellState(Myself,FLAME_BLADE)
   See(NearestEnemyOf(Myself))
   !Class(LastSeenBy(Myself),DRUID_ALL)
 THEN
@@ -652,7 +652,7 @@ END
 
 IF
   Allegiance(Myself,ENEMY)
-  !HasItem("fblade",Myself)
+  !CheckSpellState(Myself,FLAME_BLADE)
   See(NearestEnemyOf(Myself))
   !Class(LastSeenBy(Myself),DRUID_ALL)
   GlobalGT("Iafblade","LOCALS",0)
