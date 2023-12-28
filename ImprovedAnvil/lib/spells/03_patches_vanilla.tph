@@ -431,6 +431,59 @@ COPY_EXISTING ~SPWISH35.spl~ ~override/SPWISH35.spl~
   READ_BYTE 0x19 "splflags"
   WRITE_BYTE 0x19 ("%splflags%" BOR 0b00000100)
 
+// wild mage spells //
+
+// Wild Surge: destroy gold (tweak to only remove 10%)
+COPY_EXISTING ~SPWM117.spl~ ~override/SPWM117.spl~
+  LAUNCH_PATCH_FUNCTION ~ALTER_SPELL_EFFECT~ INT_VAR
+    check_headers = 1
+    match_opcode = 105
+    parameter1 = 90
+  END
+
+// Wild Surge: miscast magic (tweak duration of miscast to 6 seconds, add scripting state)
+COPY_EXISTING ~SPWM128.spl~ ~override/SPWM128.spl~
+  LAUNCH_PATCH_FUNCTION ~ALTER_SPELL_EFFECT~ INT_VAR
+    check_headers = 1
+    match_opcode = 60
+    duration = 6
+  END
+
+  LPF ~CLONE_EFFECT~
+    INT_VAR
+      multi_match = 1
+      check_globals = 0
+      match_opcode = 60
+      opcode = 282
+      parameter1 = 1
+      parameter2 = 8
+  END
+
+// Wild Surge: increase max HP (tweak to only increase by 10%)
+COPY_EXISTING ~SPWM153.spl~ ~override/SPWM153.spl~
+  LAUNCH_PATCH_FUNCTION ~ALTER_SPELL_EFFECT~ INT_VAR
+    check_headers = 1
+    match_opcode = 18
+    parameter1 = 110
+  END
+
+// Wild Surge: heal current HP (tweak to only heal for 20 HP)
+COPY_EXISTING ~SPWM168.spl~ ~override/SPWM168.spl~
+  LAUNCH_PATCH_FUNCTION ~ALTER_SPELL_EFFECT~ INT_VAR
+    check_headers = 1
+    match_opcode = 17
+    parameter1 = 20
+    parameter2 = 0
+  END
+
+// Wild Surge: change color (tweak duration to 300 seconds)
+COPY_EXISTING ~SPWM198.spl~ ~override/SPWM198.spl~
+  LAUNCH_PATCH_FUNCTION ~ALTER_SPELL_EFFECT~ INT_VAR
+    check_headers = 1
+    match_opcode = 7
+    duration = 300
+  END
+
 // various named spells //
 
 COPY_EXISTING ~BEGUILE.spl~ ~override/BEGUILE.spl~
