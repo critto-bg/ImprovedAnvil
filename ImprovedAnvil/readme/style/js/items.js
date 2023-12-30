@@ -386,6 +386,13 @@ var gear = [
                             "Armor Class: 4",
                             "Cold Resistance: +50%"
                         ]
+                    },
+                    {
+                        "section_name": "Usable by",
+                        "section_items": [
+                            "Druid",
+                            "Shaman"
+                        ]
                     }
                 ],
                 "item_name": "Yeti Hide Armor"
@@ -406,6 +413,13 @@ var gear = [
                             "Damage Resistance: +10%",
                             "Cold Resistance: +50%"
                         ]
+                    },
+                    {
+                        "section_name": "Usable by",
+                        "section_items": [
+                            "Druid",
+                            "Shaman"
+                        ]
                     }
                 ],
                 "item_name": "Improved Yeti Hide Armor"
@@ -425,6 +439,13 @@ var gear = [
                             "Damage Resistance: +25%",
                             "Magic Resistance: +25%",
                             "Cold Resistance: +50%"
+                        ]
+                    },
+                    {
+                        "section_name": "Usable by",
+                        "section_items": [
+                            "Druid",
+                            "Shaman"
                         ]
                     }
                 ],
@@ -1191,6 +1212,13 @@ var gear = [
                             "Saving Throws: +1",
                             "Cold Resistance: +50%"
                         ]
+                    },
+                    {
+                        "section_name": "Usable by",
+                        "section_items": [
+                            "Druid",
+                            "Shaman"
+                        ]
                     }
                 ],
                 "item_name": "Yeti Hide Cloak"
@@ -1209,6 +1237,13 @@ var gear = [
                             "Armor Class: +2",
                             "Saving Throws: +2",
                             "Cold Resistance: +50%"
+                        ]
+                    },
+                    {
+                        "section_name": "Usable by",
+                        "section_items": [
+                            "Druid",
+                            "Shaman"
                         ]
                     }
                 ],
@@ -1230,6 +1265,13 @@ var gear = [
                             "Damage Resistance: +10%",
                             "Magic Resistance: +25%",
                             "Cold Resistance: +50%"
+                        ]
+                    },
+                    {
+                        "section_name": "Usable by",
+                        "section_items": [
+                            "Druid",
+                            "Shaman"
                         ]
                     }
                 ],
@@ -1708,8 +1750,7 @@ var weapons = [
                     {
                         "section_name": "Usable by",
                         "section_items": [
-                            "Druid",
-                            "Ranger"
+                            "Druids, shamans and rangers"
                         ]
                     }
                 ],
@@ -1739,7 +1780,7 @@ var weapons = [
                     {
                         "section_name": "Usable by",
                         "section_items": [
-                            "Druids and rangers"
+                            "Druids, shamans and rangers"
                         ]
                     }
                 ],
@@ -1772,7 +1813,7 @@ var weapons = [
                     {
                         "section_name": "Usable by",
                         "section_items": [
-                            "Druids and rangers"
+                            "Druids, shamans and rangers"
                         ]
                     }
                 ],

@@ -126,7 +126,6 @@ COPY ~ImprovedAnvil/resources/spells/S!werhwl.spl~ ~override/S!werhwl.spl~
       parameter2 = ~%immune_fear_state%~
   END*/
 
-// TODO: what are these for?
 COPY ~ImprovedAnvil/resources/spells/S!werrag.spl~ ~override/S!werrag.spl~
   SAY NAME1 @12073
 
@@ -356,6 +355,9 @@ COPY_EXISTING ~wolfdr01.cre~ ~override/wolfdr01.cre~
   ADD_CRE_ITEM ~s!regw1~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~RRING~
   REPLACE_CRE_ITEM ~s!wolf1~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~WEAPON1~
 
+COPY_EXISTING ~wolfdr01.cre~ ~override/wolfdr02.cre~
+  WRITE_LONG  0x14      0 // xp
+
 // vampiric wolf
 COPY_EXISTING ~wolfva01.cre~ ~override/wolfva01.cre~
   WRITE_LONG  0x14      15000 // xp
@@ -442,6 +444,9 @@ COPY_EXISTING ~werewo01.cre~ ~override/werewo01.cre~
   ADD_CRE_ITEM ~s!regw1~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~RRING~
   ADD_CRE_ITEM ~s!bite01~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~WEAPON2~
 
+COPY_EXISTING ~werewo01.cre~ ~override/S!were01.cre~
+  WRITE_LONG  0x14      0 // xp
+
 COPY_EXISTING ~werewo01.cre~ ~override/S!wer01c.cre~
   WRITE_ASCII 0x248 ~~         #8 // override script
   WRITE_ASCII 0x250 ~~         #8 // class script
@@ -480,6 +485,9 @@ COPY_EXISTING ~werewo01.cre~ ~override/S!lwer01.cre~
 
   SAY NAME1 @12081
   SAY NAME2 @12081
+
+COPY_EXISTING ~S!lwer01.cre~ ~override/S!lwer02.cre~
+  WRITE_LONG  0x14      0 // xp
 
 // greater werewolf
 COPY_EXISTING ~WEREGR01.cre~ ~override/weregr01.cre~
@@ -529,6 +537,9 @@ COPY_EXISTING ~WEREGR01.cre~ ~override/weregr01.cre~
   ADD_CRE_ITEM ~helmnoan~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~HELMET~
   ADD_CRE_ITEM ~s!regw2~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~RRING~
   ADD_CRE_ITEM ~s!bite02~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~WEAPON2~
+
+COPY_EXISTING ~WEREGR01.cre~ ~override/S!wereg1.cre~
+  WRITE_LONG  0x14      0 // xp
 
 // loup garou
 COPY_EXISTING ~WEREGR01.cre~ ~override/S!loup01.cre~
@@ -592,6 +603,7 @@ COPY_EXISTING ~WEREGR01.cre~ ~override/S!loup01.cre~
 
 ACTION_FOR_EACH ~file~ IN
                 ~WEREGR01~
+                ~S!wereg1~
                 ~RNGWLF04~
                 ~firamb01~
 BEGIN
@@ -663,6 +675,9 @@ COPY_EXISTING ~AR2500.BCS~ ~override~
 COPY_EXISTING ~CUT41Q.BCS~ ~override~
   DECOMPILE_AND_PATCH BEGIN
     REPLACE_TEXTUALLY ~True()~ ~!Global("IADruidPlot","GLOBAL",7) !Global("IADradeel","GLOBAL",3)~
+    REPLACE_TEXTUALLY ~SmallWait(1)~ ~Placeholder~
+    REPLACE_TEXTUALLY ~Wait(1)~ ~Wait(1) Rest() ActionOverride(Player2,Rest()) ActionOverride(Player3,Rest()) ActionOverride(Player4,Rest()) ActionOverride(Player5,Rest()) ActionOverride(Player6,Rest())~
+    REPLACE_TEXTUALLY ~Placeholder~ ~SmallWait(1)~
   END
 
 // compile the scripts //
@@ -764,6 +779,7 @@ IF
   OR(2)
     Class(Player1,DRUID_ALL)
     Class(Player1,SHAMAN)
+  !Class(Player1,FIGHTER_ALL)
 THEN
   RESPONSE #100
     SetGlobal("IADruidPlot","GLOBAL",1)
@@ -1283,6 +1299,14 @@ THEN
 		Wait(1)
 
     ActionOverride("s!drad01",DestroySelf())
+    Rest()
+    ActionOverride(Player2,Rest())
+    ActionOverride(Player3,Rest())
+    ActionOverride(Player4,Rest())
+    ActionOverride(Player5,Rest())
+    ActionOverride(Player6,Rest())
+    Wait(1)
+
 		LeaveAreaLUAPanic("S!0002","",[4220.3195],W)
 		LeaveAreaLUA("S!0002","",[4220.3195],W)
 		ActionOverride(Player2,LeaveAreaLUA("S!0002","",[4240.3265],W))

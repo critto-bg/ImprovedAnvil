@@ -1,8 +1,8 @@
 // Fighter Druid Levels 20 17 //
 // First Level Spells (9): CLW x6, Armor of Faith x3 //
-// Second Level Spells (9):  Slow Poison x8 //
+// Second Level Spells (9): Slow Poison x8 //
 // Third Level Spells (8): CMW x8 //
-// Fourth Level Spells (8): CSW x6, Acid Shield //
+// Fourth Level Spells (8): CSW x3, Free Action x3, Acid Shield //
 // Fifth Level Spells (5): Iron skins x4 //
 // Sixth Level Spells (3): Heal x3 //
 // Seventh Level Spells (2): Shield of the Archons //
@@ -19,6 +19,7 @@ THEN
     ReallyForceSpell(Myself,CLERIC_IRONSKIN)
     ReallyForceSpell(Myself,CLERIC_SHIELD_OF_THE_ARCHONS)
     ReallyForceSpell(Myself,CLERIC_CHAOTIC_COMMANDS)
+    ReallyForceSpell(Myself,CLERIC_FREE_ACTION)
     ReallyForceSpell(Myself,CLERIC_ACID_SHIELD)
     ReallyForceSpell(Myself,CLERIC_FLAME_BLADE)
 END
@@ -162,12 +163,28 @@ IF
   !StateCheck(Myself,STATE_SILENCED)
   !GlobalTimerNotExpired("Iaspell","LOCALS")
   HPPercentLT(Myself,70)
-  GlobalLT("Iacsw","LOCALS",6)
+  GlobalLT("Iacsw","LOCALS",3)
 THEN
   RESPONSE #100
     IncrementGlobal("Iacsw","LOCALS",1)
     SetGlobalTimer("Iaspell","LOCALS",6)
     SpellNoDec(Myself,CLERIC_CURE_SERIOUS_WOUNDS)
+END
+
+IF
+  Global("IaPrep","LOCALS",1)
+  !StateCheck(Myself,STATE_SILENCED)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  See([PC])
+  Range(LastSeenBy(Myself),10)
+  StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+  HPPercentLT(LastSeenBy(Myself),50)
+  GlobalLT("IaFreeAction","LOCALS",2)
+THEN
+  RESPONSE #100
+    IncrementGlobal("IaFreeAction","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDec(LastSeenBy(Myself),CLERIC_FREE_ACTION)
 END
 
 IF
@@ -200,10 +217,40 @@ IF
   Global("IaPrep","LOCALS",1)
   See(NearestEnemyOf(Myself))
   Race(LastSeenBy(Myself),LYCANTHROPE)
+  OR(3)
+    HasItem("S!regw1",LastSeenBy(Myself))
+    HasItem("S!regw2",LastSeenBy(Myself))
+    HasItem("S!regw3",LastSeenBy(Myself))
+  CheckSpellState(Myself,FLAME_BLADE)
   !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
 THEN
   RESPONSE #100
-    AttackOneRound(NearestEnemyOf(Myself))
+    AttackReevaluate(LastSeenBy(Myself),45)
+END
+
+IF
+  Global("IaPrep","LOCALS",1)
+  See(SecondNearestEnemyOf(Myself))
+  Race(LastSeenBy(Myself),LYCANTHROPE)
+  OR(3)
+    HasItem("S!regw1",LastSeenBy(Myself))
+    HasItem("S!regw2",LastSeenBy(Myself))
+    HasItem("S!regw3",LastSeenBy(Myself))
+  CheckSpellState(Myself,FLAME_BLADE)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackReevaluate(LastSeenBy(Myself),45)
+END
+
+IF
+  Global("IaPrep","LOCALS",1)
+  See(NearestEnemyOf(Myself))
+  Race(LastSeenBy(Myself),LYCANTHROPE)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
 END
 
 IF
@@ -233,12 +280,12 @@ IF
   See(NearestEnemyOf(Myself))
 THEN
   RESPONSE #100
-    AttackOneRound(NearestEnemyOf(Myself))
+    AttackOneRound(LastSeenBy(Myself))
 END
 
 IF
-  !Detect([PC])
-  !Detect([GOODCUTOFF])
+  !See([PC])
+  !See([GOODCUTOFF])
   InMyArea(Player1)
   Global("IaPrep","LOCALS",1)
 THEN

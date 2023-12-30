@@ -1,3 +1,77 @@
+// remove regen based on fire damage taken //
+
+IF
+  InMyArea(Player1)
+  Allegiance(Myself,ENEMY)
+  Global("IaNoRegen","LOCALS",0)
+  Global("Prep","LOCALS",1)
+  !GlobalTimerNotExpired("IaRegenHitTimer","LOCALS")
+  TookDamage()
+  OR(3)
+    HitBy([ANYONE],FIRE)
+    HitBy([ANYONE],MAGICFIRE)
+    HitBy([ANYONE],ACID)
+  OR(3)
+    HasItem("S!regw1",Myself)
+    HasItem("S!regw2",Myself)
+    HasItem("S!regw3",Myself)
+  RandomNumGT(10,4)
+  !StateCheck(Myself,STATE_REALLY_DEAD)
+  !StateCheck(Myself,STATE_PANIC)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("IaRegenHitTimer","LOCALS",1)
+    IncrementGlobal("IaRegenHits","LOCALS",1)
+    Continue()
+END
+
+IF
+  InMyArea(Player1)
+  Allegiance(Myself,ENEMY)
+  Global("IaNoRegen","LOCALS",0)
+  Global("Prep","LOCALS",1)
+  !GlobalTimerNotExpired("IaRegenHitTimer","LOCALS")
+  TookDamage()
+  OR(3)
+    HitBy([ANYONE],FIRE)
+    HitBy([ANYONE],MAGICFIRE)
+    HitBy([ANYONE],ACID)
+  OR(3)
+    HasItem("S!regw1",Myself)
+    HasItem("S!regw2",Myself)
+    HasItem("S!regw3",Myself)
+  HPPercentLT(Myself,85)
+  !StateCheck(Myself,STATE_REALLY_DEAD)
+  !StateCheck(Myself,STATE_PANIC)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("IaRegenHitTimer","LOCALS",1)
+    IncrementGlobal("IaRegenHits","LOCALS",1)
+    Continue()
+END
+
+IF
+  InMyArea(Player1)
+  Allegiance(Myself,ENEMY)
+  Global("IaNoRegen","LOCALS",0)
+  Global("Prep","LOCALS",1)
+  OR(2)
+    LocalsEqual("IaRegenHits","IaRegenTotalHits")
+    LocalsGT("IaRegenHits","IaRegenTotalHits")
+  !StateCheck(Myself,STATE_REALLY_DEAD)
+  !StateCheck(Myself,STATE_PANIC)
+THEN
+  RESPONSE #100
+    SetGlobal("IaNoRegen","LOCALS",1)
+    DestroyItem("S!regw1")
+    DestroyItem("S!regw2")
+    DestroyItem("S!regw3")
+    ReallyForceSpell(Myself,RED_PILLAR_VISUAL)
+    SetName(@12085)
+    DisplayString(Myself,@12080)
+    Continue()
+END
+
 // this forces werewolves to escape the area at the end of trademeet siege event //
 
 IF
@@ -77,102 +151,6 @@ THEN
     ReallyForceSpellRES("SPWII07",Myself)
 END
 
-// remove regen based on fire damage taken //
-
-IF
-  InMyArea(Player1)
-  Allegiance(Myself,ENEMY)
-  Global("IaNoRegen","LOCALS",0)
-  Global("Prep","LOCALS",1)
-  !GlobalTimerNotExpired("IaRegenHitTimer","LOCALS")
-  TookDamage()
-  OR(3)
-    HitBy([ANYONE],FIRE)
-    HitBy([ANYONE],MAGICFIRE)
-    HitBy([ANYONE],ACID)
-  RandomNumGT(10,3)
-  HPPercentLT(Myself,75)
-  OR(3)
-    HasItem("S!regw1",Myself)
-    HasItem("S!regw2",Myself)
-    HasItem("S!regw3",Myself)
-  !StateCheck(Myself,STATE_REALLY_DEAD)
-  !StateCheck(Myself,STATE_PANIC)
-THEN
-  RESPONSE #100
-    SetGlobalTimer("IaRegenHitTimer","LOCALS",3)
-    IncrementGlobal("IaRegenHits","LOCALS",1)
-END
-
-IF
-  InMyArea(Player1)
-  Allegiance(Myself,ENEMY)
-  Global("IaNoRegen","LOCALS",0)
-  Global("Prep","LOCALS",1)
-  !GlobalTimerNotExpired("IaRegenHitTimer","LOCALS")
-  TookDamage()
-  OR(3)
-    HitBy([ANYONE],FIRE)
-    HitBy([ANYONE],MAGICFIRE)
-    HitBy([ANYONE],ACID)
-  RandomNumLT(8,4)
-  HPPercentLT(Myself,85)
-  OR(3)
-    HasItem("S!regw1",Myself)
-    HasItem("S!regw2",Myself)
-    HasItem("S!regw3",Myself)
-  !StateCheck(Myself,STATE_REALLY_DEAD)
-  !StateCheck(Myself,STATE_PANIC)
-THEN
-  RESPONSE #100
-    SetGlobalTimer("IaRegenHitTimer","LOCALS",3)
-    IncrementGlobal("IaRegenHits","LOCALS",1)
-END
-
-IF
-  InMyArea(Player1)
-  Allegiance(Myself,ENEMY)
-  Global("IaNoRegen","LOCALS",0)
-  Global("Prep","LOCALS",1)
-  !GlobalTimerNotExpired("IaRegenHitTimer","LOCALS")
-  TookDamage()
-  OR(3)
-    HitBy([ANYONE],FIRE)
-    HitBy([ANYONE],MAGICFIRE)
-    HitBy([ANYONE],ACID)
-  RandomNum(9,4)
-  OR(3)
-    HasItem("S!regw1",Myself)
-    HasItem("S!regw2",Myself)
-    HasItem("S!regw3",Myself)
-  !StateCheck(Myself,STATE_REALLY_DEAD)
-  !StateCheck(Myself,STATE_PANIC)
-THEN
-  RESPONSE #100
-    SetGlobalTimer("IaRegenHitTimer","LOCALS",3)
-    IncrementGlobal("IaRegenHits","LOCALS",1)
-END
-
-IF
-  InMyArea(Player1)
-  Allegiance(Myself,ENEMY)
-  Global("IaNoRegen","LOCALS",0)
-  Global("Prep","LOCALS",1)
-  OR(2)
-    LocalsEqual("IaRegenHits","IaRegenTotalHits")
-    LocalsGT("IaRegenHits","IaRegenTotalHits")
-  !StateCheck(Myself,STATE_REALLY_DEAD)
-  !StateCheck(Myself,STATE_PANIC)
-THEN
-  RESPONSE #100
-    SetGlobal("IaNoRegen","LOCALS",1)
-    DestroyItem("S!regw1")
-    DestroyItem("S!regw2")
-    DestroyItem("S!regw3")
-    DisplayString(Myself,@12080)
-    Continue()
-END
-
 // morale and panic management //
 
 IF
@@ -198,7 +176,7 @@ IF
   !CheckSpellState(Myself,IMMUNE_FEAR)
   !GlobalTimerNotExpired("IaPanicTimer","LOCALS")
   HPPercentLT(Myself,40)
-  RandomNumGT(10,7)
+  RandomNumGT(10,3)
 THEN
   RESPONSE #100
     SetGlobal("IaPanic","LOCALS",1)
@@ -404,7 +382,7 @@ IF
 THEN
   RESPONSE #100
     SetInterrupt(FALSE)
-    SetGlobalTimer("IaWereHowl","GLOBAL",18)
+    SetGlobalTimer("IaWereHowl","GLOBAL",12)
     SetGlobalTimer("Iaspell","LOCALS",6)
     IncrementGlobal("IaHowls","LOCALS",1)
     ReallyForceSpellRES("S!werhwl",Myself)
@@ -437,7 +415,7 @@ IF
 THEN
   RESPONSE #100
     SetInterrupt(FALSE)
-    SetGlobalTimer("IaWereHowl","GLOBAL",18)
+    SetGlobalTimer("IaWereHowl","GLOBAL",12)
     SetGlobalTimer("Iaspell","LOCALS",6)
     IncrementGlobal("IaHowls","LOCALS",1)
     ReallyForceSpellRES("S!werhwl",Myself)
@@ -470,7 +448,7 @@ IF
 THEN
   RESPONSE #100
     SetInterrupt(FALSE)
-    SetGlobalTimer("IaWereHowl","GLOBAL",18)
+    SetGlobalTimer("IaWereHowl","GLOBAL",12)
     SetGlobalTimer("Iaspell","LOCALS",6)
     IncrementGlobal("IaHowls","LOCALS",1)
     ReallyForceSpellRES("S!werhwl",Myself)
@@ -552,7 +530,7 @@ THEN
     Continue()
 END
 
-// general attack with the claws/bites (reevaluate after half a round) //
+// general attack with the claws/bites //
 
 IF
   Allegiance(Myself,ENEMY)
@@ -581,7 +559,7 @@ IF
     Range(LastSeenBy(Myself),3)
 THEN
   RESPONSE #100
-    AttackReevaluate(LastSeenBy(Myself),45)
+    AttackReevaluate(LastSeenBy(Myself),30)
 END
 
 IF
@@ -614,7 +592,7 @@ IF
     Range(LastSeenBy(Myself),3)
 THEN
   RESPONSE #100
-    AttackReevaluate(LastSeenBy(Myself),45)
+    AttackReevaluate(LastSeenBy(Myself),30)
 END
 
 IF
@@ -633,7 +611,7 @@ IF
   CheckStat(LastSeenBy(Myself),0,EXTRAPROFICIENCY11)
 THEN
   RESPONSE #100
-    AttackReevaluate(LastSeenBy(Myself),45)
+    AttackReevaluate(LastSeenBy(Myself),30)
 END
 
 IF
@@ -653,7 +631,7 @@ IF
   Range(LastSeenBy(Myself),3)
 THEN
   RESPONSE #100
-    AttackReevaluate(LastSeenBy(Myself),45)
+    AttackReevaluate(LastSeenBy(Myself),30)
 END
 
 IF
@@ -673,7 +651,7 @@ IF
   Range(LastSeenBy(Myself),3)
 THEN
   RESPONSE #100
-    AttackReevaluate(LastSeenBy(Myself),45)
+    AttackReevaluate(LastSeenBy(Myself),30)
 END
 
 IF
@@ -701,7 +679,7 @@ IF
     Range(LastSeenBy(Myself),3)
 THEN
   RESPONSE #100
-    AttackReevaluate(LastSeenBy(Myself),45)
+    AttackReevaluate(LastSeenBy(Myself),30)
 END
 
 IF
@@ -732,7 +710,7 @@ IF
     Range(LastSeenBy(Myself),3)
 THEN
   RESPONSE #100
-    AttackReevaluate(LastSeenBy(Myself),45)
+    AttackReevaluate(LastSeenBy(Myself),30)
 END
 
 // fallback attack pattern //
@@ -746,7 +724,7 @@ IF
   CheckStat(LastSeenBy(Myself),0,EXTRAPROFICIENCY11)
 THEN
   RESPONSE #100
-    AttackOneRound(NearestEnemyOf(Myself))
+    AttackReevaluate(NearestEnemyOf(Myself),30)
 END
 
 IF
@@ -759,7 +737,7 @@ IF
   Range(LastSeenBy(Myself),3)
 THEN
   RESPONSE #100
-    AttackOneRound(LastSeenBy(Myself))
+    AttackReevaluate(LastSeenBy(Myself),30)
 END
 
 IF
@@ -772,7 +750,7 @@ IF
   Range(LastSeenBy(Myself),3)
 THEN
   RESPONSE #100
-    AttackOneRound(LastSeenBy(Myself))
+    AttackReevaluate(LastSeenBy(Myself),30)
 END
 
 IF
@@ -780,7 +758,7 @@ IF
   See(NearestEnemyOf(Myself))
 THEN
   RESPONSE #100
-    AttackOneRound(NearestEnemyOf(Myself))
+    AttackReevaluate(NearestEnemyOf(Myself),30)
 END
 
 // general movement //
