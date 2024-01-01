@@ -1,4 +1,15 @@
-//Level 5 in Watchers Keep (the horde) //////////////
+// Level 5 in Watchers Keep (the horde) //////////////
+
+IF
+  GlobalTimerExpired("HordeTimer","AR3025")
+  Global("SpawnSpirit","AR3025",0)
+THEN
+  RESPONSE #100
+    SetGlobal("SpawnSpirit","AR3025",1)
+    TriggerActivation("Tran3019",TRUE)
+    CreateCreatureObjectEffect("FSSPIRA","SPFLESHS",Player1)
+    ActionOverride("FSSPIRA",StartDialogNoSet(Player1))
+END
 
 IF
    Global("Iatougherhorde","AR3025",0)
@@ -7,5 +18,6 @@ THEN
    RESPONSE #100
       SetGlobal("Iatougherhorde","AR3025",1)
       SetGlobalTimer("HordeTimer","AR3025",360)
-      ActionOverride("Pool 1",CreateItem("potn33",0,0,0)) //
+      ActionOverride("Pool 1",CreateItem("potn33",0,0,0))
+      ActionOverride("Pool 1",CreateItem("MISC07",90000,0,0))
 END
