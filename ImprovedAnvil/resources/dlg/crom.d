@@ -2048,17 +2048,18 @@ APPEND WSMITH01
   IF ~~ THEN BEGIN earthstaff
     SAY @629 IF ~~ THEN REPLY @2 GOTO 13
     IF ~PartyHasItem("wastaff") PartyHasItem("staf16") PartyHasItem("staf14")
-	PartyGoldGT(99999) PartyHasItem("staf21")
-	PartyHasItem("s!misc01") PartyHasItem("s!misc02")~
+        PartyGoldGT(99999) PartyHasItem("S!staf12")
+        PartyHasItem("s!misc01") PartyHasItem("s!misc02") PartyHasItem("s!misc06")~
       THEN REPLY @3
       DO ~SetGlobal("Iaearthstaffforged","GLOBAL",1)
           TakePartyGold(100000)      	 DestroyGold(100000)
           TakePartyItemNum("wastaff",1)  DestroyItem("wastaff")
           TakePartyItemNum("staf16",1)   DestroyItem("staf16")
           TakePartyItemNum("staf14",1)   DestroyItem("staf14")
-          TakePartyItemNum("staf21",1)   DestroyItem("staf21")
+          TakePartyItemNum("S!staf12",1)   DestroyItem("S!staf12")
           TakePartyItemNum("s!misc01",1) DestroyItem("s!misc01")
           TakePartyItemNum("s!misc02",1)   DestroyItem("s!misc02")
+          TakePartyItemNum("s!misc06",1)   DestroyItem("s!misc06")
           GiveItemCreate("s!staf11",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~
       EXIT
