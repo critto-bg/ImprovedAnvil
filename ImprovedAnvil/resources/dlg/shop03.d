@@ -94,7 +94,7 @@ APPEND ~SHOP03~
     IF ~~ THEN REPLY @5108 GOTO 22
 
     IF ~PartyHasItem("s!misc74") PartyGoldGT(9999) PartyHasItem("clck01")~
-      THEN REPLY @5118
+      THEN REPLY @5109
       DO ~SetGlobal("Iahideforged","GLOBAL",1)
           TakePartyGold(10000)      DestroyGold(10000)
           TakePartyItemNum("s!misc74",1)   DestroyItem("s!misc74")
@@ -102,16 +102,5 @@ APPEND ~SHOP03~
           GiveItemCreate("s!clck11",Player1,1,1,1)
           CreateVisualEffectObject("spcrtwpn","maheer")~
       EXIT
-
-    IF ~PartyHasItem("s!misc74") PartyGoldGT(9999) PartyHasItem("leat05")~
-      THEN REPLY @5119
-      DO ~SetGlobal("Iahideforged","GLOBAL",1)
-          TakePartyGold(10000)      DestroyGold(10000)
-          TakePartyItemNum("s!misc74",1)   DestroyItem("s!misc74")
-          TakePartyItemNum("leat05",1)   DestroyItem("leat05")
-          GiveItemCreate("s!leat07",Player1,1,1,1)
-          CreateVisualEffectObject("spcrtwpn","maheer")~
-      EXIT
   END
-
 END

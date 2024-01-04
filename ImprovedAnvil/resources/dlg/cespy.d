@@ -175,7 +175,7 @@ REPLACE BOTSMITH
       THEN REPLY @790 GOTO hexxat1
     IF ~PartyHasItem("s!clck08")~ THEN REPLY @792 GOTO hexxat2
     IF ~PartyHasItem("s!misc78") PartyHasItem("s!clck12") Global("Iahideforged","GLOBAL",2)~ THEN REPLY @794 GOTO rustcloak
-    IF ~PartyHasItem("s!misc75") PartyHasItem("s!leat08") Global("Iahideforged","GLOBAL",2)~ THEN REPLY @796 GOTO rustarmor
+    IF ~PartyHasItem("s!misc75")~ THEN REPLY @796 GOTO rustarmor
 
     IF ~~ THEN REPLY #992 EXIT
   END
@@ -2169,12 +2169,9 @@ IF ~~ THEN BEGIN treefist
   IF ~~ THEN BEGIN rustarmor
     SAY @797
     IF ~~ THEN REPLY @2 GOTO 13
-    IF ~PartyHasItem("s!leat08") PartyHasItem("s!misc75") PartyHasItem("s!misc06") PartyGoldGT(59999)~
+    IF ~PartyHasItem("s!misc75") PartyGoldGT(74999)~
       THEN REPLY @3
-      DO ~SetGlobal("Iahideforged","GLOBAL",3)
-          TakePartyGold(60000)      DestroyGold(60000)
-          TakePartyItemNum("s!leat08",1)   DestroyItem("s!leat08")
-          TakePartyItemNum("s!misc06",1)   DestroyItem("s!misc06")
+      DO ~TakePartyGold(75000)      DestroyGold(75000)
           TakePartyItemNum("s!misc75",1)   DestroyItem("s!misc75")
           GiveItemCreate("s!leat09",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~

@@ -374,71 +374,16 @@ var gear = [
             },
             {
                 "components": [
-                    "Yeti Hide",
-                    "Studded Leather Armor +1",
-                    "10,000 gp",
-                    "(Maheer only)"
-                ],
-                "attributes": [
-                    {
-                        "section_name": "Abilities",
-                        "section_items": [
-                            "Armor Class: 4",
-                            "Cold Resistance: +50%"
-                        ]
-                    },
-                    {
-                        "section_name": "Usable by",
-                        "section_items": [
-                            "Druid",
-                            "Shaman"
-                        ]
-                    }
-                ],
-                "item_name": "Yeti Hide Armor"
-            },
-            {
-                "components": [
-                    "Yeti Hide Armor",
-                    "Blood of a Barbarian Warrior",
-                    "Permanency scroll",
-                    "50,000 gp",
-                    "(Cromwell only)"
-                ],
-                "attributes": [
-                    {
-                        "section_name": "Abilities",
-                        "section_items": [
-                            "Armor Class: 2",
-                            "Damage Resistance: +10%",
-                            "Cold Resistance: +50%"
-                        ]
-                    },
-                    {
-                        "section_name": "Usable by",
-                        "section_items": [
-                            "Druid",
-                            "Shaman"
-                        ]
-                    }
-                ],
-                "item_name": "Improved Yeti Hide Armor"
-            },
-            {
-                "components": [
-                    "Improved Yeti Hide Armor",
                     "Rust Dragon Scales",
-                    "Manual of Elaboration",
-                    "60,000 gp"
+                    "75,000 gp"
                 ],
                 "attributes": [
                     {
                         "section_name": "Abilities",
                         "section_items": [
                             "Armor Class: 0",
-                            "Damage Resistance: +25%",
+                            "Magic Damage Resistance: +25%",
                             "Magic Resistance: +25%",
-                            "Cold Resistance: +50%"
                         ]
                     },
                     {
@@ -1262,7 +1207,7 @@ var gear = [
                         "section_items": [
                             "Armor Class: +3",
                             "Saving Throws: +3",
-                            "Damage Resistance: +10%",
+                            "Magic Damage Resistance: +25%",
                             "Magic Resistance: +25%",
                             "Cold Resistance: +50%"
                         ]

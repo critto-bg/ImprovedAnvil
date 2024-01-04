@@ -172,9 +172,8 @@ REPLACE WSMITH01
       THEN REPLY @636 GOTO aeriehammer
     IF ~PartyHasItem("sw2h16")~ THEN REPLY @638 GOTO sarevoksword
     IF ~PartyHasItem("s!clck11") Global("Iahideforged","GLOBAL",1)~ THEN REPLY @644 GOTO yeticloak
-    IF ~PartyHasItem("s!leat07") Global("Iahideforged","GLOBAL",1)~ THEN REPLY @646 GOTO yetiarmor
     IF ~PartyHasItem("s!misc78") PartyHasItem("s!clck12") Global("Iahideforged","GLOBAL",2)~ THEN REPLY @648 GOTO rustcloak
-    IF ~PartyHasItem("s!misc75") PartyHasItem("s!leat08") Global("Iahideforged","GLOBAL",2)~ THEN REPLY @650 GOTO rustarmor
+    IF ~PartyHasItem("s!misc75")~ THEN REPLY @650 GOTO rustarmor
 
     IF ~~ THEN REPLY #992 EXIT
   END
@@ -2165,21 +2164,6 @@ APPEND WSMITH01
       EXIT
   END
 
-  IF ~~ THEN BEGIN yetiarmor
-    SAY @647
-    IF ~~ THEN REPLY @2 GOTO 13
-    IF ~PartyHasItem("s!leat07") PartyHasItem("s!misc02") PartyHasItem("s!misc52") PartyGoldGT(49999)~
-      THEN REPLY @3
-      DO ~SetGlobal("Iahideforged","GLOBAL",2)
-          TakePartyGold(50000)      DestroyGold(50000)
-          TakePartyItemNum("s!leat07",1)   DestroyItem("s!leat07")
-          TakePartyItemNum("s!misc02",1)   DestroyItem("s!misc02")
-          TakePartyItemNum("s!misc52",1)   DestroyItem("s!misc52")
-          GiveItemCreate("s!leat08",Player1,1,1,1)
-          CreateVisualEffect("spcrtwpn",[401.348])~
-      EXIT
-  END
-
   IF ~~ THEN BEGIN rustcloak
     SAY @649
     IF ~~ THEN REPLY @2 GOTO 13
@@ -2198,12 +2182,9 @@ APPEND WSMITH01
   IF ~~ THEN BEGIN rustarmor
     SAY @651
     IF ~~ THEN REPLY @2 GOTO 13
-    IF ~PartyHasItem("s!leat08") PartyHasItem("s!misc75") PartyHasItem("s!misc06") PartyGoldGT(59999)~
+    IF ~PartyHasItem("s!misc75") PartyGoldGT(74999)~
       THEN REPLY @3
-      DO ~SetGlobal("Iahideforged","GLOBAL",3)
-          TakePartyGold(60000)      DestroyGold(60000)
-          TakePartyItemNum("s!leat08",1)   DestroyItem("s!leat08")
-          TakePartyItemNum("s!misc06",1)   DestroyItem("s!misc06")
+      DO ~TakePartyGold(75000)      DestroyGold(75000)
           TakePartyItemNum("s!misc75",1)   DestroyItem("s!misc75")
           GiveItemCreate("s!leat09",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~
