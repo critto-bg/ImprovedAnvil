@@ -2646,10 +2646,11 @@ var weapons = [
             },
             {
                 "components": [
-                    "Silent Hunt +4",
+                    "Staff of Thunder and Lightning +2",
                     "Staff of Arundel +3",
                     "Staff of Earth +2",
                     "Staff of the Woodlands +4",
+                    "Staff of the Ram +4",
                     "Scroll of Memory Boosting",
                     "Permanency Scroll",
                     "Manual of Elaboration",
@@ -2662,12 +2663,12 @@ var weapons = [
                             "+3 bonus to Armor Class",
                             "Wielder may memorize one additional druidic spell per level",
                             "Wielder may summon an Elemental Prince for 20 rounds once per day",
-                            "THAC0: +5",
-                            "Damage: 1D6 +5, +10 crushing damage",
+                            "THAC0: +4",
+                            "Damage: 1D6 +4, +10 crushing damage",
+                            "Slays Earth Elementals on hit",
+                            "10% chance of stunning hit target for 2 rounds (Save vs. Spell negates)",
                             "10% chance on hit to cause an additional 5d6 crushing damage",
-                            "10% chance on hit to cause an additional 5d6 acid damage",
-                            "5% chance on hit to cast Iron Skins on the wielder",
-                            "5% chance on hit to cast Improved Invisibility on the wielder"
+                            "10% chance on hit to cause an additional 5d6 lightning damage"
                         ]
                     },
                     {
@@ -2678,7 +2679,7 @@ var weapons = [
                         ]
                     }
                 ],
-                "item_name": "Noble Staff of Earth +5"
+                "item_name": "Noble Staff of Earth +4"
             },
             {
                 "components": [
