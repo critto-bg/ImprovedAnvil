@@ -75,6 +75,21 @@ COPY_EXISTING ~SPIN999.spl~ ~override/SPIN999.spl~
 
 // class level abilities //
 
+// add spell state to Monk's slow immunity class feature
+COPY_EXISTING ~SPCL814.spl~ ~override/SPCL814.spl~
+  LAUNCH_PATCH_FUNCTION ~CLONE_EFFECT~
+    INT_VAR
+      check_globals = 0
+      match_opcode = 169
+      multi_match = 1
+      opcode = 328
+      power = 0
+      parameter2 = ~%slow_immunity_state%~
+      special = 1
+    STR_VAR
+      insert = ~last~
+  END
+
 COPY_EXISTING ~SPCL904.spl~ ~override/SPCL904.spl~
   WRITE_BYTE  0x27      2 // secondary type
 
