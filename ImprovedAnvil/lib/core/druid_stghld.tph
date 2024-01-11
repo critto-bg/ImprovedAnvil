@@ -68,6 +68,8 @@ COPY ~ImprovedAnvil/resources/items/new/S!bite02.itm~ ~override/S!bite02.itm~
 
 COPY ~ImprovedAnvil/resources/items/new/S!bite03.itm~ ~override/S!bite03.itm~
 
+COPY ~ImprovedAnvil/resources/items/new/S!tslead.itm~ ~override/S!tslead.itm~
+
 // patch items //
 
 // Iron Sigil
@@ -264,6 +266,7 @@ COPY ~ImprovedAnvil/resources/creatures/new/S!tslead.cre~         ~override/S!ts
   SAY NAME1     @12060
   SAY NAME2     @12060
 
+  WRITE_ASCII 0x248 ~S!tslead~ #8 // override script
   WRITE_ASCII 0x2cc ~iatslead~ #8 // dialogue
 
 COPY ~ImprovedAnvil/resources/creatures/new/S!drudiv.cre~         ~override/S!drudiv.cre~
@@ -449,13 +452,22 @@ COPY_EXISTING ~werewo01.cre~ ~override/S!were01.cre~
 
 COPY_EXISTING ~werewo01.cre~ ~override/S!wer01c.cre~
   WRITE_ASCII 0x248 ~~         #8 // override script
-  WRITE_ASCII 0x250 ~~         #8 // class script
+  WRITE_ASCII 0x260 ~~         #8 // general script
   WRITE_ASCII 0x280 ~s!wer01c~ #32 // death variable
 
 COPY_EXISTING ~werewo01.cre~ ~override/S!wer02c.cre~
   WRITE_ASCII 0x248 ~~         #8 // override script
-  WRITE_ASCII 0x250 ~~         #8 // class script
+  WRITE_ASCII 0x260 ~~         #8 // general script
   WRITE_ASCII 0x280 ~s!wer02c~ #32 // death variable
+
+COPY_EXISTING ~werewo01.cre~ ~override/S!wer03c.cre~
+  WRITE_ASCII 0x280 ~s!wer03c~ #32 // death variable
+
+COPY_EXISTING ~werewo01.cre~ ~override/S!wer04c.cre~
+  WRITE_ASCII 0x280 ~s!wer04c~ #32 // death variable
+
+COPY_EXISTING ~werewo01.cre~ ~override/S!wer05c.cre~
+  WRITE_ASCII 0x280 ~s!wer05c~ #32 // death variable
 
 // young werewolf
 COPY_EXISTING ~werewo01.cre~ ~override/S!lwer01.cre~
@@ -541,6 +553,18 @@ COPY_EXISTING ~WEREGR01.cre~ ~override/weregr01.cre~
 COPY_EXISTING ~WEREGR01.cre~ ~override/S!wereg1.cre~
   WRITE_LONG  0x14      0 // xp
 
+COPY_EXISTING ~WEREGR01.cre~ ~override/S!wereg2.cre~
+  WRITE_ASCII 0x280 ~S!wereg2~ #32 // death variable
+
+COPY_EXISTING ~WEREGR01.cre~ ~override/S!wereg3.cre~
+  WRITE_ASCII 0x280 ~S!wereg3~ #32 // death variable
+
+COPY_EXISTING ~WEREGR01.cre~ ~override/S!wereg4.cre~
+  WRITE_ASCII 0x280 ~S!wereg4~ #32 // death variable
+
+COPY_EXISTING ~WEREGR01.cre~ ~override/S!wereg5.cre~
+  WRITE_ASCII 0x280 ~S!wereg5~ #32 // death variable
+
 // loup garou
 COPY_EXISTING ~WEREGR01.cre~ ~override/S!loup01.cre~
               ~WEREGR01.cre~ ~override/S!loup02.cre~
@@ -604,6 +628,10 @@ COPY_EXISTING ~WEREGR01.cre~ ~override/S!loup01.cre~
 ACTION_FOR_EACH ~file~ IN
                 ~WEREGR01~
                 ~S!wereg1~
+                ~S!wereg2~
+                ~S!wereg3~
+                ~S!wereg4~
+                ~S!wereg5~
                 ~RNGWLF04~
                 ~firamb01~
 BEGIN
@@ -710,6 +738,7 @@ COMPILE ~ImprovedAnvil/scripts/cutscenes/S!druc17.baf~
 COMPILE ~ImprovedAnvil/scripts/cutscenes/S!druc18.baf~
 COMPILE ~ImprovedAnvil/scripts/cutscenes/S!skipc.baf~
 COMPILE ~ImprovedAnvil/scripts/encounters/druid_quests/S!drad01.baf~ USING ~%LANGUAGE%druidq.tra~
+COMPILE ~ImprovedAnvil/scripts/encounters/druid_quests/S!tslead.baf~
 COMPILE ~ImprovedAnvil/scripts/encounters/druid_quests/S!trgua.baf~
 COMPILE ~ImprovedAnvil/scripts/encounters/druid_quests/S!gdru02.baf~
 COMPILE ~ImprovedAnvil/scripts/lycanthropes/S!were.baf~ USING ~%LANGUAGE%druidq.tra~
@@ -1177,6 +1206,9 @@ IF
   InMyArea(Player1)
   Global("IADruidPlot","GLOBAL",10)
   Global("IAfight","AR1700",1)
+  Dead("S!wer03c")
+  Dead("S!wer04c")
+  Dead("S!wer05c")
   CombatCounter(0)
 THEN
   RESPONSE #100
@@ -1190,6 +1222,10 @@ IF
   InMyArea(Player1)
   Global("IADruidPlot","GLOBAL",10)
   Global("IAfight","AR1700",3)
+  Dead("S!wereg2")
+  Dead("S!wereg3")
+  Dead("S!wereg4")
+  Dead("S!wereg5")
   CombatCounter(0)
 THEN
   RESPONSE #100

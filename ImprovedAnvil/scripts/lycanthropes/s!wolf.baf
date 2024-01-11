@@ -1,4 +1,4 @@
-// remove regen based on fire damage taken //
+// remove regen based on fire/acid damage taken //
 
 IF
   InMyArea(Player1)
@@ -11,28 +11,6 @@ IF
     HitBy([ANYONE],FIRE)
     HitBy([ANYONE],MAGICFIRE)
     HitBy([ANYONE],ACID)
-  RandomNumGT(10,4)
-  HasItem("S!regw1",Myself)
-  !StateCheck(Myself,STATE_REALLY_DEAD)
-  !StateCheck(Myself,STATE_PANIC)
-THEN
-  RESPONSE #100
-    SetGlobalTimer("IaRegenHitTimer","LOCALS",1)
-    IncrementGlobal("IaRegenHits","LOCALS",1)
-END
-
-IF
-  InMyArea(Player1)
-  Allegiance(Myself,ENEMY)
-  Global("IaNoRegen","LOCALS",0)
-  Global("Prep","LOCALS",1)
-  !GlobalTimerNotExpired("IaRegenHitTimer","LOCALS")
-  TookDamage()
-  OR(3)
-    HitBy([ANYONE],FIRE)
-    HitBy([ANYONE],MAGICFIRE)
-    HitBy([ANYONE],ACID)
-  HPPercentLT(Myself,85)
   HasItem("S!regw1",Myself)
   !StateCheck(Myself,STATE_REALLY_DEAD)
   !StateCheck(Myself,STATE_PANIC)

@@ -1,0 +1,115 @@
+IF
+  Global("Iapcastts","GLOBAL",0)
+  Global("Prep","LOCALS",0)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  HasItem("POTN07",Myself)  // ~Potion of Storm Giant Strength~
+THEN
+  RESPONSE #100
+    SetGlobal("Prep","LOCALS",1)
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    DisplayStringHead(Myself,46150)  // ~quaffs a potion~
+    UseItem("POTN07",Myself)  // ~Potion of Storm Giant Strength~
+END
+
+IF
+  Global("Prep","LOCALS",1)
+  Global("Iapcastts","GLOBAL",0)
+  HPPercentLT(Myself,50)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  HasItem("POTN55",Myself)  // ~Potion of Superior Healing~
+THEN
+  RESPONSE #100
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    DisplayStringHead(Myself,46150)  // ~quaffs a potion~
+    UseItem("POTN55",Myself)  // ~Potion of Superior Healing~
+END
+
+IF
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  OR(2)
+    Global("Iapcastts","GLOBAL",1)
+    CheckStatGT(Myself,0,SCRIPTINGSTATE9)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+END
+
+IF
+  Global("Prep","LOCALS",1)
+  Allegiance(Myself,GOODBUTBLUE)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  CheckStatLT(Myself,41,RESISTCRUSHING)
+  See(NearestEnemyOf(Myself))
+  GlobalLT("Iatslead04","LOCALS",3)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iatslead04","LOCALS",1)
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    ForceSpell(Myself,WARRIOR_HARDINESS)
+END
+
+IF
+  Global("Prep","LOCALS",1)
+  Allegiance(Myself,GOODBUTBLUE)
+  !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
+  !GlobalTimerNotExpired("cstrike","LOCALS")
+  See(NearestEnemyOf(Myself))
+  Range(LastSeenBy(Myself),5)
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  CheckStatLT(LastSeenBy(Myself),1,STONESKINS)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  GlobalLT("Iatslead02","LOCALS",2)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iatslead02","LOCALS",1)
+    SetGlobalTimer("DrankPotionTimer","LOCALS",6)
+    SetGlobalTimer("cstrike","LOCALS",18)
+    ForceSpell(Myself,WARRIOR_CRITICAL_STRIKE)
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  See(NearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  See(SecondNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+  AttackOneRound(LastSeenBy(Myself))
+  AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,GOODBUTBLUE)
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  InMyArea("S!gdru03")
+  AreaCheck("S!0001")
+  Allegiance(Myself,GOODBUTBLUE)
+  !See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    MoveToObject("S!gdru03")
+END
+
+IF
+  InMyArea(Player1)
+  Allegiance(Myself,GOODBUTBLUE)
+  !See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
