@@ -2731,7 +2731,7 @@ var weapons = [
                     "Three scrolls of Ray of Fragmentation",
                     "Permanency Scroll",
                     "Manual Of Elaboration",
-                    "150,000 gp"
+                    "90,000 gp"
                 ],
                 "attributes": [
                     {
@@ -2748,8 +2748,7 @@ var weapons = [
                     {
                         "section_name": "Usable by",
                         "section_items": [
-                            "Mage (Single Class)",
-                            "Druid (Single Class)"
+                            "Mage (Single Class)"
                         ]
                     }
                 ],

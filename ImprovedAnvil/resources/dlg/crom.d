@@ -1396,9 +1396,9 @@ APPEND WSMITH01
   IF ~~ THEN BEGIN rod
     SAY @551 IF ~~ THEN REPLY @2 GOTO 13
     IF ~PartyHasItem("rods04") PartyHasItem("scrl5i") PartyHasItem("S!misc02") PartyHasItem("staf24") PartyHasItem("staf19") PartyHasItem("S!misc06") NumItemsPartyGT("S!scrl01",2)
-        PartyGoldGT(149999)~
+        PartyGoldGT(89999)~
       THEN REPLY @3
-      DO ~TakePartyGold(150000)      DestroyGold(150000)
+      DO ~TakePartyGold(90000)      DestroyGold(90000)
           TakePartyItemNum("rods04",1)   DestroyItem("rods04")
           TakePartyItemNum("staf24",1)   DestroyItem("staf24")
           TakePartyItemNum("staf19",1)   DestroyItem("staf19")
