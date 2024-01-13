@@ -7351,6 +7351,71 @@ COPY_EXISTING ~elearl01.cre~ ~override/elearl01.cre~
 COPY_EXISTING ~sumdjinn.cre~ ~override/sumdjinn.cre~
   WRITE_LONG 0x14 0 // xp
 
+// tweak sendai dwarf horde XP and drops
+COPY_EXISTING ~senorc01.cre~ ~override/senorc01.cre~
+  WRITE_LONG  0x14 0 // xp
+  READ_LONG 0x2bc "itm_off"
+  READ_LONG 0x2c0 "itm_num"
+  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
+    READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
+    PATCH_IF (("%item%" STRING_COMPARE_CASE "HELM01" = 0) OR
+              ("%item%" STRING_COMPARE_CASE "CHAN01" = 0) OR
+              ("%item%" STRING_COMPARE_CASE "DWHALB01" = 0) OR
+              ("%item%" STRING_COMPARE_CASE "RNDTRE03" = 0)) BEGIN // find the item
+    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
+    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
+  END
+END
+
+COPY_EXISTING ~senorc02.cre~ ~override/senorc02.cre~
+  WRITE_LONG  0x14 0 // xp
+  READ_LONG 0x2bc "itm_off"
+  READ_LONG 0x2c0 "itm_num"
+  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
+    READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
+    PATCH_IF (("%item%" STRING_COMPARE_CASE "CHAN01" = 0) OR
+              ("%item%" STRING_COMPARE_CASE "XBOW02" = 0) OR
+              ("%item%" STRING_COMPARE_CASE "SW1H09" = 0) OR
+              ("%item%" STRING_COMPARE_CASE "BOLT01" = 0) OR
+              ("%item%" STRING_COMPARE_CASE "BOLT02" = 0) OR
+              ("%item%" STRING_COMPARE_CASE "RNDTRE03" = 0)) BEGIN // find the item
+    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
+    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
+  END
+END
+
+COPY_EXISTING ~senorc03.cre~ ~override/senorc03.cre~
+  WRITE_LONG  0x14 0 // xp
+  READ_LONG 0x2bc "itm_off"
+  READ_LONG 0x2c0 "itm_num"
+  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
+    READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
+    PATCH_IF (("%item%" STRING_COMPARE_CASE "HELM01" = 0) OR
+              ("%item%" STRING_COMPARE_CASE "CHAN01" = 0) OR
+              ("%item%" STRING_COMPARE_CASE "DWHALB01" = 0) OR
+              ("%item%" STRING_COMPARE_CASE "RNDTRE03" = 0)) BEGIN // find the item
+    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
+    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
+  END
+END
+
+COPY_EXISTING ~senorc04.cre~ ~override/senorc04.cre~
+  WRITE_LONG  0x14 0 // xp
+  READ_LONG 0x2bc "itm_off"
+  READ_LONG 0x2c0 "itm_num"
+  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
+    READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
+    PATCH_IF (("%item%" STRING_COMPARE_CASE "CHAN01" = 0) OR
+              ("%item%" STRING_COMPARE_CASE "XBOW05" = 0) OR
+              ("%item%" STRING_COMPARE_CASE "SW1H09" = 0) OR
+              ("%item%" STRING_COMPARE_CASE "BOLT01" = 0) OR
+              ("%item%" STRING_COMPARE_CASE "BOLT02" = 0) OR
+              ("%item%" STRING_COMPARE_CASE "RNDTRE03" = 0)) BEGIN // find the item
+    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
+    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
+  END
+END
+
 // batch processing //
 
 // iterate over all creatures and apply global patches
