@@ -2662,7 +2662,7 @@ var weapons = [
                         "section_items": [
                             "+3 bonus to Armor Class",
                             "Wielder may memorize one additional druidic spell per level",
-                            "Wielder may summon an Elemental Prince for 20 rounds once per day",
+                            "Wielder may summon Sunnis, the Elemental Prince of Earth, for 20 rounds once per day",
                             "THAC0: +4",
                             "Damage: 1D6 +4, +10 crushing damage",
                             "Slays Earth Elementals on hit",
