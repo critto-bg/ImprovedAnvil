@@ -1167,6 +1167,7 @@ IF
 THEN
   RESPONSE #100
     SetGlobal("IADruidPlot","GLOBAL",9)
+    SetGlobalTimer("IADruidMeetVerthanTimer","GLOBAL",SEVEN_DAYS)
     AddJournalEntry(@5525,QUEST)
     Continue()
 END
@@ -1279,6 +1280,7 @@ IF
 THEN
   RESPONSE #100
     SetGlobal("IAfight","AR1700",4)
+    SetGlobalTimer("IaHelterStepsTimer","GLOBAL",TWO_DAYS)
     RevealAreaOnMap("S!0001")
     ClearAllActions()
     StartCutSceneMode()
@@ -1347,6 +1349,87 @@ THEN
 		SetGlobal("IADruidPlot","GLOBAL",3)
     AddJournalEntry(@5514,QUEST)
 END
+
+IF
+  Global("IADruidPlot","GLOBAL",9)
+  Global("IAAmbushFirstTalk","GLOBAL",0)
+  Global("IADruidFailed","GLOBAL",0)
+  GlobalTimerExpired("IADruidMeetVerthanTimer","GLOBAL")
+THEN
+  RESPONSE #100
+    SetGlobal("IADruidPlot","GLOBAL",18)
+    SetGlobal("IADruidFailed","GLOBAL",1)
+    EraseJournalEntry(@5510)
+    EraseJournalEntry(@5511)
+    EraseJournalEntry(@5512)
+    EraseJournalEntry(@5513)
+    EraseJournalEntry(@5514)
+    EraseJournalEntry(@5515)
+    EraseJournalEntry(@5516)
+    EraseJournalEntry(@5517)
+    EraseJournalEntry(@5519)
+    EraseJournalEntry(@5520)
+    EraseJournalEntry(@5521)
+    EraseJournalEntry(@5522)
+    EraseJournalEntry(@5523)
+    EraseJournalEntry(@5525)
+    AddJournalEntry(@5530,QUEST_DONE)
+END
+
+IF
+  Global("IADruidPlot","GLOBAL",9)
+  Global("IAAmbushFirstTalk","GLOBAL",1)
+  Global("IADruidFailed","GLOBAL",0)
+  GlobalTimerExpired("IADruidMeetDramTimer","GLOBAL")
+THEN
+  RESPONSE #100
+    SetGlobal("IADruidPlot","GLOBAL",18)
+    SetGlobal("IADruidFailed","GLOBAL",1)
+    EraseJournalEntry(@5510)
+    EraseJournalEntry(@5511)
+    EraseJournalEntry(@5512)
+    EraseJournalEntry(@5513)
+    EraseJournalEntry(@5514)
+    EraseJournalEntry(@5515)
+    EraseJournalEntry(@5516)
+    EraseJournalEntry(@5517)
+    EraseJournalEntry(@5519)
+    EraseJournalEntry(@5520)
+    EraseJournalEntry(@5521)
+    EraseJournalEntry(@5522)
+    EraseJournalEntry(@5523)
+    EraseJournalEntry(@5525)
+    AddJournalEntry(@5530,QUEST_DONE)
+END
+
+IF
+  !AreaCheck("S!0001")
+  Global("IADruidPlot","GLOBAL",10)
+  Global("IADruidFailed","GLOBAL",0)
+  GlobalTimerExpired("IaHelterStepsTimer","GLOBAL")
+THEN
+  RESPONSE #100
+    SetGlobal("IADruidPlot","GLOBAL",18)
+    SetGlobal("IADruidFailed","GLOBAL",1)
+    HideAreaOnMap("S!0001")
+    EraseJournalEntry(@5510)
+    EraseJournalEntry(@5511)
+    EraseJournalEntry(@5512)
+    EraseJournalEntry(@5513)
+    EraseJournalEntry(@5514)
+    EraseJournalEntry(@5515)
+    EraseJournalEntry(@5516)
+    EraseJournalEntry(@5517)
+    EraseJournalEntry(@5519)
+    EraseJournalEntry(@5520)
+    EraseJournalEntry(@5521)
+    EraseJournalEntry(@5522)
+    EraseJournalEntry(@5523)
+    EraseJournalEntry(@5525)
+    EraseJournalEntry(@5526)
+    AddJournalEntry(@5530,QUEST_DONE)
+END
+
 >>>>>>>>
 
 EXTEND_TOP ~BALDUR.BCS~ ~.../inlined/baldur.baf~
@@ -1419,7 +1502,7 @@ EXTEND_BOTTOM ~CUT41Q.BCS~ ~.../inlined/CUT41Q.baf~
 
 // journal stuff //
 
-ADD_JOURNAL @5510 @5511 @5512 @5513 @5514 @5515 @5516 @5517 @5518 @5519 @5520 @5521 @5522 @5523 @5524 @5525 @5526 @5527 @5528 @5529
+ADD_JOURNAL @5510 @5511 @5512 @5513 @5514 @5515 @5516 @5517 @5518 @5519 @5520 @5521 @5522 @5523 @5524 @5525 @5526 @5527 @5528 @5529 @5530
   USING ~%LANGUAGE%druidq.tra~
 
 // patch the dialogues //
@@ -1551,7 +1634,7 @@ APPEND ~CECHALLE~
     IF ~~ THEN EXIT
   END
 
-  IF WEIGHT #7 ~Global("IADruidPlot","GLOBAL",9) Global("IAAmbushFirstTalk","LOCALS",0)~
+  IF WEIGHT #7 ~Global("IADruidPlot","GLOBAL",9) Global("IAAmbushFirstTalk","GLOBAL",0)~
     THEN BEGIN 34
     SAY @5740
     IF ~~ THEN REPLY @5741 GOTO 35
@@ -1578,17 +1661,17 @@ APPEND ~CECHALLE~
   IF ~~
     THEN BEGIN 38
     SAY @5748
-    IF ~~ THEN DO ~RevealAreaOnMap("ar1700") SetGlobal("IAAmbushFirstTalk","LOCALS",1)~
+    IF ~~ THEN DO ~RevealAreaOnMap("AR1700") SetGlobal("IAAmbushFirstTalk","GLOBAL",1) SetGlobalTimer("IADruidMeetDramTimer","GLOBAL",THREE_DAYS)~
     EXIT
   END
 
-  IF WEIGHT #8 ~GlobalGT("IADruidPlot","GLOBAL",8) GlobalLT("IADruidPlot","GLOBAL",15) Global("IAAmbushFirstTalk","LOCALS",1)~
+  IF WEIGHT #8 ~GlobalGT("IADruidPlot","GLOBAL",8) GlobalLT("IADruidPlot","GLOBAL",15) Global("IAAmbushFirstTalk","GLOBAL",1)~
     THEN BEGIN 39
     SAY @5748
     IF ~~ THEN EXIT
   END
 
-  IF WEIGHT #9 ~OR(2) Global("IADruidPlot","GLOBAL",16) Global("IADruidPlot","GLOBAL",17) Global("IAFailedFirstTalk","LOCALS",0)~
+  IF WEIGHT #9 ~GlobalGT("IADruidPlot","GLOBAL",15) Global("IAFailedFirstTalk","LOCALS",0)~
     THEN BEGIN 40
     SAY @5750
     IF ~~ THEN REPLY @5751 GOTO 41
@@ -1609,11 +1692,11 @@ APPEND ~CECHALLE~
   IF ~~
     THEN BEGIN 43
     SAY @5756
-    IF ~~ THEN REPLY @5757 DO ~SetGlobal("IAFailedFirstTalk","LOCALS",1)~
+    IF ~~ THEN REPLY @5757 DO ~SetGlobal("IAFailedFirstTalk","LOCALS",1) RevealAreaOnMap("AR1700")~
     EXIT
   END
 
-  IF WEIGHT #10 ~OR(2) Global("IADruidPlot","GLOBAL",16) Global("IADruidPlot","GLOBAL",17) Global("IAFailedFirstTalk","LOCALS",1)~
+  IF WEIGHT #10 ~GlobalGT("IADruidPlot","GLOBAL",15) Global("IAFailedFirstTalk","LOCALS",1)~
     THEN BEGIN 44
     SAY @5756
     IF ~~ THEN EXIT
