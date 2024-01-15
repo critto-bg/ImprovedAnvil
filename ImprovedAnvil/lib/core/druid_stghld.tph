@@ -460,15 +460,6 @@ COPY_EXISTING ~werewo01.cre~ ~override/S!wer02c.cre~
   WRITE_ASCII 0x260 ~~         #8 // general script
   WRITE_ASCII 0x280 ~s!wer02c~ #32 // death variable
 
-COPY_EXISTING ~werewo01.cre~ ~override/S!wer03c.cre~
-  WRITE_ASCII 0x280 ~s!wer03c~ #32 // death variable
-
-COPY_EXISTING ~werewo01.cre~ ~override/S!wer04c.cre~
-  WRITE_ASCII 0x280 ~s!wer04c~ #32 // death variable
-
-COPY_EXISTING ~werewo01.cre~ ~override/S!wer05c.cre~
-  WRITE_ASCII 0x280 ~s!wer05c~ #32 // death variable
-
 // young werewolf
 COPY_EXISTING ~werewo01.cre~ ~override/S!lwer01.cre~
   WRITE_LONG  0x14      4000 // xp
@@ -565,10 +556,15 @@ COPY_EXISTING ~WEREGR01.cre~ ~override/S!wereg4.cre~
 COPY_EXISTING ~WEREGR01.cre~ ~override/S!wereg5.cre~
   WRITE_ASCII 0x280 ~S!wereg5~ #32 // death variable
 
+COPY_EXISTING ~WEREGR01.cre~ ~override/S!wereg6.cre~
+  WRITE_ASCII 0x280 ~S!wereg6~ #32 // death variable
+
 // loup garou
 COPY_EXISTING ~WEREGR01.cre~ ~override/S!loup01.cre~
               ~WEREGR01.cre~ ~override/S!loup02.cre~
               ~WEREGR01.cre~ ~override/S!loup03.cre~
+              ~WEREGR01.cre~ ~override/S!loup04.cre~
+              ~WEREGR01.cre~ ~override/S!loup05.cre~
   SAY NAME1 @12071
   SAY NAME2 @12071
 
@@ -578,8 +574,8 @@ COPY_EXISTING ~WEREGR01.cre~ ~override/S!loup01.cre~
   WRITE_SHORT 0x26      200 // max hp
   WRITE_SHORT 0x46      (0 - 5) // base ac
   WRITE_SHORT 0x48      (0 - 5) // effective ac
-  WRITE_BYTE  0x52      (0 - 4) // thac0
-  WRITE_BYTE  0x53      3 // number of attacks
+  WRITE_BYTE  0x52      (0 - 2) // thac0
+  WRITE_BYTE  0x53      2 // number of attacks
   WRITE_BYTE  0x54      3 // save vs death
   WRITE_BYTE  0x55      5 // save vs wands
   WRITE_BYTE  0x56      4 // save vs polymorph
@@ -625,6 +621,14 @@ COPY_EXISTING ~WEREGR01.cre~ ~override/S!loup01.cre~
     WRITE_ASCII 0x280 ~s!loup03~ #32 // death variable
   END
 
+  PATCH_IF (~%DEST_RES%~ STRING_EQUAL_CASE ~S!loup04~) BEGIN
+    WRITE_ASCII 0x280 ~s!loup04~ #32 // death variable
+  END
+
+  PATCH_IF (~%DEST_RES%~ STRING_EQUAL_CASE ~S!loup05~) BEGIN
+    WRITE_ASCII 0x280 ~s!loup05~ #32 // death variable
+  END
+
 ACTION_FOR_EACH ~file~ IN
                 ~WEREGR01~
                 ~S!wereg1~
@@ -632,6 +636,7 @@ ACTION_FOR_EACH ~file~ IN
                 ~S!wereg3~
                 ~S!wereg4~
                 ~S!wereg5~
+                ~S!wereg6~
                 ~RNGWLF04~
                 ~firamb01~
 BEGIN
@@ -659,6 +664,8 @@ ACTION_FOR_EACH ~file~ IN
                 ~S!LOUP01~
                 ~S!LOUP02~
                 ~S!LOUP03~
+                ~S!LOUP04~
+                ~S!LOUP05~
 BEGIN
   LAF ~S!CHANGE_CREATURE_COLOURS~
     STR_VAR
@@ -1206,9 +1213,31 @@ IF
   InMyArea(Player1)
   Global("IADruidPlot","GLOBAL",10)
   Global("IAfight","AR1700",1)
-  Dead("S!wer03c")
-  Dead("S!wer04c")
-  Dead("S!wer05c")
+  Global("IaFirstAmbush","AR1700",0)
+  GlobalTimerExpired("IaFirstAmbushTimer","AR1700")
+  !Exists("S!wereg2")
+  !Exists("S!wereg3")
+  !Exists("S!wereg4")
+THEN
+  RESPONSE #100
+    SetGlobal("IaFirstAmbush","AR1700",1)
+    CreateCreature("S!wereg2",[1170.2595],0)
+    CreateCreature("S!wereg3",[2065.2050],0)
+    CreateCreature("S!wereg4",[2405.2915],0)
+    SmallWait(15)
+    ActionOverride("S!wereg2",MoveToPointNoInterrupt([1610.2485]))
+    ActionOverride("S!wereg3",MoveToPointNoInterrupt([2215.2260]))
+    ActionOverride("S!wereg4",MoveToPointNoInterrupt([2340.2600]))
+END
+
+IF
+  InMyArea(Player1)
+  Global("IADruidPlot","GLOBAL",10)
+  Global("IAfight","AR1700",1)
+  Global("IaFirstAmbush","AR1700",1)
+  Dead("S!wereg2")
+  Dead("S!wereg3")
+  Dead("S!wereg4")
   CombatCounter(0)
 THEN
   RESPONSE #100
@@ -1222,10 +1251,30 @@ IF
   InMyArea(Player1)
   Global("IADruidPlot","GLOBAL",10)
   Global("IAfight","AR1700",3)
-  Dead("S!wereg2")
-  Dead("S!wereg3")
-  Dead("S!wereg4")
+  Global("IaSecondAmbush","AR1700",0)
+  GlobalTimerExpired("IaSecondAmbushTimer","AR1700")
+  !Exists("S!loup04")
+  !Exists("S!loup05")
+  !Exists("S!wereg5")
+  !Exists("S!wereg6")
+THEN
+  RESPONSE #100
+    SetGlobal("IaSecondAmbush","AR1700",1)
+    CreateCreatureDoor("S!loup04",[410.2580],0)
+    CreateCreatureDoor("S!loup05",[630.2435],0)
+    CreateCreatureDoor("S!wereg5",[915.2560],0)
+    CreateCreatureDoor("S!wereg6",[610.2720],0)
+END
+
+IF
+  InMyArea(Player1)
+  Global("IADruidPlot","GLOBAL",10)
+  Global("IAfight","AR1700",3)
+  Global("IaSecondAmbush","AR1700",1)
+  Dead("S!loup04")
+  Dead("S!loup05")
   Dead("S!wereg5")
+  Dead("S!wereg6")
   CombatCounter(0)
 THEN
   RESPONSE #100

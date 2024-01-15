@@ -527,7 +527,35 @@ IF
     HasItemEquipedReal("S!claw01",Myself)
     HasItemEquipedReal("S!claw02",Myself)
     HasItemEquipedReal("S!claw03",Myself)
-  RandomNumGT(6,3)
+  OR(2)
+    AttackedBy(LastSeenBy(Myself),MELEE)
+    Range(LastSeenBy(Myself),6)
+THEN
+  RESPONSE #100
+    AttackReevaluate(LastSeenBy(Myself),30)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !StateCheck(Myself,STATE_PANIC)
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_STUNNED)
+  See(NearestEnemyOf(Myself))
+  OR(2)
+    CheckStatLT(LastSeenBy(Myself),90,RESISTSLASHING)
+    CheckStatLT(LastSeenBy(Myself),90,RESISTPIERCING)
+  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  CheckStatLT(LastSeenBy(Myself),1,STONESKINS)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+  !CheckSpellState(LastSeenBy(Myself),RED_FIRESHIELD)
+  !CheckSpellState(LastSeenBy(Myself),ACID_SHIELD)
+  CheckStat(LastSeenBy(Myself),0,EXTRAPROFICIENCY11)
+  OR(3)
+    HasItemEquipedReal("S!claw01",Myself)
+    HasItemEquipedReal("S!claw02",Myself)
+    HasItemEquipedReal("S!claw03",Myself)
   OR(2)
     AttackedBy(LastSeenBy(Myself),MELEE)
     Range(LastSeenBy(Myself),3)
@@ -547,9 +575,7 @@ IF
   !HasItemEquiped("AMUL22",LastSeenBy(Myself))
   !HasItemEquiped("RING39",LastSeenBy(Myself))
   !HasItemEquiped("S!RING02",LastSeenBy(Myself))
-  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
   !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-  CheckStatLT(LastSeenBy(Myself),1,STONESKINS)
   !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
   !StateCheck(LastSeenBy(Myself),STATE_STUNNED)
   !StateCheck(LastSeenBy(Myself),STATE_POISONED)
@@ -560,7 +586,36 @@ IF
     HasItemEquipedReal("S!bite01",Myself)
     HasItemEquipedReal("S!bite02",Myself)
     HasItemEquipedReal("S!bite03",Myself)
-  RandomNumGT(6,3)
+  OR(2)
+    AttackedBy(LastSeenBy(Myself),MELEE)
+    Range(LastSeenBy(Myself),6)
+THEN
+  RESPONSE #100
+    AttackReevaluate(LastSeenBy(Myself),30)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !StateCheck(Myself,STATE_PANIC)
+  !StateCheck(Myself,STATE_HELPLESS)
+  !StateCheck(Myself,STATE_STUNNED)
+  See(NearestEnemyOf(Myself))
+  CheckStatLT(LastSeenBy(Myself),90,RESISTPIERCING)
+  CheckStatLT(LastSeenBy(Myself),100,RESISTPOISON)
+  !HasItemEquiped("AMUL22",LastSeenBy(Myself))
+  !HasItemEquiped("RING39",LastSeenBy(Myself))
+  !HasItemEquiped("S!RING02",LastSeenBy(Myself))
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_STUNNED)
+  !StateCheck(LastSeenBy(Myself),STATE_POISONED)
+  !CheckSpellState(LastSeenBy(Myself),RED_FIRESHIELD)
+  !CheckSpellState(LastSeenBy(Myself),ACID_SHIELD)
+  CheckStat(LastSeenBy(Myself),0,EXTRAPROFICIENCY11)
+  OR(3)
+    HasItemEquipedReal("S!bite01",Myself)
+    HasItemEquipedReal("S!bite02",Myself)
+    HasItemEquipedReal("S!bite03",Myself)
   OR(2)
     AttackedBy(LastSeenBy(Myself),MELEE)
     Range(LastSeenBy(Myself),3)
@@ -647,7 +702,6 @@ IF
     HasItemEquipedReal("S!claw01",Myself)
     HasItemEquipedReal("S!claw02",Myself)
     HasItemEquipedReal("S!claw03",Myself)
-  RandomNumGT(6,3)
   OR(2)
     AttackedBy(LastSeenBy(Myself),MELEE)
     Range(LastSeenBy(Myself),3)
@@ -667,7 +721,6 @@ IF
   !HasItemEquiped("AMUL22",LastSeenBy(Myself))
   !HasItemEquiped("RING39",LastSeenBy(Myself))
   !HasItemEquiped("S!RING02",LastSeenBy(Myself))
-  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
   !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
   !StateCheck(LastSeenBy(Myself),STATE_STUNNED)
   !StateCheck(LastSeenBy(Myself),STATE_POISONED)
@@ -678,7 +731,6 @@ IF
     HasItemEquipedReal("S!bite01",Myself)
     HasItemEquipedReal("S!bite02",Myself)
     HasItemEquipedReal("S!bite03",Myself)
-  RandomNumGT(6,3)
   OR(2)
     AttackedBy(LastSeenBy(Myself),MELEE)
     Range(LastSeenBy(Myself),3)
@@ -725,6 +777,20 @@ IF
 THEN
   RESPONSE #100
     AttackReevaluate(LastSeenBy(Myself),30)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  OR(3)
+    HasItem("S!bite01",Myself)
+    HasItem("S!bite02",Myself)
+    HasItem("S!bite03",Myself)
+THEN
+  RESPONSE #100
+    SelectWeaponAbility(SLOT_WEAPON1,0)
+    AttackReevaluate(NearestEnemyOf(Myself),30)
 END
 
 IF

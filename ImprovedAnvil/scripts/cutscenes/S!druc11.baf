@@ -62,18 +62,13 @@ THEN
     ActionOverride(Player6,FaceObject("s!tslead"))
 
     Wait(12)
-    CreateCreature("S!wer03c",[1170.2595],0)
-    CreateCreature("S!wer04c",[2065.2050],0)
-    CreateCreature("S!wer05c",[2405.2915],0)
-    SmallWait(15)
-    ActionOverride("S!wer03c",MoveToPointNoInterrupt([1610.2485]))
-    ActionOverride("S!wer04c",MoveToPointNoInterrupt([2215.2260]))
-    ActionOverride("S!wer05c",MoveToPointNoInterrupt([2340.2600]))
+    ActionOverride("S!tslead",DisplayStringHead(Myself,@5783))
     Wait(3)
 
     SetCutSceneBreakable(FALSE)
     SetGlobal("IA_CUTSCENE_BREAKABLE","GLOBAL",0)
     SetAreaScript("",OVERRIDE)
+    SetGlobalTimer("IaFirstAmbushTimer","AR1700",12)
 
     MultiPlayerSync()
     EndCutSceneMode()
@@ -117,14 +112,12 @@ THEN
     Wait(3)
     DisplayStringHead(Myself,@5776)
     Wait(3)
+    ActionOverride("S!tslead",DisplayStringHead(Myself,@5784))
+    Wait(3)
 
-    CreateCreatureDoor("S!wereg2",[410.2580],0)
-    CreateCreatureDoor("S!wereg3",[630.2435],0)
-    CreateCreatureDoor("S!wereg4",[915.2560],0)
-    CreateCreatureDoor("S!wereg5",[610.2720],0)
-    Wait(5)
     ActionOverride("S!tslead",DestroyItem("minhp1"))
     SetGlobal("IAFight","AR1700",3)
+    SetGlobalTimer("IaSecondAmbushTimer","AR1700",12)
 
     MultiPlayerSync()
     EndCutSceneMode()
