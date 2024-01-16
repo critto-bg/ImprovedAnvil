@@ -2731,7 +2731,7 @@ var weapons = [
                     "Three scrolls of Ray of Fragmentation",
                     "Permanency Scroll",
                     "Manual Of Elaboration",
-                    "90,000 gp"
+                    "150,000 gp"
                 ],
                 "attributes": [
                     {
