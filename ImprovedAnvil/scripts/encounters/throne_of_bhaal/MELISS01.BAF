@@ -1,0 +1,188 @@
+IF
+  See([GOODCUTOFF])
+  !Allegiance(Myself,ENEMY)
+THEN
+  RESPONSE #100
+    Enemy()
+END
+
+IF
+  Global("Iapcastts","GLOBAL",1)
+  Global("Iatsinvulner","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatsinvulner","LOCALS",1)
+    ApplySpellRES("SPINI70",Myself)
+END
+
+IF
+  Global("Iapcastts","GLOBAL",0)
+  Global("Iatsinvulner","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatsinvulner","LOCALS",0)
+    ApplySpellRES("SPINI71",Myself)
+END
+
+IF
+  Global("FinalFight","AR6200",3)
+  See([PC])
+  !HasItemEquipedReal("S!halb01",LastSeenBy(Myself))
+  !GlobalTimerNotExpired("Melwing","LOCALS")
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Melwing","LOCALS",18)
+    SetSequence(SEQ_ATTACK_JAB)
+    ReallyForceSpellRES("DGWHIRL",LastSeenBy(Myself))
+END
+
+IF
+  Global("FinalFight","AR6200",3)
+  See(SecondNearest([PC]))
+  !HasItemEquipedReal("S!halb01",LastSeenBy(Myself))
+  !GlobalTimerNotExpired("Melwing","LOCALS")
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Melwing","LOCALS",18)
+    SetSequence(SEQ_ATTACK_JAB)
+    ReallyForceSpellRES("DGWHIRL",LastSeenBy(Myself))
+END
+
+IF
+  Global("Iasummonbye","AR6200",1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iasummonbye","AR6200",0)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  !HPLT(Myself,20)
+  !GlobalTimerNotExpired("MelissanSummonUndead","LOCALS")
+THEN
+  RESPONSE #100
+    SetGlobalTimer("MelissanSummonUndead","LOCALS",18)
+    DisplayStringHead(Myself,73244)
+    CreateCreatureObjectEffect("S!SSKELM","SPRAISED",Myself)
+    CreateCreatureObjectEffect("S!SSKELM","SPRAISED",Myself)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  Global("FinalFight","AR6200",3)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !GlobalTimerNotExpired("Iahla","LOCALS")
+  See([PC])
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  CheckStatLT(LastSeenBy(Myself),1,STONESKINS)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  CheckStatLT(LastSeenBy(Myself),90,RESISTPIERCING)
+  GlobalLT("Iawarrior","LOCALS",9)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iawarrior","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SetGlobalTimer("Iahla","LOCALS",12)
+    ForceSpell(Myself,WARRIOR_CRITICAL_STRIKE)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  Global("FinalFight","AR6200",3)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !GlobalTimerNotExpired("Iahla","LOCALS")
+  See(SecondNearest([PC]))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  CheckStatLT(LastSeenBy(Myself),1,STONESKINS)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  CheckStatLT(LastSeenBy(Myself),90,RESISTPIERCING)
+  GlobalLT("Iawarrior","LOCALS",9)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iawarrior","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SetGlobalTimer("Iahla","LOCALS",12)
+    ForceSpell(Myself,WARRIOR_CRITICAL_STRIKE)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(SecondNearestEnemyOf(Myself))
+  CheckStatLT(LastSeenBy(Myself),90,RESISTPIERCING)
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  RandomNumGT(6,4)
+  Range(LastSeenBy(Myself),10)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  CheckStatLT(LastSeenBy(Myself),100,RESISTPIERCING)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(SecondNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  CheckStatLT(LastSeenBy(Myself),100,RESISTPIERCING)
+  Range(LastSeenBy(Myself),10)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(ThirdNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  CheckStatLT(LastSeenBy(Myself),100,RESISTPIERCING)
+  Range(LastSeenBy(Myself),10)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(SecondNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(ThirdNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  InMyArea(Player1)
+  Allegiance(Myself,ENEMY)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END

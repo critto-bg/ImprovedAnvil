@@ -1,0 +1,75 @@
+IF
+  Global("FinalFight","AR6200",5)
+  Global("ChangeScript1","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("ChangeScript1","LOCALS",1)
+    ChangeAIScript("MELISS02",DEFAULT)
+END
+
+IF
+  Global("FinalFight","AR6200",7)
+  Global("ChangeScript2","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("ChangeScript2","LOCALS",1)
+    ChangeAIScript("MELISS03",DEFAULT)
+END
+
+IF
+  Global("EnteredArea","AR6200",0)
+THEN
+  RESPONSE #100
+    SetGlobal("EnteredArea","AR6200",1)
+    StartDialogNoSet(Player1)
+END
+
+IF
+  Global("FinalFight","AR6200",1)
+  HPPercentLT(Myself,20)
+THEN
+  RESPONSE #100
+    SetGlobal("Iasummonbye","AR6200",1)
+    ClearAllActions()
+    SetGlobal("FinalFight","AR6200",2)
+    StartDialogNoSet(Player1)
+END
+
+IF
+  Global("FinalFight","AR6200",3)
+  HPLT(Myself,20)
+THEN
+  RESPONSE #100
+    SetGlobal("Iasummonbye","AR6200",1)
+    ClearAllActions()
+    SetGlobal("FinalFight","AR6200",4)
+    StartDialogNoSet(Player1)
+END
+
+IF
+  Global("FinalFight","AR6200",5)
+  Global("Iagolems","AR6200",1)
+  Dead("S!smgol1")
+  Dead("S!smgol2")
+  HPLT(Myself,20)
+THEN
+  RESPONSE #100
+    SetGlobal("Iadeadmagic","AR6200",2)
+    ClearAllActions()
+    StartCutSceneMode()
+    StartCutScene("CUT233F")
+END
+
+IF
+  Global("FinalFight","AR6200",7)
+  Global("Iaguards","AR6200",1)
+  Global("Iaheal2","AR6200",1)
+  Dead("S!SMTG1")
+  Dead("S!SMTG2")
+  HPLT(Myself,20)
+THEN
+  RESPONSE #100
+    ClearAllActions()
+    StartCutSceneMode()
+    StartCutScene("CUT233G")
+END
