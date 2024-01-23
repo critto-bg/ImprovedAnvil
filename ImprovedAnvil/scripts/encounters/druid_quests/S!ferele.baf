@@ -1,0 +1,84 @@
+IF
+  See([PC])
+  Exists("S!gdru03")
+  !Dead("S!gdru03")
+  See("S!gdru03")
+  RandomNumLT(6,2)
+THEN
+  RESPONSE #100
+    AttackOneRound("S!gdru03")
+    AttackOneRound("S!gdru03")
+END
+
+IF
+  !See([PC])
+  Exists("S!gdru03")
+  !Dead("S!gdru03")
+  See("S!gdru03")
+THEN
+  RESPONSE #100
+    AttackOneRound("S!gdru03")
+    AttackOneRound("S!gdru03")
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(SecondNearestEnemyOf(Myself))
+  CheckStatLT(LastSeenBy(Myself),90,RESISTCRUSHING)
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  RandomNumGT(6,4)
+  Range(LastSeenBy(Myself),5)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(SecondNearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  InMyArea(Player1)
+  Exists("S!gdru03")
+  !Dead("S!gdru03")
+  See(NearestEnemyOf(Myself))
+  CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    MoveToObject("S!gdru03")
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  !See([PC])
+  !See([GOODCUTOFF])
+  Exists("S!gdru03")
+  !Dead("S!gdru03")
+  !See("S!gdru03")
+  InMyArea(Player1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END

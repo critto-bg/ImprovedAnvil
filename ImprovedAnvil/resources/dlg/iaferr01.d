@@ -28,7 +28,7 @@ END
 
 IF ~~ 6
   SAY @5811
-  IF ~~ THEN DO ~SetGlobal("IAPlot","S!0001",2)~ EXIT
+  IF ~~ THEN DO ~SetGlobal("IAPlot","S!0001",2) ReallyForceSpellRES("S!dru05",Myself)~ EXIT
 END
 
 //

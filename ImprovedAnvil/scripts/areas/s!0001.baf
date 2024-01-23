@@ -23,7 +23,7 @@ THEN
   RESPONSE #100
     SetInterrupt(FALSE)
     SetGlobal("IACombat","S!0001",1)
-    SetGlobalTimer("IaFerrouComes","S!0001",6)
+    SetGlobalTimer("IaFerrouComes","S!0001",3)
 
     // TODO: start ambush on timer, waves increase in speed and regularity
 END
@@ -49,19 +49,19 @@ END
 IF
   InMyArea(Player1)
   Global("IAPlot","S!0001",2)
-  Global("IACombat","S!0001",2)
-  Exists("S!ferr01")
-  !Dead("S!ferr01")
-  HPPercentLT("S!ferr01",10)
+  Exists("S!ferele")
+  !Dead("S!ferele")
+  HPPercentLT("S!ferele",10)
 THEN
   RESPONSE #100
     SetInterrupt(FALSE)
-    SetGlobal("IACombat","S!0001",3)
     SetGlobal("IAPlot","S!0001",3)
 
     ClearAllActions()
     StartCutSceneMode()
-    MoveViewObject(Player1,INSTANT)
+    MoveViewObject("S!ferele",INSTANT)
+    Wait(2)
+    ActionOverride("S!ferele",ReallyForceSpellRES("S!dru06",Myself))
     Wait(2)
     ActionOverride("S!gdru03",StartDialogueNoSet(Player1))
 END
