@@ -2470,7 +2470,7 @@ var weapons = [
                         ]
                     }
                 ],
-                "item_name": "Dragon Lord +5 (Halberd)"
+                "item_name": "Dragon Lord +5"
             },
             {
                 "components": [
