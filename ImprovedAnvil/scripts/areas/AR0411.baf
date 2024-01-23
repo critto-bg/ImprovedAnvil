@@ -698,14 +698,14 @@ END
 
 IF
   Class(Player1,MAGE_ALL)
-  !Class(Player1,SORCERER)
-  !Class(Player1,THIEF_ALL)
-  !Class(Player1,FIGHTER_ALL)
-  !Class(Player1,BARD_ALL)
-  !Class(Player1,CLERIC_ALL)
-  Global("Iarotaforge","AR0411",0)
   CheckStatGT(Player1,17,WIS)
   Kit(Player1,MAGESCHOOL_NECROMANCER)
+  !Class(Player1,SORCERER)
+  !Class(Player1,THIEF_ALL)
+  !Class(Player1,FIGHTER_ALL)
+  !Class(Player1,BARD_ALL)
+  !Class(Player1,CLERIC_ALL)
+  Global("Iarotaforge","AR0411",0)
 THEN
   RESPONSE #100
     SetGlobal("Iarotaforge","AR0411",1)
@@ -713,33 +713,37 @@ END
 
 IF
   Class(Player1,MAGE_ALL)
-  !Class(Player1,SORCERER)
-  !Class(Player1,THIEF_ALL)
-  !Class(Player1,FIGHTER_ALL)
-  !Class(Player1,BARD_ALL)
-  !Class(Player1,CLERIC_ALL)
-  Global("Iarotaforge","AR0411",0)
   CheckStatGT(Player1,17,WIS)
   !Kit(Player1,MAGESCHOOL_NECROMANCER)
-  RandomNumGT(8,2)
-THEN
-  RESPONSE #100
-    SetGlobal("Iarotaforge","AR0411",1)
-END
-
-IF
-  Class(Player1,MAGE_ALL)
   !Class(Player1,SORCERER)
   !Class(Player1,THIEF_ALL)
   !Class(Player1,FIGHTER_ALL)
   !Class(Player1,BARD_ALL)
   !Class(Player1,CLERIC_ALL)
   Global("Iarotaforge","AR0411",0)
-  CheckStatLT(Player1,18,WIS)
-  RandomNumLT(4,3)
 THEN
-  RESPONSE #100
+  RESPONSE #75
     SetGlobal("Iarotaforge","AR0411",1)
+  RESPONSE #25
+    SetGlobal("Iarotaforge","AR0411",0)
+    Continue()
+END
+
+IF
+  Class(Player1,MAGE_ALL)
+  CheckStatLT(Player1,18,WIS)
+  !Class(Player1,SORCERER)
+  !Class(Player1,THIEF_ALL)
+  !Class(Player1,FIGHTER_ALL)
+  !Class(Player1,BARD_ALL)
+  !Class(Player1,CLERIC_ALL)
+  Global("Iarotaforge","AR0411",0)
+THEN
+  RESPONSE #50
+    SetGlobal("Iarotaforge","AR0411",1)
+  RESPONSE #50
+    SetGlobal("Iarotaforge","AR0411",0)
+    Continue()
 END
 
 IF
@@ -751,83 +755,94 @@ IF
   Class(Player1,CLERIC_ALL)
   !Race(Player1,HUMAN)
   Global("Iarotaforge","AR0411",0)
-  RandomNumGT(8,7)
 THEN
-  RESPONSE #100
+  RESPONSE #12
     SetGlobal("Iarotaforge","AR0411",1)
+  RESPONSE #88
+    SetGlobal("Iarotaforge","AR0411",0)
 END
 
 IF
   Class(Player1,MAGE_ALL)
   Class(Player1,SORCERER)
-  !Class(Player1,THIEF_ALL)
-  !Class(Player1,FIGHTER_ALL)
-  !Class(Player1,BARD_ALL)
-  !Class(Player1,CLERIC_ALL)
-  Global("Iarotaforge","AR0411",0)
   CheckStatGT(Player1,17,WIS)
-  RandomNumGT(6,3)
-THEN
-  RESPONSE #100
-    SetGlobal("Iarotaforge","AR0411",1)
-END
-
-IF
-  Class(Player1,MAGE_ALL)
-  Class(Player1,SORCERER)
   !Class(Player1,THIEF_ALL)
   !Class(Player1,FIGHTER_ALL)
   !Class(Player1,BARD_ALL)
   !Class(Player1,CLERIC_ALL)
   Global("Iarotaforge","AR0411",0)
-  CheckStatLT(Player1,18,WIS)
-  RandomNumLT(8,4)
 THEN
-  RESPONSE #100
+  RESPONSE #50
     SetGlobal("Iarotaforge","AR0411",1)
+  RESPONSE #50
+    SetGlobal("Iarotaforge","AR0411",0)
+    Continue()
+END
+
+IF
+  Class(Player1,MAGE_ALL)
+  Class(Player1,SORCERER)
+  CheckStatLT(Player1,18,WIS)
+  !Class(Player1,THIEF_ALL)
+  !Class(Player1,FIGHTER_ALL)
+  !Class(Player1,BARD_ALL)
+  !Class(Player1,CLERIC_ALL)
+  Global("Iarotaforge","AR0411",0)
+THEN
+  RESPONSE #38
+    SetGlobal("Iarotaforge","AR0411",1)
+  RESPONSE #62
+    SetGlobal("Iarotaforge","AR0411",0)
+    Continue()
 END
 
 IF
   Class(Player1,MAGE_ALL)
   !Class(Player1,SORCERER)
   Race(Player1,HUMAN)
+  CheckStatGT(Player1,17,WIS)
   OR(4)
    Class(Player1,THIEF_ALL)
    Class(Player1,FIGHTER_ALL)
    Class(Player1,BARD_ALL)
    Class(Player1,CLERIC_ALL)
   Global("Iarotaforge","AR0411",0)
-  CheckStatGT(Player1,17,WIS)
-  RandomNumGT(6,3)
 THEN
-  RESPONSE #100
+  RESPONSE #50
     SetGlobal("Iarotaforge","AR0411",1)
+  RESPONSE #50
+    SetGlobal("Iarotaforge","AR0411",0)
+    Continue()
 END
 
 IF
   Class(Player1,MAGE_ALL)
   !Class(Player1,SORCERER)
   Race(Player1,HUMAN)
+  CheckStatLT(Player1,18,WIS)
   OR(4)
    Class(Player1,THIEF_ALL)
    Class(Player1,FIGHTER_ALL)
    Class(Player1,BARD_ALL)
    Class(Player1,CLERIC_ALL)
   Global("Iarotaforge","AR0411",0)
-  CheckStatLT(Player1,18,WIS)
-  RandomNumLT(8,4)
 THEN
-  RESPONSE #100
+  RESPONSE #38
     SetGlobal("Iarotaforge","AR0411",1)
+  RESPONSE #62
+    SetGlobal("Iarotaforge","AR0411",0)
+    Continue()
 END
 
 IF
   Class(Player1,MAGE_ALL)
   Global("Iarotaforge","AR0411",0)
-  RandomNumGT(5,4)
 THEN
-  RESPONSE #100
+  RESPONSE #20
     SetGlobal("Iarotaforge","AR0411",1)
+  RESPONSE #80
+    SetGlobal("Iarotaforge","AR0411",0)
+    Continue()
 END
 
 IF
@@ -877,30 +892,12 @@ IF
   Global("Iarotaforge","AR0411",2)
   Global("Iarobething","AR0411",0)
   Global("Apprenti","GLOBAL",13)
-  RandomNumLT(4,3)
 THEN
-  RESPONSE #100
+  RESPONSE #50
     SetGlobal("Apprenti","GLOBAL",17)
     SetGlobal("Iarobething","AR0411",1)
-END
-
-IF
-  Global("Iarotaforge","AR0411",2)
-  Global("Iarobething","AR0411",0)
-  Global("Apprenti","GLOBAL",13)
-THEN
-  RESPONSE #100
+  RESPONSE #50
     SetGlobal("Apprenti","GLOBAL",18)
-    SetGlobal("Iarobething","AR0411",1)
-END
-
-IF
-  Global("Apprenti","GLOBAL",15)
-  Global("Iarotaforge","AR0411",2)
-  Global("Iarobething","AR0411",0)
-THEN
-  RESPONSE #100
-    SetGlobal("Apprenti","GLOBAL",19)
     SetGlobal("Iarobething","AR0411",1)
 END
 
