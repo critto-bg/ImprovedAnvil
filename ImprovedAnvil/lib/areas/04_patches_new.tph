@@ -1,0 +1,128 @@
+// Patch the new areas //
+
+// Helter Steps
+COPY_EXISTING ~s!0001.are~ ~override/s!0001.are~
+  LPF fj_are_structure
+    INT_VAR
+      fj_delete_mode = 3
+    STR_VAR
+      fj_structure_type = actor
+  END
+
+  LPF fj_are_structure
+    INT_VAR
+    fj_loc_x       = 80
+    fj_loc_y       = 410
+    fj_orientation = 10   // NW
+    STR_VAR
+    fj_structure_type = entrance
+    fj_name           = ExitNW
+  END
+
+  LPF fj_are_structure
+    INT_VAR
+    fj_loc_x       = 4000
+    fj_loc_y       = 80
+    fj_orientation = 0    // S
+    STR_VAR
+    fj_structure_type = entrance
+    fj_name           = ExitNE
+  END
+
+  LPF fj_are_structure
+    INT_VAR
+      fj_type       = 1
+      fj_box_left   = 785
+      fj_box_top    = 1865
+      fj_box_right  = 845
+      fj_box_bottom = 1900
+      fj_loc_x      = 800
+      fj_loc_y      = 1890
+      fj_cursor_idx = 8
+      fj_vertex_0   = (785 + (1860 << 16))
+      fj_vertex_1   = (845 + (1865 << 16))
+      fj_vertex_2   = (840 + (1910 << 16))
+      fj_vertex_3   = (785 + (1900 << 16))
+    STR_VAR
+      fj_name           = ~Statue~
+      fj_reg_script     = ~S!STATUE~
+      fj_structure_type = region
+  END
+
+  LPF ~ALTER_AREA_REGION~
+    INT_VAR
+      info_point = RESOLVE_STR_REF (@12069)
+    STR_VAR
+      region_name = ~Cave1~
+  END
+
+  LPF ~ALTER_AREA_REGION~
+    INT_VAR
+      info_point = RESOLVE_STR_REF (@12069)
+    STR_VAR
+      region_name = ~Cave2~
+  END
+BUT_ONLY
+
+// Balduran's Isle
+COPY_EXISTING ~s!0002.are~ ~override/s!0002.are~
+  LPF fj_are_structure
+    INT_VAR
+      fj_loc_x       = 4198
+      fj_loc_y       = 1655
+      fj_note_strref = RESOLVE_STR_REF(@12063)
+      fj_strref_loc  = 1
+      fj_color       = 0
+      fj_note_id     = 0
+    STR_VAR
+      fj_structure_type = note
+  END
+
+  LPF fj_are_structure
+    INT_VAR
+      fj_loc_x       = 4123
+      fj_loc_y       = 619
+      fj_note_strref = RESOLVE_STR_REF(@12064)
+      fj_strref_loc  = 1
+      fj_color       = 0
+      fj_note_id     = 0
+    STR_VAR
+      fj_structure_type = note
+  END
+BUT_ONLY
+
+// Final Confrontation Chamber
+COPY_EXISTING ~S!0005.are~ ~override/S!0005.are~
+  LPF fj_are_structure
+    INT_VAR
+      fj_loc_x       = 79
+      fj_loc_y       = 977
+      fj_note_strref = RESOLVE_STR_REF(@12076)
+      fj_strref_loc  = 1
+      fj_color       = 0
+      fj_note_id     = 0
+    STR_VAR
+      fj_structure_type = note
+  END
+BUT_ONLY
+
+// Mysterious Book Storage
+COPY_EXISTING ~S!0006.are~ ~override/S!0006.are~
+  LPF fj_are_structure
+    INT_VAR
+      fj_loc_x       = 603
+      fj_loc_y       = 375
+      fj_note_strref = RESOLVE_STR_REF(@12077)
+      fj_strref_loc  = 1
+      fj_color       = 0
+      fj_note_id     = 0
+    STR_VAR
+      fj_structure_type = note
+  END
+
+  LPF ~ADD_AREA_ITEM~
+    STR_VAR
+      item_to_add = ~s!misc73~ // Mysterious Codex
+      container_to_add_to = ~1~
+  END
+BUT_ONLY

@@ -20,3 +20,16 @@ THEN
     SetGlobal("Iacreature","AR2000",2)
     ActionOverride("S!beggar",DestroySelf())
 END
+
+IF
+  InMyArea(Player1)
+  Global("IADruidPlot","GLOBAL",4)
+  Global("IADruidSiege","GLOBAL",0)
+  Global("IADruCut","AR2000",0)
+THEN
+  RESPONSE #100
+    SetGlobal("IADruCut","AR2000",1)
+    ClearAllActions()
+    StartCutSceneMode()
+    StartCutScene("S!druc02")
+END

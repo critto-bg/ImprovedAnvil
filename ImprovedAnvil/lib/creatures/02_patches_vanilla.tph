@@ -7416,6 +7416,193 @@ COPY_EXISTING ~senorc04.cre~ ~override/senorc04.cre~
   END
 END
 
+COPY_EXISTING ~firamb03.cre~ ~override/firamb03.cre~
+  WRITE_SHORT 0x24      40 // current hp
+  WRITE_SHORT 0x26      40 // max hp
+
+  REMOVE_CRE_ITEM ~MONHP1~
+
+// dread wolf
+COPY_EXISTING ~wolfdr01.cre~ ~override/wolfdr01.cre~
+  WRITE_LONG  0x14      10000 // xp
+  WRITE_LONG  0x18      8 // xp
+  WRITE_SHORT 0x24      100 // current hp
+  WRITE_SHORT 0x26      100 // max hp
+  WRITE_LONG  0x28      0xe280 // animation
+  WRITE_SHORT 0x46      4 // base ac
+  WRITE_SHORT 0x48      4 // effective ac
+  WRITE_BYTE  0x52      7 // thac0
+  WRITE_BYTE  0x53      1 // number of attacks
+  WRITE_BYTE  0x54      4 // save vs death
+  WRITE_BYTE  0x55      6 // save vs wands
+  WRITE_BYTE  0x56      5 // save vs polymorph
+  WRITE_BYTE  0x57      4 // save vs breath
+  WRITE_BYTE  0x58      7 // save vs spell
+  WRITE_BYTE  0x59      20 // resist fire
+  WRITE_BYTE  0x5a      80 // resist cold
+  WRITE_BYTE  0x5b      80 // resist electricity
+  WRITE_BYTE  0x5c      20 // resist acid
+  WRITE_BYTE  0x5d      20 // resist magic
+  WRITE_BYTE  0x5e      20 // resist magic fire
+  WRITE_BYTE  0x5f      80 // resist magic cold
+  WRITE_BYTE  0x60      20 // resist slashing
+  WRITE_BYTE  0x61      20 // resist crushing
+  WRITE_BYTE  0x62      20 // resist piercing
+  WRITE_BYTE  0x63      20 // resist missile
+  WRITE_BYTE  0x234     13 // level
+  WRITE_BYTE  0x238 	  18 // strength
+  WRITE_BYTE  0x23c     18 // dexterity
+  WRITE_BYTE  0x23d     18 // constitution
+  WRITE_BYTE  0x23f     15 // morale
+  WRITE_BYTE  0x240      5 // morale break
+  WRITE_LONG  0x242     20 // morale recovery
+  WRITE_ASCII 0x248 ~s!wolfp1~ #8 // override script
+  WRITE_ASCII 0x250 ~~ #8 // class script
+  WRITE_ASCII 0x260 ~s!wolf~ #8 // general script
+  WRITE_ASCII 0x268 ~~ #8 // default script
+
+  REPLACE_CRE_ITEM ~s!werim0~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~LRING~
+  ADD_CRE_ITEM ~s!regw1~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~RRING~
+  REPLACE_CRE_ITEM ~s!wolf1~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~WEAPON1~
+
+COPY_EXISTING ~wolfdr01.cre~ ~override/wolfdr02.cre~
+  WRITE_LONG  0x14      0 // xp
+
+// vampiric wolf
+COPY_EXISTING ~wolfva01.cre~ ~override/wolfva01.cre~
+  WRITE_LONG  0x14      15000 // xp
+  WRITE_LONG  0x18      8 // xp
+  WRITE_SHORT 0x24      130 // current hp
+  WRITE_SHORT 0x26      130 // max hp
+  WRITE_LONG  0x28      0xe280 // animation
+  WRITE_SHORT 0x46      2 // base ac
+  WRITE_SHORT 0x48      2 // effective ac
+  WRITE_BYTE  0x52      7 // thac0
+  WRITE_BYTE  0x53      2 // number of attacks
+  WRITE_BYTE  0x54      4 // save vs death
+  WRITE_BYTE  0x55      6 // save vs wands
+  WRITE_BYTE  0x56      5 // save vs polymorph
+  WRITE_BYTE  0x57      4 // save vs breath
+  WRITE_BYTE  0x58      7 // save vs spell
+  WRITE_BYTE  0x59      40 // resist fire
+  WRITE_BYTE  0x5a      80 // resist cold
+  WRITE_BYTE  0x5b      80 // resist electricity
+  WRITE_BYTE  0x5c      40 // resist acid
+  WRITE_BYTE  0x5d      40 // resist magic
+  WRITE_BYTE  0x5e      40 // resist magic fire
+  WRITE_BYTE  0x5f      80 // resist magic cold
+  WRITE_BYTE  0x60      40 // resist slashing
+  WRITE_BYTE  0x61      40 // resist crushing
+  WRITE_BYTE  0x62      40 // resist piercing
+  WRITE_BYTE  0x63      40 // resist missile
+  WRITE_BYTE  0x234     15 // level
+  WRITE_BYTE  0x238 	  18 // strength
+  WRITE_BYTE  0x23c     18 // dexterity
+  WRITE_BYTE  0x23d     18 // constitution
+  WRITE_BYTE  0x23f     15 // morale
+  WRITE_BYTE  0x240      5 // morale break
+  WRITE_LONG  0x242     20 // morale recovery
+  WRITE_ASCII 0x248 ~s!wolfp1~ #8 // override script
+  WRITE_ASCII 0x250 ~~ #8 // class script
+  WRITE_ASCII 0x260 ~s!wolf~ #8 // general script
+  WRITE_ASCII 0x268 ~~ #8 // default script
+
+  REPLACE_CRE_ITEM ~s!werim0~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~LRING~
+  REPLACE_CRE_ITEM ~s!regw1~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~RRING~
+  REPLACE_CRE_ITEM ~s!wolf2~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~WEAPON1~
+
+// werewolf
+COPY_EXISTING ~werewo01.cre~ ~override/werewo01.cre~
+  WRITE_LONG  0x14      8000 // xp
+  WRITE_LONG  0x18      13 // xp
+  WRITE_SHORT 0x24      80 // current hp
+  WRITE_SHORT 0x26      80 // max hp
+  WRITE_SHORT 0x46      2 // base ac
+  WRITE_SHORT 0x48      2 // effective ac
+  WRITE_BYTE  0x52      7 // thac0
+  WRITE_BYTE  0x53      7 // number of attacks
+  WRITE_BYTE  0x54      5 // save vs death
+  WRITE_BYTE  0x55      7 // save vs wands
+  WRITE_BYTE  0x56      6 // save vs polymorph
+  WRITE_BYTE  0x57      5 // save vs breath
+  WRITE_BYTE  0x58      8 // save vs spell
+  WRITE_BYTE  0x59      20 // resist fire
+  WRITE_BYTE  0x5a      80 // resist cold
+  WRITE_BYTE  0x5b      80 // resist electricity
+  WRITE_BYTE  0x5c      20 // resist acid
+  WRITE_BYTE  0x5d      20 // resist magic
+  WRITE_BYTE  0x5e      20 // resist magic fire
+  WRITE_BYTE  0x5f      80 // resist magic cold
+  WRITE_BYTE  0x60      40 // resist slashing
+  WRITE_BYTE  0x61      40 // resist crushing
+  WRITE_BYTE  0x62      40 // resist piercing
+  WRITE_BYTE  0x63      40 // resist missile
+  WRITE_BYTE  0x234     15 // level
+  WRITE_BYTE  0x238     21 // strength
+  WRITE_BYTE  0x23c     18 // dexterity
+  WRITE_BYTE  0x23d     18 // constitution
+  WRITE_BYTE  0x23f     15 // morale
+  WRITE_BYTE  0x240      5 // morale break
+  WRITE_LONG  0x242     20 // morale recovery
+  WRITE_ASCII 0x248 ~s!werep1~ #8 // override script
+  WRITE_ASCII 0x250 ~~ #8 // class script
+  WRITE_ASCII 0x260 ~s!were~ #8 // general script
+
+  REPLACE_CRE_ITEM ~s!werim1~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~LRING~
+  REPLACE_CRE_ITEM ~s!claw01~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~WEAPON1~
+  ADD_CRE_ITEM ~helmnoan~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~HELMET~
+  ADD_CRE_ITEM ~s!regw1~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~RRING~
+  ADD_CRE_ITEM ~s!bite01~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~WEAPON2~
+
+// greater werewolf
+COPY_EXISTING ~WEREGR01.cre~ ~override/weregr01.cre~
+              ~RNGWLF04.cre~ ~override/RNGWLF04.cre~
+              ~firamb01.cre~ ~override/firamb01.cre~
+  WRITE_LONG  0x14      15000 // xp
+  WRITE_LONG  0x18      18 // xp
+  WRITE_SHORT 0x24      130 // current hp
+  WRITE_SHORT 0x26      130 // max hp
+  WRITE_SHORT 0x46      0 // base ac
+  WRITE_SHORT 0x48      0 // effective ac
+  WRITE_BYTE  0x52      3 // thac0
+  WRITE_BYTE  0x53      3 // number of attacks
+  WRITE_BYTE  0x54      3 // save vs death
+  WRITE_BYTE  0x55      5 // save vs wands
+  WRITE_BYTE  0x56      4 // save vs polymorph
+  WRITE_BYTE  0x57      5 // save vs breath
+  WRITE_BYTE  0x58      6 // save vs spell
+  WRITE_BYTE  0x59      50 // resist fire
+  WRITE_BYTE  0x5a      90 // resist cold
+  WRITE_BYTE  0x5b      90 // resist electricity
+  WRITE_BYTE  0x5c      50 // resist acid
+  WRITE_BYTE  0x5d      50 // resist magic
+  WRITE_BYTE  0x5e      50 // resist magic fire
+  WRITE_BYTE  0x5f      90 // resist magic cold
+  WRITE_BYTE  0x60      60 // resist slashing
+  WRITE_BYTE  0x61      60 // resist crushing
+  WRITE_BYTE  0x62      60 // resist piercing
+  WRITE_BYTE  0x63      60 // resist missile
+  WRITE_BYTE  0x234     18 // level
+  WRITE_BYTE  0x238     24 // strength
+  WRITE_BYTE  0x23c     21 // dexterity
+  WRITE_BYTE  0x23d     18 // constitution
+  WRITE_BYTE  0x23f     15 // morale
+  WRITE_BYTE  0x240      5 // morale break
+  WRITE_LONG  0x242     20 // morale recovery
+
+  PATCH_IF !(~%SOURCE_RES%~ STRING_EQUAL_CASE ~firamb01~) BEGIN
+    WRITE_ASCII 0x248 ~s!werep2~ #8 // override script
+    WRITE_ASCII 0x250 ~~ #8 // class script
+    WRITE_ASCII 0x258 ~~ #8 // race script
+    WRITE_ASCII 0x260 ~s!were~ #8 // general script
+  END
+
+  REPLACE_CRE_ITEM ~s!werim2~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~LRING~
+  REPLACE_CRE_ITEM ~s!claw02~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~WEAPON1~
+  ADD_CRE_ITEM ~helmnoan~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~HELMET~
+  ADD_CRE_ITEM ~s!regw2~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~RRING~
+  ADD_CRE_ITEM ~s!bite02~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~WEAPON2~
+
 // batch processing //
 
 // iterate over all creatures and apply global patches

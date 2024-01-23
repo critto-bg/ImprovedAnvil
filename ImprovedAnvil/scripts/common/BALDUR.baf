@@ -707,6 +707,100 @@ THEN
 END
 
 IF
+  OR(2)
+    Global("Chapter","GLOBAL",2)
+    Global("Chapter","GLOBAL",3)
+  Global("IADruidPlot","GLOBAL",2)
+  GlobalGT("IADruidAnathNote","GLOBAL",0)
+  GlobalGT("IADruidMerellaTalk","GLOBAL",0)
+  GlobalGT("IADruidGrancorNote","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("IADruidPlot","GLOBAL",3)
+    AddJournalEntry(@5514,QUEST)
+END
+
+IF
+  Global("IADruidPlot","GLOBAL",9)
+  Global("IAAmbushFirstTalk","GLOBAL",0)
+  Global("IADruidFailed","GLOBAL",0)
+  GlobalTimerExpired("IADruidMeetVerthanTimer","GLOBAL")
+THEN
+  RESPONSE #100
+    SetGlobal("IADruidPlot","GLOBAL",18)
+    SetGlobal("IADruidFailed","GLOBAL",1)
+    EraseJournalEntry(@5510)
+    EraseJournalEntry(@5511)
+    EraseJournalEntry(@5512)
+    EraseJournalEntry(@5513)
+    EraseJournalEntry(@5514)
+    EraseJournalEntry(@5515)
+    EraseJournalEntry(@5516)
+    EraseJournalEntry(@5517)
+    EraseJournalEntry(@5519)
+    EraseJournalEntry(@5520)
+    EraseJournalEntry(@5521)
+    EraseJournalEntry(@5522)
+    EraseJournalEntry(@5523)
+    EraseJournalEntry(@5525)
+    AddJournalEntry(@5530,QUEST_DONE)
+END
+
+IF
+  Global("IADruidPlot","GLOBAL",9)
+  Global("IAAmbushFirstTalk","GLOBAL",1)
+  Global("IADruidFailed","GLOBAL",0)
+  GlobalTimerExpired("IADruidMeetDramTimer","GLOBAL")
+THEN
+  RESPONSE #100
+    SetGlobal("IADruidPlot","GLOBAL",18)
+    SetGlobal("IADruidFailed","GLOBAL",1)
+    EraseJournalEntry(@5510)
+    EraseJournalEntry(@5511)
+    EraseJournalEntry(@5512)
+    EraseJournalEntry(@5513)
+    EraseJournalEntry(@5514)
+    EraseJournalEntry(@5515)
+    EraseJournalEntry(@5516)
+    EraseJournalEntry(@5517)
+    EraseJournalEntry(@5519)
+    EraseJournalEntry(@5520)
+    EraseJournalEntry(@5521)
+    EraseJournalEntry(@5522)
+    EraseJournalEntry(@5523)
+    EraseJournalEntry(@5525)
+    AddJournalEntry(@5530,QUEST_DONE)
+END
+
+IF
+  !AreaCheck("S!0001")
+  Global("IADruidPlot","GLOBAL",10)
+  Global("IADruidFailed","GLOBAL",0)
+  GlobalTimerExpired("IaHelterStepsTimer","GLOBAL")
+THEN
+  RESPONSE #100
+    SetGlobal("IADruidPlot","GLOBAL",18)
+    SetGlobal("IADruidFailed","GLOBAL",1)
+    HideAreaOnMap("S!0001")
+    EraseJournalEntry(@5510)
+    EraseJournalEntry(@5511)
+    EraseJournalEntry(@5512)
+    EraseJournalEntry(@5513)
+    EraseJournalEntry(@5514)
+    EraseJournalEntry(@5515)
+    EraseJournalEntry(@5516)
+    EraseJournalEntry(@5517)
+    EraseJournalEntry(@5519)
+    EraseJournalEntry(@5520)
+    EraseJournalEntry(@5521)
+    EraseJournalEntry(@5522)
+    EraseJournalEntry(@5523)
+    EraseJournalEntry(@5525)
+    EraseJournalEntry(@5526)
+    AddJournalEntry(@5530,QUEST_DONE)
+END
+
+IF
   OR(4)
    GlobalLT("Iajdplot","GLOBAL",2)
    Global("Ianojudgement","GLOBAL",1)

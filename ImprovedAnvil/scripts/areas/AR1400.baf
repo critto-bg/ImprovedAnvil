@@ -1,0 +1,23 @@
+// Shadow Temple Land restored //
+
+IF
+  InMyArea(Player1)
+  Global("IADruidMerellaTalk","GLOBAL",1)
+  Global("IADruidPlot","GLOBAL",2)
+  Global("IAMerellaCheck","AR1400",0)
+THEN
+  RESPONSE #100
+    SetGlobal("IADruidMerellaTalk","GLOBAL",2)
+    SetGlobal("IAMerellaCheck","AR1400",1)
+    AddJournalEntry(@5512,QUEST)
+END
+
+IF
+  InMyArea(Player1)
+  Global("IAMerellaCheck","AR1400",0)
+  Global("IADruidMerellaTalk","GLOBAL",1)
+THEN
+  RESPONSE #100
+    SetGlobal("IAMerellaCheck","AR1400",1)
+    SetGlobal("IADruidMerellaTalk","GLOBAL",2)
+END

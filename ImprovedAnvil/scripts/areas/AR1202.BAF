@@ -979,3 +979,52 @@ THEN
     CreateCreature("S!skelw2",[2935.1633],7) //
     CreateCreature("S!skelw2",[2903.1656],7) //
 END
+
+IF
+  InMyArea(Player1)
+  Global("IADruidGrancorNote","GLOBAL",0)
+  Global("IAItemCheck","AR1202",0)
+  Exists("firwlf01")
+  !Dead("firwlf01")
+  !PartyHasItem("S!misc77")
+  OR(2)
+    Class(Player1,DRUID_ALL)
+    Class(Player1,SHAMAN)
+THEN
+  RESPONSE #100
+    SetGlobal("IAItemCheck","AR1202",1)
+    GiveItemCreate("S!misc77","firwlf01",0,0,0)
+END
+
+IF
+  InMyArea(Player1)
+  Global("IADruidGrancorNote","GLOBAL",0)
+  Global("IAItemCheck","AR1202",1)
+  PartyHasItem("S!misc77")
+THEN
+  RESPONSE #100
+    SetGlobal("IADruidGrancorNote","GLOBAL",1)
+    SetGlobal("IAItemCheck","AR1202",2)
+END
+
+IF
+  InMyArea(Player1)
+  Global("IADruidGrancorNote","GLOBAL",1)
+  Global("IAItemCheck","AR1202",2)
+  Global("IADruidPlot","GLOBAL",2)
+THEN
+  RESPONSE #100
+    SetGlobal("IADruidGrancorNote","GLOBAL",2)
+    SetGlobal("IAItemCheck","AR1202",3)
+    AddJournalEntry(@5513,QUEST)
+END
+
+IF
+  InMyArea(Player1)
+  Global("IADruidGrancorNote","GLOBAL",1)
+  Global("IAItemCheck","AR1202",2)
+THEN
+  RESPONSE #100
+    SetGlobal("IAItemCheck","AR1202",3)
+    SetGlobal("IADruidGrancorNote","GLOBAL",2)
+END

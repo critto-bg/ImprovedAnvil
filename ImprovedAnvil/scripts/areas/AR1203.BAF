@@ -277,3 +277,42 @@ THEN
     IncrementGlobal("Iamessage","AR1203",1)
     DisplayStringNoName(Player1,16297)
 END
+
+IF
+  InMyArea(Player1)
+  Global("IADruidPlot","GLOBAL",11)
+  Global("Chapter","GLOBAL",6)
+  Global("Iaonce","AR1203",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaonce","AR1203",1)
+    ActionOverride("druidq",CreateItem("S!MISC72",0,0,0)) //
+    ContainerEnable("druidq",TRUE)
+END
+
+IF
+  InMyArea(Player1)
+  Global("IADruidPlot","GLOBAL",11)
+  Global("Chapter","GLOBAL",6)
+  Global("Iaonce","AR1203",1)
+  PartyHasItem("S!MISC72")
+  Exists("firkra02")
+  !Dead("firkra02")
+  !Allegiance("firkra02",ENEMY)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaonce","AR1203",2)
+    ChangeEnemyAlly("firkra02",ENEMY)
+END
+
+IF
+  InMyArea(Player1)
+  Global("IADruidPlot","GLOBAL",11)
+  Global("Chapter","GLOBAL",6)
+  PartyHasItem("S!MISC72")
+  Dead("firkra02")
+  CombatCounter(0)
+THEN
+  RESPONSE #100
+    SetGlobal("IADruidPlot","GLOBAL",12)
+END

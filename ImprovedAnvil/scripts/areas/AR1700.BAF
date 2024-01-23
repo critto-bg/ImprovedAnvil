@@ -49,3 +49,115 @@ THEN
    RESPONSE #100
       SetGlobal("Iaregain","AR1700",1)
 END
+
+/* druid quest */
+
+IF
+  InMyArea(Player1)
+  OnCreation()
+  Global("IADruidPlot","GLOBAL",9)
+  Global("IASpawns","AR1700",0)
+THEN
+  RESPONSE #100
+    Explore()
+    DayNight(DAWN_END)
+    MoveViewObject(Player1,INSTANT)
+    SetGlobal("IASpawns","AR1700",1)
+    SpawnPtDeactivate("Spawn Point 1")
+    SpawnPtDeactivate("Spawn Point 2")
+    SpawnPtDeactivate("Spawn Point 3")
+    SpawnPtDeactivate("Spawn Point 6")
+    SpawnPtDeactivate("Spawn Ankheg")
+    Continue()
+END
+
+IF
+  InMyArea(Player1)
+  Global("IADruidPlot","GLOBAL",9)
+  Global("IASpawns","AR1700",1)
+THEN
+  RESPONSE #100
+    SetGlobal("IASpawns","AR1700",2)
+    CreateCreature("s!tslead",[3295.275],N)
+    ClearAllActions()
+    StartCutSceneMode()
+    Wait(2)
+    ActionOverride("s!tslead",StartDialogNoSet(Player1))
+END
+
+IF
+  InMyArea(Player1)
+  Global("IADruidPlot","GLOBAL",10)
+  Global("IAfight","AR1700",1)
+  Global("IaFirstAmbush","AR1700",0)
+  GlobalTimerExpired("IaFirstAmbushTimer","AR1700")
+  !Exists("S!wereg2")
+  !Exists("S!wereg3")
+  !Exists("S!wereg4")
+THEN
+  RESPONSE #100
+    SetGlobal("IaFirstAmbush","AR1700",1)
+    CreateCreature("S!wereg2",[1170.2595],0)
+    CreateCreature("S!wereg3",[2065.2050],0)
+    CreateCreature("S!wereg4",[2405.2915],0)
+    SmallWait(15)
+    ActionOverride("S!wereg2",MoveToPointNoInterrupt([1610.2485]))
+    ActionOverride("S!wereg3",MoveToPointNoInterrupt([2215.2260]))
+    ActionOverride("S!wereg4",MoveToPointNoInterrupt([2340.2600]))
+END
+
+IF
+  InMyArea(Player1)
+  Global("IADruidPlot","GLOBAL",10)
+  Global("IAfight","AR1700",1)
+  Global("IaFirstAmbush","AR1700",1)
+  Dead("S!wereg2")
+  Dead("S!wereg3")
+  Dead("S!wereg4")
+  CombatCounter(0)
+THEN
+  RESPONSE #100
+    SetGlobal("IAfight","AR1700",2)
+    ClearAllActions()
+    StartCutSceneMode()
+    StartCutSceneEx("S!druc11",TRUE)
+END
+
+IF
+  InMyArea(Player1)
+  Global("IADruidPlot","GLOBAL",10)
+  Global("IAfight","AR1700",3)
+  Global("IaSecondAmbush","AR1700",0)
+  GlobalTimerExpired("IaSecondAmbushTimer","AR1700")
+  !Exists("S!loup04")
+  !Exists("S!loup05")
+  !Exists("S!wereg5")
+  !Exists("S!wereg6")
+THEN
+  RESPONSE #100
+    SetGlobal("IaSecondAmbush","AR1700",1)
+    CreateCreatureDoor("S!loup04",[410.2580],0)
+    CreateCreatureDoor("S!loup05",[630.2435],0)
+    CreateCreatureDoor("S!wereg5",[915.2560],0)
+    CreateCreatureDoor("S!wereg6",[610.2720],0)
+END
+
+IF
+  InMyArea(Player1)
+  Global("IADruidPlot","GLOBAL",10)
+  Global("IAfight","AR1700",3)
+  Global("IaSecondAmbush","AR1700",1)
+  Dead("S!loup04")
+  Dead("S!loup05")
+  Dead("S!wereg5")
+  Dead("S!wereg6")
+  CombatCounter(0)
+THEN
+  RESPONSE #100
+    SetGlobal("IAfight","AR1700",4)
+    SetGlobalTimer("IaHelterStepsTimer","GLOBAL",TWO_DAYS)
+    RevealAreaOnMap("S!0001")
+    ClearAllActions()
+    StartCutSceneMode()
+    StartCutSceneEx("S!druc11",TRUE)
+END

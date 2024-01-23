@@ -612,6 +612,16 @@ COPY ~ImprovedAnvil\resources\spells\SPWII55.spl~ ~override/SPWII55.spl~
 COPY ~ImprovedAnvil\resources\spells\SPWII56.spl~ ~override/SPWII56.spl~
   SAY NAME1 @9156
 
+COPY ~ImprovedAnvil\resources\spells\SPWII58.spl~ ~override/SPWII58.spl~
+
+COPY ~ImprovedAnvil\resources\spells\SPWII59.spl~ ~override/SPWII59.spl~
+
+COPY ~ImprovedAnvil\resources\spells\SPWII60.spl~ ~override/SPWII60.spl~
+
+COPY ~ImprovedAnvil\resources\spells\SPWII61.spl~ ~override/SPWII61.spl~
+
+COPY ~ImprovedAnvil\resources\spells\SPWII62.spl~ ~override/SPWII62.spl~
+
 // spells with IA's filename prefix //
 
 COPY ~ImprovedAnvil\resources\spells\S!SW02.spl~ ~override/S!SW02.spl~
@@ -684,6 +694,34 @@ COPY ~ImprovedAnvil\resources\spells\S!helmb4.spl~ ~override/S!helmb4.spl~
     match_opcode = 139
     parameter1 = RESOLVE_STR_REF (@10296)
   END
+
+COPY ~ImprovedAnvil/resources/spells/S!dru00.spl~ ~override/S!dru00.spl~
+
+COPY ~ImprovedAnvil/resources/spells/S!dru01.spl~ ~override/S!dru01.spl~
+
+COPY ~ImprovedAnvil/resources/spells/S!dru02.spl~ ~override/S!dru02.spl~
+
+COPY ~ImprovedAnvil/resources/spells/S!dru03.spl~ ~override/S!dru03.spl~
+
+COPY ~ImprovedAnvil/resources/spells/S!dru04.spl~ ~override/S!dru04.spl~
+
+COPY ~ImprovedAnvil/resources/spells/S!dru05.spl~ ~override/S!dru05.spl~
+
+COPY ~ImprovedAnvil/resources/spells/S!dru06.spl~ ~override/S!dru06.spl~
+
+COPY ~ImprovedAnvil/resources/spells/S!werhwl.spl~ ~override/S!werhwl.spl~
+  SAY NAME1 @12072
+
+  LPF ~ALTER_SPELL_EFFECT~
+    INT_VAR
+      check_globals = 1
+      check_headers = 0
+      match_opcode = 328
+      parameter2 = ~%immune_fear_state%~
+  END
+
+COPY ~ImprovedAnvil/resources/spells/S!werrag.spl~ ~override/S!werrag.spl~
+  SAY NAME1 @12073
 
 // Add new healing spells for the Shaman //
 
@@ -767,3 +805,38 @@ ACTION_PHP_EACH shaman_healing_spells AS record => int BEGIN
       EVALUATE_BUFFER
   END
 END
+
+// testing weapons //
+
+COPY ~ImprovedAnvil\resources\spells\SUPERSPL.spl~ ~override/SUPERSPL.spl~
+  SAY NAME1 @12087
+
+  LAUNCH_PATCH_FUNCTION ~ALTER_SPELL_HEADER~ INT_VAR
+    header_type = 1
+    projectile = ~%S!SUPER%~
+  END
+
+	LPF ALTER_EFFECT
+		INT_VAR
+			check_headers = 1
+			match_target = 5
+      target = 2
+	END
+
+  LPF CLONE_EFFECT
+    INT_VAR
+      check_globals = 0
+      match_opcode = 58
+      opcode = 139
+      parameter1 = 14056
+    STR_VAR
+      insert = ~below~
+  END
+
+COPY ~ImprovedAnvil\resources\spells\SUPERDMG.spl~ ~override/SUPERDMG.spl~
+  SAY NAME1 @12088
+
+  LAUNCH_PATCH_FUNCTION ~ALTER_SPELL_HEADER~ INT_VAR
+    header_type = 2
+    projectile = ~%S!SUPER%~
+  END

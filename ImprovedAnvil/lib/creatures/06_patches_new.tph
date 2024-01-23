@@ -1,4 +1,4 @@
-/// extra patches to the new creatures ///
+/// patch/create the new creatures ///
 
 // add amber chunks to ultra golems
 COPY_EXISTING ~S!ultgg1.cre~ ~override/S!ultgg1.cre~
@@ -13,3 +13,154 @@ COPY_EXISTING ~S!ultgg1.cre~ ~override/S!ultgg1.cre~
   ADD_CRE_ITEM ~S!MISC27~ #0 #0 #0 ~UNSTEALABLE~ ~INV11~
   ADD_CRE_ITEM ~S!MISC27~ #0 #0 #0 ~UNSTEALABLE~ ~INV12~
   ADD_CRE_ITEM ~S!MISC27~ #0 #0 #0 ~UNSTEALABLE~ ~INV13~
+
+COPY_EXISTING ~trcut07.cre~ ~override/s!logan.cre~
+  WRITE_ASCII 0x280 ~s!logan~ #32 // death variable
+  WRITE_ASCII 0x2cc ~~ #8         // dialogue
+
+COPY_EXISTING ~ppdra2.cre~ ~override/s!drad01.cre~
+  WRITE_SHORT 0x24 20              // current hp
+  WRITE_SHORT 0x26 20              // max hp
+  WRITE_ASCII 0x248 ~~ #8          // override script
+  WRITE_ASCII 0x250 ~~ #8          // class script
+  WRITE_ASCII 0x258 ~~ #8          // race script
+  WRITE_ASCII 0x260 ~s!drad01~ #8  // general script
+  WRITE_ASCII 0x268 ~~ #8          // default script
+  WRITE_ASCII 0x280 ~s!drad01~ #32 // death variable
+  WRITE_ASCII 0x2cc ~iadrad~ #8    // dialogue
+
+  REMOVE_CRE_ITEM ~STONSKIN~
+  ADD_CRE_ITEM ~minhp1~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~AMULET~
+
+COPY_EXISTING ~werewo01.cre~ ~override/S!were01.cre~
+  WRITE_LONG  0x14      0 // xp
+
+COPY_EXISTING ~werewo01.cre~ ~override/S!wer01c.cre~
+  WRITE_ASCII 0x248 ~~         #8 // override script
+  WRITE_ASCII 0x260 ~~         #8 // general script
+  WRITE_ASCII 0x280 ~s!wer01c~ #32 // death variable
+
+COPY_EXISTING ~werewo01.cre~ ~override/S!wer02c.cre~
+  WRITE_ASCII 0x248 ~~         #8 // override script
+  WRITE_ASCII 0x260 ~~         #8 // general script
+  WRITE_ASCII 0x280 ~s!wer02c~ #32 // death variable
+
+// young werewolf
+COPY_EXISTING ~werewo01.cre~ ~override/S!lwer01.cre~
+  WRITE_LONG  0x14      4000 // xp
+  WRITE_LONG  0x18      9 // xp
+  WRITE_SHORT 0x24      50 // current hp
+  WRITE_SHORT 0x26      50 // max hp
+  WRITE_SHORT 0x46      6 // base ac
+  WRITE_SHORT 0x48      6 // effective ac
+  WRITE_BYTE  0x52     11 // thac0
+  WRITE_BYTE  0x53      7 // number of attacks (1.5)
+  WRITE_BYTE  0x54      5 // save vs death
+  WRITE_BYTE  0x55      7 // save vs wands
+  WRITE_BYTE  0x56      6 // save vs polymorph
+  WRITE_BYTE  0x57      5 // save vs breath
+  WRITE_BYTE  0x58      8 // save vs spell
+  WRITE_BYTE  0x59      0 // resist fire
+  WRITE_BYTE  0x5c      0 // resist acid
+  WRITE_BYTE  0x5d      0 // resist magic
+  WRITE_BYTE  0x5e      0 // resist magic fire
+  WRITE_BYTE  0x234     9 // level
+  WRITE_BYTE  0x238     21 // strength
+  WRITE_BYTE  0x23c     18 // dexterity
+  WRITE_BYTE  0x23d     18 // constitution
+
+  REMOVE_CRE_ITEM ~S!bite01~
+
+  SAY NAME1 @12081
+  SAY NAME2 @12081
+
+COPY_EXISTING ~S!lwer01.cre~ ~override/S!lwer02.cre~
+  WRITE_LONG  0x14      0 // xp
+
+COPY_EXISTING ~WEREGR01.cre~ ~override/S!wereg1.cre~
+  WRITE_LONG  0x14      0 // xp
+
+COPY_EXISTING ~WEREGR01.cre~ ~override/S!wereg2.cre~
+  WRITE_ASCII 0x280 ~S!wereg2~ #32 // death variable
+
+COPY_EXISTING ~WEREGR01.cre~ ~override/S!wereg3.cre~
+  WRITE_ASCII 0x280 ~S!wereg3~ #32 // death variable
+
+COPY_EXISTING ~WEREGR01.cre~ ~override/S!wereg4.cre~
+  WRITE_ASCII 0x280 ~S!wereg4~ #32 // death variable
+
+COPY_EXISTING ~WEREGR01.cre~ ~override/S!wereg5.cre~
+  WRITE_ASCII 0x280 ~S!wereg5~ #32 // death variable
+
+COPY_EXISTING ~WEREGR01.cre~ ~override/S!wereg6.cre~
+  WRITE_ASCII 0x280 ~S!wereg6~ #32 // death variable
+
+// loup garou
+COPY_EXISTING ~WEREGR01.cre~ ~override/S!loup01.cre~
+              ~WEREGR01.cre~ ~override/S!loup02.cre~
+              ~WEREGR01.cre~ ~override/S!loup03.cre~
+              ~WEREGR01.cre~ ~override/S!loup04.cre~
+              ~WEREGR01.cre~ ~override/S!loup05.cre~
+  SAY NAME1 @12071
+  SAY NAME2 @12071
+
+  WRITE_LONG  0x14      50000 // xp
+  WRITE_LONG  0x18      200 // xp
+  WRITE_SHORT 0x24      200 // current hp
+  WRITE_SHORT 0x26      200 // max hp
+  WRITE_SHORT 0x46      (0 - 5) // base ac
+  WRITE_SHORT 0x48      (0 - 5) // effective ac
+  WRITE_BYTE  0x52      (0 - 2) // thac0
+  WRITE_BYTE  0x53      2 // number of attacks
+  WRITE_BYTE  0x54      3 // save vs death
+  WRITE_BYTE  0x55      5 // save vs wands
+  WRITE_BYTE  0x56      4 // save vs polymorph
+  WRITE_BYTE  0x57      5 // save vs breath
+  WRITE_BYTE  0x58      6 // save vs spell
+  WRITE_BYTE  0x59      80 // resist fire
+  WRITE_BYTE  0x5a      90 // resist cold
+  WRITE_BYTE  0x5b      90 // resist electricity
+  WRITE_BYTE  0x5c      80 // resist acid
+  WRITE_BYTE  0x5d      80 // resist magic
+  WRITE_BYTE  0x5e      80 // resist magic fire
+  WRITE_BYTE  0x5f      90 // resist magic cold
+  WRITE_BYTE  0x60      70 // resist slashing
+  WRITE_BYTE  0x61      70 // resist crushing
+  WRITE_BYTE  0x62      70 // resist piercing
+  WRITE_BYTE  0x63      90 // resist missile
+  WRITE_BYTE  0x234     25 // level
+  WRITE_BYTE  0x238     25 // strength
+  WRITE_BYTE  0x23c     21 // dexterity
+  WRITE_BYTE  0x23d     18 // constitution
+  WRITE_BYTE  0x23f     15 // morale
+  WRITE_BYTE  0x240      5 // morale break
+  WRITE_LONG  0x242     20 // morale recovery
+
+  WRITE_ASCII 0x248 ~s!werep3~ #8 // override script
+  WRITE_ASCII 0x250 ~~ #8 // class script
+  WRITE_ASCII 0x258 ~~ #8 // race script
+  WRITE_ASCII 0x260 ~s!were~ #8 // general script
+
+  LPF DELETE_CRE_EFFECT INT_VAR opcode_to_delete = 101 END
+  LPF DELETE_CRE_EFFECT INT_VAR opcode_to_delete = 51 END
+
+  REPLACE_CRE_ITEM ~s!werim3~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~LRING~
+  REPLACE_CRE_ITEM ~s!claw03~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~WEAPON1~
+  REPLACE_CRE_ITEM ~s!regw3~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~RRING~
+  REPLACE_CRE_ITEM ~s!bite03~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~WEAPON2~
+
+  PATCH_IF (~%DEST_RES%~ STRING_EQUAL_CASE ~S!loup02~) BEGIN
+    WRITE_ASCII 0x280 ~s!loup02~ #32 // death variable
+  END
+
+  PATCH_IF (~%DEST_RES%~ STRING_EQUAL_CASE ~S!loup03~) BEGIN
+    WRITE_ASCII 0x280 ~s!loup03~ #32 // death variable
+  END
+
+  PATCH_IF (~%DEST_RES%~ STRING_EQUAL_CASE ~S!loup04~) BEGIN
+    WRITE_ASCII 0x280 ~s!loup04~ #32 // death variable
+  END
+
+  PATCH_IF (~%DEST_RES%~ STRING_EQUAL_CASE ~S!loup05~) BEGIN
+    WRITE_ASCII 0x280 ~s!loup05~ #32 // death variable
+  END

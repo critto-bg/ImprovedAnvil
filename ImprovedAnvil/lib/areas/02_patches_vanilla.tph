@@ -60,6 +60,28 @@ COPY_EXISTING ~ar0503.are~ ~override/ar0503.are~
 
 COPY_EXISTING ~ar1203.are~ ~override/ar1203.are~
   WRITE_ASCII 0x94 ~ar1203~ #8 // Area Script reference
+
+  // add a hidden container to Firkraag's area
+  LPF fj_are_structure
+    INT_VAR
+      fj_loc_x       = 2245
+      fj_loc_y       = 1685
+      fj_type        = 8
+      fj_flags       = 0b00100000
+      fj_lock_diff   = 0
+      fj_trap_active = 0
+      fj_box_left    = 2238
+      fj_box_top     = 1678
+      fj_box_right   = 2261
+      fj_box_bottom  = 1695
+      fj_vertex_0    = 2261 + (1678 << 16)
+      fj_vertex_1    = 2261 + (1695 << 16)
+      fj_vertex_2    = 2238 + (1695 << 16)
+      fj_vertex_3    = 2238 + (1678 << 16)
+    STR_VAR
+      fj_name = ~druidq~
+      fj_structure_type = container
+  END
 EXTEND_BOTTOM ~AR1203.BCS~ ~ImprovedAnvil\scripts\areas\AR1203.BAF~
 
 COPY_EXISTING ~ar1201.are~ ~override/ar1201.are~
@@ -1104,19 +1126,57 @@ COPY_EXISTING ~ar1605.are~ ~override/ar1605.are~
 COPY_EXISTING ~AR1700.ARE~ ~override/AR1700.ARE~
   READ_SHORT 0x64 "spcount"
   READ_LONG 0x60 "spoffset"
+
   SET "it" = 0
   WHILE ("%it%" < "%spcount%") BEGIN
-   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
-   PATCH_IF (("%spname%" STRING_COMPARE_CASE "Spawn Point 1" = 0) OR
-             ("%spname%" STRING_COMPARE_CASE "Spawn Point 2" = 0) OR
-             ("%spname%" STRING_COMPARE_CASE "Spawn Point 3" = 0) OR
-             ("%spname%" STRING_COMPARE_CASE "Spawn Point 6" = 0)) BEGIN
-    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~S!spyran~ #8
-    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 116) 1
-    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
-   END
-"it" = "%it%" + 1
-END
+    READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+    PATCH_IF (("%spname%" STRING_COMPARE_CASE "Spawn Point 1" = 0) OR
+              ("%spname%" STRING_COMPARE_CASE "Spawn Point 2" = 0) OR
+              ("%spname%" STRING_COMPARE_CASE "Spawn Point 3" = 0) OR
+              ("%spname%" STRING_COMPARE_CASE "Spawn Point 6" = 0))
+    BEGIN
+      WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~S!spyran~ #8
+      WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 116) 1
+      WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 2
+    END
+    "it" = "%it%" + 1
+  END
+
+  // add entrance point at the south-western edge of Small Teeth Pass
+  LPF fj_are_structure
+    INT_VAR
+      fj_loc_x = 640
+      fj_loc_y = 3030
+      fj_orientation = 8
+    STR_VAR
+      fj_name = ~ExitSW~
+      fj_structure_type = entrance
+  END
+
+  // replace ankheg actors with a proper spawn point
+  LPF ALTER_AREA_ACTOR
+    INT_VAR
+      expiry = 0
+    STR_VAR
+      actor_name = ~Ankheg~
+  END
+
+  LPF fj_are_structure
+    INT_VAR
+      fj_loc_x      = 635
+      fj_loc_y      = 2605
+      fj_spawn_num  = 1
+      fj_difficulty = 2
+      fj_delay      = 1
+      fj_method     = 2
+      fj_max_num    = 3
+    STR_VAR
+      fj_structure_type = spawn
+      fj_name           = ~Spawn Ankheg~
+      fj_cre_resref0    = ~ANKHEG01~
+      fj_cre_resref1    = ~ANKHEG01~
+      fj_cre_resref2    = ~ANKHEG01~
+  END
 
 COPY_EXISTING ~AR1800.ARE~ ~override/AR1800.ARE~
   READ_SHORT 0x64 "spcount"

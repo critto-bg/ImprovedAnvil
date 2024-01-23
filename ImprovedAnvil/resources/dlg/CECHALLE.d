@@ -12,7 +12,7 @@ SetNumTimesTalkedTo(1)~ GOTO 3
 END
 
 IF WEIGHT #2 /* Triggers after states #: 11 even though they appear after this state */
-~True()
+~Global("IADruidPlot","GLOBAL",0)
 ~ THEN BEGIN 1 // from:
   SAY #8690 /* ~I am the Challenge Master, and I ask of druids present if there are any that wish to make challenge? Our order is in disarray and in need of leadership.~ */
   IF ~~ THEN GOTO 2
@@ -190,7 +190,7 @@ EraseJournalEntry(55508)
 Faldorn is defeated. I have been rewarded, but I am to be afforded an even greater honor for my service to nature. When I rest in the grove I will be granted a blessing, one that will give additional responsibilities for me as a Druid.~ */ EXIT
 END
 
-IF WEIGHT #1 ~Global("GreatDruid","GLOBAL",1)
+IF WEIGHT #1 ~Global("GreatDruid","GLOBAL",1) Global("IADruidPlot","GLOBAL",0)
 Global("GaveTitle","LOCALS",0)
 ~ THEN BEGIN 11 // from:
   SAY #58736 /* ~Let the word be spread by the wind and on wing of bird that a challenge has been completed, and a new Great Druid is appointed!~ */

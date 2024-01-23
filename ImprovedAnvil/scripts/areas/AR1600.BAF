@@ -22,3 +22,47 @@ THEN
     ChangeEnemyAlly("S!dwarf",ENEMY)
     ApplySpellRES("SPWII07","S!dwarf")
 END
+
+IF
+  InMyArea(Player1)
+  GlobalLT("IADruidPlot","GLOBAL",6)
+  Global("IADruidFailed","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("IADruidFailed","GLOBAL",1)
+    SetGlobal("IADruidPlot","GLOBAL",16)
+    EraseJournalEntry(@5510)
+    EraseJournalEntry(@5511)
+    EraseJournalEntry(@5512)
+    EraseJournalEntry(@5513)
+    EraseJournalEntry(@5514)
+    EraseJournalEntry(@5515)
+    EraseJournalEntry(@5516)
+    EraseJournalEntry(@5517)
+    AddJournalEntry(@5518,QUEST_DONE)
+END
+
+IF
+  InMyArea(Player1)
+  Global("IADruidPlot","GLOBAL",7)
+  Global("IADradeel","GLOBAL",2)
+  Global("IASpawn","AR1600",0)
+  Global("StealShip","GLOBAL",1)
+  Global("cd_saemon_spawn","MYAREA",1)
+THEN
+  RESPONSE #100
+    SetGlobal("IASpawn","AR1600",1)
+    CreateCreatureObject("S!drad01","ppsaem3",0,0,0)
+END
+
+IF
+  InMyArea(Player1)
+  Global("IADruidPlot","GLOBAL",7)
+  Global("IADradeel","GLOBAL",3)
+  Global("AsylumPlot","GLOBAL",78)
+  Dead("ppsaem3")
+THEN
+  RESPONSE #100
+    SetGlobal("IADruidPlot","GLOBAL",17)
+    SetGlobal("IADradeel","GLOBAL",7)
+END

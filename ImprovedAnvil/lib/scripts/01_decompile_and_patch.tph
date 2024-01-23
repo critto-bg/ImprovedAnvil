@@ -8,6 +8,7 @@ COPY_EXISTING ~BALDUR.BCS~ ~override~
       REPLACE_TEXTUALLY ~SetGlobalTimer("KPTaxTime","GLOBAL",SEVEN_DAYS)~ ~SetGlobalTimer("KPTaxTime","GLOBAL",SEVEN_DAYS) IncrementGlobal("Iakptax","GLOBAL",1)~
       REPLACE_TEXTUALLY ~GlobalTimerExpired("PGThievesReturn","GLOBAL")~ ~GlobalTimerExpired("PGThievesReturn","GLOBAL") GlobalLT("Iathiefmoney","GLOBAL",20)~
       REPLACE_TEXTUALLY ~!Global("Chapter","GLOBAL",7)~ ~~
+      REPLACE_TEXTUALLY ~Global("GreatDruid","GLOBAL",0)~ ~Global("GreatDruid","GLOBAL",0) Global("IADruidPlot","GLOBAL",0)~
   END
 
 COPY_EXISTING ~BCOFFIN.BCS~ ~override~
@@ -588,3 +589,36 @@ COPY_EXISTING ~ROCK.bcs~ ~override/ROCK.bcs~
   REPLACE_TEXTUALLY ~ForceSpell(Myself,WARRIOR_HARDINESS)~ ~SetGlobalTimer("Iaspell","LOCALS",6) ForceSpell(Myself,WARRIOR_HARDINESS)~
   COMPILE_BAF_TO_BCS
   BUT_ONLY_IF_IT_CHANGES
+
+COPY_EXISTING ~RNGWLF01.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~ForceSpell(Myself,ANATH_WEREWOLF)~ ~DestroyItem("S!misc76") ForceSpell(Myself,ANATH_WEREWOLF)~
+  END
+
+COPY_EXISTING ~RNGWLF05.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~Kill(Myself)~ ~GiveItemCreate("S!misc76",Myself,0,0,0) Kill(Myself)~
+  END
+
+// make sure the trademeet siege does not overlapse with the other potential Trademeet events
+COPY_EXISTING ~AR2000.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~Global("didthis2","AR2000",0)~ ~!Global("IADruidPlot","GLOBAL",4) Global("didthis2","AR2000",0)~
+    REPLACE_TEXTUALLY ~Global("JeniaSpawn","AR2000",0)~ ~!Global("IADruidPlot","GLOBAL",4) Global("JeniaSpawn","AR2000",0)~
+    REPLACE_TEXTUALLY ~Global("OpenedAR2000Tomb","GLOBAL",0)~ ~!Global("IADruidPlot","GLOBAL",4) Global("OpenedAR2000Tomb","GLOBAL",0)~
+    REPLACE_TEXTUALLY ~Global("LorenSpawn","AR2000",0)~ ~!Global("IADruidPlot","GLOBAL",4) Global("LorenSpawn","AR2000",0)~
+    REPLACE_TEXTUALLY ~Global("ChaosSpawn","AR2000",0)~ ~!Global("IADruidPlot","GLOBAL",4) Global("ChaosSpawn","AR2000",0)~
+  END
+
+COPY_EXISTING ~AR2500.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~RevealAreaOnMap("ar1700")~ ~~
+  END
+
+COPY_EXISTING ~CUT41Q.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~True()~ ~!Global("IADruidPlot","GLOBAL",7) !Global("IADradeel","GLOBAL",3)~
+    REPLACE_TEXTUALLY ~SmallWait(1)~ ~Placeholder~
+    REPLACE_TEXTUALLY ~Wait(1)~ ~Wait(1) Rest() ActionOverride(Player2,Rest()) ActionOverride(Player3,Rest()) ActionOverride(Player4,Rest()) ActionOverride(Player5,Rest()) ActionOverride(Player6,Rest())~
+    REPLACE_TEXTUALLY ~Placeholder~ ~SmallWait(1)~
+  END

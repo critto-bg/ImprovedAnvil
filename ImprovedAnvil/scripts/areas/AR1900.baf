@@ -1,4 +1,4 @@
-//Druid Grove Area //////////////
+// Druid Grove Area //
 
 IF
   Global("Iacreature","AR1900",0)
@@ -61,4 +61,46 @@ THEN
     SpawnPtDeactivate("SpawnPoint2")
     SpawnPtDeactivate("SpawnPoint7")
     SpawnPtDeactivate("SpawnPoint8")
+END
+
+/* druid quest */
+
+IF
+  InMyArea(Player1)
+  Global("IADruidPlot","GLOBAL",1)
+  Global("IADruidAmbush","AR1900",0)
+  Global("IADruCut01","AR1900",0)
+THEN
+  RESPONSE #100
+    SetGlobal("IADruCut01","AR1900",1)
+    ClearAllActions()
+    StartCutSceneMode()
+    StartCutSceneEx("S!druc01",TRUE)
+END
+
+IF
+  InMyArea(Player1)
+  Global("IADruidPlot","GLOBAL",1)
+  Global("IADruidAmbush","AR1900",1)
+  Global("IADruCut01","AR1900",1)
+  Dead("S!wer01")
+  Dead("S!wer02")
+  Dead("S!wer03")
+  CombatCounter(0)
+THEN
+  RESPONSE #100
+    SetGlobal("IADruidAmbush","AR1900",2)
+END
+
+IF
+  InMyArea(Player1)
+  Global("IADruidPlot","GLOBAL",1)
+  Global("IADruidAmbush","AR1900",2)
+  Global("IADruCut01","AR1900",1)
+THEN
+  RESPONSE #100
+    SetGlobal("IADruCut01","AR1900",2)
+    ClearAllActions()
+    StartCutSceneMode()
+    StartCutSceneEx("S!druc01",TRUE)
 END

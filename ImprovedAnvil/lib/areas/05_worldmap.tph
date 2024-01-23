@@ -1,0 +1,127 @@
+// updates to the worldmap //
+
+// new map icon
+COPY ~ImprovedAnvil/resources/worldmap/MAPICONS.BAM~ ~override/MAPICONS.BAM~
+COPY ~ImprovedAnvil/resources/worldmap/MOS1000.PVRZ~ ~override/MOS1000.PVRZ~
+COPY ~ImprovedAnvil/resources/worldmap/MOS1001.PVRZ~ ~override/MOS1001.PVRZ~
+COPY ~ImprovedAnvil/resources/worldmap/MOS1002.PVRZ~ ~override/MOS1002.PVRZ~
+COPY ~ImprovedAnvil/resources/worldmap/MOS1003.PVRZ~ ~override/MOS1003.PVRZ~
+COPY ~ImprovedAnvil/resources/worldmap/MOS1004.PVRZ~ ~override/MOS1004.PVRZ~
+COPY ~ImprovedAnvil/resources/worldmap/MOS1005.PVRZ~ ~override/MOS1005.PVRZ~
+COPY ~ImprovedAnvil/resources/worldmap/MOS1006.PVRZ~ ~override/MOS1006.PVRZ~
+COPY ~ImprovedAnvil/resources/worldmap/MOS1007.PVRZ~ ~override/MOS1007.PVRZ~
+
+// patch the worldmap //
+
+OUTER_SET str_name_ref = RESOLVE_STR_REF (@12082)
+ACTION_GET_STRREF str_name_ref str_name
+
+LAF sc#addWmpAre
+  INT_VAR mapIcon         = 35
+          xCoord          = 864
+          yCoord          = 534
+          tTime           = 2
+          visible         = 0
+          reachable       = 1
+          visited         = 0
+          visibleAdjacent = 0
+          inclSv          = 0
+  STR_VAR areName = "S!0001"
+          strName = EVALUATE_BUFFER "%str_name%"
+          strDesc = ""
+END
+
+// from links
+ACTION_DEFINE_ARRAY nw_areas BEGIN
+  AR0020 AR0300 AR0400 AR0500 AR0700 AR0800 AR0900 AR1000 AR2500
+END
+
+ACTION_DEFINE_ARRAY ne_areas_far BEGIN
+  AR1100 AR1400 AR1404 AR1300 AR1304 AR2000 AR1200 AR1900 AR1800 AR2600 AR2800
+END
+
+ACTION_DEFINE_ARRAY ne_areas_closeby BEGIN
+  AR1700
+END
+
+// to links
+ACTION_DEFINE_ASSOCIATIVE_ARRAY to_areas BEGIN
+  AR0020 => ExitNE
+  AR0300 => ExitNE
+  AR0400 => ExitN
+  AR0500 => ExitNE
+  AR0700 => ExitE
+  AR0800 => ExitN
+  AR0900 => ExitNW
+  AR1000 => ExitN
+  AR2500 => CDExit
+  AR1100 => ExitSE
+  AR1400 => ExitW
+  AR1404 => ExitE
+  AR1300 => ExitSE
+  AR1304 => ExitSE
+  AR2000 => ExitNW
+  AR1200 => ExitW
+  AR1900 => ExitW
+  AR1800 => CDExit
+  AR2600 => CDExit
+END
+
+// set up the links
+COPY_EXISTING ~worldmap.wmp~ ~override~
+  PHP_EACH nw_areas AS null => area BEGIN
+    LPF ADD_WORLDMAP_LINKS
+      INT_VAR
+        default_entry  = 1
+        distance_scale = 2
+      STR_VAR
+        from_area = EVAL ~%area%~
+        to_area = ~S!0001~
+        entry = ~ExitNW~
+    END
+  END
+
+  PHP_EACH ne_areas_far AS null => area BEGIN
+    LPF ADD_WORLDMAP_LINKS
+      INT_VAR
+        default_entry  = 1
+        distance_scale = 2
+      STR_VAR
+        from_area = EVAL ~%area%~
+        to_area = ~S!0001~
+        entry = ~ExitNE~
+    END
+  END
+
+  PHP_EACH ne_areas_closeby AS null => area BEGIN
+    LPF ADD_WORLDMAP_LINKS
+      INT_VAR
+        default_entry  = 1
+        distance_scale = 0
+      STR_VAR
+        from_area = EVAL ~%area%~
+        to_area = ~S!0001~
+        entry = ~ExitNE~
+    END
+  END
+
+  PHP_EACH to_areas AS area => entry BEGIN
+    LPF ADD_WORLDMAP_LINKS
+      INT_VAR
+        distance_scale = 2
+      STR_VAR
+        from_area = ~S!0001~
+        to_area = EVAL ~%area%~
+        entry = EVAL ~%entry%~
+    END
+  END
+
+  LPF ADD_WORLDMAP_LINKS
+    INT_VAR
+      distance_scale = 0
+    STR_VAR
+      from_area = ~S!0001~
+      to_area = ~AR1700~
+      entry = ~ExitSW~
+  END
+BUT_ONLY

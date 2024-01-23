@@ -1,6 +1,23 @@
 // Druid Grove //
 
 IF
+  InMyArea(Player1)
+  Global("DruidFight","AR1901",10)
+  Global("IADruidPlot","GLOBAL",0)
+  Global("GrovePoisoned","GLOBAL",0)
+  OR(2)
+    Global("Chapter","GLOBAL",2)
+    Global("Chapter","GLOBAL",3)
+  OR(2)
+    Class(Player1,DRUID_ALL)
+    Class(Player1,SHAMAN)
+  !Class(Player1,FIGHTER_ALL)
+THEN
+  RESPONSE #100
+    SetGlobal("IADruidPlot","GLOBAL",1)
+END
+
+IF
   Global("Iapartyheld","AR1901",1)
   Dead("CEFALD01") //
 THEN

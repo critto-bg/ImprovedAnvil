@@ -64,3 +64,28 @@ THEN
       ActionOverride("Chest6",CreateItem("S!misc02",0,0,0)) //
       ActionOverride("Chest6",CreateItem("potn55",0,0,0)) //
 END
+
+IF
+  InMyArea(Player1)
+  OR(2)
+    GlobalLT("IADruidPlot","GLOBAL",8)
+    Global("IADruidPlot","GLOBAL",17)
+  Global("IADruidFailed","GLOBAL",0)
+THEN
+	RESPONSE #100
+    SetGlobal("IADruidFailed","GLOBAL",1)
+    EraseJournalEntry(@5510)
+    EraseJournalEntry(@5511)
+    EraseJournalEntry(@5512)
+    EraseJournalEntry(@5513)
+    EraseJournalEntry(@5514)
+    EraseJournalEntry(@5515)
+    EraseJournalEntry(@5516)
+    EraseJournalEntry(@5517)
+    EraseJournalEntry(@5519)
+    EraseJournalEntry(@5520)
+    EraseJournalEntry(@5521)
+    EraseJournalEntry(@5522)
+    EraseJournalEntry(@5523)
+    AddJournalEntry(@5524,QUEST_DONE)
+END

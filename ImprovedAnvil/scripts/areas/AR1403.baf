@@ -1,0 +1,57 @@
+// Shadow Temple, werewolf cave //
+
+// Anath's human form in the cave
+IF
+  Global("IADruidAnathNote","GLOBAL",0)
+  Global("IAItemCheck","AR1403",0)
+  Exists("rngwlf01")
+  !Dead("rngwlf01")
+  !PartyHasItem("S!misc76")
+  OR(2)
+    Class(Player1,DRUID_ALL)
+    Class(Player1,SHAMAN)
+THEN
+  RESPONSE #100
+    SetGlobal("IAItemCheck","AR1403",1)
+    GiveItemCreate("S!misc76","rngwlf01",0,0,0)
+END
+
+// Anath's aggressive werewolf form in the cave
+IF
+  Global("IADruidAnathNote","GLOBAL",0)
+  Global("IAItemCheck2","AR1403",0)
+  Exists("rngwlf04")
+  !Dead("rngwlf04")
+  !PartyHasItem("S!misc76")
+  OR(2)
+    Class(Player1,DRUID_ALL)
+    Class(Player1,SHAMAN)
+THEN
+  RESPONSE #100
+    SetGlobal("IAItemCheck2","AR1403",1)
+    GiveItemCreate("S!misc76","rngwlf04",0,0,0)
+END
+
+IF
+  Global("IADruidAnathNote","GLOBAL",0)
+  PartyHasItem("S!misc76")
+THEN
+  RESPONSE #100
+    SetGlobal("IADruidAnathNote","GLOBAL",1)
+END
+
+IF
+  Global("IADruidAnathNote","GLOBAL",1)
+  Global("IADruidPlot","GLOBAL",2)
+THEN
+  RESPONSE #100
+    SetGlobal("IADruidAnathNote","GLOBAL",2)
+    AddJournalEntry(@5511,QUEST)
+END
+
+IF
+  Global("IADruidAnathNote","GLOBAL",1)
+THEN
+  RESPONSE #100
+    SetGlobal("IADruidAnathNote","GLOBAL",2)
+END
