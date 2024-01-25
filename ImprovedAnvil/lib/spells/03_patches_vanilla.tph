@@ -306,6 +306,13 @@ COPY_EXISTING ~SPWI316.spl~ ~override/SPWI316.spl~
     savebonus = 0
   END
 
+// Ghost Armor, remove scripting state
+COPY_EXISTING ~SPWI317.spl~ ~override/SPWI317.spl~
+  LPF DELETE_SPELL_EFFECT
+    INT_VAR
+      opcode_to_delete = 282
+  END
+
 COPY_EXISTING ~SPWI401.spl~ ~override/SPWI401.spl~
   READ_BYTE 0x19 "splflags"
   WRITE_BYTE 0x19 ("%splflags%" BOR 0b00000100)
