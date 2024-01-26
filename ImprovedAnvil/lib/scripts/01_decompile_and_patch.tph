@@ -179,6 +179,7 @@ COPY_EXISTING ~AR4000.BCS~ ~override~
     REPLACE_TEXTUALLY ~Dead("Illasera")~ ~Dead("Illasera") CombatCounter(0)~
     REPLACE_TEXTUALLY ~SetGlobal("HeadsSave","AR4000",2)~ ~SetGlobal("HeadsSave","AR4000",2) SetGlobal("Iap1nr","GLOBAL",0) SetGlobal("Iap2nr","GLOBAL",0) SetGlobal("Iap3nr","GLOBAL",0) SetGlobal("Iap4nr","GLOBAL",0) SetGlobal("Iap5nr","GLOBAL",0) SetGlobal("Iap6nr","GLOBAL",0) SetGlobal("Iap1nb","GLOBAL",0) SetGlobal("Iap2nb","GLOBAL",0) SetGlobal("Iap3nb","GLOBAL",0) SetGlobal("Iap4nb","GLOBAL",0) SetGlobal("Iap5nb","GLOBAL",0) SetGlobal("Iap6nb","GLOBAL",0) ActionOverride(Player1,ReallyForceSpellRES("SPINI22",Myself))~
     REPLACE_TEXTUALLY ~DWCSW1H01~ ~DWSW1H01~
+    REPLACE_TEXTUALLY ~Global("BD_DEFAI","GLOBAL",0)~ ~False()~
   END
 
 COPY_EXISTING ~TSIGHT.BCS~ ~override~
@@ -531,11 +532,10 @@ COPY_EXISTING ~OHHFDAWN.BCS~ ~override~
     REPLACE_TEXTUALLY ~PartyHasItem("ohhcloak")~ ~OR(3) PartyHasItem("ohhcloak") PartyHasItem("S!clck08") PartyHasItem("S!clck09")~
   END
 
-// disable assignment of AI scripts to the party members
 COPY_EXISTING ~AR0602.BCS~ ~override/AR0602.BCS~
-              ~AR4000.BCS~ ~override/AR4000.BCS~
   DECOMPILE_AND_PATCH BEGIN
     REPLACE_TEXTUALLY ~Global("BD_DEFAI","GLOBAL",0)~ ~False()~
+    REPLACE_TEXTUALLY ~ActionOverride("Table3",TakeItemListPartyNum("IMPORT02",1))~ ~~
   END
 
 COPY_EXISTING ~AR0603.BCS~ ~override/AR0603.BCS~
