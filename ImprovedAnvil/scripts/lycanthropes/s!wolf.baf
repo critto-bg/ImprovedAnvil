@@ -5,7 +5,6 @@ IF
   Allegiance(Myself,ENEMY)
   Global("IaNoRegen","LOCALS",0)
   Global("Prep","LOCALS",1)
-  !GlobalTimerNotExpired("IaRegenHitTimer","LOCALS")
   TookDamage()
   OR(3)
     HitBy([ANYONE],FIRE)
@@ -16,7 +15,6 @@ IF
   !StateCheck(Myself,STATE_PANIC)
 THEN
   RESPONSE #100
-    SetGlobalTimer("IaRegenHitTimer","LOCALS",1)
     IncrementGlobal("IaRegenHits","LOCALS",1)
 END
 
@@ -37,7 +35,6 @@ THEN
     ReallyForceSpell(Myself,RED_PILLAR_VISUAL)
     SetName(@12086)
     DisplayString(Myself,@12080)
-    Continue()
 END
 
 // this forces werewolves to escape the area at the end of trademeet siege event //
@@ -121,7 +118,7 @@ IF
   !HasItemEquiped("S!amul06",LastSeenBy(Myself))  // Lord of the Underworld
 THEN
   RESPONSE #100
-    AttackReevaluate(NearestEnemyOf(Myself),30)
+    AttackReevaluate(NearestEnemyOf(Myself),15)
 END
 
 IF
@@ -144,7 +141,7 @@ IF
   !HasItemEquiped("S!amul06",LastSeenBy(Myself))  // Lord of the Underworld
 THEN
   RESPONSE #100
-    AttackReevaluate(LastSeenBy(Myself),30)
+    AttackReevaluate(LastSeenBy(Myself),15)
 END
 
 IF
@@ -167,7 +164,7 @@ IF
   !HasItemEquiped("S!amul06",LastSeenBy(Myself))  // Lord of the Underworld
 THEN
   RESPONSE #100
-    AttackReevaluate(LastSeenBy(Myself),30)
+    AttackReevaluate(LastSeenBy(Myself),15)
 END
 
 // basic attack pattern //
@@ -179,7 +176,7 @@ IF
   !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE6)
 THEN
   RESPONSE #100
-    AttackReevaluate(LastSeenBy(Myself),30)
+    AttackReevaluate(LastSeenBy(Myself),15)
 END
 
 IF
@@ -187,7 +184,7 @@ IF
   !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE6)
 THEN
   RESPONSE #100
-    AttackReevaluate(LastSeenBy(Myself),30)
+    AttackReevaluate(LastSeenBy(Myself),15)
 END
 
 IF
@@ -195,7 +192,7 @@ IF
   !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE6)
 THEN
   RESPONSE #100
-    AttackReevaluate(LastSeenBy(Myself),30)
+    AttackReevaluate(LastSeenBy(Myself),15)
 END
 
 IF
@@ -203,14 +200,14 @@ IF
   !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE6)
 THEN
   RESPONSE #100
-    AttackReevaluate(LastSeenBy(Myself),30)
+    AttackReevaluate(LastSeenBy(Myself),15)
 END
 
 IF
   See(NearestEnemyOf(Myself))
 THEN
   RESPONSE #100
-    AttackReevaluate(LastSeenBy(Myself),30)
+    AttackReevaluate(LastSeenBy(Myself),15)
 END
 
 // basic movement //
