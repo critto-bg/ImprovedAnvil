@@ -622,3 +622,10 @@ COPY_EXISTING ~CUT41Q.BCS~ ~override~
     REPLACE_TEXTUALLY ~Wait(1)~ ~Wait(1) Rest() ActionOverride(Player2,Rest()) ActionOverride(Player3,Rest()) ActionOverride(Player4,Rest()) ActionOverride(Player5,Rest()) ActionOverride(Player6,Rest())~
     REPLACE_TEXTUALLY ~Placeholder~ ~SmallWait(1)~
   END
+
+// Rasaad quest in SoA - final fight, remove the sorcerer from the battle
+COPY_EXISTING ~OHRCUT4Y.BCS~ ~override/OHRCUT4Y.BCS~
+  DECOMPILE_BCS_TO_BAF
+  REPLACE_TEXTUALLY ~CreateCreature(\"OHRSHRN4\",\[2520\.2605\],NE)~ ~ActionOverride(Player1,ReallyForceSpellRES("SPWISH16",Myself))~
+  COMPILE_BAF_TO_BCS
+  BUT_ONLY_IF_IT_CHANGES

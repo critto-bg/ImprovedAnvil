@@ -57,3 +57,36 @@ COPY_EXISTING ~OH7300.ARE~ ~override/OH7300.ARE~
     old_item = ~POTN40~
     new_item = ~POTN11~
   END
+
+// Dark Moon Heretic Temple
+<<<<<<<< .../inlined/old-oh4100.baf
+IF
+	Global("ohr_sharrans_dead","oh4100",0)
+	!NumDeadLT("OHRSHRN1",2)
+	!NumDeadLT("OHRSHRN2",2)
+	!NumDeadLT("OHRSHRN3",2)
+	!NumDeadLT("OHRSHRN4",1)
+	!NumDeadLT("OHRSHRN5",1)
+	!NumDeadLT("OHRSHRN6",5)
+THEN
+	RESPONSE #100
+		SetGlobal("ohr_sharrans_dead","oh4100",1)
+		Continue()
+END
+>>>>>>>>
+<<<<<<<< .../inlined/new-oh4100.baf
+IF
+	Global("ohr_sharrans_dead","oh4100",0)
+	Global("OHR_PLOT","GLOBAL",5)
+	!NumDeadLT("OHRSHRN5",1)
+	CombatCounter(0)
+THEN
+	RESPONSE #100
+		SetGlobal("ohr_sharrans_dead","oh4100",1)
+		Continue()
+END
+>>>>>>>>
+
+COPY_EXISTING ~OH4100.BCS~ ~override/OH4100.BCS~
+  REPLACE_BCS_BLOCK ~.../inlined/old-oh4100.baf~ ~.../inlined/new-oh4100.baf~
+  BUT_ONLY
