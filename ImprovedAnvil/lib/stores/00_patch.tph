@@ -1029,3 +1029,9 @@ COPY_EXISTING ~ohnmhsm.sto~ ~Override/ohnmhsm.sto~
 COPY_EXISTING ~BAG04.sto~ ~override/BAG04.sto~
               ~BAG31.sto~ ~override/BAG31.sto~
   WRITE_SHORT 0x22 500 // capacity
+
+/* remove store depreciation */
+
+COPY_EXISTING_REGEXP GLOB ~^.+\.sto$~ ~override~
+  WRITE_LONG 0x1c 0 // depreciation rate
+  BUT_ONLY
