@@ -379,7 +379,8 @@ APPEND BOTSMITH
 
   IF ~~ THEN BEGIN mazzy
     SAY @2010 IF ~~ THEN REPLY @2 GOTO 4
-    IF ~Global("Iadracoldead","GLOBAL",1) Dead("S!dracol") PartyHasItem("npsw01") NumItemsPartyGT("scrl58",2) PartyHasItem("sw1h27") PartyHasItem("sw1h74") PartyHasItem("scrl5i") NumItemsPartyGT("scrl6m",1) PartyHasItem("S!misc02") PartyGoldGT(74999)~
+    IF ~Global("Iadracoldead","GLOBAL",1) Dead("S!dracol") PartyHasItem("npsw01") NumItemsPartyGT("scrl58",2) PartyHasItem("sw1h27") PartyHasItem("sw1h74") PartyHasItem("scrl5i") NumItemsPartyGT("scrl6m",1) PartyHasItem("S!misc02") PartyHasItem("S!misc33")
+ PartyGoldGT(74999)~
       THEN REPLY @3
       DO ~TakePartyGold(75000)      DestroyGold(75000)
           TakePartyItemNum("npsw01",1)   DestroyItem("npsw01")
@@ -387,6 +388,7 @@ APPEND BOTSMITH
                                          DestroyItem("scrl58")
                                          DestroyItem("scrl58")
           TakePartyItemNum("S!misc02",1)   DestroyItem("S!misc02")
+          TakePartyItemNum("S!misc33",1)   DestroyItem("S!misc33")
           TakePartyItemNum("sw1h27",1)   DestroyItem("sw1h27")
           TakePartyItemNum("sw1h74",1)   DestroyItem("sw1h74")
           TakePartyItemNum("scrl5i",1)   DestroyItem("scrl5i")

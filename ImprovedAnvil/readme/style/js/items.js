@@ -2845,6 +2845,7 @@ var weapons = [
                     "Sword of Arvoreen",
                     "Arbane's Sword",
                     "A +3 Short Sword",
+                    "Maze Sigil",
                     "A scroll of Greater Malison",
                     "Two scrolls of Enchanted Weapon",
                     "Three scrolls of Free action (clerical spell)",
