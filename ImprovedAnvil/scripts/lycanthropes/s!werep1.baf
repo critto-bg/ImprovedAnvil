@@ -16,3 +16,17 @@ THEN
     SetGlobal("IaCanGaze","LOCALS",0)
     SetGlobal("IaCanSummon","LOCALS",0)
 END
+
+// prevent werewolves in the druid grove ambush from running away in panic
+IF
+  InMyArea(Player1)
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  Global("Prep","LOCALS",1)
+  Global("IaOnce1","LOCALS",0)
+  Name("S!were02",Myself)
+THEN
+  RESPONSE #100
+    SetGlobal("IaOnce1","LOCALS",1)
+    SetGlobal("IaCanPanic","LOCALS",0)
+END
