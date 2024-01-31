@@ -308,3 +308,64 @@ COPY_EXISTING ~ohrscrl1.itm~ ~override/ohrscrl1.itm~
   END
 
   BUT_ONLY
+
+// Hexxat's amulet
+COPY_EXISTING ~ohhexam1.itm~ ~override/ohhexam1.itm~
+              ~ohhexam2.itm~ ~override/ohhexam2.itm~
+              ~ohhexam3.itm~ ~override/ohhexam3.itm~
+              ~ohhexam5.itm~ ~override/ohhexam5.itm~
+  LAUNCH_PATCH_FUNCTION ~DELETE_ITEM_EQEFFECT~ INT_VAR
+    opcode_to_delete = 206
+  END
+
+  PATCH_FOR_EACH ~anim~ IN ~CDHORROR~ ~SPMINDAT~ ~SPNWCHRM~
+  BEGIN
+    LAUNCH_PATCH_FUNCTION ~DELETE_EFFECT~
+      INT_VAR
+        check_headers = 0
+        match_opcode = 296
+      STR_VAR
+        match_resource = EVALUATE_BUFFER ~%anim%~
+    END
+  END
+
+  PATCH_FOR_EACH ~string~ IN ~14672~ ~14780~ ~8364~ ~14102~ ~14001~
+  BEGIN
+    LAUNCH_PATCH_FUNCTION ~DELETE_EFFECT~
+      INT_VAR
+        check_headers = 0
+        match_opcode = 267
+        match_parameter1 = string
+    END
+  END
+
+  PATCH_FOR_EACH ~icon~ IN ~0~ ~1~ ~13~ ~14~ ~43~
+  BEGIN
+    LAUNCH_PATCH_FUNCTION ~DELETE_EFFECT~
+      INT_VAR
+        check_headers = 0
+        match_opcode = 169
+        match_parameter2 = icon
+    END
+  END
+
+  PATCH_FOR_EACH ~effect~ IN ~5~ ~39~ ~109~ ~175~ ~217~
+  BEGIN
+    LAUNCH_PATCH_FUNCTION ~DELETE_EFFECT~
+      INT_VAR
+        check_headers = 0
+        match_opcode = 101
+        match_parameter2 = effect
+    END
+  END
+
+  LPF ADD_ITEM_EQEFFECT
+    INT_VAR
+      opcode = 282
+      target = 1
+      timing = 2
+      resist_dispel = 2
+      parameter1 = 2
+      parameter2 = 18
+      insert_point = (0 - 1)
+  END
