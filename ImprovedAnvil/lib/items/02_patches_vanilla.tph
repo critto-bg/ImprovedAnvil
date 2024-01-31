@@ -1124,3 +1124,24 @@ COPY_EXISTING ~DECK.itm~ ~override/DECK.itm~
 // Iron Sigil
 COPY_EXISTING ~S!misc43.itm~ ~override/S!misc43.itm~
   SAY DESC @12065
+
+// Root of the Problem
+COPY_EXISTING ~blun10.itm~ ~override/blun10.itm~
+  SAY DESC @11119
+
+  LPF ALTER_ITEM_EFFECT
+    INT_VAR
+      check_headers = 1
+      match_opcode = 12
+      parameter1 = 10
+      probability1 = 10
+      dicesize = 0
+      savebonus = 0
+  END
+
+  LPF ALTER_ITEM_EFFECT
+    INT_VAR
+      check_globals = 1
+      match_opcode = 344
+      special = 2
+  END
