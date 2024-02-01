@@ -579,6 +579,12 @@ BUT_ONLY
 // Troll falling to the ground
 
 COPY_EXISTING ~trollreg.spl~ ~override/trollreg.spl~
+  LPF DELETE_SPELL_EFFECT
+    INT_VAR
+      opcode_to_delete = 39
+  END
+
+  // Apply sleep through curse, which bypasses standard immunity to opcode
   LPF ADD_SPELL_EFFECT
     INT_VAR
       opcode = 283
@@ -605,4 +611,16 @@ COPY_EXISTING ~trollreg.spl~ ~override/trollreg.spl~
       insert_point = 0
     STR_VAR
       resource = ~trollreg~
+  END
+
+  // Immunity to remove curse to prevent early removal of sleep
+  LPF ADD_SPELL_EFFECT
+    INT_VAR
+      opcode = 101
+      target = 1
+      timing = 0
+      resist_dispel = 0
+      duration = 20
+      parameter1 = 0
+      parameter2 = 26
   END
