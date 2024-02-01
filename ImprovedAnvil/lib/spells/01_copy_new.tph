@@ -732,6 +732,22 @@ COPY ~ImprovedAnvil/resources/spells/S!werhwl.spl~ ~override/S!werhwl.spl~
 COPY ~ImprovedAnvil/resources/spells/S!werrag.spl~ ~override/S!werrag.spl~
   SAY NAME1 @12073
 
+// Troll falling to the ground
+COPY ~ImprovedAnvil/resources/spells/S!trlreg.spl~ ~override/S!trlreg.spl~
+  LPF ADD_SPELL_EFFECT
+    INT_VAR
+      opcode = 318
+      target = 1
+      timing = 0
+      resist_dispel = 0
+      duration = 0
+      parameter1 = 12
+      parameter2 = %hp_greater_than%
+      insert_point = 0
+    STR_VAR
+      resource = ~S!trlreg~
+  END
+
 // Add new healing spells for the Shaman //
 
 ACTION_PHP_EACH shaman_healing_spells AS record => int BEGIN
