@@ -2854,12 +2854,20 @@ var weapons = [
                 ],
                 "attributes": [
                     {
-                        "section_name": "Abilities",
+                        "section_name": "Special abilities",
                         "section_items": [
-                            "Target must save vs. wand with a -4 penalty or suffer the effect of the Greater Malison spell",
-                            "Wielder of the sword is immune to slow, hold and stun effects",
+                            "Target must save vs. wand with a -4 penalty or suffer extra 2D6 piercing damage"
+                        ]
+                    },
+                    {
+                        "section_name": "Equipped abilities",
+                        "section_items": [
+                            "Armor Class bonus: +2",
+                            "Constitution bonus: +1",
+                            "Regeneration: 1HP every 2 seconds",
+                            "Wielder of the sword is immune to slow, hold and stun effects",,
                             "THAC0: +5 bonus",
-                            "Damage:  1D6 +5"
+                            "Damage: 1D6 +5"
                         ]
                     },
                     {
