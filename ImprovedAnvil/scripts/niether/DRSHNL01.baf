@@ -1,23 +1,32 @@
 IF
-	See(NearestEnemyOf(Myself))
-	Global("Prep","LOCALS",0)
+  !See(NearestEnemyOf(Myself))
+  Heard([ANYONE],ALERT)
+  See(LastHeardBy(Myself))
 THEN
-	RESPONSE #100
-		ForceSpell(Myself,CLERIC_PHYSICAL_MIRROR) // SPPR613.SPL (Protection From Missiles)
-		ForceSpell(Myself,CLERIC_DEATH_WARD) // SPPR409.SPL (Death Ward)
-		ForceSpell(Myself,CLERIC_SHIELD_OF_THE_ARCHONS) // SPPR701.SPL (Shield of the Archons)
-		ForceSpell(Myself,CLERIC_ACID_SHIELD)
-		SetGlobal("Prep","LOCALS",1)
+  RESPONSE #100
+    MoveToObject(LastHeardBy(Myself))
 END
 
 IF
-	See(NearestEnemyOf(Myself))
-	Global("ratSpawn","LOCALS",0)
+  See(NearestEnemyOf(Myself))
+  Global("Prep","LOCALS",0)
 THEN
-	RESPONSE #100
-		DisplayStringHead(Myself,8340) // The troll shakes, twitches, and convulses as a dozen sickly rats tear their way from her body and scramble towards you, fangs bared in angry grimaces.
-		ForceSpell(Myself,TROLL_RAT_SPAWN) // SPIN715.SPL (No such index)
-		SetGlobal("ratSpawn","LOCALS",1)
+  RESPONSE #100
+    SetGlobal("Prep","LOCALS",1)
+    ReallyForceSpell(Myself,CLERIC_PHYSICAL_MIRROR) // SPPR613.SPL (Protection From Missiles)
+    ReallyForceSpell(Myself,CLERIC_DEATH_WARD) // SPPR409.SPL (Death Ward)
+    ReallyForceSpell(Myself,CLERIC_SHIELD_OF_THE_ARCHONS) // SPPR701.SPL (Shield of the Archons)
+    ReallyForceSpell(Myself,CLERIC_ACID_SHIELD)
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  Global("ratSpawn","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("ratSpawn","LOCALS",1)
+    DisplayStringHead(Myself,8340) // The troll shakes, twitches, and convulses as a dozen sickly rats tear their way from her body and scramble towards you, fangs bared in angry grimaces.
+    ReallyForceSpell(Myself,TROLL_RAT_SPAWN) // SPIN715.SPL (No such index)
 END
 
 IF
