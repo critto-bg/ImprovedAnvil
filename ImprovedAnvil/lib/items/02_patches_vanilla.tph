@@ -19,17 +19,17 @@ COPY_EXISTING ~blun12.itm~ ~override/blun12.itm~
       resist_dispel = 2
   END
 
-	// set a proper resource reference to the effect that applies extra damage
-	LPF ALTER_EFFECT
-		INT_VAR
-			check_headers = 1
-			match_opcode = 177
-		STR_VAR
-			match_resource = ~cddisr~
-			resource = ~macedisu~
-	END
+  // set a proper resource reference to the effect that applies extra damage
+  LPF ALTER_EFFECT
+    INT_VAR
+      check_headers = 1
+      match_opcode = 177
+    STR_VAR
+      match_resource = ~cddisr~
+      resource = ~macedisu~
+  END
 
-	SAY DESC @10313
+  SAY DESC @10313
 
 // Mace of Disruption +2
 COPY_EXISTING ~blun25.itm~ ~override/blun25.itm~
@@ -53,15 +53,15 @@ COPY_EXISTING ~blun25.itm~ ~override/blun25.itm~
       resist_dispel = 2
   END
 
-	// set a proper resource reference to the effect that applies extra damage
-	LPF ALTER_EFFECT
-		INT_VAR
-			check_headers = 1
-			match_opcode = 177
-		STR_VAR
-			match_resource = ~macedisu~
-			resource = ~cddisr~
-	END
+  // set a proper resource reference to the effect that applies extra damage
+  LPF ALTER_EFFECT
+    INT_VAR
+      check_headers = 1
+      match_opcode = 177
+    STR_VAR
+      match_resource = ~macedisu~
+      resource = ~cddisr~
+  END
 
   SAY DESC @9047
 
@@ -1145,3 +1145,13 @@ COPY_EXISTING ~blun10.itm~ ~override/blun10.itm~
       match_opcode = 344
       special = 2
   END
+
+// Troll regeneration item
+COPY_EXISTING ~trollreg.itm~ ~override/trollreg.itm~
+  LAUNCH_PATCH_FUNCTION ~ALTER_ITEM_EFFECT~ 
+    INT_VAR
+      check_globals = 1
+      match_opcode = 232
+      parameter2 = 11
+  END
+  BUT_ONLY

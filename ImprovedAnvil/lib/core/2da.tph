@@ -382,20 +382,15 @@ COPY_EXISTING ~splprot.2da~ ~override/splprot.2da~
   COUNT_2DA_COLS ~colcount~
   COUNT_2DA_ROWS ~colcount~ ~rowcount~
 
-  // add a condition to check if HP is lower than given value
+  // add a condition to check if HP is lower than given value  
   SET hp_lower_than = %rowcount%
-  INSERT_2DA_ROW ~rowcount~ ~colcount~ ~%hp_lower_than%_HP<n 0x000 -1 2~
-  PRETTY_PRINT_2DA
-
-COPY_EXISTING ~splprot.2da~ ~override/splprot.2da~
-  COUNT_2DA_COLS ~colcount~
-  COUNT_2DA_ROWS ~colcount~ ~rowcount~
+  INSERT_2DA_ROW ~%hp_lower_than%~ ~colcount~ ~%hp_lower_than%_HP<n 0x000 -1 2~
 
   // add a condition to check if HP is greater than given value
-  SET hp_greater_than = %rowcount%
-  INSERT_2DA_ROW ~rowcount~ ~colcount~ ~%hp_greater_than%_HP>n 0x000 -1 3~
-  PRETTY_PRINT_2DA
+  SET hp_greater_than = %rowcount% + 1
+  INSERT_2DA_ROW ~%hp_greater_than%~ ~colcount~ ~%hp_greater_than%_HP>n 0x000 -1 3~
 
+  PRETTY_PRINT_2DA
 
 // update the wild surge table
 COPY_EXISTING ~wildmag.2da~ ~override/wildmag.2da~
