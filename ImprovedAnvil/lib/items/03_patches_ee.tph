@@ -369,3 +369,22 @@ COPY_EXISTING ~ohhexam1.itm~ ~override/ohhexam1.itm~
       parameter2 = 18
       insert_point = (0 - 1)
   END
+
+// Robe of Goodman Hayes
+COPY_EXISTING ~ohnrobe1.itm~ ~override/ohnrobe1.itm~
+  SAY DESC @11158
+
+  READ_BYTE 0x1e usability
+  WRITE_BYTE 0x1e (usability ^^ (BIT1 | BIT2))
+
+  LAUNCH_PATCH_FUNCTION ~DELETE_ITEM_EQEFFECT~ INT_VAR
+    opcode_to_delete = 142
+  END
+
+  LAUNCH_PATCH_FUNCTION ~ALTER_ITEM_EFFECT~ INT_VAR
+    check_globals = 1
+    match_opcode = 281
+    parameter1 = 5
+    parameter2 = 0
+  END
+  BUT_ONLY
