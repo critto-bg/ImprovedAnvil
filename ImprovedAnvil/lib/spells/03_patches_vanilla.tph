@@ -328,31 +328,16 @@ COPY_EXISTING ~SPWI411.spl~ ~override/SPWI411.spl~
     parameter2 = 1
   END
 
-// Update Breach to its own new secondary type
-COPY_EXISTING ~spwi513.spl~  ~override/spwi513.spl~
-              ~spwish38.spl~ ~override/spwish38.spl~
-  WRITE_BYTE  0x27 ~%Breach%~ // secondary type
-
 COPY_EXISTING ~spwi516.spl~ ~override/spwi516.spl~
   WRITE_BYTE  0x27      0 // secondary type
 
-// Update Spell Shield to protect from Breach
+// Update Spell Shield to have its own spell state
 COPY_EXISTING ~spwi519.spl~ ~override/spwi519.spl~
               ~spwii01.spl~ ~override/spwii01.spl~
   LPF ~CLONE_EFFECT~
     INT_VAR
       check_globals = 0
       match_opcode = 226
-      parameter2 = ~%Breach%~
-    STR_VAR
-      insert = ~below~
-  END
-
-  LPF ~CLONE_EFFECT~
-    INT_VAR
-      check_globals = 0
-      match_opcode = 226
-      match_parameter2 = ~%Breach%~
       opcode = 328
       parameter1 = 0
       parameter2 = 108
@@ -367,7 +352,6 @@ COPY_EXISTING ~spwi520.spl~ ~override/spwi520.spl~
 COPY_EXISTING ~spwi521.spl~ ~override/spwi521.spl~
   WRITE_BYTE  0x27      0 // secondary type
 
-// TODO: remove this?
 // Update Spell Turning to have its own spell state
 COPY_EXISTING ~spwi701.spl~ ~override/spwi701.spl~
               ~spwii03.spl~ ~override/spwii03.spl~
