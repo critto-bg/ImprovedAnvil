@@ -1,6 +1,15 @@
 IF
+  Global("RiatavinFight","GLOBAL",1)
+  Allegiance(Myself,NEUTRAL)
+THEN
+  RESPONSE #100
+    Enemy()
+END
+
+IF
   !GlobalTimerNotExpired("DrankPotionTimer","LOCALS")
   !GlobalTimerNotExpired("Iarage","LOCALS")
+  Allegiance(Myself,ENEMY)
   !StateCheck(Myself,STATE_SILENCED)
   !StateCheck(Myself,STATE_CONFUSED)
   !StateCheck(Myself,STATE_HELPLESS)
@@ -16,14 +25,6 @@ THEN
     SetGlobalTimer("DrankPotionTimer","LOCALS",6)
     SetGlobalTimer("Iarage","LOCALS",32)
     ForceSpell(Myself,BARBARIAN_RAGE)
-END
-
-IF
-  Global("RiatavinFight","GLOBAL",1)
-  Allegiance(Myself,NEUTRAL)
-THEN
-  RESPONSE #100
-    Enemy()
 END
 
 IF
