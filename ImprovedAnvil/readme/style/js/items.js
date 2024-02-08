@@ -1457,7 +1457,7 @@ var gear = [
                         "section_items": [
                             "Saving throws: +3 bonus",
                             "Electrical resistance: +90%",
-                            "Magical resistance: +25%",
+                            "Resistance to Magic Damage: +25%",
                             "Jaheira can memorize one additional spell per spell level"
                         ]
                     },
