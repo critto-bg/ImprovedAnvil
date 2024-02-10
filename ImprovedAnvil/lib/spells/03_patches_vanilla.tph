@@ -568,3 +568,17 @@ COPY_EXISTING ~keldorn.spl~ ~override/keldorn.spl~
       resource      = ~keldorn~
   END
 BUT_ONLY
+
+// remove dispel of Primal Ward from various Heal spells
+COPY_EXISTING ~SPIN679.spl~ ~override/SPIN679.spl~
+              ~SPIN711.spl~ ~override/SPIN711.spl~
+              ~SPPR607.spl~ ~override/SPPR607.spl~
+              ~SPWM168.spl~ ~override/SPWM168.spl~
+              ~SPPR317.spl~ ~override/SPPR317.spl~
+  LAUNCH_PATCH_FUNCTION ~DELETE_EFFECT~
+    INT_VAR
+      check_globals = 0
+      match_opcode = 321
+    STR_VAR
+      match_resource = ~SPPR650~
+  END
