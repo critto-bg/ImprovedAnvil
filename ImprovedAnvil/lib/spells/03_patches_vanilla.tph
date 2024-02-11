@@ -2,6 +2,10 @@
 
 // common innates (spells) //
 
+COPY_EXISTING ~SPIN103.spl~ ~override/SPIN103.spl~
+  // update casting speed
+  LPF ~ALTER_SPELL_HEADER~ INT_VAR speed = 5 END
+
 COPY_EXISTING ~spin535.spl~ ~override/spin535.spl~
   WRITE_BYTE  0x27      0 // secondary type
 
@@ -166,6 +170,9 @@ COPY_EXISTING ~SPPR214.spl~ ~override/SPPR214.spl~
       match_opcode = 328
       parameter2 = 25
   END
+
+  // update casting speed
+  LPF ~ALTER_SPELL_HEADER~ INT_VAR speed = 5 END
 
 COPY_EXISTING ~SPPR318.spl~ ~override/SPPR318.spl~
   WRITE_SHORT  0x20      0 // Priest Type
