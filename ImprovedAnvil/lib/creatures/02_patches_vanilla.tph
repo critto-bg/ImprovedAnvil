@@ -7417,9 +7417,12 @@ COPY_EXISTING ~senorc04.cre~ ~override/senorc04.cre~
 END
 
 COPY_EXISTING ~jade1.cre~ ~override/jade1.cre~
-  WRITE_ASCII 0x250 ~mage7~ #8 // class script
-  WRITE_ASCII 0x258 ~gpshout~ #8 // race script
-  WRITE_ASCII 0x260 ~gpuse~ #8 // general script
+  WRITE_LONG 0x28  0x6311 // animation
+  WRITE_LONG 0x244 0      // kit
+  WRITE_BYTE 0x273 4      // class
+
+  REMOVE_MEMORIZED_SPELLS
+  REMOVE_KNOWN_SPELLS
 
 COPY_EXISTING ~firamb03.cre~ ~override/firamb03.cre~
   WRITE_SHORT 0x24      40 // current hp
