@@ -1,25 +1,5 @@
 // Shadow Temple Land shadowed //
 
-/**
- * Shadow Temple area
- *
- * Anath's numerous forms, how the item s!misc76 from the druid quest is placed:
- *
- * rngwlf01 - the human form, added to the inventory,
- *            replaces herself with rngwlf04 or rngwlf05 through dialogue, dies if shade lord is finished
- * rngwlf02 - ignored
- * rngwlf03 - added at Kill(Myself); runs into cave at first meeting, or dies near the mirror
- *.rngwlf04 - added to inventory, shapes into this using spell spin876 when she turns enemy and attacks in her cave
- * rngwlf05 - shapes into this from spell spin875, when she turns wolf in her cave and runs away,
-              or dies if shade lord is finished
- *
- * To summarize:
- * - add to rngwlf01's inventory through a script, remove at dialogue/script actions if she turns to either werewolf form
- * - add to rngwlf03's inventory through a script
- * - add to rngwlf04's inventory through a script
- * - add to rngwlf05's inventory at Kill(Myself)
- */
-
 IF
   Global("Iaexit","AR1404",1)
 THEN
@@ -35,46 +15,4 @@ THEN
   RESPONSE #100
     SetGlobal("Iaexit","AR1404",3)
     TriggerActivation("Tran1402",TRUE)
-END
-
-// Anath's werewolf form near the entrance to Shadow Temple
-IF
-  Global("IADruidAnathNote","GLOBAL",0)
-  Global("IAItemCheck3","AR1404",0)
-  Global("SpawnAnathHuman","GLOBAL",1)
-  Global("AnathSpawn","AR1404",1)
-  Exists("rngwlf03")
-  !Dead("rngwlf03")
-  !PartyHasItem("S!misc76")
-  OR(2)
-    Class(Player1,DRUID_ALL)
-    Class(Player1,SHAMAN)
-THEN
-  RESPONSE #100
-    SetGlobal("IAItemCheck3","AR1404",1)
-    GiveItemCreate("S!misc76","rngwlf03",0,0,0)
-END
-
-IF
-  Global("IADruidAnathNote","GLOBAL",0)
-  PartyHasItem("S!misc76")
-THEN
-  RESPONSE #100
-    SetGlobal("IADruidAnathNote","GLOBAL",1)
-END
-
-IF
-  Global("IADruidAnathNote","GLOBAL",1)
-  Global("IADruidPlot","GLOBAL",2)
-THEN
-  RESPONSE #100
-    SetGlobal("IADruidAnathNote","GLOBAL",2)
-    AddJournalEntry(@5511,QUEST)
-END
-
-IF
-  Global("IADruidAnathNote","GLOBAL",1)
-THEN
-  RESPONSE #100
-    SetGlobal("IADruidAnathNote","GLOBAL",2)
 END
