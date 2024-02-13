@@ -1620,6 +1620,7 @@ COPY_EXISTING ~yaga01.cre~ ~override/yaga01.cre~
   WRITE_ASCII 0x248 ~S!yaga~ #8 // override script
   WRITE_ASCII 0x250 ~~ #8         // removes class script
   WRITE_ASCII 0x268 ~~ #8      // removes default script
+  WRITE_BYTE  0x272    142 // race
   ADD_CRE_ITEM ~shld32~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~SHIELD~
   ADD_CRE_ITEM ~S!yaga~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~AMULET~
   ADD_CRE_ITEM ~potn55~ #5 #0 #0 ~UNSTEALABLE~ ~QITEM2~
@@ -7416,6 +7417,7 @@ COPY_EXISTING ~senorc04.cre~ ~override/senorc04.cre~
   END
 END
 
+// Lennah
 COPY_EXISTING ~jade1.cre~ ~override/jade1.cre~
   WRITE_LONG 0x28  0x6311 // animation
   WRITE_LONG 0x244 0      // kit
@@ -7424,6 +7426,14 @@ COPY_EXISTING ~jade1.cre~ ~override/jade1.cre~
   REMOVE_MEMORIZED_SPELLS
   REMOVE_KNOWN_SPELLS
 
+// fix IDS entries for Fire Giants
+COPY_EXISTING ~GIAFIR01.cre~ ~override/GIAFIR01.cre~
+              ~YSFIRE01.cre~ ~override/YSFIRE01.cre~
+              ~YSFIRE02.cre~ ~override/YSFIRE02.cre~
+  WRITE_BYTE 0x271 5      // general
+  WRITE_BYTE 0x272 142    // race
+
+// Captain
 COPY_EXISTING ~firamb03.cre~ ~override/firamb03.cre~
   WRITE_SHORT 0x24      40 // current hp
   WRITE_SHORT 0x26      40 // max hp
