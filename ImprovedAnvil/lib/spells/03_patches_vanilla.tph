@@ -250,6 +250,37 @@ COPY_EXISTING ~SPPR550.spl~ ~override/SPPR550.spl~
   // update casting speed
   LPF ~ALTER_SPELL_HEADER~ INT_VAR speed = 6 END
 
+// Bolt of Glory
+COPY_EXISTING ~SPPR612.spl~ ~override/SPPR612.spl~
+  SAY UNIDENTIFIED_DESC @10305
+
+  // update casting speed
+  LPF ~ALTER_SPELL_HEADER~ INT_VAR speed = 6 END
+
+  // add targeting for race = dragon
+  LAUNCH_PATCH_FUNCTION ~CLONE_EFFECT~
+    INT_VAR
+      check_globals = 0
+      match_opcode = 177
+      match_parameter1 = 4
+      parameter1 = 146
+      parameter2 = 4
+    STR_VAR
+      insert = ~below~
+  END
+
+  // add targeting for race = giant
+  LAUNCH_PATCH_FUNCTION ~CLONE_EFFECT~
+    INT_VAR
+      check_globals = 0
+      match_opcode = 177
+      match_parameter1 = 146
+      parameter1 = 142
+    STR_VAR
+      insert = ~below~
+      resource = ~S!bolgia~
+  END
+
 COPY_EXISTING ~SPPR705.spl~ ~override/SPPR705.spl~
   READ_BYTE 0x19 "splflags"
   WRITE_BYTE 0x19 ("%splflags%" BOR 0b00000100)
