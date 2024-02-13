@@ -281,6 +281,13 @@ COPY_EXISTING ~SPPR612.spl~ ~override/SPPR612.spl~
       resource = ~S!bolgia~
   END
 
+// Dolorous Decay -> Bolt of the Grove
+COPY_EXISTING ~SPPR612.spl~ ~override/SPPR610.spl~
+  SAY NAME1 @11162
+  SAY UNIDENTIFIED_DESC @10305
+
+  WRITE_BYTE 0x21 0b01000000 // exclusion flags
+
 COPY_EXISTING ~SPPR705.spl~ ~override/SPPR705.spl~
   READ_BYTE 0x19 "splflags"
   WRITE_BYTE 0x19 ("%splflags%" BOR 0b00000100)
