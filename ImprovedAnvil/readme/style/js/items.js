@@ -3204,7 +3204,7 @@ var misc = [
                     {
                         "section_name": "Abilities",
                         "section_items": [
-                            "Grants permanent immunity to charm and confusion"
+                            "Grants permanent immunity to charm, confusion and unconsciousness"
                         ]
                     }
                 ],
