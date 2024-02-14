@@ -3161,10 +3161,7 @@ var misc = [
                     {
                         "section_name": "Usable by",
                         "section_items": [
-                            "Fighter\/Mage\/Thief",
-                            "Fighter\/Mage\/Cleric",
-                            "Fighter\/Mage",
-                            "Cleric\/Mage"
+                            "Fighter\/Mage\/Cleric"
                         ]
                     }
                 ],
