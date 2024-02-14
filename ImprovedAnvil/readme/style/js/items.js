@@ -1157,13 +1157,6 @@ var gear = [
                             "Saving Throws: +1",
                             "Cold Resistance: +50%"
                         ]
-                    },
-                    {
-                        "section_name": "Usable by",
-                        "section_items": [
-                            "Druid",
-                            "Shaman"
-                        ]
                     }
                 ],
                 "item_name": "Yeti Hide Cloak"
@@ -1182,13 +1175,6 @@ var gear = [
                             "Armor Class: +2",
                             "Saving Throws: +2",
                             "Cold Resistance: +50%"
-                        ]
-                    },
-                    {
-                        "section_name": "Usable by",
-                        "section_items": [
-                            "Druid",
-                            "Shaman"
                         ]
                     }
                 ],
