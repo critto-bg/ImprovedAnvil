@@ -600,10 +600,42 @@ COPY_EXISTING ~AR2000.BCS~ ~override~
     REPLACE_TEXTUALLY ~Global("ChaosSpawn","AR2000",0)~ ~!Global("IADruidPlot","GLOBAL",4) Global("ChaosSpawn","AR2000",0)~
   END
 
-COPY_EXISTING ~AR2500.BCS~ ~override~
-  DECOMPILE_AND_PATCH BEGIN
-    REPLACE_TEXTUALLY ~RevealAreaOnMap("ar1700")~ ~~
-  END
+// insert druid quest update upon return to Athkatla in CH6
+<<<<<<<< .../inlined/AR2500-old.baf
+IF
+	Global("RevealMap","AR2500",1)
+THEN
+	RESPONSE #100
+		SetGlobal("RevealMap","AR2500",2)
+		AddJournalEntry(11722,INFO)
+END
+>>>>>>>>
+
+OUTER_SET journal_entry = RESOLVE_STR_REF(@5525)
+
+<<<<<<<< .../inlined/AR2500-new.baf
+IF
+	Global("RevealMap","AR2500",1)
+THEN
+	RESPONSE #100
+		SetGlobal("RevealMap","AR2500",2)
+		AddJournalEntry(11722,INFO)
+END
+
+IF
+  Global("RevealMap","AR2500",2)
+  Global("IADruidPlot","GLOBAL",8)
+THEN
+  RESPONSE #100
+    SetGlobal("IADruidPlot","GLOBAL",9)
+    SetGlobalTimer("IADruidMeetVerthanTimer","GLOBAL",SEVEN_DAYS)
+    AddJournalEntry(%journal_entry%,QUEST)
+END
+>>>>>>>>
+
+COPY_EXISTING ~AR2500.BCS~ ~override/AR2500.bcs~
+  REPLACE_BCS_BLOCK EVALUATE_BUFFER ~.../inlined/AR2500-old.baf~ ~.../inlined/AR2500-new.baf~
+  BUT_ONLY_IF_IT_CHANGES
 
 COPY_EXISTING ~CUT41Q.BCS~ ~override~
   DECOMPILE_AND_PATCH BEGIN

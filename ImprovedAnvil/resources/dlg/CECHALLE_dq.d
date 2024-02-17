@@ -140,7 +140,7 @@ APPEND ~CECHALLE~
   IF ~~
     THEN BEGIN 38
     SAY @5748
-    IF ~~ THEN DO ~RevealAreaOnMap("AR1700") SetGlobal("IAAmbushFirstTalk","GLOBAL",1) SetGlobalTimer("IADruidMeetDramTimer","GLOBAL",THREE_DAYS)~
+    IF ~~ THEN DO ~SetGlobal("IAAmbushFirstTalk","GLOBAL",1) SetGlobalTimer("IADruidMeetDramTimer","GLOBAL",THREE_DAYS)~
     EXIT
   END
 
@@ -171,7 +171,7 @@ APPEND ~CECHALLE~
   IF ~~
     THEN BEGIN 43
     SAY @5756
-    IF ~~ THEN REPLY @5757 DO ~SetGlobal("IAFailedFirstTalk","LOCALS",1) RevealAreaOnMap("AR1700")~
+    IF ~~ THEN REPLY @5757 DO ~SetGlobal("IAFailedFirstTalk","LOCALS",1)~
     EXIT
   END
 
