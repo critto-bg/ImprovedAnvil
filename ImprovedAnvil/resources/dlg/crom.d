@@ -170,7 +170,6 @@ REPLACE WSMITH01
     IF ~OR(2) PartyHasItem("s!misc64")
               PartyHasItem("s!misc65")~
       THEN REPLY @636 GOTO aeriehammer
-    IF ~PartyHasItem("sw2h16")~ THEN REPLY @638 GOTO sarevoksword
     IF ~PartyHasItem("s!clck11") Global("Iahideforged","GLOBAL",1)~ THEN REPLY @644 GOTO yeticloak
     IF ~PartyHasItem("s!misc78") PartyHasItem("s!clck12") Global("Iahideforged","GLOBAL",2)~ THEN REPLY @648 GOTO rustcloak
     IF ~PartyHasItem("s!misc75")~ THEN REPLY @650 GOTO rustarmor
@@ -2190,10 +2189,6 @@ APPEND WSMITH01
           GiveItemCreate("s!leat09",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~
       EXIT
-  END
-
-  IF ~~ THEN BEGIN sarevoksword
-    SAY @639 IF ~~ THEN REPLY @2 GOTO 13
   END
 
   IF ~~ THEN BEGIN regular
