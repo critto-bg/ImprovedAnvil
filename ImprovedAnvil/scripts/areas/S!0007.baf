@@ -133,7 +133,19 @@ IF
 THEN
   RESPONSE #100
     SetGlobal("IaJagdu","S!0007",1)
-    CreateCreatureObjectDoor("s!jagdu",Player1,0,0,0)
+    CreateCreatureObjectDoor("S!jagdu",Player1,0,0,0)
+END
+
+IF
+  InMyArea(Player1)
+  Global("IADruidSiege","GLOBAL",1)
+  Global("IaWaves","S!0007",4)
+  Global("IaJagdu","S!0007",1)
+  CheckStat("S!jagdu",1,SCRIPTINGSTATE7)
+THEN
+  RESPONSE #100
+    SetGlobal("IaJagdu","S!0007",2)
+    ReallyForceSpellRES("SPWII07","S!jagdu")
 END
 
 // reinforcements
@@ -143,11 +155,18 @@ IF
   GlobalLT("IaWaves","S!0007",4)
   GlobalTimerExpired("IaReinfTimer","S!0007")
 THEN
-  RESPONSE #100
+  RESPONSE #33
     SetGlobalTimer("IaReinfTimer","S!0007",19)
     CreateCreature("s!trgu02",[1300.1000],S)
+    CreateCreature("s!trgu02",[1310.1010],S)
+  RESPONSE #33
+    SetGlobalTimer("IaReinfTimer","S!0007",19)
     CreateCreature("s!trgu02",[1065.1355],S)
+    CreateCreature("s!trgu02",[1080.1370],S)
+  RESPONSE #34
+    SetGlobalTimer("IaReinfTimer","S!0007",19)
     CreateCreature("s!trgu02",[1950.900],S)
+    CreateCreature("s!trgu02",[1960.910],S)
 END
 
 // minor enemies
@@ -192,14 +211,14 @@ IF
   Global("IADruidPlot","GLOBAL",4)
   Global("IADruidSiege","GLOBAL",1)
   Global("IaWaves","S!0007",4)
-  Global("IaJagdu","S!0007",1)
+  Global("IaJagdu","S!0007",2)
   Exists("S!jagdu")
   !Dead("S!jagdu")
   HPLT("S!jagdu",10)
 THEN
   RESPONSE #100
     SetInterrupt(FALSE)
-    SetGlobal("IaJagdu","S!0007",2)
+    SetGlobal("IaJagdu","S!0007",3)
     SetGlobal("IADruidSiege","GLOBAL",2)
     ClearAllActions()
     StartCutSceneMode()
@@ -210,11 +229,11 @@ END
 IF
   InMyArea(Player1)
   Global("IADruidSiege","GLOBAL",3)
-  Global("IaJagdu","S!0007",2)
+  Global("IaJagdu","S!0007",3)
 THEN
   RESPONSE #100
     SetInterrupt(FALSE)
-    SetGlobal("IaJagdu","S!0007",3)
+    SetGlobal("IaJagdu","S!0007",4)
     Wait(5) // this is to give great druid and werewolves time to escape
     ClearAllActions()
     StartCutSceneMode()
