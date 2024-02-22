@@ -2598,7 +2598,7 @@ var weapons = [
             {
                 "components": [
                     "Staff of Air +2",
-                    "Staff of Rynn",
+                    "Staff of Rhynn",
                     "Storm Star +3",
                     "scroll of Protection from Electricity (blue)",
                     "scroll of Protection from Electricity (green)",
@@ -2764,7 +2764,7 @@ var weapons = [
             {
                 "components": [
                     "Staff of Strength +4",
-                    "Staff of Rynn +4",
+                    "Staff of Rhynn +4",
                     "Scroll of Bigby's Crushing Hand",
                     "Scroll of Giant Strength",
                     "Two piles of Adamantine dust",
