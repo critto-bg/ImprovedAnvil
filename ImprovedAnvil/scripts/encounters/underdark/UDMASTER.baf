@@ -6,6 +6,19 @@ THEN
 END
 
 IF
+  GlobalGT("Iacutscene","AR2400",0)
+  XPLT(Player1,3400000)
+  See([PC])
+  Global("IaToneDown","LOCALS",0)
+  Global("Iahardmode","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("IaToneDown","LOCALS",1)
+    SetGlobalTimer("Iapurge","LOCALS",48)
+    SetGlobalTimer("Iamoregolems","LOCALS",48)
+END
+
+IF
   Global("Iapcastts","GLOBAL",1)
   Global("Iatsinvulner","LOCALS",0)
   See(NearestEnemyOf(Myself))
