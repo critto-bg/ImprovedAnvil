@@ -495,10 +495,13 @@ COPY_EXISTING ~SPWM117.spl~ ~override/SPWM117.spl~
 
 // Wild Surge: miscast magic (tweak duration of miscast to 6 seconds, add scripting state)
 COPY_EXISTING ~SPWM128.spl~ ~override/SPWM128.spl~
-  LAUNCH_PATCH_FUNCTION ~ALTER_SPELL_EFFECT~ INT_VAR
-    check_headers = 1
-    match_opcode = 60
-    duration = 6
+  PATCH_FOR_EACH opcode IN 60 142 54
+  BEGIN
+    LAUNCH_PATCH_FUNCTION ~ALTER_SPELL_EFFECT~ INT_VAR
+      check_headers = 1
+      match_opcode = ~%opcode%~
+      duration = 6
+    END
   END
 
   LPF ~CLONE_EFFECT~
