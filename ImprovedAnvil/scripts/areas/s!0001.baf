@@ -16,11 +16,11 @@ THEN
     StartCutSceneEx("S!druc12",TRUE)
 END
 
-// the first three waves
+// the first two waves
 IF
   InMyArea(Player1)
   Global("IAPlot","S!0001",1)
-  GlobalLT("IaWaves","S!0001",3)
+  GlobalLT("IaWaves","S!0001",2)
   !GlobalTimerNotExpired("IaWaveTimer","S!0001")
 THEN
   RESPONSE #100
@@ -40,35 +40,34 @@ THEN
     CreateCreature("weregr01",[2525.740],0)
 END
 
-// the 4th & 5th waves
+// the 3rd wave
 IF
   InMyArea(Player1)
   Global("IAPlot","S!0001",1)
-  GlobalGT("IaWaves","S!0001",2)
-  GlobalLT("IaWaves","S!0001",5)
+  GlobalGT("IaWaves","S!0001",1)
+  GlobalLT("IaWaves","S!0001",3)
   !GlobalTimerNotExpired("IaWaveTimer","S!0001")
 THEN
   RESPONSE #100
     IncrementGlobal("IaWaves","S!0001",1)
-    SetGlobalTimer("IaWaveTimer","S!0001",12)
-
+    SetGlobalTimer("IaWaveTimer","S!0001",18)
     CreateCreature("S!loup01",[3820.780],0)
     CreateCreature("S!loup01",[3675.1635],0)
     CreateCreature("S!loup01",[2580.1520],0)
     CreateCreature("S!loup01",[2525.740],0)
 END
 
-// after the fifth wave
+// after the 3rd wave
 IF
   InMyArea(Player1)
   OR(2)
     Global("IAPlot","S!0001",1)
     Global("IAPlot","S!0001",2)
-  Global("IaWaves","S!0001",5)
+  Global("IaWaves","S!0001",3)
   !GlobalTimerNotExpired("IaWaveTimer","S!0001")
 THEN
   RESPONSE #100
-    SetGlobalTimer("IaWaveTimer","S!0001",12)
+    SetGlobalTimer("IaWaveTimer","S!0001",18)
     CreateCreature("S!wereg1",[3820.780],0)
     CreateCreature("S!wereg1",[3675.1635],0)
     CreateCreature("S!wereg1",[2580.1520],0)
@@ -100,7 +99,7 @@ END
 IF
   InMyArea(Player1)
   Global("IAPlot","S!0001",1)
-  Global("IaWaves","S!0001",5)
+  Global("IaWaves","S!0001",3)
   Global("IACombat","S!0001",0)
 THEN
   RESPONSE #100
