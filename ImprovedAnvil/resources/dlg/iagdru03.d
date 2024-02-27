@@ -87,6 +87,7 @@ IF ~~ 15
   IF ~~ THEN
     DO ~SetGlobal("IADruidPlot","GLOBAL",11)
         AddJournalEntry(@5527,QUEST)
+        GiveItemCreate("S!misc80",Player1,0,0,0)
         AddXPObject(Player1,20000)
         AddXPObject(Player2,20000)
         AddXPObject(Player3,20000)
