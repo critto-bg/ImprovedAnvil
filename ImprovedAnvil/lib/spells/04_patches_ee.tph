@@ -248,3 +248,31 @@ COPY_EXISTING ~BDDRAGBL.spl~ ~override/BDDRAGBL.spl~
   END
 
   BUT_ONLY
+
+// Exaltation
+COPY_EXISTING ~ohtyr1.spl~ ~override/ohtyr1.spl~
+  // add scripting state (CC)
+  LPF ADD_SPELL_EFFECT
+    INT_VAR
+      opcode = 282
+      target = 2
+      power = 3
+      timing = 0
+      resist_dispel = 3
+      duration = 60
+      parameter1 = 1
+      parameter2 = 7
+  END
+
+  // add spell state (fear immunity)
+  LPF ADD_SPELL_EFFECT
+    INT_VAR
+      opcode = 328
+      target = 2
+      power = 3
+      timing = 0
+      resist_dispel = 3
+      duration = 60
+      parameter2 = ~%immune_fear_state%~
+      special = 1
+  END
