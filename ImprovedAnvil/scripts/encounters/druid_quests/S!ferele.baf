@@ -1,4 +1,28 @@
 IF
+  Detect([PC])
+  Global("Iatimer","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("IaWolves","LOCALS",12)
+    SetGlobal("Iatimer","LOCALS",1)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See([PC])
+  !GlobalTimerNotExpired("IaWolves","LOCALS")
+  GlobalLT("wolves","LOCALS",6)
+  !HPLT(Myself,1)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("IaWolves","LOCALS",18)
+    IncrementGlobal("wolves","LOCALS",1)
+    CreateCreatureObject("wolfdr01",Myself,0,0,0)
+    CreateCreatureObject("wolfdr01",Myself,0,0,0)
+    CreateCreatureObject("wolfdr01",Myself,0,0,0)
+END
+
+IF
   See([PC])
   Exists("S!gdru03")
   !Dead("S!gdru03")
@@ -6,7 +30,6 @@ IF
   RandomNumLT(6,2)
 THEN
   RESPONSE #100
-    AttackOneRound("S!gdru03")
     AttackOneRound("S!gdru03")
 END
 
@@ -17,7 +40,6 @@ IF
   See("S!gdru03")
 THEN
   RESPONSE #100
-    AttackOneRound("S!gdru03")
     AttackOneRound("S!gdru03")
 END
 

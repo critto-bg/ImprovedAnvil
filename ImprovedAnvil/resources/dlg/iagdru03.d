@@ -10,8 +10,7 @@ END
 
 IF ~~ THEN BEGIN 1
   SAY @5787
-  IF ~~ THEN DO ~SetGlobal("IAPlot","S!0001",1)~ REPLY @5788
-  EXIT
+  IF ~~ THEN REPLY @5788 GOTO 24
 END
 
 IF ~~ THEN BEGIN 2
@@ -85,7 +84,15 @@ END
 
 IF ~~ 15
   SAY @5839
-  IF ~~ THEN DO ~SetGlobal("IADruidPlot","GLOBAL",11) AddJournalEntry(@5527,QUEST)~ EXIT
+  IF ~~ THEN
+    DO ~SetGlobal("IADruidPlot","GLOBAL",11)
+        AddJournalEntry(@5527,QUEST)
+        AddXPObject(Player1,20000)
+        AddXPObject(Player2,20000)
+        AddXPObject(Player3,20000)
+        AddXPObject(Player4,20000)
+        AddXPObject(Player5,20000)
+        AddXPObject(Player6,20000)~ EXIT
 END
 
 // waiting for the scroll
@@ -135,4 +142,11 @@ IF ~~ 23
   SAY @5857
   = @5858
   IF ~~ THEN DO ~ClearAllActions() StartCutSceneMode() StartCutScene("S!druc13")~ EXIT
+END
+
+// this is a part of the initial dialogue upon arrival to the ambush site
+IF ~~ THEN BEGIN 24
+  SAY @5793
+  IF ~~ THEN DO ~SetGlobal("IAPlot","S!0001",1)~
+  EXIT
 END
