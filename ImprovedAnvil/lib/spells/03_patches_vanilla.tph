@@ -610,7 +610,6 @@ COPY_EXISTING_REGEXP GLOB ~SPPR[1-7][0-5][0-9]+\.spl~ ~override~
   BUT_ONLY
 
 // patch on-hit magic shield on Keldorn's items to prevent resonating shield effect //
-
 COPY_EXISTING ~keldorn.spl~ ~override/keldorn.spl~
   LPF ~CLONE_EFFECT~
     INT_VAR
@@ -640,3 +639,19 @@ COPY_EXISTING ~SPIN679.spl~ ~override/SPIN679.spl~
     STR_VAR
       match_resource = ~SPPR650~
   END
+
+// allow HLAs with 0 casting time to be cast when silenced
+ACTION_FOR_EACH ~file~ IN
+  ~gbalchmg~ ~gbalchpr~ ~gbscrbmg~ ~gbscrbpr~
+  ~SPCL144~ ~SPCL152~ ~SPCL236~ ~SPCL321~ ~SPCL412~ ~SPCL414~ ~SPCL423~ ~SPCL521~ ~SPCL522~ ~SPCL811~ ~SPCL820~
+  ~SPCL900~ ~SPCL901~ ~SPCL902~ ~SPCL903~ ~SPCL904~ ~SPCL905~ ~SPCL906~ ~SPCL907~ ~SPCL908~ ~SPCL909~ ~SPCL910~
+  ~SPCL911~ ~SPCL912~ ~SPCL913~ ~SPCL914~ ~SPCL916~ ~SPCL917~ ~SPCL918~ ~SPCL919~ ~SPCL922~ ~SPCLI13~ ~SPDWD02~
+  ~SPINI87~ ~spini92~
+BEGIN
+  COPY_EXISTING ~%file%.spl~ ~override~
+    READ_BYTE 0x19 flags_2
+    READ_BYTE 0x1b flags_4
+
+    WRITE_BYTE 0x19 (flags_2 | BIT6)
+    WRITE_BYTE 0x1b (flags_4 | BIT1)
+END
