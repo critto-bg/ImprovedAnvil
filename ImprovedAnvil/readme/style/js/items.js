@@ -2789,6 +2789,60 @@ var weapons = [
                     }
                 ],
                 "item_name": "Adamantite Staff of Strength +5"
+            },
+            {
+                "components": [
+                    "Silent Hunt +4",
+                    "Black Onyx",
+                    "Powers of Black Onyx",
+                    "Ring of Protection +2",
+                    "Potion of Barbarian Essence",
+                    "Potion of Magic Shielding",
+                    "Potion of Fire Resistance",
+                    "Oil of Resurgence",
+                    "Permanency Scroll",
+                    "40,000 gp",
+                    "(Cromwell only)"
+                ],
+                "attributes": [
+                    {
+                        "section_name": "Abilities",
+                        "section_items": [
+                            "THACO: +5",
+                            "Damage: 2D6 +10",
+                            "Proficiency Type: Quarterstaff"
+                        ]
+                    },
+                    {
+                        "section_name": "Equipped abilities",
+                        "section_items": [
+                          "AC bonus: +2",
+                          "all Saving Throws bonus: +2",
+                          "Physical Resistance: +10%",
+                          "Resistance to Fire: +25%",
+                          "Resistance to Magic Damage: +25%",
+                          "Regeneration: 1HP every 2 seconds"
+                        ]
+                    },
+                    {
+                        "section_name": "Combat abilities",
+                        "section_items": [
+                          "5% chance on hit to cause an additional 20 crushing damage",
+                          "5% chance on hit to cause an additional 20 acid damage",
+                          "10% chance on hit to cast Iron Skins on the wielder",
+                          "3% chance on hit to cast Mirror Image on the wielder",
+                          "2% chance on hit to cast Blur on the wielder"
+                        ]
+                    },
+                    {
+                        "section_name": "Usable by",
+                        "section_items": [
+                            "Druids",
+                            "Shamans"
+                        ]
+                    }
+                ],
+                "item_name": "Improved Silent Hunt +5"
             }
         ]
     },

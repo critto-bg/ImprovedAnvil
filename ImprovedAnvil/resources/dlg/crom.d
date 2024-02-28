@@ -173,6 +173,7 @@ REPLACE WSMITH01
     IF ~PartyHasItem("s!clck11") Global("Iahideforged","GLOBAL",1)~ THEN REPLY @644 GOTO yeticloak
     IF ~PartyHasItem("s!misc78") PartyHasItem("s!clck12") Global("Iahideforged","GLOBAL",2)~ THEN REPLY @648 GOTO rustcloak
     IF ~PartyHasItem("s!misc75")~ THEN REPLY @650 GOTO rustarmor
+    IF ~PartyHasItem("S!misc79")~ THEN REPLY @652 GOTO blackonyx
 
     IF ~~ THEN REPLY #992 EXIT
   END
@@ -2187,6 +2188,34 @@ APPEND WSMITH01
       DO ~TakePartyGold(75000)      DestroyGold(75000)
           TakePartyItemNum("s!misc75",1)   DestroyItem("s!misc75")
           GiveItemCreate("s!leat09",Player1,1,1,1)
+          CreateVisualEffect("spcrtwpn",[401.348])~
+      EXIT
+  END
+
+  IF ~~ THEN BEGIN blackonyx
+    SAY @653
+    IF ~PartyHasItem("S!misc80") PartyHasItem("S!staf12")~ THEN REPLY @654 GOTO silenthunt
+    IF ~~ THEN REPLY @2 GOTO 13
+  END
+
+  IF ~~ THEN BEGIN silenthunt
+    SAY @655
+    IF ~~ THEN REPLY @2 GOTO 13
+    IF ~PartyHasItem("S!staf12") PartyHasItem("S!misc79") PartyHasItem("S!misc80") PartyHasItem("RING07")
+        PartyHasItem("POTN33") PartyHasItem("POTN35") PartyHasItem("POTN02") PartyHasItem("POTN37")
+        PartyHasItem("S!misc02") PartyGoldGT(39999)~
+      THEN REPLY @3
+      DO ~TakePartyGold(40000)      DestroyGold(40000)
+          TakePartyItemNum("s!staf12",1)   DestroyItem("s!staf12")
+          TakePartyItemNum("s!misc79",1)   DestroyItem("s!misc79")
+          TakePartyItemNum("s!misc80",1)   DestroyItem("s!misc80")
+          TakePartyItemNum("RING07",1)     DestroyItem("RING07")
+          TakePartyItemNum("POTN33",1)     DestroyItem("POTN33")
+          TakePartyItemNum("POTN35",1)     DestroyItem("POTN35")
+          TakePartyItemNum("POTN02",1)     DestroyItem("POTN02")
+          TakePartyItemNum("POTN37",1)     DestroyItem("POTN37")
+          TakePartyItemNum("s!misc02",1)   DestroyItem("s!misc02")
+          GiveItemCreate("S!staf13",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~
       EXIT
   END
