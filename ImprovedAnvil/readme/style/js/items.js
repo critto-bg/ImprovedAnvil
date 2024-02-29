@@ -2668,21 +2668,20 @@ var weapons = [
             {
                 "components": [
                     "Staff of Thunder and Lightning +2",
-                    "Staff of Arundel +3",
                     "Staff of Earth +2",
                     "Staff of the Woodlands +4",
                     "Staff of the Ram +4",
-                    "Scroll of Memory Boosting",
+                    "Scroll of Protection From Acid (blue)",
+                    "Scroll of Protection From Acid (green)",
                     "Permanency Scroll",
-                    "Manual of Elaboration",
-                    "100,000 gp"
+                    "60,000 gp"
                 ],
                 "attributes": [
                     {
                         "section_name": "Abilities",
                         "section_items": [
                             "+3 bonus to Armor Class",
-                            "Wielder may memorize one additional druidic spell per level",
+                            "Wielder is completely immune to Acid",
                             "Wielder may summon Sunnis, the Elemental Prince of Earth, for 20 rounds once per day",
                             "THAC0: +4",
                             "Damage: 1D6 +4, +10 crushing damage",

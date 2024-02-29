@@ -157,8 +157,7 @@ REPLACE BOTSMITH
     IF ~PartyHasItem("S!blun01")~ THEN REPLY @772 GOTO treefist
     IF ~PartyHasItem("S!blun04")~ THEN REPLY @774 GOTO treefury
     IF ~PartyHasItem("brac22")~ THEN REPLY @776 GOTO palbracers
-    IF ~OR(3) PartyHasItem("wastaff")
-              PartyHasItem("staf16")
+    IF ~OR(2) PartyHasItem("staf16")
               PartyHasItem("staf14")~
       THEN REPLY @778 GOTO earthstaff
     IF ~PartyHasItem("sw2hd1")~ THEN REPLY @780 GOTO dornblade
@@ -2000,20 +1999,19 @@ IF ~~ THEN BEGIN treefist
 
   IF ~~ THEN BEGIN earthstaff
     SAY @779 IF ~~ THEN REPLY @2 GOTO 13
-    IF ~PartyHasItem("wastaff") PartyHasItem("staf16") PartyHasItem("staf14")
-        PartyGoldGT(99999) PartyHasItem("staf13") PartyHasItem("staf21")
-        PartyHasItem("s!misc01") PartyHasItem("s!misc02") PartyHasItem("s!misc06")~
+    IF ~PartyHasItem("SCRL03") PartyHasItem("staf16") PartyHasItem("staf14")
+        PartyGoldGT(59999) PartyHasItem("staf13") PartyHasItem("staf21")
+        PartyHasItem("s!misc02") PartyHasItem("SCRL6Y")~
       THEN REPLY @3
       DO ~SetGlobal("Iaearthstaffforged","GLOBAL",1)
-          TakePartyGold(100000)      	 DestroyGold(100000)
-          TakePartyItemNum("wastaff",1)  DestroyItem("wastaff")
+          TakePartyGold(60000)      	 DestroyGold(60000)
           TakePartyItemNum("staf16",1)   DestroyItem("staf16")
           TakePartyItemNum("staf14",1)   DestroyItem("staf14")
           TakePartyItemNum("staf13",1)   DestroyItem("staf13")
           TakePartyItemNum("staf21",1)   DestroyItem("staf21")
-          TakePartyItemNum("s!misc01",1) DestroyItem("s!misc01")
+          TakePartyItemNum("SCRL6Y",1)   DestroyItem("SCRL6Y")
+          TakePartyItemNum("SCRL03",1)   DestroyItem("SCRL03")
           TakePartyItemNum("s!misc02",1)   DestroyItem("s!misc02")
-          TakePartyItemNum("s!misc06",1)   DestroyItem("s!misc06")
           GiveItemCreate("s!staf11",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~
       EXIT
