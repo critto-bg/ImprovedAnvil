@@ -2195,6 +2195,7 @@ APPEND WSMITH01
   IF ~~ THEN BEGIN blackonyx
     SAY @653
     IF ~PartyHasItem("S!misc80") PartyHasItem("S!staf12")~ THEN REPLY @654 GOTO silenthunt
+    IF ~PartyHasItem("S!misc80")~ THEN REPLY @656 GOTO blackonyxamulet
     IF ~~ THEN REPLY @2 GOTO 13
   END
 
@@ -2216,6 +2217,25 @@ APPEND WSMITH01
           TakePartyItemNum("POTN37",1)     DestroyItem("POTN37")
           TakePartyItemNum("s!misc02",1)   DestroyItem("s!misc02")
           GiveItemCreate("S!staf13",Player1,1,1,1)
+          CreateVisualEffect("spcrtwpn",[401.348])~
+      EXIT
+  END
+
+  IF ~~ THEN BEGIN blackonyxamulet
+    SAY @657
+    IF ~~ THEN REPLY @2 GOTO 13
+    IF ~PartyHasItem("S!misc79") PartyHasItem("S!misc80") PartyHasItem("AMUL21")
+        PartyHasItem("WASTAFF") PartyHasItem("RING07")
+        PartyHasItem("S!misc01") PartyGoldGT(59999)~
+      THEN REPLY @3
+      DO ~TakePartyGold(60000)      DestroyGold(60000)
+          TakePartyItemNum("s!misc79",1)   DestroyItem("s!misc79")
+          TakePartyItemNum("s!misc80",1)   DestroyItem("s!misc80")
+          TakePartyItemNum("AMUL21",1)     DestroyItem("AMUL21")
+          TakePartyItemNum("RING07",1)     DestroyItem("RING07")
+          TakePartyItemNum("WASTAFF",1)    DestroyItem("WASTAFF")
+          TakePartyItemNum("s!misc01",1)   DestroyItem("s!misc01")
+          GiveItemCreate("S!amul10",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~
       EXIT
   END

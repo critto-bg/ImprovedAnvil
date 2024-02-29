@@ -1207,6 +1207,41 @@ var gear = [
                     }
                 ],
                 "item_name": "Rust Dragon Cloak"
+            },
+            {
+                "components": [
+                    "Black Onyx",
+                    "Powers of Black Onyx",
+                    "Amulet of Power",
+                    "Staff of Arundel +3",
+                    "Ring of Protection +2",
+                    "Scroll of Memory Boosting",
+                    "60,000 gp",
+                    "(Cromwell only)"
+                ],
+                "attributes": [
+                    {
+                        "section_name": "Equipped abilities",
+                        "section_items": [
+                          "AC bonus: +2",
+                          "all Saving Throws bonus: +2",
+                          "Magical Resistance: +5%",
+                          "Resistance to Fire: +10%",
+                          "Resistance to Cold: +10%",
+                          "Immunity to Level Drain",
+                          "Casting Speed bonus: +1",
+                          "wearer can memorize two additional 5th, 6th and 7th level spells per day"
+                        ]
+                    },
+                    {
+                        "section_name": "Usable by",
+                        "section_items": [
+                            "Druids",
+                            "Shamans"
+                        ]
+                    }
+                ],
+                "item_name": "Black Onyx Amulet"
             }
         ]
     },
