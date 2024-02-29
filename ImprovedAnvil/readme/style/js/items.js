@@ -1417,7 +1417,7 @@ var gear = [
                     {
                         "section_name": "Abilities",
                         "section_items": [
-                            "+20% Magic Resistance",
+                            "+20% Magic Damage Resistance",
                             "+30% Resistance to Fire, Cold, Acid and Electricity",
                             "Wearer can memorize two additional spells per level",
                             "+1 bonus to Casting Speed",
