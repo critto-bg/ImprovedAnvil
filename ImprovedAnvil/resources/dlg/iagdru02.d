@@ -90,11 +90,6 @@ END
 
 IF ~~ THEN BEGIN 14
   SAY @5663
-  IF ~~ THEN GOTO 15
-END
-
-IF ~~ THEN BEGIN 15
-  SAY @5664
   IF ~~ THEN DO ~SetGlobal("IADradeel","GLOBAL",6)~ EXIT
 END
 
