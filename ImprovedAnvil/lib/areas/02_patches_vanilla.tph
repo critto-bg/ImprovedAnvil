@@ -1672,90 +1672,52 @@ COPY_EXISTING ~ar3016.ARE~ ~override/ar3016.ARE~
   READ_LONG 0x60 "spoffset"
   SET "it" = 0
   WHILE ("%it%" < "%spcount%") BEGIN
-   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
-   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 1" = 0) BEGIN
-    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~RDSPID5~ #8
-    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 116) 1
-   END
-"it" = "%it%" + 1
-END
-  READ_SHORT 0x64 "spcount"
-  READ_LONG 0x60 "spoffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%spcount%") BEGIN
-   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
-   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 2" = 0) BEGIN
-    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~RDGOLEM3~ #8
-    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 116) 1
-   END
-"it" = "%it%" + 1
-END
-  READ_SHORT 0x64 "spcount"
-  READ_LONG 0x60 "spoffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%spcount%") BEGIN
-   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
-   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 3" = 0) BEGIN
-    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~HGWAR02~ #8
-   END
-"it" = "%it%" + 1
-END
-  READ_SHORT 0x64 "spcount"
-  READ_LONG 0x60 "spoffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%spcount%") BEGIN
-   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
-   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 4" = 0) BEGIN
-    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~RDGOLEM3~ #8
-   END
-"it" = "%it%" + 1
-END
-  READ_SHORT 0x64 "spcount"
-  READ_LONG 0x60 "spoffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%spcount%") BEGIN
-   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
-   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 5" = 0) BEGIN
-    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~S!ELEGRA~ #8
-    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 1
-   END
-"it" = "%it%" + 1
-END
-  READ_SHORT 0x64 "spcount"
-  READ_LONG 0x60 "spoffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%spcount%") BEGIN
-   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
-   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 6" = 0) BEGIN
-    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~S!ELEGRA~ #8
-    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 116) 1
-    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 1
-   END
-"it" = "%it%" + 1
-END
-  READ_SHORT 0x64 "spcount"
-  READ_LONG 0x60 "spoffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%spcount%") BEGIN
-   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
-   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 7" = 0) BEGIN
-    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~S!ELEGRA~ #8
-    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 116) 1
-    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 1
-   END
-"it" = "%it%" + 1
-END
-  READ_SHORT 0x64 "spcount"
-  READ_LONG 0x60 "spoffset"
-  SET "it" = 0
-  WHILE ("%it%" < "%spcount%") BEGIN
-   READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
-   PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 8" = 0) BEGIN
-    WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~S!ELEGRA~ #8
-    WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 1
-   END
-"it" = "%it%" + 1
-END
+    READ_ASCII ("%spoffset%" + "%it%" * 200) "spname" (13)
+
+    PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 1" = 0) BEGIN
+      WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~RDSPID5~ #8 // 1st resref
+      WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 116) 1           // Count of spawn creatures
+    END
+
+    PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 2" = 0) BEGIN
+      WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~RDGOLEM3~ #8 // 1st resref
+      WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 116) 1            // Count of spawn creatures
+      WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 140) 100          // Probability (day)
+      WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 142) 100          // Probability (night)
+    END
+
+    PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 3" = 0) BEGIN
+      WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~HGWAR02~ #8 // 1st resref
+    END
+
+    PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 4" = 0) BEGIN
+      WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~RDGOLEM3~ #8 // 1st resref
+    END
+
+    PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 5" = 0) BEGIN
+      WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~S!ELEGRA~ #8 // 1st resref
+      WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 1            // Spawn method
+    END
+
+    PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 6" = 0) BEGIN
+      WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~S!ELEGRA~ #8 // 1st resref
+      WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 116) 1            // Count of spawn creatures
+      WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 1            // Spawn method
+    END
+
+    PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 7" = 0) BEGIN
+      WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~S!ELEGRA~ #8 // 1st resref
+      WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 116) 1            // Count of spawn creatures
+      WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 1            // Spawn method
+    END
+
+    PATCH_IF ("%spname%" STRING_COMPARE_CASE "Spawn Point 8" = 0) BEGIN
+      WRITE_ASCII ("%spoffset%" + ("%it%" * 200) + 36) ~S!ELEGRA~ #8 // 1st resref
+      WRITE_SHORT ("%spoffset%" + ("%it%" * 200) + 122) 1            // Spawn method
+    END
+
+    "it" = "%it%" + 1
+  END
 
 COPY_EXISTING ~ar3017.are~ ~override/ar3017.are~
   LPF ~S!SET_DEFAULT_TRANSITION_FLAGS~ STR_VAR region_name = ~Tran3022~ END
