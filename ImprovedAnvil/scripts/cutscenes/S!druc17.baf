@@ -6,11 +6,13 @@ THEN
   RESPONSE #100
     CutSceneId(Player1)
 
-    Wait(2)
-    ActionOverride("S!drudiv",ForceSpell("S!dracof",WIZARD_FINGER_OF_DEATH)
-    Wait(5)
-    Kill("S!dracof")
-    Wait(2)
+    ActionOverride("S!dracof",DestroyItem("minhp1"))
+    ActionOverride("S!dracof",DestroyItem("dragring"))
+    ActionOverride("S!dracof",DestroyItem("S!dracof"))
+    ActionOverride("S!drudiv",ForceSpellRES("S!dru08","S!dracof"))
+    SmallWait(5)
+    ActionOverride("S!dracof",MoveToObject("S!drudiv"))
+    Wait(6)
 
     SetGlobal("IAPlot","S!0005",6)
     ActionOverride("S!gdru04",StartDialogNoSet(Player1))

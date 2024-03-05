@@ -1,0 +1,296 @@
+IF
+  Allegiance(Myself,ENEMY)
+  Global("IAPlot","S!0005",5)
+  Global("IaOnce","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("IaOnce","LOCALS",1)
+    Kill(Myself)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  Global("IaPrep","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("IaPrep","LOCALS",1)
+    SetGlobalTimer("IaRest","LOCALS",2100)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  GlobalTimerExpired("IaRest","LOCALS")
+  Global("IaPrep","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("IaRest","LOCALS",2100)
+    SetGlobal("IaOffense","LOCALS",0)
+    SetGlobal("IaLowerFire","LOCALS",0)
+    SetGlobal("IaFireArrow","LOCALS",0)
+    SetGlobal("IaFear","LOCALS",0)
+    ReallyForceSpellRES("SPWII07",Myself)
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  Global("partyfled","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("partyfled","LOCALS",0)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  Global("Iapcastts","GLOBAL",0)
+  !GlobalTimerNotExpired("Iahla","LOCALS")
+  See(SecondNearest([PC]))
+  Range(LastSeenBy(Myself),5)
+  CheckStatGT(LastSeenBy(Myself),0,RESISTFIRE)
+  GlobalLT("IaLowerFire","LOCALS",1)
+THEN
+  RESPONSE #100
+    IncrementGlobal("IaLowerFire","LOCALS",1)
+    SetGlobalTimer("Iahla","LOCALS",6)
+    ReallyForceSpell(LastSeenBy(Myself),DRAGON_LOWER_FIRE)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  Global("Iapcastts","GLOBAL",0)
+  !GlobalTimerNotExpired("Iahla","LOCALS")
+  See([PC])
+  Range(LastSeenBy(Myself),5)
+  CheckStatGT(LastSeenBy(Myself),0,RESISTFIRE)
+  GlobalLT("IaLowerFire","LOCALS",1)
+THEN
+  RESPONSE #100
+    IncrementGlobal("IaLowerFire","LOCALS",1)
+    SetGlobalTimer("Iahla","LOCALS",6)
+    ReallyForceSpell(LastSeenBy(Myself),DRAGON_LOWER_FIRE)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  GlobalLT("IaOffense","LOCALS",3)
+  !GlobalTimerNotExpired("Iahla","LOCALS")
+  See([PC])
+  Range(LastSeenBy(Myself),3)
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  CheckStatLT(LastSeenBy(Myself),1,STONESKINS)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  RandomNumGT(6,2)
+THEN
+  RESPONSE #100
+    IncrementGlobal("IaOffense","LOCALS",1)
+    SetGlobalTimer("Iahla","LOCALS",6)
+    ForceSpell(Myself,WARRIOR_CRITICAL_STRIKE)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  Global("IaOffense","LOCALS",3)
+  !GlobalTimerNotExpired("Iahla","LOCALS")
+  See([PC])
+  Range(LastSeenBy(Myself),3)
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE5)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+THEN
+  RESPONSE #50
+    IncrementGlobal("IaOffense","LOCALS",1)
+    SetGlobalTimer("Iahla","LOCALS",12)
+    ForceSpell(Myself,WARRIOR_POWER_ATTACK)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  Global("Iapcastts","GLOBAL",0)
+  !GlobalTimerNotExpired("Iahla","LOCALS")
+  See(SecondNearest([PC]))
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  CheckStatLT(LastSeenBy(Myself),100,RESISTFIRE)
+  CheckStatLT(LastSeenBy(Myself),30,RESISTMAGIC)
+  !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE7)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  GlobalLT("IaFireArrow","LOCALS",1)
+  Global("IaLowerFire","LOCALS",1)
+THEN
+  RESPONSE #100
+    IncrementGlobal("IaFireArrow","LOCALS",1)
+    SetGlobalTimer("Iahla","LOCALS",6)
+    DisplayString(Myself,39968)  // ~Spell Trigger - Fired~
+    ReallyForceSpell(LastSeenBy(Myself),WIZARD_FLAME_ARROW)
+    ReallyForceSpell(LastSeenBy(Myself),WIZARD_FLAME_ARROW)
+    ReallyForceSpell(LastSeenBy(Myself),WIZARD_FLAME_ARROW)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  Global("Iapcastts","GLOBAL",0)
+  !GlobalTimerNotExpired("Iahla","LOCALS")
+  See([PC])
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  CheckStatLT(LastSeenBy(Myself),100,RESISTFIRE)
+  CheckStatLT(LastSeenBy(Myself),30,RESISTMAGIC)
+  !CheckStatGT(LastSeenBy(Myself),0,MINORGLOBE)
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE7)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  GlobalLT("IaFireArrow","LOCALS",1)
+  Global("IaLowerFire","LOCALS",1)
+THEN
+  RESPONSE #100
+    IncrementGlobal("IaFireArrow","LOCALS",1)
+    SetGlobalTimer("Iahla","LOCALS",6)
+    DisplayString(Myself,39968)  // ~Spell Trigger - Fired~
+    ReallyForceSpell(LastSeenBy(Myself),WIZARD_FLAME_ARROW)
+    ReallyForceSpell(LastSeenBy(Myself),WIZARD_FLAME_ARROW)
+    ReallyForceSpell(LastSeenBy(Myself),WIZARD_FLAME_ARROW)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  Global("Iapcastts","GLOBAL",0)
+  !GlobalTimerNotExpired("Iahla","LOCALS")
+  !GlobalTimerNotExpired("IaFearTimer","S!0005")
+  See(SecondNearest([PC]))
+  Range(LastSeenBy(Myself),5)
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(LastSeenBy(Myself),STATE_PANIC)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !HasItem("clck30",LastSeenBy(Myself))
+  !HasItemEquiped("hamm11",LastSeenBy(Myself))
+  !HasItemEquiped("sw1h32",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw04",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw11",LastSeenBy(Myself))
+  !HasItemEquiped("S!halb01",LastSeenBy(Myself))
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE4)
+  !CheckSpellState(LastSeenBy(Myself),IMMUNE_FEAR)
+  GlobalLT("IaFear","LOCALS",3)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("IaFearTimer","S!0005",12)
+    SetGlobalTimer("Iahla","LOCALS",6)
+    IncrementGlobal("IaFear","LOCALS",1)
+    ReallyForceSpell(LastSeenBy(Myself),DEMON_FEAR)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  Global("Iapcastts","GLOBAL",0)
+  !GlobalTimerNotExpired("Iahla","LOCALS")
+  !GlobalTimerNotExpired("IaFearTimer","S!0005")
+  See([PC])
+  Range(LastSeenBy(Myself),5)
+  !StateCheck(LastSeenBy(Myself),STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(LastSeenBy(Myself),STATE_PANIC)
+  !StateCheck(LastSeenBy(Myself),STATE_HELPLESS)
+  !StateCheck(LastSeenBy(Myself),STATE_CONFUSED)
+  !HasItem("clck30",LastSeenBy(Myself))
+  !HasItemEquiped("hamm11",LastSeenBy(Myself))
+  !HasItemEquiped("sw1h32",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw04",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw11",LastSeenBy(Myself))
+  !HasItemEquiped("S!halb01",LastSeenBy(Myself))
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE3)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE4)
+  !CheckSpellState(LastSeenBy(Myself),IMMUNE_FEAR)
+  GlobalLT("IaFear","LOCALS",3)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("IaFearTimer","S!0005",12)
+    SetGlobalTimer("Iahla","LOCALS",6)
+    IncrementGlobal("IaFear","LOCALS",1)
+    ReallyForceSpell(LastSeenBy(Myself),DEMON_FEAR)
+END
+
+IF
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Global("partyfled","LOCALS",0)
+  Allegiance(Myself,ENEMY)
+  Global("IaPrep","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("chase","LOCALS",90)
+    SetGlobal("partyfled","LOCALS",1)
+END
+
+IF
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Global("partyfled","LOCALS",1)
+  GlobalTimerNotExpired("chase","LOCALS")
+  InMyArea(Player1)
+  Allegiance(Myself,ENEMY)
+  Global("IaPrep","LOCALS",1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Allegiance(Myself,ENEMY)
+  GlobalTimerExpired("chase","LOCALS")
+  Global("partyfled","LOCALS",1)
+  Global("IaPrep","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("IaRest","LOCALS",2100)
+    SetGlobal("IaOffense","LOCALS",0)
+    SetGlobal("IaLowerFire","LOCALS",0)
+    SetGlobal("IaFireArrow","LOCALS",0)
+    SetGlobal("IaFear","LOCALS",0)
+    ReallyForceSpellRES("SPWII07",Myself)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(SecondNearestEnemyOf(Myself))
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(ThirdNearestEnemyOf(Myself))
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  InMyArea(Player1)
+  Allegiance(Myself,ENEMY)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END

@@ -1,0 +1,292 @@
+IF
+  Allegiance(Myself,ENEMY)
+  Global("IAPlot","S!0005",5)
+  Global("IaOnce","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("IaOnce","LOCALS",1)
+    Kill(Myself)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  Global("IaPrep","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("IaPrep","LOCALS",1)
+    SetGlobalTimer("IaRest","LOCALS",2100)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  GlobalTimerExpired("IaRest","LOCALS")
+  Global("IaPrep","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("IaRest","LOCALS",2100)
+    SetGlobal("Iainv","LOCALS",0)
+    ReallyForceSpellRES("SPWII07",Myself)
+END
+
+IF
+  See(NearestEnemyOf(Myself))
+  Global("partyfled","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobal("partyfled","LOCALS",0)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  Global("Iapcastts","GLOBAL",0)
+  !GlobalTimerNotExpired("Iahla","LOCALS")
+  !StateCheck(Myself,STATE_IMPROVEDINVISIBILITY)
+  !StateCheck(Myself,STATE_INVISIBLE)
+  See([PC])
+  Range(LastSeenBy(Myself),4)
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  CheckStatLT(LastSeenBy(Myself),1,STONESKINS)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  !Kit(LastSeenBy(Myself),BARBARIAN)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE11)
+  CheckStatLT(LastSeenBy(Myself),95,RESISTPIERCING)
+  !HasItemEquiped("S!sw11",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw04",LastSeenBy(Myself))
+  GlobalLT("Iainv","LOCALS",3)
+THEN
+  RESPONSE #100
+    IncrementGlobal("Iainv","LOCALS",1)
+    SetGlobalTimer("Iabackstabbing","LOCALS",7)
+    SetGlobalTimer("Iahla","LOCALS",6)
+    ReallyForceSpellRES("SPWII41",Myself) // Improved Invisibility
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  Global("Iapcastts","GLOBAL",0)
+  GlobalGT("Iainv","LOCALS",0)
+  GlobalTimerNotExpired("Iabackstabbing","LOCALS")
+  See([PC])
+  StateCheck(Myself,STATE_INVISIBLE)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  CheckStatLT(LastSeenBy(Myself),1,STONESKINS)
+  !Kit(LastSeenBy(Myself),BARBARIAN)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE11)
+  CheckStatLT(LastSeenBy(Myself),95,RESISTPIERCING)
+  !HasItemEquiped("S!sw11",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw04",LastSeenBy(Myself))
+THEN
+  RESPONSE #100
+    AttackReevaluate(LastSeenBy(Myself),45)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  Global("Iapcastts","GLOBAL",0)
+  GlobalGT("Iainv","LOCALS",0)
+  GlobalTimerNotExpired("Iabackstabbing","LOCALS")
+  See(SecondNearest([PC]))
+  StateCheck(Myself,STATE_INVISIBLE)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  CheckStatLT(LastSeenBy(Myself),1,STONESKINS)
+  !Kit(LastSeenBy(Myself),BARBARIAN)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE11)
+  CheckStatLT(LastSeenBy(Myself),95,RESISTPIERCING)
+  !HasItemEquiped("S!sw11",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw04",LastSeenBy(Myself))
+THEN
+  RESPONSE #100
+    AttackReevaluate(LastSeenBy(Myself),45)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  Global("Iapcastts","GLOBAL",0)
+  GlobalGT("Iainv","LOCALS",0)
+  GlobalTimerNotExpired("Iabackstabbing","LOCALS")
+  See(ThirdNearest([PC]))
+  StateCheck(Myself,STATE_INVISIBLE)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  CheckStatLT(LastSeenBy(Myself),1,STONESKINS)
+  !Kit(LastSeenBy(Myself),BARBARIAN)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE11)
+  CheckStatLT(LastSeenBy(Myself),95,RESISTPIERCING)
+  !HasItemEquiped("S!sw11",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw04",LastSeenBy(Myself))
+THEN
+  RESPONSE #100
+    AttackReevaluate(LastSeenBy(Myself),45)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  Global("Iapcastts","GLOBAL",0)
+  GlobalGT("Iainv","LOCALS",0)
+  GlobalTimerNotExpired("Iabackstabbing","LOCALS")
+  See([PC])
+  StateCheck(Myself,STATE_INVISIBLE)
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  !Kit(LastSeenBy(Myself),BARBARIAN)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE11)
+  CheckStatLT(LastSeenBy(Myself),95,RESISTPIERCING)
+  !HasItemEquiped("S!sw11",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw04",LastSeenBy(Myself))
+  OR(2)
+    !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+    CheckStatLT(LastSeenBy(Myself),1,STONESKINS)
+THEN
+  RESPONSE #100
+    AttackReevaluate(LastSeenBy(Myself),45)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  Global("Iapcastts","GLOBAL",0)
+  GlobalGT("Iainv","LOCALS",0)
+  GlobalTimerNotExpired("Iabackstabbing","LOCALS")
+  See(SecondNearest([PC]))
+  StateCheck(Myself,STATE_INVISIBLE)
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  !Kit(LastSeenBy(Myself),BARBARIAN)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE11)
+  CheckStatLT(LastSeenBy(Myself),95,RESISTPIERCING)
+  !HasItemEquiped("S!sw11",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw04",LastSeenBy(Myself))
+  OR(2)
+    !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+    CheckStatLT(LastSeenBy(Myself),1,STONESKINS)
+THEN
+  RESPONSE #100
+    AttackReevaluate(LastSeenBy(Myself),45)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  Global("Iapcastts","GLOBAL",0)
+  GlobalGT("Iainv","LOCALS",0)
+  GlobalTimerNotExpired("Iabackstabbing","LOCALS")
+  See(ThirdNearest([PC]))
+  StateCheck(Myself,STATE_INVISIBLE)
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  !Kit(LastSeenBy(Myself),BARBARIAN)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE11)
+  CheckStatLT(LastSeenBy(Myself),95,RESISTPIERCING)
+  !HasItemEquiped("S!sw11",LastSeenBy(Myself))
+  !HasItemEquiped("S!sw04",LastSeenBy(Myself))
+  OR(2)
+    !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+    CheckStatLT(LastSeenBy(Myself),1,STONESKINS)
+THEN
+  RESPONSE #100
+    AttackReevaluate(LastSeenBy(Myself),45)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  Global("Iapcastts","GLOBAL",0)
+  !GlobalTimerNotExpired("Iabackstabbing","LOCALS")
+  GlobalTimerNotExpired("Iahla","LOCALS")
+  See([PC])
+  Range(LastSeenBy(Myself),12)
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  CheckStatLT(LastSeenBy(Myself),1,STONESKINS)
+  !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+  !Kit(LastSeenBy(Myself),BARBARIAN)
+  !CheckStat(LastSeenBy(Myself),1,SCRIPTINGSTATE11)
+  !CheckSpellState(LastSeenBy(Myself),DEFENSIVE_STANCE)
+  CheckStatLT(LastSeenBy(Myself),100,RESISTPIERCING)
+  RandomNumGT(6,3)
+THEN
+  RESPONSE #100
+    MoveToObject(LastSeenBy(Myself))
+    Wait(2)
+END
+
+IF
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Global("partyfled","LOCALS",0)
+  Allegiance(Myself,ENEMY)
+  Global("IaPrep","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("chase","LOCALS",90)
+    SetGlobal("partyfled","LOCALS",1)
+END
+
+IF
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Global("partyfled","LOCALS",1)
+  GlobalTimerNotExpired("chase","LOCALS")
+  InMyArea(Player1)
+  Allegiance(Myself,ENEMY)
+  Global("IaPrep","LOCALS",1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END
+
+IF
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  Allegiance(Myself,ENEMY)
+  GlobalTimerExpired("chase","LOCALS")
+  Global("partyfled","LOCALS",1)
+  Global("IaPrep","LOCALS",1)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("IaRest","LOCALS",2100)
+    SetGlobal("Iainv","LOCALS",0)
+    ReallyForceSpellRES("SPWII07",Myself)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(SecondNearestEnemyOf(Myself))
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(ThirdNearestEnemyOf(Myself))
+  !CheckStat(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+THEN
+  RESPONSE #100
+    AttackOneRound(LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    AttackOneRound(NearestEnemyOf(Myself))
+END
+
+IF
+  !Detect([PC])
+  !Detect([GOODCUTOFF])
+  InMyArea(Player1)
+  Allegiance(Myself,ENEMY)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+END

@@ -1,291 +1,231 @@
-IF
-  See([PC])
-  OR(4)
-   CheckStatGT(LastSeenBy(Myself),1,STONESKINS)
-   StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-   CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
-   CheckStatGT(LastSeenBy(Myself),0,IMPROVEDHASTE)
-  Global("Iaonepurge","LOCALS",0)
-  Global("Iapcastts","GLOBAL",0)
-  !GlobalTimerNotExpired("Iapurge","LOCALS")
-  !HPLT(Myself,1)
-THEN
-  RESPONSE #100
-    SetGlobal("Iaonepurge","LOCALS",1)
-    SetGlobalTimer("Iapurge","LOCALS",24)
-    SetGlobalTimer("Iawingbuffet","LOCALS",6)
-    ReallyForceSpellRES("SPINI29",LastSeenBy(Myself)) //
-END
+// corrosive cloud //
 
 IF
-  See(SecondNearest([PC]))
-  OR(4)
-   CheckStatGT(LastSeenBy(Myself),1,STONESKINS)
-   StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-   CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
-   CheckStatGT(LastSeenBy(Myself),0,IMPROVEDHASTE)
-  Global("Iaonepurge","LOCALS",0)
-  Global("Iapcastts","GLOBAL",0)
-  !GlobalTimerNotExpired("Iapurge","LOCALS")
-  !HPLT(Myself,1)
-THEN
-  RESPONSE #100
-    SetGlobal("Iaonepurge","LOCALS",1)
-    SetGlobalTimer("Iapurge","LOCALS",24)
-    SetGlobalTimer("Iawingbuffet","LOCALS",6)
-    ReallyForceSpellRES("SPINI29",LastSeenBy(Myself)) //
-END
-
-IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iacloud","LOCALS")
   See(ThirdNearest([PC]))
-  OR(4)
-   CheckStatGT(LastSeenBy(Myself),1,STONESKINS)
-   StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-   CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
-   CheckStatGT(LastSeenBy(Myself),0,IMPROVEDHASTE)
-  Global("Iaonepurge","LOCALS",0)
-  Global("Iapcastts","GLOBAL",0)
-  !GlobalTimerNotExpired("Iapurge","LOCALS")
-  !HPLT(Myself,1)
+  Range(LastSeenBy(Myself),5)
+  !CheckStat(LastSeenBy(Myself),4,SCRIPTINGSTATE7)
+  OR(3)
+    CheckStatLT(LastSeenBy(Myself),20,RESISTFIRE)
+    CheckStatLT(LastSeenBy(Myself),20,RESISTPOISON)
+    CheckStatLT(LastSeenBy(Myself),20,RESISTACID)
+  RandomNumGT(4,2)
 THEN
   RESPONSE #100
-    SetGlobal("Iaonepurge","LOCALS",1)
-    SetGlobalTimer("Iapurge","LOCALS",24)
-    SetGlobalTimer("Iawingbuffet","LOCALS",6)
-    ReallyForceSpellRES("SPINI29",LastSeenBy(Myself)) //
-END
-
-IF
-  See(FourthNearest([PC]))
-  OR(4)
-   CheckStatGT(LastSeenBy(Myself),1,STONESKINS)
-   StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-   CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
-   CheckStatGT(LastSeenBy(Myself),0,IMPROVEDHASTE)
-  Global("Iaonepurge","LOCALS",0)
-  Global("Iapcastts","GLOBAL",0)
-  !GlobalTimerNotExpired("Iapurge","LOCALS")
-  !HPLT(Myself,1)
-THEN
-  RESPONSE #100
-    SetGlobal("Iaonepurge","LOCALS",1)
-    SetGlobalTimer("Iapurge","LOCALS",24)
-    SetGlobalTimer("Iawingbuffet","LOCALS",6)
-    ReallyForceSpellRES("SPINI29",LastSeenBy(Myself)) //
-END
-
-IF
-  See(FifthNearest([PC]))
-  OR(4)
-   CheckStatGT(LastSeenBy(Myself),1,STONESKINS)
-   StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-   CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
-   CheckStatGT(LastSeenBy(Myself),0,IMPROVEDHASTE)
-  Global("Iaonepurge","LOCALS",0)
-  Global("Iapcastts","GLOBAL",0)
-  !GlobalTimerNotExpired("Iapurge","LOCALS")
-  !HPLT(Myself,1)
-THEN
-  RESPONSE #100
-    SetGlobal("Iaonepurge","LOCALS",1)
-    SetGlobalTimer("Iapurge","LOCALS",24)
-    SetGlobalTimer("Iawingbuffet","LOCALS",6)
-    ReallyForceSpellRES("SPINI29",LastSeenBy(Myself)) //
-END
-
-IF
-  See(SixthNearest([PC]))
-  OR(4)
-   CheckStatGT(LastSeenBy(Myself),1,STONESKINS)
-   StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-   CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
-   CheckStatGT(LastSeenBy(Myself),0,IMPROVEDHASTE)
-  Global("Iaonepurge","LOCALS",0)
-  Global("Iapcastts","GLOBAL",0)
-  !GlobalTimerNotExpired("Iapurge","LOCALS")
-  !HPLT(Myself,1)
-THEN
-  RESPONSE #100
-    SetGlobal("Iaonepurge","LOCALS",1)
-    SetGlobalTimer("Iapurge","LOCALS",24)
-    SetGlobalTimer("Iawingbuffet","LOCALS",6)
-    ReallyForceSpellRES("SPINI29",LastSeenBy(Myself)) //
-END
-
-IF
-  See([PC])
-  OR(4)
-   CheckStatGT(LastSeenBy(Myself),1,STONESKINS)
-   StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-   CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
-   CheckStatGT(LastSeenBy(Myself),0,IMPROVEDHASTE)
-  Global("Iaonepurge","LOCALS",1)
-  Global("Iapcastts","GLOBAL",0)
-  !GlobalTimerNotExpired("Iapurge","LOCALS")
-  !HPLT(Myself,1)
-THEN
-  RESPONSE #100
-    SetGlobalTimer("Iapurge","LOCALS",24)
-    ReallyForceSpellRES("SPINI29",LastSeenBy(Myself)) //
-END
-
-IF
-  See(SecondNearest([PC]))
-  OR(4)
-   CheckStatGT(LastSeenBy(Myself),1,STONESKINS)
-   StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-   CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
-   CheckStatGT(LastSeenBy(Myself),0,IMPROVEDHASTE)
-  Global("Iaonepurge","LOCALS",1)
-  Global("Iapcastts","GLOBAL",0)
-  !GlobalTimerNotExpired("Iapurge","LOCALS")
-  !HPLT(Myself,1)
-THEN
-  RESPONSE #100
-    SetGlobalTimer("Iapurge","LOCALS",24)
-    ReallyForceSpellRES("SPINI29",LastSeenBy(Myself)) //
-END
-
-IF
-  See(ThirdNearest([PC]))
-  OR(4)
-   CheckStatGT(LastSeenBy(Myself),1,STONESKINS)
-   StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-   CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
-   CheckStatGT(LastSeenBy(Myself),0,IMPROVEDHASTE)
-  Global("Iaonepurge","LOCALS",1)
-  Global("Iapcastts","GLOBAL",0)
-  !GlobalTimerNotExpired("Iapurge","LOCALS")
-  !HPLT(Myself,1)
-THEN
-  RESPONSE #100
-    SetGlobalTimer("Iapurge","LOCALS",24)
-    ReallyForceSpellRES("SPINI29",LastSeenBy(Myself)) //
-END
-
-IF
-  See(FourthNearest([PC]))
-  OR(4)
-   CheckStatGT(LastSeenBy(Myself),1,STONESKINS)
-   StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-   CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
-   CheckStatGT(LastSeenBy(Myself),0,IMPROVEDHASTE)
-  Global("Iaonepurge","LOCALS",1)
-  Global("Iapcastts","GLOBAL",0)
-  !GlobalTimerNotExpired("Iapurge","LOCALS")
-  !HPLT(Myself,1)
-THEN
-  RESPONSE #100
-    SetGlobalTimer("Iapurge","LOCALS",24)
-    ReallyForceSpellRES("SPINI29",LastSeenBy(Myself)) //
-END
-
-IF
-  See(FifthNearest([PC]))
-  OR(4)
-   CheckStatGT(LastSeenBy(Myself),1,STONESKINS)
-   StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-   CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
-   CheckStatGT(LastSeenBy(Myself),0,IMPROVEDHASTE)
-  Global("Iaonepurge","LOCALS",1)
-  Global("Iapcastts","GLOBAL",0)
-  !GlobalTimerNotExpired("Iapurge","LOCALS")
-  !HPLT(Myself,1)
-THEN
-  RESPONSE #100
-    SetGlobalTimer("Iapurge","LOCALS",24)
-    ReallyForceSpellRES("SPINI29",LastSeenBy(Myself)) //
-END
-
-IF
-  See(SixthNearest([PC]))
-  OR(4)
-   CheckStatGT(LastSeenBy(Myself),1,STONESKINS)
-   StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-   CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
-   CheckStatGT(LastSeenBy(Myself),0,IMPROVEDHASTE)
-  Global("Iaonepurge","LOCALS",1)
-  Global("Iapcastts","GLOBAL",0)
-  !GlobalTimerNotExpired("Iapurge","LOCALS")
-  !HPLT(Myself,1)
-THEN
-  RESPONSE #100
-    SetGlobalTimer("Iapurge","LOCALS",24)
-    ReallyForceSpellRES("SPINI29",LastSeenBy(Myself)) //
+    SetGlobalTimer("Iacloud","LOCALS",12)
+    ReallyForceSpellRES("SPINI104",Myself)
 END
 
 IF
   Allegiance(Myself,ENEMY)
-  See([PC])
-  Range(LastSeenBy(Myself),11)
-  GlobalLT("Iaonewing","LOCALS",3)
-  !GlobalTimerNotExpired("Iawingbuffet","LOCALS")
+  !GlobalTimerNotExpired("Iacloud","LOCALS")
+  See(SecondNearest([PC]))
+  Range(LastSeenBy(Myself),5)
+  !CheckStat(LastSeenBy(Myself),4,SCRIPTINGSTATE7)
+  OR(3)
+    CheckStatLT(LastSeenBy(Myself),20,RESISTFIRE)
+    CheckStatLT(LastSeenBy(Myself),20,RESISTPOISON)
+    CheckStatLT(LastSeenBy(Myself),20,RESISTACID)
+  RandomNumGT(4,2)
 THEN
   RESPONSE #100
-    IncrementGlobal("Iaonewing","LOCALS",1)
-    SetGlobalTimer("Iawingbuffet","LOCALS",18)
-    SetInterrupt(FALSE)
-    ForceSpell(LastSeenBy(Myself),DRAGON_WING_BUFFET)
-    Wait(1)
-    //CreateCreatureObject("S!coin2",Myself,0,0,0) //
-    //CreateCreatureObject("S!coin2",Myself,0,0,0) //
-    //CreateCreatureObject("S!gem2",Myself,0,0,0) //
-    //CreateCreatureObject("S!gem2",Myself,0,0,0) //
-    SetInterrupt(TRUE)
+    SetGlobalTimer("Iacloud","LOCALS",12)
+    ReallyForceSpellRES("SPINI104",Myself)
 END
 
 IF
   Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iacloud","LOCALS")
   See([PC])
-  Range(LastSeenBy(Myself),11)
-  Global("Iaonewing","LOCALS",3)
-  !GlobalTimerNotExpired("Iawingbuffet","LOCALS")
+  Range(LastSeenBy(Myself),5)
+  !CheckStat(LastSeenBy(Myself),4,SCRIPTINGSTATE7)
+  OR(3)
+    CheckStatLT(LastSeenBy(Myself),20,RESISTFIRE)
+    CheckStatLT(LastSeenBy(Myself),20,RESISTPOISON)
+    CheckStatLT(LastSeenBy(Myself),20,RESISTACID)
+  RandomNumGT(4,2)
 THEN
   RESPONSE #100
-    SetGlobalTimer("Iawingbuffet","LOCALS",18)
-    ForceSpell(LastSeenBy(Myself),DRAGON_WING_BUFFET)
+    SetGlobalTimer("Iacloud","LOCALS",12)
+    ReallyForceSpellRES("SPINI104",Myself)
 END
 
 IF
+  Allegiance(Myself,ENEMY)
+  !GlobalTimerNotExpired("Iacloud","LOCALS")
+  See(NearestEnemyOfType([GOODCUTOFF.0.0.0.0.SUMMONED]))
+  Range(LastSeenBy(Myself),5)
+  !CheckStat(LastSeenBy(Myself),4,SCRIPTINGSTATE7)
+  OR(3)
+    CheckStatLT(LastSeenBy(Myself),20,RESISTFIRE)
+    CheckStatLT(LastSeenBy(Myself),20,RESISTPOISON)
+    CheckStatLT(LastSeenBy(Myself),20,RESISTACID)
+  RandomNumGT(4,2)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("Iacloud","LOCALS",12)
+    ReallyForceSpellRES("SPINI104",Myself)
+END
+
+// purge magic if the portals have been closed //
+
+IF
+  Allegiance(Myself,ENEMY)
+  See([PC])
+  OR(4)
+    CheckStatGT(LastSeenBy(Myself),1,STONESKINS)
+    StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+    CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+    CheckStatGT(LastSeenBy(Myself),0,IMPROVEDHASTE)
+  Global("Iaonepurge","LOCALS",0)
+  Global("Iapcastts","GLOBAL",0)
+  Global("IAPortals","S!0005",2)
+  !HPLT(Myself,1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaonepurge","LOCALS",1)
+    ReallyForceSpellRES("SPINI29",LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(SecondNearest([PC]))
+  OR(4)
+    CheckStatGT(LastSeenBy(Myself),1,STONESKINS)
+    StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+    CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+    CheckStatGT(LastSeenBy(Myself),0,IMPROVEDHASTE)
+  Global("Iaonepurge","LOCALS",0)
+  Global("Iapcastts","GLOBAL",0)
+  Global("IAPortals","S!0005",2)
+  !HPLT(Myself,1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaonepurge","LOCALS",1)
+    ReallyForceSpellRES("SPINI29",LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(ThirdNearest([PC]))
+  OR(4)
+    CheckStatGT(LastSeenBy(Myself),1,STONESKINS)
+    StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+    CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+    CheckStatGT(LastSeenBy(Myself),0,IMPROVEDHASTE)
+  Global("Iaonepurge","LOCALS",0)
+  Global("Iapcastts","GLOBAL",0)
+  Global("IAPortals","S!0005",2)
+  !HPLT(Myself,1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaonepurge","LOCALS",1)
+    ReallyForceSpellRES("SPINI29",LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(FourthNearest([PC]))
+  OR(4)
+    CheckStatGT(LastSeenBy(Myself),1,STONESKINS)
+    StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+    CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+    CheckStatGT(LastSeenBy(Myself),0,IMPROVEDHASTE)
+  Global("Iaonepurge","LOCALS",0)
+  Global("Iapcastts","GLOBAL",0)
+  Global("IAPortals","S!0005",2)
+  !HPLT(Myself,1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaonepurge","LOCALS",1)
+    ReallyForceSpellRES("SPINI29",LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(FifthNearest([PC]))
+  OR(4)
+    CheckStatGT(LastSeenBy(Myself),1,STONESKINS)
+    StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+    CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+    CheckStatGT(LastSeenBy(Myself),0,IMPROVEDHASTE)
+  Global("Iaonepurge","LOCALS",0)
+  Global("Iapcastts","GLOBAL",0)
+  Global("IAPortals","S!0005",2)
+  !HPLT(Myself,1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaonepurge","LOCALS",1)
+    ReallyForceSpellRES("SPINI29",LastSeenBy(Myself))
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(SixthNearest([PC]))
+  OR(4)
+    CheckStatGT(LastSeenBy(Myself),1,STONESKINS)
+    StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
+    CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+    CheckStatGT(LastSeenBy(Myself),0,IMPROVEDHASTE)
+  Global("Iaonepurge","LOCALS",0)
+  Global("Iapcastts","GLOBAL",0)
+  Global("IAPortals","S!0005",2)
+  !HPLT(Myself,1)
+THEN
+  RESPONSE #100
+    SetGlobal("Iaonepurge","LOCALS",1)
+    ReallyForceSpellRES("SPINI29",LastSeenBy(Myself))
+END
+
+// melee attacks //
+
+IF
+  Allegiance(Myself,ENEMY)
   See(NearestEnemyOf(Myself))
   !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
 THEN
   RESPONSE #100
-    AttackOneRound(NearestEnemyOf(Myself))
+    AttackReevaluate(LastSeenBy(Myself),45)
 END
 
 IF
+  Allegiance(Myself,ENEMY)
   See(SecondNearestEnemyOf(Myself))
   !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
 THEN
   RESPONSE #100
-    AttackOneRound(LastSeenBy(Myself))
+    AttackReevaluate(LastSeenBy(Myself),45)
 END
 
 IF
+  Allegiance(Myself,ENEMY)
   See(ThirdNearestEnemyOf(Myself))
   !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
 THEN
   RESPONSE #100
-    AttackOneRound(LastSeenBy(Myself))
+    AttackReevaluate(LastSeenBy(Myself),45)
 END
 
 IF
+  Allegiance(Myself,ENEMY)
   See(FourthNearestEnemyOf(Myself))
   !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
 THEN
   RESPONSE #100
-    AttackOneRound(LastSeenBy(Myself))
+    AttackReevaluate(LastSeenBy(Myself),45)
 END
 
 IF
+  Allegiance(Myself,ENEMY)
   See(NearestEnemyOf(Myself))
 THEN
   RESPONSE #100
-    AttackOneRound(NearestEnemyOf(Myself))
+    AttackReevaluate(LastSeenBy(Myself),45)
 END
 
 IF
+  Allegiance(Myself,ENEMY)
   !Detect([PC])
   !Detect([GOODCUTOFF])
   InMyArea(Player1)

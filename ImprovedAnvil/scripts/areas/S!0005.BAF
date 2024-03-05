@@ -1,3 +1,4 @@
+// start the combat
 IF
   InMyArea(Player1)
   Global("IAPlot","S!0005",0)
@@ -6,32 +7,77 @@ IF
 THEN
   RESPONSE #100
     SetGlobal("IAPlot","S!0005",1)
+    TriggerActivation("TranS0006",FALSE)
     ClearAllActions()
     StartCutSceneMode()
     StartCutScene("S!druc14")
 END
 
-// TODO: check for deadness of the leutenants here as well
 IF
   InMyArea(Player1)
   Global("IAPlot","S!0005",4)
-  Global("IADruidPlot","GLOBAL",13)
-  !Dead("S!dracof")
-  HPPercentLT("S!dracof",10)
+  Global("IAPortals","S!0005",0)
 THEN
   RESPONSE #100
-    SetInterrupt(FALSE)
-    SetGlobal("IAPlot","S!0005",5)
+    SetGlobal("IAPortals","S!0005",1)
+    CreateCreature("S!dspy01",[1955.1940],0) // black portal
+    CreateCreature("S!dspy02",[920.1920],0) // green portal
+    CreateCreature("S!dspy03",[270.410],0) // red portal
+    CreateCreature("S!dspy04",[1250.135],0) // blue portal
+    CreateCreature("S!dspy05",[110.1030],0) // white portal
+    DisplayString("S!gdru04",@5990)
+END
 
+IF
+  InMyArea(Player1)
+  Global("IAPlot","S!0005",4)
+  Global("IAPortals","S!0005",1)
+  Dead("S!dspy01")
+  Dead("S!dspy02")
+  Dead("S!dspy03")
+  Dead("S!dspy04")
+  Dead("S!dspy05")
+THEN
+  RESPONSE #100
+    SetGlobal("IAPortals","S!0005",2)
+    TakeItemReplace("minhp1","S!minhp3","S!dracof")
+END
+
+// transition into the final cutscene
+IF
+  InMyArea(Player1)
+  Global("IAPlot","S!0005",4)
+  Global("IAPortals","S!0005",2)
+  Global("IADruidPlot","GLOBAL",13)
+  !Dead("S!dracof")
+  HPLT("S!dracof",10)
+THEN
+  RESPONSE #100
+    SetGlobal("IAPlot","S!0005",5)
     ClearAllActions()
     StartCutSceneMode()
     CutSceneId(Player1)
-
     Wait(1)
     ActionOverride("S!dracof",ChangeEnemyAlly(Myself,NEUTRAL))
     Wait(1)
     ActionOverride("S!dracof",StartDialogueNoSet(Player1))
-
     EndCutSceneMode()
-    SetInterrupt(TRUE)
+END
+
+// if felaern perishes, the encounter is lost
+IF
+  InMyArea(Player1)
+  Global("Iakillp1","S!0005",0)
+  Dead("S!gdru04")
+THEN
+  RESPONSE #100
+    SetGlobal("Iakillp1","S!0005",1)
+    ClearAllActions()
+    StartCutSceneMode()
+    Wait(2)
+    MoveViewObject(Player1,-1)
+    DisplayStringHead(Player1,@12096)
+    Wait(4)
+    EndCutSceneMode()
+    Kill(Player1)
 END

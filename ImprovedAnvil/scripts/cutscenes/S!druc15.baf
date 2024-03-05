@@ -5,27 +5,20 @@ IF
 THEN
   RESPONSE #100
     CutSceneId(Player1)
-    SetInterrupt(FALSE)
-
     Wait(1)
     ActionOverride("s!ferr02",MoveViewObject(Myself,INSTANT))
     ActionOverride("s!ferr02",DisplayStringHead(Myself,46150)) // ~quaffs a potion~
     Wait(1)
     ActionOverride("s!ferr02",ForceSpellRES("S!dru00",Myself))
-    Wait(3)
+    Wait(2)
     ActionOverride("s!ferr02",ForceSpellRES("S!dru01",Myself))
     Wait(2)
     ActionOverride("S!dracof",FaceObject(Player1))
     Wait(2)
 
-    ActionOverride("S!dracof",DisplayStringHead(Myself,@5879))
-    Wait(4)
-    ActionOverride("S!dracof",DisplayStringHead(Myself,@5880))
-    Wait(4)
-
     SetGlobal("IAPlot","S!0005",4)
+    ActionOverride("S!dracof",StartDialogNoSet(Player1))
 
-    SetInterrupt(TRUE)
     MultiPlayerSync()
     EndCutSceneMode()
 END

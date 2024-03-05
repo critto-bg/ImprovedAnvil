@@ -1,0 +1,42 @@
+// black portal
+// spawn position: 1955.1940
+
+IF
+  Global("IaSawPC","LOCALS",1)
+  See("S!gdru04")
+  SpellCastPriestRES("S!DRU09","S!gdru04")
+THEN
+  RESPONSE #100
+    SetGlobal("IaSawPC","LOCALS",2)
+    Kill(Myself)
+END
+
+IF
+  Global("IaSawPC","LOCALS",0)
+  See([PC])
+THEN
+  RESPONSE #100
+    SetGlobal("IaSawPC","LOCALS",1)
+    SetGlobal("IaAttackBlackPortal","S!0005",1)
+END
+
+IF
+  InMyArea(Player1)
+  GlobalGT("IaSummonDemon","LOCALS",2)
+  GlobalTimerExpired("IaSummonVisualDelay","LOCALS")
+THEN
+  RESPONSE #100
+    SetGlobal("IaSummonDemon","LOCALS",0)
+    CreateCreature("S!dabbla",[1955.1905],0)
+END
+
+IF
+  InMyArea(Player1)
+  !GlobalTimerNotExpired("IaPortalAnimTimer","LOCALS")
+THEN
+  RESPONSE #100
+    SetGlobalTimer("IaPortalAnimTimer","LOCALS",6)
+    IncrementGlobal("IaSummonDemon","LOCALS",1)
+    SetGlobalTimer("IaSummonVisualDelay","LOCALS",2)
+    CreateVisualEffect("SPPLANAR",[1955.1880])
+END

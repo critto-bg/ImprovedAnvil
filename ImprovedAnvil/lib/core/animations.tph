@@ -80,7 +80,7 @@ OUTER_TEXT_SPRINT animationSlots ~"0410" "1000" "1003" "1004" "1100" "1101" "110
  * INT_VAR slotMax    Highest available creature animation slot for the animation, exclusive.
  *                    (Default: highest value for slot type indicated by "slotMin")
  * INT_VAR slotSteps  How many slots to skip after each iteration, starting from slotMin.
- *                    Setting this parameter is useful if compatible animation slots are always 
+ *                    Setting this parameter is useful if compatible animation slots are always
  *                    a fixed distance apart (e.g. at a distance of 0x10 each). (Default: 1)
  * RET slot           A free animation slot. Returns -1 if none are found in the given range.
  */
@@ -107,7 +107,7 @@ BEGIN
 			LOOKUP_IDS_SYMBOL_OF_INT name ~animate~ idx
 			PATCH_IF (~%name%~ STR_EQ ~%idx%~) BEGIN
 				LPF TO_HEX_NUMBER INT_VAR value = idx minDigits = 4 RET hexNumber END
-				PATCH_IF (NOT FILE_EXISTS_IN_GAME ~%hexNumber%.ini~ AND 
+				PATCH_IF (NOT FILE_EXISTS_IN_GAME ~%hexNumber%.ini~ AND
 						  ~%slotList%~ STRING_CONTAINS_REGEXP ~"%hexNumber%"~ != 0) BEGIN
 					SET slot = idx
 					SET idx = slotMax
@@ -156,7 +156,7 @@ END
 // Translucent variant, because previous versions of IA garbled the Ghost slot for this monster with it's translucent=1 setting
 // uses custom INI not included in BG2EE
 // uses IWD slot allocated dynamically
-// requires patching during mod install because of dynamic allocation 
+// requires patching during mod install because of dynamic allocation
 // WRITE_LONG 0x28 (IDS_OF_SYMBOL (~animate~ ~ANVIL_ANIMATED_PLATE_BRONZE~))
 
 LAF FIND_FREE_ANIM_SLOT INT_VAR slotMin = 0xe000 slotMax = 0xefff RET slot END
@@ -202,7 +202,7 @@ END
 // uses IWD slot allocated dynamically
 // custom filename/IDS entry because Infinity Animations proposes nonIWD slot
 // resref: S!GQ
-// requires patching during mod install because of dynamic allocation 
+// requires patching during mod install because of dynamic allocation
 // WRITE_LONG 0x28 (IDS_OF_SYMBOL (~animate~ ~ANVIL_GHOUL_QUEEN~))
 
 COPY ~ImprovedAnvil\resources\animations\anvil_ghoul_queen~ ~override~
@@ -253,3 +253,49 @@ END
 ACTION_IF (NOT FILE_EXISTS_IN_GAME ~mwora1.BAM~) BEGIN
 	COPY ~ImprovedAnvil\resources\animations\worg~ ~override~
 END
+
+// Abishai Black
+// uses slot 0x7F58
+// INI included in BG2EE
+// don't overwrite assets if already included by other mods (IAv6, EET)
+
+ACTION_IF (NOT FILE_EXISTS_IN_GAME ~mabbg1.BAM~) BEGIN
+	COPY ~ImprovedAnvil\resources\animations\abishai_black~ ~override~
+END
+
+// Abishai Green
+// uses slot 0x7F59
+// INI included in BG2EE
+// don't overwrite assets if already included by other mods (IAv6, EET)
+
+ACTION_IF (NOT FILE_EXISTS_IN_GAME ~mabgg1.BAM~) BEGIN
+	COPY ~ImprovedAnvil\resources\animations\abishai_green~ ~override~
+END
+
+// Abishai Red
+// uses slot 0x7F5A
+// INI included in BG2EE
+// don't overwrite assets if already included by other mods (IAv6, EET)
+
+ACTION_IF (NOT FILE_EXISTS_IN_GAME ~mabrg1.BAM~) BEGIN
+	COPY ~ImprovedAnvil\resources\animations\abishai_red~ ~override~
+END
+
+// Abishai White
+// uses slot 0xE28B
+// INI included in BG2EE
+// don't overwrite assets if already included by other mods (IAv6, EET)
+
+ACTION_IF (NOT FILE_EXISTS_IN_GAME ~mabwa1.BAM~) BEGIN
+	COPY ~ImprovedAnvil\resources\animations\abishai_white~ ~override~
+END
+
+// Isair
+// INI not included in BG2EE
+// uses a pre-defined IWD slot
+
+APPEND ~animate.ids~ ~0xe275 ISAIR~ UNLESS ~ISAIR~
+CLEAR_IDS_MAP
+
+COPY ~ImprovedAnvil\resources\animations\isair~ ~override~
+COPY ~ImprovedAnvil\resources\animations\ini\isair.ini~ ~override\e275.ini~
