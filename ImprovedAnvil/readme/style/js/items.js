@@ -868,6 +868,7 @@ var gear = [
                             "Armor Class: +3 Bonus",
                             "Saving Throws: +3 Bonus",
                             "Magic Resistance: +20% Bonus",
+                            "Special Abilities: Immunity to Poison",
                             "Equipped Abilities: Wearer regenerates 1 hit point every 2 seconds",
                             "Special Use: Invisibility, once per day",
                             "Improved Haste, three times per day"
