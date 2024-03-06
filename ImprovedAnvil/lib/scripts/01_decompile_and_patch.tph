@@ -663,3 +663,11 @@ COPY_EXISTING ~AR0800.BCS~ ~override~
   DECOMPILE_AND_PATCH BEGIN
     REPLACE_TEXTUALLY EXACT_MATCH ~CreateCreature("BODHIAMB",[1950.1690],S)~ ~CreateCreature("BODHIAMB",[1950.1790],S)~
   END
+
+// disable autosaves in the beginning of chapters 6-7
+COPY_EXISTING ~AR2500.BCS~ ~override/AR2500.bcs~
+              ~AR2800.BCS~ ~override/AR2800.bcs~
+  DECOMPILE_BCS_TO_BAF
+  REPLACE_TEXTUALLY ~SaveGame([0-9]+)~ ~~
+  COMPILE_BAF_TO_BCS
+  BUT_ONLY_IF_IT_CHANGES
