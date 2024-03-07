@@ -1,3 +1,33 @@
+// initial purge magic at the start //
+
+IF
+  Allegiance(Myself,ENEMY)
+  See([PC])
+  Global("IaPurge","LOCALS",0)
+  Global("Iapcastts","GLOBAL",0)
+  !HPLT(Myself,1)
+THEN
+  RESPONSE #100
+    SetGlobal("IaPurge","LOCALS",1)
+    ReallyForceSpellRES("SPINI29",LastSeenBy(Myself))
+    DisplayStringHead(Myself,@5991)
+END
+
+// purge magic after the spawns //
+
+IF
+  Allegiance(Myself,ENEMY)
+  See([PC])
+  Global("IaPurge","LOCALS",1)
+  Global("Iapcastts","GLOBAL",0)
+  Global("IAPortals","S!0005",6)
+  !HPLT(Myself,1)
+THEN
+  RESPONSE #100
+    SetGlobal("IaPurge","LOCALS",2)
+    ReallyForceSpellRES("SPINI29",LastSeenBy(Myself))
+END
+
 // corrosive cloud //
 
 IF
@@ -68,122 +98,13 @@ THEN
     ReallyForceSpellRES("SPINI104",Myself)
 END
 
-// purge magic if the portals have been closed //
-
-IF
-  Allegiance(Myself,ENEMY)
-  See([PC])
-  OR(4)
-    CheckStatGT(LastSeenBy(Myself),1,STONESKINS)
-    StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-    CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
-    CheckStatGT(LastSeenBy(Myself),0,IMPROVEDHASTE)
-  Global("Iaonepurge","LOCALS",0)
-  Global("Iapcastts","GLOBAL",0)
-  Global("IAPortals","S!0005",2)
-  !HPLT(Myself,1)
-THEN
-  RESPONSE #100
-    SetGlobal("Iaonepurge","LOCALS",1)
-    ReallyForceSpellRES("SPINI29",LastSeenBy(Myself))
-END
-
-IF
-  Allegiance(Myself,ENEMY)
-  See(SecondNearest([PC]))
-  OR(4)
-    CheckStatGT(LastSeenBy(Myself),1,STONESKINS)
-    StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-    CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
-    CheckStatGT(LastSeenBy(Myself),0,IMPROVEDHASTE)
-  Global("Iaonepurge","LOCALS",0)
-  Global("Iapcastts","GLOBAL",0)
-  Global("IAPortals","S!0005",2)
-  !HPLT(Myself,1)
-THEN
-  RESPONSE #100
-    SetGlobal("Iaonepurge","LOCALS",1)
-    ReallyForceSpellRES("SPINI29",LastSeenBy(Myself))
-END
-
-IF
-  Allegiance(Myself,ENEMY)
-  See(ThirdNearest([PC]))
-  OR(4)
-    CheckStatGT(LastSeenBy(Myself),1,STONESKINS)
-    StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-    CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
-    CheckStatGT(LastSeenBy(Myself),0,IMPROVEDHASTE)
-  Global("Iaonepurge","LOCALS",0)
-  Global("Iapcastts","GLOBAL",0)
-  Global("IAPortals","S!0005",2)
-  !HPLT(Myself,1)
-THEN
-  RESPONSE #100
-    SetGlobal("Iaonepurge","LOCALS",1)
-    ReallyForceSpellRES("SPINI29",LastSeenBy(Myself))
-END
-
-IF
-  Allegiance(Myself,ENEMY)
-  See(FourthNearest([PC]))
-  OR(4)
-    CheckStatGT(LastSeenBy(Myself),1,STONESKINS)
-    StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-    CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
-    CheckStatGT(LastSeenBy(Myself),0,IMPROVEDHASTE)
-  Global("Iaonepurge","LOCALS",0)
-  Global("Iapcastts","GLOBAL",0)
-  Global("IAPortals","S!0005",2)
-  !HPLT(Myself,1)
-THEN
-  RESPONSE #100
-    SetGlobal("Iaonepurge","LOCALS",1)
-    ReallyForceSpellRES("SPINI29",LastSeenBy(Myself))
-END
-
-IF
-  Allegiance(Myself,ENEMY)
-  See(FifthNearest([PC]))
-  OR(4)
-    CheckStatGT(LastSeenBy(Myself),1,STONESKINS)
-    StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-    CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
-    CheckStatGT(LastSeenBy(Myself),0,IMPROVEDHASTE)
-  Global("Iaonepurge","LOCALS",0)
-  Global("Iapcastts","GLOBAL",0)
-  Global("IAPortals","S!0005",2)
-  !HPLT(Myself,1)
-THEN
-  RESPONSE #100
-    SetGlobal("Iaonepurge","LOCALS",1)
-    ReallyForceSpellRES("SPINI29",LastSeenBy(Myself))
-END
-
-IF
-  Allegiance(Myself,ENEMY)
-  See(SixthNearest([PC]))
-  OR(4)
-    CheckStatGT(LastSeenBy(Myself),1,STONESKINS)
-    StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
-    CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
-    CheckStatGT(LastSeenBy(Myself),0,IMPROVEDHASTE)
-  Global("Iaonepurge","LOCALS",0)
-  Global("Iapcastts","GLOBAL",0)
-  Global("IAPortals","S!0005",2)
-  !HPLT(Myself,1)
-THEN
-  RESPONSE #100
-    SetGlobal("Iaonepurge","LOCALS",1)
-    ReallyForceSpellRES("SPINI29",LastSeenBy(Myself))
-END
-
 // melee attacks //
 
 IF
   Allegiance(Myself,ENEMY)
-  See(NearestEnemyOf(Myself))
+  See(ThirdNearest([PC]))
   !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  RandomNumGT(4,2)
 THEN
   RESPONSE #100
     AttackReevaluate(LastSeenBy(Myself),45)
@@ -191,8 +112,9 @@ END
 
 IF
   Allegiance(Myself,ENEMY)
-  See(SecondNearestEnemyOf(Myself))
+  See(SecondNearest([PC]))
   !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  RandomNumLT(5,3)
 THEN
   RESPONSE #100
     AttackReevaluate(LastSeenBy(Myself),45)
@@ -202,6 +124,7 @@ IF
   Allegiance(Myself,ENEMY)
   See(ThirdNearestEnemyOf(Myself))
   !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  RandomNumGT(5,2)
 THEN
   RESPONSE #100
     AttackReevaluate(LastSeenBy(Myself),45)
@@ -209,11 +132,22 @@ END
 
 IF
   Allegiance(Myself,ENEMY)
-  See(FourthNearestEnemyOf(Myself))
+  See(SecondNearestEnemyOf(Myself))
   !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  RandomNumLT(5,3)
 THEN
   RESPONSE #100
     AttackReevaluate(LastSeenBy(Myself),45)
+END
+
+IF
+  Allegiance(Myself,ENEMY)
+  See(NearestEnemyOf(Myself))
+  !CheckStatGT(LastSeenBy(Myself),2,SCRIPTINGSTATE6)
+  RandomNumGT(6,3)
+THEN
+  RESPONSE #100
+    AttackReevaluate(LastSeenBy(Myself),30)
 END
 
 IF

@@ -1,16 +1,29 @@
-// Fighter Druid Levels 20 17 //
-// First Level Spells (9): CLW x6, Armor of Faith x3 //
-// Second Level Spells (9): Slow Poison x8 //
-// Third Level Spells (8): CMW x8 //
-// Fourth Level Spells (8): CSW x3, Free Action x3, Acid Shield //
-// Fifth Level Spells (5): Iron skins x4 //
-// Sixth Level Spells (3): Heal x3 //
-// Seventh Level Spells (2): Shield of the Archons //
+// Fighter Druid //
+// First Level Spells: Armor of Faith x3 //
+// Second Level Spells: Slow Poison x8 //
+// Third Level Spells: CMW x8 //
+// Fourth Level Spells: CSW x3, Free Action, Acid Shield //
+// Fifth Level Spells: Iron skins x4, CC //
+// Sixth Level Spells: Heal x3 //
+// Seventh Level Spells: Shield of the Archons //
+
+IF
+  InMyArea(Player1)
+  Global("IAPlot","S!0005",0)
+  Global("IAMoveAway","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetInterrupt(FALSE)
+    SetGlobal("IAMoveAway","LOCALS",1)
+    MoveToPointNoInterrupt([1575.755])
+    Face(S)
+    SetInterrupt(TRUE)
+END
 
 IF
   Detect([PC])
-  Global("IAPlot","S!0005",4)
   AreaCheck("S!0005")
+  Global("IAPlot","S!0005",4)
   Global("IaPrep","LOCALS",0)
 THEN
   RESPONSE #100
@@ -29,20 +42,7 @@ IF
   !GlobalTimerNotExpired("Iaspell","LOCALS")
   Global("IaPrep","LOCALS",1)
   Global("Iapcastts","GLOBAL",0)
-  HasItem("POTN07",Myself)  // Potion of Storm Giant Strength
-  See(NearestEnemyOf(Myself))
-THEN
-  RESPONSE #100
-    SetGlobal("IaStrPotion","LOCALS",1)
-    SetGlobalTimer("Iaspell","LOCALS",6)
-    UseItem("POTN07",Myself)
-END
-
-IF
-  !GlobalTimerNotExpired("Iaspell","LOCALS")
-  Global("IaPrep","LOCALS",1)
-  Global("Iapcastts","GLOBAL",0)
-  HPPercentLT(Myself,50)
+  HPPercentLT(Myself,80)
   HasItem("POTN55",Myself)  // ~Potion of Superior Healing~
 THEN
   RESPONSE #100
@@ -67,9 +67,25 @@ END
 IF
   Global("IaPrep","LOCALS",1)
   !StateCheck(Myself,STATE_SILENCED)
+  !CheckSpellState(Myself,CORROSIVE_CLOUD)
   !GlobalTimerNotExpired("Iaspell","LOCALS")
+  Global("IaCwN","LOCALS",0)
+  HPPercentLT(Myself,30)
+THEN
+  RESPONSE #100
+    SetGlobal("IaCwN","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDecRES("SPINI27",Myself)
+END
+
+IF
+  Global("IaPrep","LOCALS",1)
+  !StateCheck(Myself,STATE_SILENCED)
+  !CheckSpellState(Myself,CORROSIVE_CLOUD)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  Global("IaCwN","LOCALS",1)
   GlobalLT("IaHeal","LOCALS",3)
-  HPPercentLT(Myself,40)
+  HPPercentLT(Myself,30)
 THEN
   RESPONSE #100
     IncrementGlobal("IaHeal","LOCALS",1)
@@ -80,6 +96,7 @@ END
 IF
   Global("IaPrep","LOCALS",1)
   !StateCheck(Myself,STATE_SILENCED)
+  !CheckSpellState(Myself,CORROSIVE_CLOUD)
   !GlobalTimerNotExpired("Iaspell","LOCALS")
   See(NearestEnemyOf(Myself))
   CheckStatLT(Myself,1,STONESKINS)
@@ -93,8 +110,22 @@ THEN
 END
 
 IF
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  Global("IaPrep","LOCALS",1)
+  Global("Iapcastts","GLOBAL",0)
+  HasItem("POTN07",Myself)  // Potion of Storm Giant Strength
+  See(NearestEnemyOf(Myself))
+THEN
+  RESPONSE #100
+    SetGlobal("IaStrPotion","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    UseItem("POTN07",Myself)
+END
+
+IF
   Global("IaPrep","LOCALS",1)
   !StateCheck(Myself,STATE_SILENCED)
+  !CheckSpellState(Myself,CORROSIVE_CLOUD)
   !CheckSpellState(Myself,ARMOR_OF_FAITH)
   !GlobalTimerNotExpired("Iaspell","LOCALS")
   GlobalLT("Iaarmor","LOCALS",2)
@@ -108,6 +139,49 @@ END
 IF
   Global("IaPrep","LOCALS",1)
   !StateCheck(Myself,STATE_SILENCED)
+  !CheckSpellState(Myself,CORROSIVE_CLOUD)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !CheckSpellState(Myself,ACID_SHIELD)
+  Global("IaAcidShield","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("IaAcidShield","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDec(LastSeenBy(Myself),CLERIC_ACID_SHIELD)
+END
+
+IF
+  Global("IaPrep","LOCALS",1)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !StateCheck(Myself,STATE_SILENCED)
+  !CheckSpellState(Myself,CORROSIVE_CLOUD)
+  !CheckStat(Myself,1,SCRIPTINGSTATE5)
+  Global("IaFreeAction","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("IaFreeAction","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDec(Myself,CLERIC_FREE_ACTION)
+END
+
+IF
+  Global("IaPrep","LOCALS",1)
+  !GlobalTimerNotExpired("Iaspell","LOCALS")
+  !StateCheck(Myself,STATE_SILENCED)
+  !CheckSpellState(Myself,CORROSIVE_CLOUD)
+  !CheckStat(Myself,1,SCRIPTINGSTATE8)
+  Global("IaCC","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("IaCC","LOCALS",1)
+    SetGlobalTimer("Iaspell","LOCALS",6)
+    SpellNoDec(Myself,CLERIC_CHAOTIC_COMMANDS)
+END
+
+IF
+  Global("IaPrep","LOCALS",1)
+  !StateCheck(Myself,STATE_SILENCED)
+  !CheckSpellState(Myself,CORROSIVE_CLOUD)
   !StateCheck(Myself,STATE_HELPLESS)
   !GlobalTimerNotExpired("Iaspell","LOCALS")
   See(NearestEnemyOf(Myself))
@@ -125,12 +199,13 @@ END
 IF
   Global("IaPrep","LOCALS",1)
   !StateCheck(Myself,STATE_SILENCED)
+  !CheckSpellState(Myself,CORROSIVE_CLOUD)
   !StateCheck(Myself,STATE_HELPLESS)
   !GlobalTimerNotExpired("Iaspell","LOCALS")
   !GlobalTimerNotExpired("Iacstime","LOCALS")
   See(NearestEnemyOf(Myself))
   Range(NearestEnemyOf(Myself),4)
-  CheckStatLT(LastSeenBy(Myself),90,RESISTSLASHING)
+  CheckStatLT(LastSeenBy(Myself),50,RESISTSLASHING)
   !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
   CheckStatLT(LastSeenBy(Myself),1,STONESKINS)
   !StateCheck(LastSeenBy(Myself),STATE_MIRRORIMAGE)
@@ -146,21 +221,7 @@ END
 IF
   Global("IaPrep","LOCALS",1)
   !StateCheck(Myself,STATE_SILENCED)
-  !GlobalTimerNotExpired("Iaspell","LOCALS")
-  See([PC])
-  GlobalLT("IaSlowPoison","LOCALS",8)
-  StateCheck(LastSeenBy(Myself),STATE_POISONED)
-  Range(LastSeenBy(Myself),5)
-THEN
-  RESPONSE #100
-    IncrementGlobal("IaSlowPoison","LOCALS",1)
-    SetGlobalTimer("Iaspell","LOCALS",6)
-    SpellNoDec(LastSeenBy(Myself),CLERIC_SLOW_POISON)
-END
-
-IF
-  Global("IaPrep","LOCALS",1)
-  !StateCheck(Myself,STATE_SILENCED)
+  !CheckSpellState(Myself,CORROSIVE_CLOUD)
   !GlobalTimerNotExpired("Iaspell","LOCALS")
   HPPercentLT(Myself,70)
   GlobalLT("Iacsw","LOCALS",3)
@@ -174,22 +235,7 @@ END
 IF
   Global("IaPrep","LOCALS",1)
   !StateCheck(Myself,STATE_SILENCED)
-  !GlobalTimerNotExpired("Iaspell","LOCALS")
-  See([PC])
-  Range(LastSeenBy(Myself),10)
-  StateCheck(LastSeenBy(Myself),STATE_STUNNED)
-  HPPercentLT(LastSeenBy(Myself),50)
-  GlobalLT("IaFreeAction","LOCALS",2)
-THEN
-  RESPONSE #100
-    IncrementGlobal("IaFreeAction","LOCALS",1)
-    SetGlobalTimer("Iaspell","LOCALS",6)
-    SpellNoDec(LastSeenBy(Myself),CLERIC_FREE_ACTION)
-END
-
-IF
-  Global("IaPrep","LOCALS",1)
-  !StateCheck(Myself,STATE_SILENCED)
+  !CheckSpellState(Myself,CORROSIVE_CLOUD)
   !GlobalTimerNotExpired("Iaspell","LOCALS")
   HPPercentLT(Myself,70)
   GlobalLT("Iacmw","LOCALS",8)
@@ -202,51 +248,8 @@ END
 
 IF
   Global("IaPrep","LOCALS",1)
-  !StateCheck(Myself,STATE_SILENCED)
-  !GlobalTimerNotExpired("Iaspell","LOCALS")
-  HPPercentLT(Myself,80)
-  GlobalLT("Iaclw","LOCALS",6)
-THEN
-  RESPONSE #100
-    IncrementGlobal("Iaclw","LOCALS",1)
-    SetGlobalTimer("Iaspell","LOCALS",6)
-    SpellNoDec(Myself,CLERIC_CURE_LIGHT_WOUNDS)
-END
-
-IF
-  Global("IaPrep","LOCALS",1)
   See(NearestEnemyOf(Myself))
-  Race(LastSeenBy(Myself),LYCANTHROPE)
-  OR(3)
-    HasItem("S!regw1",LastSeenBy(Myself))
-    HasItem("S!regw2",LastSeenBy(Myself))
-    HasItem("S!regw3",LastSeenBy(Myself))
-  CheckSpellState(Myself,FLAME_BLADE)
-  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
-THEN
-  RESPONSE #100
-    AttackReevaluate(LastSeenBy(Myself),45)
-END
-
-IF
-  Global("IaPrep","LOCALS",1)
-  See(SecondNearestEnemyOf(Myself))
-  Race(LastSeenBy(Myself),LYCANTHROPE)
-  OR(3)
-    HasItem("S!regw1",LastSeenBy(Myself))
-    HasItem("S!regw2",LastSeenBy(Myself))
-    HasItem("S!regw3",LastSeenBy(Myself))
-  CheckSpellState(Myself,FLAME_BLADE)
-  !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
-THEN
-  RESPONSE #100
-    AttackReevaluate(LastSeenBy(Myself),45)
-END
-
-IF
-  Global("IaPrep","LOCALS",1)
-  See(NearestEnemyOf(Myself))
-  Race(LastSeenBy(Myself),LYCANTHROPE)
+  Race(LastSeenBy(Myself),DEMONIC)
   !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
 THEN
   RESPONSE #100
@@ -256,7 +259,7 @@ END
 IF
   Global("IaPrep","LOCALS",1)
   See(SecondNearestEnemyOf(Myself))
-  Race(LastSeenBy(Myself),LYCANTHROPE)
+  Race(LastSeenBy(Myself),DEMONIC)
   !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
   Range(LastSeenBy(Myself),2)
 THEN
@@ -267,7 +270,7 @@ END
 IF
   Global("IaPrep","LOCALS",1)
   See(ThirdNearestEnemyOf(Myself))
-  Race(LastSeenBy(Myself),LYCANTHROPE)
+  Race(LastSeenBy(Myself),DEMONIC)
   !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
   Range(LastSeenBy(Myself),2)
 THEN

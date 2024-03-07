@@ -16,30 +16,42 @@ END
 IF
   InMyArea(Player1)
   Global("IAPlot","S!0005",4)
-  Global("IAPortals","S!0005",0)
+  Global("IaPhrase","S!0005",0)
 THEN
   RESPONSE #100
-    SetGlobal("IAPortals","S!0005",1)
-    CreateCreature("S!dspy01",[1955.1940],0) // black portal
-    CreateCreature("S!dspy02",[920.1920],0) // green portal
-    CreateCreature("S!dspy03",[270.410],0) // red portal
-    CreateCreature("S!dspy04",[1250.135],0) // blue portal
-    CreateCreature("S!dspy05",[110.1030],0) // white portal
+    SetGlobal("IaPhrase","S!0005",1)
     DisplayString("S!gdru04",@5990)
 END
 
 IF
   InMyArea(Player1)
   Global("IAPlot","S!0005",4)
-  Global("IAPortals","S!0005",1)
-  Dead("S!dspy01")
-  Dead("S!dspy02")
-  Dead("S!dspy03")
-  Dead("S!dspy04")
-  Dead("S!dspy05")
+  GlobalLT("IAPortals","S!0005",5)
+  !GlobalTimerNotExpired("IaPortalsTimer","S!0005")
 THEN
   RESPONSE #100
-    SetGlobal("IAPortals","S!0005",2)
+    IncrementGlobal("IAPortals","S!0005",1)
+    SetGlobalTimer("IaPortalsTimer","S!0005",18)
+    CreateCreatureDoor("S!dabbla",[1955.1940],0)
+    CreateCreatureDoor("S!dabgre",[920.1920],0)
+    CreateCreatureDoor("S!dabred",[270.410],0)
+    CreateCreatureDoor("S!dabblu",[1250.135],0)
+    CreateCreatureDoor("S!dabwhi",[110.1030],0)
+END
+
+IF
+  InMyArea(Player1)
+  Global("IAPlot","S!0005",4)
+  Global("IAPortals","S!0005",5)
+  NumDeadGT("S!dabbla",4)
+  NumDeadGT("S!dabgre",4)
+  NumDeadGT("S!dabred",4)
+  NumDeadGT("S!dabblu",4)
+  NumDeadGT("S!dabwhi",4)
+THEN
+  RESPONSE #100
+    SetGlobal("IAPortals","S!0005",6)
+    ReallyForceSpellRES("SPWII07","S!dracof")
     TakeItemReplace("minhp1","S!minhp3","S!dracof")
 END
 
@@ -47,7 +59,7 @@ END
 IF
   InMyArea(Player1)
   Global("IAPlot","S!0005",4)
-  Global("IAPortals","S!0005",2)
+  Global("IAPortals","S!0005",6)
   Global("IADruidPlot","GLOBAL",13)
   !Dead("S!dracof")
   HPLT("S!dracof",10)
