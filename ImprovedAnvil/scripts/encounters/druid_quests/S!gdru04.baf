@@ -28,6 +28,7 @@ IF
 THEN
   RESPONSE #100
     SetGlobal("IaPrep","LOCALS",1)
+    SetGlobalTimer("IaDrinkStr","LOCALS",6)
     ReallyForceSpell(Myself,CLERIC_ARMOR_OF_FAITH)
     ReallyForceSpell(Myself,CLERIC_IRONSKIN)
     ReallyForceSpell(Myself,CLERIC_SHIELD_OF_THE_ARCHONS)
@@ -111,14 +112,15 @@ END
 
 IF
   !GlobalTimerNotExpired("Iaspell","LOCALS")
+  GlobalTimerExpired("IaDrinkStr","LOCALS")
   Global("IaPrep","LOCALS",1)
   Global("Iapcastts","GLOBAL",0)
   HasItem("POTN07",Myself)  // Potion of Storm Giant Strength
   See(NearestEnemyOf(Myself))
 THEN
   RESPONSE #100
-    SetGlobal("IaStrPotion","LOCALS",1)
     SetGlobalTimer("Iaspell","LOCALS",6)
+    DisplayStringHead(Myself,46150)  // ~quaffs a potion~
     UseItem("POTN07",Myself)
 END
 
@@ -261,7 +263,6 @@ IF
   See(SecondNearestEnemyOf(Myself))
   Race(LastSeenBy(Myself),DEMONIC)
   !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
-  Range(LastSeenBy(Myself),2)
 THEN
   RESPONSE #100
     AttackOneRound(LastSeenBy(Myself))
@@ -272,7 +273,6 @@ IF
   See(ThirdNearestEnemyOf(Myself))
   Race(LastSeenBy(Myself),DEMONIC)
   !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
-  Range(LastSeenBy(Myself),2)
 THEN
   RESPONSE #100
     AttackOneRound(LastSeenBy(Myself))
