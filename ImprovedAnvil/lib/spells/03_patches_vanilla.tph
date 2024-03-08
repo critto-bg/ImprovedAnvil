@@ -564,6 +564,14 @@ COPY_EXISTING ~METSWARM.pro~ ~override/METSWARM.pro~
 COPY_EXISTING ~SPWII11.spl~ ~override/SPWII11.spl~
   WRITE_BYTE  0x25      4 // primary type
 
+// delay self-destruction of bdoffscr further
+COPY_EXISTING ~bdoffscr.spl~ ~override/bdoffscr.spl~
+  LAUNCH_PATCH_FUNCTION ~ALTER_SPELL_EFFECT~ INT_VAR
+    check_headers = 1
+    match_opcode = 177
+    duration = 3
+  END
+
 // projectiles //
 
 // fix Comet's projectile to affect only enemies
