@@ -68,7 +68,6 @@ END
 IF
   Global("IaPrep","LOCALS",1)
   !StateCheck(Myself,STATE_SILENCED)
-  !CheckSpellState(Myself,CORROSIVE_CLOUD)
   !GlobalTimerNotExpired("Iaspell","LOCALS")
   Global("IaCwN","LOCALS",0)
   HPPercentLT(Myself,30)
@@ -76,7 +75,7 @@ THEN
   RESPONSE #100
     SetGlobal("IaCwN","LOCALS",1)
     SetGlobalTimer("Iaspell","LOCALS",6)
-    SpellNoDecRES("SPINI27",Myself)
+    ForceSpellRES("SPINI27",Myself)
 END
 
 IF
@@ -253,6 +252,7 @@ IF
   See(NearestEnemyOf(Myself))
   Race(LastSeenBy(Myself),DEMONIC)
   !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  CheckStatLT(LastSeenBy(Myself),61,RESISTSLASHING)
 THEN
   RESPONSE #100
     AttackOneRound(LastSeenBy(Myself))
@@ -263,6 +263,7 @@ IF
   See(SecondNearestEnemyOf(Myself))
   Race(LastSeenBy(Myself),DEMONIC)
   !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  CheckStatLT(LastSeenBy(Myself),61,RESISTSLASHING)
 THEN
   RESPONSE #100
     AttackOneRound(LastSeenBy(Myself))
@@ -273,6 +274,7 @@ IF
   See(ThirdNearestEnemyOf(Myself))
   Race(LastSeenBy(Myself),DEMONIC)
   !CheckStatGT(LastSeenBy(Myself),0,SCRIPTINGSTATE6)
+  CheckStatLT(LastSeenBy(Myself),61,RESISTSLASHING)
 THEN
   RESPONSE #100
     AttackOneRound(LastSeenBy(Myself))
