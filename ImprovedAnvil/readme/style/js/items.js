@@ -1226,8 +1226,8 @@ var gear = [
                         "section_items": [
                             "Armor Class: +3",
                             "Saving Throws: +3",
-                            "Magic Damage Resistance: +25%",
-                            "Magic Resistance: +25%",
+                            "Magic Damage Resistance: +15%",
+                            "Magic Resistance: +15%",
                             "Cold Resistance: +50%"
                         ]
                     },
