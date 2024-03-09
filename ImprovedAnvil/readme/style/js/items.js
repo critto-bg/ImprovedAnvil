@@ -395,6 +395,38 @@ var gear = [
                     }
                 ],
                 "item_name": "Rust Dragon Armor"
+            },
+            {
+                "components": [
+                    "Rust Dragon Armor",
+                    "Green Leaves Armor",
+                    "Barbarian Essence",
+                    "Oil of Resurgence",
+                    "Potion of Fortitude",
+                    "Permanency Scroll",
+                    "50,000 gp"
+                ],
+                "attributes": [
+                    {
+                        "section_name": "Abilities",
+                        "section_items": [
+                          "AC: -1",
+                          "Max HP: +20",
+                          "Regeneration: 1HP every 2 seconds",
+                          "Resistance to Physical Damage: +15%",
+                          "Resistance to Magic Damage: +25%",
+                          "Magic Resistance: +25%",
+                          "Special Ability: Wearer Can Instantly cast \"Natural Restoral\" once per day"
+                        ]
+                    },
+                    {
+                        "section_name": "Usable by",
+                        "section_items": [
+                            "Avenger"
+                        ]
+                    }
+                ],
+                "item_name": "Avenger's Dream"
             }
         ]
     },

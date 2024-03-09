@@ -173,6 +173,7 @@ REPLACE WSMITH01
     IF ~PartyHasItem("s!misc78") PartyHasItem("s!clck12") Global("Iahideforged","GLOBAL",2)~ THEN REPLY @648 GOTO rustcloak
     IF ~PartyHasItem("s!misc75")~ THEN REPLY @650 GOTO rustarmor
     IF ~PartyHasItem("S!misc79")~ THEN REPLY @652 GOTO blackonyx
+    IF ~PartyHasItem("S!leat09")~ THEN REPLY @658 GOTO avengerdream
 
     IF ~~ THEN REPLY #992 EXIT
   END
@@ -2233,6 +2234,24 @@ APPEND WSMITH01
           TakePartyItemNum("WASTAFF",1)    DestroyItem("WASTAFF")
           TakePartyItemNum("s!misc01",1)   DestroyItem("s!misc01")
           GiveItemCreate("S!amul10",Player1,1,1,1)
+          CreateVisualEffect("spcrtwpn",[401.348])~
+      EXIT
+  END
+
+  IF ~~ THEN BEGIN avengerdream
+    SAY @659
+    IF ~~ THEN REPLY @2 GOTO 13
+    IF ~PartyHasItem("S!leat09") PartyHasItem("S!leat04") PartyHasItem("POTN33")
+        PartyHasItem("POTN37") PartyHasItem("POTN28") PartyHasItem("S!misc02") PartyGoldGT(49999)~
+      THEN REPLY @3
+      DO ~TakePartyGold(50000)      DestroyGold(50000)
+          TakePartyItemNum("S!leat09",1)   DestroyItem("S!leat09")
+          TakePartyItemNum("S!leat04",1)   DestroyItem("S!leat04")
+          TakePartyItemNum("POTN33",1)   DestroyItem("POTN33")
+          TakePartyItemNum("POTN37",1)   DestroyItem("POTN37")
+          TakePartyItemNum("POTN28",1)   DestroyItem("POTN28")
+          TakePartyItemNum("S!misc02",1)   DestroyItem("S!misc02")
+          GiveItemCreate("S!leat10",Player1,1,1,1)
           CreateVisualEffect("spcrtwpn",[401.348])~
       EXIT
   END
