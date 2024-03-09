@@ -1527,11 +1527,13 @@ var gear = [
             },
             {
                 "components": [
-                    "Two Potions of Heroism",
-                    "Two Amulets of Protection",
-                    "Two Potions of Magic Shielding",
+                    "Amulet of Protection",
+                    "Potion of Magic Shielding",
                     "Elven Holy Water",
                     "Cursed Vampire Ashes",
+                    "Scroll of Vampiric Touch",
+                    "Scroll of Foreknowledge",
+                    "Scroll of Memory Boosting",
                     "Permanency Scroll",
                     "60,000 gp"
                 ],
@@ -1539,11 +1541,13 @@ var gear = [
                     {
                         "section_name": "Abilities",
                         "section_items": [
-                            "+20 Max HP",
-                            "+2 bonus to saving throws",
-                            "+2 bonus to AC",
-                            "25% resistance to magic damage",
-                            "Protection from level drain"
+                          "+20 Max HP",
+                          "+2 bonus to AC and Saving Throws",
+                          "+1 bonus to THAC0",
+                          "+1 bonus to Casting Speed",
+                          "Wearer can memorize one additional spell per level",
+                          "25% resistance to Magic Damage",
+                          "Protection from Level Drain"
                         ]
                     },
                     {
