@@ -398,6 +398,7 @@ var gear = [
             },
             {
                 "components": [
+                    "Protagonist is Avenger",
                     "Rust Dragon Armor",
                     "Green Leaves Armor",
                     "Barbarian Essence",

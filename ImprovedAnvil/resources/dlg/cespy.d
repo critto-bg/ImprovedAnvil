@@ -175,7 +175,7 @@ REPLACE BOTSMITH
     IF ~PartyHasItem("s!clck08")~ THEN REPLY @792 GOTO hexxat2
     IF ~PartyHasItem("s!misc78") PartyHasItem("s!clck12") Global("Iahideforged","GLOBAL",2)~ THEN REPLY @794 GOTO rustcloak
     IF ~PartyHasItem("s!misc75")~ THEN REPLY @796 GOTO rustarmor
-    IF ~PartyHasItem("S!leat09")~ THEN REPLY @798 GOTO avengerdream
+    IF ~Kit(Player1,BEASTFRIEND) PartyHasItem("S!leat09")~ THEN REPLY @798 GOTO avengerdream
 
     IF ~~ THEN REPLY #992 EXIT
   END
@@ -2181,7 +2181,7 @@ IF ~~ THEN BEGIN treefist
   IF ~~ THEN BEGIN avengerdream
     SAY @799
     IF ~~ THEN REPLY @2 GOTO 13
-    IF ~PartyHasItem("S!leat09") PartyHasItem("S!leat04") PartyHasItem("POTN33")
+    IF ~Kit(Player1,BEASTFRIEND) PartyHasItem("S!leat09") PartyHasItem("S!leat04") PartyHasItem("POTN33")
         PartyHasItem("POTN37") PartyHasItem("POTN28") PartyHasItem("S!misc02") PartyGoldGT(49999)~
       THEN REPLY @3
       DO ~TakePartyGold(50000)      DestroyGold(50000)
