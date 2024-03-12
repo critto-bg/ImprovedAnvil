@@ -640,6 +640,25 @@ COPY_EXISTING ~SPIN679.spl~ ~override/SPIN679.spl~
       match_resource = ~SPPR650~
   END
 
+// patch various resurrection spells not to affect living creatures
+COPY_EXISTING ~SPJA01.spl~ ~override/SPJA01.spl~
+              ~SPPR504.spl~ ~override/SPPR504.spl~
+              ~SPPR550.spl~ ~override/SPPR550.spl~
+              ~SPPR712.spl~ ~override/SPPR712.spl~
+  LPF ~CLONE_EFFECT~
+    INT_VAR
+      check_globals = 0
+      match_opcode  = 32
+      opcode        = 324
+      parameter1    = BIT11
+      parameter2    = 139
+      timing        = 0
+      duration      = 1
+    STR_VAR
+      insert        = ~first~
+      resource      = EVAL ~%SOURCE_RES%~
+  END
+
 // allow HLAs with 0 casting time to be cast when silenced
 ACTION_FOR_EACH ~file~ IN
   ~gbalchmg~ ~gbalchpr~ ~gbscrbmg~ ~gbscrbpr~
