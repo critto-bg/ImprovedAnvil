@@ -1942,7 +1942,7 @@ APPEND BOTSMITH
   END
 
 IF ~~ THEN BEGIN treefist
-    SAY @773 IF ~~ THEN REPLY @2 GOTO 13
+    SAY @773 IF ~~ THEN REPLY @2 GOTO 4
     IF ~PartyHasItem("s!blun01") PartyHasItem("blun23") PartyHasItem("blun18")
 	PartyHasItem("blun17") PartyGoldGT(49999) PartyHasItem("s!misc62") PartyHasItem("s!misc06")~
       THEN REPLY @3
@@ -1960,7 +1960,7 @@ IF ~~ THEN BEGIN treefist
   END
 
   IF ~~ THEN BEGIN treefury
-    SAY @775 IF ~~ THEN REPLY @2 GOTO 13
+    SAY @775 IF ~~ THEN REPLY @2 GOTO 4
     IF ~PartyHasItem("s!blun04") PartyHasItem("blun28") PartyHasItem("blun26")
 	PartyHasItem("s!blun02") PartyGoldGT(74999) PartyHasItem("s!scrl07") PartyHasItem("s!misc06")~
       THEN REPLY @3
@@ -1978,7 +1978,7 @@ IF ~~ THEN BEGIN treefist
   END
 
   IF ~~ THEN BEGIN palbracers
-    SAY @777 IF ~~ THEN REPLY @2 GOTO 13
+    SAY @777 IF ~~ THEN REPLY @2 GOTO 4
     IF ~PartyHasItem("brac22") PartyHasItem("brac09") PartyHasItem("brac20")
 	PartyGoldGT(59999) NumItemsPartyGT("potn14",1)
 	NumItemsPartyGT("ring06",1) PartyHasItem("s!misc02")~
@@ -1999,7 +1999,7 @@ IF ~~ THEN BEGIN treefist
   END
 
   IF ~~ THEN BEGIN earthstaff
-    SAY @779 IF ~~ THEN REPLY @2 GOTO 13
+    SAY @779 IF ~~ THEN REPLY @2 GOTO 4
     IF ~PartyHasItem("SCRL03") PartyHasItem("staf16") PartyHasItem("staf14")
         PartyGoldGT(59999) PartyHasItem("staf13") PartyHasItem("staf21")
         PartyHasItem("s!misc02") PartyHasItem("SCRL6Y")~
@@ -2019,7 +2019,7 @@ IF ~~ THEN BEGIN treefist
   END
 
   IF ~~ THEN BEGIN dornblade
-    SAY @781 IF ~~ THEN REPLY @2 GOTO 13
+    SAY @781 IF ~~ THEN REPLY @2 GOTO 4
     IF ~PartyHasItem("sw2h07") PartyHasItem("sw2h08") PartyHasItem("sw2hd1")
 	PartyGoldGT(74999) PartyHasItem("s!misc66")
 	PartyHasItem("helm17") PartyHasItem("s!misc06")
@@ -2046,7 +2046,7 @@ IF ~~ THEN BEGIN treefist
   END
 
   IF ~~ THEN BEGIN imoenamulet
-    SAY @783 IF ~~ THEN REPLY @2 GOTO 13
+    SAY @783 IF ~~ THEN REPLY @2 GOTO 4
     IF ~PartyHasItem("amul14") PartyHasItem("potn35") PartyHasItem("miscau")
         PartyHasItem("S!misc63") PartyHasItem("SCRL1Q") PartyHasItem("S!scrl06")
         PartyHasItem("S!misc01") PartyHasItem("S!misc02") PartyGoldGT(59999)~
@@ -2067,7 +2067,7 @@ IF ~~ THEN BEGIN treefist
   END
 
   IF ~~ THEN BEGIN minscblade
-    SAY @785 IF ~~ THEN REPLY @2 GOTO 13
+    SAY @785 IF ~~ THEN REPLY @2 GOTO 4
     IF ~PartyHasItem("was2h") PartyHasItem("bdsw2h01") PartyHasItem("sw2h12")
 	PartyGoldGT(74999) PartyHasItem("potn33")
 	PartyHasItem("s!misc06") PartyHasItem("sw2h02")~
@@ -2086,7 +2086,7 @@ IF ~~ THEN BEGIN treefist
   END
 
   IF ~~ THEN BEGIN aeriehammer
-    SAY @787 IF ~~ THEN REPLY @2 GOTO 13
+    SAY @787 IF ~~ THEN REPLY @2 GOTO 4
     IF ~PartyHasItem("s!misc64") PartyHasItem("s!misc65") PartyHasItem("hamm12")
 	PartyGoldGT(74999) PartyHasItem("miscau")
 	PartyHasItem("s!misc02")~
@@ -2104,7 +2104,7 @@ IF ~~ THEN BEGIN treefist
   END
 
   IF ~~ THEN BEGIN sarevoksword
-    SAY @789 IF ~~ THEN REPLY @2 GOTO 13
+    SAY @789 IF ~~ THEN REPLY @2 GOTO 4
     IF ~PartyHasItem("sw2h16") NumItemsPartyGT("s!misc67",2)
 	PartyGoldGT(74999) PartyHasItem("s!misc02")~
       THEN REPLY @3
@@ -2121,7 +2121,7 @@ IF ~~ THEN BEGIN treefist
   END
 
   IF ~~ THEN BEGIN hexxat1
-    SAY @791 IF ~~ THEN REPLY @2 GOTO 13
+    SAY @791 IF ~~ THEN REPLY @2 GOTO 4
     IF ~PartyHasItem("ohhcloak") PartyGoldGT(29999)
 	PartyHasItem("clck01") PartyHasItem("s!clck10")~
       THEN REPLY @3
@@ -2136,7 +2136,7 @@ IF ~~ THEN BEGIN treefist
   END
 
   IF ~~ THEN BEGIN hexxat2
-    SAY @793 IF ~~ THEN REPLY @2 GOTO 13
+    SAY @793 IF ~~ THEN REPLY @2 GOTO 4
     IF ~PartyHasItem("s!clck08") PartyGoldGT(59999)
 	PartyHasItem("clck01") PartyHasItem("dwdust") PartyHasItem("s!misc06") ~
       THEN REPLY @3
@@ -2153,7 +2153,7 @@ IF ~~ THEN BEGIN treefist
 
   IF ~~ THEN BEGIN rustcloak
     SAY @795
-    IF ~~ THEN REPLY @2 GOTO 13
+    IF ~~ THEN REPLY @2 GOTO 4
     IF ~PartyHasItem("s!clck12") PartyHasItem("s!misc78") PartyHasItem("s!misc06") PartyGoldGT(59999)~
       THEN REPLY @3
       DO ~SetGlobal("Iahideforged","GLOBAL",3)
@@ -2168,7 +2168,7 @@ IF ~~ THEN BEGIN treefist
 
   IF ~~ THEN BEGIN rustarmor
     SAY @797
-    IF ~~ THEN REPLY @2 GOTO 13
+    IF ~~ THEN REPLY @2 GOTO 4
     IF ~PartyHasItem("s!misc75") PartyGoldGT(74999)~
       THEN REPLY @3
       DO ~TakePartyGold(75000)      DestroyGold(75000)
@@ -2180,7 +2180,7 @@ IF ~~ THEN BEGIN treefist
 
   IF ~~ THEN BEGIN avengerdream
     SAY @799
-    IF ~~ THEN REPLY @2 GOTO 13
+    IF ~~ THEN REPLY @2 GOTO 4
     IF ~Kit(Player1,BEASTFRIEND) PartyHasItem("S!leat09") PartyHasItem("S!leat04") PartyHasItem("POTN33")
         PartyHasItem("POTN37") PartyHasItem("POTN28") PartyHasItem("S!misc02") PartyGoldGT(49999)~
       THEN REPLY @3
