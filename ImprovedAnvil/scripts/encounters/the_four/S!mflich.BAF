@@ -17,12 +17,13 @@ THEN
   RESPONSE #100
     SetGlobal("Prep","LOCALS",1)
     SetGlobalTimer("Iaslichrest","GLOBAL",2100)
-    ReallyForceSpell(Myself,WIZARD_STONE_SKIN)
+    SetGlobalTimer("pfmw","LOCALS",24)
     ReallyForceSpell(Myself,WIZARD_MIRROR_IMAGE)
     ReallyForceSpell(Myself,WIZARD_PROTECTION_FROM_FIRE)
     ReallyForceSpell(Myself,WIZARD_PROTECTION_FROM_ACID)
     ReallyForceSpell(Myself,WIZARD_FIRE_SHIELD_RED)
     ReallyForceSpell(Myself,WIZARD_SPELL_IMMUNITY_ABJURATION)
+    ReallyForceSpell(Myself,WIZARD_PROTECTION_FROM_MAGIC_WEAPONS)
 END
 
 IF
@@ -56,7 +57,6 @@ THEN
   RESPONSE #100
     SetGlobalTimer("Iaslichrest","GLOBAL",2100)
     SetGlobal("Prep","LOCALS",0)
-    SetGlobal("Iaskins","LOCALS",0)
     SetGlobal("Iaremove","LOCALS",0)
     SetGlobal("Iadeath","LOCALS",0)
     SetGlobal("Iaprotection","LOCALS",0)
@@ -102,18 +102,6 @@ THEN
   RESPONSE #100
     SetGlobalTimer("Iaspell","LOCALS",6)
     SpellNoDec(Myself,WIZARD_VOCALIZE)
-END
-
-IF
-  !GlobalTimerNotExpired("Iaspell","LOCALS")
-  CheckStatLT(Myself,1,STONESKINS)
-  See(NearestEnemyOf(Myself))
-  Global("Iaskins","LOCALS",0)
-THEN
-  RESPONSE #100
-    SetGlobal("Iaskins","LOCALS",1)
-    SetGlobalTimer("Iaspell","LOCALS",6)
-    SpellNoDec(Myself,WIZARD_STONE_SKIN)
 END
 
 IF
@@ -985,7 +973,6 @@ IF
 THEN
   RESPONSE #100
     SetGlobal("Prep","LOCALS",0)
-    SetGlobal("Iaskins","LOCALS",0)
     SetGlobal("Iaremove","LOCALS",0)
     SetGlobal("Iadeath","LOCALS",0)
     SetGlobal("Iaprotection","LOCALS",0)
