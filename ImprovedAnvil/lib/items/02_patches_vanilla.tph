@@ -1319,3 +1319,40 @@ COPY_EXISTING ~SW1H61.itm~ ~override/SW1H61.itm~
       parameter2 = 19
       insert_point = (0 - 1)
   END
+
+// Spectral Brand +4
+COPY_EXISTING ~SW1H68.itm~ ~override/SW1H68.itm~
+  SAY DESC @11183
+
+  LPF ALTER_ITEM_EFFECT
+    INT_VAR
+      check_headers = 1
+      match_opcode = 12
+      probability1 = 10
+      dicenumber = 10
+  END
+
+// Spectral Brand +5
+COPY_EXISTING ~SW1H69.itm~ ~override/SW1H69.itm~
+  SAY DESC @11184
+
+  LPF ALTER_ITEM_EFFECT
+    INT_VAR
+      check_headers = 1
+      match_opcode = 12
+      probability1 = 10
+      dicenumber = 10
+  END
+
+COPY_EXISTING ~SW1H69C.itm~ ~override/SW1H69C.itm~
+  LPF DELETE_EFFECT
+    INT_VAR
+      check_headers = 1
+      match_opcode = 12
+  END
+
+  LPF ALTER_ITEM_HEADER
+    INT_VAR
+      header_type = 1
+      damage_bonus = 3
+  END
