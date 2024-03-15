@@ -1281,3 +1281,41 @@ COPY_EXISTING ~BLUN29.itm~ ~override/BLUN29.itm~
 // Stormfall Ore
 COPY_EXISTING ~COMPON08.itm~ ~override/COMPON08.itm~
   WRITE_LONG 0x34 70000 // price
+
+// Angurvadal +4
+COPY_EXISTING ~SW1H60.itm~ ~override/SW1H60.itm~
+  SAY DESC @11181
+
+  LPF ALTER_ITEM_EFFECT
+    INT_VAR
+      check_headers = 1
+      match_opcode = 12
+      parameter1 = 10
+      probability1 = 10
+      dicesize = 0
+  END
+
+// Angurvadal +5
+COPY_EXISTING ~SW1H61.itm~ ~override/SW1H61.itm~
+  SAY DESC @11182
+
+  LPF ALTER_ITEM_EFFECT
+    INT_VAR
+      check_headers = 1
+      match_opcode = 12
+      parameter1 = 10
+      probability1 = 10
+      dicenumber = 10
+      dicesize = 4
+  END
+
+  LPF ADD_ITEM_EQEFFECT
+    INT_VAR
+      opcode = 282
+      target = 1
+      timing = 2
+      resist_dispel = 2
+      parameter1 = 2
+      parameter2 = 19
+      insert_point = (0 - 1)
+  END
