@@ -24,15 +24,25 @@ THEN
 END
 
 IF
+   Global("Iaspirit","AR4500",0)
+   Global("Iaepicbattle","AR4500",1)
+   OR(2)
+     Class(Player1,DRUID_ALL)
+     Class(Player1,SHAMAN)
+   !Class(Player1,FIGHTER_ALL)
+   Global("IADruidPlot","GLOBAL",15)
+THEN
+   RESPONSE #100
+      SetGlobal("Iaspirit","AR4500",1)
+      CreateCreatureObjectDoor("S!spiede",Player1,0,0,0) //
+END
+
+IF
    Global("Iacreature","AR4500",0)
    Global("Iaepicbattle","AR4500",1)
    !Global("Iapcastts","GLOBAL",1)
-   OR(5)
-    !Class(Player1,MAGE_ALL)
-    Class(Player1,FIGHTER_ALL)
-    Class(Player1,THIEF_ALL)
-    Class(Player1,CLERIC_ALL)
-    !Global("GypsyJob","GLOBAL",14)
+   Global("Iapasha","AR4500",0)
+   Global("Iaspirit","AR4500",0)
 THEN
    RESPONSE #100
       ClearAllActions()
@@ -56,15 +66,12 @@ THEN
 END
 
 IF
-   Global("Iapasha","AR4500",2)
+   OR(2)
+     Global("Iapasha","AR4500",2)
+     Global("Iaspirit","AR4500",2)
    Global("Iacreature","AR4500",0)
    !Global("Iapcastts","GLOBAL",1)
    !GlobalTimerNotExpired("Iarakpspawn","AR4500")
-   Class(Player1,MAGE_ALL)
-   !Class(Player1,FIGHTER_ALL)
-   !Class(Player1,THIEF_ALL)
-   !Class(Player1,CLERIC_ALL)
-   Global("GypsyJob","GLOBAL",14)
 THEN
    RESPONSE #100
       ClearAllActions()
