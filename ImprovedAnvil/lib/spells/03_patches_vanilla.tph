@@ -482,6 +482,11 @@ COPY_EXISTING ~SPWISH35.spl~ ~override/SPWISH35.spl~
   READ_BYTE 0x19 "splflags"
   WRITE_BYTE 0x19 ("%splflags%" BOR 0b00000100)
 
+// patch all wish spells to ignore wild surges
+COPY_EXISTING_REGEXP ~SPWISH[0-9]+\.spl~ ~override~
+  READ_BYTE 0x19  splflags
+  WRITE_BYTE 0x19 ("%splflags%" | BIT7)
+
 // wild mage spells //
 
 // Wild Surge: destroy gold (tweak to only remove 10%)
