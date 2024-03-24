@@ -19,3 +19,16 @@ THEN
     SetGlobal("IaCanSummon","LOCALS",1)
     SetGlobal("IaSummonTotalAmount","LOCALS",6)
 END
+
+// this forces werewolves to escape the area at the end of trademeet siege event //
+IF
+  Allegiance(Myself,ENEMY)
+  AreaCheck("S!0007")
+  Global("IADruidSiege","GLOBAL",3)
+  Global("IaFlee","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("IaFlee","LOCALS",1)
+    ChangeAIScript("",GENERAL)
+    EscapeArea()
+END

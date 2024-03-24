@@ -7,12 +7,6 @@ THEN
     CutSceneId(Player1)
 
     Wait(1)
-    MoveViewObject(Myself,INSTANT)
-    Wait(2)
-
-    DisplayStringHead(Player1,@5406)
-    Wait(3)
-
     FadeToColor([20.0],0)
     Wait(1)
 
@@ -30,6 +24,14 @@ THEN
     CreateCreature("S!wer02c",[2025.1510],N)
     ActionOverride("S!wer02c",FaceObject(Player1))
 
+    CreateCreature("werewo01",[1510.1290],E)
+    CreateCreature("werewo01",[1525.1430],E)
+    CreateCreature("werewo01",[1575.1575],E)
+    CreateCreature("werewo01",[2300.1545],N)
+    CreateCreature("werewo01",[2425.1340],N)
+    CreateCreature("werewo01",[2010.1130],S)
+    CreateCreature("werewo01",[2185.1120],S)
+
     ActionOverride("s!logan",FaceObject(Player1))
     ActionOverride(Player2,FaceObject("s!logan"))
     ActionOverride(Player3,FaceObject("s!logan"))
@@ -46,8 +48,8 @@ THEN
 
     FadeFromColor([20.0],0)
     Wait(2)
-    ActionOverride("s!logan",DisplayStringHead(Myself,@5407))
-    Wait(3)
+    ActionOverride("S!logan",DisplayStringHead(Myself,@5407))
+    Wait(4)
 
     CreateCreatureDoor("S!gdru01",[2180.1315],0)
     ActionOverride("S!gdru01",FaceObject("S!jagdu"))
@@ -62,12 +64,10 @@ THEN
     ActionOverride("s!jagdu",DisplayStringHead(Myself,@5410))
     Wait(3)
     ActionOverride("s!tslead",MoveToObjectNoInterrupt("S!wer02c"))
-    Wait(2)
+    Wait(1)
     ActionOverride("s!tslead",AttackReevaluate("S!wer02c",30))
     SmallWait(30)
     ActionOverride("S!wer02c",Kill(Myself))
-    ActionOverride("s!gdru01",ForceSpell("S!jagdu",WIZARD_FLAME_ARROW))
-    SmallWait(30)
     ActionOverride("s!gdru01",ForceSpell("S!jagdu",WIZARD_FLAME_ARROW))
     SmallWait(30)
     ActionOverride("s!gdru01",ForceSpell("S!jagdu",WIZARD_FLAME_ARROW))
@@ -76,7 +76,7 @@ THEN
 		ActionOverride("s!jagdu",DestroyItem("bhaalhp1"))
     Wait(1)
     ActionOverride("s!jagdu",Kill(Myself))
-    Wait(2)
+    Wait(3)
 
     MultiPlayerSync()
     ActionOverride("s!gdru01",StartDialogNoSet(Player1))

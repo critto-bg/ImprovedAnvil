@@ -9,7 +9,7 @@ THEN
   RESPONSE #100
     IncrementGlobal("IaWaves","S!0007",1)
     SetGlobalTimer("IaReinfTimer","S!0007",19)
-    SetGlobalTimer("IaWaveTimer","S!0007",24)
+    SetGlobalTimer("IaWaveTimer","S!0007",18)
     SetGlobalTimer("IaExtraEnemiesTimer","S!0007",18)
 
     CreateCreature("S!lwer01",[1100.1800],0)
@@ -34,7 +34,7 @@ IF
 THEN
   RESPONSE #33
     IncrementGlobal("IaWaves","S!0007",1)
-    SetGlobalTimer("IaWaveTimer","S!0007",24)
+    SetGlobalTimer("IaWaveTimer","S!0007",18)
 
     CreateCreature("werewo01",[1100.1800],0)
     CreateCreature("werewo01",[1100.1800],0)
@@ -42,7 +42,7 @@ THEN
     CreateCreature("wolfdr01",[1100.1800],0)
   RESPONSE #33
     IncrementGlobal("IaWaves","S!0007",1)
-    SetGlobalTimer("IaWaveTimer","S!0007",24)
+    SetGlobalTimer("IaWaveTimer","S!0007",18)
 
     CreateCreature("werewo01",[1950.1950],0)
     CreateCreature("werewo01",[1950.1950],0)
@@ -50,7 +50,7 @@ THEN
     CreateCreature("wolfdr01",[1950.1950],0)
   RESPONSE #34
     IncrementGlobal("IaWaves","S!0007",1)
-    SetGlobalTimer("IaWaveTimer","S!0007",24)
+    SetGlobalTimer("IaWaveTimer","S!0007",18)
 
     CreateCreature("werewo01",[2800.1600],0)
     CreateCreature("werewo01",[2800.1600],0)
@@ -155,15 +155,24 @@ IF
   GlobalLT("IaWaves","S!0007",4)
   GlobalTimerExpired("IaReinfTimer","S!0007")
 THEN
-  RESPONSE #33
+  RESPONSE #23
+    SetGlobalTimer("IaReinfTimer","S!0007",19)
+    CreateCreature("s!trgu02",[1300.1000],S)
+  RESPONSE #23
+    SetGlobalTimer("IaReinfTimer","S!0007",19)
+    CreateCreature("s!trgu02",[1065.1355],S)
+  RESPONSE #24
+    SetGlobalTimer("IaReinfTimer","S!0007",19)
+    CreateCreature("s!trgu02",[1950.900],S)
+  RESPONSE #10
     SetGlobalTimer("IaReinfTimer","S!0007",19)
     CreateCreature("s!trgu02",[1300.1000],S)
     CreateCreature("s!trgu02",[1310.1010],S)
-  RESPONSE #33
+  RESPONSE #10
     SetGlobalTimer("IaReinfTimer","S!0007",19)
     CreateCreature("s!trgu02",[1065.1355],S)
     CreateCreature("s!trgu02",[1080.1370],S)
-  RESPONSE #34
+  RESPONSE #10
     SetGlobalTimer("IaReinfTimer","S!0007",19)
     CreateCreature("s!trgu02",[1950.900],S)
     CreateCreature("s!trgu02",[1960.910],S)
@@ -234,6 +243,7 @@ THEN
   RESPONSE #100
     SetInterrupt(FALSE)
     SetGlobal("IaJagdu","S!0007",4)
+    DisplayStringHead("S!logan",@5406)
     Wait(5) // this is to give great druid and werewolves time to escape
     ClearAllActions()
     StartCutSceneMode()

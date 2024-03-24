@@ -37,20 +37,6 @@ THEN
     DisplayString(Myself,@12080)
 END
 
-// this forces the wolves to escape the area at the end of trademeet siege event //
-
-IF
-  Allegiance(Myself,ENEMY)
-  AreaCheck("S!0007")
-  Global("IADruidSiege","GLOBAL",3)
-  Global("IaFlee","LOCALS",0)
-THEN
-  RESPONSE #100
-    SetGlobal("IaFlee","LOCALS",1)
-    ReallyForceSpellRES("SPWII58",Myself)
-    EscapeArea()
-END
-
 // this forces the wolves to escape the area at the end of helter steps event //
 
 IF
@@ -69,15 +55,13 @@ END
 IF
   InMyArea(Player1)
   Allegiance(Myself,ENEMY)
-  StateCheck(Myself,STATE_PANIC)
+  !StateCheck(Myself,STATE_PANIC)
   !StateCheck(Myself,STATE_HELPLESS)
   !StateCheck(Myself,STATE_STUNNED)
   Global("IaPanic","LOCALS",1)
 THEN
   RESPONSE #100
-    SetGlobal("IaPanic","LOCALS",2)
-    AddXPWorth(Myself)
-    EscapeArea()
+    SetGlobal("IaPanic","LOCALS",0)
 END
 
 IF
