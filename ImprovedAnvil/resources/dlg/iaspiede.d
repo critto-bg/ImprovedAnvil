@@ -23,5 +23,5 @@ END
 IF ~~ THEN BEGIN Goodbye
   SAY @5958
 
-  IF ~~ THEN DO ~SetGlobal("Iaspirit","AR4500",2) SetGlobalTimer("Iarakpspawn","AR4500",6) CreateCreatureObjectDoor("S!smiede",Player1,0,0,0) DestroySelf()~ EXIT
+  IF ~~ THEN DO ~SetGlobal("Iaspirit","AR4500",2) SetGlobalTimer("Iarakpspawn","AR4500",6) CreateCreatureDoor("S!smiede",[1940.1470],0) DestroySelf()~ EXIT
 END
