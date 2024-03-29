@@ -415,21 +415,6 @@ THEN
 END
 
 IF
-  Allegiance(Myself,ENEMY)
-  !GlobalTimerNotExpired("Iaspell","LOCALS")
-  See(NearestEnemyOf(Myself))
-  !Class(LastSeenBy(Myself),DRUID_ALL)
-  !Class(LastSeenBy(Myself),MAGE_ALL)
-  !Class(LastSeenBy(Myself),BARD_ALL)
-  Global("Iashld","LOCALS",0)
-THEN
-  RESPONSE #100
-    SetGlobal("Iashld","LOCALS",1)
-    SetGlobalTimer("Iaspell","LOCALS",6)
-    SpellNoDec(Myself,CLERIC_ACID_SHIELD)
-END
-
-IF
   !CheckSpellState(Myself,FLAME_BLADE)
   !GlobalTimerNotExpired("Iaspell","LOCALS")
   GlobalLT("Iafblade","LOCALS",8)
