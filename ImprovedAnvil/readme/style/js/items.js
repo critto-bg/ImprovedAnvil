@@ -2343,12 +2343,19 @@ var weapons = [
                     "Water's Edge +3",
                     "Rashad's Talon +2",
                     "Scarlet Ninja-To +3",
+                    "Belm +2",
                     "Manual of Elaboration",
                     "50,000 gp"
                 ],
                 "attributes": [
                     {
                         "section_name": "Combat abilities",
+                        "section_items": [
+                            "10% chance on hit to cause an additional 30 poison damage"
+                        ]
+                    },
+                    {
+                        "section_name": "Equipped abilities",
                         "section_items": [
                             "+1 extra attack per round"
                         ]
@@ -2357,7 +2364,7 @@ var weapons = [
                         "section_name": "Equipped abilities",
                         "section_items": [
                             "THAC0: +4",
-                            "Damage: 1D8 +4, +3 poison damage",
+                            "Damage: 1D8 +4",
                             "Proficiency Type: Scimitar",
                             "Damage Type: Slashing"
                         ]
