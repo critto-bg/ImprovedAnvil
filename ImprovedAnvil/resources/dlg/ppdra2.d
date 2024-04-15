@@ -2,7 +2,7 @@ ALTER_TRANS ~PPDRA2~
   BEGIN 1 END
   BEGIN 0 END
 BEGIN
-  "TRIGGER" ~Global("IADruidPlot","GLOBAL",0)~
+  "TRIGGER" ~OR(2) Global("IADruidPlot","GLOBAL",0) GlobalGT("IADruidPlot","GLOBAL",15)~
 END
 
 EXTEND_BOTTOM ~PPDRA2~ 1
