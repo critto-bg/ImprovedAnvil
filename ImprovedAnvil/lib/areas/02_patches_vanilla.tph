@@ -1575,6 +1575,8 @@ COPY_EXISTING ~ar2807.are~ ~override/ar2807.are~
   EXTEND_TOP ~AR2807.BCS~ ~ImprovedAnvil\scripts\areas\AR2807.BAF~
 
 COPY_EXISTING ~AR2811.are~ ~override/AR2811.are~
+  READ_BYTE  0x48 loc
+  WRITE_BYTE 0x48 (loc | BIT7)
   WRITE_ASCII 0x94 ~AR2811~ #8 // Area Script reference
 
   LPF ~S!SET_DEFAULT_TRANSITION_FLAGS~ STR_VAR region_name = ~Tran2800~ END
