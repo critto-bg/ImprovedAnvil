@@ -885,6 +885,69 @@ ACTION_PHP_EACH shaman_healing_spells AS record => int BEGIN
   END
 END
 
+// Wizard Slayer kit spells //
+
+COPY ~ImprovedAnvil/resources/spells/SPWSL01.spl~ ~override/SPWSL01.spl~ // MR% and MDR% bonus
+COPY ~ImprovedAnvil/resources/spells/SPWSL02.spl~ ~override/SPWSL02.spl~ // STR, DEX and CON bonus
+COPY ~ImprovedAnvil/resources/spells/SPWSL03.spl~ ~override/SPWSL03.spl~ // immunity to Slow, Haste, IH
+  LPF ~ALTER_SPELL_EFFECT~
+    INT_VAR
+      check_headers = 1
+      match_opcode = 328
+      parameter2 = IDS_OF_SYMBOL (~splstate~ ~SLOW_IMMUNITY~)
+  END
+
+COPY ~ImprovedAnvil/resources/spells/SPWSL04.spl~ ~override/SPWSL04.spl~
+  SAY NAME1 @9529
+
+COPY ~ImprovedAnvil/resources/spells/SPWSL05.spl~ ~override/SPWSL05.spl~
+  SAY NAME1 @11147
+  SAY UNIDENTIFIED_DESC @11193
+
+  // update cast spell (146)
+  LPF ~ALTER_SPELL_EFFECT~
+    INT_VAR
+      check_headers = 1
+      match_opcode = 146
+      resist_dispel = 0
+    STR_VAR
+      resource = ~SPWSL05A~
+  END
+
+COPY ~ImprovedAnvil/resources/spells/SPWSL05A.spl~ ~override/SPWSL05A.spl~
+  SAY NAME1 @11147
+
+COPY ~ImprovedAnvil/resources/spells/SPWSL06.spl~ ~override/SPWSL06.spl~
+  SAY NAME1 @11194
+  SAY UNIDENTIFIED_DESC @11195
+
+COPY ~ImprovedAnvil/resources/spells/SPWSL06A.spl~ ~override/SPWSL06A.spl~
+  SAY NAME1 @11196
+
+  // update display string (139)
+  LPF ~ALTER_SPELL_EFFECT~
+    INT_VAR
+      check_headers = 1
+      match_opcode = 139
+      parameter1 = RESOLVE_STR_REF (@11197)
+  END
+
+COPY ~ImprovedAnvil/resources/spells/SPWSL06B.spl~ ~override/SPWSL06B.spl~
+  SAY NAME1 @11198
+
+  // update display string (139)
+  LPF ~ALTER_SPELL_EFFECT~
+    INT_VAR
+      check_headers = 1
+      match_opcode = 139
+      parameter1 = RESOLVE_STR_REF (@11199)
+  END
+
+COPY ~ImprovedAnvil/resources/spells/SPWSL07.spl~ ~override/SPWSL07.spl~ // Fire Res% bonus
+COPY ~ImprovedAnvil/resources/spells/SPWSL08.spl~ ~override/SPWSL08.spl~ // Tower of Resilience
+  SAY NAME1 @11200
+  SAY UNIDENTIFIED_DESC @11201
+
 // testing weapons //
 
 COPY ~ImprovedAnvil\resources\spells\SUPERSPL.spl~ ~override/SUPERSPL.spl~

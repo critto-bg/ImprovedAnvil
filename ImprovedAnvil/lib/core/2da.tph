@@ -35,6 +35,7 @@ COPY ~ImprovedAnvil/resources/2da/luba3.2da~ ~override/luba3.2da~
 COPY ~ImprovedAnvil/resources/2da/lucm0.2da~ ~override/lucm0.2da~
 COPY ~ImprovedAnvil/resources/2da/ludr0.2da~ ~override/ludr0.2da~
 COPY ~ImprovedAnvil/resources/2da/ludr3.2da~ ~override/ludr3.2da~
+COPY ~ImprovedAnvil/resources/2da/lufi3.2da~ ~override/lufi3.2da~
 COPY ~ImprovedAnvil/resources/2da/luft0.2da~ ~override/luft0.2da~
 COPY ~ImprovedAnvil/resources/2da/lufmt.2da~ ~override/lufmt.2da~
 COPY ~ImprovedAnvil/resources/2da/lumt0.2da~ ~override/lumt0.2da~
@@ -74,6 +75,7 @@ COPY ~ImprovedAnvil/resources/2da/clabdr04.2da~ ~override/clabdr04.2da~ // Aveng
 COPY ~ImprovedAnvil/resources/2da/clabma03.2da~ ~override/clabma03.2da~ // Necromancer
 COPY ~ImprovedAnvil/resources/2da/clabth04.2da~ ~override/clabth04.2da~ // Swashbuckler
 COPY ~ImprovedAnvil/resources/2da/clabsh01.2da~ ~override/clabsh01.2da~ // Shaman
+COPY ~ImprovedAnvil/resources/2da/CLABFI03.2DA~ ~override/CLABFI03.2DA~ // Wizard Slayer
 
 // extra attacks per level, unnerfed table with "true grandmastery"
 COPY ~ImprovedAnvil/resources/2da/wspatck.2da~ ~override/wspatck.2da~
@@ -170,7 +172,7 @@ COPY_EXISTING ~clabrn03.2da~  ~override/clabrn03.2da~
 
 // prevent certain options for dual-classing
 COPY_EXISTING ~dualclas.2da~  ~override/dualclas.2da~
-  REPLACE_TEXTUALLY ~WIZARD_SLAYER.+0.+1.+1.+1.+1.+0~ ~WIZARD_SLAYER           0       1       0       0       1       0~
+  REPLACE_TEXTUALLY ~WIZARD_SLAYER.+0.+1.+1.+1.+1.+0~ ~WIZARD_SLAYER           0       0       0       0       0       0~
   REPLACE_TEXTUALLY ~ABJURER.+1.+1.+0.+1.+0.+0~ ~ABJURER                 0       0       0       0       0       0~
   REPLACE_TEXTUALLY ~CONJURER.+1.+1.+0.+1.+0.+0~ ~CONJURER                0       0       0       0       0       0~
   REPLACE_TEXTUALLY ~DIVINER.+1.+1.+0.+1.+0.+0~ ~DIVINER                 0       0       0       0       0       0~
@@ -203,6 +205,7 @@ COPY_EXISTING ~abclsmod.2da~  ~override/abclsmod.2da~
 // assign new ludr file to the Avenger kit
 COPY_EXISTING ~luabbr.2da~  ~override/luabbr.2da~
   REPLACE_TEXTUALLY ~BEAST_FRIEND.+Dr0~ ~BEAST_FRIEND              Dr3~
+  REPLACE_TEXTUALLY ~WIZARD_SLAYER.+Fi0~ ~WIZARD_SLAYER              Fi3~
   PRETTY_PRINT_2DA
 
 // modify weapon proficiencies for the Avenger kit
@@ -240,6 +243,44 @@ COPY_EXISTING ~weapprof.2da~  ~override/weapprof.2da~
   SET_2DA_ENTRY_LATER ~_#_#_#weapprof~ 29 47 ~1~
   SET_2DA_ENTRY_LATER ~_#_#_#weapprof~ 30 47 ~0~
   SET_2DA_ENTRY_LATER ~_#_#_#weapprof~ 31 47 ~1~
+  SET_2DA_ENTRIES_NOW ~_#_#_#weapprof~ ~colcount~
+  PRETTY_PRINT_2DA
+
+// modify weapon proficiencies for the Wizard Slayer kit
+COPY_EXISTING ~weapprof.2da~  ~override/weapprof.2da~
+  COUNT_2DA_COLS ~colcount~
+  // LARGE_SWORD
+  SET_2DA_ENTRY_LATER ~_#_#_#weapprof~ 1 31 ~4~ // SMALL_SWORD
+  // BOW
+  // SPEAR
+  SET_2DA_ENTRY_LATER ~_#_#_#weapprof~ 4 31 ~4~ // BLUNT
+  SET_2DA_ENTRY_LATER ~_#_#_#weapprof~ 5 31 ~4~ // SPIKED
+  SET_2DA_ENTRY_LATER ~_#_#_#weapprof~ 6 31 ~4~ // AXE
+  // MISSILE
+  SET_2DA_ENTRY_LATER ~_#_#_#weapprof~ 8 31 ~4~ // BASTARDSWORD
+  SET_2DA_ENTRY_LATER ~_#_#_#weapprof~ 9 31 ~4~ // LONGSWORD
+  SET_2DA_ENTRY_LATER ~_#_#_#weapprof~ 10 31 ~4~ // SHORTSWORD
+  SET_2DA_ENTRY_LATER ~_#_#_#weapprof~ 11 31 ~4~ // AXE
+  // TWOHANDEDSWORD
+  SET_2DA_ENTRY_LATER ~_#_#_#weapprof~ 13 31 ~4~ // KATANA
+  SET_2DA_ENTRY_LATER ~_#_#_#weapprof~ 14 31 ~4~ // SCIMITARWAKISASHININJAT
+  SET_2DA_ENTRY_LATER ~_#_#_#weapprof~ 15 31 ~4~ // DAGGER
+  SET_2DA_ENTRY_LATER ~_#_#_#weapprof~ 16 31 ~4~ // WARHAMMER
+  SET_2DA_ENTRY_LATER ~_#_#_#weapprof~ 17 31 ~4~ // CLUB
+  // SPEAR
+  // HALBERD
+  SET_2DA_ENTRY_LATER ~_#_#_#weapprof~ 20 31 ~4~ // FLAILMORNINGSTAR
+  SET_2DA_ENTRY_LATER ~_#_#_#weapprof~ 21 31 ~4~ // MACE
+  // QUARTERSTAFF
+  // CROSSBOW
+  // LONGBOW
+  // SHORTBOW
+  // DART
+  // SLING
+  // 2HANDED
+  // SWORDANDSHIELD
+  // SINGLEWEAPON
+  SET_2DA_ENTRY_LATER ~_#_#_#weapprof~ 31 31 ~1~
   SET_2DA_ENTRIES_NOW ~_#_#_#weapprof~ ~colcount~
   PRETTY_PRINT_2DA
 
