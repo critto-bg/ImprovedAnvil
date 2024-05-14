@@ -17,18 +17,20 @@ COPY_EXISTING ~spdwd02.spl~ ~override/spdwd02.spl~
     END
   END
 
-  // add protection from Hardiness for the duration of the spell
-  PATCH_FOR_EACH ~res~ IN ~SPCL907~ ~SPWISH12~ BEGIN
-    LPF ~ADD_SPELL_EFFECT~
-      INT_VAR
-        opcode = 206
-        target = 1
-        timing = 0
-        resist_dispel = 2
-        duration = 60
-      STR_VAR
-        resource = EVALUATE_BUFFER ~%res%~
-    END
+  // allow stacking with Hardiness
+  LPF ~DELETE_SPELL_EFFECT~ INT_VAR
+    opcode_to_delete = 321
+  END
+
+  LPF ~ADD_SPELL_EFFECT~
+    INT_VAR
+      opcode = 206
+      target = 1
+      timing = 0
+      resist_dispel = 2
+      duration = 60
+    STR_VAR
+      resource = ~spdwd02~
   END
 
   BUT_ONLY
