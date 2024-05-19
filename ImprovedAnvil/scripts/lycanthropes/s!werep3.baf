@@ -32,3 +32,16 @@ THEN
     ChangeAIScript("",GENERAL)
     EscapeArea()
 END
+
+// this forces werewolves to escape the area at the end of helter steps event //
+IF
+  Allegiance(Myself,ENEMY)
+  AreaCheck("S!0001")
+  GlobalGT("IAPlot","S!0001",2)
+  Global("IaFlee","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("IaFlee","LOCALS",1)
+    ChangeAIScript("",GENERAL)
+    EscapeArea()
+END
