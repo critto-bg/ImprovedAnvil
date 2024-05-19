@@ -19,6 +19,16 @@ THEN
 END
 
 IF
+  Global("Iapctoohigh","GLOBAL",0)
+  Global("Iahardmode","GLOBAL",0)
+  Global("Iatonedown","LOCALS",0)
+THEN
+  RESPONSE #100
+    SetGlobal("Iatonedown","LOCALS",1)
+    SetGlobal("Iaprotection","LOCALS",2)
+END
+
+IF
   See(NearestEnemyOf(Myself))
   Global("Prep","LOCALS",0)
   !HPLT(Myself,1)
