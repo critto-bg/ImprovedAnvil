@@ -2343,7 +2343,6 @@ var weapons = [
                     "Water's Edge +3",
                     "Rashad's Talon +2",
                     "Scarlet Ninja-To +3",
-                    "Belm +2",
                     "Manual of Elaboration",
                     "50,000 gp"
                 ],
@@ -2357,7 +2356,7 @@ var weapons = [
                     {
                         "section_name": "Equipped abilities",
                         "section_items": [
-                            "+1 extra attack per round"
+                            "+1/2 extra attack per round"
                         ]
                     },
                     {

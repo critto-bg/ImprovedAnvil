@@ -1889,14 +1889,13 @@ APPEND WSMITH01
 
   IF ~~ THEN BEGIN water
     SAY @611 IF ~~ THEN REPLY @2 GOTO 13
-    IF ~PartyHasItem("sw1h52") PartyHasItem("sw1h23") PartyHasItem("sw1h30") PartyGoldGT(49999)
+    IF ~PartyHasItem("sw1h52") PartyHasItem("sw1h23") PartyGoldGT(49999)
         PartyHasItem("waninja") PartyHasItem("s!misc06") Global("Iasw19forged","GLOBAL",0)~
       THEN REPLY @3
       DO ~SetGlobal("Iasw19forged","GLOBAL",1)
           TakePartyGold(50000)      DestroyGold(50000)
           TakePartyItemNum("sw1h52",1)   DestroyItem("sw1h52")
           TakePartyItemNum("sw1h23",1)   DestroyItem("sw1h23")
-          TakePartyItemNum("sw1h30",1)   DestroyItem("sw1h30")
           TakePartyItemNum("waninja",1)   DestroyItem("waninja")
           TakePartyItemNum("s!misc06",1)   DestroyItem("s!misc06")
           GiveItemCreate("s!sw19",Player1,1,1,1)
