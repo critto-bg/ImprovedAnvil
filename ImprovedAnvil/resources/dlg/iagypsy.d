@@ -13,7 +13,7 @@ END
 
 IF ~Global("GypsyJob","GLOBAL",0) Global("GypsyTalk","AR0411",0)~ THEN BEGIN 2
   SAY @1204
-  IF ~~ THEN DO ~SetGlobal("GypsyJob","GLOBAL",1)~ EXIT
+  IF ~~ THEN DO ~SetGlobal("GypsyJob","GLOBAL",1) SetGlobal("IaMageScrollsActive","GLOBAL",1)~ EXIT
 END
 
 IF ~Global("GypsyJob","GLOBAL",0) Global("GypsyTalk","AR0411",1)~ THEN BEGIN 3
