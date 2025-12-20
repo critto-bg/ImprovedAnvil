@@ -299,3 +299,22 @@ CLEAR_IDS_MAP
 
 COPY ~ImprovedAnvil\resources\animations\isair~ ~override~
 COPY ~ImprovedAnvil\resources\animations\ini\isair.ini~ ~override\e275.ini~
+
+// Dracolich Animation
+LAF FIND_FREE_ANIM_SLOT INT_VAR slotMin = 0xE000 slotMax = 0xefff RET slot END
+ACTION_IF (slot <= 0) BEGIN
+  FAIL ~No free creature animation slot found.~
+END
+
+LAF TO_HEX_NUMBER INT_VAR value = slot minDigits = 4 RET hexNumber END
+APPEND ~animate.ids~ ~0x%hexNumber% MO_DRACOLICH_NWN~ UNLESS ~MO_DRACOLICH_NWN~
+CLEAR_IDS_MAP
+
+COPY ~ImprovedAnvil/resources/animations/dracolich_nwn/exxx.ini~ ~override/%hexNumber%.ini~
+
+ACTION_BASH_FOR ~ImprovedAnvil/resources/animations/dracolich_nwn~ ~^.+\.bam$~ BEGIN
+  COPY ~%BASH_FOR_FILESPEC%~ ~override~
+END
+
+// Copy Elder Umber Hulk Animations into the Game
+COPY ~ImprovedAnvil/resources/animations/umber_hulk_elder~ ~override~
