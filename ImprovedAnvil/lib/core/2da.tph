@@ -91,8 +91,17 @@ COPY ~ImprovedAnvil/resources/2da/clabmo01.2da~ ~override/clabmo01.2da~
 COPY ~ImprovedAnvil/resources/2da/clabmo02.2da~ ~override/clabmo02.2da~
 COPY ~ImprovedAnvil/resources/2da/clabmo03.2da~ ~override/clabmo03.2da~
 
-// new table for INT modifiers
-COPY ~ImprovedAnvil/resources/2da/intmod.2da~ ~override/intmod.2da~
+// INT modifiers: raise the spell-scribing success chance for INT 16-22
+COPY_EXISTING ~intmod.2da~ ~override/intmod.2da~
+  COUNT_2DA_COLS ~colcount~
+  SET_2DA_ENTRY 16 1 ~colcount~ ~75~
+  SET_2DA_ENTRY 17 1 ~colcount~ ~85~
+  SET_2DA_ENTRY 18 1 ~colcount~ ~95~
+  SET_2DA_ENTRY 19 1 ~colcount~ ~99~
+  SET_2DA_ENTRY 20 1 ~colcount~ ~99~
+  SET_2DA_ENTRY 21 1 ~colcount~ ~99~
+  SET_2DA_ENTRY 22 1 ~colcount~ ~99~
+  PRETTY_PRINT_2DA
 
 // set up custom tooltips for certain items with special abilities
 COPY_EXISTING ~tooltip.2da~  ~override/tooltip.2da~
