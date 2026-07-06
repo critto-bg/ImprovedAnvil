@@ -430,13 +430,38 @@ COPY_EXISTING ~viconi16.cre~ ~Override/viconi16.cre~
 
 // Imoen //
 
-COPY ~ImprovedAnvil/resources/creatures/vanilla/imoen10.cre~ ~override/imoen10.cre~
-     ~ImprovedAnvil/resources/creatures/vanilla/imoen15.cre~ ~override/imoen15.cre~
-     ~ImprovedAnvil/resources/creatures/vanilla/imoen213.cre~ ~override/imoen211.cre~
-     ~ImprovedAnvil/resources/creatures/vanilla/imoen213.cre~ ~override/imoen213.cre~
-  WRITE_SHORT 0x24   4 // current HP
-  WRITE_SHORT 0x26   4 // max HP
-  WRITE_BYTE  0x234  1 // current level
+// shared "sorcerer Imoen" rebuild (class change per readme; joins at level 1,
+// join-time XP is adjusted dynamically via S!join_dlg_xp below)
+COPY_EXISTING ~imoen10.cre~  ~override/imoen10.cre~
+              ~imoen15.cre~  ~override/imoen15.cre~
+              ~imoen213.cre~ ~override/imoen211.cre~
+              ~imoen213.cre~ ~override/imoen213.cre~
+  WRITE_LONG  0x10       0 // creature flags (drop dual-class thief bookkeeping)
+  WRITE_SHORT 0x24       4 // current HP
+  WRITE_SHORT 0x26       4 // max HP
+  WRITE_SHORT 0x28  0x6210 // animation (MAGE_FEMALE_HUMAN)
+  WRITE_BYTE  0x2c      99 // metal colour
+  WRITE_BYTE  0x2d      59 // minor colour
+  WRITE_BYTE  0x2e      60 // major colour
+  WRITE_BYTE  0x30      21 // leather colour
+  WRITE_ASCII 0x34 ~NIMOENS~ #8 // small portrait
+  WRITE_ASCII 0x3c ~NIMOENM~ #8 // large portrait
+  WRITE_BYTE  0x45       0 // hide in shadows
+  WRITE_BYTE  0x67       0 // open locks
+  WRITE_BYTE  0x68       0 // move silently
+  WRITE_BYTE  0x69       0 // find traps
+  WRITE_BYTE  0x6a       0 // pick pockets
+  WRITE_LONG  0xd0   30763 // soundset: BATTLE_CRY3
+  WRITE_BYTE  0x234      1 // current level
+  WRITE_BYTE  0x235      0 // second class level (drop thief levels)
+  WRITE_BYTE  0x238     17 // strength
+  WRITE_BYTE  0x23a     10 // intelligence
+  WRITE_BYTE  0x23b     18 // wisdom
+  WRITE_BYTE  0x23e      9 // charisma
+  WRITE_BYTE  0x23f     10 // morale
+  WRITE_BYTE  0x240      5 // morale break
+  WRITE_LONG  0x244 0x40000000 // kit (TRUECLASS)
+  WRITE_BYTE  0x273     19 // class (SORCERER)
 
   REMOVE_KNOWN_SPELLS
   REMOVE_MEMORIZED_SPELLS
@@ -476,6 +501,47 @@ COPY ~ImprovedAnvil/resources/creatures/vanilla/imoen10.cre~ ~override/imoen10.c
     parameter1 = 1
     parameter2 = 102
   END
+
+// Imoen rescued in Spellhold (SoA)
+COPY_EXISTING ~imoen10.cre~ ~override/imoen10.cre~
+  WRITE_LONG  0x18   90000 // XP
+  WRITE_BYTE  0x52      18 // THAC0
+  WRITE_BYTE  0x54      11 // save vs death
+  WRITE_BYTE  0x55       7 // save vs wands
+  WRITE_BYTE  0x56       9 // save vs polymorph
+  WRITE_BYTE  0x57      11 // save vs breath
+  WRITE_BYTE  0x58       8 // save vs spell
+  WRITE_BYTE  0x66       8 // lore
+  WRITE_LONG  0xa8   30759 // soundset: MORALE
+  WRITE_LONG  0xb8   30728 // soundset: UNHAPPY_BREAKING_POINT
+  WRITE_LONG  0xc4   30760 // soundset: BORED
+  WRITE_LONG  0xc8   30761 // soundset: BATTLE_CRY1
+  WRITE_LONG  0xcc   30762 // soundset: BATTLE_CRY2
+  WRITE_LONG  0xf4   30764 // soundset: HURT
+
+// Imoen re-joining in ToB
+COPY_EXISTING ~imoen15.cre~ ~override/imoen15.cre~
+  WRITE_BYTE  0x66      13 // lore
+  WRITE_LONG  0x1cc  10233 // biography (Spellhold-era)
+
+  REMOVE_CRE_ITEMS
+
+  ADD_CRE_ITEM ~CLCK12~ #0  #0 #0 ~IDENTIFIED~ ~ARMOR~   // Knave's Robe
+  ADD_CRE_ITEM ~RING06~ #0  #0 #0 ~IDENTIFIED~ ~LRING~   // Ring of the Princes +1
+  ADD_CRE_ITEM ~DAGG24~ #0  #0 #0 ~IDENTIFIED~ ~WEAPON1~ // Dagger +3
+  ADD_CRE_ITEM ~SLNG04~ #0  #0 #0 ~IDENTIFIED~ ~WEAPON2~ // Sling +2
+  ADD_CRE_ITEM ~BULL01~ #40 #0 #0 ~IDENTIFIED~ ~QUIVER1~ // Bullet
+  ADD_CRE_ITEM ~BULL02~ #40 #0 #0 ~IDENTIFIED~ ~QUIVER2~ // Bullet +1
+  ADD_CRE_ITEM ~BULL03~ #40 #0 #0 ~IDENTIFIED~ ~QUIVER3~ // Bullet +2
+  ADD_CRE_ITEM ~POTN52~ #5  #0 #0 ~IDENTIFIED~ ~QITEM1~  // Potion of Extra Healing
+
+// Imoen during the Spellhold inmate sequence
+COPY_EXISTING ~imoen211.cre~ ~override/imoen211.cre~
+              ~imoen213.cre~ ~override/imoen213.cre~
+  WRITE_LONG  0x18 1275000 // XP
+  WRITE_BYTE  0x66      13 // lore
+  WRITE_LONG  0x1cc  10233 // biography (Spellhold-era)
+  WRITE_ASCII 0x248 ~NONE~ #8 // override script
 
 COPY_EXISTING ~imoen.cre~ ~Override/imoen.cre~
   WRITE_SHORT  0x28  0x6210 // animation
