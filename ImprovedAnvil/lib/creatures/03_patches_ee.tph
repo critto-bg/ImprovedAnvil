@@ -176,6 +176,15 @@ COPY_EXISTING ~OHNRWME2.cre~ ~override/OHNRWME2.cre~
     LAUNCH_PATCH_MACRO ~SET_CRE_ITEM_FLAGS~
   END
 
+// Thayan Knights: stock EE bakes the morale-break bonus BELOW the knight's own
+// op101 immunity to opcode 106, so it never applies — move it above the
+// immunity block
+COPY_EXISTING ~ohnthkni.cre~ ~override/ohnthkni.cre~
+              ~ohnthkn1.cre~ ~override/ohnthkn1.cre~
+              ~ohnthkn2.cre~ ~override/ohnthkn2.cre~
+  LPF ~DELETE_CRE_EFFECT~ INT_VAR opcode_to_delete = 106 END
+  LPF ADD_CRE_EFFECT INT_VAR opcode = 106 target = 1 parameter1 = 1 parameter2 = 1 timing = 1 insert_point = 0 END // Stat: Morale Break Modifier
+
 // Dorn's content //
 
 // Azothet
