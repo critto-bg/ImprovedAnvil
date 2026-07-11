@@ -1,0 +1,753 @@
+// WeiDU-native creature construction engine. Loads per-creature 2da tables from
+// resources/creatures/, resolves template chains + packages, and builds the
+// .cre files.
+//
+// Implemented as MACROS: WeiDU functions have local variable scope, so a
+// function-based loader cannot populate the shared table arrays. Macro temp
+// variables are prefixed per macro (m_/tl_/b_/fx_/it_) to avoid collisions.
+//
+// Macro interfaces (globals):
+//   S!CRE_TABLE_LOAD   in: iacre_load_file            out: iacre_load_id
+//   S!CRE_BUILD        in: iacre_build_table, iacre_build_out
+
+// ---------------------------------------------------------------------------
+// one-time meta: _fields.2da (header layout), _defaults.2da, _blockers.2da
+// ---------------------------------------------------------------------------
+DEFINE_ACTION_MACRO ~S!CRE_META~ BEGIN
+  ACTION_IF NOT VARIABLE_IS_SET iacre_meta_loaded BEGIN
+    OUTER_SET iacre_meta_loaded = 1
+    OUTER_SET iacre_field_n = 0
+
+    // blank CRE prototype: every build copies this instead of CREATE-ing
+    // (CREATE ignores SILENT and un-silences the install — do it once,
+    // then restore the caller's silence state)
+    OUTER_SET m_silent = (IS_SILENT) ? 1 : 0
+    CREATE ~cre~ ~S!blank~
+    ACTION_IF (m_silent = 1) BEGIN
+      SILENT
+    END
+
+    COPY - ~ImprovedAnvil/resources/creatures/_fields.2da~ ~inlined/iacrefields.2da~
+      COUNT_2DA_ROWS 5 m_rows
+      FOR (m_r = 0; m_r < m_rows; m_r += 1) BEGIN
+        READ_2DA_ENTRY m_r 0 5 m_tag
+        PATCH_IF ~%m_tag%~ STRING_EQUAL_CASE ~FIELD~ BEGIN
+          READ_2DA_ENTRY m_r 1 5 m_fname
+          READ_2DA_ENTRY m_r 2 5 m_field_off
+          READ_2DA_ENTRY m_r 3 5 m_field_width
+          READ_2DA_ENTRY m_r 4 5 m_field_kind
+
+          SPRINT $iacre_field(~%iacre_field_n%~) ~%m_fname%~
+          SET $iacre_field_off(~%m_fname%~) = m_field_off
+          SET $iacre_field_width(~%m_fname%~) = m_field_width
+          SPRINT $iacre_field_kind(~%m_fname%~) ~%m_field_kind%~
+          SET iacre_field_n += 1
+        END
+      END
+    BUT_ONLY
+
+    COPY - ~ImprovedAnvil/resources/creatures/_defaults.2da~ ~inlined/iacredflt.2da~
+      COUNT_2DA_ROWS 3 m_rows
+      FOR (m_r = 0; m_r < m_rows; m_r += 1) BEGIN
+        READ_2DA_ENTRY m_r 0 3 m_tag
+        PATCH_IF ~%m_tag%~ STRING_EQUAL_CASE ~HDR~ BEGIN
+          READ_2DA_ENTRY m_r 1 3 m_fname
+          READ_2DA_ENTRY m_r 2 3 m_fval
+          SPRINT $iacre_default(~%m_fname%~) ~%m_fval%~
+        END
+      END
+    BUT_ONLY
+
+    // recognized row tags ('2DA' = the signature line, '*' = defaults line)
+    ACTION_FOR_EACH m_tagname IN ~TPL~ ~SAY~ ~HDR~ ~COLOUR~ ~PKG~ ~SEL~ ~NOTABLES~
+                           ~NOFX~ ~NOSPELLS~ ~BUDGET~ ~ITEM~ ~FX~ ~FXM~
+                           ~KNOWN~ ~MEM~ ~FIELD~ ~BLOCK~ ~ERASER~ ~2DA~ ~*~ BEGIN
+      OUTER_SET $iacre_valid_tag(~%m_tagname%~) = 1
+    END
+
+    // blocker/eraser opcode sets for the canonical fx sort
+    COPY - ~ImprovedAnvil/resources/creatures/_blockers.2da~ ~inlined/iacreblk.2da~
+      COUNT_2DA_ROWS 2 m_rows
+      FOR (m_r = 0; m_r < m_rows; m_r += 1) BEGIN
+        READ_2DA_ENTRY m_r 0 2 m_tag
+        PATCH_IF ~%m_tag%~ STRING_EQUAL_CASE ~BLOCK~ BEGIN
+          READ_2DA_ENTRY m_r 1 2 m_op
+          SET $iacre_blocker(~%m_op%~) = 1
+        END
+        ELSE PATCH_IF ~%m_tag%~ STRING_EQUAL_CASE ~ERASER~ BEGIN
+          READ_2DA_ENTRY m_r 1 2 m_op
+          SET $iacre_eraser(~%m_op%~) = 1
+        END
+      END
+    BUT_ONLY
+  END
+END
+
+// ---------------------------------------------------------------------------
+// S!CRE_TABLE_LOAD: parse one table into arrays under numeric id (cached)
+//   in: iacre_load_file   out: iacre_load_id
+// ---------------------------------------------------------------------------
+DEFINE_ACTION_MACRO ~S!CRE_TABLE_LOAD~ BEGIN
+  LAM ~S!CRE_META~   // eraser set must exist before any FX row is parsed
+  ACTION_IF VARIABLE_IS_SET $iacre_tbl_id(~%iacre_load_file%~) BEGIN
+    OUTER_SET iacre_load_id = $iacre_tbl_id(~%iacre_load_file%~)
+  END ELSE
+  BEGIN
+    ACTION_IF NOT VARIABLE_IS_SET iacre_tbl_id_next
+    BEGIN
+      OUTER_SET iacre_tbl_id_next = 0
+    END
+
+    OUTER_SET iacre_load_id = iacre_tbl_id_next
+    OUTER_SET iacre_tbl_id_next += 1
+    OUTER_SET $iacre_tbl_id(~%iacre_load_file%~) = iacre_load_id
+    OUTER_SET tl_id = iacre_load_id
+
+    ACTION_TIME ~cre_build: table parse~ BEGIN
+    ACTION_FOR_EACH tl_prop IN say_name say_tooltip colour_op colour_val sel_w sel_a BEGIN
+      OUTER_SET $iacre_tbl(~%tl_id%~ ~%tl_prop%~) = 0 - 1
+    END
+
+    ACTION_FOR_EACH tl_prop IN hdr_n pkg_n fx_n kn_n mem_n bud_n item_n
+                        has_tpl has_fx has_sp has_it has_colour has_pkg notables
+                        sel_w_set sel_a_set BEGIN
+      OUTER_SET $iacre_tbl(~%tl_id%~ ~%tl_prop%~) = 0
+    END
+
+    COPY - ~%iacre_load_file%~ ~inlined/iacre_tbl.2da~
+      // ------- arity-3: TPL SAY HDR COLOUR PKG SEL + section markers --------
+      COUNT_2DA_ROWS 3 tl_rows
+      FOR (tl_r = 0; tl_r < tl_rows; tl_r += 1) BEGIN
+        READ_2DA_ENTRY tl_r 0 3 tl_tag
+        READ_2DA_ENTRY tl_r 1 3 tl_arg1
+        READ_2DA_ENTRY tl_r 2 3 tl_arg2
+
+        PATCH_IF ~%tl_tag%~ STRING_EQUAL_CASE ~TPL~ BEGIN
+          SPRINT $iacre_tbl_tpl(~%tl_id%~) ~%tl_arg1%~
+          SET $iacre_tbl(~%tl_id%~ ~has_tpl~) = 1
+        END
+
+        ELSE PATCH_IF ~%tl_tag%~ STRING_EQUAL_CASE ~SAY~ BEGIN
+          PATCH_IF ~%tl_arg1%~ STRING_EQUAL_CASE ~NAME~ BEGIN
+            SET $iacre_tbl(~%tl_id%~ ~say_name~) = tl_arg2
+          END ELSE BEGIN
+            SET $iacre_tbl(~%tl_id%~ ~say_tooltip~) = tl_arg2
+          END
+        END
+
+        ELSE PATCH_IF ~%tl_tag%~ STRING_EQUAL_CASE ~HDR~ BEGIN
+          SET tl_n = $iacre_tbl(~%tl_id%~ ~hdr_n~)
+          SPRINT $iacre_tbl_hdr_field(~%tl_id%~ ~%tl_n%~) ~%tl_arg1%~
+          SPRINT $iacre_tbl_hdr_val(~%tl_id%~ ~%tl_n%~) ~%tl_arg2%~
+          SET $iacre_tbl(~%tl_id%~ ~hdr_n~) = tl_n + 1
+        END
+
+        ELSE PATCH_IF ~%tl_tag%~ STRING_EQUAL_CASE ~COLOUR~ BEGIN
+          SET $iacre_tbl(~%tl_id%~ ~has_colour~) = 1
+          PATCH_IF ~%tl_arg1%~ STRING_EQUAL_CASE ~NONE~ BEGIN
+            SET $iacre_tbl(~%tl_id%~ ~colour_op~) = 0
+          END ELSE BEGIN
+            SET $iacre_tbl(~%tl_id%~ ~colour_op~) = tl_arg1
+            SET $iacre_tbl(~%tl_id%~ ~colour_val~) = tl_arg2
+          END
+        END
+
+        ELSE PATCH_IF ~%tl_tag%~ STRING_EQUAL_CASE ~PKG~ BEGIN
+          SET $iacre_tbl(~%tl_id%~ ~has_pkg~) = 1
+          PATCH_IF NOT (~%tl_arg1%~ STRING_EQUAL_CASE ~NONE~) BEGIN
+            SET tl_n = $iacre_tbl(~%tl_id%~ ~pkg_n~)
+            SPRINT $iacre_tbl_pkg(~%tl_id%~ ~%tl_n%~) ~%tl_arg1%~
+            SET $iacre_tbl(~%tl_id%~ ~pkg_n~) = tl_n + 1
+          END
+        END
+
+        ELSE PATCH_IF ~%tl_tag%~ STRING_EQUAL_CASE ~SEL~ BEGIN
+          PATCH_IF ~%tl_arg1%~ STRING_EQUAL_CASE ~WEAPON~ BEGIN
+            SET $iacre_tbl(~%tl_id%~ ~sel_w~) = tl_arg2
+            SET $iacre_tbl(~%tl_id%~ ~sel_w_set~) = 1
+          END ELSE BEGIN
+            SET $iacre_tbl(~%tl_id%~ ~sel_a~) = tl_arg2
+            SET $iacre_tbl(~%tl_id%~ ~sel_a_set~) = 1
+          END
+        END
+
+        ELSE PATCH_IF ~%tl_tag%~ STRING_EQUAL_CASE ~NOTABLES~ BEGIN
+          SET $iacre_tbl(~%tl_id%~ ~notables~) = 1
+          SET $iacre_tbl(~%tl_id%~ ~has_sp~) = 1
+        END
+
+        ELSE PATCH_IF ~%tl_tag%~ STRING_EQUAL_CASE ~NOFX~ BEGIN
+          SET $iacre_tbl(~%tl_id%~ ~has_fx~) = 1
+        END
+
+        ELSE PATCH_IF ~%tl_tag%~ STRING_EQUAL_CASE ~NOSPELLS~ BEGIN
+          SET $iacre_tbl(~%tl_id%~ ~has_sp~) = 1
+        END
+      END
+
+      // ------- arity-4: BUDGET ---------------------------------------------
+      COUNT_2DA_ROWS 4 tl_rows
+      FOR (tl_r = 0; tl_r < tl_rows; tl_r += 1) BEGIN
+        READ_2DA_ENTRY tl_r 0 4 tl_tag
+        PATCH_IF ~%tl_tag%~ STRING_EQUAL_CASE ~BUDGET~ BEGIN
+          SET tl_n = $iacre_tbl(~%tl_id%~ ~bud_n~)
+          READ_2DA_ENTRY tl_r 1 4 tl_booktype
+          READ_2DA_ENTRY tl_r 2 4 tl_lvl
+          READ_2DA_ENTRY tl_r 3 4 tl_count
+
+          SPRINT $iacre_tbl_budget(~%tl_id%~ ~%tl_n%~ ~type~) ~%tl_booktype%~
+          SET $iacre_tbl_budget(~%tl_id%~ ~%tl_n%~ ~lvl~) = tl_lvl
+          SET $iacre_tbl_budget(~%tl_id%~ ~%tl_n%~ ~num~) = tl_count
+          SET $iacre_tbl(~%tl_id%~ ~bud_n~) = tl_n + 1
+          SET $iacre_tbl(~%tl_id%~ ~has_sp~) = 1
+        END
+      END
+
+      // ------- arity-5: ITEM -------------------------------------------------
+      COUNT_2DA_ROWS 5 tl_rows
+      FOR (tl_r = 0; tl_r < tl_rows; tl_r += 1) BEGIN
+        READ_2DA_ENTRY tl_r 0 5 tl_tag
+        PATCH_IF ~%tl_tag%~ STRING_EQUAL_CASE ~ITEM~ BEGIN
+          SET tl_n = $iacre_tbl(~%tl_id%~ ~item_n~)
+          READ_2DA_ENTRY tl_r 1 5 tl_slot
+          READ_2DA_ENTRY tl_r 2 5 tl_res
+          READ_2DA_ENTRY tl_r 3 5 tl_flags
+          READ_2DA_ENTRY tl_r 4 5 tl_qty
+
+          SPRINT $iacre_tbl_item(~%tl_id%~ ~%tl_n%~ ~slot~) ~%tl_slot%~
+          SPRINT $iacre_tbl_item(~%tl_id%~ ~%tl_n%~ ~res~) ~%tl_res%~
+          SPRINT $iacre_tbl_item(~%tl_id%~ ~%tl_n%~ ~flags~) ~%tl_flags%~
+          SPRINT $iacre_tbl_item(~%tl_id%~ ~%tl_n%~ ~qty~) ~%tl_qty%~
+          SET $iacre_tbl(~%tl_id%~ ~item_n~) = tl_n + 1
+          SET $iacre_tbl(~%tl_id%~ ~has_it~) = 1
+        END
+      END
+
+      // ------- arity-5: FX ---------------------------------------------------
+      COUNT_2DA_ROWS 5 tl_rows
+      FOR (tl_r = 0; tl_r < tl_rows; tl_r += 1) BEGIN
+        READ_2DA_ENTRY tl_r 0 5 tl_tag
+        PATCH_IF ~%tl_tag%~ STRING_EQUAL_CASE ~FX~ BEGIN
+          SET tl_n = $iacre_tbl(~%tl_id%~ ~fx_n~)
+          READ_2DA_ENTRY tl_r 1 5 tl_op
+          PATCH_IF VARIABLE_IS_SET $iacre_eraser(~%tl_op%~) BEGIN
+            PATCH_FAIL ~S!CRE_TABLE_LOAD: eraser opcode %tl_op% in %iacre_load_file% — order-critical, not allowed in creature definitions~
+          END
+          READ_2DA_ENTRY tl_r 2 5 tl_p1
+          READ_2DA_ENTRY tl_r 3 5 tl_p2
+          READ_2DA_ENTRY tl_r 4 5 tl_res
+
+          SPRINT $iacre_tbl_fx(~%tl_id%~ ~%tl_n%~ ~op~) ~%tl_op%~
+          SPRINT $iacre_tbl_fx(~%tl_id%~ ~%tl_n%~ ~p1~) ~%tl_p1%~
+          SPRINT $iacre_tbl_fx(~%tl_id%~ ~%tl_n%~ ~p2~) ~%tl_p2%~
+          SPRINT $iacre_tbl_fx(~%tl_id%~ ~%tl_n%~ ~resource~) ~%tl_res%~
+          SET tl_sort_key = tl_op
+          PATCH_IF VARIABLE_IS_SET $iacre_blocker(~%tl_op%~) BEGIN
+            SET tl_sort_key += 100000
+          END
+          SET $iacre_tbl_fx_key(~%tl_id%~ ~%tl_n%~) = tl_sort_key
+          SET $iacre_tbl(~%tl_id%~ ~fx_n~) = tl_n + 1
+          SET $iacre_tbl(~%tl_id%~ ~has_fx~) = 1
+        END
+      END
+
+      // ------- arity-11: KNOWN / MEM ------------------------------------------
+      COUNT_2DA_ROWS 11 tl_rows
+      FOR (tl_r = 0; tl_r < tl_rows; tl_r += 1) BEGIN
+        READ_2DA_ENTRY tl_r 0 11 tl_tag
+        SET tl_is_known = (~%tl_tag%~ STRING_EQUAL_CASE ~KNOWN~) ? 1 : 0
+        SET tl_is_mem = (~%tl_tag%~ STRING_EQUAL_CASE ~MEM~) ? 1 : 0
+
+        PATCH_IF (tl_is_known OR tl_is_mem) BEGIN
+          READ_2DA_ENTRY tl_r 1 11 tl_booktype
+          READ_2DA_ENTRY tl_r 2 11 tl_lvl
+
+          FOR (tl_c = 3; tl_c < 11; tl_c += 1) BEGIN
+            READ_2DA_ENTRY tl_r tl_c 11 tl_res
+            PATCH_IF NOT (~%tl_res%~ STRING_EQUAL ~-~) BEGIN
+              PATCH_IF tl_is_known BEGIN
+                SET tl_n = $iacre_tbl(~%tl_id%~ ~kn_n~)
+                SPRINT $iacre_tbl_known(~%tl_id%~ ~%tl_n%~ ~res~) ~%tl_res%~
+                SPRINT $iacre_tbl_known(~%tl_id%~ ~%tl_n%~ ~type~) ~%tl_booktype%~
+                SET $iacre_tbl_known(~%tl_id%~ ~%tl_n%~ ~lvl~) = tl_lvl
+                SET $iacre_tbl(~%tl_id%~ ~kn_n~) = tl_n + 1
+              END ELSE BEGIN
+                SET tl_n = $iacre_tbl(~%tl_id%~ ~mem_n~)
+                SPRINT $iacre_tbl_mem(~%tl_id%~ ~%tl_n%~ ~res~) ~%tl_res%~
+                SPRINT $iacre_tbl_mem(~%tl_id%~ ~%tl_n%~ ~type~) ~%tl_booktype%~
+                SET $iacre_tbl_mem(~%tl_id%~ ~%tl_n%~ ~lvl~) = tl_lvl
+                SET $iacre_tbl(~%tl_id%~ ~mem_n~) = tl_n + 1
+              END
+
+              SET $iacre_tbl(~%tl_id%~ ~has_sp~) = 1
+            END
+          END
+        END
+      END
+
+      // ------- arity-11: FXM (expanded into plain fx entries) -----------------
+      COUNT_2DA_ROWS 11 tl_rows
+      FOR (tl_r = 0; tl_r < tl_rows; tl_r += 1) BEGIN
+        READ_2DA_ENTRY tl_r 0 11 tl_tag
+        PATCH_IF ~%tl_tag%~ STRING_EQUAL_CASE ~FXM~ BEGIN
+          READ_2DA_ENTRY tl_r 1 11 tl_kind
+          READ_2DA_ENTRY tl_r 2 11 tl_p1
+
+          FOR (tl_c = 3; tl_c < 11; tl_c += 1) BEGIN
+            READ_2DA_ENTRY tl_r tl_c 11 tl_arg
+            PATCH_IF NOT (~%tl_arg%~ STRING_EQUAL ~-~) BEGIN
+              SET tl_n = $iacre_tbl(~%tl_id%~ ~fx_n~)
+              SPRINT $iacre_tbl_fx(~%tl_id%~ ~%tl_n%~ ~p1~) ~%tl_p1%~
+              SPRINT $iacre_tbl_fx(~%tl_id%~ ~%tl_n%~ ~p2~) ~-~
+              SPRINT $iacre_tbl_fx(~%tl_id%~ ~%tl_n%~ ~resource~) ~-~
+
+              PATCH_IF ~%tl_kind%~ STRING_EQUAL_CASE ~IMMUNE_OPCODE~ BEGIN
+                SPRINT $iacre_tbl_fx(~%tl_id%~ ~%tl_n%~ ~op~) ~101~
+                SPRINT $iacre_tbl_fx(~%tl_id%~ ~%tl_n%~ ~p2~) ~%tl_arg%~
+              END
+
+              ELSE PATCH_IF ~%tl_kind%~ STRING_EQUAL_CASE ~PROT_SPELL~ BEGIN
+                SPRINT $iacre_tbl_fx(~%tl_id%~ ~%tl_n%~ ~op~) ~206~
+                SPRINT $iacre_tbl_fx(~%tl_id%~ ~%tl_n%~ ~resource~) ~%tl_arg%~
+              END
+
+              ELSE PATCH_IF ~%tl_kind%~ STRING_EQUAL_CASE ~PROT_STRING~ BEGIN
+                SPRINT $iacre_tbl_fx(~%tl_id%~ ~%tl_n%~ ~op~) ~267~
+                SPRINT $iacre_tbl_fx(~%tl_id%~ ~%tl_n%~ ~p1~) ~%tl_arg%~
+              END
+
+              ELSE PATCH_IF ~%tl_kind%~ STRING_EQUAL_CASE ~IMMUNE_POWER~ BEGIN
+                SPRINT $iacre_tbl_fx(~%tl_id%~ ~%tl_n%~ ~op~) ~102~
+                SPRINT $iacre_tbl_fx(~%tl_id%~ ~%tl_n%~ ~p1~) ~%tl_arg%~
+              END
+
+              ELSE BEGIN
+                PATCH_FAIL ~S!CRE_TABLE_LOAD: unknown FXM kind %tl_kind% in %iacre_load_file%~
+              END
+
+              SPRINT tl_op $iacre_tbl_fx(~%tl_id%~ ~%tl_n%~ ~op~)
+              SET tl_sort_key = tl_op
+              PATCH_IF VARIABLE_IS_SET $iacre_blocker(~%tl_op%~) BEGIN
+                SET tl_sort_key += 100000
+              END
+              SET $iacre_tbl_fx_key(~%tl_id%~ ~%tl_n%~) = tl_sort_key
+              SET $iacre_tbl(~%tl_id%~ ~fx_n~) = tl_n + 1
+              SET $iacre_tbl(~%tl_id%~ ~has_fx~) = 1
+            END
+          END
+        END
+      END
+
+      // ------- unknown-tag guard: typos fail loudly ---------------------------
+      COUNT_2DA_ROWS 1 tl_rows
+      FOR (tl_r = 0; tl_r < tl_rows; tl_r += 1) BEGIN
+        READ_2DA_ENTRY tl_r 0 1 tl_tag
+        PATCH_IF NOT VARIABLE_IS_SET $iacre_valid_tag(~%tl_tag%~) BEGIN
+          PATCH_IF NOT (~%tl_tag%~ STRING_MATCHES_REGEXP ~^#.*~ = 0) BEGIN
+            PATCH_FAIL ~S!CRE_TABLE_LOAD: unknown tag %tl_tag% in %iacre_load_file%~
+          END
+        END
+      END
+    BUT_ONLY
+    END  // ACTION_TIME table parse
+  END
+END
+
+// one effect entry -> ADD_CRE_EFFECT (append)
+// in: iacre_fx_idx (reads the build's $b_fxq queue under iacre_gen)
+// timing is always 9 (permanent) — non-permanent effects have no place in
+// baked creature definitions; target is always 1 (self) — the engine ignores
+// the field on CRE-attached effects (IESDP eff_v2 0x14 note)
+DEFINE_PATCH_MACRO ~S!CRE_ADD_FX~ BEGIN
+  SPRINT fx_op $b_fxq(~%iacre_gen%~ ~%iacre_fx_idx%~ ~op~)
+  SPRINT fx_p1 $b_fxq(~%iacre_gen%~ ~%iacre_fx_idx%~ ~p1~)
+  SPRINT fx_p2 $b_fxq(~%iacre_gen%~ ~%iacre_fx_idx%~ ~p2~)
+  SPRINT fx_res $b_fxq(~%iacre_gen%~ ~%iacre_fx_idx%~ ~resource~)
+
+  SET fx_p1_num = (~%fx_p1%~ STRING_EQUAL ~-~) ? 0 : fx_p1
+  SET fx_p2_num = (~%fx_p2%~ STRING_EQUAL ~-~) ? 0 : fx_p2
+  PATCH_IF ~%fx_res%~ STRING_EQUAL ~-~ BEGIN SPRINT fx_res ~~ END
+
+  LPF ADD_CRE_EFFECT
+    INT_VAR opcode = fx_op target = 1 timing = 9
+            parameter1 = fx_p1_num parameter2 = fx_p2_num insert_point = (0 - 1)
+    STR_VAR resource = EVAL ~%fx_res%~
+  END
+END
+
+// one item entry -> ADD_CRE_ITEM. in: iacre_it_src, iacre_it_idx, iacre_it_slot
+DEFINE_PATCH_MACRO ~S!CRE_ADD_ITEM~ BEGIN
+  SPRINT it_res $iacre_tbl_item(~%iacre_it_src%~ ~%iacre_it_idx%~ ~res~)
+  SPRINT it_flags $iacre_tbl_item(~%iacre_it_src%~ ~%iacre_it_idx%~ ~flags~)
+  SPRINT it_qty $iacre_tbl_item(~%iacre_it_src%~ ~%iacre_it_idx%~ ~qty~)
+
+  SET it_qty_num = (~%it_qty%~ STRING_EQUAL ~-~) ? 0 : it_qty
+  SET it_flags_num = (~%it_flags%~ STRING_EQUAL ~-~) ? 0 : it_flags
+
+  // compose the symbolic flag string from bits (1 IDENTIFIED, 2 UNSTEALABLE,
+  // 4 STOLEN, 8 UNDROPPABLE)
+  PATCH_IF (it_flags_num > 15) BEGIN
+    PATCH_FAIL ~S!CRE_ADD_ITEM: unmapped item flags %it_flags_num%~
+  END
+  SPRINT it_flagstr ~~
+  PATCH_IF (it_flags_num BAND 0b0001) BEGIN SPRINT it_flagstr ~%it_flagstr%&IDENTIFIED~ END
+  PATCH_IF (it_flags_num BAND 0b0010) BEGIN SPRINT it_flagstr ~%it_flagstr%&UNSTEALABLE~ END
+  PATCH_IF (it_flags_num BAND 0b0100) BEGIN SPRINT it_flagstr ~%it_flagstr%&STOLEN~ END
+  PATCH_IF (it_flags_num BAND 0b1000) BEGIN SPRINT it_flagstr ~%it_flagstr%&UNDROPPABLE~ END
+  PATCH_IF ~%it_flagstr%~ STRING_EQUAL ~~ BEGIN
+    SPRINT it_flagstr ~NONE~
+  END ELSE BEGIN
+    INNER_PATCH_SAVE it_flagstr ~%it_flagstr%~ BEGIN
+      REPLACE_TEXTUALLY ~^&~ ~~
+    END
+  END
+  ADD_CRE_ITEM ~%it_res%~ (it_qty_num) #0 #0 ~%it_flagstr%~ ~%iacre_it_slot%~
+END
+
+// ---------------------------------------------------------------------------
+// S!CRE_BUILD: resolve template chain + packages, build the creature
+//   in: iacre_build_table, iacre_build_out
+// ---------------------------------------------------------------------------
+DEFINE_ACTION_MACRO ~S!CRE_BUILD~ BEGIN
+  LAM ~S!CRE_META~
+
+  // per-build generation: keys the per-build merge arrays (arrays cannot be
+  // cleared; resref-based keys break if a resref is ever built twice)
+  ACTION_IF NOT VARIABLE_IS_SET iacre_gen BEGIN OUTER_SET iacre_gen = 0 END
+  OUTER_SET iacre_gen += 1
+  OUTER_SPRINT iacre_load_file ~%iacre_build_table%~
+  LAM ~S!CRE_TABLE_LOAD~
+  OUTER_SET b_own_id = iacre_load_id
+
+  // ---- ordered namespace chain: templates..., member -----------------------
+  OUTER_SET b_chain_n = 0
+  ACTION_IF ($iacre_tbl(~%b_own_id%~ ~has_tpl~) = 1) BEGIN
+    OUTER_SPRINT b_tpl_left $iacre_tbl_tpl(~%b_own_id%~)
+    OUTER_SPRINT b_tpl_path ~~
+    OUTER_WHILE NOT (~%b_tpl_left%~ STRING_EQUAL ~~) BEGIN
+      OUTER_PATCH_SAVE b_seg ~%b_tpl_left%~ BEGIN
+        REPLACE_TEXTUALLY ~/.*~ ~~
+      END
+
+      OUTER_PATCH_SAVE b_tpl_left ~%b_tpl_left%~ BEGIN
+        REPLACE_TEXTUALLY ~^[^/]*/?~ ~~
+      END
+
+      OUTER_SPRINT b_tpl_path ~%b_tpl_path%%b_seg%/~
+      ACTION_IF FILE_EXISTS ~ImprovedAnvil/resources/creatures/%b_tpl_path%_template.2da~ BEGIN
+        OUTER_SPRINT iacre_load_file ~ImprovedAnvil/resources/creatures/%b_tpl_path%_template.2da~
+        LAM ~S!CRE_TABLE_LOAD~
+        OUTER_SET $b_chain(~%b_chain_n%~) = iacre_load_id
+        OUTER_SET b_chain_n += 1
+      END
+    END
+  END
+
+  OUTER_SET $b_chain(~%b_chain_n%~) = b_own_id
+  OUTER_SET b_chain_n += 1
+
+  // ---- whole-section sources (later wins) -----------------------------------
+  OUTER_SET b_fx_src = 0 - 1
+  OUTER_SET b_spell_src = 0 - 1
+  OUTER_SET b_colour_src = 0 - 1
+  OUTER_SET b_pkg_src = 0 - 1
+  OUTER_SET b_sel_w_src = 0 - 1
+  OUTER_SET b_sel_a_src = 0 - 1
+  OUTER_FOR (b_i = 0; b_i < b_chain_n; b_i += 1) BEGIN
+    OUTER_SET b_tbl = $b_chain(~%b_i%~)
+    ACTION_IF ($iacre_tbl(~%b_tbl%~ ~has_fx~) = 1)     BEGIN OUTER_SET b_fx_src = b_tbl END
+    ACTION_IF ($iacre_tbl(~%b_tbl%~ ~has_sp~) = 1)     BEGIN OUTER_SET b_spell_src = b_tbl END
+    ACTION_IF ($iacre_tbl(~%b_tbl%~ ~has_colour~) = 1) BEGIN OUTER_SET b_colour_src = b_tbl END
+    ACTION_IF ($iacre_tbl(~%b_tbl%~ ~has_pkg~) = 1)    BEGIN OUTER_SET b_pkg_src = b_tbl END
+    ACTION_IF ($iacre_tbl(~%b_tbl%~ ~sel_w_set~) = 1)  BEGIN OUTER_SET b_sel_w_src = b_tbl END
+    ACTION_IF ($iacre_tbl(~%b_tbl%~ ~sel_a_set~) = 1)  BEGIN OUTER_SET b_sel_a_src = b_tbl END
+  END
+
+  // ---- packages --------------------------------------------------------------
+  OUTER_SET b_pkg_n = 0
+  ACTION_IF (b_pkg_src >= 0) BEGIN
+    OUTER_FOR (b_p = 0; b_p < $iacre_tbl(~%b_pkg_src%~ ~pkg_n~); b_p += 1) BEGIN
+      OUTER_SPRINT b_pkg_name $iacre_tbl_pkg(~%b_pkg_src%~ ~%b_p%~)
+      OUTER_SPRINT iacre_load_file ~ImprovedAnvil/resources/creatures/_packages/%b_pkg_name%.2da~
+      LAM ~S!CRE_TABLE_LOAD~
+      OUTER_SET $b_pkg_id(~%b_pkg_n%~) = iacre_load_id
+      OUTER_SET b_pkg_n += 1
+    END
+  END
+
+  ACTION_TIME ~cre_build: fx queue+sort~ BEGIN
+  // ---- effect queue: own section + colour scheme + packages, then the ------
+  // ---- canonical sort (instances first, blockers per _blockers.2da last, ---
+  // ---- ascending opcode) ---------------------------------------------------
+  OUTER_SET b_fxq_n = 0
+  ACTION_IF (b_fx_src >= 0) BEGIN
+    OUTER_FOR (b_j = 0; b_j < $iacre_tbl(~%b_fx_src%~ ~fx_n~); b_j += 1) BEGIN
+      ACTION_FOR_EACH b_fx_field IN op p1 p2 resource BEGIN
+        OUTER_SPRINT $b_fxq(~%iacre_gen%~ ~%b_fxq_n%~ ~%b_fx_field%~) $iacre_tbl_fx(~%b_fx_src%~ ~%b_j%~ ~%b_fx_field%~)
+      END
+      OUTER_SET $b_fx_key(~%iacre_gen%~ ~%b_fxq_n%~) = $iacre_tbl_fx_key(~%b_fx_src%~ ~%b_j%~)
+      OUTER_SET b_fxq_n += 1
+    END
+  END
+
+  // colour scheme: two op101 immunity blockers (vs op 50/9), then the
+  // colour-setting effect itself
+  ACTION_IF (b_colour_src >= 0) BEGIN
+    ACTION_IF ($iacre_tbl(~%b_colour_src%~ ~colour_op~) > 0) BEGIN
+      OUTER_SET b_colour_op = $iacre_tbl(~%b_colour_src%~ ~colour_op~)
+      OUTER_SET b_colour_val = $iacre_tbl(~%b_colour_src%~ ~colour_val~)
+
+      ACTION_FOR_EACH b_blocked_op IN 50 9 BEGIN
+        OUTER_SPRINT $b_fxq(~%iacre_gen%~ ~%b_fxq_n%~ ~op~) ~101~
+        OUTER_SPRINT $b_fxq(~%iacre_gen%~ ~%b_fxq_n%~ ~p1~) ~-~
+        OUTER_SPRINT $b_fxq(~%iacre_gen%~ ~%b_fxq_n%~ ~p2~) ~%b_blocked_op%~
+        OUTER_SPRINT $b_fxq(~%iacre_gen%~ ~%b_fxq_n%~ ~resource~) ~-~
+        OUTER_SET $b_fx_key(~%iacre_gen%~ ~%b_fxq_n%~) = 100101
+        OUTER_SET b_fxq_n += 1
+      END
+
+      OUTER_SPRINT $b_fxq(~%iacre_gen%~ ~%b_fxq_n%~ ~op~) ~%b_colour_op%~
+      OUTER_SPRINT $b_fxq(~%iacre_gen%~ ~%b_fxq_n%~ ~p1~) ~%b_colour_val%~
+      OUTER_SPRINT $b_fxq(~%iacre_gen%~ ~%b_fxq_n%~ ~p2~) ~2~
+      OUTER_SPRINT $b_fxq(~%iacre_gen%~ ~%b_fxq_n%~ ~resource~) ~-~
+      OUTER_SET $b_fx_key(~%iacre_gen%~ ~%b_fxq_n%~) = b_colour_op
+      OUTER_SET b_fxq_n += 1
+    END
+  END
+
+  OUTER_FOR (b_p = 0; b_p < b_pkg_n; b_p += 1) BEGIN
+    OUTER_SET b_tbl = $b_pkg_id(~%b_p%~)
+    OUTER_FOR (b_j = 0; b_j < $iacre_tbl(~%b_tbl%~ ~fx_n~); b_j += 1) BEGIN
+      ACTION_FOR_EACH b_fx_field IN op p1 p2 resource BEGIN
+        OUTER_SPRINT $b_fxq(~%iacre_gen%~ ~%b_fxq_n%~ ~%b_fx_field%~) $iacre_tbl_fx(~%b_tbl%~ ~%b_j%~ ~%b_fx_field%~)
+      END
+      OUTER_SET $b_fx_key(~%iacre_gen%~ ~%b_fxq_n%~) = $iacre_tbl_fx_key(~%b_tbl%~ ~%b_j%~)
+      OUTER_SET b_fxq_n += 1
+    END
+  END
+
+  // stable selection sort: strictly-smaller wins, so equal keys keep
+  // collection order (own section, colour, packages)
+  OUTER_FOR (b_out = 0; b_out < b_fxq_n; b_out += 1) BEGIN
+    OUTER_SET b_best = 0 - 1
+    OUTER_SET b_best_key = 999999
+    OUTER_FOR (b_j = 0; b_j < b_fxq_n; b_j += 1) BEGIN
+      ACTION_IF (NOT VARIABLE_IS_SET $b_fx_used(~%iacre_gen%~ ~%b_j%~))
+        AND ($b_fx_key(~%iacre_gen%~ ~%b_j%~) < b_best_key)
+      BEGIN
+        OUTER_SET b_best = b_j
+        OUTER_SET b_best_key = $b_fx_key(~%iacre_gen%~ ~%b_j%~)
+      END
+    END
+    OUTER_SET $b_fx_used(~%iacre_gen%~ ~%b_best%~) = 1
+    OUTER_SET $b_fx_order(~%iacre_gen%~ ~%b_out%~) = b_best
+  END
+  END  // ACTION_TIME fx queue+sort
+
+  ACTION_TIME ~cre_build: item merge~ BEGIN
+  // ---- per-slot item merge: later chain tables override per slot --------------
+  OUTER_SET b_slot_n = 0
+  OUTER_FOR (b_i = 0; b_i < b_chain_n; b_i += 1) BEGIN
+    OUTER_SET b_tbl = $b_chain(~%b_i%~)
+    OUTER_FOR (b_j = 0; b_j < $iacre_tbl(~%b_tbl%~ ~item_n~); b_j += 1) BEGIN
+      OUTER_SPRINT b_slot $iacre_tbl_item(~%b_tbl%~ ~%b_j%~ ~slot~)
+      ACTION_IF ~%b_slot%~ STRING_EQUAL ~-~ BEGIN
+        FAIL ~S!CRE_BUILD: slotless ITEM row in %iacre_build_table%~
+      END
+      ELSE BEGIN
+        ACTION_IF NOT VARIABLE_IS_SET $b_slot_src(~%iacre_gen%~ ~%b_slot%~) BEGIN
+          OUTER_SPRINT $b_slot_order(~%iacre_gen%~ ~%b_slot_n%~) ~%b_slot%~
+          OUTER_SET b_slot_n += 1
+        END
+        OUTER_SET $b_slot_src(~%iacre_gen%~ ~%b_slot%~) = b_tbl
+        OUTER_SET $b_slot_idx(~%iacre_gen%~ ~%b_slot%~) = b_j
+      END
+    END
+  END
+  END  // ACTION_TIME item merge
+
+  // header overlay: chain HDR rows -> one gen-keyed field map (later wins),
+  // so the full-header write loop does a single lookup per field instead of
+  // rescanning every chain table's rows
+  OUTER_FOR (b_i = 0; b_i < b_chain_n; b_i += 1) BEGIN
+    OUTER_SET b_tbl = $b_chain(~%b_i%~)
+    OUTER_FOR (b_j = 0; b_j < $iacre_tbl(~%b_tbl%~ ~hdr_n~); b_j += 1) BEGIN
+      OUTER_SPRINT b_hdr_field $iacre_tbl_hdr_field(~%b_tbl%~ ~%b_j%~)
+      OUTER_SPRINT $b_hdr_val(~%iacre_gen%~ ~%b_hdr_field%~) $iacre_tbl_hdr_val(~%b_tbl%~ ~%b_j%~)
+    END
+  END
+
+  OUTER_SET b_say_ref = $iacre_tbl(~%b_own_id%~ ~say_name~)
+  OUTER_SET b_sel_w_set = 0
+  OUTER_SET b_sel_a_set = 0
+  ACTION_IF (b_sel_w_src >= 0) BEGIN
+    OUTER_SET b_sel_w = $iacre_tbl(~%b_sel_w_src%~ ~sel_w~)
+    OUTER_SET b_sel_w_set = 1
+  END
+  ACTION_IF (b_sel_a_src >= 0) BEGIN
+    OUTER_SET b_sel_a = $iacre_tbl(~%b_sel_a_src%~ ~sel_a~)
+    OUTER_SET b_sel_a_set = 1
+  END
+
+  // ---- build + patch ---------------------------------------------------------
+  COPY ~override/S!blank.cre~ ~override/%iacre_build_out%.cre~
+    // header: every field, chain-resolved value or default
+    PATCH_TIME ~cre_build: header writes~ BEGIN
+    FOR (b_f = 0; b_f < iacre_field_n; b_f += 1) BEGIN
+      SPRINT b_fname $iacre_field(~%b_f%~)
+      PATCH_IF VARIABLE_IS_SET $b_hdr_val(~%iacre_gen%~ ~%b_fname%~) BEGIN
+        SPRINT b_fval $b_hdr_val(~%iacre_gen%~ ~%b_fname%~)
+      END ELSE BEGIN
+        SPRINT b_fval $iacre_default(~%b_fname%~)
+      END
+
+      SET b_field_off = $iacre_field_off(~%b_fname%~)
+      SET b_field_width = $iacre_field_width(~%b_fname%~)
+      SPRINT b_field_kind $iacre_field_kind(~%b_fname%~)
+
+      PATCH_IF ~%b_field_kind%~ STRING_EQUAL_CASE ~S~ BEGIN
+        PATCH_IF ~%b_fval%~ STRING_EQUAL ~-~ BEGIN SPRINT b_fval ~~ END
+        WRITE_ASCIIE b_field_off ~%b_fval%~ (b_field_width)
+      END
+
+      ELSE BEGIN
+        PATCH_IF (~%b_fname%~ STRING_EQUAL_CASE ~ANIMATION~) AND (NOT IS_AN_INT b_fval) BEGIN
+          SET b_num = IDS_OF_SYMBOL (~animate~ ~%b_fval%~)
+        END ELSE BEGIN
+          SET b_num = b_fval
+        END
+
+        PATCH_IF (b_num < 0) AND (b_field_width < 4) BEGIN
+          SET b_num = b_num + ((b_field_width = 1) ? 0x100 : 0x10000)
+        END
+
+        PATCH_IF b_field_width = 1 BEGIN WRITE_BYTE  b_field_off b_num END
+        PATCH_IF b_field_width = 2 BEGIN WRITE_SHORT b_field_off b_num END
+        PATCH_IF b_field_width = 4 BEGIN WRITE_LONG  b_field_off b_num END
+      END
+    END
+    END  // PATCH_TIME header writes
+
+    PATCH_IF (b_say_ref >= 0) BEGIN
+      SAY NAME1 (AT b_say_ref)
+      SAY NAME2 (AT b_say_ref)
+    END
+
+    // suppressed-pair guard: the canonical sort makes blocker-above-instance
+    // impossible within the queue; the one remaining vector is the
+    // install-time 02_patches_vanilla petrification GLOB, which prepends
+    // op101(134) + op267(14665) ABOVE everything on race==GOLEM creatures
+    READ_BYTE 0x272 b_race
+    PATCH_IF b_race = 144 BEGIN
+      FOR (b_j = 0; b_j < b_fxq_n; b_j += 1) BEGIN
+        SET b_fx_op = $b_fxq(~%iacre_gen%~ ~%b_j%~ ~op~)
+        PATCH_IF (b_fx_op = 134) BEGIN
+          PATCH_WARN ~S!CRE_BUILD: %iacre_build_out% is race GOLEM and carries an op134 instance — the install-time petrification-kit GLOB will suppress it~
+        END
+      END
+    END
+
+    // effects: the queue assembled and canonically sorted above
+    PATCH_TIME ~cre_build: effect adds~ BEGIN
+    FOR (b_j = 0; b_j < b_fxq_n; b_j += 1) BEGIN
+      SET iacre_fx_idx = $b_fx_order(~%iacre_gen%~ ~%b_j%~)
+      LPM ~S!CRE_ADD_FX~
+    END
+    END  // PATCH_TIME effect adds
+
+    // items: merged slots in first-seen order
+    PATCH_TIME ~cre_build: item adds~ BEGIN
+    FOR (b_s = 0; b_s < b_slot_n; b_s += 1) BEGIN
+      SPRINT b_slot $b_slot_order(~%iacre_gen%~ ~%b_s%~)
+      SET iacre_it_src = $b_slot_src(~%iacre_gen%~ ~%b_slot%~)
+      SET iacre_it_idx = $b_slot_idx(~%iacre_gen%~ ~%b_slot%~)
+      SPRINT b_item_res $iacre_tbl_item(~%iacre_it_src%~ ~%iacre_it_idx%~ ~res~)
+
+      PATCH_IF NOT (~%b_item_res%~ STRING_EQUAL_CASE ~EMPTY~) BEGIN
+        SPRINT iacre_it_slot ~%b_slot%~
+        LPM ~S!CRE_ADD_ITEM~
+      END
+    END
+    END  // PATCH_TIME item adds
+
+    // spells: package book only when the creature carries none of its own
+    PATCH_TIME ~cre_build: spell adds~ BEGIN
+    SET b_book = b_spell_src
+    PATCH_IF (b_book < 0) OR (($iacre_tbl(~%b_book%~ ~kn_n~) = 0) AND ($iacre_tbl(~%b_book%~ ~mem_n~) = 0)) BEGIN
+      FOR (b_p = 0; b_p < b_pkg_n; b_p += 1) BEGIN
+        SET b_pkg_tbl = $b_pkg_id(~%b_p%~)
+        PATCH_IF ($iacre_tbl(~%b_pkg_tbl%~ ~kn_n~) > 0) OR ($iacre_tbl(~%b_pkg_tbl%~ ~mem_n~) > 0) BEGIN
+          SET b_book = b_pkg_tbl
+        END
+      END
+    END
+
+    PATCH_IF (b_book >= 0) BEGIN
+      FOR (b_j = 0; b_j < $iacre_tbl(~%b_book%~ ~kn_n~); b_j += 1) BEGIN
+        SPRINT b_spell_res $iacre_tbl_known(~%b_book%~ ~%b_j%~ ~res~)
+        SPRINT b_spell_type $iacre_tbl_known(~%b_book%~ ~%b_j%~ ~type~)
+        SET b_spell_lvl = $iacre_tbl_known(~%b_book%~ ~%b_j%~ ~lvl~)
+
+        PATCH_IF ~%b_spell_type%~ STRING_EQUAL_CASE ~PRIEST~ BEGIN
+          ADD_KNOWN_SPELL ~%b_spell_res%~ (b_spell_lvl) ~priest~
+        END
+        ELSE PATCH_IF ~%b_spell_type%~ STRING_EQUAL_CASE ~WIZARD~ BEGIN
+          ADD_KNOWN_SPELL ~%b_spell_res%~ (b_spell_lvl) ~wizard~
+        END
+        ELSE BEGIN
+          ADD_KNOWN_SPELL ~%b_spell_res%~ (b_spell_lvl) ~innate~
+        END
+      END
+
+      // ADD_MEMORIZED_SPELL also adds to known — a no-op here because the
+      // data invariant "memorized implies known" holds (regression-tool check)
+      FOR (b_j = 0; b_j < $iacre_tbl(~%b_book%~ ~mem_n~); b_j += 1) BEGIN
+        SPRINT b_spell_res $iacre_tbl_mem(~%b_book%~ ~%b_j%~ ~res~)
+        SPRINT b_spell_type $iacre_tbl_mem(~%b_book%~ ~%b_j%~ ~type~)
+        SET b_spell_lvl = $iacre_tbl_mem(~%b_book%~ ~%b_j%~ ~lvl~)
+        PATCH_IF ~%b_spell_type%~ STRING_EQUAL_CASE ~PRIEST~ BEGIN
+          ADD_MEMORIZED_SPELL ~%b_spell_res%~ (b_spell_lvl) ~priest~
+        END
+        ELSE PATCH_IF ~%b_spell_type%~ STRING_EQUAL_CASE ~WIZARD~ BEGIN
+          ADD_MEMORIZED_SPELL ~%b_spell_res%~ (b_spell_lvl) ~wizard~
+        END
+        ELSE BEGIN
+          ADD_MEMORIZED_SPELL ~%b_spell_res%~ (b_spell_lvl) ~innate~
+        END
+      END
+
+      // budgets (meminfo row: level@0, n1@2, n2@4, type@6)
+      FOR (b_j = 0; b_j < $iacre_tbl(~%b_book%~ ~bud_n~); b_j += 1) BEGIN
+        SPRINT b_bud_type $iacre_tbl_budget(~%b_book%~ ~%b_j%~ ~type~)
+        SET b_bud_lvl = $iacre_tbl_budget(~%b_book%~ ~%b_j%~ ~lvl~)
+        SET b_bud_num = $iacre_tbl_budget(~%b_book%~ ~%b_j%~ ~num~)
+        SET b_bud_type_num = (~%b_bud_type%~ STRING_EQUAL_CASE ~PRIEST~) ? 0 :
+                      ((~%b_bud_type%~ STRING_EQUAL_CASE ~WIZARD~) ? 1 : 2)
+        READ_LONG 0x2a8 b_mem_off
+        READ_LONG 0x2ac b_mem_cnt
+
+        FOR (b_mem_row = 0; b_mem_row < b_mem_cnt; b_mem_row += 1) BEGIN
+          READ_SHORT (b_mem_off + 16 * b_mem_row) b_mem_lvl
+          READ_SHORT (b_mem_off + 16 * b_mem_row + 6) b_mem_type
+          PATCH_IF (b_mem_lvl = b_bud_lvl) AND (b_mem_type = b_bud_type_num) BEGIN
+            WRITE_SHORT (b_mem_off + 16 * b_mem_row + 2) b_bud_num
+            WRITE_SHORT (b_mem_off + 16 * b_mem_row + 4) b_bud_num
+          END
+        END
+      END
+    END
+    END  // PATCH_TIME spell adds
+
+    // selected weapon / ability
+    PATCH_IF (b_sel_w_set = 1) OR (b_sel_a_set = 1) BEGIN
+      READ_LONG 0x2b8 b_slots_off
+      PATCH_IF (b_sel_w_set = 1) BEGIN
+        SET b_num = (b_sel_w < 0) ? b_sel_w + 0x10000 : b_sel_w
+        WRITE_SHORT (b_slots_off + 76) b_num
+      END
+      PATCH_IF (b_sel_a_set = 1) BEGIN
+        SET b_num = (b_sel_a < 0) ? b_sel_a + 0x10000 : b_sel_a
+        WRITE_SHORT (b_slots_off + 78) b_num
+      END
+    END
+END

@@ -1,27 +1,15 @@
 /// apply custom colouring schemes to various creatures ///
 
+// Colouring for the mod's own (shipped) creatures is baked into their
+// definitions (defs/creatures, `colour_scheme` key) and compiled into the
+// binaries — only vanilla creatures and creatures created at install time
+// (05_patches_new.tph werewolves/loups garous) are coloured here.
+
 // Gem Golem //
 
 ACTION_FOR_EACH ~file~ IN
                 ~AMTARC01~
                 ~HLARCH~
-                ~S!gem~
-                ~S!gem2~
-                ~S!gem3~
-                ~S!gemc~
-                ~S!gemg~
-                ~S!gemgy~
-                ~S!gemhel~
-                ~S!geml~
-                ~S!gemran~
-                ~S!gemrnd~
-                ~S!gems~
-                ~S!gemt~
-                ~S!gemw~
-                ~S!gemwi~
-                ~S!ggem~
-                ~S!roegol~
-                ~S!gempp~
 BEGIN
   LAF ~S!CHANGE_CREATURE_COLOURS~
     STR_VAR
@@ -35,137 +23,12 @@ END
 
 ACTION_FOR_EACH ~file~ IN
                 ~PPIRON~
-                ~S!coin~
-                ~S!coin2~
-                ~S!coin3~
-                ~S!coinb~
-                ~S!coinc~
-                ~S!coinco~
-                ~S!coing~
-                ~S!coingy~
-                ~S!coinhe~
-                ~S!coinra~
-                ~S!coins~
-                ~S!coinw~
-                ~S!coinwi~
-                ~S!coirnd~
-                ~S!gcoin~
-                ~S!slave~
 BEGIN
   LAF ~S!CHANGE_CREATURE_COLOURS~
     STR_VAR
       file = EVALUATE_BUFFER "%file%"
       opcode = "52"
       parameter1 = "986880"
-  END
-END
-
-// Amber Golem //
-
-ACTION_FOR_EACH ~file~ IN
-                ~S!amber~
-                ~S!amber2~
-                ~S!amber3~
-                ~S!amber4~
-                ~S!amberd~
-                ~S!amberg~
-                ~S!ambers~
-                ~S!amberl~
-                ~S!ambere~
-BEGIN
-  LAF ~S!CHANGE_CREATURE_COLOURS~
-    STR_VAR
-      file = EVALUATE_BUFFER "%file%"
-      opcode = "52"
-      parameter1 = "1280"
-  END
-END
-
-// Elemental Golem //
-
-ACTION_FOR_EACH ~file~ IN
-                ~S!elego1~
-                ~S!elego2~
-                ~S!elego3~
-                ~S!elego4~
-                ~S!elego5~
-                ~S!elegob~
-                ~S!elegoe~
-                ~S!elegog~
-                ~S!elegoh~
-                ~S!elegol~
-                ~S!elegow~
-                ~S!elegra~
-                ~S!elegwi~
-                ~S!elernd~
-BEGIN
-  LAF ~S!CHANGE_CREATURE_COLOURS~
-    STR_VAR
-      file = EVALUATE_BUFFER "%file%"
-      opcode = "51"
-      parameter1 = "-16751616"
-  END
-END
-
-// Greater Elemental Golem //
-
-ACTION_FOR_EACH ~file~ IN
-                ~S!elegoa~
-                ~S!elegos~
-                ~S!gelego~
-                ~S!gelegs~
-BEGIN
-  LAF ~S!CHANGE_CREATURE_COLOURS~
-    STR_VAR
-      file = EVALUATE_BUFFER "%file%"
-      opcode = "51"
-      parameter1 = "838912000"
-  END
-END
-
-// Supreme Golem //
-
-ACTION_FOR_EACH ~file~ IN
-                ~S!supgol~
-                ~S!supgow~
-BEGIN
-  LAF ~S!CHANGE_CREATURE_COLOURS~
-    STR_VAR
-      file = EVALUATE_BUFFER "%file%"
-      opcode = "51"
-      parameter1 = "51200"
-  END
-END
-
-// Mirrored Golem //
-
-ACTION_FOR_EACH ~file~ IN
-                ~S!gelem1~
-BEGIN
-  LAF ~S!CHANGE_CREATURE_COLOURS~
-    STR_VAR
-      file = EVALUATE_BUFFER "%file%"
-      opcode = "51"
-      parameter1 = "322437120"
-  END
-END
-
-// Twisted Golem //
-
-ACTION_FOR_EACH ~file~ IN
-                ~S!gtwist~
-                ~S!twist1~
-                ~S!twist2~
-                ~S!twist3~
-                ~S!twist4~
-                ~S!twist5~
-                ~S!twist6~
-BEGIN
-  LAF ~S!CHANGE_CREATURE_COLOURS~
-    STR_VAR
-      file = EVALUATE_BUFFER "%file%"
-      opcode = "51"
-      parameter1 = "2021195520"
   END
 END
 
@@ -178,7 +41,6 @@ ACTION_FOR_EACH ~file~ IN
                 ~JUGJUG02~
                 ~KPGOL03~
                 ~KPGOL05~
-                ~S!gstone~
                 ~STGOL01~
                 ~TOMEGOL3~
 BEGIN
@@ -203,47 +65,6 @@ BEGIN
   END
 END
 
-// Mithril Golem //
-
-ACTION_FOR_EACH ~file~ IN
-                ~S!mitgol~
-BEGIN
-  LAF ~S!CHANGE_CREATURE_COLOURS~
-    STR_VAR
-      file = EVALUATE_BUFFER "%file%"
-      opcode = "52"
-      parameter1 = "201983488"
-  END
-END
-
-// Greater Bone Golem //
-
-ACTION_FOR_EACH ~file~ IN
-                ~S!bongof~
-                ~S!bongol~
-                ~S!bonrnd~
-BEGIN
-  LAF ~S!CHANGE_CREATURE_COLOURS~
-    STR_VAR
-      file = EVALUATE_BUFFER "%file%"
-      opcode = "52"
-      parameter1 = "263168"
-  END
-END
-
-// Magma Mephit //
-
-ACTION_FOR_EACH ~file~ IN
-                ~S!dembom~
-BEGIN
-  LAF ~S!CHANGE_CREATURE_COLOURS~
-    STR_VAR
-      file = EVALUATE_BUFFER "%file%"
-      opcode = "51"
-      parameter1 = "577106432"
-  END
-END
-
 // Brain Golem //
 
 ACTION_FOR_EACH ~file~ IN
@@ -255,23 +76,6 @@ BEGIN
       file = EVALUATE_BUFFER "%file%"
       opcode = "52"
       parameter1 = "83887360"
-  END
-END
-
-// Hardwood Golem //
-
-ACTION_FOR_EACH ~file~ IN
-                ~S!WOOGO1~
-                ~S!WOOGO2~
-                ~S!WOOGO3~
-                ~S!WOOGO4~
-                ~S!WOOGOL~
-BEGIN
-  LAF ~S!CHANGE_CREATURE_COLOURS~
-    STR_VAR
-      file = EVALUATE_BUFFER "%file%"
-      opcode = "52"
-      parameter1 = "264192"
   END
 END
 

@@ -1,0 +1,43 @@
+/// build the mod's own creatures from their definition tables ///
+
+// One .2da per creature under resources/creatures/, built by the
+// S!CRE_BUILD engine (lib/tpa/cre_build.tpa); _template.2da per family
+// folder; names starting with `_` (meta tables, _packages) are not built.
+//
+// Iterative walk, array names carry the queue index because GET_DIRECTORY_ARRAY /
+// GET_FILE_ARRAY leave stale entries from earlier, larger directories.
+
+ACTION_TIME ~cre_build: TOTAL~ BEGIN
+OUTER_SPRINT $iacre_walk(~0~) ~ImprovedAnvil/resources/creatures~
+OUTER_SET iacre_walk_n = 1
+OUTER_SET iacre_walk_i = 0
+
+OUTER_WHILE (iacre_walk_i < iacre_walk_n) BEGIN
+  OUTER_SPRINT iacre_wdir $iacre_walk(~%iacre_walk_i%~)
+  OUTER_SET iacre_walk_i += 1
+
+  GET_DIRECTORY_ARRAY EVAL ~iacre_dirs_%iacre_walk_i%~ ~%iacre_wdir%~ ~.*~
+  ACTION_PHP_EACH EVAL ~iacre_dirs_%iacre_walk_i%~ AS _ => iacre_d BEGIN
+    OUTER_PATCH_SAVE iacre_dbn ~%iacre_d%~ BEGIN
+      REPLACE_TEXTUALLY ~^.*[/\\]~ ~~
+    END
+
+    ACTION_IF NOT (~%iacre_dbn%~ STRING_MATCHES_REGEXP ~^[_.]~ = 0) BEGIN
+      OUTER_SPRINT $iacre_walk(~%iacre_walk_n%~) ~%iacre_d%~
+      OUTER_SET iacre_walk_n += 1
+    END
+  END
+
+  GET_FILE_ARRAY EVAL ~iacre_files_%iacre_walk_i%~ ~%iacre_wdir%~ ~^[^_].*\.2[dD][aA]$~
+  ACTION_PHP_EACH EVAL ~iacre_files_%iacre_walk_i%~ AS _ => iacre_path BEGIN
+    OUTER_PATCH_SAVE iacre_bn ~%iacre_path%~ BEGIN
+      REPLACE_TEXTUALLY ~^.*[/\\]~ ~~
+      REPLACE_TEXTUALLY ~\.2[Dd][Aa]$~ ~~
+    END
+
+    OUTER_SPRINT iacre_build_table ~%iacre_path%~
+    OUTER_SPRINT iacre_build_out ~%iacre_bn%~
+    LAM ~S!CRE_BUILD~
+  END
+END
+END  // ACTION_TIME TOTAL

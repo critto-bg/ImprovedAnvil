@@ -1,0 +1,41 @@
+// PILOT: WeiDU-native creature engine test (uncommitted; see
+// spec/notes/cre-weidu-2da-design.md). Builds the pilot slice from
+// resources/creatures/ tables under P!-prefixed resrefs for comparison
+// against the shipped S! binaries. Install/uninstall freely.
+
+BACKUP ~ImprovedAnvil/pilot_backup~
+AUTHOR ~pilot~
+
+LANGUAGE "English" ~English~
+  ~ImprovedAnvil/lang/English/setup.tra~
+  ~ImprovedAnvil/lang/English/druidq_journal.tra~
+
+BEGIN ~IA creature-engine pilot~ DESIGNATED 0
+
+INCLUDE ~ImprovedAnvil/lib/tpa/cre_build.tpa~
+
+ACTION_FOR_EACH dir IN
+    ~golem/gem~
+    ~golem/elemental~
+    ~golem/elemental/greater~
+    ~encounters/watchers_keep/demogorgon_fight~
+BEGIN
+  // unique array name per directory: GET_FILE_ARRAY does not clear stale
+  // higher indices from a previous, larger directory
+  ACTION_IF NOT VARIABLE_IS_SET pilot_dir_n BEGIN OUTER_SET pilot_dir_n = 0 END
+  OUTER_SET pilot_dir_n += 1
+  GET_FILE_ARRAY EVAL ~pilot_files_%pilot_dir_n%~ ~ImprovedAnvil/resources/creatures/%dir%~ ~^[^_].*\.2da$~
+  ACTION_PHP_EACH EVAL ~pilot_files_%pilot_dir_n%~ AS _ => path BEGIN
+    OUTER_PATCH_SAVE bn ~%path%~ BEGIN
+      REPLACE_TEXTUALLY ~^.*[/\\]~ ~~
+      REPLACE_TEXTUALLY ~\.2[Dd][Aa]$~ ~~
+    END
+    OUTER_PATCH_SAVE outres ~%bn%~ BEGIN
+      REPLACE_TEXTUALLY ~^S!~ ~P!~
+    END
+    PRINT ~pilot: building %outres% from %path%~
+    OUTER_SPRINT iacre_build_table ~%path%~
+    OUTER_SPRINT iacre_build_out ~%outres%~
+    LAM ~S!CRE_BUILD~
+  END
+END
