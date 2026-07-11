@@ -128,14 +128,7 @@ COPY_EXISTING ~pwarden.cre~ ~override/pwarden.cre~
   WRITE_ASCII 0x248 ~S!warden~ #8 // override script
   WRITE_ASCII 0x250 ~~ #8         // removes class script
   WRITE_ASCII 0x268 ~~ #8      // removes default script
-  READ_LONG  0x2bc "itm_off"
-  READ_LONG  0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "sw1h35" = 0) BEGIN // find old item
-     WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~scrl6m~ #8 // write new item
-   END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~sw1h35~ replace_with = ~scrl6m~ END
   ADD_CRE_ITEM ~S!warden~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~GLOVES~
   ADD_CRE_ITEM ~sw1h35~ #0 #0 #0 ~UNSTEALABLE~ ~WEAPON1~
   ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
@@ -160,15 +153,7 @@ COPY_EXISTING ~pmaster.cre~ ~override/pmaster.cre~
   WRITE_BYTE  0x234     17 // level
   WRITE_BYTE  0x240      1 // morale Break
   WRITE_BYTE  0x242      1 // morale Recovery
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "staf15" = 0) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  LPF ~ADD_CRE_ITEM_FLAGS~ STR_VAR item_to_change = ~staf15~ flags = ~UNSTEALABLE&UNDROPPABLE~ END
 
 COPY_EXISTING ~pairel01.cre~ ~override/pairel01.cre~
   WRITE_BYTE  0x5b     100 // resist electricity
@@ -183,15 +168,7 @@ COPY_EXISTING ~lavok02.cre~ ~override/lavok02.cre~
   ADD_CRE_ITEM ~scrl8l~ #0 #0 #0 ~UNSTEALABLE~ ~INV11~
   ADD_CRE_ITEM ~ring07~ #0 #0 #0 ~UNSTEALABLE~ ~INV12~
   ADD_CRE_ITEM ~S!misc01~ #0 #0 #0 ~UNSTEALABLE~ ~INV14~
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "ring40" = 0) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00000010) // set Unstealable flag
-   END
-END
+  LPF ~ADD_CRE_ITEM_FLAGS~ STR_VAR item_to_change = ~ring40~ flags = ~UNSTEALABLE~ END
 
 COPY_EXISTING ~lavok01.cre~ ~override/lavok01.cre~
   WRITE_BYTE  0x52      13 // thac0
@@ -250,23 +227,8 @@ COPY_EXISTING ~firmag01.cre~ ~override/firmag01.cre~
   ADD_CRE_ITEM ~scrl9m~ #0 #0 #0 ~UNSTEALABLE~ ~INV11~
   ADD_CRE_ITEM ~S!misc06~ #0 #0 #0 ~UNSTEALABLE~ ~INV12~
   ADD_CRE_ITEM ~misc29~ #0 #0 #0 ~UNSTEALABLE~ ~INV13~
-  READ_LONG  0x2bc "itm_off"
-  READ_LONG  0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "staf01" = 0) BEGIN // find old item
-     WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~staf18~ #8 // write new item
-   END
-END
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "key09" = 0) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00000010) // set Unstealable flag
-   END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~staf01~ replace_with = ~staf18~ END
+  LPF ~ADD_CRE_ITEM_FLAGS~ STR_VAR item_to_change = ~key09~ flags = ~UNSTEALABLE~ END
 
 COPY_EXISTING ~draug.cre~ ~override/draug.cre~
   WRITE_LONG  0x14   12000 // xp
@@ -291,15 +253,7 @@ COPY_EXISTING ~draug.cre~ ~override/draug.cre~
   ADD_CRE_ITEM ~potn14~ #0 #0 #0 ~UNSTEALABLE~ ~QITEM1~
   ADD_CRE_ITEM ~potn35~ #0 #0 #0 ~UNSTEALABLE~ ~QITEM2~
   ADD_CRE_ITEM ~potn52~ #2 #0 #0 ~UNSTEALABLE~ ~QITEM3~
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "helm06" = 0) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  LPF ~ADD_CRE_ITEM_FLAGS~ STR_VAR item_to_change = ~helm06~ flags = ~UNSTEALABLE&UNDROPPABLE~ END
 
 COPY_EXISTING ~hllayen.cre~ ~override/hllayen.cre~
   WRITE_LONG  0x14   35000 // xp
@@ -486,14 +440,7 @@ COPY_EXISTING ~gromg13.cre~ ~override/gromg13.cre~
   ADD_CRE_ITEM ~S!immune~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~AMULET~
   ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
   ADD_CRE_ITEM ~S!miss6~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BOOTS~
-  READ_LONG  0x2bc "itm_off"
-  READ_LONG  0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "clck14" = 0) BEGIN // find old item
-     WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~clck01~ #8 // write new item
-   END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~clck14~ replace_with = ~clck01~ END
 
 COPY_EXISTING ~fsmage04.cre~ ~override/fsmage04.cre~
   WRITE_LONG  0x14   20000 // xp
@@ -655,14 +602,7 @@ COPY_EXISTING ~haegan.cre~ ~override/haegan.cre~
   ADD_CRE_ITEM ~S!misc40~ #0 #0 #0 ~UNSTEALABLE~ ~INV9~
   ADD_CRE_ITEM ~S!helm09~ #0 #0 #0 ~UNSTEALABLE~ ~INV10~
   ADD_CRE_ITEM ~potn55~ #3 #0 #0 ~UNSTEALABLE~ ~QITEM1~
-  READ_LONG  0x2bc "itm_off"
-  READ_LONG  0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "sw2h01" = 0) BEGIN // find old item
-     WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~sw1h41~ #8 // write new item
-   END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~sw2h01~ replace_with = ~sw1h41~ END
 
 COPY_EXISTING ~slguard1.cre~ ~override/slgurad1.cre~
   WRITE_LONG  0x14     840 // xp
@@ -768,14 +708,7 @@ COPY_EXISTING ~obsdem01.cre~ ~override/obsdem01.cre~
   ADD_CRE_ITEM ~S!scrl05~ #0 #0 #0 ~UNSTEALABLE~ ~INV9~
   ADD_CRE_ITEM ~dragring~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~RRING~
   ADD_CRE_ITEM ~S!miss6~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BOOTS~
-  READ_LONG  0x2bc "itm_off"
-  READ_LONG  0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "S1-10" = 0) BEGIN // find old item
-     WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~S!obsdem~ #8 // write new item
-   END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~S1-10~ replace_with = ~S!obsdem~ END
 
 COPY_EXISTING ~obsdem04.cre~ ~override/obsdem04.cre~
   WRITE_LONG  0x14     7500 // xp
@@ -857,14 +790,7 @@ COPY_EXISTING ~pirmur01.cre~ ~override/pirmur01.cre~
   ADD_CRE_ITEM ~misc30~ #0 #0 #0 ~UNSTEALABLE~ ~INV11~
   ADD_CRE_ITEM ~potn55~ #3 #0 #0 ~UNSTEALABLE~ ~QITEM1~
   ADD_CRE_ITEM ~potn35~ #1 #0 #0 ~UNSTEALABLE~ ~QITEM2~
-  READ_LONG  0x2bc "itm_off"
-  READ_LONG  0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "leat12" = 0) BEGIN // find old item
-     WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~plat04~ #8 // write new item
-   END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~leat12~ replace_with = ~plat04~ END
 
 COPY_EXISTING ~pirmur07.cre~ ~override/pirmur07.cre~
   WRITE_LONG  0x14   18000 // xp
@@ -971,14 +897,7 @@ COPY_EXISTING ~rngsha02.cre~ ~override/rngsha02.cre~
   WRITE_ASCII 0x260 ~~ #8       // removes general script
   WRITE_ASCII 0x268 ~~ #8      // removes default script
   ADD_CRE_ITEM ~S!patric~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
-  READ_LONG  0x2bc "itm_off"
-  READ_LONG  0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "ring95" = 0) BEGIN // find old item
-     WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~dragring~ #8 // write new item
-   END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~ring95~ replace_with = ~dragring~ END
 
 COPY_EXISTING ~obshal05.cre~ ~override/obshal05.cre~
   WRITE_LONG  0x14   13500 // xp
@@ -1219,16 +1138,10 @@ COPY_EXISTING ~sahpr2.cre~ ~override/sahpr2.cre~
   ADD_CRE_ITEM ~S!seeinv~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~AMULET~
   ADD_CRE_ITEM ~S!scrl23~ #0 #0 #0 ~UNSTEALABLE~ ~INV10~
   ADD_CRE_ITEM ~S!smisc~ #0 #0 #0 ~UNSTEALABLE~ ~INV11~
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF (("%item%" STRING_COMPARE_CASE "sper08" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "halb09b" = 0)) BEGIN
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00000010) // set Unstealable flag
+  SPRINT ~flags~ ~UNSTEALABLE~
+  PATCH_FOR_EACH ~item_to_change~ IN ~sper08~ ~halb09b~ BEGIN
+    LAUNCH_PATCH_MACRO ~ADD_CRE_ITEM_FLAGS~
   END
-END
 
 COPY_EXISTING ~hlfight.cre~ ~override/hlfight.cre~
   WRITE_LONG  0x14   18000 // xp
@@ -1259,14 +1172,7 @@ COPY_EXISTING ~hlfight.cre~ ~override/hlfight.cre~
   ADD_CRE_ITEM ~helm06~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~HELMET~
   ADD_CRE_ITEM ~potn55~ #0 #0 #0 ~UNSTEALABLE~ ~QITEM1~
   ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
-  READ_LONG  0x2bc "itm_off"
-  READ_LONG  0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "chan01" = 0) BEGIN // find old item
-     WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~plat04~ #8 // write new item
-   END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~chan01~ replace_with = ~plat04~ END
 
 COPY_EXISTING ~hlassa.cre~ ~override/hlassa.cre~
   WRITE_LONG  0x14   21000 // xp
@@ -1298,14 +1204,7 @@ COPY_EXISTING ~hlassa.cre~ ~override/hlassa.cre~
   ADD_CRE_ITEM ~misc45~ #0 #0 #0 ~UNSTEALABLE~ ~INV10~
   ADD_CRE_ITEM ~potn10~ #5 #0 #0 ~UNSTEALABLE~ ~QITEM1~
   ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
-  READ_LONG  0x2bc "itm_off"
-  READ_LONG  0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "leat04" = 0) BEGIN // find old item
-     WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~leat12~ #8 // write new item
-   END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~leat04~ replace_with = ~leat12~ END
 
 COPY_EXISTING ~pirpir05.cre~ ~override/pirpir05.cre~
   WRITE_LONG  0x14    3300 // xp
@@ -1359,14 +1258,7 @@ COPY_EXISTING ~legdor.cre~ ~override/legdor.cre~
   ADD_CRE_ITEM ~misc30~ #0 #0 #0 ~UNSTEALABLE~ ~INV9~
   ADD_CRE_ITEM ~misc21~ #0 #0 #0 ~UNSTEALABLE~ ~INV10~
   ADD_CRE_ITEM ~BHAALHP1~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
-  READ_LONG  0x2bc "itm_off"
-  READ_LONG  0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "plat01" = 0) BEGIN // find old item
-     WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~plat04~ #8 // write new item
-   END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~plat01~ replace_with = ~plat04~ END
 
 COPY_EXISTING ~deshar.cre~ ~override/deshar.cre~
   WRITE_LONG  0x14   22000 // xp
@@ -1501,14 +1393,7 @@ COPY_EXISTING ~bdturm01.cre~ ~override/bdturm01.cre~
   ADD_CRE_ITEM ~misc21~ #0 #0 #0 ~UNSTEALABLE~ ~INV9~
   ADD_CRE_ITEM ~misc26~ #0 #0 #0 ~UNSTEALABLE~ ~INV10~
   ADD_CRE_ITEM ~misc43~ #0 #0 #0 ~UNSTEALABLE~ ~INV11~
-  READ_LONG  0x2bc "itm_off"
-  READ_LONG  0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "sw2h02" = 0) BEGIN // find old item
-     WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~SW2H11~ #8 // write new item
-   END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~sw2h02~ replace_with = ~SW2H11~ END
 
 COPY_EXISTING ~bdturm03.cre~ ~override/bdturm03.cre~
   WRITE_LONG  0x14   18000 // xp
@@ -1573,34 +1458,16 @@ COPY_EXISTING ~bodfgt03.cre~ ~override/bodfgt03.cre~
   ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
   ADD_CRE_ITEM ~S!minhp1~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BOOTS~
   ADD_CRE_ITEM ~misc42~ #0 #0 #0 ~UNSTEALABLE~ ~INV8~
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF (("%item%" STRING_COMPARE_CASE "plat01" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "sw2h11" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "potn52" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "helm01" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "misc7c" = 0)) BEGIN
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00000010) // set Unstealable flag
+  SPRINT ~flags~ ~UNSTEALABLE~
+  PATCH_FOR_EACH ~item_to_change~ IN ~plat01~ ~sw2h11~ ~potn52~ ~helm01~ ~misc7c~ BEGIN
+    LAUNCH_PATCH_MACRO ~ADD_CRE_ITEM_FLAGS~
   END
-END
 
 COPY_EXISTING ~jatermin.cre~ ~override/jatermin.cre~
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF (("%item%" STRING_COMPARE_CASE "clck16" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "ring07" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "amul14" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "ring31" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "clck02" = 0)) BEGIN
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flag
+  SPRINT ~flags~ ~UNSTEALABLE&UNDROPPABLE~
+  PATCH_FOR_EACH ~item_to_change~ IN ~clck16~ ~ring07~ ~amul14~ ~ring31~ ~clck02~ BEGIN
+    LAUNCH_PATCH_MACRO ~ADD_CRE_ITEM_FLAGS~
   END
-END
 
 COPY_EXISTING ~yaga01.cre~ ~override/yaga01.cre~
   WRITE_LONG  0x14   45000 // xp
@@ -2085,19 +1952,10 @@ COPY_EXISTING ~demglasu.cre~ ~override/demglasu.cre~
 
 COPY_EXISTING ~koboldsu.cre~ ~override/koboldsu.cre~
   WRITE_LONG  0x14       0 // xp
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF (("%item%" STRING_COMPARE_CASE "HELM01" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "BOW05" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "SW1H07" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "AROW08" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "AROW01" = 0)) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  SPRINT ~flags~ ~UNSTEALABLE&UNDROPPABLE~
+  PATCH_FOR_EACH ~item_to_change~ IN ~HELM01~ ~BOW05~ ~SW1H07~ ~AROW08~ ~AROW01~ BEGIN
+    LAUNCH_PATCH_MACRO ~ADD_CRE_ITEM_FLAGS~
+  END
 
 COPY_EXISTING ~worgsu.cre~ ~override/worgsu.cre~
   WRITE_LONG  0x14       0 // xp
@@ -2117,19 +1975,10 @@ COPY_EXISTING ~wolfdisu.cre~ ~override/wolfdisu.cre~
 COPY_EXISTING ~hobgobsu.cre~ ~override/hobgobsu.cre~
   WRITE_LONG  0x14       0 // xp
   WRITE_LONG  0x1c       0 // gold
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF (("%item%" STRING_COMPARE_CASE "LEAT01" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "BOW05" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "SW1H01" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "AROW12" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "AROW01" = 0)) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  SPRINT ~flags~ ~UNSTEALABLE&UNDROPPABLE~
+  PATCH_FOR_EACH ~item_to_change~ IN ~LEAT01~ ~BOW05~ ~SW1H01~ ~AROW12~ ~AROW01~ BEGIN
+    LAUNCH_PATCH_MACRO ~ADD_CRE_ITEM_FLAGS~
+  END
 
 COPY_EXISTING ~etter01.cre~ ~override/etter01.cre~
    WRITE_ASCII 0x250 ~S!antic3~ #8         // class script
@@ -2140,15 +1989,7 @@ COPY_EXISTING ~ettercsu.cre~ ~override/ettercsu.cre~
 
 COPY_EXISTING ~etter01.cre~ ~override/S!etter.cre~
   WRITE_LONG  0x14       0 // xp
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "RNDTRE03" = 0) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  LPF ~ADD_CRE_ITEM_FLAGS~ STR_VAR item_to_change = ~RNDTRE03~ flags = ~UNSTEALABLE&UNDROPPABLE~ END
 
 COPY_EXISTING ~ogregrsu.cre~ ~override/ogregrsu.cre~
   WRITE_LONG  0x14       0 // xp
@@ -2267,15 +2108,7 @@ COPY_EXISTING ~catliosu.cre~ ~override/catliosu.cre~
 
 COPY_EXISTING ~wolfwwsu.cre~ ~override/wolfwwsu.cre~
   WRITE_LONG  0x14       0 // xp
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "misc01" = 0) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  LPF ~ADD_CRE_ITEM_FLAGS~ STR_VAR item_to_change = ~misc01~ flags = ~UNSTEALABLE&UNDROPPABLE~ END
 
 COPY_EXISTING ~bearposu.cre~ ~override/bearposu.cre~
   WRITE_LONG  0x14       0 // xp
@@ -2336,141 +2169,45 @@ COPY_EXISTING ~tomegol1.cre~ ~override/tomegol1.cre~
 
 COPY_EXISTING ~wyvernsu.cre~ ~override/wyvernsu.cre~
   WRITE_LONG  0x14       0 // xp
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "misc52" = 0) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  LPF ~ADD_CRE_ITEM_FLAGS~ STR_VAR item_to_change = ~misc52~ flags = ~UNSTEALABLE&UNDROPPABLE~ END
 
 // Ribald
 COPY_EXISTING ~ribald.cre~ ~override/ribald.cre~
- READ_LONG 0x2bc "itm_off"
- READ_LONG 0x2c0 "itm_num"
- FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-  READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-  PATCH_IF ("%item%" STRING_COMPARE_CASE "ring31" = 0) BEGIN // find the item
-   READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-   WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00000010) // set Unstealable flag
-  END
- END
+  LPF ~ADD_CRE_ITEM_FLAGS~ STR_VAR item_to_change = ~ring31~ flags = ~UNSTEALABLE~ END
 
 COPY_EXISTING ~tolger.cre~ ~override/tolger.cre~
  WRITE_ASCII 0x260 ~mage18d~ #8       // general script
- READ_LONG 0x2bc "itm_off"
- READ_LONG 0x2c0 "itm_num"
- FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-  READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-  PATCH_IF ("%item%" STRING_COMPARE_CASE "ring33" = 0) BEGIN // find the item
-   READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-   WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00000010) // set Unstealable flag
-  END
-END
+  LPF ~ADD_CRE_ITEM_FLAGS~ STR_VAR item_to_change = ~ring33~ flags = ~UNSTEALABLE~ END
 
 COPY_EXISTING ~sctelwyn.cre~ ~override/sctelwyn.cre~
- READ_LONG 0x2bc "itm_off"
- READ_LONG 0x2c0 "itm_num"
- FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-  READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-  PATCH_IF ("%item%" STRING_COMPARE_CASE "helm03" = 0) BEGIN // find the item
-   READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-   WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00000010) // set Unstealable flag
-  END
-END
+  LPF ~ADD_CRE_ITEM_FLAGS~ STR_VAR item_to_change = ~helm03~ flags = ~UNSTEALABLE~ END
 
 COPY_EXISTING ~pbhunt05.cre~ ~override/pbhunt05.cre~
- READ_LONG 0x2bc "itm_off"
- READ_LONG 0x2c0 "itm_num"
- FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-  READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-  PATCH_IF ("%item%" STRING_COMPARE_CASE "boot01" = 0) BEGIN // find the item
-   READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-   WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-  END
-END
+  LPF ~ADD_CRE_ITEM_FLAGS~ STR_VAR item_to_change = ~boot01~ flags = ~UNSTEALABLE&UNDROPPABLE~ END
 
 COPY_EXISTING ~trthf01.cre~ ~override/trthf01.cre~
- READ_LONG 0x2bc "itm_off"
- READ_LONG 0x2c0 "itm_num"
- FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-  READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-  PATCH_IF ("%item%" STRING_COMPARE_CASE "brac18" = 0) BEGIN // find the item
-   READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-   WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-  END
-END
+  LPF ~ADD_CRE_ITEM_FLAGS~ STR_VAR item_to_change = ~brac18~ flags = ~UNSTEALABLE&UNDROPPABLE~ END
 
 COPY_EXISTING ~arnwar07.cre~ ~override/arnwar07.cre~
- READ_LONG 0x2bc "itm_off"
- READ_LONG 0x2c0 "itm_num"
- FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-  READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-  PATCH_IF ("%item%" STRING_COMPARE_CASE "ring35" = 0) BEGIN // find the item
-   READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-   WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-  END
-END
+  LPF ~ADD_CRE_ITEM_FLAGS~ STR_VAR item_to_change = ~ring35~ flags = ~UNSTEALABLE&UNDROPPABLE~ END
 
 COPY_EXISTING ~arnman09.cre~ ~override/arnman09.cre~
- READ_LONG 0x2bc "itm_off"
- READ_LONG 0x2c0 "itm_num"
- FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-  READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-  PATCH_IF ("%item%" STRING_COMPARE_CASE "ring35" = 0) BEGIN // find the item
-   READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-   WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-  END
-END
+  LPF ~ADD_CRE_ITEM_FLAGS~ STR_VAR item_to_change = ~ring35~ flags = ~UNSTEALABLE&UNDROPPABLE~ END
 
 COPY_EXISTING ~reti.cre~ ~override/reti.cre~
- READ_LONG 0x2bc "itm_off"
- READ_LONG 0x2c0 "itm_num"
- FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-  READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-  PATCH_IF ("%item%" STRING_COMPARE_CASE "boot04" = 0) BEGIN // find the item
-   READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-   WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001000) // set undroppable flag
-  END
-END
+  LPF ~ADD_CRE_ITEM_FLAGS~ STR_VAR item_to_change = ~boot04~ flags = ~UNDROPPABLE~ END
 
 COPY_EXISTING ~gaal01.cre~ ~override/gaal01.cre~
- READ_LONG 0x2bc "itm_off"
- READ_LONG 0x2c0 "itm_num"
- FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-  READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-  PATCH_IF ("%item%" STRING_COMPARE_CASE "belt09" = 0) BEGIN // find the item
-   READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-   WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-  END
-END
+  LPF ~ADD_CRE_ITEM_FLAGS~ STR_VAR item_to_change = ~belt09~ flags = ~UNSTEALABLE&UNDROPPABLE~ END
 
 COPY_EXISTING ~trrak01.cre~ ~override/trrak01.cre~
  WRITE_ASCII 0x248 ~~ #8 // removes override script
- READ_LONG 0x2bc "itm_off"
- READ_LONG 0x2c0 "itm_num"
- FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-  READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-  PATCH_IF ("%item%" STRING_COMPARE_CASE "amul22" = 0) BEGIN // find the item
-   READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-   WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-  END
-END
+  LPF ~ADD_CRE_ITEM_FLAGS~ STR_VAR item_to_change = ~amul22~ flags = ~UNSTEALABLE&UNDROPPABLE~ END
 
 COPY_EXISTING ~trrak02.cre~ ~override/trrak02.cre~
  WRITE_ASCII 0x248 ~~ #8 // removes override script
  WRITE_ASCII 0x258 ~raksha02~ #8      // race script
- READ_LONG 0x2bc "itm_off"
- READ_LONG 0x2c0 "itm_num"
- FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-  READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-  PATCH_IF ("%item%" STRING_COMPARE_CASE "staf19" = 0) BEGIN // find the item
-   READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-   WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-  END
-END
+  LPF ~ADD_CRE_ITEM_FLAGS~ STR_VAR item_to_change = ~staf19~ flags = ~UNSTEALABLE&UNDROPPABLE~ END
 
 COPY_EXISTING ~trrak03.cre~ ~override/trrak03.cre~
  WRITE_ASCII 0x248 ~~ #8 // removes override script
@@ -2478,37 +2215,13 @@ COPY_EXISTING ~trrak03.cre~ ~override/trrak03.cre~
  WRITE_ASCII 0x258 ~raksha02~ #8      // race script
 
 COPY_EXISTING ~udtrap01.cre~ ~override/udtrap01.cre~
- READ_LONG 0x2bc "itm_off"
- READ_LONG 0x2c0 "itm_num"
- FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-  READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-  PATCH_IF ("%item%" STRING_COMPARE_CASE "sw1h38" = 0) BEGIN // find the item
-   READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-   WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-  END
-END
+  LPF ~ADD_CRE_ITEM_FLAGS~ STR_VAR item_to_change = ~sw1h38~ flags = ~UNSTEALABLE&UNDROPPABLE~ END
 
 COPY_EXISTING ~udsvir03.cre~ ~override/udsvir03.cre~
- READ_LONG 0x2bc "itm_off"
- READ_LONG 0x2c0 "itm_num"
- FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-  READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-  PATCH_IF ("%item%" STRING_COMPARE_CASE "misc9r" = 0) BEGIN // find the item
-   READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-   WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00000010) // set Unstealable flag
-  END
-END
+  LPF ~ADD_CRE_ITEM_FLAGS~ STR_VAR item_to_change = ~misc9r~ flags = ~UNSTEALABLE~ END
 
 COPY_EXISTING ~talmiss.cre~ ~override/talmiss.cre~
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "misc4y" = 0) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  LPF ~ADD_CRE_ITEM_FLAGS~ STR_VAR item_to_change = ~misc4y~ flags = ~UNSTEALABLE&UNDROPPABLE~ END
 
 COPY_EXISTING ~hlkang.cre~ ~override/hlkang.cre~
  WRITE_BYTE  0x52       5 // thac0
@@ -2519,66 +2232,23 @@ COPY_EXISTING ~hlkang.cre~ ~override/hlkang.cre~
  WRITE_ASCII 0x248 ~~ #8 // removes override script
  WRITE_ASCII 0x250 ~S!hlkang~ #8       // class script
  WRITE_ASCII 0x268 ~~ #8       // removes default script
- READ_LONG 0x2bc "itm_off"
- READ_LONG 0x2c0 "itm_num"
- FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-  READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-  PATCH_IF ("%item%" STRING_COMPARE_CASE "ring39" = 0) BEGIN // find the item
-   READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-   WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00000010) // set Unstealable flag
-  END
-END
+  LPF ~ADD_CRE_ITEM_FLAGS~ STR_VAR item_to_change = ~ring39~ flags = ~UNSTEALABLE~ END
 
 COPY_EXISTING ~trgeni02.cre~ ~override/trgeni02.cre~
- READ_LONG  0x2bc "itm_off"
- READ_LONG  0x2c0 "itm_num"
- FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-  READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-  PATCH_IF ("%item%" STRING_COMPARE_CASE "misc3c" = 0) BEGIN // find old item
-    WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~RING10~ #8 // write new item
-  END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~misc3c~ replace_with = ~RING10~ END
 
 COPY_EXISTING ~senpri01.cre~ ~override/senpri01.cre~
- READ_LONG  0x2bc "itm_off"
- READ_LONG  0x2c0 "itm_num"
- FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-  READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-  PATCH_IF ("%item%" STRING_COMPARE_CASE "shld31" = 0) BEGIN // find old item
-    WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~DWSHLD01~ #8 // write new item
-  END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~shld31~ replace_with = ~DWSHLD01~ END
 
 COPY_EXISTING ~kalah2.cre~ ~override/kalah2.cre~
-  READ_LONG  0x2bc "itm_off"
-  READ_LONG  0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-    READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-    PATCH_IF ("%item%" STRING_COMPARE_CASE "ring30" = 0) BEGIN // find old item
-      WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~RING10~ #8 // write new item
-    END
-  END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~ring30~ replace_with = ~RING10~ END
   REPLACE_CRE_ITEM ~scrl1v~ #0 #0 #0 ~NONE~ ~INV6~
 
 COPY_EXISTING ~bhcapt01.cre~ ~override/bhcapt01.cre~
- READ_LONG  0x2bc "itm_off"
- READ_LONG  0x2c0 "itm_num"
- FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-  READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-  PATCH_IF ("%item%" STRING_COMPARE_CASE "xbow03" = 0) BEGIN // find old item
-    WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~XBOW01~ #8 // write new item
-  END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~xbow03~ replace_with = ~XBOW01~ END
 
 COPY_EXISTING ~vvshad5.cre~ ~override/vvshad5.cre~
- READ_LONG  0x2bc "itm_off"
- READ_LONG  0x2c0 "itm_num"
- FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-  READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-  PATCH_IF ("%item%" STRING_COMPARE_CASE "scrl7d" = 0) BEGIN // find old item
-    WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~SCRL6Z~ #8 // write new item
-  END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~scrl7d~ replace_with = ~SCRL6Z~ END
 
 COPY_EXISTING ~daelf.cre~ ~override/daelf.cre~
   SAY NAME1     @458
@@ -2623,18 +2293,10 @@ COPY_EXISTING ~drofod01.cre~ ~override/S!drofod.cre~
   ADD_CRE_ITEM ~antiweb~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~AMULET~
   ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
   ADD_CRE_ITEM ~dwshld01~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~SHIELD~
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF (("%item%" STRING_COMPARE_CASE "CHAN13" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "SW1H55" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "POTN52" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "POTN20" = 0)) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  SPRINT ~flags~ ~UNSTEALABLE&UNDROPPABLE~
+  PATCH_FOR_EACH ~item_to_change~ IN ~CHAN13~ ~SW1H55~ ~POTN52~ ~POTN20~ BEGIN
+    LAUNCH_PATCH_MACRO ~ADD_CRE_ITEM_FLAGS~
+  END
 
 COPY_EXISTING ~drofod01.cre~ ~override/drofod01.cre~
   WRITE_LONG  0x14   15500 // xp
@@ -2676,14 +2338,7 @@ COPY_EXISTING ~drofod01.cre~ ~override/drofod01.cre~
   ADD_CRE_ITEM ~potn52~ #2 #0 #0 ~UNSTEALABLE~ ~QITEM3~
 
 COPY_EXISTING ~daqilue.cre~ ~override/daqilue.cre~
- READ_LONG  0x2bc "itm_off"
- READ_LONG  0x2c0 "itm_num"
- FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-  READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-  PATCH_IF ("%item%" STRING_COMPARE_CASE "dagg14" = 0) BEGIN // find old item
-    WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~DAGG01~ #8 // write new item
-  END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~dagg14~ replace_with = ~DAGG01~ END
 
 COPY_EXISTING ~lich01.cre~ ~override/lich01.cre~
   WRITE_LONG  0x14   18000 // xp
@@ -2756,14 +2411,7 @@ COPY_EXISTING ~jarlaxle.cre~ ~override/jarlaxle.cre~
 
 COPY_EXISTING ~pthral05.cre~ ~override/pthral05.cre~
  WRITE_BYTE  0x53       1 // number of attacks
- READ_LONG  0x2bc "itm_off"
- READ_LONG  0x2c0 "itm_num"
- FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-  READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-  PATCH_IF ("%item%" STRING_COMPARE_CASE "sw1h25" = 0) BEGIN // find old item
-    WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~SW1H09~ #8 // write new item
-  END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~sw1h25~ replace_with = ~SW1H09~ END
 
 COPY_EXISTING ~elfirpr2.cre~ ~override/elfirpr2.cre~
   WRITE_BYTE  0x238     19 // strength
@@ -2868,15 +2516,7 @@ COPY_EXISTING ~cowenf4.cre~ ~override/cowenf4.cre~
   ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
   ADD_CRE_ITEM ~staf02~ #0 #0 #0 ~UNSTEALABLE~ ~WEAPON1~
   ADD_CRE_ITEM ~scrl5h~ #2 #0 #0 ~UNSTEALABLE~ ~QITEM2~
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "RNDTRE05" = 0) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  LPF ~ADD_CRE_ITEM_FLAGS~ STR_VAR item_to_change = ~RNDTRE05~ flags = ~UNSTEALABLE&UNDROPPABLE~ END
 
 COPY_EXISTING ~hgwra02.cre~ ~override/hgwra03.cre~
   WRITE_ASCII 0x260 ~~ #8       // removes general script
@@ -2900,38 +2540,17 @@ COPY_EXISTING ~telslav.cre~ ~override/telslav.cre~
   WRITE_BYTE  0x234     15 // level
   WRITE_ASCII 0x268 ~S!vamp3~ #8       // default script
   ADD_CRE_ITEM ~S!immune~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~AMULET~
-  READ_LONG  0x2bc "itm_off"
-  READ_LONG  0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "telslav" = 0) BEGIN // find old item
-     WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~vamp1~ #8 // write new item
-   END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~telslav~ replace_with = ~vamp1~ END
 
 COPY_EXISTING ~golada01.cre~ ~override/golada01.cre~
   WRITE_LONG  0x14  20000 // xp
   ADD_CRE_ITEM ~S!adaman~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~AMULET~
-  READ_LONG  0x2bc "itm_off"
-  READ_LONG  0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "goliro" = 0) BEGIN // find old item
-     WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~S!goliro~ #8 // write new item
-   END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~goliro~ replace_with = ~S!goliro~ END
 
 COPY_EXISTING ~golkill2.cre~ ~override/golkill2.cre~
   WRITE_LONG  0x14  20000 // xp
   ADD_CRE_ITEM ~S!adaman~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~AMULET~
-  READ_LONG  0x2bc "itm_off"
-  READ_LONG  0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "goliro" = 0) BEGIN // find old item
-     WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~S!goliro~ #8 // write new item
-   END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~goliro~ replace_with = ~S!goliro~ END
 
 COPY_EXISTING ~goljug01.cre~ ~override/goljug01.cre~
   WRITE_LONG  0x14   6400 // xp
@@ -2968,122 +2587,45 @@ COPY_EXISTING ~udfire.cre~ ~override/udfire.cre~
 
 COPY_EXISTING ~dstone1.cre~ ~override/dstone1.cre~
  WRITE_LONG  0x14    5000 // xp
- READ_LONG  0x2bc "itm_off"
- READ_LONG  0x2c0 "itm_num"
- FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-  READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-  PATCH_IF ("%item%" STRING_COMPARE_CASE "B3-24" = 0) BEGIN // find old item
-    WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~GOLSTO~ #8 // write new item
-  END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~B3-24~ replace_with = ~GOLSTO~ END
 
 COPY_EXISTING ~igolem02.cre~ ~override/igolem02.cre~
  WRITE_LONG  0x14        0 // xp
- READ_LONG  0x2bc "itm_off"
- READ_LONG  0x2c0 "itm_num"
- FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-  READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-  PATCH_IF ("%item%" STRING_COMPARE_CASE "B3-30" = 0) BEGIN // find old item
-    WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~S!GOLCLA~ #8 // write new item
-  END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~B3-30~ replace_with = ~S!GOLCLA~ END
 
 COPY_EXISTING ~igolfle1.cre~ ~override/igolfle1.cre~
- READ_LONG  0x2bc "itm_off"
- READ_LONG  0x2c0 "itm_num"
- FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-  READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-  PATCH_IF ("%item%" STRING_COMPARE_CASE "B2-16" = 0) BEGIN // find old item
-    WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~S!GOLFLE~ #8 // write new item
-  END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~B2-16~ replace_with = ~S!GOLFLE~ END
 
 COPY_EXISTING ~igolfle2.cre~ ~override/igolfle2.cre~
- READ_LONG  0x2bc "itm_off"
- READ_LONG  0x2c0 "itm_num"
- FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-  READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-  PATCH_IF ("%item%" STRING_COMPARE_CASE "B2-16" = 0) BEGIN // find old item
-    WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~S!GOLFLE~ #8 // write new item
-  END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~B2-16~ replace_with = ~S!GOLFLE~ END
 
 COPY_EXISTING ~igolfle3.cre~ ~override/igolfle3.cre~
- READ_LONG  0x2bc "itm_off"
- READ_LONG  0x2c0 "itm_num"
- FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-  READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-  PATCH_IF ("%item%" STRING_COMPARE_CASE "B2-16" = 0) BEGIN // find old item
-    WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~S!GOLFLE~ #8 // write new item
-  END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~B2-16~ replace_with = ~S!GOLFLE~ END
 
 COPY_EXISTING ~igolfle4.cre~ ~override/igolfle4.cre~
- READ_LONG  0x2bc "itm_off"
- READ_LONG  0x2c0 "itm_num"
- FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-  READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-  PATCH_IF ("%item%" STRING_COMPARE_CASE "B2-16" = 0) BEGIN // find old item
-    WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~S!GOLFLE~ #8 // write new item
-  END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~B2-16~ replace_with = ~S!GOLFLE~ END
 
 COPY_EXISTING ~demglab2.cre~ ~override/demglab2.cre~
  WRITE_LONG  0x14        0 // xp
- READ_LONG  0x2bc "itm_off"
- READ_LONG  0x2c0 "itm_num"
- FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-  READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-  PATCH_IF ("%item%" STRING_COMPARE_CASE "ringdemn" = 0) BEGIN // find old item
-    WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~RING95~ #8 // write new item
-  END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~ringdemn~ replace_with = ~RING95~ END
 
 COPY_EXISTING ~m05demon.cre~ ~override/m05demon.cre~
  WRITE_LONG  0x14        0 // xp
- READ_LONG  0x2bc "itm_off"
- READ_LONG  0x2c0 "itm_num"
- FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-  READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-  PATCH_IF ("%item%" STRING_COMPARE_CASE "ringdemn" = 0) BEGIN // find old item
-    WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~RING92~ #8 // write new item
-  END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~ringdemn~ replace_with = ~RING92~ END
 
 COPY_EXISTING ~golcla01.cre~ ~override/golcla01.cre~
   WRITE_LONG  0x14    6400 // xp
 
 COPY_EXISTING ~goliro01.cre~ ~override/goliro01.cre~
   WRITE_LONG  0x14   10000 // xp
-  READ_LONG  0x2bc "itm_off"
-  READ_LONG  0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "goliro" = 0) BEGIN // find old item
-     WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~S!goliro~ #8 // write new item
-   END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~goliro~ replace_with = ~S!goliro~ END
 
 COPY_EXISTING ~gordeckb.cre~ ~override/gordeckb.cre~
   ADD_CRE_ITEM ~S!adaman~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~AMULET~
-  READ_LONG  0x2bc "itm_off"
-  READ_LONG  0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "goliro" = 0) BEGIN // find old item
-     WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~S!goliro~ #8 // write new item
-   END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~goliro~ replace_with = ~S!goliro~ END
 
 COPY_EXISTING ~gorgoli.cre~ ~override/gorgoli.cre~
-  READ_LONG  0x2bc "itm_off"
-  READ_LONG  0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "goliro" = 0) BEGIN // find old item
-     WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~S!goliro~ #8 // write new item
-   END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~goliro~ replace_with = ~S!goliro~ END
 
 COPY_EXISTING ~golsan01.cre~ ~override/golsan01.cre~
   WRITE_LONG  0x14    5700 // xp
@@ -3093,47 +2635,19 @@ COPY_EXISTING ~golsto01.cre~ ~override/golsto01.cre~
 
 COPY_EXISTING ~gorgrd01.cre~ ~override/gorgrd01.cre~
   WRITE_LONG  0x14   10000 // xp
-  READ_LONG  0x2bc "itm_off"
-  READ_LONG  0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "goliro" = 0) BEGIN // find old item
-     WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~S!goliro~ #8 // write new item
-   END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~goliro~ replace_with = ~S!goliro~ END
 
 COPY_EXISTING ~gorgrd02.cre~ ~override/gorgrd02.cre~
   WRITE_LONG  0x14   10000 // xp
-  READ_LONG  0x2bc "itm_off"
-  READ_LONG  0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "goliro" = 0) BEGIN // find old item
-     WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~S!goliro~ #8 // write new item
-   END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~goliro~ replace_with = ~S!goliro~ END
 
 COPY_EXISTING ~gorsta08.cre~ ~override/gorsta08.cre~
   WRITE_LONG  0x14   10000 // xp
-  READ_LONG  0x2bc "itm_off"
-  READ_LONG  0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "goliro" = 0) BEGIN // find old item
-     WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~S!goliro~ #8 // write new item
-   END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~goliro~ replace_with = ~S!goliro~ END
 
 COPY_EXISTING ~jugjug01.cre~ ~override/jugjug01.cre~
   WRITE_LONG  0x14    5000 // xp
-  READ_LONG  0x2bc "itm_off"
-  READ_LONG  0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "B3-24" = 0) BEGIN // find old item
-     WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~GOLSTO~ #8 // write new item
-   END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~B3-24~ replace_with = ~GOLSTO~ END
 
 COPY_EXISTING ~kpgol02.cre~ ~override/kpgol02.cre~
   WRITE_LONG  0x14    6400 // xp
@@ -3143,14 +2657,7 @@ COPY_EXISTING ~kpgol03.cre~ ~override/kpgol03.cre~
 
 COPY_EXISTING ~kpgol04.cre~ ~override/kpgol04.cre~
   WRITE_LONG  0x14   10000 // xp
-  READ_LONG  0x2bc "itm_off"
-  READ_LONG  0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "goliro" = 0) BEGIN // find old item
-     WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~S!goliro~ #8 // write new item
-   END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~goliro~ replace_with = ~S!goliro~ END
 
 COPY_EXISTING ~kpgol05.cre~ ~override/kpgol05.cre~
   WRITE_LONG  0x14    5000 // xp
@@ -3226,14 +2733,7 @@ COPY_EXISTING ~gith01.cre~ ~override/gith01.cre~
   WRITE_BYTE  0x240      1 // morale Break
   WRITE_BYTE  0x242      1 // morale Recovery
   ADD_CRE_ITEM ~S!gith~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~GLOVES~
-  READ_LONG  0x2bc "itm_off"
-  READ_LONG  0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "potn10" = 0) BEGIN
-     WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~potn52~ #8
-   END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~potn10~ replace_with = ~potn52~ END
 
 COPY_EXISTING ~gith02.cre~ ~override/gith02.cre~
   WRITE_LONG  0x14    7500 // xp
@@ -3250,14 +2750,7 @@ COPY_EXISTING ~gith02.cre~ ~override/gith02.cre~
   WRITE_BYTE  0x240      1 // morale Break
   WRITE_BYTE  0x242      1 // morale Recovery
   ADD_CRE_ITEM ~S!gith~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~GLOVES~
-  READ_LONG  0x2bc "itm_off"
-  READ_LONG  0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "potn10" = 0) BEGIN
-     WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~potn52~ #8
-   END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~potn10~ replace_with = ~potn52~ END
 
 COPY_EXISTING ~gith03.cre~ ~override/gith03.cre~
   WRITE_LONG  0x14    8500 // xp
@@ -3276,14 +2769,7 @@ COPY_EXISTING ~gith03.cre~ ~override/gith03.cre~
   WRITE_BYTE  0x242      1 // morale Recovery
   WRITE_BYTE  0x273     0x2 // class fighter
   ADD_CRE_ITEM ~S!gith~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~GLOVES~
-  READ_LONG  0x2bc "itm_off"
-  READ_LONG  0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "potn10" = 0) BEGIN
-     WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~potn52~ #8
-   END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~potn10~ replace_with = ~potn52~ END
 
 COPY_EXISTING ~gith04.cre~ ~override/gith04.cre~
   WRITE_SHORT 0x24      56 // current hp
@@ -3320,14 +2806,7 @@ COPY_EXISTING ~mekrat.cre~ ~override/mekrat.cre~
  ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
  ADD_CRE_ITEM ~S!immune~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~AMULET~
  ADD_CRE_ITEM ~S!miss6~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BOOTS~
- READ_LONG  0x2bc "itm_off"
- READ_LONG  0x2c0 "itm_num"
- FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-  READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-  PATCH_IF ("%item%" STRING_COMPARE_CASE "clck10" = 0) BEGIN // find old item
-    WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~scrl3g~ #8 // write new item
-  END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~clck10~ replace_with = ~scrl3g~ END
 
 COPY_EXISTING ~flyfgt04.cre~ ~override/flyfgt04.cre~
   WRITE_LONG  0x14   13000 // xp
@@ -3352,14 +2831,7 @@ COPY_EXISTING ~flyfgt04.cre~ ~override/flyfgt04.cre~
   WRITE_BYTE  0x273     0x7 // class fighter mage
   ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
   ADD_CRE_ITEM ~S!immune~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~AMULET~
-  READ_LONG  0x2bc "itm_off"
-  READ_LONG  0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "clck10" = 0) BEGIN // find old item
-     WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~clck01~ #8 // write new item
-   END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~clck10~ replace_with = ~clck01~ END
 
 COPY_EXISTING ~jaga1.cre~ ~override/jaga1.cre~
   WRITE_LONG  0x14   13000 // xp
@@ -3393,24 +2865,10 @@ COPY_EXISTING ~jaga1.cre~ ~override/jaga1.cre~
   ADD_CRE_ITEM ~S!immune~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~AMULET~
 
 COPY_EXISTING ~jangit02.cre~ ~override/jangit02.cre~
- READ_LONG  0x2bc "itm_off"
- READ_LONG  0x2c0 "itm_num"
- FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-  READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-  PATCH_IF ("%item%" STRING_COMPARE_CASE "clck10" = 0) BEGIN // find old item
-    WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~clck01~ #8 // write new item
-  END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~clck10~ replace_with = ~clck01~ END
 
 COPY_EXISTING ~jaga3.cre~ ~override/jaga3.cre~
- READ_LONG  0x2bc "itm_off"
- READ_LONG  0x2c0 "itm_num"
- FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-  READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-  PATCH_IF ("%item%" STRING_COMPARE_CASE "ring08" = 0) BEGIN // find old item
-    WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~ring06~ #8 // write new item
-  END
- END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~ring08~ replace_with = ~ring06~ END
  LAUNCH_PATCH_FUNCTION ~SET_CRE_ITEM_FLAGS~ STR_VAR
    item_to_change = ~ohringwi~
    flags = ~UNSTEALABLE&UNDROPPABLE~
@@ -3418,28 +2876,14 @@ COPY_EXISTING ~jaga3.cre~ ~override/jaga3.cre~
 
 COPY_EXISTING ~ppmind01.cre~ ~override/ppmind01.cre~
  WRITE_LONG  0x14    4000 // xp
- READ_LONG  0x2bc "itm_off"
- READ_LONG  0x2c0 "itm_num"
- FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-  READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-  PATCH_IF ("%item%" STRING_COMPARE_CASE "sw2h12" = 0) BEGIN // find old item
-    WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~miscal~ #8 // write new item
-  END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~sw2h12~ replace_with = ~miscal~ END
 
 COPY_EXISTING ~ppdjinn2.cre~ ~override/ppdjinn2.cre~
  WRITE_LONG  0x14    5000 // xp
 
 COPY_EXISTING ~pptroll1.cre~ ~override/pptroll1.cre~
  WRITE_LONG  0x14    3000 // xp
- READ_LONG  0x2bc "itm_off"
- READ_LONG  0x2c0 "itm_num"
- FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-  READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-  PATCH_IF ("%item%" STRING_COMPARE_CASE "sw1h45" = 0) BEGIN // find old item
-    WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~miscal~ #8 // write new item
-  END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~sw1h45~ replace_with = ~miscal~ END
 
 COPY_EXISTING ~ppumb02.cre~ ~override/ppumb02.cre~
   WRITE_LONG  0x14    3000 // xp
@@ -3644,14 +3088,7 @@ COPY_EXISTING ~celich.cre~ ~override/celich.cre~
   WRITE_ASCII 0x250 ~mage18d~ #8       // class script
   WRITE_ASCII 0x268 ~~ #8      // removes default script
   ADD_CRE_ITEM ~lich~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~LRING~
-  READ_LONG  0x2bc "itm_off"
-  READ_LONG  0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "staf01" = 0) BEGIN // find old item
-     WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~lich02~ #8 // write new item
-   END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~staf01~ replace_with = ~lich02~ END
 
 COPY_EXISTING ~cederil.cre~ ~override/cederil.cre~
   WRITE_LONG  0x14    7500 // xp
@@ -3717,36 +3154,15 @@ COPY_EXISTING ~icyuan02.cre~ ~override/icyuan02.cre~
   WRITE_BYTE  0x273     0x2 // class fighter
   ADD_CRE_ITEM ~S!immune~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~AMULET~
   ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
-  READ_LONG  0x2bc "itm_off"
-  READ_LONG  0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "SW1H04" = 0) BEGIN // find old item
-     WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~S!yuansu~ #8 // write new item
-   END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~SW1H04~ replace_with = ~S!yuansu~ END
 
 COPY_EXISTING ~gorsta01.cre~ ~override/gorsta01.cre~
  WRITE_LONG  0x14   15000 // xp
- READ_LONG  0x2bc "itm_off"
- READ_LONG  0x2c0 "itm_num"
- FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-  READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-  PATCH_IF ("%item%" STRING_COMPARE_CASE "sw1h62" = 0) BEGIN // find old item
-    WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~sw1h02~ #8 // write new item
-  END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~sw1h62~ replace_with = ~sw1h02~ END
 
 COPY_EXISTING ~gorsta07.cre~ ~override/gorsta07.cre~
  WRITE_LONG  0x14   15000 // xp
- READ_LONG  0x2bc "itm_off"
- READ_LONG  0x2c0 "itm_num"
- FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-  READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-  PATCH_IF ("%item%" STRING_COMPARE_CASE "sw1h67" = 0) BEGIN // find old item
-    WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~sw1h02~ #8 // write new item
-  END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~sw1h67~ replace_with = ~sw1h02~ END
 
 COPY_EXISTING ~senill02.cre~ ~override/senill02.cre~
   WRITE_SHORT 0x24     160 // current hp
@@ -3872,15 +3288,7 @@ COPY_EXISTING ~drow06.cre~ ~override/drow06.cre~
   ADD_CRE_ITEM ~antiweb~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~AMULET~
   ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
   ADD_CRE_ITEM ~ring95~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~LRING~
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "RNDTRE02" = 0) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  LPF ~ADD_CRE_ITEM_FLAGS~ STR_VAR item_to_change = ~RNDTRE02~ flags = ~UNSTEALABLE&UNDROPPABLE~ END
 
 COPY_EXISTING ~uddrow27.cre~ ~override/uddrow27.cre~
   WRITE_LONG  0x14    9500 // xp
@@ -4052,14 +3460,7 @@ COPY_EXISTING ~ppguard4.cre~ ~override/ppguard4.cre~
   ADD_CRE_ITEM ~S!immune~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~AMULET~
   ADD_CRE_ITEM ~S!miss6~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BOOTS~
   ADD_CRE_ITEM ~ring06~ #0 #0 #0 ~UNSTEALABLE~ ~LRING~
-  READ_LONG  0x2bc "itm_off"
-  READ_LONG  0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "sw1h08" = 0) BEGIN // find old item
-     WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~staf06~ #8 // write new item
-   END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~sw1h08~ replace_with = ~staf06~ END
 
 COPY_EXISTING ~drow06.cre~ ~override/drofod02.cre~
   WRITE_LONG  0x14       0 // xp
@@ -4187,14 +3588,7 @@ COPY_EXISTING ~cultbh1.cre~ ~override/cultbh1.cre~
   WRITE_ASCII 0x250 ~gensht01~ #8         // class script
   WRITE_ASCII 0x268 ~S!rancm3~ #8      // default script
   ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
-  READ_LONG  0x2bc "itm_off"
-  READ_LONG  0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "P2-16" = 0) BEGIN // find old item
-     WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~behold~ #8 // write new item
-   END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~P2-16~ replace_with = ~behold~ END
 
 COPY_EXISTING ~cultbh2.cre~ ~override/cultbh2.cre~
   WRITE_LONG  0x14    4500 // xp
@@ -4213,14 +3607,7 @@ COPY_EXISTING ~cultbh2.cre~ ~override/cultbh2.cre~
   WRITE_ASCII 0x250 ~gensht01~ #8         // class script
   WRITE_ASCII 0x268 ~S!rancm3~ #8      // default script
   ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
-  READ_LONG  0x2bc "itm_off"
-  READ_LONG  0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "P2-16" = 0) BEGIN // find old item
-     WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~behold~ #8 // write new item
-   END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~P2-16~ replace_with = ~behold~ END
 
 COPY_EXISTING ~cultbh3.cre~ ~override/cultbh3.cre~
   WRITE_LONG  0x14    8000 // xp
@@ -4241,14 +3628,7 @@ COPY_EXISTING ~cultbh3.cre~ ~override/cultbh3.cre~
   WRITE_ASCII 0x268 ~S!rancm3~ #8      // default script
   ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
   ADD_CRE_ITEM ~beholder~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~LRING~
-  READ_LONG  0x2bc "itm_off"
-  READ_LONG  0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "P2-16" = 0) BEGIN // find old item
-     WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~behold~ #8 // write new item
-   END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~P2-16~ replace_with = ~behold~ END
 
 COPY_EXISTING ~cultbh4.cre~ ~override/cultbh4.cre~
   WRITE_LONG  0x14    8000 // xp
@@ -4270,14 +3650,7 @@ COPY_EXISTING ~cultbh4.cre~ ~override/cultbh4.cre~
   WRITE_ASCII 0x268 ~S!rancm3~ #8      // default script
   ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
   ADD_CRE_ITEM ~beholder~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~RRING~
-  READ_LONG  0x2bc "itm_off"
-  READ_LONG  0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "P2-8" = 0) BEGIN // find old item
-     WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~behold~ #8 // write new item
-   END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~P2-8~ replace_with = ~behold~ END
 
 COPY_EXISTING ~cow.cre~ ~override/cow.cre~
   WRITE_ASCII 0x260 ~S!anima1~ #8       // general script
@@ -4386,23 +3759,8 @@ COPY_EXISTING ~catliowp.cre~ ~override/catliowp.cre~
  WRITE_BYTE  0x242     3 // morale Recovery
  WRITE_ASCII 0x258 ~S!ranpm3~ #8      // race script
  WRITE_ASCII 0x268 ~S!alsup3~ #8      // default script
- READ_LONG  0x2bc "itm_off"
- READ_LONG  0x2c0 "itm_num"
- FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-  READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-  PATCH_IF ("%item%" STRING_COMPARE_CASE "catlio" = 0) BEGIN // find old item
-    WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~S!catlio~ #8 // write new item
-  END
-END
- READ_LONG 0x2bc "itm_off"
- READ_LONG 0x2c0 "itm_num"
- FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-  READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-  PATCH_IF ("%item%" STRING_COMPARE_CASE "S!catlio" = 0) BEGIN // find the item
-   READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-   WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00000010) // set Unstealable flag
-  END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~catlio~ replace_with = ~S!catlio~ END
+  LPF ~ADD_CRE_ITEM_FLAGS~ STR_VAR item_to_change = ~S!catlio~ flags = ~UNSTEALABLE~ END
 
 COPY_EXISTING ~ar18mage.cre~ ~override/ar18mage.cre~
   WRITE_LONG  0x14    8500 // xp
@@ -4545,18 +3903,10 @@ COPY_EXISTING ~demcor01.cre~ ~override/demcor01.cre~
 
 COPY_EXISTING ~telalu1.cre~ ~override/telalu1.cre~
   WRITE_LONG  0x14       0 // xp
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF (("%item%" STRING_COMPARE_CASE "CHAN08" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "SW1H52" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "DART04" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "POTN52" = 0)) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  SPRINT ~flags~ ~UNSTEALABLE&UNDROPPABLE~
+  PATCH_FOR_EACH ~item_to_change~ IN ~CHAN08~ ~SW1H52~ ~DART04~ ~POTN52~ BEGIN
+    LAUNCH_PATCH_MACRO ~ADD_CRE_ITEM_FLAGS~
+  END
 
 COPY_EXISTING ~demsuc01.cre~ ~override/demsuc01.cre~
   WRITE_LONG  0x14       0 // xp
@@ -4569,16 +3919,10 @@ COPY_EXISTING ~dimp01.cre~ ~override/dimp01.cre~
 
 COPY_EXISTING ~deriny01.cre~ ~override/deriny01.cre~
   WRITE_LONG  0x14       0 // xp
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF (("%item%" STRING_COMPARE_CASE "SW1H05" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "RNDTRE04" = 0)) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  SPRINT ~flags~ ~UNSTEALABLE&UNDROPPABLE~
+  PATCH_FOR_EACH ~item_to_change~ IN ~SW1H05~ ~RNDTRE04~ BEGIN
+    LAUNCH_PATCH_MACRO ~ADD_CRE_ITEM_FLAGS~
+  END
 
 COPY_EXISTING ~gorgith2.cre~ ~override/gorgith2.cre~
   WRITE_LONG  0x14       0 // xp
@@ -4632,14 +3976,7 @@ COPY_EXISTING ~mvguard1.cre~ ~override/mvguard1.cre~
 
 COPY_EXISTING ~weregrdr.cre~ ~override/weregrdr.cre~
   ADD_CRE_ITEM ~immune1~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~RRING~
-  READ_LONG  0x2bc "itm_off"
-  READ_LONG  0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "ringloup" = 0) BEGIN // find old item
-     WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~RINGWOLF~ #8 // write new item
-   END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~ringloup~ replace_with = ~RINGWOLF~ END
 
 COPY_EXISTING ~pptiax2.cre~ ~override/pptiax2.cre~
   WRITE_ASCII 0x248 ~ASYLUM~ #8 // override script
@@ -4957,14 +4294,7 @@ COPY_EXISTING ~vamanc01.cre~ ~override/vamanc01.cre~
   WRITE_BYTE  0x273     0x2 // class fighter
   ADD_CRE_ITEM ~S!nevm4~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~AMULET~
   ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
-  READ_LONG  0x2bc "itm_off"
-  READ_LONG  0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "immune3" = 0) BEGIN // find old item
-     WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~IMMUNE2~ #8 // write new item
-   END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~immune3~ replace_with = ~IMMUNE2~ END
 
 COPY_EXISTING ~vamver01.cre~ ~override/vamver01.cre~
   WRITE_LONG  0x14    7500 // xp
@@ -4985,14 +4315,7 @@ COPY_EXISTING ~vamver01.cre~ ~override/vamver01.cre~
   WRITE_BYTE  0x273     0x2 // class fighter
   ADD_CRE_ITEM ~S!nevm4~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~AMULET~
   ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
-  READ_LONG  0x2bc "itm_off"
-  READ_LONG  0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "vamp" = 0) BEGIN // find old item
-     WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~VAMP1~ #8 // write new item
-   END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~vamp~ replace_with = ~VAMP1~ END
 
 COPY_EXISTING ~vamold01.cre~ ~override/vamold01.cre~
   WRITE_LONG  0x14    7000 // xp
@@ -5063,22 +4386,8 @@ COPY_EXISTING ~chevil08.cre~ ~override/chevil08.cre~
   WRITE_BYTE  0x273     0x2 // class fighter
   ADD_CRE_ITEM ~S!nevm4~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~AMULET~
   ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
-  READ_LONG  0x2bc "itm_off"
-  READ_LONG  0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "vamp" = 0) BEGIN // find old item
-     WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~VAMP1~ #8 // write new item
-   END
-END
-  READ_LONG  0x2bc "itm_off"
-  READ_LONG  0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "amul25" = 0) BEGIN // find old item
-     WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~S!nevm4~ #8 // write new item
-   END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~vamp~ replace_with = ~VAMP1~ END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~amul25~ replace_with = ~S!nevm4~ END
 
 COPY_EXISTING ~lassal.cre~ ~override/lassal.cre~
   WRITE_SHORT 0x24     115 // current hp
@@ -5181,14 +4490,7 @@ COPY_EXISTING ~vampif01.cre~ ~override/vampif01.cre~
   ADD_CRE_ITEM ~S!nevm4~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~AMULET~
   ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
   ADD_CRE_ITEM ~immune3~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~RRING~
-  READ_LONG  0x2bc "itm_off"
-  READ_LONG  0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "vamp" = 0) BEGIN // find old item
-     WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~VAMP1~ #8 // write new item
-   END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~vamp~ replace_with = ~VAMP1~ END
 
 COPY_EXISTING ~vampim01.cre~ ~override/vampim01.cre~
   SAY NAME1     @11030
@@ -5206,14 +4508,7 @@ COPY_EXISTING ~vampim01.cre~ ~override/vampim01.cre~
   ADD_CRE_ITEM ~S!nevm4~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~AMULET~
   ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
   ADD_CRE_ITEM ~immune3~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~RRING~
-  READ_LONG  0x2bc "itm_off"
-  READ_LONG  0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "vamp" = 0) BEGIN // find old item
-     WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~VAMP1~ #8 // write new item
-   END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~vamp~ replace_with = ~VAMP1~ END
 
 COPY_EXISTING ~c6vamp01.cre~ ~override/c6vamp01.cre~
   WRITE_LONG  0x14    6000 // xp
@@ -5233,35 +4528,19 @@ COPY_EXISTING ~amncen1.cre~ ~override/amncen1.cre~
   WRITE_LONG  0x14       0 // xp
   WRITE_BYTE  0x242      1 // morale Recovery
   ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF (("%item%" STRING_COMPARE_CASE "helm08" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "plat04" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "RNDTRE04" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "sper01" = 0)) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  SPRINT ~flags~ ~UNSTEALABLE&UNDROPPABLE~
+  PATCH_FOR_EACH ~item_to_change~ IN ~helm08~ ~plat04~ ~RNDTRE04~ ~sper01~ BEGIN
+    LAUNCH_PATCH_MACRO ~ADD_CRE_ITEM_FLAGS~
+  END
 
 COPY_EXISTING ~amnleg1.cre~ ~override/amnleg1.cre~
   WRITE_LONG  0x14       0 // xp
   WRITE_BYTE  0x242      1 // morale Recovery
   ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF (("%item%" STRING_COMPARE_CASE "helm08" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "plat04" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "RNDTRE04" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "sper01" = 0)) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  SPRINT ~flags~ ~UNSTEALABLE&UNDROPPABLE~
+  PATCH_FOR_EACH ~item_to_change~ IN ~helm08~ ~plat04~ ~RNDTRE04~ ~sper01~ BEGIN
+    LAUNCH_PATCH_MACRO ~ADD_CRE_ITEM_FLAGS~
+  END
 
 COPY_EXISTING ~cowenf1.cre~ ~override/cowenf1.cre~
   WRITE_LONG  0x14       0 // xp
@@ -5269,206 +4548,107 @@ COPY_EXISTING ~cowenf1.cre~ ~override/cowenf1.cre~
   WRITE_BYTE  0x242      1 // morale Recovery
   ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
   ADD_CRE_ITEM ~staf01~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~WEAPON1~ TWOHANDED
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "RNDTRE05" = 0) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  LPF ~ADD_CRE_ITEM_FLAGS~ STR_VAR item_to_change = ~RNDTRE05~ flags = ~UNSTEALABLE&UNDROPPABLE~ END
 
 COPY_EXISTING ~jolus.cre~ ~override/jolus.cre~
   WRITE_LONG  0x14       0 // xp
   WRITE_BYTE  0x242      1 // morale Recovery
   ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF (("%item%" STRING_COMPARE_CASE "helm08" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "plat14" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "SHLD30" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "RNDTRE04" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "sw1h07" = 0)) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  SPRINT ~flags~ ~UNSTEALABLE&UNDROPPABLE~
+  PATCH_FOR_EACH ~item_to_change~ IN ~helm08~ ~plat14~ ~SHLD30~ ~RNDTRE04~ ~sw1h07~ BEGIN
+    LAUNCH_PATCH_MACRO ~ADD_CRE_ITEM_FLAGS~
+  END
 
 COPY_EXISTING ~william.cre~ ~override/william.cre~
   WRITE_LONG  0x14       0 // xp
   WRITE_BYTE  0x242      1 // morale Recovery
   ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF (("%item%" STRING_COMPARE_CASE "helm08" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "plat04" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "SHLD01" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "RNDTRE04" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "AX1H01" = 0)) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  SPRINT ~flags~ ~UNSTEALABLE&UNDROPPABLE~
+  PATCH_FOR_EACH ~item_to_change~ IN ~helm08~ ~plat04~ ~SHLD01~ ~RNDTRE04~ ~AX1H01~ BEGIN
+    LAUNCH_PATCH_MACRO ~ADD_CRE_ITEM_FLAGS~
+  END
 
 COPY_EXISTING ~alex.cre~ ~override/alex.cre~
   WRITE_LONG  0x14       0 // xp
   WRITE_BYTE  0x242      1 // morale Recovery
   ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF (("%item%" STRING_COMPARE_CASE "helm08" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "plat04" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "SHLD13" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "RNDTRE04" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "SW1H20" = 0)) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  SPRINT ~flags~ ~UNSTEALABLE&UNDROPPABLE~
+  PATCH_FOR_EACH ~item_to_change~ IN ~helm08~ ~plat04~ ~SHLD13~ ~RNDTRE04~ ~SW1H20~ BEGIN
+    LAUNCH_PATCH_MACRO ~ADD_CRE_ITEM_FLAGS~
+  END
 
 COPY_EXISTING ~ryan.cre~ ~override/ryan.cre~
   WRITE_LONG  0x14       0 // xp
   WRITE_BYTE  0x242      1 // morale Recovery
   ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF (("%item%" STRING_COMPARE_CASE "helm08" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "plat04" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "SHLD13" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "RNDTRE04" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "SW1H20" = 0)) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  SPRINT ~flags~ ~UNSTEALABLE&UNDROPPABLE~
+  PATCH_FOR_EACH ~item_to_change~ IN ~helm08~ ~plat04~ ~SHLD13~ ~RNDTRE04~ ~SW1H20~ BEGIN
+    LAUNCH_PATCH_MACRO ~ADD_CRE_ITEM_FLAGS~
+  END
 
 COPY_EXISTING ~alhel.cre~ ~override/alhel.cre~
   WRITE_LONG  0x14       0 // xp
   WRITE_BYTE  0x242      1 // morale Recovery
   ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
   ADD_CRE_ITEM ~staf01~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~WEAPON1~ TWOHANDED
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "RNDTRE04" = 0) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  LPF ~ADD_CRE_ITEM_FLAGS~ STR_VAR item_to_change = ~RNDTRE04~ flags = ~UNSTEALABLE&UNDROPPABLE~ END
 
 COPY_EXISTING ~hendak.cre~ ~override/hendak.cre~
   WRITE_LONG  0x14       0 // xp
   WRITE_LONG  0x1c       0 // gold
   WRITE_BYTE  0x242      1 // morale Recovery
   ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF (("%item%" STRING_COMPARE_CASE "helm01" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "plat04" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "RNDTRE04" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "BLUN04" = 0)) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  SPRINT ~flags~ ~UNSTEALABLE&UNDROPPABLE~
+  PATCH_FOR_EACH ~item_to_change~ IN ~helm01~ ~plat04~ ~RNDTRE04~ ~BLUN04~ BEGIN
+    LAUNCH_PATCH_MACRO ~ADD_CRE_ITEM_FLAGS~
+  END
 
 COPY_EXISTING ~slcent.cre~ ~override/slcent.cre~
   WRITE_LONG  0x14       0 // xp
   WRITE_BYTE  0x242      1 // morale Recovery
   ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF (("%item%" STRING_COMPARE_CASE "helm08" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "plat04" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "BOW03" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "RNDTRE04" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "SW1H04" = 0)) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  SPRINT ~flags~ ~UNSTEALABLE&UNDROPPABLE~
+  PATCH_FOR_EACH ~item_to_change~ IN ~helm08~ ~plat04~ ~BOW03~ ~RNDTRE04~ ~SW1H04~ BEGIN
+    LAUNCH_PATCH_MACRO ~ADD_CRE_ITEM_FLAGS~
+  END
 
 COPY_EXISTING ~repthf1.cre~ ~override/repthf1.cre~
   WRITE_LONG  0x14       0 // xp
   WRITE_LONG  0x1c       0 // gold
   WRITE_BYTE  0x242      1 // morale Recovery
   ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF (("%item%" STRING_COMPARE_CASE "SW1H43" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "XBOW01" = 0)) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  SPRINT ~flags~ ~UNSTEALABLE&UNDROPPABLE~
+  PATCH_FOR_EACH ~item_to_change~ IN ~SW1H43~ ~XBOW01~ BEGIN
+    LAUNCH_PATCH_MACRO ~ADD_CRE_ITEM_FLAGS~
+  END
 
 COPY_EXISTING ~sarmil01.cre~ ~override/sarmil01.cre~
   WRITE_LONG  0x14       0 // xp
   WRITE_BYTE  0x234      9 // level
   WRITE_BYTE  0x242      1 // morale Recovery
   ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF (("%item%" STRING_COMPARE_CASE "helm08" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "plat04" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "RNDTRE04" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "sper01" = 0)) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  SPRINT ~flags~ ~UNSTEALABLE&UNDROPPABLE~
+  PATCH_FOR_EACH ~item_to_change~ IN ~helm08~ ~plat04~ ~RNDTRE04~ ~sper01~ BEGIN
+    LAUNCH_PATCH_MACRO ~ADD_CRE_ITEM_FLAGS~
+  END
 
 COPY_EXISTING ~sarmil02.cre~ ~override/sarmil02.cre~
   WRITE_LONG  0x14       0 // xp
   WRITE_BYTE  0x242      1 // morale Recovery
   ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF (("%item%" STRING_COMPARE_CASE "helm08" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "plat01" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "RNDTRE04" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "sw2h11" = 0)) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  SPRINT ~flags~ ~UNSTEALABLE&UNDROPPABLE~
+  PATCH_FOR_EACH ~item_to_change~ IN ~helm08~ ~plat01~ ~RNDTRE04~ ~sw2h11~ BEGIN
+    LAUNCH_PATCH_MACRO ~ADD_CRE_ITEM_FLAGS~
+  END
 
 COPY_EXISTING ~amnlegs.cre~ ~override/amnlegs.cre~
   WRITE_LONG  0x14       0 // xp
   WRITE_BYTE  0x242      1 // morale Recovery
   ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF (("%item%" STRING_COMPARE_CASE "helm08" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "plat01" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "RNDTRE04" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "sper01" = 0)) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  SPRINT ~flags~ ~UNSTEALABLE&UNDROPPABLE~
+  PATCH_FOR_EACH ~item_to_change~ IN ~helm08~ ~plat01~ ~RNDTRE04~ ~sper01~ BEGIN
+    LAUNCH_PATCH_MACRO ~ADD_CRE_ITEM_FLAGS~
+  END
 
 COPY_EXISTING ~bersersu.cre~ ~override/bersersu.cre~
   WRITE_ASCII 0x260 ~S!antic3~ #8      // general script
@@ -5553,22 +4733,8 @@ COPY_EXISTING ~shiron.cre~ ~override/shiron.cre~
  WRITE_BYTE  0x61       0 // resist crushing
  WRITE_BYTE  0x62       0 // resist piercing
  WRITE_BYTE  0x63       0 // resist missile
- READ_LONG  0x2bc "itm_off"
- READ_LONG  0x2c0 "itm_num"
- FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-  READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-  PATCH_IF ("%item%" STRING_COMPARE_CASE "immune3" = 0) BEGIN // find old item
-    WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~IMMUNE1~ #8 // write new item
-  END
-END
- READ_LONG  0x2bc "itm_off"
- READ_LONG  0x2c0 "itm_num"
- FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-  READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-  PATCH_IF ("%item%" STRING_COMPARE_CASE "irongol" = 0) BEGIN // find old item
-    WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~S!nobut1~ #8 // write new item
-  END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~immune3~ replace_with = ~IMMUNE1~ END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~irongol~ replace_with = ~S!nobut1~ END
 
 COPY_EXISTING ~shmind.cre~ ~override/shmind.cre~
   WRITE_BYTE  0x52      13 // thac0
@@ -5581,16 +4747,10 @@ COPY_EXISTING ~susuneer.cre~ ~override/susuneer.cre~
 
 COPY_EXISTING ~udtrap03.cre~ ~override/udtrap03.cre~
   WRITE_LONG  0x14    5500 // xp
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF (("%item%" STRING_COMPARE_CASE "sper03" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "scrl7q" = 0)) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  SPRINT ~flags~ ~UNSTEALABLE&UNDROPPABLE~
+  PATCH_FOR_EACH ~item_to_change~ IN ~sper03~ ~scrl7q~ BEGIN
+    LAUNCH_PATCH_MACRO ~ADD_CRE_ITEM_FLAGS~
+  END
 
 COPY_EXISTING ~obsgol01.cre~ ~override/obsgol01.cre~
   WRITE_LONG  0x14       0 // xp
@@ -5608,23 +4768,8 @@ COPY_EXISTING ~behgau01.cre~ ~override/S!behgau.cre~
 
 COPY_EXISTING ~bhghoul5.cre~ ~override/bhghoul5.cre~
   WRITE_LONG  0x14       0 // xp
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "RNDTRE01" = 0) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
-  READ_LONG  0x2bc "itm_off"
-  READ_LONG  0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "BOW03" = 0) BEGIN // find old item
-     WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~B3-12~ #8 // write new item
-   END
-END
+  LPF ~ADD_CRE_ITEM_FLAGS~ STR_VAR item_to_change = ~RNDTRE01~ flags = ~UNSTEALABLE&UNDROPPABLE~ END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~BOW03~ replace_with = ~B3-12~ END
 
 COPY_EXISTING ~carrio.cre~ ~override/carrio.cre~
   WRITE_LONG  0x14       0 // xp
@@ -5634,117 +4779,56 @@ COPY_EXISTING ~carrio.cre~ ~override/carrio.cre~
 COPY_EXISTING ~hobarc01.cre~ ~override/hobarc01.cre~
   WRITE_LONG  0x14       0 // xp
   WRITE_ASCII 0x250 ~S!antic3~ #8         // class script
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF (("%item%" STRING_COMPARE_CASE "BOW05" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "SW1H01" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "AROW01" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "RNDTRE03" = 0)) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  SPRINT ~flags~ ~UNSTEALABLE&UNDROPPABLE~
+  PATCH_FOR_EACH ~item_to_change~ IN ~BOW05~ ~SW1H01~ ~AROW01~ ~RNDTRE03~ BEGIN
+    LAUNCH_PATCH_MACRO ~ADD_CRE_ITEM_FLAGS~
+  END
 
 COPY_EXISTING ~hobarc02.cre~ ~override/S!hobarc.cre~
   WRITE_LONG  0x14       0 // xp
   WRITE_ASCII 0x250 ~S!antic3~ #8         // class script
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF (("%item%" STRING_COMPARE_CASE "HELM01" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "LEAT01" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "BOW03" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "SW1H01" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "AROW02" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "RNDTRE03" = 0)) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  SPRINT ~flags~ ~UNSTEALABLE&UNDROPPABLE~
+  PATCH_FOR_EACH ~item_to_change~ IN ~HELM01~ ~LEAT01~ ~BOW03~ ~SW1H01~ ~AROW02~ ~RNDTRE03~ BEGIN
+    LAUNCH_PATCH_MACRO ~ADD_CRE_ITEM_FLAGS~
+  END
 
 COPY_EXISTING ~hobwar01.cre~ ~override/hobwar01.cre~
   WRITE_LONG  0x14       0 // xp
   WRITE_ASCII 0x250 ~S!antic3~ #8         // class script
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF (("%item%" STRING_COMPARE_CASE "HELM01" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "SW1H01" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "LEAT01" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "RNDTRE03" = 0)) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  SPRINT ~flags~ ~UNSTEALABLE&UNDROPPABLE~
+  PATCH_FOR_EACH ~item_to_change~ IN ~HELM01~ ~SW1H01~ ~LEAT01~ ~RNDTRE03~ BEGIN
+    LAUNCH_PATCH_MACRO ~ADD_CRE_ITEM_FLAGS~
+  END
 
 COPY_EXISTING ~hobsha01.cre~ ~override/S!hobsha.cre~
   WRITE_LONG  0x14       0 // xp
   WRITE_ASCII 0x250 ~S!antic3~ #8         // class script
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF (("%item%" STRING_COMPARE_CASE "HELM01" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "BLUN04" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "LEAT04" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "RNDTRE03" = 0)) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  SPRINT ~flags~ ~UNSTEALABLE&UNDROPPABLE~
+  PATCH_FOR_EACH ~item_to_change~ IN ~HELM01~ ~BLUN04~ ~LEAT04~ ~RNDTRE03~ BEGIN
+    LAUNCH_PATCH_MACRO ~ADD_CRE_ITEM_FLAGS~
+  END
 
 COPY_EXISTING ~hobeli01.cre~ ~override/S!hobeli.cre~
   WRITE_LONG  0x14       0 // xp
   WRITE_LONG  0x1c       0 // gold
   WRITE_ASCII 0x250 ~S!antic3~ #8         // class script
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF (("%item%" STRING_COMPARE_CASE "AROW12" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "LEAT01" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "BOW05" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "SW1H01" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "AROW01" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "RNDTRE03" = 0)) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  SPRINT ~flags~ ~UNSTEALABLE&UNDROPPABLE~
+  PATCH_FOR_EACH ~item_to_change~ IN ~AROW12~ ~LEAT01~ ~BOW05~ ~SW1H01~ ~AROW01~ ~RNDTRE03~ BEGIN
+    LAUNCH_PATCH_MACRO ~ADD_CRE_ITEM_FLAGS~
+  END
 
 COPY_EXISTING ~hobcap01.cre~ ~override/S!hobcap.cre~
   WRITE_LONG  0x14       0 // xp
   WRITE_ASCII 0x250 ~S!antic3~ #8         // class script
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF (("%item%" STRING_COMPARE_CASE "HELM01" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "SHLD03" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "SCRL56" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "SW1H04" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "POTN08" = 0)) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  SPRINT ~flags~ ~UNSTEALABLE&UNDROPPABLE~
+  PATCH_FOR_EACH ~item_to_change~ IN ~HELM01~ ~SHLD03~ ~SCRL56~ ~SW1H04~ ~POTN08~ BEGIN
+    LAUNCH_PATCH_MACRO ~ADD_CRE_ITEM_FLAGS~
+  END
 
 COPY_EXISTING ~kobwar01.cre~ ~override/kobwar01.cre~
   WRITE_LONG  0x14       0 // xp
   WRITE_ASCII 0x260 ~S!antic3~ #8      // general script
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "SW1H07" = 0) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  LPF ~ADD_CRE_ITEM_FLAGS~ STR_VAR item_to_change = ~SW1H07~ flags = ~UNSTEALABLE&UNDROPPABLE~ END
 
 COPY_EXISTING ~kobwar01.cre~ ~override/kobarc01.cre~
 
@@ -5753,73 +4837,35 @@ COPY_EXISTING ~kobsha01.cre~ ~override/kobsha01.cre~
   WRITE_BYTE  0x52      18 // thac0
   WRITE_ASCII 0x258 ~S!antic3~ #8      // race script
   WRITE_BYTE  0x273     0x3 // class cleric
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "BLUN04" = 0) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  LPF ~ADD_CRE_ITEM_FLAGS~ STR_VAR item_to_change = ~BLUN04~ flags = ~UNSTEALABLE&UNDROPPABLE~ END
 
 COPY_EXISTING ~kobcom01.cre~ ~override/S!kobcom.cre~
   WRITE_LONG  0x14       0 // xp
   WRITE_ASCII 0x260 ~S!antic3~ #8      // general script
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF (("%item%" STRING_COMPARE_CASE "BOW05" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "SW1H07" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "AROW08" = 0)) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  SPRINT ~flags~ ~UNSTEALABLE&UNDROPPABLE~
+  PATCH_FOR_EACH ~item_to_change~ IN ~BOW05~ ~SW1H07~ ~AROW08~ BEGIN
+    LAUNCH_PATCH_MACRO ~ADD_CRE_ITEM_FLAGS~
+  END
 
 COPY_EXISTING ~kobcap01.cre~ ~override/kobcap01.cre~
   WRITE_LONG  0x14       0 // xp
   WRITE_BYTE  0x52      16 // thac0
   WRITE_ASCII 0x260 ~S!antic3~ #8      // general script
   WRITE_BYTE  0x273     0x2 // class fighter
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF (("%item%" STRING_COMPARE_CASE "BOW01" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "SW1H07" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "AROW01" = 0)) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  SPRINT ~flags~ ~UNSTEALABLE&UNDROPPABLE~
+  PATCH_FOR_EACH ~item_to_change~ IN ~BOW01~ ~SW1H07~ ~AROW01~ BEGIN
+    LAUNCH_PATCH_MACRO ~ADD_CRE_ITEM_FLAGS~
+  END
 
 COPY_EXISTING ~gibber01.cre~ ~override/gibber01.cre~
   WRITE_LONG  0x14       0 // xp
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "RNDTRE02" = 0) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  LPF ~ADD_CRE_ITEM_FLAGS~ STR_VAR item_to_change = ~RNDTRE02~ flags = ~UNSTEALABLE&UNDROPPABLE~ END
 
 COPY_EXISTING ~ogrill01.cre~ ~override/ogrill01.cre~
   WRITE_LONG  0x14       0 // xp
   WRITE_ASCII 0x258 ~S!antic3~ #8      // race script
   WRITE_BYTE  0x273     0x3 // class cleric
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "RNDTRE03" = 0) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  LPF ~ADD_CRE_ITEM_FLAGS~ STR_VAR item_to_change = ~RNDTRE03~ flags = ~UNSTEALABLE&UNDROPPABLE~ END
 
 COPY_EXISTING ~sahsss01.cre~ ~override/sahsss01.cre~
   WRITE_LONG  0x14    7500 // xp
@@ -5885,15 +4931,7 @@ COPY_EXISTING ~ghast01.cre~ ~override/ghast01.cre~
   WRITE_LONG  0x14       0 // xp
   WRITE_ASCII 0x248 ~S!antic3~ #8 // override script
   WRITE_ASCII 0x250 ~S!ranpm1~ #8         // class script
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "RNDTRE04" = 0) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  LPF ~ADD_CRE_ITEM_FLAGS~ STR_VAR item_to_change = ~RNDTRE04~ flags = ~UNSTEALABLE&UNDROPPABLE~ END
 
 COPY_EXISTING ~wraith01.cre~ ~override/S!wraith.cre~
   WRITE_ASCII 0x248 ~S!anticu~ #8 // override script
@@ -5982,15 +5020,7 @@ COPY_EXISTING ~kuowar01.cre~ ~override/kuotoa01.cre~
 
 COPY_EXISTING ~kuocap01.cre~ ~override/S!kuocap.cre~
   WRITE_LONG  0x14       0 // xp
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "XBOW04" = 0) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  LPF ~ADD_CRE_ITEM_FLAGS~ STR_VAR item_to_change = ~XBOW04~ flags = ~UNSTEALABLE&UNDROPPABLE~ END
 
 COPY_EXISTING ~kuomag01.cre~ ~override/S!kuomag.cre~
   WRITE_LONG  0x14       0 // xp
@@ -6025,19 +5055,10 @@ COPY_EXISTING ~spmugg.cre~ ~override/spmugg.cre~
   WRITE_ASCII 0x248 ~S!antic4~ #8 // override script
   WRITE_ASCII 0x268 ~S!mism01~ #8      // default script
   ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF (("%item%" STRING_COMPARE_CASE "LEAT04" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "SW1H07" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "XBOW04" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "BOLT01" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "RNDTRE02" = 0)) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  SPRINT ~flags~ ~UNSTEALABLE&UNDROPPABLE~
+  PATCH_FOR_EACH ~item_to_change~ IN ~LEAT04~ ~SW1H07~ ~XBOW04~ ~BOLT01~ ~RNDTRE02~ BEGIN
+    LAUNCH_PATCH_MACRO ~ADD_CRE_ITEM_FLAGS~
+  END
 
 COPY_EXISTING ~spmugg2.cre~ ~override/spmugg2.cre~
   WRITE_LONG  0x14       0 // xp
@@ -6060,19 +5081,10 @@ COPY_EXISTING ~spmugg2.cre~ ~override/spmugg2.cre~
   WRITE_BYTE  0x273     0x2 // class fighter
   ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
   ADD_CRE_ITEM ~S!immune~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~AMULET~
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF (("%item%" STRING_COMPARE_CASE "LEAT04" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "SW1H07" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "XBOW04" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "BOLT01" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "RNDTRE02" = 0)) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  SPRINT ~flags~ ~UNSTEALABLE&UNDROPPABLE~
+  PATCH_FOR_EACH ~item_to_change~ IN ~LEAT04~ ~SW1H07~ ~XBOW04~ ~BOLT01~ ~RNDTRE02~ BEGIN
+    LAUNCH_PATCH_MACRO ~ADD_CRE_ITEM_FLAGS~
+  END
 
 COPY_EXISTING ~spmugg3.cre~ ~override/spmugg3.cre~
   WRITE_LONG  0x14       0 // xp
@@ -6097,19 +5109,10 @@ COPY_EXISTING ~spmugg3.cre~ ~override/spmugg3.cre~
   WRITE_BYTE  0x273     0x2 // class fighter
   ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
   ADD_CRE_ITEM ~S!immune~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~AMULET~
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF (("%item%" STRING_COMPARE_CASE "LEAT04" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "SW1H07" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "XBOW04" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "BOLT01" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "RNDTRE02" = 0)) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  SPRINT ~flags~ ~UNSTEALABLE&UNDROPPABLE~
+  PATCH_FOR_EACH ~item_to_change~ IN ~LEAT04~ ~SW1H07~ ~XBOW04~ ~BOLT01~ ~RNDTRE02~ BEGIN
+    LAUNCH_PATCH_MACRO ~ADD_CRE_ITEM_FLAGS~
+  END
 
 COPY_EXISTING ~jelgre01.cre~ ~override/jelgre01.cre~
   WRITE_LONG  0x14       0 // xp
@@ -6127,17 +5130,10 @@ COPY_EXISTING ~orc01.cre~ ~override/orc01.cre~
   WRITE_ASCII 0x258 ~~ #8      // removes race script
   WRITE_ASCII 0x268 ~S!melee0~ #8      // default script
   ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF (("%item%" STRING_COMPARE_CASE "LEAT01" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "SW1H01" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "RNDTRE03" = 0)) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  SPRINT ~flags~ ~UNSTEALABLE&UNDROPPABLE~
+  PATCH_FOR_EACH ~item_to_change~ IN ~LEAT01~ ~SW1H01~ ~RNDTRE03~ BEGIN
+    LAUNCH_PATCH_MACRO ~ADD_CRE_ITEM_FLAGS~
+  END
 
 COPY_EXISTING ~orc02.cre~ ~override/orc02.cre~
   WRITE_LONG  0x14       0 // xp
@@ -6147,19 +5143,10 @@ COPY_EXISTING ~orc02.cre~ ~override/orc02.cre~
   WRITE_BYTE  0x273     0x2 // class fighter
   ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
   ADD_CRE_ITEM ~sw1h02~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~WEAPON2~
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF (("%item%" STRING_COMPARE_CASE "LEAT01" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "HELM01" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "BOW03" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "AROW02" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "RNDTRE03" = 0)) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  SPRINT ~flags~ ~UNSTEALABLE&UNDROPPABLE~
+  PATCH_FOR_EACH ~item_to_change~ IN ~LEAT01~ ~HELM01~ ~BOW03~ ~AROW02~ ~RNDTRE03~ BEGIN
+    LAUNCH_PATCH_MACRO ~ADD_CRE_ITEM_FLAGS~
+  END
 
 COPY_EXISTING ~icyuan01.cre~ ~override/icyuan01.cre~
   WRITE_LONG  0x14    7500 // xp
@@ -6184,14 +5171,7 @@ COPY_EXISTING ~icyuan01.cre~ ~override/icyuan01.cre~
   WRITE_BYTE  0x273     0x2 // class fighter
   ADD_CRE_ITEM ~S!immune~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~AMULET~
   ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
-  READ_LONG  0x2bc "itm_off"
-  READ_LONG  0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "SW1H04" = 0) BEGIN // find old item
-     WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~S!yuanti~ #8 // write new item
-   END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~SW1H04~ replace_with = ~S!yuanti~ END
 
 COPY_EXISTING ~icyuan03.cre~ ~override/S!icyuam.cre~
   WRITE_LONG  0x14       0 // xp
@@ -6204,31 +5184,17 @@ COPY_EXISTING ~icgob01.cre~ ~override/S!icgo1.cre~
 
 COPY_EXISTING ~icgob01.cre~ ~override/icgob01.cre~
   WRITE_LONG  0x14       0 // xp
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "BOW01" = 0) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  LPF ~ADD_CRE_ITEM_FLAGS~ STR_VAR item_to_change = ~BOW01~ flags = ~UNSTEALABLE&UNDROPPABLE~ END
 
 COPY_EXISTING ~icgob03.cre~ ~override/S!icgob.cre~
   WRITE_LONG  0x14       0 // xp
   WRITE_BYTE  0x238     16 // strength
   WRITE_ASCII 0x258 ~S!antic3~ #8      // race script
   WRITE_ASCII 0x268 ~S!melee0~ #8      // default script
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF (("%item%" STRING_COMPARE_CASE "AX1H01" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "RNDTRE02" = 0)) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  SPRINT ~flags~ ~UNSTEALABLE&UNDROPPABLE~
+  PATCH_FOR_EACH ~item_to_change~ IN ~AX1H01~ ~RNDTRE02~ BEGIN
+    LAUNCH_PATCH_MACRO ~ADD_CRE_ITEM_FLAGS~
+  END
 
 COPY_EXISTING ~icliz01.cre~ ~override/icliz01.cre~
   WRITE_LONG  0x14    6500 // xp
@@ -6254,27 +5220,14 @@ COPY_EXISTING ~icliz01.cre~ ~override/icliz01.cre~
   WRITE_ASCII 0x258 ~S!ranpm1~ #8      // race script
   ADD_CRE_ITEM ~S!immune~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~AMULET~
   ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
-  READ_LONG  0x2bc "itm_off"
-  READ_LONG  0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "HALB01" = 0) BEGIN // find old item
-     WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~HALB02~ #8 // write new item
-   END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~HALB01~ replace_with = ~HALB02~ END
 
 COPY_EXISTING ~icliz01.cre~ ~override/S!icliz.cre~
   WRITE_LONG  0x14       0 // xp
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF (("%item%" STRING_COMPARE_CASE "HALB02" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "RNDTRE02" = 0)) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  SPRINT ~flags~ ~UNSTEALABLE&UNDROPPABLE~
+  PATCH_FOR_EACH ~item_to_change~ IN ~HALB02~ ~RNDTRE02~ BEGIN
+    LAUNCH_PATCH_MACRO ~ADD_CRE_ITEM_FLAGS~
+  END
 
 COPY_EXISTING ~mistva01.cre~ ~override/S!mistva.cre~
   WRITE_LONG  0x14       0 // xp
@@ -6325,17 +5278,10 @@ COPY_EXISTING ~orc05.cre~ ~override/orc06.cre~
   WRITE_ASCII 0x268 ~S!melee0~ #8      // default script
   WRITE_ASCII 0x280 ~orc06~ #32         // death variable
   ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF (("%item%" STRING_COMPARE_CASE "LEAT01" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "SW2H01" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "RNDTRE03" = 0)) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  SPRINT ~flags~ ~UNSTEALABLE&UNDROPPABLE~
+  PATCH_FOR_EACH ~item_to_change~ IN ~LEAT01~ ~SW2H01~ ~RNDTRE03~ BEGIN
+    LAUNCH_PATCH_MACRO ~ADD_CRE_ITEM_FLAGS~
+  END
 
 COPY_EXISTING ~jelmus01.cre~ ~override/jelmus01.cre~
   WRITE_LONG  0x14       0 // xp
@@ -6380,15 +5326,7 @@ COPY_EXISTING ~obsdem04.cre~ ~override/S!maurez.cre~
 COPY_EXISTING ~S!phound.cre~ ~override/S!phounr.cre~
   WRITE_LONG  0x14       0 // xp
   WRITE_ASCII 0x280 ~S!phounr~ #32         // death variable
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "MISC41" = 0) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  LPF ~ADD_CRE_ITEM_FLAGS~ STR_VAR item_to_change = ~MISC41~ flags = ~UNSTEALABLE&UNDROPPABLE~ END
 
 COPY_EXISTING ~mistho01.cre~ ~override/S!misth1.cre~
   WRITE_LONG  0x14        0 // xp
@@ -6399,18 +5337,10 @@ COPY_EXISTING ~saralegs.cre~ ~override/saralegs.cre~
   WRITE_LONG  0x14       0 // xp
   WRITE_BYTE  0x242      1 // morale Recovery
   ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF (("%item%" STRING_COMPARE_CASE "helm08" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "plat01" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "RNDTRE04" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "sper01" = 0)) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  SPRINT ~flags~ ~UNSTEALABLE&UNDROPPABLE~
+  PATCH_FOR_EACH ~item_to_change~ IN ~helm08~ ~plat01~ ~RNDTRE04~ ~sper01~ BEGIN
+    LAUNCH_PATCH_MACRO ~ADD_CRE_ITEM_FLAGS~
+  END
 
 COPY_EXISTING ~vamemi01.cre~ ~override/S!vamemi.cre~
   WRITE_LONG  0x14       0 // xp
@@ -6423,15 +5353,7 @@ COPY_EXISTING ~ammlegs.cre~ ~override/ammlegs.cre~
   WRITE_BYTE  0x23f     15 // morale
   WRITE_BYTE  0x242      1 // morale Recovery
   ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "RNDTRE02" = 0) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  LPF ~ADD_CRE_ITEM_FLAGS~ STR_VAR item_to_change = ~RNDTRE02~ flags = ~UNSTEALABLE&UNDROPPABLE~ END
 
 COPY_EXISTING ~reband01.cre~ ~override/reband01.cre~
   WRITE_LONG  0x14       0 // xp
@@ -6449,16 +5371,10 @@ COPY_EXISTING ~reband01.cre~ ~override/reband01.cre~
   WRITE_ASCII 0x268 ~S!melee0~ #8      // default script
   WRITE_BYTE  0x273     0x2 // class fighter
   ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF (("%item%" STRING_COMPARE_CASE "LEAT01" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "SW1H07" = 0)) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  SPRINT ~flags~ ~UNSTEALABLE&UNDROPPABLE~
+  PATCH_FOR_EACH ~item_to_change~ IN ~LEAT01~ ~SW1H07~ BEGIN
+    LAUNCH_PATCH_MACRO ~ADD_CRE_ITEM_FLAGS~
+  END
 
 COPY_EXISTING ~reband02.cre~ ~override/reband02.cre~
   WRITE_LONG  0x14       0 // xp
@@ -6476,16 +5392,10 @@ COPY_EXISTING ~reband02.cre~ ~override/reband02.cre~
   WRITE_ASCII 0x268 ~S!melee0~ #8      // default script
   WRITE_BYTE  0x273     0x2 // class fighter
   ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF (("%item%" STRING_COMPARE_CASE "LEAT01" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "DAGG01" = 0)) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  SPRINT ~flags~ ~UNSTEALABLE&UNDROPPABLE~
+  PATCH_FOR_EACH ~item_to_change~ IN ~LEAT01~ ~DAGG01~ BEGIN
+    LAUNCH_PATCH_MACRO ~ADD_CRE_ITEM_FLAGS~
+  END
 
 COPY_EXISTING ~reband03.cre~ ~override/reband03.cre~
   WRITE_LONG  0x14       0 // xp
@@ -6507,16 +5417,10 @@ COPY_EXISTING ~reband03.cre~ ~override/reband03.cre~
   WRITE_ASCII 0x260 ~S!antic4~ #8       // general script
   WRITE_ASCII 0x268 ~S!melee0~ #8      // default script
   ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF (("%item%" STRING_COMPARE_CASE "LEAT01" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "SW1H04" = 0)) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  SPRINT ~flags~ ~UNSTEALABLE&UNDROPPABLE~
+  PATCH_FOR_EACH ~item_to_change~ IN ~LEAT01~ ~SW1H04~ BEGIN
+    LAUNCH_PATCH_MACRO ~ADD_CRE_ITEM_FLAGS~
+  END
 
 COPY_EXISTING ~reband05.cre~ ~override/reband05.cre~
   WRITE_LONG  0x14       0 // xp
@@ -6538,16 +5442,10 @@ COPY_EXISTING ~reband05.cre~ ~override/reband05.cre~
   WRITE_ASCII 0x268 ~priest12~ #8      // default script
   ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
   ADD_CRE_ITEM ~S!immune~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~AMULET~
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF (("%item%" STRING_COMPARE_CASE "CHAN01" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "BLUN01" = 0)) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  SPRINT ~flags~ ~UNSTEALABLE&UNDROPPABLE~
+  PATCH_FOR_EACH ~item_to_change~ IN ~CHAN01~ ~BLUN01~ BEGIN
+    LAUNCH_PATCH_MACRO ~ADD_CRE_ITEM_FLAGS~
+  END
 
 COPY_EXISTING ~shawol01.cre~ ~override/shawol01.cre~
   WRITE_LONG  0x14       0 // xp
@@ -6578,15 +5476,7 @@ COPY_EXISTING ~bearbl.cre~ ~override/bearbl.cre~
 
 COPY_EXISTING ~ankheg01.cre~ ~override/ankheg01.cre~
   WRITE_LONG  0x14       0 // xp
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "RNDTRE04" = 0) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  LPF ~ADD_CRE_ITEM_FLAGS~ STR_VAR item_to_change = ~RNDTRE04~ flags = ~UNSTEALABLE&UNDROPPABLE~ END
 
 COPY_EXISTING ~catpan01.cre~ ~override/catpan01.cre~
   WRITE_LONG  0x14       0 // xp
@@ -6683,20 +5573,10 @@ COPY_EXISTING ~yssold16.cre~ ~override/yssold16.cre~
 COPY_EXISTING ~HGWAR02.cre~ ~override/S!HGWAR.cre~
   WRITE_LONG  0x14       0 // xp
   WRITE_LONG  0x1c       0 // gold
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF (("%item%" STRING_COMPARE_CASE "POTN55" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "RNDTRE04" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "MISC16" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "MISC38" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "MISC35" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "MISC42" = 0)) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  SPRINT ~flags~ ~UNSTEALABLE&UNDROPPABLE~
+  PATCH_FOR_EACH ~item_to_change~ IN ~POTN55~ ~RNDTRE04~ ~MISC16~ ~MISC38~ ~MISC35~ ~MISC42~ BEGIN
+    LAUNCH_PATCH_MACRO ~ADD_CRE_ITEM_FLAGS~
+  END
 
 COPY_EXISTING ~yssold01.cre~ ~override/yssold01.cre~
   WRITE_LONG  0x14       0 // xp
@@ -6720,23 +5600,8 @@ COPY_EXISTING ~yssold01.cre~ ~override/yssold01.cre~
   ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
   ADD_CRE_ITEM ~helmnoan~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~HELMET~
   ADD_CRE_ITEM ~plat14~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~ARMOR~
-  READ_LONG  0x2bc "itm_off"
-  READ_LONG  0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "SW1H04" = 0) BEGIN // find old item
-     WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~SW2H11~ #8 // write new item
-   END
-END
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "SW2H11" = 0) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~SW1H04~ replace_with = ~SW2H11~ END
+  LPF ~ADD_CRE_ITEM_FLAGS~ STR_VAR item_to_change = ~SW2H11~ flags = ~UNSTEALABLE&UNDROPPABLE~ END
 
 COPY_EXISTING ~yssold03.cre~ ~override/yssold03.cre~
   WRITE_LONG  0x14       0 // xp
@@ -6760,40 +5625,10 @@ COPY_EXISTING ~yssold03.cre~ ~override/yssold03.cre~
   ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
   ADD_CRE_ITEM ~helmnoan~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~HELMET~
   ADD_CRE_ITEM ~shld29~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~SHIELD~
-  READ_LONG  0x2bc "itm_off"
-  READ_LONG  0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "SW1H01" = 0) BEGIN // find old item
-     WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~SW1H72~ #8 // write new item
-   END
-END
-  READ_LONG  0x2bc "itm_off"
-  READ_LONG  0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "CHAN01" = 0) BEGIN // find old item
-     WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~plat14~ #8 // write new item
-   END
-END
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "SW1H72" = 0) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "plat14" = 0) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~SW1H01~ replace_with = ~SW1H72~ END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~CHAN01~ replace_with = ~plat14~ END
+  LPF ~ADD_CRE_ITEM_FLAGS~ STR_VAR item_to_change = ~SW1H72~ flags = ~UNSTEALABLE&UNDROPPABLE~ END
+  LPF ~ADD_CRE_ITEM_FLAGS~ STR_VAR item_to_change = ~plat14~ flags = ~UNSTEALABLE&UNDROPPABLE~ END
 
 COPY_EXISTING ~yssold04.cre~ ~override/yssold04.cre~
   WRITE_LONG  0x14       0 // xp
@@ -6805,19 +5640,10 @@ COPY_EXISTING ~yssold04.cre~ ~override/yssold04.cre~
   WRITE_ASCII 0x260 ~S!antic3~ #8       // general script
   WRITE_ASCII 0x268 ~S!ranpm2~ #8      // default script
   ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF (("%item%" STRING_COMPARE_CASE "HELM01" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "PLAT01" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "HALB07" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "RNDTRE04" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "RNDTRE05" = 0)) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  SPRINT ~flags~ ~UNSTEALABLE&UNDROPPABLE~
+  PATCH_FOR_EACH ~item_to_change~ IN ~HELM01~ ~PLAT01~ ~HALB07~ ~RNDTRE04~ ~RNDTRE05~ BEGIN
+    LAUNCH_PATCH_MACRO ~ADD_CRE_ITEM_FLAGS~
+  END
 
 COPY_EXISTING ~yssold01.cre~ ~override/yssold02.cre~
 
@@ -6849,23 +5675,8 @@ COPY_EXISTING ~shtroll.cre~ ~override/shtroll.cre~
 COPY_EXISTING ~shwolf.cre~ ~override/shwolf.cre~
  WRITE_BYTE  0x52      10 // thac0
  WRITE_BYTE  0x53       1 // number of attacks
- READ_LONG  0x2bc "itm_off"
- READ_LONG  0x2c0 "itm_num"
- FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-  READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-  PATCH_IF ("%item%" STRING_COMPARE_CASE "ringwolf" = 0) BEGIN // find old item
-    WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~RING10~ #8 // write new item
-  END
-END
- READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "RING10" = 0) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~ringwolf~ replace_with = ~RING10~ END
+  LPF ~ADD_CRE_ITEM_FLAGS~ STR_VAR item_to_change = ~RING10~ flags = ~UNSTEALABLE&UNDROPPABLE~ END
 
 COPY_EXISTING ~golcla01.cre~ ~override/S!golcla.cre~
   WRITE_ASCII 0x248 ~S!anticg~ #8 // override script
@@ -6878,65 +5689,25 @@ COPY_EXISTING ~sahsss03.cre~ ~override/S!vilmag.cre~
 COPY_EXISTING ~genefr01.cre~ ~override/genefr01.cre~
   WRITE_LONG  0x14       0 // xp
   WRITE_BYTE  0x234      9 // level
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "SW1H20" = 0) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  LPF ~ADD_CRE_ITEM_FLAGS~ STR_VAR item_to_change = ~SW1H20~ flags = ~UNSTEALABLE&UNDROPPABLE~ END
 
 COPY_EXISTING ~renal.cre~ ~override/renal.cre~
- READ_LONG 0x2bc "itm_off"
- READ_LONG 0x2c0 "itm_num"
- FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-  READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-  PATCH_IF ("%item%" STRING_COMPARE_CASE "boot01" = 0) BEGIN // find the item
-   READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-   WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001000) // set undroppable flag
-  END
-END
+  LPF ~ADD_CRE_ITEM_FLAGS~ STR_VAR item_to_change = ~boot01~ flags = ~UNDROPPABLE~ END
 
 COPY_EXISTING ~c6elhan.cre~ ~override/c6elhan.cre~
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "SW1H50" = 0) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  LPF ~ADD_CRE_ITEM_FLAGS~ STR_VAR item_to_change = ~SW1H50~ flags = ~UNSTEALABLE&UNDROPPABLE~ END
 
 COPY_EXISTING ~suelhan.cre~ ~override/suelhan.cre~
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "SW1H50" = 0) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  LPF ~ADD_CRE_ITEM_FLAGS~ STR_VAR item_to_change = ~SW1H50~ flags = ~UNSTEALABLE&UNDROPPABLE~ END
 
 COPY_EXISTING ~sensmsp2.cre~ ~override/sensmsp2.cre~
   WRITE_LONG  0x14       0 // xp
   WRITE_LONG  0x1c       0 // gold
   WRITE_BYTE  0x52      13 // thac0
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF (("%item%" STRING_COMPARE_CASE "HELM01" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "PLAT10" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "SW2H11" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "RNDTRE03" = 0)) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  SPRINT ~flags~ ~UNSTEALABLE&UNDROPPABLE~
+  PATCH_FOR_EACH ~item_to_change~ IN ~HELM01~ ~PLAT10~ ~SW2H11~ ~RNDTRE03~ BEGIN
+    LAUNCH_PATCH_MACRO ~ADD_CRE_ITEM_FLAGS~
+  END
 
 COPY_EXISTING ~elemogre.cre~ ~override/elemogre.cre~
   WRITE_LONG  0x1c    5000 // gold
@@ -6952,14 +5723,7 @@ COPY_EXISTING ~elemogre.cre~ ~override/elemogre.cre~
   WRITE_BYTE  0x242      1 // morale Recovery
   WRITE_BYTE  0x273     0x1 // class mage
   ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
-  READ_LONG  0x2bc "itm_off"
-  READ_LONG  0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "elemprin" = 0) BEGIN // find old item
-     WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~dragring~ #8 // write new item
-   END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~elemprin~ replace_with = ~dragring~ END
 
 COPY_EXISTING ~demabi01.cre~ ~override/demabi01.cre~
   WRITE_SHORT 0x24     150 // current hp
@@ -6986,14 +5750,7 @@ COPY_EXISTING ~demabi01.cre~ ~override/demabi01.cre~
   WRITE_BYTE  0x242      1 // morale Recovery
   WRITE_ASCII 0x268 ~S!ransm4~ #8      // default script
   ADD_CRE_ITEM ~S!trap~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~BELT~
-  READ_LONG  0x2bc "itm_off"
-  READ_LONG  0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF ("%item%" STRING_COMPARE_CASE "ringdemn" = 0) BEGIN // find old item
-     WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) ~dragring~ #8 // write new item
-   END
-END
+  LPF ~S!FIND_AND_REPLACE_ITEM~ STR_VAR to_replace = ~ringdemn~ replace_with = ~dragring~ END
 
 COPY_EXISTING ~elearg01.cre~ ~override/elearg01.cre~
   WRITE_LONG  0x14       0 // xp
@@ -7003,17 +5760,10 @@ COPY_EXISTING ~GORJELGR.cre~ ~override/GORJELGR.cre~
   WRITE_LONG  0x14       0 // xp
 
 COPY_EXISTING ~RIFTCR02.cre~ ~override/RIFTCR02.cre~
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-   READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-   PATCH_IF (("%item%" STRING_COMPARE_CASE "HELM08" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "RNDTRE05" = 0) OR
-             ("%item%" STRING_COMPARE_CASE "SW2H02" = 0)) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
-   END
-END
+  SPRINT ~flags~ ~UNSTEALABLE&UNDROPPABLE~
+  PATCH_FOR_EACH ~item_to_change~ IN ~HELM08~ ~RNDTRE05~ ~SW2H02~ BEGIN
+    LAUNCH_PATCH_MACRO ~ADD_CRE_ITEM_FLAGS~
+  END
 
 COPY_EXISTING ~GROMG04.cre~ ~override/GROMG04.cre~
               ~GROMG12.cre~ ~override/GROMG12.cre~
@@ -7361,67 +6111,31 @@ COPY_EXISTING ~sumdjinn.cre~ ~override/sumdjinn.cre~
 // tweak sendai dwarf horde XP and drops
 COPY_EXISTING ~senorc01.cre~ ~override/senorc01.cre~
   WRITE_LONG  0x14 0 // xp
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-    READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-    PATCH_IF (("%item%" STRING_COMPARE_CASE "HELM01" = 0) OR
-              ("%item%" STRING_COMPARE_CASE "CHAN01" = 0) OR
-              ("%item%" STRING_COMPARE_CASE "DWHALB01" = 0) OR
-              ("%item%" STRING_COMPARE_CASE "RNDTRE03" = 0)) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
+  SPRINT ~flags~ ~UNSTEALABLE&UNDROPPABLE~
+  PATCH_FOR_EACH ~item_to_change~ IN ~HELM01~ ~CHAN01~ ~DWHALB01~ ~RNDTRE03~ BEGIN
+    LAUNCH_PATCH_MACRO ~ADD_CRE_ITEM_FLAGS~
   END
-END
 
 COPY_EXISTING ~senorc02.cre~ ~override/senorc02.cre~
   WRITE_LONG  0x14 0 // xp
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-    READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-    PATCH_IF (("%item%" STRING_COMPARE_CASE "CHAN01" = 0) OR
-              ("%item%" STRING_COMPARE_CASE "XBOW02" = 0) OR
-              ("%item%" STRING_COMPARE_CASE "SW1H09" = 0) OR
-              ("%item%" STRING_COMPARE_CASE "BOLT01" = 0) OR
-              ("%item%" STRING_COMPARE_CASE "BOLT02" = 0) OR
-              ("%item%" STRING_COMPARE_CASE "RNDTRE03" = 0)) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
+  SPRINT ~flags~ ~UNSTEALABLE&UNDROPPABLE~
+  PATCH_FOR_EACH ~item_to_change~ IN ~CHAN01~ ~XBOW02~ ~SW1H09~ ~BOLT01~ ~BOLT02~ ~RNDTRE03~ BEGIN
+    LAUNCH_PATCH_MACRO ~ADD_CRE_ITEM_FLAGS~
   END
-END
 
 COPY_EXISTING ~senorc03.cre~ ~override/senorc03.cre~
   WRITE_LONG  0x14 0 // xp
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-    READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-    PATCH_IF (("%item%" STRING_COMPARE_CASE "HELM01" = 0) OR
-              ("%item%" STRING_COMPARE_CASE "CHAN01" = 0) OR
-              ("%item%" STRING_COMPARE_CASE "DWHALB01" = 0) OR
-              ("%item%" STRING_COMPARE_CASE "RNDTRE03" = 0)) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
+  SPRINT ~flags~ ~UNSTEALABLE&UNDROPPABLE~
+  PATCH_FOR_EACH ~item_to_change~ IN ~HELM01~ ~CHAN01~ ~DWHALB01~ ~RNDTRE03~ BEGIN
+    LAUNCH_PATCH_MACRO ~ADD_CRE_ITEM_FLAGS~
   END
-END
 
 COPY_EXISTING ~senorc04.cre~ ~override/senorc04.cre~
   WRITE_LONG  0x14 0 // xp
-  READ_LONG 0x2bc "itm_off"
-  READ_LONG 0x2c0 "itm_num"
-  FOR (index = 0; index < itm_num; index = index + 1) BEGIN // searches through items
-    READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-    PATCH_IF (("%item%" STRING_COMPARE_CASE "CHAN01" = 0) OR
-              ("%item%" STRING_COMPARE_CASE "XBOW05" = 0) OR
-              ("%item%" STRING_COMPARE_CASE "SW1H09" = 0) OR
-              ("%item%" STRING_COMPARE_CASE "BOLT01" = 0) OR
-              ("%item%" STRING_COMPARE_CASE "BOLT02" = 0) OR
-              ("%item%" STRING_COMPARE_CASE "RNDTRE03" = 0)) BEGIN // find the item
-    READ_BYTE("%itm_off%" + 0x10 + (0x14 * "%index%")) "itemflags"
-    WRITE_BYTE ("%itm_off%" + 0x10 + (0x14 * "%index%")) ("%itemflags%" BOR 0b00001010) // set Unstealable and undroppable flags
+  SPRINT ~flags~ ~UNSTEALABLE&UNDROPPABLE~
+  PATCH_FOR_EACH ~item_to_change~ IN ~CHAN01~ ~XBOW05~ ~SW1H09~ ~BOLT01~ ~BOLT02~ ~RNDTRE03~ BEGIN
+    LAUNCH_PATCH_MACRO ~ADD_CRE_ITEM_FLAGS~
   END
-END
 
 // Lennah
 COPY_EXISTING ~jade1.cre~ ~override/jade1.cre~
