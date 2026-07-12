@@ -163,3 +163,20 @@ COPY_EXISTING ~WEREGR01.cre~ ~override/S!loup01.cre~
   PATCH_IF (~%DEST_RES%~ STRING_EQUAL_CASE ~S!loup05~) BEGIN
     WRITE_ASCII 0x280 ~s!loup05~ #32 // death variable
   END
+
+// weregr01's inherited tint was stripped in the block above (op51/op101
+// deletes) — apply the loup garou scheme instead
+ACTION_FOR_EACH ~file~ IN
+                ~S!LOUP01~
+                ~S!LOUP02~
+                ~S!LOUP03~
+                ~S!LOUP04~
+                ~S!LOUP05~
+BEGIN
+  LAF ~S!CHANGE_CREATURE_COLOURS~
+    STR_VAR
+      file = EVALUATE_BUFFER "%file%"
+      opcode = "51"
+      parameter1 = EVALUATE_BUFFER "%loup_garou_tint%"
+  END
+END

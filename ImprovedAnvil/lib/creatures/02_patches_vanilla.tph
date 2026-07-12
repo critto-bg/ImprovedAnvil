@@ -12,6 +12,19 @@ ACTION_PHP_EACH item_replacements AS record => int BEGIN
   END
 END
 
+// creature colour schemes, applied via S!CHANGE_CREATURE_COLOURS below and
+// in 05_patches_new.tph (the mod's own creatures carry their colours in the
+// definition tables — only vanilla and install-created creatures are tinted
+// from install code)
+OUTER_SPRINT ~gem_golem_tint~        ~202113024~  // op52
+OUTER_SPRINT ~coin_golem_tint~       ~986880~     // op52
+OUTER_SPRINT ~stone_golem_tint~      ~134677760~  // op52
+OUTER_SPRINT ~sand_golem_tint~       ~50792192~   // op52
+OUTER_SPRINT ~brain_golem_tint~      ~83887360~   // op52
+OUTER_SPRINT ~greater_werewolf_tint~ ~16762880~   // op51
+OUTER_SPRINT ~vampiric_wolf_tint~    ~906032896~  // op51
+OUTER_SPRINT ~loup_garou_tint~       ~1684340480~ // op51
+
 // Patching various attributes and stats for existing enemy creatures //
 
 COPY_EXISTING ~shadra01.cre~ ~override/shadra01.cre~
@@ -6240,6 +6253,13 @@ COPY_EXISTING ~wolfva01.cre~ ~override/wolfva01.cre~
   REPLACE_CRE_ITEM ~s!regw1~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~RRING~
   REPLACE_CRE_ITEM ~s!wolf2~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~WEAPON1~
 
+LAF ~S!CHANGE_CREATURE_COLOURS~
+  STR_VAR
+    file = ~wolfva01~
+    opcode = ~51~
+    parameter1 = EVALUATE_BUFFER "%vampiric_wolf_tint%"
+END
+
 // werewolf
 COPY_EXISTING ~werewo01.cre~ ~override/werewo01.cre~
   WRITE_LONG  0x14      8000 // xp
@@ -6336,6 +6356,21 @@ COPY_EXISTING ~WEREGR01.cre~ ~override/weregr01.cre~
   ADD_CRE_ITEM ~s!regw2~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~RRING~
   ADD_CRE_ITEM ~s!bite02~ #0 #0 #0 ~UNSTEALABLE&UNDROPPABLE~ ~WEAPON2~
 
+// the S!wereg1-6 copies made in 05_patches_new.tph inherit this tint;
+// the loup garou copies strip it there and get their own
+ACTION_FOR_EACH ~file~ IN
+                ~WEREGR01~
+                ~RNGWLF04~
+                ~firamb01~
+BEGIN
+  LAF ~S!CHANGE_CREATURE_COLOURS~
+    STR_VAR
+      file = EVALUATE_BUFFER "%file%"
+      opcode = "51"
+      parameter1 = EVALUATE_BUFFER "%greater_werewolf_tint%"
+  END
+END
+
 // batch processing //
 
 // iterate over all creatures and apply global patches
@@ -6371,3 +6406,69 @@ COPY_EXISTING_REGEXP GLOB ~.*\.cre~ ~override~
   END
 
   BUT_ONLY
+
+// colour the vanilla golems after their own kind
+
+ACTION_FOR_EACH ~file~ IN
+                ~AMTARC01~
+                ~HLARCH~
+BEGIN
+  LAF ~S!CHANGE_CREATURE_COLOURS~
+    STR_VAR
+      file = EVALUATE_BUFFER "%file%"
+      opcode = "52"
+      parameter1 = EVALUATE_BUFFER "%gem_golem_tint%"
+  END
+END
+
+ACTION_FOR_EACH ~file~ IN
+                ~PPIRON~
+BEGIN
+  LAF ~S!CHANGE_CREATURE_COLOURS~
+    STR_VAR
+      file = EVALUATE_BUFFER "%file%"
+      opcode = "52"
+      parameter1 = EVALUATE_BUFFER "%coin_golem_tint%"
+  END
+END
+
+ACTION_FOR_EACH ~file~ IN
+                ~DSTONE1~
+                ~GOLSTO01~
+                ~JUGJUG01~
+                ~JUGJUG02~
+                ~KPGOL03~
+                ~KPGOL05~
+                ~STGOL01~
+                ~TOMEGOL3~
+BEGIN
+  LAF ~S!CHANGE_CREATURE_COLOURS~
+    STR_VAR
+      file = EVALUATE_BUFFER "%file%"
+      opcode = "52"
+      parameter1 = EVALUATE_BUFFER "%stone_golem_tint%"
+  END
+END
+
+ACTION_FOR_EACH ~file~ IN
+                ~golsan01~
+BEGIN
+  LAF ~S!CHANGE_CREATURE_COLOURS~
+    STR_VAR
+      file = EVALUATE_BUFFER "%file%"
+      opcode = "52"
+      parameter1 = EVALUATE_BUFFER "%sand_golem_tint%"
+  END
+END
+
+ACTION_FOR_EACH ~file~ IN
+                ~GOLBRA01~
+                ~UDGOLEM~
+BEGIN
+  LAF ~S!CHANGE_CREATURE_COLOURS~
+    STR_VAR
+      file = EVALUATE_BUFFER "%file%"
+      opcode = "52"
+      parameter1 = EVALUATE_BUFFER "%brain_golem_tint%"
+  END
+END
