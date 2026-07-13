@@ -116,11 +116,11 @@ DEFINE_ACTION_MACRO ~S!CRE_TABLE_LOAD~ BEGIN
 
     COPY - ~%iacre_load_file%~ ~inlined/iacre_tbl.2da~
       // ------- arity-3: TPL SAY HDR COLOUR PKG SEL + section markers --------
-      COUNT_2DA_ROWS 3 tl_rows
-      FOR (tl_r = 0; tl_r < tl_rows; tl_r += 1) BEGIN
-        READ_2DA_ENTRY tl_r 0 3 tl_tag
-        READ_2DA_ENTRY tl_r 1 3 tl_arg1
-        READ_2DA_ENTRY tl_r 2 3 tl_arg2
+      READ_2DA_ENTRIES_NOW iacre_r3 3
+      FOR (tl_r = 0; tl_r < iacre_r3; tl_r += 1) BEGIN
+        READ_2DA_ENTRY_FORMER iacre_r3 tl_r 0 tl_tag
+        READ_2DA_ENTRY_FORMER iacre_r3 tl_r 1 tl_arg1
+        READ_2DA_ENTRY_FORMER iacre_r3 tl_r 2 tl_arg2
 
         PATCH_IF ~%tl_tag%~ STRING_EQUAL_CASE ~TPL~ BEGIN
           SPRINT $iacre_tbl_tpl(~%tl_id%~) ~%tl_arg1%~
@@ -186,14 +186,14 @@ DEFINE_ACTION_MACRO ~S!CRE_TABLE_LOAD~ BEGIN
       END
 
       // ------- arity-4: BUDGET ---------------------------------------------
-      COUNT_2DA_ROWS 4 tl_rows
-      FOR (tl_r = 0; tl_r < tl_rows; tl_r += 1) BEGIN
-        READ_2DA_ENTRY tl_r 0 4 tl_tag
+      READ_2DA_ENTRIES_NOW iacre_r4 4
+      FOR (tl_r = 0; tl_r < iacre_r4; tl_r += 1) BEGIN
+        READ_2DA_ENTRY_FORMER iacre_r4 tl_r 0 tl_tag
         PATCH_IF ~%tl_tag%~ STRING_EQUAL_CASE ~BUDGET~ BEGIN
           SET tl_n = $iacre_tbl(~%tl_id%~ ~bud_n~)
-          READ_2DA_ENTRY tl_r 1 4 tl_booktype
-          READ_2DA_ENTRY tl_r 2 4 tl_lvl
-          READ_2DA_ENTRY tl_r 3 4 tl_count
+          READ_2DA_ENTRY_FORMER iacre_r4 tl_r 1 tl_booktype
+          READ_2DA_ENTRY_FORMER iacre_r4 tl_r 2 tl_lvl
+          READ_2DA_ENTRY_FORMER iacre_r4 tl_r 3 tl_count
 
           SPRINT $iacre_tbl_budget(~%tl_id%~ ~%tl_n%~ ~type~) ~%tl_booktype%~
           SET $iacre_tbl_budget(~%tl_id%~ ~%tl_n%~ ~lvl~) = tl_lvl
@@ -204,15 +204,15 @@ DEFINE_ACTION_MACRO ~S!CRE_TABLE_LOAD~ BEGIN
       END
 
       // ------- arity-5: ITEM -------------------------------------------------
-      COUNT_2DA_ROWS 5 tl_rows
-      FOR (tl_r = 0; tl_r < tl_rows; tl_r += 1) BEGIN
-        READ_2DA_ENTRY tl_r 0 5 tl_tag
+      READ_2DA_ENTRIES_NOW iacre_r5 5
+      FOR (tl_r = 0; tl_r < iacre_r5; tl_r += 1) BEGIN
+        READ_2DA_ENTRY_FORMER iacre_r5 tl_r 0 tl_tag
         PATCH_IF ~%tl_tag%~ STRING_EQUAL_CASE ~ITEM~ BEGIN
           SET tl_n = $iacre_tbl(~%tl_id%~ ~item_n~)
-          READ_2DA_ENTRY tl_r 1 5 tl_slot
-          READ_2DA_ENTRY tl_r 2 5 tl_res
-          READ_2DA_ENTRY tl_r 3 5 tl_flags
-          READ_2DA_ENTRY tl_r 4 5 tl_qty
+          READ_2DA_ENTRY_FORMER iacre_r5 tl_r 1 tl_slot
+          READ_2DA_ENTRY_FORMER iacre_r5 tl_r 2 tl_res
+          READ_2DA_ENTRY_FORMER iacre_r5 tl_r 3 tl_flags
+          READ_2DA_ENTRY_FORMER iacre_r5 tl_r 4 tl_qty
 
           SPRINT $iacre_tbl_item(~%tl_id%~ ~%tl_n%~ ~slot~) ~%tl_slot%~
           SPRINT $iacre_tbl_item(~%tl_id%~ ~%tl_n%~ ~res~) ~%tl_res%~
@@ -224,46 +224,46 @@ DEFINE_ACTION_MACRO ~S!CRE_TABLE_LOAD~ BEGIN
       END
 
       // ------- arity-5: FX ---------------------------------------------------
-      COUNT_2DA_ROWS 5 tl_rows
-      FOR (tl_r = 0; tl_r < tl_rows; tl_r += 1) BEGIN
-        READ_2DA_ENTRY tl_r 0 5 tl_tag
+      READ_2DA_ENTRIES_NOW iacre_r5 5
+      FOR (tl_r = 0; tl_r < iacre_r5; tl_r += 1) BEGIN
+        READ_2DA_ENTRY_FORMER iacre_r5 tl_r 0 tl_tag
         PATCH_IF ~%tl_tag%~ STRING_EQUAL_CASE ~FX~ BEGIN
           SET tl_n = $iacre_tbl(~%tl_id%~ ~fx_n~)
-          READ_2DA_ENTRY tl_r 1 5 tl_op
+          READ_2DA_ENTRY_FORMER iacre_r5 tl_r 1 tl_op
           PATCH_IF VARIABLE_IS_SET $iacre_eraser(~%tl_op%~) BEGIN
             PATCH_FAIL ~S!CRE_TABLE_LOAD: eraser opcode %tl_op% in %iacre_load_file% — order-critical, not allowed in creature definitions~
           END
-          READ_2DA_ENTRY tl_r 2 5 tl_p1
-          READ_2DA_ENTRY tl_r 3 5 tl_p2
-          READ_2DA_ENTRY tl_r 4 5 tl_res
+          READ_2DA_ENTRY_FORMER iacre_r5 tl_r 2 tl_p1
+          READ_2DA_ENTRY_FORMER iacre_r5 tl_r 3 tl_p2
+          READ_2DA_ENTRY_FORMER iacre_r5 tl_r 4 tl_res
 
-          SPRINT $iacre_tbl_fx(~%tl_id%~ ~%tl_n%~ ~op~) ~%tl_op%~
-          SPRINT $iacre_tbl_fx(~%tl_id%~ ~%tl_n%~ ~p1~) ~%tl_p1%~
-          SPRINT $iacre_tbl_fx(~%tl_id%~ ~%tl_n%~ ~p2~) ~%tl_p2%~
-          SPRINT $iacre_tbl_fx(~%tl_id%~ ~%tl_n%~ ~resource~) ~%tl_res%~
+          TEXT_SPRINT EVAL ~iacre_tblfx_%tl_id%_%tl_n%_op~ ~%tl_op%~
+          TEXT_SPRINT EVAL ~iacre_tblfx_%tl_id%_%tl_n%_p1~ ~%tl_p1%~
+          TEXT_SPRINT EVAL ~iacre_tblfx_%tl_id%_%tl_n%_p2~ ~%tl_p2%~
+          TEXT_SPRINT EVAL ~iacre_tblfx_%tl_id%_%tl_n%_resource~ ~%tl_res%~
           SET tl_sort_key = tl_op
           PATCH_IF VARIABLE_IS_SET $iacre_blocker(~%tl_op%~) BEGIN
             SET tl_sort_key += 100000
           END
-          SET $iacre_tbl_fx_key(~%tl_id%~ ~%tl_n%~) = tl_sort_key
+          SET EVAL ~iacre_tblfxk_%tl_id%_%tl_n%~ = tl_sort_key
           SET $iacre_tbl(~%tl_id%~ ~fx_n~) = tl_n + 1
           SET $iacre_tbl(~%tl_id%~ ~has_fx~) = 1
         END
       END
 
       // ------- arity-11: KNOWN / MEM ------------------------------------------
-      COUNT_2DA_ROWS 11 tl_rows
-      FOR (tl_r = 0; tl_r < tl_rows; tl_r += 1) BEGIN
-        READ_2DA_ENTRY tl_r 0 11 tl_tag
+      READ_2DA_ENTRIES_NOW iacre_r11 11
+      FOR (tl_r = 0; tl_r < iacre_r11; tl_r += 1) BEGIN
+        READ_2DA_ENTRY_FORMER iacre_r11 tl_r 0 tl_tag
         SET tl_is_known = (~%tl_tag%~ STRING_EQUAL_CASE ~KNOWN~) ? 1 : 0
         SET tl_is_mem = (~%tl_tag%~ STRING_EQUAL_CASE ~MEM~) ? 1 : 0
 
         PATCH_IF (tl_is_known OR tl_is_mem) BEGIN
-          READ_2DA_ENTRY tl_r 1 11 tl_booktype
-          READ_2DA_ENTRY tl_r 2 11 tl_lvl
+          READ_2DA_ENTRY_FORMER iacre_r11 tl_r 1 tl_booktype
+          READ_2DA_ENTRY_FORMER iacre_r11 tl_r 2 tl_lvl
 
           FOR (tl_c = 3; tl_c < 11; tl_c += 1) BEGIN
-            READ_2DA_ENTRY tl_r tl_c 11 tl_res
+            READ_2DA_ENTRY_FORMER iacre_r11 tl_r tl_c tl_res
             PATCH_IF NOT (~%tl_res%~ STRING_EQUAL ~-~) BEGIN
               PATCH_IF tl_is_known BEGIN
                 SET tl_n = $iacre_tbl(~%tl_id%~ ~kn_n~)
@@ -286,51 +286,52 @@ DEFINE_ACTION_MACRO ~S!CRE_TABLE_LOAD~ BEGIN
       END
 
       // ------- arity-11: FXM (expanded into plain fx entries) -----------------
-      COUNT_2DA_ROWS 11 tl_rows
-      FOR (tl_r = 0; tl_r < tl_rows; tl_r += 1) BEGIN
-        READ_2DA_ENTRY tl_r 0 11 tl_tag
+      READ_2DA_ENTRIES_NOW iacre_r11 11
+      FOR (tl_r = 0; tl_r < iacre_r11; tl_r += 1) BEGIN
+        READ_2DA_ENTRY_FORMER iacre_r11 tl_r 0 tl_tag
         PATCH_IF ~%tl_tag%~ STRING_EQUAL_CASE ~FXM~ BEGIN
-          READ_2DA_ENTRY tl_r 1 11 tl_kind
-          READ_2DA_ENTRY tl_r 2 11 tl_p1
+          READ_2DA_ENTRY_FORMER iacre_r11 tl_r 1 tl_kind
+          READ_2DA_ENTRY_FORMER iacre_r11 tl_r 2 tl_p1
 
           FOR (tl_c = 3; tl_c < 11; tl_c += 1) BEGIN
-            READ_2DA_ENTRY tl_r tl_c 11 tl_arg
+            READ_2DA_ENTRY_FORMER iacre_r11 tl_r tl_c tl_arg
             PATCH_IF NOT (~%tl_arg%~ STRING_EQUAL ~-~) BEGIN
               SET tl_n = $iacre_tbl(~%tl_id%~ ~fx_n~)
-              SPRINT $iacre_tbl_fx(~%tl_id%~ ~%tl_n%~ ~p1~) ~%tl_p1%~
-              SPRINT $iacre_tbl_fx(~%tl_id%~ ~%tl_n%~ ~p2~) ~-~
-              SPRINT $iacre_tbl_fx(~%tl_id%~ ~%tl_n%~ ~resource~) ~-~
+              TEXT_SPRINT EVAL ~iacre_tblfx_%tl_id%_%tl_n%_p1~ ~%tl_p1%~
+              TEXT_SPRINT EVAL ~iacre_tblfx_%tl_id%_%tl_n%_p2~ ~-~
+              TEXT_SPRINT EVAL ~iacre_tblfx_%tl_id%_%tl_n%_resource~ ~-~
 
               PATCH_IF ~%tl_kind%~ STRING_EQUAL_CASE ~IMMUNE_OPCODE~ BEGIN
-                SPRINT $iacre_tbl_fx(~%tl_id%~ ~%tl_n%~ ~op~) ~101~
-                SPRINT $iacre_tbl_fx(~%tl_id%~ ~%tl_n%~ ~p2~) ~%tl_arg%~
+                TEXT_SPRINT EVAL ~iacre_tblfx_%tl_id%_%tl_n%_op~ ~101~
+                TEXT_SPRINT EVAL ~iacre_tblfx_%tl_id%_%tl_n%_p2~ ~%tl_arg%~
               END
 
               ELSE PATCH_IF ~%tl_kind%~ STRING_EQUAL_CASE ~PROT_SPELL~ BEGIN
-                SPRINT $iacre_tbl_fx(~%tl_id%~ ~%tl_n%~ ~op~) ~206~
-                SPRINT $iacre_tbl_fx(~%tl_id%~ ~%tl_n%~ ~resource~) ~%tl_arg%~
+                TEXT_SPRINT EVAL ~iacre_tblfx_%tl_id%_%tl_n%_op~ ~206~
+                TEXT_SPRINT EVAL ~iacre_tblfx_%tl_id%_%tl_n%_resource~ ~%tl_arg%~
               END
 
               ELSE PATCH_IF ~%tl_kind%~ STRING_EQUAL_CASE ~PROT_STRING~ BEGIN
-                SPRINT $iacre_tbl_fx(~%tl_id%~ ~%tl_n%~ ~op~) ~267~
-                SPRINT $iacre_tbl_fx(~%tl_id%~ ~%tl_n%~ ~p1~) ~%tl_arg%~
+                TEXT_SPRINT EVAL ~iacre_tblfx_%tl_id%_%tl_n%_op~ ~267~
+                TEXT_SPRINT EVAL ~iacre_tblfx_%tl_id%_%tl_n%_p1~ ~%tl_arg%~
               END
 
               ELSE PATCH_IF ~%tl_kind%~ STRING_EQUAL_CASE ~IMMUNE_POWER~ BEGIN
-                SPRINT $iacre_tbl_fx(~%tl_id%~ ~%tl_n%~ ~op~) ~102~
-                SPRINT $iacre_tbl_fx(~%tl_id%~ ~%tl_n%~ ~p1~) ~%tl_arg%~
+                TEXT_SPRINT EVAL ~iacre_tblfx_%tl_id%_%tl_n%_op~ ~102~
+                TEXT_SPRINT EVAL ~iacre_tblfx_%tl_id%_%tl_n%_p1~ ~%tl_arg%~
               END
 
               ELSE BEGIN
                 PATCH_FAIL ~S!CRE_TABLE_LOAD: unknown FXM kind %tl_kind% in %iacre_load_file%~
               END
 
-              SPRINT tl_op $iacre_tbl_fx(~%tl_id%~ ~%tl_n%~ ~op~)
+              SPRINT tl_nm ~iacre_tblfx_%tl_id%_%tl_n%_op~
+              SPRINT tl_op EVAL ~%%tl_nm%%~
               SET tl_sort_key = tl_op
               PATCH_IF VARIABLE_IS_SET $iacre_blocker(~%tl_op%~) BEGIN
                 SET tl_sort_key += 100000
               END
-              SET $iacre_tbl_fx_key(~%tl_id%~ ~%tl_n%~) = tl_sort_key
+              SET EVAL ~iacre_tblfxk_%tl_id%_%tl_n%~ = tl_sort_key
               SET $iacre_tbl(~%tl_id%~ ~fx_n~) = tl_n + 1
               SET $iacre_tbl(~%tl_id%~ ~has_fx~) = 1
             END
@@ -339,9 +340,9 @@ DEFINE_ACTION_MACRO ~S!CRE_TABLE_LOAD~ BEGIN
       END
 
       // ------- unknown-tag guard: typos fail loudly ---------------------------
-      COUNT_2DA_ROWS 1 tl_rows
-      FOR (tl_r = 0; tl_r < tl_rows; tl_r += 1) BEGIN
-        READ_2DA_ENTRY tl_r 0 1 tl_tag
+      READ_2DA_ENTRIES_NOW iacre_r1 1
+      FOR (tl_r = 0; tl_r < iacre_r1; tl_r += 1) BEGIN
+        READ_2DA_ENTRY_FORMER iacre_r1 tl_r 0 tl_tag
         PATCH_IF NOT VARIABLE_IS_SET $iacre_valid_tag(~%tl_tag%~) BEGIN
           PATCH_IF NOT (~%tl_tag%~ STRING_MATCHES_REGEXP ~^#.*~ = 0) BEGIN
             PATCH_FAIL ~S!CRE_TABLE_LOAD: unknown tag %tl_tag% in %iacre_load_file%~
@@ -350,28 +351,6 @@ DEFINE_ACTION_MACRO ~S!CRE_TABLE_LOAD~ BEGIN
       END
     BUT_ONLY
     END  // ACTION_TIME table parse
-  END
-END
-
-// one effect entry -> ADD_CRE_EFFECT (append)
-// in: iacre_fx_idx (reads the build's $b_fxq queue under iacre_gen)
-// timing is always 9 (permanent) — non-permanent effects have no place in
-// baked creature definitions; target is always 1 (self) — the engine ignores
-// the field on CRE-attached effects (IESDP eff_v2 0x14 note)
-DEFINE_PATCH_MACRO ~S!CRE_ADD_FX~ BEGIN
-  SPRINT fx_op $b_fxq(~%iacre_gen%~ ~%iacre_fx_idx%~ ~op~)
-  SPRINT fx_p1 $b_fxq(~%iacre_gen%~ ~%iacre_fx_idx%~ ~p1~)
-  SPRINT fx_p2 $b_fxq(~%iacre_gen%~ ~%iacre_fx_idx%~ ~p2~)
-  SPRINT fx_res $b_fxq(~%iacre_gen%~ ~%iacre_fx_idx%~ ~resource~)
-
-  SET fx_p1_num = (~%fx_p1%~ STRING_EQUAL ~-~) ? 0 : fx_p1
-  SET fx_p2_num = (~%fx_p2%~ STRING_EQUAL ~-~) ? 0 : fx_p2
-  PATCH_IF ~%fx_res%~ STRING_EQUAL ~-~ BEGIN SPRINT fx_res ~~ END
-
-  LPF ADD_CRE_EFFECT
-    INT_VAR opcode = fx_op target = 1 timing = 9
-            parameter1 = fx_p1_num parameter2 = fx_p2_num insert_point = (0 - 1)
-    STR_VAR resource = EVAL ~%fx_res%~
   END
 END
 
@@ -483,9 +462,10 @@ DEFINE_ACTION_MACRO ~S!CRE_BUILD~ BEGIN
   ACTION_IF (b_fx_src >= 0) BEGIN
     OUTER_FOR (b_j = 0; b_j < $iacre_tbl(~%b_fx_src%~ ~fx_n~); b_j += 1) BEGIN
       ACTION_FOR_EACH b_fx_field IN op p1 p2 resource BEGIN
-        OUTER_SPRINT $b_fxq(~%iacre_gen%~ ~%b_fxq_n%~ ~%b_fx_field%~) $iacre_tbl_fx(~%b_fx_src%~ ~%b_j%~ ~%b_fx_field%~)
+        OUTER_SPRINT b_nm ~iacre_tblfx_%b_fx_src%_%b_j%_%b_fx_field%~
+        OUTER_TEXT_SPRINT EVAL ~b_fxq_%iacre_gen%_%b_fxq_n%_%b_fx_field%~ EVAL ~%%b_nm%%~
       END
-      OUTER_SET $b_fx_key(~%iacre_gen%~ ~%b_fxq_n%~) = $iacre_tbl_fx_key(~%b_fx_src%~ ~%b_j%~)
+      OUTER_SET EVAL ~b_fxkey_%iacre_gen%_%b_fxq_n%~ = EVAL ~iacre_tblfxk_%b_fx_src%_%b_j%~
       OUTER_SET b_fxq_n += 1
     END
   END
@@ -498,19 +478,19 @@ DEFINE_ACTION_MACRO ~S!CRE_BUILD~ BEGIN
       OUTER_SET b_colour_val = $iacre_tbl(~%b_colour_src%~ ~colour_val~)
 
       ACTION_FOR_EACH b_blocked_op IN 50 9 BEGIN
-        OUTER_SPRINT $b_fxq(~%iacre_gen%~ ~%b_fxq_n%~ ~op~) ~101~
-        OUTER_SPRINT $b_fxq(~%iacre_gen%~ ~%b_fxq_n%~ ~p1~) ~-~
-        OUTER_SPRINT $b_fxq(~%iacre_gen%~ ~%b_fxq_n%~ ~p2~) ~%b_blocked_op%~
-        OUTER_SPRINT $b_fxq(~%iacre_gen%~ ~%b_fxq_n%~ ~resource~) ~-~
-        OUTER_SET $b_fx_key(~%iacre_gen%~ ~%b_fxq_n%~) = 100101
+        OUTER_TEXT_SPRINT EVAL ~b_fxq_%iacre_gen%_%b_fxq_n%_op~ ~101~
+        OUTER_TEXT_SPRINT EVAL ~b_fxq_%iacre_gen%_%b_fxq_n%_p1~ ~-~
+        OUTER_TEXT_SPRINT EVAL ~b_fxq_%iacre_gen%_%b_fxq_n%_p2~ ~%b_blocked_op%~
+        OUTER_TEXT_SPRINT EVAL ~b_fxq_%iacre_gen%_%b_fxq_n%_resource~ ~-~
+        OUTER_SET EVAL ~b_fxkey_%iacre_gen%_%b_fxq_n%~ = 100101
         OUTER_SET b_fxq_n += 1
       END
 
-      OUTER_SPRINT $b_fxq(~%iacre_gen%~ ~%b_fxq_n%~ ~op~) ~%b_colour_op%~
-      OUTER_SPRINT $b_fxq(~%iacre_gen%~ ~%b_fxq_n%~ ~p1~) ~%b_colour_val%~
-      OUTER_SPRINT $b_fxq(~%iacre_gen%~ ~%b_fxq_n%~ ~p2~) ~2~
-      OUTER_SPRINT $b_fxq(~%iacre_gen%~ ~%b_fxq_n%~ ~resource~) ~-~
-      OUTER_SET $b_fx_key(~%iacre_gen%~ ~%b_fxq_n%~) = b_colour_op
+      OUTER_TEXT_SPRINT EVAL ~b_fxq_%iacre_gen%_%b_fxq_n%_op~ ~%b_colour_op%~
+      OUTER_TEXT_SPRINT EVAL ~b_fxq_%iacre_gen%_%b_fxq_n%_p1~ ~%b_colour_val%~
+      OUTER_TEXT_SPRINT EVAL ~b_fxq_%iacre_gen%_%b_fxq_n%_p2~ ~2~
+      OUTER_TEXT_SPRINT EVAL ~b_fxq_%iacre_gen%_%b_fxq_n%_resource~ ~-~
+      OUTER_SET EVAL ~b_fxkey_%iacre_gen%_%b_fxq_n%~ = b_colour_op
       OUTER_SET b_fxq_n += 1
     END
   END
@@ -519,9 +499,10 @@ DEFINE_ACTION_MACRO ~S!CRE_BUILD~ BEGIN
     OUTER_SET b_tbl = $b_pkg_id(~%b_p%~)
     OUTER_FOR (b_j = 0; b_j < $iacre_tbl(~%b_tbl%~ ~fx_n~); b_j += 1) BEGIN
       ACTION_FOR_EACH b_fx_field IN op p1 p2 resource BEGIN
-        OUTER_SPRINT $b_fxq(~%iacre_gen%~ ~%b_fxq_n%~ ~%b_fx_field%~) $iacre_tbl_fx(~%b_tbl%~ ~%b_j%~ ~%b_fx_field%~)
+        OUTER_SPRINT b_nm ~iacre_tblfx_%b_tbl%_%b_j%_%b_fx_field%~
+        OUTER_TEXT_SPRINT EVAL ~b_fxq_%iacre_gen%_%b_fxq_n%_%b_fx_field%~ EVAL ~%%b_nm%%~
       END
-      OUTER_SET $b_fx_key(~%iacre_gen%~ ~%b_fxq_n%~) = $iacre_tbl_fx_key(~%b_tbl%~ ~%b_j%~)
+      OUTER_SET EVAL ~b_fxkey_%iacre_gen%_%b_fxq_n%~ = EVAL ~iacre_tblfxk_%b_tbl%_%b_j%~
       OUTER_SET b_fxq_n += 1
     END
   END
@@ -532,15 +513,15 @@ DEFINE_ACTION_MACRO ~S!CRE_BUILD~ BEGIN
     OUTER_SET b_best = 0 - 1
     OUTER_SET b_best_key = 999999
     OUTER_FOR (b_j = 0; b_j < b_fxq_n; b_j += 1) BEGIN
-      ACTION_IF (NOT VARIABLE_IS_SET $b_fx_used(~%iacre_gen%~ ~%b_j%~))
-        AND ($b_fx_key(~%iacre_gen%~ ~%b_j%~) < b_best_key)
+      ACTION_IF (NOT VARIABLE_IS_SET EVAL ~b_fxused_%iacre_gen%_%b_j%~)
+        AND (EVAL ~b_fxkey_%iacre_gen%_%b_j%~ < b_best_key)
       BEGIN
         OUTER_SET b_best = b_j
-        OUTER_SET b_best_key = $b_fx_key(~%iacre_gen%~ ~%b_j%~)
+        OUTER_SET b_best_key = EVAL ~b_fxkey_%iacre_gen%_%b_j%~
       END
     END
-    OUTER_SET $b_fx_used(~%iacre_gen%~ ~%b_best%~) = 1
-    OUTER_SET $b_fx_order(~%iacre_gen%~ ~%b_out%~) = b_best
+    OUTER_SET EVAL ~b_fxused_%iacre_gen%_%b_best%~ = 1
+    OUTER_SET EVAL ~b_fxord_%iacre_gen%_%b_out%~ = b_best
   END
   END  // ACTION_TIME fx queue+sort
 
@@ -573,7 +554,7 @@ DEFINE_ACTION_MACRO ~S!CRE_BUILD~ BEGIN
     OUTER_SET b_tbl = $b_chain(~%b_i%~)
     OUTER_FOR (b_j = 0; b_j < $iacre_tbl(~%b_tbl%~ ~hdr_n~); b_j += 1) BEGIN
       OUTER_SPRINT b_hdr_field $iacre_tbl_hdr_field(~%b_tbl%~ ~%b_j%~)
-      OUTER_SPRINT $b_hdr_val(~%iacre_gen%~ ~%b_hdr_field%~) $iacre_tbl_hdr_val(~%b_tbl%~ ~%b_j%~)
+      OUTER_TEXT_SPRINT EVAL ~b_hdrv_%iacre_gen%_%b_hdr_field%~ $iacre_tbl_hdr_val(~%b_tbl%~ ~%b_j%~)
     END
   END
 
@@ -595,8 +576,9 @@ DEFINE_ACTION_MACRO ~S!CRE_BUILD~ BEGIN
     PATCH_TIME ~cre_build: header writes~ BEGIN
     FOR (b_f = 0; b_f < iacre_field_n; b_f += 1) BEGIN
       SPRINT b_fname $iacre_field(~%b_f%~)
-      PATCH_IF VARIABLE_IS_SET $b_hdr_val(~%iacre_gen%~ ~%b_fname%~) BEGIN
-        SPRINT b_fval $b_hdr_val(~%iacre_gen%~ ~%b_fname%~)
+      PATCH_IF VARIABLE_IS_SET EVAL ~b_hdrv_%iacre_gen%_%b_fname%~ BEGIN
+        SPRINT b_nm ~b_hdrv_%iacre_gen%_%b_fname%~
+        SPRINT b_fval EVAL ~%%b_nm%%~
       END ELSE BEGIN
         SPRINT b_fval $iacre_default(~%b_fname%~)
       END
@@ -640,18 +622,80 @@ DEFINE_ACTION_MACRO ~S!CRE_BUILD~ BEGIN
     READ_BYTE 0x272 b_race
     PATCH_IF b_race = 144 BEGIN
       FOR (b_j = 0; b_j < b_fxq_n; b_j += 1) BEGIN
-        SET b_fx_op = $b_fxq(~%iacre_gen%~ ~%b_j%~ ~op~)
+        SET b_fx_op = EVAL ~b_fxq_%iacre_gen%_%b_j%_op~
         PATCH_IF (b_fx_op = 134) BEGIN
           PATCH_WARN ~S!CRE_BUILD: %iacre_build_out% is race GOLEM and carries an op134 instance — the install-time petrification-kit GLOB will suppress it~
         END
       END
     END
 
-    // effects: the queue assembled and canonically sorted above
+    // effects: the queue assembled and canonically sorted above.
+    // Bulk equivalent of per-effect ADD_CRE_EFFECT (weidu's
+    // ADD_CRE_EFFECT_BG2, appending): one INSERT_BYTES for the whole queue,
+    // then the non-zero fields of each 0x108 EFF v2 block — opcode/p1/p2/
+    // resource from the queue; target 1 (self; engine ignores the field on
+    // CRE-attached effects), timing 9 (permanent — non-permanent effects
+    // have no place in baked creature definitions), probability1 100,
+    // caster/target coords + sourceslot -1 (the builtin's defaults);
+    // fx count + item slot/list offsets fixed up once at the end.
     PATCH_TIME ~cre_build: effect adds~ BEGIN
-    FOR (b_j = 0; b_j < b_fxq_n; b_j += 1) BEGIN
-      SET iacre_fx_idx = $b_fx_order(~%iacre_gen%~ ~%b_j%~)
-      LPM ~S!CRE_ADD_FX~
+    PATCH_IF b_fxq_n > 0 BEGIN
+      READ_BYTE 0x33 b_eff_ver
+      PATCH_IF b_eff_ver != 1 BEGIN
+        PATCH_FAIL ~S!CRE_BUILD: %iacre_build_out% is not EFF v2 (0x33 = %b_eff_ver%)~
+      END
+      READ_LONG 0x2c4 b_fx_base_off
+      READ_LONG 0x2c8 b_fx_base_num
+      INSERT_BYTES (b_fx_base_off + b_fx_base_num * 0x108) (b_fxq_n * 0x108)
+
+      FOR (b_j = 0; b_j < b_fxq_n; b_j += 1) BEGIN
+        SET iacre_fx_idx = EVAL ~b_fxord_%iacre_gen%_%b_j%~
+        SPRINT fx_nm ~b_fxq_%iacre_gen%_%iacre_fx_idx%_op~
+        SPRINT fx_op EVAL ~%%fx_nm%%~
+        SPRINT fx_nm ~b_fxq_%iacre_gen%_%iacre_fx_idx%_p1~
+        SPRINT fx_p1 EVAL ~%%fx_nm%%~
+        SPRINT fx_nm ~b_fxq_%iacre_gen%_%iacre_fx_idx%_p2~
+        SPRINT fx_p2 EVAL ~%%fx_nm%%~
+        SPRINT fx_nm ~b_fxq_%iacre_gen%_%iacre_fx_idx%_resource~
+        SPRINT fx_res EVAL ~%%fx_nm%%~
+        SET fx_p1_num = (~%fx_p1%~ STRING_EQUAL ~-~) ? 0 : fx_p1
+        SET fx_p2_num = (~%fx_p2%~ STRING_EQUAL ~-~) ? 0 : fx_p2
+
+        SET b_base = b_fx_base_off + (b_fx_base_num + b_j) * 0x108
+        WRITE_LONG  (b_base + 0x08) fx_op
+        WRITE_LONG  (b_base + 0x0c) 1        // target
+        PATCH_IF fx_p1_num != 0 BEGIN
+          WRITE_LONG (b_base + 0x14) fx_p1_num
+        END
+        PATCH_IF fx_p2_num != 0 BEGIN
+          WRITE_LONG (b_base + 0x18) fx_p2_num
+        END
+        WRITE_BYTE  (b_base + 0x1c) 9        // timing
+        WRITE_SHORT (b_base + 0x24) 100      // probability1
+        PATCH_IF NOT (~%fx_res%~ STRING_EQUAL ~-~) BEGIN
+          WRITE_ASCIIE (b_base + 0x28) ~%fx_res%~ (8)
+        END
+        WRITE_LONG  (b_base + 0x78) (0 - 1)  // casterx
+        WRITE_LONG  (b_base + 0x7c) (0 - 1)  // castery
+        WRITE_LONG  (b_base + 0x80) (0 - 1)  // targetx
+        WRITE_LONG  (b_base + 0x84) (0 - 1)  // targety
+        WRITE_LONG  (b_base + 0x9c) (0 - 1)  // sourceslot
+      END
+
+      WRITE_LONG 0x2c8 (b_fx_base_num + b_fxq_n)
+      READ_LONG 0x2b8 b_shift_off            // item slots offset
+      WRITE_LONG 0x2b8 (b_shift_off + b_fxq_n * 0x108)
+      READ_LONG 0x2bc b_shift_off            // items offset
+      WRITE_LONG 0x2bc (b_shift_off + b_fxq_n * 0x108)
+
+      // the per-effect builtin ran FJ_CRE_VALIDITY (-> FJ_CRE_REINDEX,
+      // canonical section rebuild + meminfo normalization) before every
+      // insert; one idempotent call after the bulk insert reproduces the
+      // same end state
+      LPF ~FJ_CRE_VALIDITY~ RET b_valid = valid END
+      PATCH_IF b_valid = 0 BEGIN
+        PATCH_FAIL ~S!CRE_BUILD: %iacre_build_out% failed FJ_CRE_VALIDITY after effect adds~
+      END
     END
     END  // PATCH_TIME effect adds
 
