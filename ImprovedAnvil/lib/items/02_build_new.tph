@@ -1,0 +1,124 @@
+/// build the mod's own items from their definition tables ///
+/// (blank-mode walk, then the SRC-derived walk, then hand builders) ///
+
+// One .2da per item under resources/items/, built by the S!ITM_BUILD
+// engine (lib/tpa/itm_build.tpa); names starting with `_` (meta tables)
+// are not built.
+//
+// Iterative walk, array names carry the queue index because GET_DIRECTORY_ARRAY /
+// GET_FILE_ARRAY leave stale entries from earlier, larger directories.
+
+ACTION_TIME ~itm_build: TOTAL~ BEGIN
+OUTER_SPRINT $iaitm_walk(~0~) ~ImprovedAnvil/resources/items~
+OUTER_SET iaitm_walk_n = 1
+OUTER_SET iaitm_walk_i = 0
+
+OUTER_WHILE (iaitm_walk_i < iaitm_walk_n) BEGIN
+  OUTER_SPRINT iaitm_wdir $iaitm_walk(~%iaitm_walk_i%~)
+  OUTER_SET iaitm_walk_i += 1
+
+  GET_DIRECTORY_ARRAY EVAL ~iaitm_dirs_%iaitm_walk_i%~ ~%iaitm_wdir%~ ~.*~
+  ACTION_PHP_EACH EVAL ~iaitm_dirs_%iaitm_walk_i%~ AS _ => iaitm_d BEGIN
+    OUTER_PATCH_SAVE iaitm_dbn ~%iaitm_d%~ BEGIN
+      REPLACE_TEXTUALLY ~^.*[/\\]~ ~~
+    END
+
+    ACTION_IF NOT (~%iaitm_dbn%~ STRING_MATCHES_REGEXP ~^[_.]~ = 0) BEGIN
+      OUTER_SPRINT $iaitm_walk(~%iaitm_walk_n%~) ~%iaitm_d%~
+      OUTER_SET iaitm_walk_n += 1
+    END
+  END
+
+  GET_FILE_ARRAY EVAL ~iaitm_files_%iaitm_walk_i%~ ~%iaitm_wdir%~ ~^[^_].*\.2[dD][aA]$~
+  ACTION_PHP_EACH EVAL ~iaitm_files_%iaitm_walk_i%~ AS _ => iaitm_path BEGIN
+    OUTER_PATCH_SAVE iaitm_bn ~%iaitm_path%~ BEGIN
+      REPLACE_TEXTUALLY ~^.*[/\\]~ ~~
+      REPLACE_TEXTUALLY ~\.2[Dd][Aa]$~ ~~
+    END
+
+    OUTER_SPRINT iaitm_build_table ~%iaitm_path%~
+    OUTER_SPRINT iaitm_build_out ~%iaitm_bn%~
+    LAM ~S!ITM_BUILD~
+  END
+END
+END  // ACTION_TIME TOTAL
+
+// companion stores for the Bags of Holding (S!bag01/S!bag04 items)
+COPY ~ImprovedAnvil/resources/items/_stores/S!bag01.sto~ ~override/S!bag01.sto~
+COPY ~ImprovedAnvil/resources/items/_stores/S!bag04.sto~ ~override/S!bag04.sto~
+
+// companion stores for the fresh potion bags (S!bag02/S!bag03, cloned in 04)
+COPY_EXISTING ~BAG06.STO~ ~override/S!bag02.sto~
+              ~BAG06.STO~ ~override/S!bag03.sto~
+
+// IA's copy of the (patched) dragon ring, given to rebuilt/new bosses
+COPY_EXISTING ~dragring.itm~ ~override/S!drgrng.itm~
+
+// ---------------------------------------------------------------------------
+// Derived items: tables with SRC <base> rows under resources/items/_derived/,
+// built by S!ITM_BUILD in derived mode. Bases carry their per-item patches
+// (00 vanilla + 01 EE); the 03 policy pass runs after this phase and matches
+// the built items directly. S!-based chains (e.g. S!MISC54 from S!MISC53)
+// resolve via fixed-point deferral: a build whose base is missing returns
+// iaitm_built = 0 and is retried after the rest of the pass.
+// ---------------------------------------------------------------------------
+
+GET_FILE_ARRAY iaitm_dfiles ~ImprovedAnvil/resources/items/_derived~ ~^[^_].*\.2[dD][aA]$~
+OUTER_SET iaitm_d_total = 0
+ACTION_PHP_EACH iaitm_dfiles AS _ => iaitm_path BEGIN
+  OUTER_SPRINT $iaitm_dq(~%iaitm_d_total%~) ~%iaitm_path%~
+  OUTER_SET iaitm_d_total += 1
+END
+
+OUTER_SET iaitm_d_left = iaitm_d_total
+OUTER_SET iaitm_d_progress = 1
+OUTER_WHILE (iaitm_d_left > 0) AND (iaitm_d_progress = 1) BEGIN
+  OUTER_SET iaitm_d_progress = 0
+  OUTER_FOR (iaitm_d_i = 0; iaitm_d_i < iaitm_d_total; iaitm_d_i += 1) BEGIN
+    ACTION_IF NOT VARIABLE_IS_SET $iaitm_d_done(~%iaitm_d_i%~) BEGIN
+      OUTER_SPRINT iaitm_build_table $iaitm_dq(~%iaitm_d_i%~)
+      OUTER_PATCH_SAVE iaitm_build_out ~%iaitm_build_table%~ BEGIN
+        REPLACE_TEXTUALLY ~^.*[/\\]~ ~~
+        REPLACE_TEXTUALLY ~\.2[Dd][Aa]$~ ~~
+      END
+      LAM ~S!ITM_BUILD~
+      ACTION_IF (iaitm_built = 1) BEGIN
+        OUTER_SET $iaitm_d_done(~%iaitm_d_i%~) = 1
+        OUTER_SET iaitm_d_left -= 1
+        OUTER_SET iaitm_d_progress = 1
+      END
+    END
+  END
+END
+ACTION_IF (iaitm_d_left > 0) BEGIN
+  FAIL ~02_build_new: %iaitm_d_left% derived item(s) with unresolvable SRC (missing base or dependency cycle)~
+END
+
+// create melee-only and full identified versions of throwing axes and hammers
+ACTION_FOR_EACH ~file~ IN
+                ~ax1h05~ // Throwing Axe +2
+                ~ax1h06~ // Throwing Axe +2
+                ~ax1h08~ // Hangard's Axe +2
+                ~ax1h09~ // Rifthome Axe +3
+                ~ax1h10~ // Azuredge +3
+                ~ax1h16~ // K'logarath +4
+                ~hamm06~ // Dwarven Thrower +3
+BEGIN
+  // melee-only version
+  LAF ~S!EXTEND_THROWING_WEAPONS~
+    STR_VAR
+      remove_ranged_header = "1"
+      item_name = EVALUATE_BUFFER "%file%"
+      new_item_name = EVALUATE_BUFFER "%file%M"
+      old_item_name = EVALUATE_BUFFER "%file%F"
+  END
+
+  // full, identified version
+  LAF ~S!EXTEND_THROWING_WEAPONS~
+    STR_VAR
+      remove_ranged_header = "0"
+      item_name = EVALUATE_BUFFER "%file%"
+      new_item_name = EVALUATE_BUFFER "%file%F"
+      old_item_name = EVALUATE_BUFFER "%file%M"
+  END
+END

@@ -1,0 +1,400 @@
+/// Apply patches to items that exist only in BG2EE ///
+
+// Adoy's belt
+COPY_EXISTING ~nebelt01.itm~ ~override/nebelt01.itm~
+SAY DESC @10198
+READ_LONG   0x6a "feature_offset"
+READ_SHORT  0x70 "feature_num"
+FOR (index = 0; index < feature_num; index = index + 1) BEGIN
+  READ_SHORT  ("%feature_offset%" + ("%index%" * 0x30)) "opcode"
+  PATCH_IF ("%opcode%" = 35) BEGIN // save vs. polymorph
+    WRITE_LONG ("%feature_offset%" + 0x04 + ("%index%" * 0x30)) 2  // THAC0 bonus
+  END
+END
+BUT_ONLY_IF_IT_CHANGES
+
+// Robe of Invocation
+COPY_EXISTING ~ohnrobe2.itm~ ~override/ohnrobe2.itm~
+  SAY DESC @10202
+  PATCH_FOR_EACH ~opcode_number~ IN ~27~ ~28~ ~29~ ~30~ BEGIN
+    LAUNCH_PATCH_FUNCTION ~ALTER_ITEM_EFFECT~ INT_VAR
+      check_globals = 1
+      match_opcode = ~%opcode_number%~
+      parameter1 = 10
+    END
+  END
+BUT_ONLY_IF_IT_CHANGES
+
+// Tunic of Blindeye
+COPY_EXISTING ~ohnrobe3.itm~ ~override/ohnrobe3.itm~
+SAY DESC @10199
+READ_LONG   0x6a "feature_offset"
+READ_SHORT  0x70 "feature_num"
+FOR (index = 0; index < feature_num; index = index + 1) BEGIN
+  READ_SHORT  ("%feature_offset%" + ("%index%" * 0x30)) "opcode"
+  PATCH_IF ("%opcode%" = 126) BEGIN // movement rate bonus
+    WRITE_LONG ("%feature_offset%" + 0x04 + ("%index%" * 0x30)) 1
+  END
+  PATCH_IF ("%opcode%" = 31) BEGIN // MR% bonus
+    WRITE_LONG ("%feature_offset%" + 0x04 + ("%index%" * 0x30)) 5
+  END
+END
+BUT_ONLY_IF_IT_CHANGES
+
+// Wooden Horse Neclace
+COPY_EXISTING ~ohnamul2.itm~ ~override/ohnamul2.itm~
+SAY DESC @10200
+READ_LONG   0x6a "feature_offset"
+READ_SHORT  0x70 "feature_num"
+FOR (index = 0; index < feature_num; index = index + 1) BEGIN
+  READ_SHORT  ("%feature_offset%" + ("%index%" * 0x30)) "opcode"
+  PATCH_IF ("%opcode%" = 0) BEGIN // AC bonus
+    WRITE_LONG ("%feature_offset%" + 0x04 + ("%index%" * 0x30)) 1
+  END
+  PATCH_IF ("%opcode%" = 33) BEGIN // save vs. death bonus
+    WRITE_LONG ("%feature_offset%" + 0x04 + ("%index%" * 0x30)) 1
+  END
+  PATCH_IF ("%opcode%" = 34) BEGIN // save vs. wand bonus
+    WRITE_LONG ("%feature_offset%" + 0x04 + ("%index%" * 0x30)) 1
+  END
+  PATCH_IF ("%opcode%" = 35) BEGIN // save vs. polymorph bonus
+    WRITE_LONG ("%feature_offset%" + 0x04 + ("%index%" * 0x30)) 1
+  END
+  PATCH_IF ("%opcode%" = 36) BEGIN // save vs. breath bonus
+    WRITE_LONG ("%feature_offset%" + 0x04 + ("%index%" * 0x30)) 1
+  END
+  PATCH_IF ("%opcode%" = 37) BEGIN // save vs. spell bonus
+    WRITE_LONG ("%feature_offset%" + 0x04 + ("%index%" * 0x30)) 1
+  END
+END
+BUT_ONLY_IF_IT_CHANGES
+
+// Shield of Fyrus Khal +2
+COPY_EXISTING ~ohnshld1.itm~ ~override/ohnshld1.itm~
+    SAY NAME2 @10304
+    SAY DESC @10201
+
+    LAUNCH_PATCH_FUNCTION ~DELETE_ITEM_HEADER~ INT_VAR
+      "header_type" = 3 // Magical
+    END
+
+    LAUNCH_PATCH_FUNCTION ~DELETE_ITEM_EQEFFECT~ INT_VAR
+      "opcode_to_delete" = 272 // Apply repeating EFF
+    END
+
+    LAUNCH_PATCH_FUNCTION ~ALTER_ITEM_EFFECT~ INT_VAR
+      "check_globals" = 1
+      "match_opcode" = 0 // AC bonus
+      "parameter1" = 2
+    END
+
+// The Brick +2
+COPY_EXISTING ~ohnhamm1.itm~ ~override/ohnhamm1.itm~
+    SAY DESC @10203
+
+    LAUNCH_PATCH_FUNCTION ~DELETE_ITEM_EFFECT~ INT_VAR
+      "opcode_to_delete" = 60 // Casting failure
+    END
+
+// The Visage
+COPY_EXISTING ~ohdmask.itm~ ~override/ohdmask.itm~
+    SAY DESC @10204
+
+    LAUNCH_PATCH_FUNCTION ~DELETE_ITEM_EFFECT~ INT_VAR
+      "opcode_to_delete" = 60 // Casting failure
+    END
+
+    LAUNCH_PATCH_FUNCTION ~DELETE_ITEM_EQEFFECT~ INT_VAR
+      "opcode_to_delete" = 101 // Immunity to effect
+    END
+
+    LAUNCH_PATCH_FUNCTION ~DELETE_ITEM_EQEFFECT~ INT_VAR
+      "opcode_to_delete" = 169 // Prevent portrait icon
+    END
+
+    LAUNCH_PATCH_FUNCTION ~DELETE_ITEM_EQEFFECT~ INT_VAR
+      "opcode_to_delete" = 267 // Disable display string
+    END
+
+    LAUNCH_PATCH_FUNCTION ~DELETE_ITEM_EQEFFECT~ INT_VAR
+      "opcode_to_delete" = 296 // Immunity to specific animation
+    END
+
+    LAUNCH_PATCH_FUNCTION ~DELETE_ITEM_EQEFFECT~ INT_VAR
+      "opcode_to_delete" = 23 // Reset morale
+    END
+
+    LAUNCH_PATCH_FUNCTION ~DELETE_ITEM_EQEFFECT~ INT_VAR
+      "opcode_to_delete" = 161 // Remove fear
+    END
+
+    LAUNCH_PATCH_FUNCTION ~DELETE_ITEM_EQEFFECT~ INT_VAR
+      "opcode_to_delete" = 106 // Morale break
+    END
+
+    LAUNCH_PATCH_FUNCTION ~DELETE_ITEM_EQEFFECT~ INT_VAR
+      "opcode_to_delete" = 240 // Remove portrait icon
+    END
+
+// The Jade Fang
+COPY_EXISTING ~ohhdag01.itm~ ~override/ohhdag01.itm~
+    SAY NAME2 @11129
+    SAY DESC @10205
+    WRITE_LONG 0x60 2 // Enchantment
+
+    LAUNCH_PATCH_FUNCTION ~ALTER_ITEM_HEADER~ INT_VAR
+      "header_type" = 1
+      "damage_bonus" = 2
+      "thac0_bonus" = 2
+    END
+
+// Night Walkers
+COPY_EXISTING ~ohrboot1.itm~ ~override/ohrboot1.itm~
+    LPF ADD_ITEM_EQEFFECT
+      INT_VAR
+        opcode = 282
+        target = 1
+        timing = 2
+        parameter1 = 2
+        parameter2 = 15
+        insert_point = (0 - 1)
+    END
+
+// Gauntlets of Ain Zekk
+COPY_EXISTING ~ohrbrac1.itm~ ~override/ohrbrac1.itm~
+    SAY DESC @10206
+
+    LAUNCH_PATCH_FUNCTION ~DELETE_ITEM_EQEFFECT~ INT_VAR
+      "opcode_to_delete" = 289 // Fist damage bonus
+    END
+
+// Cloak of Atonement
+COPY_EXISTING ~ohrclck3.itm~ ~override/ohrclck3.itm~
+    SAY DESC @11130
+
+    LAUNCH_PATCH_FUNCTION ~ALTER_ITEM_HEADER~ INT_VAR
+      "header_type" = 3
+      charges = 10
+    END
+
+// Cloak of the Dark Moon
+COPY_EXISTING ~ohrclck4.itm~ ~override/ohrclck4.itm~
+    SAY DESC @10207
+
+    LAUNCH_PATCH_FUNCTION ~DELETE_ITEM_HEADER~ INT_VAR
+      "header_type" = 3 // Magical
+    END
+
+    LAUNCH_PATCH_FUNCTION ~DELETE_ITEM_EQEFFECT~ INT_VAR
+      "opcode_to_delete" = 232 // Cast spell on condition
+    END
+
+// Headband of the Devout
+COPY_EXISTING ~ohrhelm1.itm~ ~override/ohrhelm1.itm~
+    SAY DESC @10208
+
+    LAUNCH_PATCH_FUNCTION ~DELETE_ITEM_HEADER~ INT_VAR
+      "header_type" = 3 // Magical
+    END
+
+    LPF ADD_ITEM_EQEFFECT
+      INT_VAR
+        opcode = 282
+        target = 1
+        timing = 2
+        parameter1 = 2
+        parameter2 = 7
+        insert_point = (0 - 1)
+    END
+
+// Ring of Duplication
+COPY_EXISTING ~ohrring1.itm~ ~override/ohrring1.itm~
+    SAY DESC @10209
+
+    LAUNCH_PATCH_FUNCTION ~DELETE_ITEM_HEADER~ INT_VAR
+      "header_type" = 3 // Magical
+    END
+
+// Abyssal Blade #1
+COPY_EXISTING ~ohdsw2ha.itm~ ~override/ohdsw2ha.itm~
+    SAY DESC @10210
+    WRITE_LONG 0x60 2 // Enchantment
+
+    LAUNCH_PATCH_FUNCTION ~ALTER_ITEM_HEADER~ INT_VAR
+      "header_type" = 1
+      "damage_bonus" = 2
+      "thac0_bonus" = 2
+    END
+
+// Abyssal Blade #2
+COPY_EXISTING ~ohdsw2hb.itm~ ~override/ohdsw2hb.itm~
+    SAY DESC @10211
+    WRITE_LONG 0x60 2 // Enchantment
+
+    LAUNCH_PATCH_FUNCTION ~ALTER_ITEM_HEADER~ INT_VAR
+      "header_type" = 1
+      "damage_bonus" = 2
+      "thac0_bonus" = 2
+    END
+
+// Abyssal Blade #3
+COPY_EXISTING ~ohdsw2hc.itm~ ~override/ohdsw2hc.itm~
+    SAY DESC @10212
+    WRITE_LONG 0x60 2 // Enchantment
+
+    LAUNCH_PATCH_FUNCTION ~ALTER_ITEM_HEADER~ INT_VAR
+      "header_type" = 1
+      "damage_bonus" = 2
+      "thac0_bonus" = 2
+    END
+
+// Abyssal Blade #4
+COPY_EXISTING ~ohdsw2hd.itm~ ~override/ohdsw2hd.itm~
+    SAY DESC @10213
+    WRITE_LONG 0x60 2 // Enchantment
+
+    LAUNCH_PATCH_FUNCTION ~ALTER_ITEM_HEADER~ INT_VAR
+      "header_type" = 1
+      "damage_bonus" = 2
+      "thac0_bonus" = 2
+    END
+
+// Brooch of Vagrant Blades
+COPY_EXISTING ~ohramul1.itm~ ~override/ohramul1.itm~
+  SAY DESC @10236
+
+  LAUNCH_PATCH_FUNCTION ~DELETE_ITEM_EQEFFECT~ INT_VAR
+    opcode_to_delete = "-1"
+  END
+
+  LAUNCH_PATCH_FUNCTION ~ADD_ITEM_EQEFFECT~ INT_VAR
+    opcode = 0
+    parameter1 = 1
+    parameter2 = 0
+    target = 1
+    timing = 2
+    resist_dispel = 0
+  END
+
+// Gem of Seeing
+COPY_EXISTING ~ohrscrl1.itm~ ~override/ohrscrl1.itm~
+  SAY DESC @10318
+  WRITE_SHORT 0x38 1 // max in stack
+
+  LAUNCH_PATCH_FUNCTION ~ALTER_ITEM_HEADER~ INT_VAR
+    header_type = 3
+    charges = 5
+    drained = 0
+    flag_recharge = 0
+  END
+
+  BUT_ONLY
+
+// Hexxat's amulet
+COPY_EXISTING ~ohhexam1.itm~ ~override/ohhexam1.itm~
+              ~ohhexam2.itm~ ~override/ohhexam2.itm~
+              ~ohhexam3.itm~ ~override/ohhexam3.itm~
+              ~ohhexam5.itm~ ~override/ohhexam5.itm~
+  LAUNCH_PATCH_FUNCTION ~DELETE_ITEM_EQEFFECT~ INT_VAR
+    opcode_to_delete = 206
+  END
+
+  PATCH_FOR_EACH ~anim~ IN ~CDHORROR~ ~SPMINDAT~ ~SPNWCHRM~
+  BEGIN
+    LAUNCH_PATCH_FUNCTION ~DELETE_EFFECT~
+      INT_VAR
+        check_headers = 0
+        match_opcode = 296
+      STR_VAR
+        match_resource = EVALUATE_BUFFER ~%anim%~
+    END
+  END
+
+  PATCH_FOR_EACH ~string~ IN ~14672~ ~14780~ ~8364~ ~14102~ ~14001~
+  BEGIN
+    LAUNCH_PATCH_FUNCTION ~DELETE_EFFECT~
+      INT_VAR
+        check_headers = 0
+        match_opcode = 267
+        match_parameter1 = string
+    END
+  END
+
+  PATCH_FOR_EACH ~icon~ IN ~0~ ~1~ ~13~ ~14~ ~43~
+  BEGIN
+    LAUNCH_PATCH_FUNCTION ~DELETE_EFFECT~
+      INT_VAR
+        check_headers = 0
+        match_opcode = 169
+        match_parameter2 = icon
+    END
+  END
+
+  PATCH_FOR_EACH ~effect~ IN ~5~ ~39~ ~109~ ~175~ ~217~
+  BEGIN
+    LAUNCH_PATCH_FUNCTION ~DELETE_EFFECT~
+      INT_VAR
+        check_headers = 0
+        match_opcode = 101
+        match_parameter2 = effect
+    END
+  END
+
+  LPF ADD_ITEM_EQEFFECT
+    INT_VAR
+      opcode = 282
+      target = 1
+      timing = 2
+      resist_dispel = 2
+      parameter1 = 2
+      parameter2 = 19
+      insert_point = (0 - 1)
+  END
+
+// Robe of Goodman Hayes
+COPY_EXISTING ~ohnrobe1.itm~ ~override/ohnrobe1.itm~
+  SAY DESC @11158
+
+  READ_BYTE 0x1e usability
+  WRITE_BYTE 0x1e (usability ^^ (BIT1 | BIT2))
+
+  LAUNCH_PATCH_FUNCTION ~DELETE_ITEM_EQEFFECT~ INT_VAR
+    opcode_to_delete = 142
+  END
+
+  LAUNCH_PATCH_FUNCTION ~ALTER_ITEM_EFFECT~ INT_VAR
+    check_globals = 1
+    match_opcode = 281
+    parameter1 = 5
+    parameter2 = 0
+  END
+  BUT_ONLY
+
+// Thayan Circlet
+COPY_EXISTING ~ohnhelm1.itm~ ~override/ohnhelm1.itm~
+  SAY DESC @11161
+
+  LAUNCH_PATCH_FUNCTION ~ALTER_ITEM_EFFECT~ INT_VAR
+    check_globals = 1
+    match_opcode = 281
+    parameter1 = 5
+    parameter2 = 0
+  END
+
+  BUT_ONLY
+
+// Dragon Blade +3
+COPY_EXISTING ~BDSW2H01.itm~ ~override/BDSW2H01.itm~
+  SAY DESC @11163
+
+  LPF ALTER_ITEM_EFFECT
+    INT_VAR
+      check_headers = 1
+      match_opcode = 12
+      parameter1 = 10
+      probability1 = 10
+  END
+
+// Wand of Whips
+COPY_EXISTING ~ohnwand1.itm~ ~override/ohnwand1.itm~
+  SAY DESC @11186

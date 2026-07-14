@@ -1,0 +1,591 @@
+// WeiDU-native item construction engine. Loads per-item 2da tables from
+// resources/items/, and builds the .itm files by direct construction
+// (header + extended headers + feature blocks written at computed offsets —
+// no ADD_ITEM_* built-ins, sidestepping their layout quirks).
+//
+// Implemented as MACROS: WeiDU functions have local variable scope, so a
+// function-based loader cannot populate the shared table arrays. Macro temp
+// variables are prefixed per macro (m_/b_) to avoid collisions.
+//
+// Table row vocabulary (see resources/items/_fields.2da and _defaults.2da;
+// `-` = default; trailing // tokens are comments, ignored via tag filtering):
+//   SRC   <base resref>  -       (derived mode, see below)
+//   SAY   NAME1|NAME2|UDESC|DESC  <tra ref>
+//   HDR   <FIELD>  <value>
+//   ABIL  <index>  <FIELD>  <value>
+//   FX    <E|abil#>  op tgt pow p1 p2 tim dsp dur pr1 pr2 res dn ds sav sb spc
+//
+// Two build modes:
+//   blank (no SRC): construct from the S!blanki prototype; every header/
+//     ability field is written (table value or default); FX rows ARE the
+//     effect lists.
+//   derived (SRC row): COPY_EXISTING the base item and patch it; only
+//     explicit HDR/ABIL rows are written (no defaults), FX rows APPEND to
+//     the named list. If the base does not exist yet (S!-to-S! chains),
+//     the build defers: iaitm_built=0 and nothing is copied — the caller
+//     retries (fixed-point loop in 04_create_new.tph).
+//
+// Macro interface (globals):  S!ITM_BUILD  in: iaitm_build_table, iaitm_build_out
+//                             out: iaitm_built (0 = deferred on missing SRC)
+
+// ---------------------------------------------------------------------------
+// one-time meta: _fields.2da (layouts), _defaults.2da, blank prototype
+// ---------------------------------------------------------------------------
+DEFINE_ACTION_MACRO ~S!ITM_META~ BEGIN
+  ACTION_IF NOT VARIABLE_IS_SET iaitm_meta_loaded BEGIN
+    OUTER_SET iaitm_meta_loaded = 1
+    OUTER_SET iaitm_hdrf_n = 0
+    OUTER_SET iaitm_abilf_n = 0
+
+    // blank ITM prototype: every build copies this instead of CREATE-ing
+    // (CREATE ignores SILENT and un-silences the install — do it once,
+    // then restore the caller's silence state)
+    OUTER_SET m_silent = (IS_SILENT) ? 1 : 0
+    CREATE ~itm~ ~S!blanki~
+    ACTION_IF (m_silent = 1) BEGIN
+      SILENT
+    END
+
+    COPY - ~ImprovedAnvil/resources/items/_fields.2da~ ~inlined/iaitmfields.2da~
+      COUNT_2DA_ROWS 5 m_rows
+      FOR (m_r = 0; m_r < m_rows; m_r += 1) BEGIN
+        READ_2DA_ENTRY m_r 0 5 m_tag
+        READ_2DA_ENTRY m_r 1 5 m_fname
+        READ_2DA_ENTRY m_r 2 5 m_off
+        READ_2DA_ENTRY m_r 3 5 m_width
+        READ_2DA_ENTRY m_r 4 5 m_kind
+
+        PATCH_IF ~%m_tag%~ STRING_EQUAL_CASE ~HDRF~ BEGIN
+          SPRINT $iaitm_hdrf(~%iaitm_hdrf_n%~) ~%m_fname%~
+          SET $iaitm_hdrf_off(~%m_fname%~) = m_off
+          SET $iaitm_hdrf_width(~%m_fname%~) = m_width
+          SPRINT $iaitm_hdrf_kind(~%m_fname%~) ~%m_kind%~
+          SET iaitm_hdrf_n += 1
+        END
+        ELSE PATCH_IF ~%m_tag%~ STRING_EQUAL_CASE ~ABILF~ BEGIN
+          SPRINT $iaitm_abilf(~%iaitm_abilf_n%~) ~%m_fname%~
+          SET $iaitm_abilf_off(~%m_fname%~) = m_off
+          SET $iaitm_abilf_width(~%m_fname%~) = m_width
+          SPRINT $iaitm_abilf_kind(~%m_fname%~) ~%m_kind%~
+          SET iaitm_abilf_n += 1
+        END
+      END
+    BUT_ONLY
+
+    COPY - ~ImprovedAnvil/resources/items/_defaults.2da~ ~inlined/iaitmdflt.2da~
+      COUNT_2DA_ROWS 3 m_rows
+      FOR (m_r = 0; m_r < m_rows; m_r += 1) BEGIN
+        READ_2DA_ENTRY m_r 0 3 m_tag
+        READ_2DA_ENTRY m_r 1 3 m_fname
+        READ_2DA_ENTRY m_r 2 3 m_fval
+        PATCH_IF ~%m_tag%~ STRING_EQUAL_CASE ~HDR~ BEGIN
+          SPRINT $iaitm_hdr_dflt(~%m_fname%~) ~%m_fval%~
+        END
+        ELSE PATCH_IF ~%m_tag%~ STRING_EQUAL_CASE ~ABIL~ BEGIN
+          SPRINT $iaitm_abil_dflt(~%m_fname%~) ~%m_fval%~
+        END
+        ELSE PATCH_IF ~%m_tag%~ STRING_EQUAL_CASE ~FXE~ BEGIN
+          SPRINT $iaitm_fxe_dflt(~%m_fname%~) ~%m_fval%~
+        END
+        ELSE PATCH_IF ~%m_tag%~ STRING_EQUAL_CASE ~FXA~ BEGIN
+          SPRINT $iaitm_fxa_dflt(~%m_fname%~) ~%m_fval%~
+        END
+      END
+    BUT_ONLY
+
+    // feature-block field layout (eff v1 struct inside itm; fixed by format)
+    OUTER_SET iaitm_fx_n = 0
+    ACTION_FOR_EACH m_spec IN
+        ~opcode:0:2~ ~target:2:1~ ~power:3:1~ ~parameter1:4:4~
+        ~parameter2:8:4~ ~timing:12:1~ ~resist_dispel:13:1~ ~duration:14:4~
+        ~probability1:18:1~ ~probability2:19:1~ ~resource:20:8~
+        ~dicenumber:28:4~ ~dicesize:32:4~ ~savingthrow:36:4~
+        ~savebonus:40:4~ ~special:44:4~
+    BEGIN
+      OUTER_PATCH_SAVE m_fname ~%m_spec%~ BEGIN
+        REPLACE_TEXTUALLY ~:.*~ ~~
+      END
+      OUTER_PATCH_SAVE m_rest ~%m_spec%~ BEGIN
+        REPLACE_TEXTUALLY ~^[^:]*:~ ~~
+      END
+      OUTER_PATCH_SAVE m_off ~%m_rest%~ BEGIN
+        REPLACE_TEXTUALLY ~:.*~ ~~
+      END
+      OUTER_PATCH_SAVE m_width ~%m_rest%~ BEGIN
+        REPLACE_TEXTUALLY ~^[^:]*:~ ~~
+      END
+      OUTER_SPRINT $iaitm_fxf(~%iaitm_fx_n%~) ~%m_fname%~
+      OUTER_SET $iaitm_fxf_off(~%m_fname%~) = m_off
+      OUTER_SET $iaitm_fxf_width(~%m_fname%~) = m_width
+      OUTER_SET iaitm_fx_n += 1
+    END
+
+    // recognized row tags ('2DA' = the signature line, '*' = defaults line)
+    ACTION_FOR_EACH m_tagname IN ~SRC~ ~SAY~ ~HDR~ ~ABIL~ ~FX~ ~2DA~ ~*~ BEGIN
+      OUTER_SET $iaitm_valid_tag(~%m_tagname%~) = 1
+    END
+  END
+END
+
+// ---------------------------------------------------------------------------
+// S!ITM_BUILD: parse one table, construct the item
+//   in: iaitm_build_table (path), iaitm_build_out (resref)
+// ---------------------------------------------------------------------------
+DEFINE_ACTION_MACRO ~S!ITM_BUILD~ BEGIN
+  LAM ~S!ITM_META~
+
+  // per-build generation: keys the parse arrays (arrays cannot be cleared)
+  ACTION_IF NOT VARIABLE_IS_SET iaitm_gen BEGIN OUTER_SET iaitm_gen = 0 END
+  OUTER_SET iaitm_gen += 1
+
+  OUTER_SET b_abil_n = 0
+  OUTER_SET b_eq_n = 0
+  OUTER_SPRINT b_src ~~
+  ACTION_FOR_EACH b_k IN ~NAME1~ ~NAME2~ ~UDESC~ ~DESC~ BEGIN
+    OUTER_SET $b_say(~%b_k%~) = 0 - 1
+  END
+  ACTION_FOR_EACH b_l IN ~E~ ~0~ ~1~ ~2~ ~3~ BEGIN
+    OUTER_SET EVAL ~b_fxn_%iaitm_gen%_%b_l%~ = 0
+  END
+  ACTION_FOR_EACH b_t IN ~SRC~ ~SAY~ ~HDR~ ~ABIL~ ~FX~ BEGIN
+    OUTER_SET $b_seen(~%b_t%~) = 0
+    OUTER_SET $b_parsed(~%b_t%~) = 0
+  END
+
+  ACTION_TIME ~itm_build: table parse~ BEGIN
+  COPY - ~%iaitm_build_table%~ ~inlined/iaitm_tbl.2da~
+    // single tokenize at arity 3: every real row has >= 3 columns (the
+    // 2DA signature/defaults lines drop out); columns are then read per tag.
+    // A row shorter than its tag's arity fails the column read loudly;
+    // rows below 3 columns are caught by the guard pass underneath.
+    READ_2DA_ENTRIES_NOW iaitm_r3 3
+    FOR (b_r = 0; b_r < iaitm_r3; b_r += 1) BEGIN
+      READ_2DA_ENTRY_FORMER iaitm_r3 b_r 0 b_tag
+
+      PATCH_IF ~%b_tag%~ STRING_EQUAL_CASE ~SRC~ BEGIN
+        READ_2DA_ENTRY_FORMER iaitm_r3 b_r 1 b_src
+        SET $b_parsed(~SRC~) += 1
+      END
+
+      ELSE PATCH_IF ~%b_tag%~ STRING_EQUAL_CASE ~SAY~ BEGIN
+        READ_2DA_ENTRY_FORMER iaitm_r3 b_r 1 b_key
+        READ_2DA_ENTRY_FORMER iaitm_r3 b_r 2 b_val
+        PATCH_IF NOT VARIABLE_IS_SET $b_say(~%b_key%~) BEGIN
+          PATCH_FAIL ~S!ITM_BUILD: unknown SAY key %b_key% in %iaitm_build_table%~
+        END
+        SET $b_say(~%b_key%~) = b_val
+        SET $b_parsed(~SAY~) += 1
+      END
+
+      ELSE PATCH_IF ~%b_tag%~ STRING_EQUAL_CASE ~HDR~ BEGIN
+        READ_2DA_ENTRY_FORMER iaitm_r3 b_r 1 b_key
+        READ_2DA_ENTRY_FORMER iaitm_r3 b_r 2 b_val
+        PATCH_IF NOT VARIABLE_IS_SET $iaitm_hdrf_off(~%b_key%~) BEGIN
+          PATCH_FAIL ~S!ITM_BUILD: unknown HDR field %b_key% in %iaitm_build_table%~
+        END
+        TEXT_SPRINT EVAL ~b_hdr_%iaitm_gen%_%b_key%~ ~%b_val%~
+        SET $b_parsed(~HDR~) += 1
+      END
+
+      ELSE PATCH_IF ~%b_tag%~ STRING_EQUAL_CASE ~ABIL~ BEGIN
+        READ_2DA_ENTRY_FORMER iaitm_r3 b_r 1 b_i
+        READ_2DA_ENTRY_FORMER iaitm_r3 b_r 2 b_key
+        READ_2DA_ENTRY_FORMER iaitm_r3 b_r 3 b_val
+        PATCH_IF (b_i > 3) OR (b_i < 0) BEGIN
+          PATCH_FAIL ~S!ITM_BUILD: ability index %b_i% out of range in %iaitm_build_table%~
+        END
+        PATCH_IF NOT VARIABLE_IS_SET $iaitm_abilf_off(~%b_key%~) BEGIN
+          PATCH_FAIL ~S!ITM_BUILD: unknown ABIL field %b_key% in %iaitm_build_table%~
+        END
+        TEXT_SPRINT EVAL ~b_abil_%iaitm_gen%_%b_i%_%b_key%~ ~%b_val%~
+        SET $b_abil_seen(~%iaitm_gen%~ ~%b_i%~) = 1
+        PATCH_IF (b_i + 1) > b_abil_n BEGIN
+          SET b_abil_n = b_i + 1
+        END
+        SET $b_parsed(~ABIL~) += 1
+      END
+
+      ELSE PATCH_IF ~%b_tag%~ STRING_EQUAL_CASE ~FX~ BEGIN
+        READ_2DA_ENTRY_FORMER iaitm_r3 b_r 1 b_lst
+        SET b_n = EVAL ~b_fxn_%iaitm_gen%_%b_lst%~
+        FOR (b_c = 0; b_c < iaitm_fx_n; b_c += 1) BEGIN
+          SPRINT b_fname $iaitm_fxf(~%b_c%~)
+          READ_2DA_ENTRY_FORMER iaitm_r3 b_r (b_c + 2) b_val
+          TEXT_SPRINT EVAL ~b_fxq_%iaitm_gen%_%b_lst%_%b_n%_%b_fname%~ ~%b_val%~
+        END
+        SET EVAL ~b_fxn_%iaitm_gen%_%b_lst%~ = b_n + 1
+        SET $b_parsed(~FX~) += 1
+      END
+    END
+
+    // ------- unknown-tag guard + short-row guard ----------------------------
+    // (a row below 3 columns is invisible to the pass above — count every
+    // tag occurrence here and require the parse saw all of them)
+    READ_2DA_ENTRIES_NOW iaitm_r1 1
+    FOR (b_r = 0; b_r < iaitm_r1; b_r += 1) BEGIN
+      READ_2DA_ENTRY_FORMER iaitm_r1 b_r 0 b_tag
+      PATCH_IF VARIABLE_IS_SET $b_seen(~%b_tag%~) BEGIN
+        SET $b_seen(~%b_tag%~) += 1
+      END
+      ELSE PATCH_IF NOT VARIABLE_IS_SET $iaitm_valid_tag(~%b_tag%~) BEGIN
+        PATCH_IF NOT (~%b_tag%~ STRING_MATCHES_REGEXP ~^#.*~ = 0) BEGIN
+          PATCH_FAIL ~S!ITM_BUILD: unknown tag %b_tag% in %iaitm_build_table%~
+        END
+      END
+    END
+  BUT_ONLY
+  END  // ACTION_TIME table parse
+
+  ACTION_FOR_EACH b_t IN ~SRC~ ~SAY~ ~HDR~ ~ABIL~ ~FX~ BEGIN
+    ACTION_IF NOT ($b_seen(~%b_t%~) = $b_parsed(~%b_t%~)) BEGIN
+      FAIL ~S!ITM_BUILD: %b_t% row below its arity (short row) in %iaitm_build_table%~
+    END
+  END
+
+  // blank mode: every declared ability must be contiguous from 0
+  // (ATTACK_TYPE anchors); FX lists may only reference declared abilities.
+  // Derived mode validates against the SOURCE structure at patch time.
+  ACTION_IF ~%b_src%~ STRING_EQUAL ~~ BEGIN
+    OUTER_FOR (b_i = 0; b_i < b_abil_n; b_i += 1) BEGIN
+      ACTION_IF NOT VARIABLE_IS_SET $b_abil_seen(~%iaitm_gen%~ ~%b_i%~) BEGIN
+        FAIL ~S!ITM_BUILD: ability %b_i% undeclared (gap) in %iaitm_build_table%~
+      END
+    END
+    OUTER_FOR (b_i = b_abil_n; b_i < 4; b_i += 1) BEGIN
+      ACTION_IF (EVAL ~b_fxn_%iaitm_gen%_%b_i%~ > 0) BEGIN
+        FAIL ~S!ITM_BUILD: FX rows for undeclared ability %b_i% in %iaitm_build_table%~
+      END
+    END
+  END
+
+  OUTER_SET b_eq_n = EVAL ~b_fxn_%iaitm_gen%_E~
+  OUTER_SET b_fx_total = b_eq_n
+  OUTER_FOR (b_i = 0; b_i < b_abil_n; b_i += 1) BEGIN
+    OUTER_SET b_fx_total += EVAL ~b_fxn_%iaitm_gen%_%b_i%~
+  END
+
+  OUTER_SET iaitm_built = 1
+  ACTION_IF NOT (~%b_src%~ STRING_EQUAL ~~) BEGIN
+    LAM ~S!ITM_BUILD_SRC~
+  END ELSE
+  BEGIN
+
+  // ---- blank mode: prototype + one INSERT + computed writes ----------------
+  COPY ~override/S!blanki.itm~ ~override/%iaitm_build_out%.itm~
+    INSERT_BYTES 0x72 (b_abil_n * 0x38 + b_fx_total * 0x30)
+    SET b_fx_off = 0x72 + b_abil_n * 0x38
+    WRITE_LONG  0x64 0x72          // extended header offset
+    WRITE_SHORT 0x68 b_abil_n      // extended header count
+    WRITE_LONG  0x6a b_fx_off      // feature block offset
+    WRITE_SHORT 0x6e 0             // equipped list first index
+    WRITE_SHORT 0x70 b_eq_n        // equipped list count
+
+    // header: every field, table value or default
+    PATCH_TIME ~itm_build: header writes~ BEGIN
+    FOR (b_f = 0; b_f < iaitm_hdrf_n; b_f += 1) BEGIN
+      SPRINT b_fname $iaitm_hdrf(~%b_f%~)
+      PATCH_IF VARIABLE_IS_SET EVAL ~b_hdr_%iaitm_gen%_%b_fname%~ BEGIN
+        SPRINT b_nm ~b_hdr_%iaitm_gen%_%b_fname%~
+        SPRINT b_fval EVAL ~%%b_nm%%~
+      END ELSE BEGIN
+        SPRINT b_fval $iaitm_hdr_dflt(~%b_fname%~)
+      END
+      SET b_off = $iaitm_hdrf_off(~%b_fname%~)
+      SET b_width = $iaitm_hdrf_width(~%b_fname%~)
+      SPRINT b_kind $iaitm_hdrf_kind(~%b_fname%~)
+
+      PATCH_IF ~%b_kind%~ STRING_EQUAL_CASE ~S~ BEGIN
+        PATCH_IF ~%b_fval%~ STRING_EQUAL ~-~ BEGIN SPRINT b_fval ~~ END
+        WRITE_ASCIIE b_off ~%b_fval%~ (b_width)
+      END ELSE BEGIN
+        SET b_num = b_fval
+        PATCH_IF (b_num < 0) AND (b_width < 4) BEGIN
+          SET b_num = b_num + ((b_width = 1) ? 0x100 : 0x10000)
+        END
+        PATCH_IF b_width = 1 BEGIN WRITE_BYTE  b_off b_num END
+        PATCH_IF b_width = 2 BEGIN WRITE_SHORT b_off b_num END
+        PATCH_IF b_width = 4 BEGIN WRITE_LONG  b_off b_num END
+      END
+    END
+    END  // PATCH_TIME header writes
+
+    // extended headers
+    PATCH_TIME ~itm_build: ability writes~ BEGIN
+    SET b_run = b_eq_n
+    FOR (b_i = 0; b_i < b_abil_n; b_i += 1) BEGIN
+      SET b_base = 0x72 + b_i * 0x38
+      FOR (b_f = 0; b_f < iaitm_abilf_n; b_f += 1) BEGIN
+        SPRINT b_fname $iaitm_abilf(~%b_f%~)
+        PATCH_IF VARIABLE_IS_SET EVAL ~b_abil_%iaitm_gen%_%b_i%_%b_fname%~ BEGIN
+          SPRINT b_nm ~b_abil_%iaitm_gen%_%b_i%_%b_fname%~
+          SPRINT b_fval EVAL ~%%b_nm%%~
+        END ELSE BEGIN
+          SPRINT b_fval $iaitm_abil_dflt(~%b_fname%~)
+        END
+        SET b_off = b_base + $iaitm_abilf_off(~%b_fname%~)
+        SET b_width = $iaitm_abilf_width(~%b_fname%~)
+        SPRINT b_kind $iaitm_abilf_kind(~%b_fname%~)
+
+        PATCH_IF ~%b_kind%~ STRING_EQUAL_CASE ~S~ BEGIN
+          PATCH_IF ~%b_fval%~ STRING_EQUAL ~-~ BEGIN SPRINT b_fval ~~ END
+          WRITE_ASCIIE b_off ~%b_fval%~ (b_width)
+        END ELSE BEGIN
+          SET b_num = b_fval
+          PATCH_IF (b_num < 0) AND (b_width < 4) BEGIN
+            SET b_num = b_num + ((b_width = 1) ? 0x100 : 0x10000)
+          END
+          PATCH_IF b_width = 1 BEGIN WRITE_BYTE  b_off b_num END
+          PATCH_IF b_width = 2 BEGIN WRITE_SHORT b_off b_num END
+          PATCH_IF b_width = 4 BEGIN WRITE_LONG  b_off b_num END
+        END
+      END
+      SET b_n = EVAL ~b_fxn_%iaitm_gen%_%b_i%~
+      WRITE_SHORT (b_base + 0x1e) b_n    // feature block count
+      WRITE_SHORT (b_base + 0x20) b_run  // feature block first index
+      SET b_run += b_n
+    END
+    END  // PATCH_TIME ability writes
+
+    // feature blocks: equipped list first, then each ability's, in row order
+    PATCH_TIME ~itm_build: fx writes~ BEGIN
+    SET b_k = 0
+    FOR (b_li = 0 - 1; b_li < b_abil_n; b_li += 1) BEGIN
+      PATCH_IF b_li < 0 BEGIN
+        SPRINT b_lst ~E~
+      END ELSE BEGIN
+        SPRINT b_lst ~%b_li%~
+      END
+      SET b_n = EVAL ~b_fxn_%iaitm_gen%_%b_lst%~
+      FOR (b_j = 0; b_j < b_n; b_j += 1) BEGIN
+        SET b_base = b_fx_off + b_k * 0x30
+        FOR (b_c = 0; b_c < iaitm_fx_n; b_c += 1) BEGIN
+          SPRINT b_fname $iaitm_fxf(~%b_c%~)
+          SPRINT b_nm ~b_fxq_%iaitm_gen%_%b_lst%_%b_j%_%b_fname%~
+          SPRINT b_fval EVAL ~%%b_nm%%~
+          PATCH_IF ~%b_fval%~ STRING_EQUAL ~-~ BEGIN
+            PATCH_IF ~%b_fname%~ STRING_EQUAL_CASE ~opcode~ BEGIN
+              PATCH_FAIL ~S!ITM_BUILD: FX row without opcode in %iaitm_build_table%~
+            END
+            PATCH_IF b_li < 0 BEGIN
+              SPRINT b_fval $iaitm_fxe_dflt(~%b_fname%~)
+            END ELSE BEGIN
+              SPRINT b_fval $iaitm_fxa_dflt(~%b_fname%~)
+            END
+          END
+          SET b_off = b_base + $iaitm_fxf_off(~%b_fname%~)
+
+          PATCH_IF ~%b_fname%~ STRING_EQUAL_CASE ~resource~ BEGIN
+            PATCH_IF NOT (~%b_fval%~ STRING_EQUAL ~-~) BEGIN
+              WRITE_ASCIIE b_off ~%b_fval%~ (8)
+            END
+          END ELSE BEGIN
+            SET b_num = b_fval
+            PATCH_IF b_num != 0 BEGIN   // buffer is zero-filled
+              SET b_width = $iaitm_fxf_width(~%b_fname%~)
+              PATCH_IF (b_num < 0) AND (b_width < 4) BEGIN
+                SET b_num = b_num + ((b_width = 1) ? 0x100 : 0x10000)
+              END
+              PATCH_IF b_width = 1 BEGIN WRITE_BYTE  b_off b_num END
+              PATCH_IF b_width = 2 BEGIN WRITE_SHORT b_off b_num END
+              PATCH_IF b_width = 4 BEGIN WRITE_LONG  b_off b_num END
+            END
+          END
+        END
+        SET b_k += 1
+      END
+    END
+    END  // PATCH_TIME fx writes
+
+    // strings last (SAY overrides the -1 defaults written above)
+    PATCH_IF ($b_say(~NAME1~) >= 0) BEGIN
+      SET b_ref = $b_say(~NAME1~)
+      SAY NAME1 (AT b_ref)
+    END
+    PATCH_IF ($b_say(~NAME2~) >= 0) BEGIN
+      SET b_ref = $b_say(~NAME2~)
+      SAY NAME2 (AT b_ref)
+    END
+    PATCH_IF ($b_say(~UDESC~) >= 0) BEGIN
+      SET b_ref = $b_say(~UDESC~)
+      SAY UNIDENTIFIED_DESC (AT b_ref)
+    END
+    PATCH_IF ($b_say(~DESC~) >= 0) BEGIN
+      SET b_ref = $b_say(~DESC~)
+      SAY DESC (AT b_ref)
+    END
+
+  END  // blank mode
+END
+
+// ---------------------------------------------------------------------------
+// S!ITM_BUILD_SRC: derived mode — copy the parsed table's SRC base and patch
+// it. Internal: dispatched from S!ITM_BUILD, consumes its parse state.
+// Defers (iaitm_built = 0, no copy) when the base is not in the game yet.
+// ---------------------------------------------------------------------------
+DEFINE_ACTION_MACRO ~S!ITM_BUILD_SRC~ BEGIN
+  ACTION_IF NOT FILE_EXISTS_IN_GAME ~%b_src%.itm~ BEGIN
+    OUTER_SET iaitm_built = 0
+  END ELSE
+  BEGIN
+
+  COPY_EXISTING ~%b_src%.itm~ ~override/%iaitm_build_out%.itm~
+    // header: only fields the table names
+    FOR (b_f = 0; b_f < iaitm_hdrf_n; b_f += 1) BEGIN
+      SPRINT b_fname $iaitm_hdrf(~%b_f%~)
+      PATCH_IF VARIABLE_IS_SET EVAL ~b_hdr_%iaitm_gen%_%b_fname%~ BEGIN
+        SPRINT b_nm ~b_hdr_%iaitm_gen%_%b_fname%~
+        SPRINT b_fval EVAL ~%%b_nm%%~
+        SET b_off = $iaitm_hdrf_off(~%b_fname%~)
+        SET b_width = $iaitm_hdrf_width(~%b_fname%~)
+        SPRINT b_kind $iaitm_hdrf_kind(~%b_fname%~)
+
+        PATCH_IF ~%b_kind%~ STRING_EQUAL_CASE ~S~ BEGIN
+          PATCH_IF ~%b_fval%~ STRING_EQUAL ~-~ BEGIN SPRINT b_fval ~~ END
+          WRITE_ASCIIE b_off ~%b_fval%~ (b_width)
+        END ELSE BEGIN
+          SET b_num = b_fval
+          PATCH_IF (b_num < 0) AND (b_width < 4) BEGIN
+            SET b_num = b_num + ((b_width = 1) ? 0x100 : 0x10000)
+          END
+          PATCH_IF b_width = 1 BEGIN WRITE_BYTE  b_off b_num END
+          PATCH_IF b_width = 2 BEGIN WRITE_SHORT b_off b_num END
+          PATCH_IF b_width = 4 BEGIN WRITE_LONG  b_off b_num END
+        END
+      END
+    END
+
+    READ_LONG  0x64 b_ab_off
+    READ_SHORT 0x68 b_ab_n
+    READ_SHORT 0x6e b_eqidx
+    PATCH_IF b_eqidx != 0 BEGIN
+      PATCH_FAIL ~S!ITM_BUILD_SRC: %b_src% equip list index != 0 (non-canonical) for %iaitm_build_out%~
+    END
+
+    // abilities: only fields the table names, on existing source abilities
+    FOR (b_i = 0; b_i < 4; b_i += 1) BEGIN
+      PATCH_IF VARIABLE_IS_SET $b_abil_seen(~%iaitm_gen%~ ~%b_i%~) BEGIN
+        PATCH_IF b_i >= b_ab_n BEGIN
+          PATCH_FAIL ~S!ITM_BUILD_SRC: ABIL %b_i% rows but %b_src% has %b_ab_n% abilities (%iaitm_build_out%)~
+        END
+        SET b_base = b_ab_off + b_i * 0x38
+        FOR (b_f = 0; b_f < iaitm_abilf_n; b_f += 1) BEGIN
+          SPRINT b_fname $iaitm_abilf(~%b_f%~)
+          PATCH_IF VARIABLE_IS_SET EVAL ~b_abil_%iaitm_gen%_%b_i%_%b_fname%~ BEGIN
+            SPRINT b_nm ~b_abil_%iaitm_gen%_%b_i%_%b_fname%~
+            SPRINT b_fval EVAL ~%%b_nm%%~
+            SET b_off = b_base + $iaitm_abilf_off(~%b_fname%~)
+            SET b_width = $iaitm_abilf_width(~%b_fname%~)
+            SPRINT b_kind $iaitm_abilf_kind(~%b_fname%~)
+
+            PATCH_IF ~%b_kind%~ STRING_EQUAL_CASE ~S~ BEGIN
+              PATCH_IF ~%b_fval%~ STRING_EQUAL ~-~ BEGIN SPRINT b_fval ~~ END
+              WRITE_ASCIIE b_off ~%b_fval%~ (b_width)
+            END ELSE BEGIN
+              SET b_num = b_fval
+              PATCH_IF (b_num < 0) AND (b_width < 4) BEGIN
+                SET b_num = b_num + ((b_width = 1) ? 0x100 : 0x10000)
+              END
+              PATCH_IF b_width = 1 BEGIN WRITE_BYTE  b_off b_num END
+              PATCH_IF b_width = 2 BEGIN WRITE_SHORT b_off b_num END
+              PATCH_IF b_width = 4 BEGIN WRITE_LONG  b_off b_num END
+            END
+          END
+        END
+      END
+    END
+
+    // FX rows append to their list (equip first, then per ability)
+    FOR (b_li = 0 - 1; b_li < 4; b_li += 1) BEGIN
+      PATCH_IF b_li < 0 BEGIN
+        SPRINT b_lst ~E~
+      END ELSE BEGIN
+        SPRINT b_lst ~%b_li%~
+      END
+      SET b_n = EVAL ~b_fxn_%iaitm_gen%_%b_lst%~
+      PATCH_IF b_n > 0 BEGIN
+        READ_LONG  0x6a b_fx_off
+        READ_SHORT 0x70 b_eqn
+
+        PATCH_IF b_li < 0 BEGIN
+          SET b_at_idx = b_eqn
+          WRITE_SHORT 0x70 (b_eqn + b_n)
+        END ELSE BEGIN
+          PATCH_IF b_li >= b_ab_n BEGIN
+            PATCH_FAIL ~S!ITM_BUILD_SRC: FX rows for ability %b_li% but %b_src% has %b_ab_n% abilities (%iaitm_build_out%)~
+          END
+          READ_SHORT (b_ab_off + b_li * 0x38 + 0x1e) b_num_i
+          READ_SHORT (b_ab_off + b_li * 0x38 + 0x20) b_first_i
+          SET b_at_idx = b_first_i + b_num_i
+          WRITE_SHORT (b_ab_off + b_li * 0x38 + 0x1e) (b_num_i + b_n)
+        END
+
+        // shift the first-index of every list starting at/after the insert
+        FOR (b_i = 0; b_i < b_ab_n; b_i += 1) BEGIN
+          PATCH_IF (b_li < 0) OR (b_i != b_li) BEGIN
+            READ_SHORT (b_ab_off + b_i * 0x38 + 0x20) b_first
+            PATCH_IF b_first >= b_at_idx BEGIN
+              WRITE_SHORT (b_ab_off + b_i * 0x38 + 0x20) (b_first + b_n)
+            END
+          END
+        END
+
+        INSERT_BYTES (b_fx_off + b_at_idx * 0x30) (b_n * 0x30)
+        FOR (b_j = 0; b_j < b_n; b_j += 1) BEGIN
+          SET b_base = b_fx_off + (b_at_idx + b_j) * 0x30
+          FOR (b_c = 0; b_c < iaitm_fx_n; b_c += 1) BEGIN
+            SPRINT b_fname $iaitm_fxf(~%b_c%~)
+            SPRINT b_nm ~b_fxq_%iaitm_gen%_%b_lst%_%b_j%_%b_fname%~
+            SPRINT b_fval EVAL ~%%b_nm%%~
+            PATCH_IF ~%b_fval%~ STRING_EQUAL ~-~ BEGIN
+              PATCH_IF ~%b_fname%~ STRING_EQUAL_CASE ~opcode~ BEGIN
+                PATCH_FAIL ~S!ITM_BUILD: FX row without opcode in %iaitm_build_table%~
+              END
+              PATCH_IF b_li < 0 BEGIN
+                SPRINT b_fval $iaitm_fxe_dflt(~%b_fname%~)
+              END ELSE BEGIN
+                SPRINT b_fval $iaitm_fxa_dflt(~%b_fname%~)
+              END
+            END
+            SET b_off = b_base + $iaitm_fxf_off(~%b_fname%~)
+
+            PATCH_IF ~%b_fname%~ STRING_EQUAL_CASE ~resource~ BEGIN
+              PATCH_IF NOT (~%b_fval%~ STRING_EQUAL ~-~) BEGIN
+                WRITE_ASCIIE b_off ~%b_fval%~ (8)
+              END
+            END ELSE BEGIN
+              SET b_num = b_fval
+              PATCH_IF b_num != 0 BEGIN   // inserted bytes are zero-filled
+                SET b_width = $iaitm_fxf_width(~%b_fname%~)
+                PATCH_IF (b_num < 0) AND (b_width < 4) BEGIN
+                  SET b_num = b_num + ((b_width = 1) ? 0x100 : 0x10000)
+                END
+                PATCH_IF b_width = 1 BEGIN WRITE_BYTE  b_off b_num END
+                PATCH_IF b_width = 2 BEGIN WRITE_SHORT b_off b_num END
+                PATCH_IF b_width = 4 BEGIN WRITE_LONG  b_off b_num END
+              END
+            END
+          END
+        END
+      END
+    END
+
+    // strings last
+    PATCH_IF ($b_say(~NAME1~) >= 0) BEGIN
+      SET b_ref = $b_say(~NAME1~)
+      SAY NAME1 (AT b_ref)
+    END
+    PATCH_IF ($b_say(~NAME2~) >= 0) BEGIN
+      SET b_ref = $b_say(~NAME2~)
+      SAY NAME2 (AT b_ref)
+    END
+    PATCH_IF ($b_say(~UDESC~) >= 0) BEGIN
+      SET b_ref = $b_say(~UDESC~)
+      SAY UNIDENTIFIED_DESC (AT b_ref)
+    END
+    PATCH_IF ($b_say(~DESC~) >= 0) BEGIN
+      SET b_ref = $b_say(~DESC~)
+      SAY DESC (AT b_ref)
+    END
+
+  END  // src exists
+END

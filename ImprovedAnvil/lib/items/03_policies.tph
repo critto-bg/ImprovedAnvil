@@ -1,0 +1,195 @@
+/// batch policies over items ///
+
+// Cross-item policy loops and table-driven batches, applied AFTER all
+// per-item patching (00 vanilla, 01 EE) and construction (02) — a policy
+// sees every item, stock or built. Per-item patches live in
+// 00_patches_vanilla.tph / 01_patches_ee.tph (single patch site per item).
+
+// keep only the shapeshifter restriction on certain leather armors //
+// (stock disallows Shapeshifter AND Avenger — this re-allows Avenger) //
+ACTION_FOR_EACH ~file~ IN
+                ~leat04.itm~
+                ~leat05.itm~
+                ~leat06.itm~
+                ~leat07.itm~
+                ~leat15.itm~
+                ~leat16.itm~
+                ~leat17.itm~
+                ~leat18.itm~
+                ~leat23.itm~
+                ~leat24.itm~
+BEGIN
+  COPY_EXISTING ~%file%~ ~override/%file%~
+    READ_BYTE  0x29 "kitusability"
+    WRITE_BYTE 0x29 ("%kitusability%" BAND 0b00010000)
+    BUT_ONLY
+END
+
+// disallow usage of cloaks by kensais //
+ACTION_FOR_EACH ~file~ IN
+                ~clck12.itm~
+                ~clck13.itm~
+                ~clck14.itm~
+                ~clck15.itm~
+                ~clck16.itm~
+                ~clck17.itm~
+                ~clck18.itm~
+                ~clck29.itm~
+BEGIN
+  COPY_EXISTING ~%file%~ ~override/%file%~
+    READ_BYTE  0x2f "kitusability4"
+    WRITE_BYTE 0x2f ("%kitusability4%" BOR 0b00000100)
+    BUT_ONLY
+END
+
+// clear unsellable flag for certain items //
+ACTION_FOR_EACH ~file~ IN
+                ~key20.itm~
+                ~misc9x.itm~
+                ~misc9y.itm~
+                ~key26.itm~
+                ~misc8q.itm~
+                ~misca7.itm~
+                ~misca8.itm~
+                ~miscbv.itm~
+                ~book94.itm~
+                ~book95.itm~
+                ~book96.itm~
+                ~key23.itm~
+BEGIN
+  COPY_EXISTING ~%file%~ ~override/%file%~
+    READ_BYTE  0x18 "ioffset"
+    WRITE_BYTE 0x18 ("%ioffset%" BAND 0b11111110) // clear unsellable flag
+    BUT_ONLY
+END
+
+// clear the flag that permits critical hits on wearers of ioun stones //
+ACTION_FOR_EACH ~file~ IN
+                ~helm18.itm~
+                ~helm19.itm~
+                ~helm20.itm~
+                ~helm23.itm~
+                ~helm24.itm~
+                ~helm25.itm~
+                ~helm26.itm~
+                ~helm27.itm~
+                ~helm34.itm~
+BEGIN
+  COPY_EXISTING ~%file%~ ~override/%file%~
+    READ_BYTE  0x1b "ioffset"
+    WRITE_BYTE 0x1b ("%ioffset%" BAND 0b11111101) // clear "toggle critical hits" flag
+    BUT_ONLY
+END
+
+// set magical flag for items //
+ACTION_FOR_EACH ~file~ IN
+                ~maurezhi.itm~
+                ~lionspir.itm~
+                ~snakspir.itm~
+                ~demabi01.itm~
+                ~stalkesu.itm~
+                ~dax1h01.itm~
+                ~wolfm.itm~
+                ~mumgrew.itm~
+                ~mummyw.itm~
+                ~B3-24.itm~
+                ~mistpo.itm~
+                ~mistcd.itm~
+BEGIN
+  COPY_EXISTING ~%file%~ ~override/%file%~
+    READ_BYTE  0x18 "ioffset"
+    WRITE_BYTE 0x18 ("%ioffset%" BOR 0b01000000) // sets magical flag
+    BUT_ONLY
+END
+
+// set new prices in batch from 2da table //
+ACTION_PHP_EACH item_prices AS record => int BEGIN
+  ACTION_IF FILE_EXISTS_IN_GAME "%record_0%" BEGIN
+    COPY_EXISTING ~%record_0%~ ~override~
+      WRITE_LONG 0x34 record_1
+      BUT_ONLY
+  END
+END
+
+// set new enchantment levels in batch from 2da table //
+ACTION_PHP_EACH item_enchantments AS record => int BEGIN
+  ACTION_IF FILE_EXISTS_IN_GAME "%record_0%" BEGIN
+    COPY_EXISTING ~%record_0%~ ~override~
+      WRITE_LONG 0x60 record_1
+      BUT_ONLY
+  END
+END
+
+// increased stacking, ported from Ease-of-Use //
+
+COPY_EXISTING_REGEXP GLOB ~.*\.itm~ ~override~
+  READ_SHORT 0x1c type          ELSE 0
+  READ_SHORT 0x38 stack_amount
+  READ_SHORT 0x68 abil_count    ELSE 0
+  READ_SHORT 0x70 fx_count      ELSE 1
+
+  SET update_value = 0
+
+  PATCH_IF ((type = 9) AND (stack_amount > 1))  // potions, if already stackable
+           OR (type = 11)                       // scrolls
+           OR (((type =  1) OR                  // amulets
+                (type = 10) OR                  // rings
+                (type = 33) OR                  // gold
+                (type = 34))                    // gems
+                AND (fx_count = 0)              // with no magical properties
+                AND (abil_count = 0))
+           OR ((stack_amount > 1) AND           // stackable ammuntion
+               ((type = 5) OR
+                (type = 14) OR
+                (type = 31) OR
+                (type = 24) OR
+                (type = 25) OR
+                (type = 16)))
+  BEGIN
+    WRITE_SHORT 0x38 99
+  END
+
+  BUT_ONLY
+
+// fix Wake on Hit (opcode 39, parameter2=1) on stock/EE weapons //
+// (the S! weapons carry it in their build tables; wand08 retired from
+// the list — its stock op39 already has parameter2=1)
+ACTION_FOR_EACH ~file~ IN
+                ~AURSTAF.ITM~
+                ~AX1H16.ITM~
+                ~AX1H16F.ITM~ // K'logarath variants are cloned in 02,
+                ~AX1H16M.ITM~ // before this policy reaches their base
+                ~cdfampsd.ITM~
+                ~DAGG13.ITM~
+                ~DWBOLT01.ITM~
+                ~GIAFIR.ITM~
+                ~GIAFIR2.ITM~
+                ~ohbbrvgr.ITM~
+                ~PSDCLAW.ITM~
+                ~RAVAG01.ITM~
+                ~SPER12.ITM~
+                ~STAF15.ITM~
+                ~STAF21.ITM~
+                ~STAF22.ITM~
+BEGIN
+  COPY_EXISTING ~%file%~ ~override/%file%~
+    LAUNCH_PATCH_FUNCTION ~ALTER_ITEM_EFFECT~ INT_VAR
+      check_headers = 1
+      match_opcode = 39
+      parameter2 = 1
+    END
+    BUT_ONLY
+END
+
+// remove "undesirable" items game-wide, from lib/tables/item_removals.2da:
+// overwriting the resource with a tame counterpart keeps every reference
+// (stores, loot tables, inventories, scripts) working. Runs last: the
+// replacement content must carry its price/stack policy state, and the
+// build phase preserves IA-private copies (e.g. S!scrl04 = Spell Shield)
+// before the public resref is replaced. Full deprecation (reference
+// replacement + resource removal) is a separate parked project. //
+ACTION_PHP_EACH item_removals AS record => int BEGIN
+  ACTION_IF FILE_EXISTS_IN_GAME "%record_1%" BEGIN
+    COPY_EXISTING ~%record_1%~ ~override/%record_0%~
+  END
+END
