@@ -2,15 +2,12 @@
 
 // Adoy's belt
 COPY_EXISTING ~nebelt01.itm~ ~override/nebelt01.itm~
-SAY DESC @10198
-READ_LONG   0x6a "feature_offset"
-READ_SHORT  0x70 "feature_num"
-FOR (index = 0; index < feature_num; index = index + 1) BEGIN
-  READ_SHORT  ("%feature_offset%" + ("%index%" * 0x30)) "opcode"
-  PATCH_IF ("%opcode%" = 35) BEGIN // save vs. polymorph
-    WRITE_LONG ("%feature_offset%" + 0x04 + ("%index%" * 0x30)) 2  // THAC0 bonus
+  SAY DESC @10198
+  LAUNCH_PATCH_FUNCTION ~ALTER_ITEM_EFFECT~ INT_VAR
+    check_globals = 1
+    match_opcode  = 35  // save vs. polymorph
+    parameter1    = 2
   END
-END
 BUT_ONLY_IF_IT_CHANGES
 
 // Robe of Invocation
@@ -27,46 +24,30 @@ BUT_ONLY_IF_IT_CHANGES
 
 // Tunic of Blindeye
 COPY_EXISTING ~ohnrobe3.itm~ ~override/ohnrobe3.itm~
-SAY DESC @10199
-READ_LONG   0x6a "feature_offset"
-READ_SHORT  0x70 "feature_num"
-FOR (index = 0; index < feature_num; index = index + 1) BEGIN
-  READ_SHORT  ("%feature_offset%" + ("%index%" * 0x30)) "opcode"
-  PATCH_IF ("%opcode%" = 126) BEGIN // movement rate bonus
-    WRITE_LONG ("%feature_offset%" + 0x04 + ("%index%" * 0x30)) 1
+  SAY DESC @10199
+  LAUNCH_PATCH_FUNCTION ~ALTER_ITEM_EFFECT~ INT_VAR
+    check_globals = 1
+    match_opcode  = 126  // movement rate bonus
+    parameter1    = 1
   END
-  PATCH_IF ("%opcode%" = 31) BEGIN // MR% bonus
-    WRITE_LONG ("%feature_offset%" + 0x04 + ("%index%" * 0x30)) 5
+  LAUNCH_PATCH_FUNCTION ~ALTER_ITEM_EFFECT~ INT_VAR
+    check_globals = 1
+    match_opcode  = 31   // magic resistance bonus
+    parameter1    = 5
   END
-END
 BUT_ONLY_IF_IT_CHANGES
 
 // Wooden Horse Neclace
 COPY_EXISTING ~ohnamul2.itm~ ~override/ohnamul2.itm~
-SAY DESC @10200
-READ_LONG   0x6a "feature_offset"
-READ_SHORT  0x70 "feature_num"
-FOR (index = 0; index < feature_num; index = index + 1) BEGIN
-  READ_SHORT  ("%feature_offset%" + ("%index%" * 0x30)) "opcode"
-  PATCH_IF ("%opcode%" = 0) BEGIN // AC bonus
-    WRITE_LONG ("%feature_offset%" + 0x04 + ("%index%" * 0x30)) 1
+  SAY DESC @10200
+  // AC bonus + all five save bonuses -> 1
+  PATCH_FOR_EACH ~opcode_number~ IN ~0~ ~33~ ~34~ ~35~ ~36~ ~37~ BEGIN
+    LAUNCH_PATCH_FUNCTION ~ALTER_ITEM_EFFECT~ INT_VAR
+      check_globals = 1
+      match_opcode  = ~%opcode_number%~
+      parameter1    = 1
+    END
   END
-  PATCH_IF ("%opcode%" = 33) BEGIN // save vs. death bonus
-    WRITE_LONG ("%feature_offset%" + 0x04 + ("%index%" * 0x30)) 1
-  END
-  PATCH_IF ("%opcode%" = 34) BEGIN // save vs. wand bonus
-    WRITE_LONG ("%feature_offset%" + 0x04 + ("%index%" * 0x30)) 1
-  END
-  PATCH_IF ("%opcode%" = 35) BEGIN // save vs. polymorph bonus
-    WRITE_LONG ("%feature_offset%" + 0x04 + ("%index%" * 0x30)) 1
-  END
-  PATCH_IF ("%opcode%" = 36) BEGIN // save vs. breath bonus
-    WRITE_LONG ("%feature_offset%" + 0x04 + ("%index%" * 0x30)) 1
-  END
-  PATCH_IF ("%opcode%" = 37) BEGIN // save vs. spell bonus
-    WRITE_LONG ("%feature_offset%" + 0x04 + ("%index%" * 0x30)) 1
-  END
-END
 BUT_ONLY_IF_IT_CHANGES
 
 // Shield of Fyrus Khal +2
@@ -356,7 +337,7 @@ COPY_EXISTING ~ohnrobe1.itm~ ~override/ohnrobe1.itm~
   SAY DESC @11158
 
   READ_BYTE 0x1e usability
-  WRITE_BYTE 0x1e (usability ^^ (BIT1 | BIT2))
+  WRITE_BYTE 0x1e (usability BAND (BNOT (BIT1 BOR BIT2)))  // usability byte 0: clear BIT1|BIT2
 
   LAUNCH_PATCH_FUNCTION ~DELETE_ITEM_EQEFFECT~ INT_VAR
     opcode_to_delete = 142
