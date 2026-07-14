@@ -21,12 +21,14 @@
 //     effect lists.
 //   derived (SRC row): COPY_EXISTING the base item and patch it; only
 //     explicit HDR/ABIL rows are written (no defaults), FX rows APPEND to
-//     the named list. If the base does not exist yet (S!-to-S! chains),
-//     the build defers: iaitm_built=0 and nothing is copied — the caller
-//     retries (fixed-point loop in 04_create_new.tph).
+//     the named list. Every base is a stock resource or a blank-mode IA item
+//     (built earlier), so the base always exists by build time. If it does
+//     not, the build returns iaitm_built=0 and copies nothing; the driver
+//     (02_build_new.tph) treats that as a hard error — derived-from-derived
+//     chains are unsupported (flatten to a stock SRC instead).
 //
 // Macro interface (globals):  S!ITM_BUILD  in: iaitm_build_table, iaitm_build_out
-//                             out: iaitm_built (0 = deferred on missing SRC)
+//                             out: iaitm_built (0 = base missing -> driver FAILs)
 
 // ---------------------------------------------------------------------------
 // one-time meta: _fields.2da (layouts), _defaults.2da, blank prototype

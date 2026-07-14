@@ -56,42 +56,26 @@ COPY_EXISTING ~dragring.itm~ ~override/S!drgrng.itm~
 
 // ---------------------------------------------------------------------------
 // Derived items: tables with SRC <base> rows under resources/items/_derived/,
-// built by S!ITM_BUILD in derived mode. Bases carry their per-item patches
-// (00 vanilla + 01 EE); the 03 policy pass runs after this phase and matches
-// the built items directly. S!-based chains (e.g. S!MISC54 from S!MISC53)
-// resolve via fixed-point deferral: a build whose base is missing returns
-// iaitm_built = 0 and is retried after the rest of the pass.
+// built by S!ITM_BUILD in derived mode. Every base is either a stock resource
+// or a blank-mode IA item — both already exist by now (the blank walk above
+// ran to completion, and stock resources are always present), so a single
+// pass suffices. Derived-from-derived chains are NOT supported: the engine
+// returns iaitm_built = 0 for a missing base and the guard below FAILs loudly,
+// rather than retrying. (A base that is itself a derived item would have to be
+// flattened to a stock SRC, as the mirror family S!MISC54-56 was.)
 // ---------------------------------------------------------------------------
 
 GET_FILE_ARRAY iaitm_dfiles ~ImprovedAnvil/resources/items/_derived~ ~^[^_].*\.2[dD][aA]$~
-OUTER_SET iaitm_d_total = 0
 ACTION_PHP_EACH iaitm_dfiles AS _ => iaitm_path BEGIN
-  OUTER_SPRINT $iaitm_dq(~%iaitm_d_total%~) ~%iaitm_path%~
-  OUTER_SET iaitm_d_total += 1
-END
-
-OUTER_SET iaitm_d_left = iaitm_d_total
-OUTER_SET iaitm_d_progress = 1
-OUTER_WHILE (iaitm_d_left > 0) AND (iaitm_d_progress = 1) BEGIN
-  OUTER_SET iaitm_d_progress = 0
-  OUTER_FOR (iaitm_d_i = 0; iaitm_d_i < iaitm_d_total; iaitm_d_i += 1) BEGIN
-    ACTION_IF NOT VARIABLE_IS_SET $iaitm_d_done(~%iaitm_d_i%~) BEGIN
-      OUTER_SPRINT iaitm_build_table $iaitm_dq(~%iaitm_d_i%~)
-      OUTER_PATCH_SAVE iaitm_build_out ~%iaitm_build_table%~ BEGIN
-        REPLACE_TEXTUALLY ~^.*[/\\]~ ~~
-        REPLACE_TEXTUALLY ~\.2[Dd][Aa]$~ ~~
-      END
-      LAM ~S!ITM_BUILD~
-      ACTION_IF (iaitm_built = 1) BEGIN
-        OUTER_SET $iaitm_d_done(~%iaitm_d_i%~) = 1
-        OUTER_SET iaitm_d_left -= 1
-        OUTER_SET iaitm_d_progress = 1
-      END
-    END
+  OUTER_SPRINT iaitm_build_table ~%iaitm_path%~
+  OUTER_PATCH_SAVE iaitm_build_out ~%iaitm_path%~ BEGIN
+    REPLACE_TEXTUALLY ~^.*[/\\]~ ~~
+    REPLACE_TEXTUALLY ~\.2[Dd][Aa]$~ ~~
   END
-END
-ACTION_IF (iaitm_d_left > 0) BEGIN
-  FAIL ~02_build_new: %iaitm_d_left% derived item(s) with unresolvable SRC (missing base or dependency cycle)~
+  LAM ~S!ITM_BUILD~
+  ACTION_IF (iaitm_built = 0) BEGIN
+    FAIL ~02_build_new: derived item %iaitm_build_out% deferred — its SRC base is missing or is itself a derived item (chains unsupported; point SRC at a stock or blank-mode base)~
+  END
 END
 
 // create melee-only and full identified versions of throwing axes and hammers
