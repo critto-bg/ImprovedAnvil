@@ -29,8 +29,8 @@ COPY_EXISTING ~AR2810.are~ ~override/AR2810.are~
       fj_cre_resref     = ~S!RNGSPI~
   END
 
-  // set some flags for the existing Region #1 (Tran2800)
-  WRITE_SHORT (LONG_AT 0x005c + 0x60) 516
+  // set party-required + NPCs-cannot-pass flags on the existing Region #1
+  LPF ~S!SET_DEFAULT_TRANSITION_FLAGS~ STR_VAR region_name = ~Tran2800~ END
 
   // add new Region #2 ("Info Point 2")
   LPF fj_are_structure
@@ -90,8 +90,9 @@ COPY_EXISTING ~AR2810.are~ ~override/AR2810.are~
   END
 
   // set volume for all ambients
-  FOR (i = SHORT_AT 0x82 ; i ; --i) BEGIN
-    WRITE_SHORT (LONG_AT 0x0084 + ((i - 1) * 0xd4) + 0x2e) 100
+  GET_OFFSET_ARRAY ambients ARE_V10_AMBIENTS
+  PHP_EACH ambients AS _ => amb_off BEGIN
+    WRITE_SHORT (amb_off + 0x2e) 100   // volume
   END
 
   // set flags for Animation #1
