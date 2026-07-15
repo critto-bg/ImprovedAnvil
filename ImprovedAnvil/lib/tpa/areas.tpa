@@ -1,5 +1,68 @@
 /// various functions for patching areas ///
 
+// Patch the rest-interruption ("random rest encounter") struct of the current
+// ARE (there is only one; WeiDU ships no built-in for it). Only supplied fields
+// are written. Offsets follow the ARE V1.0 rest-interruption structure.
+DEFINE_PATCH_FUNCTION ~S!SET_REST~
+INT_VAR
+  clear_name = 0      // if 1, blank the 32-byte name field at 0x00
+  count      = "-1"   // 0x98  count of creatures in the spawn table
+  difficulty = "-1"   // 0x9a  difficulty
+  max_num    = "-1"   // 0xa4  max creatures to spawn
+  prob_day   = "-1"   // 0xa8  probability (day)
+  prob_night = "-1"   // 0xaa  probability (night)
+STR_VAR
+  cre0 = ~~           // 0x48  creature slot 0
+  cre1 = ~~           // 0x50  creature slot 1
+  cre2 = ~~           // 0x58  creature slot 2
+BEGIN
+  READ_LONG 0xC0 rest_off
+  PATCH_IF (clear_name) BEGIN WRITE_ASCII rest_off ~~ #32 END
+  PATCH_IF (~%cre0%~ STRING_COMPARE ~~) BEGIN WRITE_EVALUATED_ASCII (rest_off + 0x48) ~%cre0%~ #8 END
+  PATCH_IF (~%cre1%~ STRING_COMPARE ~~) BEGIN WRITE_EVALUATED_ASCII (rest_off + 0x50) ~%cre1%~ #8 END
+  PATCH_IF (~%cre2%~ STRING_COMPARE ~~) BEGIN WRITE_EVALUATED_ASCII (rest_off + 0x58) ~%cre2%~ #8 END
+  PATCH_IF (count      >= 0) BEGIN WRITE_SHORT (rest_off + 0x98) count      END
+  PATCH_IF (difficulty >= 0) BEGIN WRITE_SHORT (rest_off + 0x9a) difficulty END
+  PATCH_IF (max_num    >= 0) BEGIN WRITE_SHORT (rest_off + 0xa4) max_num    END
+  PATCH_IF (prob_day   >= 0) BEGIN WRITE_SHORT (rest_off + 0xa8) prob_day   END
+  PATCH_IF (prob_night >= 0) BEGIN WRITE_SHORT (rest_off + 0xaa) prob_night END
+END
+
+// Patch one spawn point (matched by its exact name) of the current ARE.
+// Only the fields explicitly supplied are written: unset numerics stay -1 and
+// unset resrefs stay empty, both of which are left untouched in the file — so a
+// call reproduces exactly the WRITEs the old hand-rolled loop performed.
+// Offsets follow the ARE V1.0 spawn-point structure (stride 0xC8).
+// For an OR-group of points sharing the same edit, repeat the call per name.
+DEFINE_PATCH_FUNCTION ~S!SET_SPAWN~
+INT_VAR
+  count      = "-1"   // 0x74  count of spawn creatures
+  method     = "-1"   // 0x7a  spawn method
+  max_num    = "-1"   // 0x84  max creatures to spawn
+  enabled    = "-1"   // 0x86  spawn point enabled
+  prob_day   = "-1"   // 0x8c  probability (day)
+  prob_night = "-1"   // 0x8e  probability (night)
+STR_VAR
+  spawn = ~~          // exact spawn-point name, e.g. ~Spawn Point 5~
+  cre0  = ~~          // 0x24  1st creature resref
+  cre1  = ~~          // 0x2c  2nd creature resref
+BEGIN
+  GET_OFFSET_ARRAY spawns ARE_V10_SPAWN_POINTS
+  PHP_EACH spawns AS _ => off BEGIN
+    READ_ASCII off sp_name (32) NULL
+    PATCH_IF ~%sp_name%~ STRING_EQUAL_CASE ~%spawn%~ BEGIN
+      PATCH_IF (~%cre0%~ STRING_COMPARE ~~) BEGIN WRITE_EVALUATED_ASCII (off + 0x24) ~%cre0%~ #8 END
+      PATCH_IF (~%cre1%~ STRING_COMPARE ~~) BEGIN WRITE_EVALUATED_ASCII (off + 0x2c) ~%cre1%~ #8 END
+      PATCH_IF (count      >= 0) BEGIN WRITE_SHORT (off + 0x74) count      END
+      PATCH_IF (method     >= 0) BEGIN WRITE_SHORT (off + 0x7a) method     END
+      PATCH_IF (max_num    >= 0) BEGIN WRITE_SHORT (off + 0x84) max_num    END
+      PATCH_IF (enabled    >= 0) BEGIN WRITE_SHORT (off + 0x86) enabled    END
+      PATCH_IF (prob_day   >= 0) BEGIN WRITE_SHORT (off + 0x8c) prob_day   END
+      PATCH_IF (prob_night >= 0) BEGIN WRITE_SHORT (off + 0x8e) prob_night END
+    END
+  END
+END
+
 // this function sets default prohibitive transition flags for a specified area region //
 
 DEFINE_PATCH_FUNCTION ~S!SET_DEFAULT_TRANSITION_FLAGS~
