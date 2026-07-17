@@ -1,0 +1,91 @@
+/// WeiDU-native standalone-effect (.eff) construction ///
+
+// Build one EFF V2.0 file field-by-field; the only values the
+// caller must supply are the ones that differ from the defaults below.
+//
+// Defaults follow the shipped corpus's majority: target=2, prob1=100, and the
+// four caster/target coordinates = -1 (0xFFFFFFFF, the engine "no coordinate"
+// sentinel — CREATE's blank zeroes them, so writing them here is what makes
+// the result byte-identical to the old binaries). resrefs are written verbatim
+// (NOT upper-cased) to stay byte-faithful.
+//
+// Offsets: docs/iesdp/file_formats/ie_formats/eff_v2.md (body starts at 0x10).
+DEFINE_PATCH_FUNCTION ~S!MAKE_EFF~
+INT_VAR
+  opcode           = 0       // 0x10
+  target           = 2       // 0x14
+  power            = 0       // 0x18
+  param1           = 0       // 0x1c
+  param2           = 0       // 0x20
+  timing           = 0       // 0x24 (word)
+  duration         = 0       // 0x28
+  prob1            = 100     // 0x2c (word)
+  prob2            = 0       // 0x2e (word)
+  dice_thrown      = 0       // 0x38
+  dice_sides       = 0       // 0x3c
+  save_type        = 0       // 0x40
+  save_bonus       = 0       // 0x44
+  special          = 0       // 0x48
+  primary_type     = 0       // 0x4c  school (MSCHOOL.2DA)
+  affected_low     = 0       // 0x54
+  affected_high    = 0       // 0x58
+  dispel           = 0       // 0x5c
+  param3           = 0       // 0x60
+  param4           = 0       // 0x64
+  param5           = 0       // 0x68
+  caster_x         = "-1"    // 0x80
+  caster_y         = "-1"    // 0x84
+  target_x         = "-1"    // 0x88
+  target_y         = "-1"    // 0x8c
+  parent_res_type  = 0       // 0x90  0 none / 1 spell / 2 item
+  parent_res_flags = 0       // 0x9c
+  projectile       = 0       // 0xa0
+  parent_res_slot  = 0       // 0xa4
+  caster_level     = 0       // 0xc8
+  first_apply      = 0       // 0xcc
+  secondary_type   = 0       // 0xd0  sectype (MSECTYPE.2DA)
+STR_VAR
+  resource         = ~~      // 0x30
+  resource2        = ~~      // 0x70
+  resource3        = ~~      // 0x78
+  parent_resource  = ~~      // 0x94
+  variable         = ~~      // 0xa8 (32 bytes)
+BEGIN
+  WRITE_LONG  0x10 opcode
+  WRITE_LONG  0x14 target
+  WRITE_LONG  0x18 power
+  WRITE_LONG  0x1c param1
+  WRITE_LONG  0x20 param2
+  WRITE_SHORT 0x24 timing
+  WRITE_LONG  0x28 duration
+  WRITE_SHORT 0x2c prob1
+  WRITE_SHORT 0x2e prob2
+  WRITE_EVALUATED_ASCII 0x30 ~%resource%~  #8
+  WRITE_LONG  0x38 dice_thrown
+  WRITE_LONG  0x3c dice_sides
+  WRITE_LONG  0x40 save_type
+  WRITE_LONG  0x44 save_bonus
+  WRITE_LONG  0x48 special
+  WRITE_LONG  0x4c primary_type
+  WRITE_LONG  0x54 affected_low
+  WRITE_LONG  0x58 affected_high
+  WRITE_LONG  0x5c dispel
+  WRITE_LONG  0x60 param3
+  WRITE_LONG  0x64 param4
+  WRITE_LONG  0x68 param5
+  WRITE_EVALUATED_ASCII 0x70 ~%resource2%~ #8
+  WRITE_EVALUATED_ASCII 0x78 ~%resource3%~ #8
+  WRITE_LONG  0x80 caster_x
+  WRITE_LONG  0x84 caster_y
+  WRITE_LONG  0x88 target_x
+  WRITE_LONG  0x8c target_y
+  WRITE_LONG  0x90 parent_res_type
+  WRITE_EVALUATED_ASCII 0x94 ~%parent_resource%~ #8
+  WRITE_LONG  0x9c parent_res_flags
+  WRITE_LONG  0xa0 projectile
+  WRITE_LONG  0xa4 parent_res_slot
+  WRITE_EVALUATED_ASCII 0xa8 ~%variable%~ #32
+  WRITE_LONG  0xc8 caster_level
+  WRITE_LONG  0xcc first_apply
+  WRITE_LONG  0xd0 secondary_type
+END
