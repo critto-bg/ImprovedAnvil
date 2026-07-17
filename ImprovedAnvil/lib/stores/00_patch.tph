@@ -748,9 +748,9 @@ COPY_EXISTING ~doghma.sto~ ~Override/doghma.sto~
   WRITE_LONG  0x14  165 // sell price markup
 
 // Merchant, City Gates
-COPY_EXISTING ~cdaemerc.sto~ ~override/cdaemerc.sto~
+COPY_EXISTING ~cdaemerc.sto~ ~Override/cdaemerc.sto~
   READ_BYTE  0x10 "stoflags"
-  WRITE_BYTE 0x10 ("%stoflags%" BXOR BIT3) // clear Can Steal bit
+  WRITE_BYTE 0x10 ("%stoflags%" BAND 0b11110111) // clear Can Steal bit
 
 // Gul Dukeem
 COPY_EXISTING ~ohngduke.sto~ ~Override/ohngduke.sto~
