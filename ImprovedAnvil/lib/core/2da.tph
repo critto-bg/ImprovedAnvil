@@ -393,30 +393,94 @@ COPY_EXISTING ~partyai.2da~ ~override~
   REPLACE_TEXTUALLY ~BD[A-Z]+~ ~DEFAULT~
   BUT_ONLY
 
-// update kit description strings
+// update class description strings (clastext.2da DESCSTR col) — repoint to
+// appended IA strings by classid, so no stock dialog.tlk index is overwritten.
 COPY_EXISTING ~clastext.2da~ ~override/clastext.2da~
   COUNT_2DA_COLS ~colcount~
   COUNT_2DA_ROWS ~colcount~ ~rowcount~
 
-  SET column_patched = 0
+  SET shaman_patched = 0
+  SET monk_patched   = 0
 
   FOR (i = 0; i < rowcount; i += 1) BEGIN
-    READ_2DA_ENTRY i 1 colcount classid
+    READ_2DA_ENTRY i 0 colcount class
 
     // the shaman class
-    PATCH_IF ("%classid%" STRING_COMPARE_CASE "21" = 0) AND (column_patched = 0) BEGIN
-      READ_2DA_ENTRY i 4 colcount descstr
+    PATCH_IF ("%class%" STRING_COMPARE_CASE "SHAMAN" = 0) AND (shaman_patched = 0) BEGIN
       SET_2DA_ENTRY i 4 colcount RESOLVE_STR_REF (@11114)
+      SET shaman_patched = 1
+    END
 
-      SET column_patched = 1
+    // the monk class
+    PATCH_IF ("%class%" STRING_COMPARE_CASE "MONK" = 0) AND (monk_patched = 0) BEGIN
+      SET_2DA_ENTRY i 4 colcount RESOLVE_STR_REF (@10196)
+      SET monk_patched = 1
     END
   END
 
-  PATCH_IF column_patched = 0 BEGIN
+  PATCH_IF shaman_patched = 0 BEGIN
     PATCH_FAIL "Error: row not found in clastext.2da, could not patch the description for the Shaman class"
+  END
+  PATCH_IF monk_patched = 0 BEGIN
+    PATCH_FAIL "Error: row not found in clastext.2da, could not patch the description for the Monk class"
   END
 
   BUT_ONLY
+
+// repoint stock kit descriptions (kitlist.2da HELP col) to appended IA strings,
+// replacing the in-place dialog.tlk overwrites formerly done in lib/core/strings.tph.
+COPY_EXISTING ~kitlist.2da~ ~override/kitlist.2da~
+  COUNT_2DA_COLS ~colcount~
+  COUNT_2DA_ROWS ~colcount~ ~rowcount~
+
+  SET kits_patched = 0
+
+  FOR (i = 0; i < rowcount; i += 1) BEGIN
+    READ_2DA_ENTRY i 1 colcount kit
+
+    PATCH_IF ("%kit%" STRING_COMPARE_CASE "WIZARD_SLAYER" = 0) BEGIN
+      SET_2DA_ENTRY i 4 colcount RESOLVE_STR_REF (@11202)
+      SET kits_patched = kits_patched + 1
+    END
+    PATCH_IF ("%kit%" STRING_COMPARE_CASE "CAVALIER" = 0) BEGIN
+      SET_2DA_ENTRY i 4 colcount RESOLVE_STR_REF (@10064)
+      SET kits_patched = kits_patched + 1
+    END
+    PATCH_IF ("%kit%" STRING_COMPARE_CASE "INQUISITOR" = 0) BEGIN
+      SET_2DA_ENTRY i 4 colcount RESOLVE_STR_REF (@10004)
+      SET kits_patched = kits_patched + 1
+    END
+    PATCH_IF ("%kit%" STRING_COMPARE_CASE "STALKER" = 0) BEGIN
+      SET_2DA_ENTRY i 4 colcount RESOLVE_STR_REF (@10001)
+      SET kits_patched = kits_patched + 1
+    END
+    PATCH_IF ("%kit%" STRING_COMPARE_CASE "ASSASIN" = 0) BEGIN
+      SET_2DA_ENTRY i 4 colcount RESOLVE_STR_REF (@10002)
+      SET kits_patched = kits_patched + 1
+    END
+    PATCH_IF ("%kit%" STRING_COMPARE_CASE "SWASHBUCKLER" = 0) BEGIN
+      SET_2DA_ENTRY i 4 colcount RESOLVE_STR_REF (@10120)
+      SET kits_patched = kits_patched + 1
+    END
+    PATCH_IF ("%kit%" STRING_COMPARE_CASE "SKALD" = 0) BEGIN
+      SET_2DA_ENTRY i 4 colcount RESOLVE_STR_REF (@10037)
+      SET kits_patched = kits_patched + 1
+    END
+    PATCH_IF ("%kit%" STRING_COMPARE_CASE "BEAST_FRIEND" = 0) BEGIN
+      SET_2DA_ENTRY i 4 colcount RESOLVE_STR_REF (@10231)
+      SET kits_patched = kits_patched + 1
+    END
+    PATCH_IF ("%kit%" STRING_COMPARE_CASE "DWARVEN_DEFENDER" = 0) BEGIN
+      SET_2DA_ENTRY i 4 colcount RESOLVE_STR_REF (@10217)
+      SET kits_patched = kits_patched + 1
+    END
+  END
+
+  PATCH_IF kits_patched < 9 BEGIN
+    PATCH_FAIL "Error: expected 9 stock kit rows in kitlist.2da, patched %kits_patched% — description repoint incomplete"
+  END
+
+  PRETTY_PRINT_2DA
 
 // prevent double duration Time Stop + Improved Alacrity wish option from appearing
 COPY_EXISTING ~wish.2da~  ~override/wish.2da~
@@ -496,7 +560,7 @@ COPY_EXISTING ~wildmag.2da~ ~override/wildmag.2da~
   SET_2DA_ENTRY 70 2 ~colcount~ RESOLVE_STR_REF (@11151)
 
   SET_2DA_ENTRY 71 1 ~colcount~ ~SPINI59~
-  SET_2DA_ENTRY 71 2 ~colcount~ ~22904~
+  SET_2DA_ENTRY 71 2 ~colcount~ RESOLVE_STR_REF (@10072)
 
   SET_2DA_ENTRY 75 1 ~colcount~ ~SPWI601~
   SET_2DA_ENTRY 75 2 ~colcount~ RESOLVE_STR_REF (@11151)
@@ -505,7 +569,7 @@ COPY_EXISTING ~wildmag.2da~ ~override/wildmag.2da~
   SET_2DA_ENTRY 76 2 ~colcount~ RESOLVE_STR_REF (@11151)
 
   SET_2DA_ENTRY 78 1 ~colcount~ ~SPINI59~
-  SET_2DA_ENTRY 78 2 ~colcount~ ~22904~
+  SET_2DA_ENTRY 78 2 ~colcount~ RESOLVE_STR_REF (@10072)
 
   SET_2DA_ENTRY 82 1 ~colcount~ ~SPWI618~
   SET_2DA_ENTRY 82 2 ~colcount~ RESOLVE_STR_REF (@11151)
@@ -517,7 +581,7 @@ COPY_EXISTING ~wildmag.2da~ ~override/wildmag.2da~
   SET_2DA_ENTRY 84 2 ~colcount~ ~12073~
 
   SET_2DA_ENTRY 86 1 ~colcount~ ~SPINI59~
-  SET_2DA_ENTRY 86 2 ~colcount~ ~22904~
+  SET_2DA_ENTRY 86 2 ~colcount~ RESOLVE_STR_REF (@10072)
 
   SET_2DA_ENTRY 90 1 ~colcount~ ~SPWI815~
   SET_2DA_ENTRY 90 2 ~colcount~ RESOLVE_STR_REF (@11151)
@@ -532,6 +596,95 @@ COPY_EXISTING ~wildmag.2da~ ~override/wildmag.2da~
 
   SET_2DA_ENTRY 97 1 ~colcount~ ~SPINI99~
   SET_2DA_ENTRY 97 2 ~colcount~ ~7468~
+
+// Retire strings.tph in-place tlk-overwrites whose owner is a 2DA cell: repoint the
+// owning cell to an appended @N instead of clobbering the stock strref. Each cell is
+// matched by the OLD strref value in its column, so row order is irrelevant, and a
+// per-block counter fails the install if the expected cells aren't all found.
+
+// statdesc.2da (DESCRIPTION, col 1) — portrait-icon descriptions
+COPY_EXISTING ~statdesc.2da~ ~override/statdesc.2da~
+  COUNT_2DA_COLS ~colcount~
+  COUNT_2DA_ROWS ~colcount~ ~rowcount~
+  SET done = 0
+  FOR (i = 0; i < rowcount; i += 1) BEGIN
+    READ_2DA_ENTRY i 1 colcount v
+    PATCH_IF ("%v%" STRING_COMPARE_CASE "17420" = 0) BEGIN SET_2DA_ENTRY i 1 colcount RESOLVE_STR_REF (@9164)  SET done = done + 1 END // Soul Armor
+    PATCH_IF ("%v%" STRING_COMPARE_CASE "32877" = 0) BEGIN SET_2DA_ENTRY i 1 colcount RESOLVE_STR_REF (@9105)  SET done = done + 1 END // Foreknowledge
+    PATCH_IF ("%v%" STRING_COMPARE_CASE "8291"  = 0) BEGIN SET_2DA_ENTRY i 1 colcount RESOLVE_STR_REF (@10113) SET done = done + 1 END // Mental Agility
+    PATCH_IF ("%v%" STRING_COMPARE_CASE "8284"  = 0) BEGIN SET_2DA_ENTRY i 1 colcount RESOLVE_STR_REF (@10158) SET done = done + 1 END // Tenser's Transformation
+    PATCH_IF ("%v%" STRING_COMPARE_CASE "22177" = 0) BEGIN SET_2DA_ENTRY i 1 colcount RESOLVE_STR_REF (@9513)  SET done = done + 1 END // Contact With Nature (stock SPIN853/SPWI853 "Otiluke's Resilient Sphere" left)
+  END
+  PATCH_IF done < 5 BEGIN PATCH_FAIL "strings.tph 2da-retire: statdesc.2da repointed %done%/5" END
+  PRETTY_PRINT_2DA
+
+// msectype.2da (RES_REF, col 1) — combat-log secondary-type names
+COPY_EXISTING ~msectype.2da~ ~override/msectype.2da~
+  COUNT_2DA_COLS ~colcount~
+  COUNT_2DA_ROWS ~colcount~ ~rowcount~
+  SET done = 0
+  FOR (i = 0; i < rowcount; i += 1) BEGIN
+    READ_2DA_ENTRY i 1 colcount v
+    PATCH_IF ("%v%" STRING_COMPARE_CASE "27982" = 0) BEGIN SET_2DA_ENTRY i 1 colcount RESOLVE_STR_REF (@10032) SET done = done + 1 END // Illusions Dispelled
+    PATCH_IF ("%v%" STRING_COMPARE_CASE "27986" = 0) BEGIN SET_2DA_ENTRY i 1 colcount RESOLVE_STR_REF (@10031) SET done = done + 1 END // Spell Shield Cancelled
+    PATCH_IF ("%v%" STRING_COMPARE_CASE "34560" = 0) BEGIN SET_2DA_ENTRY i 1 colcount RESOLVE_STR_REF (@10136) SET done = done + 1 END // Normal Conditions Retrieved
+  END
+  PATCH_IF done < 3 BEGIN PATCH_FAIL "strings.tph 2da-retire: msectype.2da repointed %done%/3" END
+  PRETTY_PRINT_2DA
+
+// scrpdesc.2da (TITLE col 1, DESCRIPTION col 2) — AI-script customize entries
+COPY_EXISTING ~scrpdesc.2da~ ~override/scrpdesc.2da~
+  COUNT_2DA_COLS ~colcount~
+  COUNT_2DA_ROWS ~colcount~ ~rowcount~
+  SET done = 0
+  FOR (i = 0; i < rowcount; i += 1) BEGIN
+    READ_2DA_ENTRY i 1 colcount t
+    READ_2DA_ENTRY i 2 colcount d
+    PATCH_IF ("%t%" STRING_COMPARE_CASE "17584" = 0) BEGIN SET_2DA_ENTRY i 1 colcount RESOLVE_STR_REF (@10115) SET done = done + 1 END // RANGER SMART MELEE (title)
+    PATCH_IF ("%t%" STRING_COMPARE_CASE "17596" = 0) BEGIN SET_2DA_ENTRY i 1 colcount RESOLVE_STR_REF (@10169) SET done = done + 1 END // SWASHBUCKLER SMART DEFENSE (title)
+    PATCH_IF ("%d%" STRING_COMPARE_CASE "17585" = 0) BEGIN SET_2DA_ENTRY i 2 colcount RESOLVE_STR_REF (@10106) SET done = done + 1 END // ranger desc
+    PATCH_IF ("%d%" STRING_COMPARE_CASE "17591" = 0) BEGIN SET_2DA_ENTRY i 2 colcount RESOLVE_STR_REF (@10167) SET done = done + 1 END // thief desc
+    PATCH_IF ("%d%" STRING_COMPARE_CASE "17593" = 0) BEGIN SET_2DA_ENTRY i 2 colcount RESOLVE_STR_REF (@10168) SET done = done + 1 END // thief desc
+    PATCH_IF ("%d%" STRING_COMPARE_CASE "17597" = 0) BEGIN SET_2DA_ENTRY i 2 colcount RESOLVE_STR_REF (@10170) SET done = done + 1 END // swashbuckler desc
+    PATCH_IF ("%d%" STRING_COMPARE_CASE "17603" = 0) BEGIN SET_2DA_ENTRY i 2 colcount RESOLVE_STR_REF (@10107) SET done = done + 1 END // disabler mage desc
+  END
+  PATCH_IF done < 7 BEGIN PATCH_FAIL "strings.tph 2da-retire: scrpdesc.2da repointed %done%/7" END
+  PRETTY_PRINT_2DA
+
+// loadhint.2da / loadh25.2da (RES_REF, col 1) — live EE loading hint
+COPY_EXISTING ~loadhint.2da~ ~override/loadhint.2da~
+  COUNT_2DA_COLS ~colcount~
+  COUNT_2DA_ROWS ~colcount~ ~rowcount~
+  SET done = 0
+  FOR (i = 0; i < rowcount; i += 1) BEGIN
+    READ_2DA_ENTRY i 1 colcount v
+    PATCH_IF ("%v%" STRING_COMPARE_CASE "45241" = 0) BEGIN SET_2DA_ENTRY i 1 colcount RESOLVE_STR_REF (@10128) SET done = done + 1 END
+  END
+  PATCH_IF done < 1 BEGIN PATCH_FAIL "strings.tph 2da-retire: loadhint.2da repointed %done%/1" END
+  PRETTY_PRINT_2DA
+
+COPY_EXISTING ~loadh25.2da~ ~override/loadh25.2da~
+  COUNT_2DA_COLS ~colcount~
+  COUNT_2DA_ROWS ~colcount~ ~rowcount~
+  SET done = 0
+  FOR (i = 0; i < rowcount; i += 1) BEGIN
+    READ_2DA_ENTRY i 1 colcount v
+    PATCH_IF ("%v%" STRING_COMPARE_CASE "45241" = 0) BEGIN SET_2DA_ENTRY i 1 colcount RESOLVE_STR_REF (@10128) SET done = done + 1 END
+  END
+  PATCH_IF done < 1 BEGIN PATCH_FAIL "strings.tph 2da-retire: loadh25.2da repointed %done%/1" END
+  PRETTY_PRINT_2DA
+
+// imoennd.2da (col 2) — ToB Imoen narrative line
+COPY_EXISTING ~imoennd.2da~ ~override/imoennd.2da~
+  COUNT_2DA_COLS ~colcount~
+  COUNT_2DA_ROWS ~colcount~ ~rowcount~
+  SET done = 0
+  FOR (i = 0; i < rowcount; i += 1) BEGIN
+    READ_2DA_ENTRY i 2 colcount v
+    PATCH_IF ("%v%" STRING_COMPARE_CASE "73929" = 0) BEGIN SET_2DA_ENTRY i 2 colcount RESOLVE_STR_REF (@10011) SET done = done + 1 END
+  END
+  PATCH_IF done < 1 BEGIN PATCH_FAIL "strings.tph 2da-retire: imoennd.2da repointed %done%/1" END
+  PRETTY_PRINT_2DA
 
 // update the list of master areas
 APPEND ~mastarea.2da~ ~S!0001     value~

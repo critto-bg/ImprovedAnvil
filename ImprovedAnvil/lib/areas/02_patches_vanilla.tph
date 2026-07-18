@@ -716,7 +716,15 @@ COPY_EXISTING ~ar2800.are~ ~override/ar2800.are~
   LPF ~S!SET_DEFAULT_TRANSITION_FLAGS~ STR_VAR region_name = ~Tran2810~ END
   LPF ~S!SET_DEFAULT_TRANSITION_FLAGS~ STR_VAR region_name = ~Tran2802~ END
 
-  LPF ~ALTER_AREA_DOOR~ INT_VAR lock_difficulty = 100 flag_locked = 1 string_unlock = 10862 STR_VAR door_name = ~Door07~ END
+  LPF ~ALTER_AREA_DOOR~ INT_VAR lock_difficulty = 100 flag_locked = 1 string_unlock = RESOLVE_STR_REF (@10141) STR_VAR door_name = ~Door07~ END
+
+  // repoint the automap note off the shared stock strref 61272 to an appended @10140
+  // ("The Sealed House"), instead of clobbering the stock string.
+  GET_OFFSET_ARRAY am_notes 0xc4 4 0xc8 4 0 0 0x34
+  PHP_EACH am_notes AS _ => am_off BEGIN
+    READ_LONG (am_off + 0x04) am_txt
+    PATCH_IF (am_txt = 61272) BEGIN WRITE_LONG (am_off + 0x04) RESOLVE_STR_REF (@10140) END
+  END
 
 COPY_EXISTING ~ar2802.are~ ~override/ar2802.are~
   LPF ~S!SET_DEFAULT_TRANSITION_FLAGS~ STR_VAR region_name = ~Tran2800~ END

@@ -81,7 +81,7 @@ END
 
 IF ~~ THEN BEGIN 12 // from: 11.0 10.0 9.0 8.0
   SAY #72525 /* ~The contract complete, the djinn dons a pair of spectacles and looks it over with an arched brow.  "Very well, spellcaster.  I can interpret the items listed here in the following ways.  Choose carefully which you would prefer."~ */
-  IF ~Global("WishPower01","GLOBAL",1)~ THEN REPLY #72526 /* ~'Breach' on everyone in the area, including the party.~ */ DO ~ActionOverride(LastTalkedToBy,ForceSpellRES("spwish26",Myself))
+  IF ~Global("WishPower01","GLOBAL",1)~ THEN REPLY @10076 /* ~'Breach' on everyone in the area, including the party.~ */ DO ~ActionOverride(LastTalkedToBy,ForceSpellRES("spwish26",Myself))
 ApplySpell(Myself,POOF_GONE)~ EXIT
   IF ~Global("WishPower02","GLOBAL",1)~ THEN REPLY #72527 /* ~Blow all people, including party members, away from the caster.~ */ DO ~ActionOverride(LastTalkedToBy,ForceSpellRES("spwish27",Myself))
 ApplySpell(Myself,POOF_GONE)~ EXIT
@@ -101,17 +101,17 @@ ApplySpell(Myself,POOF_GONE)~ EXIT
 ApplySpell(Myself,POOF_GONE)~ EXIT
   IF ~Global("WishPower10","GLOBAL",1)~ THEN REPLY #72535 /* ~'Silence' on everyone in the area, including party members.~ */ DO ~ActionOverride(LastTalkedToBy,ForceSpellRES("spwish35",Myself))
 ApplySpell(Myself,POOF_GONE)~ EXIT
-  IF ~Global("WishPower11","GLOBAL",1)~ THEN REPLY #72536 /* ~'Haste' everyone in the area, including enemies.~ */ DO ~ActionOverride(LastTalkedToBy,ForceSpellRES("spwish36",Myself))
+  IF ~Global("WishPower11","GLOBAL",1)~ THEN REPLY @10055 /* ~'Haste' everyone in the area, including enemies.~ */ DO ~ActionOverride(LastTalkedToBy,ForceSpellRES("spwish36",Myself))
 ApplySpell(Myself,POOF_GONE)~ EXIT
   IF ~Global("WishPower12","GLOBAL",1)~ THEN REPLY #72537 /* ~'Improved Haste' on all party members.~ */ DO ~ActionOverride(LastTalkedToBy,ForceSpellRES("spwish37",Myself))
 ApplySpell(Myself,POOF_GONE)~ EXIT
-  IF ~Global("WishPower13","GLOBAL",1)~ THEN REPLY #72538 /* ~'Breach' on all enemies in the area.~ */ DO ~ActionOverride(LastTalkedToBy,ForceSpellRES("spwish38",Myself))
+  IF ~Global("WishPower13","GLOBAL",1)~ THEN REPLY @10060 /* ~'Breach' on all enemies in the area.~ */ DO ~ActionOverride(LastTalkedToBy,ForceSpellRES("spwish38",Myself))
 ApplySpell(Myself,POOF_GONE)~ EXIT
-  IF ~Global("WishPower14","GLOBAL",1)~ THEN REPLY #72539 /* ~'Restoration' on all party members.~ */ DO ~ActionOverride(LastTalkedToBy,ForceSpellRES("spwish46",Myself))
+  IF ~Global("WishPower14","GLOBAL",1)~ THEN REPLY @10058 /* ~'Restoration' on all party members.~ */ DO ~ActionOverride(LastTalkedToBy,ForceSpellRES("spwish46",Myself))
 ApplySpell(Myself,POOF_GONE)~ EXIT
-  IF ~Global("WishPower15","GLOBAL",1)~ THEN REPLY #72541 /* ~Raise all party members' characteristics to 25 for 4 rounds.~ */ DO ~ActionOverride(LastTalkedToBy,ForceSpellRES("spwish08",Myself))
+  IF ~Global("WishPower15","GLOBAL",1)~ THEN REPLY @10137 /* ~Raise all party members' characteristics to 25 for 4 rounds.~ */ DO ~ActionOverride(LastTalkedToBy,ForceSpellRES("spwish08",Myself))
 ApplySpell(Myself,POOF_GONE)~ EXIT
-  IF ~Global("WishPower16","GLOBAL",1)~ THEN REPLY #72542 /* ~'Resurrection' on all dead party members.~ */ DO ~ActionOverride(LastTalkedToBy,ForceSpellRES("spwish10",Myself))
+  IF ~Global("WishPower16","GLOBAL",1)~ THEN REPLY @10077 /* ~'Resurrection' on all dead party members.~ */ DO ~ActionOverride(LastTalkedToBy,ForceSpellRES("spwish10",Myself))
 ApplySpell(Myself,POOF_GONE)~ EXIT
   IF ~Global("WishPower17","GLOBAL",1)~ THEN REPLY #72543 /* ~All party members gain the temporary ability 'Greater Deathblow'.~ */ DO ~ActionOverride(LastTalkedToBy,ForceSpellRES("spwish11",Myself))
 ApplySpell(Myself,POOF_GONE)~ EXIT
@@ -127,7 +127,7 @@ IncrementGlobal("Iawishp21","GLOBAL",1) SetGlobalTimer("Iawishpenalty","GLOBAL",
 ApplySpell(Myself,POOF_GONE)~ EXIT
   IF ~Global("WishPower23","GLOBAL",1)~ THEN REPLY #72550 /* ~Heal all enemies in the area.~ */ DO ~ActionOverride(LastTalkedToBy,ForceSpellRES("spwish39",Myself))
 ApplySpell(Myself,POOF_GONE)~ EXIT
-  IF ~Global("WishPower24","GLOBAL",1)~ THEN REPLY #72551 /* ~'Improved Haste' on all enemies in the area.~ */ DO ~ActionOverride(LastTalkedToBy,ForceSpellRES("spwish40",Myself))
+  IF ~Global("WishPower24","GLOBAL",1)~ THEN REPLY @10061 /* ~'Improved Haste' on all enemies in the area.~ */ DO ~ActionOverride(LastTalkedToBy,ForceSpellRES("spwish40",Myself))
 ApplySpell(Myself,POOF_GONE)~ EXIT
   IF ~Global("WishPower25","GLOBAL",1)~ THEN REPLY #72552 /* ~Summon an extra hostile monster into the area.~ */ DO ~ActionOverride(LastTalkedToBy,ForceSpellRES("spwish18",Myself))
 ApplySpell(Myself,POOF_GONE)~ EXIT
@@ -158,8 +158,8 @@ ApplySpell(Myself,POOF_GONE)~ EXIT
 END
 
 IF ~~ THEN BEGIN 13
-  SAY #17348
-  IF ~~ THEN REPLY #17361 GOTO 14
+  SAY @10097
+  IF ~~ THEN REPLY @10098 GOTO 14
   IF ~~ THEN REPLY #72513 DO ~IncrementGlobal("Iawishp21","GLOBAL",1)~ GOTO 1
 END
 

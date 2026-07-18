@@ -264,7 +264,7 @@ IF ~~ THEN BEGIN 40 // from: 39.0
 END
 
 IF ~~ THEN BEGIN 41 // from: 40.0
-  SAY #49184 /* ~Soon you may return to fight for ascension within the Grove. Until that day comes, I shall not call on you. Go forth and find the path of balance within your life.~ */
+  SAY @10042 /* ~Soon you may return to fight for ascension within the Grove. Until that day comes, I shall not call on you. Go forth and find the path of balance within your life.~ */
   IF ~~ THEN GOTO 42
 END
 
@@ -308,5 +308,5 @@ CreateVisualEffectObject("SPDIMNDR","drshlo02")
 CreateVisualEffectObject("SPDIMNDR",Myself)
 ActionOverride("drshlo02",DestroySelf())
 DestroySelf()
-~ SOLVED_JOURNAL #12200 EXIT
+~ SOLVED_JOURNAL @10114 EXIT
 END

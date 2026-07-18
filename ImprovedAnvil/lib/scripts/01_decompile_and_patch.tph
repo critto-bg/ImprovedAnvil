@@ -237,11 +237,14 @@ COPY_EXISTING ~BEHHIV01.BCS~ ~override~
 COPY_EXISTING ~CMACL20A.BCS~ ~override~
   DECOMPILE_AND_PATCH BEGIN
     REPLACE_TEXTUALLY ~HaveSpell(WIZARD_MAZE)~ ~False()~
+    REPLACE_TEXTUALLY ~DisplayString(Myself,40240)~ ~DisplayString(Myself,@10048)~ // Chain Contingency - Giant Strength
   END
 
 COPY_EXISTING ~CMAGE20B.BCS~ ~override~
   DECOMPILE_AND_PATCH BEGIN
     REPLACE_TEXTUALLY ~HaveSpell(WIZARD_MAZE)~ ~False()~
+    REPLACE_TEXTUALLY ~DisplayString(Myself,40240)~ ~DisplayString(Myself,@10048)~ // Chain Contingency - Giant Strength
+    REPLACE_TEXTUALLY ~DisplayString(Myself,43046)~ ~DisplayString(Myself,@10054)~ // Spell Trigger - Giant Strength
   END
 
 COPY_EXISTING ~EDWINX.BCS~ ~override~
@@ -263,6 +266,8 @@ COPY_EXISTING ~FLAYER01.BCS~ ~override~
 COPY_EXISTING ~GORCAMB2.BCS~ ~override~
   DECOMPILE_AND_PATCH BEGIN
     REPLACE_TEXTUALLY ~HaveSpell(WIZARD_MAZE)~ ~False()~
+    REPLACE_TEXTUALLY ~DisplayString(Myself,40240)~ ~DisplayString(Myself,@10048)~ // Chain Contingency - Giant Strength
+    REPLACE_TEXTUALLY ~DisplayString(Myself,43046)~ ~DisplayString(Myself,@10054)~ // Spell Trigger - Giant Strength
   END
 
 COPY_EXISTING ~GORMIND.BCS~ ~override~
@@ -279,6 +284,8 @@ COPY_EXISTING ~GORSTAM.BCS~ ~override~
 COPY_EXISTING ~JATERMIN.BCS~ ~override~
   DECOMPILE_AND_PATCH BEGIN
     REPLACE_TEXTUALLY ~HaveSpell(WIZARD_MAZE)~ ~False()~
+    REPLACE_TEXTUALLY ~DisplayString(Myself,40240)~ ~DisplayString(Myself,@10048)~ // Chain Contingency - Giant Strength
+    REPLACE_TEXTUALLY ~DisplayString(Myself,43046)~ ~DisplayString(Myself,@10054)~ // Spell Trigger - Giant Strength
   END
 
 COPY_EXISTING ~MAGE2.BCS~ ~override~
@@ -689,4 +696,19 @@ COPY_EXISTING ~AR2500.BCS~ ~override/AR2500.bcs~
 COPY_EXISTING ~GOLEM.BCS~ ~override~
   DECOMPILE_AND_PATCH BEGIN
     REPLACE_TEXTUALLY ~AddexperienceParty(23500)~ ~AddXPObject(Player1,35000) AddXPObject(Player2,35000) AddXPObject(Player3,35000) AddXPObject(Player4,35000) AddXPObject(Player5,35000) AddXPObject(Player6,35000)~
+  END
+
+// Retire strings.tph in-place tlk-overwrites whose owner is a script DisplayString
+ACTION_FOR_EACH ~script~ IN ~FIRLCH01~ ~MAGE18Y~ ~MAGE18Z~ ~OHHAYES1~ ~PWARDEN~ ~SHADEL~ ~TIEF3~ BEGIN
+  COPY_EXISTING ~%script%.BCS~ ~override~
+    DECOMPILE_AND_PATCH BEGIN
+      REPLACE_TEXTUALLY ~DisplayString(Myself,40240)~ ~DisplayString(Myself,@10048)~ // Chain Contingency - Giant Strength
+      REPLACE_TEXTUALLY ~DisplayString(Myself,43046)~ ~DisplayString(Myself,@10054)~ // Spell Trigger - Giant Strength (FIRLCH01 only)
+    END
+END
+
+// Yaga-Shura cutscene narration
+COPY_EXISTING ~PTYAGA.BCS~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~DisplayStringNoName(Myself,73292)~ ~DisplayStringNoName(Myself,@10160)~ // Yaga Shura's army pours towards you
   END

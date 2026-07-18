@@ -4,6 +4,7 @@
 
 // Malla's Soul Stone
 COPY_EXISTING ~amsoul01.itm~ ~override/amsoul01.itm~
+  SAY DESC @10100  // Amulet of Power
   WRITE_LONG  0x008 6970  // unidentified name: "Gemstone"
   READ_LONG   0x018 "flags"
   WRITE_LONG  0x018 ("%flags%" BAND (BNOT BIT25))  // flags: - toggle crit aversion
@@ -184,6 +185,7 @@ COPY_EXISTING ~amsoul01.itm~ ~override/amsoul01.itm~
 
 // Shield Amulet
 COPY_EXISTING ~amul15.itm~ ~override/amul15.itm~
+  SAY DESC @10157  // Amulet (command-word)
   WRITE_LONG  0x01e 0x60725e80  // usability mask: unusable by Cleric, Cleric/Thief, Cleric/Ranger, Fighter, Fighter/Druid, Fighter/Cleric, Fighter/Thief, Paladin, Ranger, Thief, Monk, Druid/Shaman
   READ_BYTE   0x029 "kitusability1"
   WRITE_BYTE  0x029 ("%kitusability1%" BOR BIT6)  // kit usability 1: + Barbarian
@@ -816,6 +818,7 @@ COPY_EXISTING ~ax1h09.itm~ ~override/ax1h09.itm~
 
 // Stonefire +3
 COPY_EXISTING ~ax1h12.itm~ ~override/ax1h12.itm~
+  SAY DESC @10163  // Stonefire, Battle Axe +3
   WRITE_LONG  0x034 10000  // price
 
   // equipped: Colour: Set Character colours by Palette: weapon armor (gradient 174)
@@ -861,6 +864,7 @@ COPY_EXISTING ~ax1h12.itm~ ~override/ax1h12.itm~
 
 // Frostreaver +3
 COPY_EXISTING ~ax1h13.itm~ ~override/ax1h13.itm~
+  SAY DESC @10164  // Frostreaver, Battle Axe +3
   WRITE_LONG  0x034 10000  // price
 
   // equipped: - Colour: Change by RGB (0,21)
@@ -2295,6 +2299,7 @@ COPY_EXISTING ~blun30d.itm~ ~override/blun30d.itm~
 
 // Ice Star +4
 COPY_EXISTING ~blun35.itm~ ~override/blun35.itm~
+  SAY DESC @10176  // morning star (ice)
   // equipped: Graphics: Display Special Effect Icon #16 (Protection From Fire)
   LPF ALTER_EFFECT
     INT_VAR
@@ -4957,7 +4962,7 @@ COPY_EXISTING ~giafir.itm~ ~override/giafir.itm~
 
 // Battle Axe of Mauletar +2
 COPY_EXISTING ~giafir2.itm~ ~override/giafir2.itm~
-  WRITE_LONG  0x01e 0x00000000  // usability mask: unusable by 
+  WRITE_LONG  0x01e 0x00000000  // usability mask: unusable by
   READ_BYTE   0x02b "kitusability2"
   WRITE_BYTE  0x02b ("%kitusability2%" BAND (BNOT BIT1))  // kit usability 2: - Beastmaster
   WRITE_LONG  0x060          4  // enchantment
@@ -5679,6 +5684,7 @@ COPY_EXISTING ~helm21.itm~ ~override/helm21.itm~
 
 // Obsidian Ioun Stone
 COPY_EXISTING ~helm24.itm~ ~override/helm24.itm~
+  SAY DESC @10101  // obsidian helm
   READ_LONG   0x018 "flags"
   WRITE_LONG  0x018 ("%flags%" BAND (BNOT BIT25))  // flags: - toggle crit aversion
   WRITE_LONG  0x034 22000  // price
@@ -5706,6 +5712,7 @@ COPY_EXISTING ~helm24.itm~ ~override/helm24.itm~
 
 // Thieves' Hood
 COPY_EXISTING ~helm30.itm~ ~override/helm30.itm~
+  SAY DESC @10082  // Thieves' Hood
   READ_LONG   0x018 "flags"
   WRITE_LONG  0x018 ("%flags%" BAND (BNOT BIT25))  // flags: - toggle crit aversion
   READ_BYTE   0x029 "kitusability1"
@@ -6151,6 +6158,8 @@ COPY_EXISTING ~kuobolt2.itm~ ~override/kuobolt2.itm~
 
 // Armor of Stamina +5
 COPY_EXISTING ~leat09.itm~ ~override/leat09.itm~
+  SAY NAME2 @10165  // Armor of Stamina +5 (identified name)
+  SAY DESC  @10166  // Armor of Stamina +5 (identified description)
   WRITE_LONG  0x01e 0x603fffc0  // usability mask: usable only by Chaotic..., ...Evil, ...Good, ...Neutral, Lawful..., Neutral..., Thief, Elf, Dwarf, Half-Elf, Halfling, Human, Gnome, Half-Orc
   WRITE_SHORT 0x026          0  // min strength
   READ_BYTE   0x029 "kitusability1"
@@ -7119,6 +7128,7 @@ COPY_EXISTING ~misc3l.itm~ ~override/misc3l.itm~
 
 // Harp of Discord
 COPY_EXISTING ~misc3m.itm~ ~override/misc3m.itm~
+  SAY DESC @10079  // Harp of Discord
   READ_BYTE   0x029 "kitusability1"
   WRITE_BYTE  0x029 ("%kitusability1%" BAND (BNOT BIT6))  // kit usability 1: - Barbarian
   READ_LONG   0x098 "abilflags"
@@ -7907,7 +7917,7 @@ COPY_EXISTING ~npsw03.itm~ ~override/npsw03.itm~
 
 // Delryn Family Shield
 COPY_EXISTING ~npshld.itm~ ~override/npshld.itm~
-  WRITE_LONG  0x01e 0x00000000  // usability mask: unusable by 
+  WRITE_LONG  0x01e 0x00000000  // usability mask: unusable by
   READ_BYTE   0x029 "kitusability1"
   WRITE_BYTE  0x029 ("%kitusability1%" BAND (BNOT BIT6))  // kit usability 1: - Barbarian
   READ_BYTE   0x02f "kitusability4"
@@ -8583,6 +8593,7 @@ COPY_EXISTING ~potn02.itm~ ~override/potn02.itm~
 
 // Potion of Invulnerability
 COPY_EXISTING ~potn11.itm~ ~override/potn11.itm~
+  SAY DESC @10102  // Potion of Invulnerability [shared with potn40 via removal]
   WRITE_LONG  0x034 1400  // price
   WRITE_SHORT 0x038    5  // stack amount
 
@@ -8635,6 +8646,7 @@ COPY_EXISTING ~potn11.itm~ ~override/potn11.itm~
 
 // Potion of Absorption
 COPY_EXISTING ~potn18.itm~ ~override/potn18.itm~
+  SAY DESC @10040  // potion (electrical absorption)
   WRITE_SHORT 0x038 5  // stack amount
 
   // abil 0 (magical): - Stat: AC vs. Damage Type Modifier: +10 vs crushing
@@ -8938,6 +8950,7 @@ COPY_EXISTING ~potn34.itm~ ~override/potn34.itm~
 
 // Potion of Magic Shielding
 COPY_EXISTING ~potn35.itm~ ~override/potn35.itm~
+  SAY DESC @10078  // elixir (magic resistance)
   WRITE_LONG  0x034 2500  // price
   WRITE_SHORT 0x038    5  // stack amount
 
@@ -9712,6 +9725,7 @@ COPY_EXISTING ~potn45.itm~ ~override/potn45.itm~
 
 // Potion of Stone Form
 COPY_EXISTING ~potn46.itm~ ~override/potn46.itm~
+  SAY DESC @10041  // potion (transformation)
   WRITE_LONG  0x034 0  // price
   WRITE_SHORT 0x038 5  // stack amount
   WRITE_LONG  0x1ce (0 - 9)  // abil 0 (magical) Stat: Dexterity Modifier: -3 (cumulative): parameter1 (raw: value not expressible via ALTER_EFFECT)
@@ -9995,6 +10009,7 @@ COPY_EXISTING ~ring09.itm~ ~override/ring09.itm~
 
 // Ring of Fire Control
 COPY_EXISTING ~ring27.itm~ ~override/ring27.itm~
+  SAY DESC @10089  // Ring of Fire Control
   // remove ability 2 (magical) and its 1 effects (raw: a same-type ability survives, DELETE_ITEM_HEADER would hit both)
   DELETE_BYTES 0x1da 0x30 // its feature blocks
   DELETE_BYTES 0xe2 0x38 // the header
@@ -10067,6 +10082,7 @@ COPY_EXISTING ~ring27.itm~ ~override/ring27.itm~
 
 // Ring of Air Control
 COPY_EXISTING ~ring28.itm~ ~override/ring28.itm~
+  SAY DESC @10111  // Ring of Air Elemental Command
   READ_BYTE   0x02d "kitusability3"
   WRITE_BYTE  0x02d ("%kitusability3%" BOR (BIT0 BOR BIT4))  // kit usability 3: + Diviner, Necromancer
   READ_LONG   0x098 "abilflags"
@@ -10118,6 +10134,7 @@ COPY_EXISTING ~ring28.itm~ ~override/ring28.itm~
 
 // Ring of Earth Control
 COPY_EXISTING ~ring29.itm~ ~override/ring29.itm~
+  SAY DESC @10112  // Ring of Earth Elemental Command [shared with ringpico]
   // remove ability 1 (magical) and its 1 effects (raw: a same-type ability survives, DELETE_ITEM_HEADER would hit both)
   DELETE_BYTES 0x142 0x30 // its feature blocks
   DELETE_BYTES 0xaa 0x38 // the header
@@ -10919,7 +10936,7 @@ COPY_EXISTING ~rods01.itm~ ~override/rods01.itm~
   READ_LONG   0x018 "flags"
   WRITE_LONG  0x018 ("%flags%" BOR BIT6)  // flags: + magical
   WRITE_SHORT 0x01c          0  // item type
-  WRITE_LONG  0x01e 0x00000000  // usability mask: unusable by 
+  WRITE_LONG  0x01e 0x00000000  // usability mask: unusable by
   READ_BYTE   0x029 "kitusability1"
   WRITE_BYTE  0x029 ("%kitusability1%" BAND (BNOT BIT6))  // kit usability 1: - Barbarian
   WRITE_LONG  0x034      60000  // price
@@ -11314,6 +11331,8 @@ COPY_EXISTING ~scrl5o.itm~ ~override/scrl5o.itm~
 
 // Tenser's Partial Transformation
 COPY_EXISTING ~scrl8z.itm~ ~override/scrl8z.itm~
+  SAY NAME2 @9070  // Tenser's Partial Transformation
+  SAY DESC  @9071  // Tenser's Partial Transformation (description)
   READ_LONG   0x01e "usability"
   WRITE_LONG  0x01e ("%usability%" BOR BIT6)  // usability mask: + Bard
   READ_BYTE   0x02d "kitusability3"
@@ -12540,6 +12559,7 @@ COPY_EXISTING ~staf11.itm~ ~override/staf11.itm~
 
 // Staff of Power
 COPY_EXISTING ~staf12.itm~ ~override/staf12.itm~
+  SAY DESC @10159  // Staff of Power
   READ_LONG   0x01e "usability"
   WRITE_LONG  0x01e ("%usability%" BOR BIT6)  // usability mask: + Bard
   READ_BYTE   0x029 "kitusability1"
@@ -12639,6 +12659,7 @@ COPY_EXISTING ~staf12.itm~ ~override/staf12.itm~
 
 // Staff of the Woodlands +4
 COPY_EXISTING ~staf14.itm~ ~override/staf14.itm~
+  SAY DESC @10085  // Staff of the Woodlands
   READ_BYTE   0x029 "kitusability1"
   WRITE_BYTE  0x029 ("%kitusability1%" BAND (BNOT BIT6))  // kit usability 1: - Barbarian
 
@@ -13497,6 +13518,7 @@ COPY_EXISTING ~sw1h51.itm~ ~override/sw1h51.itm~
 
 // Short Sword of Mask +4
 COPY_EXISTING ~sw1h58.itm~ ~override/sw1h58.itm~
+  SAY DESC @10152  // Shadowlord blade [shared with S!RUNEF]
   // abil 0 (melee): - Spell Effect: Play Sound Effect ~CRE_P01~
   LPF DELETE_EFFECT
     INT_VAR
@@ -13562,6 +13584,7 @@ COPY_EXISTING ~sw1h58.itm~ ~override/sw1h58.itm~
 
 // Short Sword of Mask +5
 COPY_EXISTING ~sw1h59.itm~ ~override/sw1h59.itm~
+  SAY DESC @10153  // blade (Shadowlord)
   WRITE_LONG  0x034 38000  // price
 
   // abil 0 (melee): clear all effects
@@ -14933,6 +14956,7 @@ COPY_EXISTING ~wand07.itm~ ~override/wand07.itm~
 
 // Wand of the Heavens
 COPY_EXISTING ~wand11.itm~ ~override/wand11.itm~
+  SAY DESC @10090  // wand (pillar of flame) [shared with ttwand]
   READ_LONG   0x01e "usability"
   WRITE_LONG  0x01e ("%usability%" BOR BIT29)  // usability mask: + Monk
   READ_BYTE   0x029 "kitusability1"
@@ -15108,6 +15132,7 @@ COPY_EXISTING ~wand12.itm~ ~override/wand12.itm~
 
 // Wand of Spell Striking
 COPY_EXISTING ~wand18.itm~ ~override/wand18.itm~
+  SAY DESC @10099  // wand
   // remove ability 1 (magical) and its 6 effects (raw: a same-type ability survives, DELETE_ITEM_HEADER would hit both)
   DELETE_BYTES 0x202 0x120 // its feature blocks
   DELETE_BYTES 0xaa 0x38 // the header
@@ -16097,6 +16122,7 @@ COPY_EXISTING ~rods04.itm~ ~override/rods04.itm~
 
 // Amulet of the Master Harper
 COPY_EXISTING ~amul28.itm~ ~override/amul28.itm~
+  SAY DESC @10104  // medallion
   WRITE_LONG  0x08    6852 // item name
   WRITE_ASCII 0x22    ~~ #2
 
@@ -17058,3 +17084,57 @@ COPY_EXISTING ~mfist8.itm~ ~override/mfist8.itm~
   END
 
   BUT_ONLY
+
+// items patched only to repoint their description off the shared stock strref
+// (retiring lib/core/strings.tph overrides; not otherwise patched here). Some share a
+// description with an item patched above (repointed to the same @N).
+COPY_EXISTING ~brac07.itm~ ~override/brac07.itm~     SAY DESC @9039   // Gauntlets of Dexterity
+COPY_EXISTING ~brac18.itm~ ~override/brac18.itm~     SAY DESC @10131  // Gloves of Missile Snaring
+COPY_EXISTING ~ttwand.itm~ ~override/ttwand.itm~     SAY DESC @10090  // wand (pillar of flame) [shared with wand11]
+COPY_EXISTING ~ringpico.itm~ ~override/ringpico.itm~ SAY DESC @10112  // Ring of Earth Elemental Command [shared with ring29]
+
+COPY_EXISTING ~misc7t.itm~ ~override/misc7t.itm~
+  SAY UNIDENTIFIED_DESC @10038  // Figurine of Wondrous Power
+  SAY DESC              @10038
+
+COPY_EXISTING ~scrl7g.itm~ ~override~  SAY DESC @10016  // Tenser's Transformation
+COPY_EXISTING ~scrl8d.itm~ ~override~  SAY DESC @10039  // Spell Turning
+COPY_EXISTING ~scrl6h.itm~ ~override~  SAY DESC @10118  // Protection From Fire
+COPY_EXISTING ~scrl6i.itm~ ~override~  SAY DESC @10119  // Protection From Cold
+COPY_EXISTING ~scrla5.itm~ ~override~  SAY DESC @372  // melf's
+COPY_EXISTING ~scrl7u.itm~ ~override~  SAY DESC @394  // contingency
+COPY_EXISTING ~scrl1m.itm~ ~override~  SAY DESC @399  // non-detection
+COPY_EXISTING ~scrl9l.itm~ ~override~
+              ~scrl9m.itm~ ~override~
+              ~scrl9r.itm~ ~override~  SAY DESC @9013  // spellstrike
+COPY_EXISTING ~scrl6v.itm~ ~override~  SAY DESC @9014  // lower
+COPY_EXISTING ~scrl1j.itm~ ~override~  SAY DESC @9048  // invisibility
+COPY_EXISTING ~scrl9n.itm~ ~override~
+              ~scrl9q.itm~ ~override~  SAY DESC @9504  // chain
+COPY_EXISTING ~scrl9u.itm~ ~override~  SAY DESC @10012  // power
+COPY_EXISTING ~scrl7m.itm~ ~override~
+              ~scrl7v.itm~ ~override~  SAY DESC @10047  // true
+COPY_EXISTING ~scrl6s.itm~ ~override~  SAY DESC @10056  // spell
+COPY_EXISTING ~scrlb2.itm~ ~override~  SAY DESC @10057  // bigby's
+COPY_EXISTING ~scrl5k.itm~ ~override~  SAY DESC @10063  // spirit
+COPY_EXISTING ~scrl1x.itm~ ~override~
+              ~scrl5j.itm~ ~override~  SAY DESC @10075  // ice
+COPY_EXISTING ~scrl79.itm~ ~override~  SAY DESC @10083  // shield
+COPY_EXISTING ~scrl67.itm~ ~override~  SAY DESC @10084  // armor
+COPY_EXISTING ~scrl1z.itm~ ~override~  SAY DESC @10086  // minor
+COPY_EXISTING ~scrl7f.itm~ ~override~  SAY DESC @10087  // globe
+COPY_EXISTING ~scrl6m.itm~ ~override~  SAY DESC @10094  // enchanted
+COPY_EXISTING ~scrl5o.itm~ ~override~  SAY DESC @10127  // hold
+COPY_EXISTING ~scrl1o.itm~ ~override~  SAY DESC @10129  // slow
+COPY_EXISTING ~scrl95.itm~ ~override~  SAY DESC @10161  // melf's
+COPY_EXISTING ~scrlb1.itm~ ~override~  SAY DESC @10174  // bigby's
+COPY_EXISTING ~scrl1e.itm~ ~override~
+              ~scrl6g.itm~ ~override~  SAY DESC @10178  // dispel
+COPY_EXISTING ~scrla7.itm~ ~override~  SAY DESC @10180  // remove
+COPY_EXISTING ~scrl6j.itm~ ~override~  SAY DESC @10181  // spell
+COPY_EXISTING ~scrl6o.itm~ ~override~  SAY DESC @10182  // secret
+COPY_EXISTING ~scrl7l.itm~ ~override~  SAY DESC @10183  // pierce
+COPY_EXISTING ~scrl8g.itm~ ~override~
+              ~scrl8i.itm~ ~override~  SAY DESC @10184  // ruby
+COPY_EXISTING ~scrl8h.itm~ ~override~  SAY DESC @10185  // khelben's
+COPY_EXISTING ~scrl9a.itm~ ~override~  SAY DESC @10186  // pierce
