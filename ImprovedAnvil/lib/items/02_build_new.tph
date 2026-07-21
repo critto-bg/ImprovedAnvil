@@ -9,6 +9,10 @@
 // GET_FILE_ARRAY leave stale entries from earlier, larger directories.
 
 ACTION_TIME ~itm_build: TOTAL~ BEGIN
+// meta caches must load at this level: S!ITM_BUILD is a function, so
+// anything first loaded inside it is discarded when the build returns
+LAM ~S!ITM_META~
+
 OUTER_SPRINT $iaitm_walk(~0~) ~ImprovedAnvil/resources/items~
 OUTER_SET iaitm_walk_n = 1
 OUTER_SET iaitm_walk_i = 0
@@ -38,7 +42,7 @@ OUTER_WHILE (iaitm_walk_i < iaitm_walk_n) BEGIN
 
     OUTER_SPRINT iaitm_build_table ~%iaitm_path%~
     OUTER_SPRINT iaitm_build_out ~%iaitm_bn%~
-    LAM ~S!ITM_BUILD~
+    LAF ~S!ITM_BUILD~ END
   END
 END
 END  // ACTION_TIME TOTAL
@@ -72,7 +76,7 @@ ACTION_PHP_EACH iaitm_dfiles AS _ => iaitm_path BEGIN
     REPLACE_TEXTUALLY ~^.*[/\\]~ ~~
     REPLACE_TEXTUALLY ~\.2[Dd][Aa]$~ ~~
   END
-  LAM ~S!ITM_BUILD~
+  LAF ~S!ITM_BUILD~ RET iaitm_built END
   ACTION_IF (iaitm_built = 0) BEGIN
     FAIL ~02_build_new: derived item %iaitm_build_out% deferred — its SRC base is missing or is itself a derived item (chains unsupported; point SRC at a stock or blank-mode base)~
   END

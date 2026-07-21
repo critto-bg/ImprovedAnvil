@@ -8,6 +8,52 @@
 // GET_FILE_ARRAY leave stale entries from earlier, larger directories.
 
 ACTION_TIME ~cre_build: TOTAL~ BEGIN
+// meta caches must load at this level: S!CRE_BUILD is a function, so
+// anything first loaded inside it is discarded when the build returns
+LAM ~S!CRE_META~
+
+// ---------------------------------------------------------------------------
+// Pre-load pass: parse every _template.2da and _packages table at THIS level.
+// S!CRE_BUILD is a function, so any table first loaded inside it is discarded
+// when the build returns — shared caches must be populated out here, where
+// they persist. (A template can be referenced from any group dir, so this is
+// its own full walk rather than a step of the build walk below.)
+// ---------------------------------------------------------------------------
+OUTER_SPRINT $iacre_twalk(~0~) ~ImprovedAnvil/resources/creatures~
+OUTER_SET iacre_twalk_n = 1
+OUTER_SET iacre_twalk_i = 0
+
+OUTER_WHILE (iacre_twalk_i < iacre_twalk_n) BEGIN
+  OUTER_SPRINT iacre_wdir $iacre_twalk(~%iacre_twalk_i%~)
+  OUTER_SET iacre_twalk_i += 1
+
+  GET_DIRECTORY_ARRAY EVAL ~iacre_tdirs_%iacre_twalk_i%~ ~%iacre_wdir%~ ~.*~
+  ACTION_PHP_EACH EVAL ~iacre_tdirs_%iacre_twalk_i%~ AS _ => iacre_d BEGIN
+    OUTER_PATCH_SAVE iacre_dbn ~%iacre_d%~ BEGIN
+      REPLACE_TEXTUALLY ~^.*[/\\]~ ~~
+    END
+
+    ACTION_IF NOT (~%iacre_dbn%~ STRING_MATCHES_REGEXP ~^[_.]~ = 0) BEGIN
+      OUTER_SPRINT $iacre_twalk(~%iacre_twalk_n%~) ~%iacre_d%~
+      OUTER_SET iacre_twalk_n += 1
+    END
+  END
+
+  ACTION_IF FILE_EXISTS ~%iacre_wdir%/_template.2da~ BEGIN
+    OUTER_SPRINT iacre_load_file ~%iacre_wdir%/_template.2da~
+    LAM ~S!CRE_TABLE_LOAD~
+  END
+END
+
+GET_FILE_ARRAY iacre_pkgfiles ~ImprovedAnvil/resources/creatures/_packages~ ~.*\.2[dD][aA]$~
+ACTION_PHP_EACH iacre_pkgfiles AS _ => iacre_path BEGIN
+  OUTER_SPRINT iacre_load_file ~%iacre_path%~
+  LAM ~S!CRE_TABLE_LOAD~
+END
+
+// ---------------------------------------------------------------------------
+// Build walk
+// ---------------------------------------------------------------------------
 OUTER_SPRINT $iacre_walk(~0~) ~ImprovedAnvil/resources/creatures~
 OUTER_SET iacre_walk_n = 1
 OUTER_SET iacre_walk_i = 0
@@ -37,7 +83,7 @@ OUTER_WHILE (iacre_walk_i < iacre_walk_n) BEGIN
 
     OUTER_SPRINT iacre_build_table ~%iacre_path%~
     OUTER_SPRINT iacre_build_out ~%iacre_bn%~
-    LAM ~S!CRE_BUILD~
+    LAF ~S!CRE_BUILD~ END
   END
 END
 END  // ACTION_TIME TOTAL

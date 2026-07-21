@@ -8,6 +8,10 @@
 // GET_FILE_ARRAY leave stale entries from earlier, larger directories.
 
 ACTION_TIME ~spl_build: TOTAL~ BEGIN
+// meta caches must load at this level: S!SPL_BUILD is a function, so
+// anything first loaded inside it is discarded when the build returns
+LAM ~S!SPL_META~
+
 OUTER_SPRINT $iaspl_walk(~0~) ~ImprovedAnvil/resources/spells~
 OUTER_SET iaspl_walk_n = 1
 OUTER_SET iaspl_walk_i = 0
@@ -37,7 +41,7 @@ OUTER_WHILE (iaspl_walk_i < iaspl_walk_n) BEGIN
 
     OUTER_SPRINT iaspl_build_table ~%iaspl_path%~
     OUTER_SPRINT iaspl_build_out ~%iaspl_bn%~
-    LAM ~S!SPL_BUILD~
+    LAF ~S!SPL_BUILD~ END
   END
 END
 
@@ -55,7 +59,7 @@ ACTION_PHP_EACH iaspl_dfiles AS _ => iaspl_path BEGIN
     REPLACE_TEXTUALLY ~^.*[/\\]~ ~~
     REPLACE_TEXTUALLY ~\.2[Dd][Aa]$~ ~~
   END
-  LAM ~S!SPL_BUILD~
+  LAF ~S!SPL_BUILD~ END
 END
 END  // ACTION_TIME TOTAL
 

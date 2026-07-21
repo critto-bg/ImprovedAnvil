@@ -2,13 +2,18 @@
 // resources/creatures/, resolves template chains + packages, and builds the
 // .cre files.
 //
-// Implemented as MACROS: WeiDU functions have local variable scope, so a
-// function-based loader cannot populate the shared table arrays. Macro temp
-// variables are prefixed per macro (m_/tl_/b_/fx_/it_) to avoid collisions.
+// Same macro/function split as itm_build.tpa (see its header): S!CRE_META and
+// S!CRE_TABLE_LOAD are MACROS (their caches — meta, parsed template/package
+// tables — must persist, so the driver runs them at its own level);
+// S!CRE_BUILD is a FUNCTION whose staging, including the once-used per-
+// creature table parse, is discarded on return. A table lazy-loaded inside
+// S!CRE_BUILD is therefore re-parsed by every build that wants it — correct
+// (id counter and cache revert together), just slow. Temp variables are
+// prefixed per macro (m_/tl_/b_/fx_/it_).
 //
-// Macro interfaces (globals):
+// Interfaces:
 //   S!CRE_TABLE_LOAD   in: iacre_load_file            out: iacre_load_id
-//   S!CRE_BUILD        in: iacre_build_table, iacre_build_out
+//   S!CRE_BUILD        in: iacre_build_table, iacre_build_out (caller vars)
 
 // ---------------------------------------------------------------------------
 // one-time meta: _fields.2da (header layout), _defaults.2da, _blockers.2da
@@ -88,7 +93,11 @@ END
 //   in: iacre_load_file   out: iacre_load_id
 // ---------------------------------------------------------------------------
 DEFINE_ACTION_MACRO ~S!CRE_TABLE_LOAD~ BEGIN
-  LAM ~S!CRE_META~   // eraser set must exist before any FX row is parsed
+  // eraser set must exist before any FX row is parsed; meta loaded from
+  // inside S!CRE_BUILD would be discarded with the function env
+  ACTION_IF NOT VARIABLE_IS_SET iacre_meta_loaded BEGIN
+    FAIL ~S!CRE_TABLE_LOAD: S!CRE_META not loaded — the driver must LAM it at its own level first~
+  END
   ACTION_IF VARIABLE_IS_SET $iacre_tbl_id(~%iacre_load_file%~) BEGIN
     OUTER_SET iacre_load_id = $iacre_tbl_id(~%iacre_load_file%~)
   END ELSE
@@ -391,13 +400,11 @@ END
 // S!CRE_BUILD: resolve template chain + packages, build the creature
 //   in: iacre_build_table, iacre_build_out
 // ---------------------------------------------------------------------------
-DEFINE_ACTION_MACRO ~S!CRE_BUILD~ BEGIN
-  LAM ~S!CRE_META~
-
-  // per-build generation: keys the per-build merge arrays (arrays cannot be
-  // cleared; resref-based keys break if a resref is ever built twice)
-  ACTION_IF NOT VARIABLE_IS_SET iacre_gen BEGIN OUTER_SET iacre_gen = 0 END
-  OUTER_SET iacre_gen += 1
+DEFINE_ACTION_FUNCTION ~S!CRE_BUILD~ BEGIN
+  // meta loaded from in here would be discarded with the function env
+  ACTION_IF NOT VARIABLE_IS_SET iacre_meta_loaded BEGIN
+    FAIL ~S!CRE_BUILD: S!CRE_META not loaded — the driver must LAM it at its own level before building~
+  END
   OUTER_SPRINT iacre_load_file ~%iacre_build_table%~
   LAM ~S!CRE_TABLE_LOAD~
   OUTER_SET b_own_id = iacre_load_id
@@ -467,9 +474,9 @@ DEFINE_ACTION_MACRO ~S!CRE_BUILD~ BEGIN
     OUTER_FOR (b_j = 0; b_j < $iacre_tbl(~%b_fx_src%~ ~fx_n~); b_j += 1) BEGIN
       ACTION_FOR_EACH b_fx_field IN op p1 p2 resource BEGIN
         OUTER_SPRINT b_nm ~iacre_tblfx_%b_fx_src%_%b_j%_%b_fx_field%~
-        OUTER_TEXT_SPRINT EVAL ~b_fxq_%iacre_gen%_%b_fxq_n%_%b_fx_field%~ EVAL ~%%b_nm%%~
+        OUTER_TEXT_SPRINT EVAL ~b_fxq_%b_fxq_n%_%b_fx_field%~ EVAL ~%%b_nm%%~
       END
-      OUTER_SET EVAL ~b_fxkey_%iacre_gen%_%b_fxq_n%~ = EVAL ~iacre_tblfxk_%b_fx_src%_%b_j%~
+      OUTER_SET EVAL ~b_fxkey_%b_fxq_n%~ = EVAL ~iacre_tblfxk_%b_fx_src%_%b_j%~
       OUTER_SET b_fxq_n += 1
     END
   END
@@ -482,19 +489,19 @@ DEFINE_ACTION_MACRO ~S!CRE_BUILD~ BEGIN
       OUTER_SET b_colour_val = $iacre_tbl(~%b_colour_src%~ ~colour_val~)
 
       ACTION_FOR_EACH b_blocked_op IN 50 9 BEGIN
-        OUTER_TEXT_SPRINT EVAL ~b_fxq_%iacre_gen%_%b_fxq_n%_op~ ~101~
-        OUTER_TEXT_SPRINT EVAL ~b_fxq_%iacre_gen%_%b_fxq_n%_p1~ ~-~
-        OUTER_TEXT_SPRINT EVAL ~b_fxq_%iacre_gen%_%b_fxq_n%_p2~ ~%b_blocked_op%~
-        OUTER_TEXT_SPRINT EVAL ~b_fxq_%iacre_gen%_%b_fxq_n%_resource~ ~-~
-        OUTER_SET EVAL ~b_fxkey_%iacre_gen%_%b_fxq_n%~ = 100101
+        OUTER_TEXT_SPRINT EVAL ~b_fxq_%b_fxq_n%_op~ ~101~
+        OUTER_TEXT_SPRINT EVAL ~b_fxq_%b_fxq_n%_p1~ ~-~
+        OUTER_TEXT_SPRINT EVAL ~b_fxq_%b_fxq_n%_p2~ ~%b_blocked_op%~
+        OUTER_TEXT_SPRINT EVAL ~b_fxq_%b_fxq_n%_resource~ ~-~
+        OUTER_SET EVAL ~b_fxkey_%b_fxq_n%~ = 100101
         OUTER_SET b_fxq_n += 1
       END
 
-      OUTER_TEXT_SPRINT EVAL ~b_fxq_%iacre_gen%_%b_fxq_n%_op~ ~%b_colour_op%~
-      OUTER_TEXT_SPRINT EVAL ~b_fxq_%iacre_gen%_%b_fxq_n%_p1~ ~%b_colour_val%~
-      OUTER_TEXT_SPRINT EVAL ~b_fxq_%iacre_gen%_%b_fxq_n%_p2~ ~2~
-      OUTER_TEXT_SPRINT EVAL ~b_fxq_%iacre_gen%_%b_fxq_n%_resource~ ~-~
-      OUTER_SET EVAL ~b_fxkey_%iacre_gen%_%b_fxq_n%~ = b_colour_op
+      OUTER_TEXT_SPRINT EVAL ~b_fxq_%b_fxq_n%_op~ ~%b_colour_op%~
+      OUTER_TEXT_SPRINT EVAL ~b_fxq_%b_fxq_n%_p1~ ~%b_colour_val%~
+      OUTER_TEXT_SPRINT EVAL ~b_fxq_%b_fxq_n%_p2~ ~2~
+      OUTER_TEXT_SPRINT EVAL ~b_fxq_%b_fxq_n%_resource~ ~-~
+      OUTER_SET EVAL ~b_fxkey_%b_fxq_n%~ = b_colour_op
       OUTER_SET b_fxq_n += 1
     END
   END
@@ -504,9 +511,9 @@ DEFINE_ACTION_MACRO ~S!CRE_BUILD~ BEGIN
     OUTER_FOR (b_j = 0; b_j < $iacre_tbl(~%b_tbl%~ ~fx_n~); b_j += 1) BEGIN
       ACTION_FOR_EACH b_fx_field IN op p1 p2 resource BEGIN
         OUTER_SPRINT b_nm ~iacre_tblfx_%b_tbl%_%b_j%_%b_fx_field%~
-        OUTER_TEXT_SPRINT EVAL ~b_fxq_%iacre_gen%_%b_fxq_n%_%b_fx_field%~ EVAL ~%%b_nm%%~
+        OUTER_TEXT_SPRINT EVAL ~b_fxq_%b_fxq_n%_%b_fx_field%~ EVAL ~%%b_nm%%~
       END
-      OUTER_SET EVAL ~b_fxkey_%iacre_gen%_%b_fxq_n%~ = EVAL ~iacre_tblfxk_%b_tbl%_%b_j%~
+      OUTER_SET EVAL ~b_fxkey_%b_fxq_n%~ = EVAL ~iacre_tblfxk_%b_tbl%_%b_j%~
       OUTER_SET b_fxq_n += 1
     END
   END
@@ -517,15 +524,15 @@ DEFINE_ACTION_MACRO ~S!CRE_BUILD~ BEGIN
     OUTER_SET b_best = 0 - 1
     OUTER_SET b_best_key = 999999
     OUTER_FOR (b_j = 0; b_j < b_fxq_n; b_j += 1) BEGIN
-      ACTION_IF (NOT VARIABLE_IS_SET EVAL ~b_fxused_%iacre_gen%_%b_j%~)
-        AND (EVAL ~b_fxkey_%iacre_gen%_%b_j%~ < b_best_key)
+      ACTION_IF (NOT VARIABLE_IS_SET EVAL ~b_fxused_%b_j%~)
+        AND (EVAL ~b_fxkey_%b_j%~ < b_best_key)
       BEGIN
         OUTER_SET b_best = b_j
-        OUTER_SET b_best_key = EVAL ~b_fxkey_%iacre_gen%_%b_j%~
+        OUTER_SET b_best_key = EVAL ~b_fxkey_%b_j%~
       END
     END
-    OUTER_SET EVAL ~b_fxused_%iacre_gen%_%b_best%~ = 1
-    OUTER_SET EVAL ~b_fxord_%iacre_gen%_%b_out%~ = b_best
+    OUTER_SET EVAL ~b_fxused_%b_best%~ = 1
+    OUTER_SET EVAL ~b_fxord_%b_out%~ = b_best
   END
   END  // ACTION_TIME fx queue+sort
 
@@ -540,25 +547,25 @@ DEFINE_ACTION_MACRO ~S!CRE_BUILD~ BEGIN
         FAIL ~S!CRE_BUILD: slotless ITEM row in %iacre_build_table%~
       END
       ELSE BEGIN
-        ACTION_IF NOT VARIABLE_IS_SET $b_slot_src(~%iacre_gen%~ ~%b_slot%~) BEGIN
-          OUTER_SPRINT $b_slot_order(~%iacre_gen%~ ~%b_slot_n%~) ~%b_slot%~
+        ACTION_IF NOT VARIABLE_IS_SET $b_slot_src(~%b_slot%~) BEGIN
+          OUTER_SPRINT $b_slot_order(~%b_slot_n%~) ~%b_slot%~
           OUTER_SET b_slot_n += 1
         END
-        OUTER_SET $b_slot_src(~%iacre_gen%~ ~%b_slot%~) = b_tbl
-        OUTER_SET $b_slot_idx(~%iacre_gen%~ ~%b_slot%~) = b_j
+        OUTER_SET $b_slot_src(~%b_slot%~) = b_tbl
+        OUTER_SET $b_slot_idx(~%b_slot%~) = b_j
       END
     END
   END
   END  // ACTION_TIME item merge
 
-  // header overlay: chain HDR rows -> one gen-keyed field map (later wins),
+  // header overlay: chain HDR rows -> one field map (later wins),
   // so the full-header write loop does a single lookup per field instead of
   // rescanning every chain table's rows
   OUTER_FOR (b_i = 0; b_i < b_chain_n; b_i += 1) BEGIN
     OUTER_SET b_tbl = $b_chain(~%b_i%~)
     OUTER_FOR (b_j = 0; b_j < $iacre_tbl(~%b_tbl%~ ~hdr_n~); b_j += 1) BEGIN
       OUTER_SPRINT b_hdr_field $iacre_tbl_hdr_field(~%b_tbl%~ ~%b_j%~)
-      OUTER_TEXT_SPRINT EVAL ~b_hdrv_%iacre_gen%_%b_hdr_field%~ $iacre_tbl_hdr_val(~%b_tbl%~ ~%b_j%~)
+      OUTER_TEXT_SPRINT EVAL ~b_hdrv_%b_hdr_field%~ $iacre_tbl_hdr_val(~%b_tbl%~ ~%b_j%~)
     END
   END
 
@@ -580,8 +587,8 @@ DEFINE_ACTION_MACRO ~S!CRE_BUILD~ BEGIN
     PATCH_TIME ~cre_build: header writes~ BEGIN
     FOR (b_f = 0; b_f < iacre_field_n; b_f += 1) BEGIN
       SPRINT b_fname $iacre_field(~%b_f%~)
-      PATCH_IF VARIABLE_IS_SET EVAL ~b_hdrv_%iacre_gen%_%b_fname%~ BEGIN
-        SPRINT b_nm ~b_hdrv_%iacre_gen%_%b_fname%~
+      PATCH_IF VARIABLE_IS_SET EVAL ~b_hdrv_%b_fname%~ BEGIN
+        SPRINT b_nm ~b_hdrv_%b_fname%~
         SPRINT b_fval EVAL ~%%b_nm%%~
       END ELSE BEGIN
         SPRINT b_fval $iacre_default(~%b_fname%~)
@@ -626,7 +633,7 @@ DEFINE_ACTION_MACRO ~S!CRE_BUILD~ BEGIN
     READ_BYTE 0x272 b_race
     PATCH_IF b_race = 144 BEGIN
       FOR (b_j = 0; b_j < b_fxq_n; b_j += 1) BEGIN
-        SET b_fx_op = EVAL ~b_fxq_%iacre_gen%_%b_j%_op~
+        SET b_fx_op = EVAL ~b_fxq_%b_j%_op~
         PATCH_IF (b_fx_op = 134) BEGIN
           PATCH_WARN ~S!CRE_BUILD: %iacre_build_out% is race GOLEM and carries an op134 instance — the install-time petrification-kit GLOB will suppress it~
         END
@@ -653,14 +660,14 @@ DEFINE_ACTION_MACRO ~S!CRE_BUILD~ BEGIN
       INSERT_BYTES (b_fx_base_off + b_fx_base_num * 0x108) (b_fxq_n * 0x108)
 
       FOR (b_j = 0; b_j < b_fxq_n; b_j += 1) BEGIN
-        SET iacre_fx_idx = EVAL ~b_fxord_%iacre_gen%_%b_j%~
-        SPRINT fx_nm ~b_fxq_%iacre_gen%_%iacre_fx_idx%_op~
+        SET iacre_fx_idx = EVAL ~b_fxord_%b_j%~
+        SPRINT fx_nm ~b_fxq_%iacre_fx_idx%_op~
         SPRINT fx_op EVAL ~%%fx_nm%%~
-        SPRINT fx_nm ~b_fxq_%iacre_gen%_%iacre_fx_idx%_p1~
+        SPRINT fx_nm ~b_fxq_%iacre_fx_idx%_p1~
         SPRINT fx_p1 EVAL ~%%fx_nm%%~
-        SPRINT fx_nm ~b_fxq_%iacre_gen%_%iacre_fx_idx%_p2~
+        SPRINT fx_nm ~b_fxq_%iacre_fx_idx%_p2~
         SPRINT fx_p2 EVAL ~%%fx_nm%%~
-        SPRINT fx_nm ~b_fxq_%iacre_gen%_%iacre_fx_idx%_resource~
+        SPRINT fx_nm ~b_fxq_%iacre_fx_idx%_resource~
         SPRINT fx_res EVAL ~%%fx_nm%%~
         SET fx_p1_num = (~%fx_p1%~ STRING_EQUAL ~-~) ? 0 : fx_p1
         SET fx_p2_num = (~%fx_p2%~ STRING_EQUAL ~-~) ? 0 : fx_p2
@@ -706,9 +713,9 @@ DEFINE_ACTION_MACRO ~S!CRE_BUILD~ BEGIN
     // items: merged slots in first-seen order
     PATCH_TIME ~cre_build: item adds~ BEGIN
     FOR (b_s = 0; b_s < b_slot_n; b_s += 1) BEGIN
-      SPRINT b_slot $b_slot_order(~%iacre_gen%~ ~%b_s%~)
-      SET iacre_it_src = $b_slot_src(~%iacre_gen%~ ~%b_slot%~)
-      SET iacre_it_idx = $b_slot_idx(~%iacre_gen%~ ~%b_slot%~)
+      SPRINT b_slot $b_slot_order(~%b_s%~)
+      SET iacre_it_src = $b_slot_src(~%b_slot%~)
+      SET iacre_it_idx = $b_slot_idx(~%b_slot%~)
       SPRINT b_item_res $iacre_tbl_item(~%iacre_it_src%~ ~%iacre_it_idx%~ ~res~)
 
       PATCH_IF NOT (~%b_item_res%~ STRING_EQUAL_CASE ~EMPTY~) BEGIN

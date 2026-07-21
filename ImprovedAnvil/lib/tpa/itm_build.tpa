@@ -3,8 +3,11 @@
 // (header + extended headers + feature blocks written at computed offsets —
 // no ADD_ITEM_* built-ins, sidestepping their layout quirks).
 //
-// Implemented as MACROS: WeiDU functions have local variable scope, so a
-// function-based loader cannot populate the shared table arrays. Macro temp
+// S!ITM_META is a MACRO (its caches must persist across builds); S!ITM_BUILD
+// is a FUNCTION: it sees a copy of the caller's environment, and its staging
+// is discarded on return. The discard is load-bearing: every LAF/LPF in the
+// install pays O(variable-table size) to snapshot/restore the environment,
+// so staging must not accumulate (spec/notes/weidu-performance.md). Temp
 // variables are prefixed per macro (m_/b_) to avoid collisions.
 //
 // Table row vocabulary (see resources/items/_fields.2da and _defaults.2da;
@@ -29,8 +32,8 @@
 //     (02_build_new.tph) treats that as a hard error — derived-from-derived
 //     chains are unsupported (flatten to a stock SRC instead).
 //
-// Macro interface (globals):  S!ITM_BUILD  in: iaitm_build_table, iaitm_build_out
-//                             out: iaitm_built (0 = base missing -> driver FAILs)
+// Interface:  S!ITM_BUILD  in: iaitm_build_table, iaitm_build_out (caller vars)
+//             out: RET iaitm_built (0 = base missing -> driver FAILs)
 
 // ---------------------------------------------------------------------------
 // one-time meta: _fields.2da (layouts), _defaults.2da, blank prototype
@@ -133,14 +136,14 @@ END
 
 // ---------------------------------------------------------------------------
 // S!ITM_BUILD: parse one table, construct the item
-//   in: iaitm_build_table (path), iaitm_build_out (resref)
+//   in: iaitm_build_table (path), iaitm_build_out (resref) — caller vars
+//   out: RET iaitm_built
 // ---------------------------------------------------------------------------
-DEFINE_ACTION_MACRO ~S!ITM_BUILD~ BEGIN
-  LAM ~S!ITM_META~
-
-  // per-build generation: keys the parse arrays (arrays cannot be cleared)
-  ACTION_IF NOT VARIABLE_IS_SET iaitm_gen BEGIN OUTER_SET iaitm_gen = 0 END
-  OUTER_SET iaitm_gen += 1
+DEFINE_ACTION_FUNCTION ~S!ITM_BUILD~ RET iaitm_built BEGIN
+  // meta loaded from in here would be discarded with the function env
+  ACTION_IF NOT VARIABLE_IS_SET iaitm_meta_loaded BEGIN
+    FAIL ~S!ITM_BUILD: S!ITM_META not loaded — the driver must LAM it at its own level before building~
+  END
 
   OUTER_SET b_abil_n = 0
   OUTER_SET b_eq_n = 0
@@ -149,7 +152,7 @@ DEFINE_ACTION_MACRO ~S!ITM_BUILD~ BEGIN
     OUTER_SET $b_say(~%b_k%~) = 0 - 1
   END
   ACTION_FOR_EACH b_l IN ~E~ ~0~ ~1~ ~2~ ~3~ BEGIN
-    OUTER_SET EVAL ~b_fxn_%iaitm_gen%_%b_l%~ = 0
+    OUTER_SET EVAL ~b_fxn_%b_l%~ = 0
   END
   ACTION_FOR_EACH b_t IN ~SRC~ ~SAY~ ~HDR~ ~ABIL~ ~FX~ BEGIN
     OUTER_SET $b_seen(~%b_t%~) = 0
@@ -191,7 +194,7 @@ DEFINE_ACTION_MACRO ~S!ITM_BUILD~ BEGIN
         PATCH_IF NOT VARIABLE_IS_SET $iaitm_hdrf_off(~%b_key%~) BEGIN
           PATCH_FAIL ~S!ITM_BUILD: unknown HDR field %b_key% in %iaitm_build_table%~
         END
-        TEXT_SPRINT EVAL ~b_hdr_%iaitm_gen%_%b_key%~ ~%b_val%~
+        TEXT_SPRINT EVAL ~b_hdr_%b_key%~ ~%b_val%~
         SET $b_parsed(~HDR~) += 1
       END
 
@@ -205,8 +208,8 @@ DEFINE_ACTION_MACRO ~S!ITM_BUILD~ BEGIN
         PATCH_IF NOT VARIABLE_IS_SET $iaitm_abilf_off(~%b_key%~) BEGIN
           PATCH_FAIL ~S!ITM_BUILD: unknown ABIL field %b_key% in %iaitm_build_table%~
         END
-        TEXT_SPRINT EVAL ~b_abil_%iaitm_gen%_%b_i%_%b_key%~ ~%b_val%~
-        SET $b_abil_seen(~%iaitm_gen%~ ~%b_i%~) = 1
+        TEXT_SPRINT EVAL ~b_abil_%b_i%_%b_key%~ ~%b_val%~
+        SET $b_abil_seen(~%b_i%~) = 1
         PATCH_IF (b_i + 1) > b_abil_n BEGIN
           SET b_abil_n = b_i + 1
         END
@@ -215,13 +218,13 @@ DEFINE_ACTION_MACRO ~S!ITM_BUILD~ BEGIN
 
       ELSE PATCH_IF ~%b_tag%~ STRING_EQUAL_CASE ~FX~ BEGIN
         READ_2DA_ENTRY_FORMER iaitm_r3 b_r 1 b_lst
-        SET b_n = EVAL ~b_fxn_%iaitm_gen%_%b_lst%~
+        SET b_n = EVAL ~b_fxn_%b_lst%~
         FOR (b_c = 0; b_c < iaitm_fx_n; b_c += 1) BEGIN
           SPRINT b_fname $iaitm_fxf(~%b_c%~)
           READ_2DA_ENTRY_FORMER iaitm_r3 b_r (b_c + 2) b_val
-          TEXT_SPRINT EVAL ~b_fxq_%iaitm_gen%_%b_lst%_%b_n%_%b_fname%~ ~%b_val%~
+          TEXT_SPRINT EVAL ~b_fxq_%b_lst%_%b_n%_%b_fname%~ ~%b_val%~
         END
-        SET EVAL ~b_fxn_%iaitm_gen%_%b_lst%~ = b_n + 1
+        SET EVAL ~b_fxn_%b_lst%~ = b_n + 1
         SET $b_parsed(~FX~) += 1
       END
     END
@@ -255,21 +258,21 @@ DEFINE_ACTION_MACRO ~S!ITM_BUILD~ BEGIN
   // Derived mode validates against the SOURCE structure at patch time.
   ACTION_IF ~%b_src%~ STRING_EQUAL ~~ BEGIN
     OUTER_FOR (b_i = 0; b_i < b_abil_n; b_i += 1) BEGIN
-      ACTION_IF NOT VARIABLE_IS_SET $b_abil_seen(~%iaitm_gen%~ ~%b_i%~) BEGIN
+      ACTION_IF NOT VARIABLE_IS_SET $b_abil_seen(~%b_i%~) BEGIN
         FAIL ~S!ITM_BUILD: ability %b_i% undeclared (gap) in %iaitm_build_table%~
       END
     END
     OUTER_FOR (b_i = b_abil_n; b_i < 4; b_i += 1) BEGIN
-      ACTION_IF (EVAL ~b_fxn_%iaitm_gen%_%b_i%~ > 0) BEGIN
+      ACTION_IF (EVAL ~b_fxn_%b_i%~ > 0) BEGIN
         FAIL ~S!ITM_BUILD: FX rows for undeclared ability %b_i% in %iaitm_build_table%~
       END
     END
   END
 
-  OUTER_SET b_eq_n = EVAL ~b_fxn_%iaitm_gen%_E~
+  OUTER_SET b_eq_n = EVAL ~b_fxn_E~
   OUTER_SET b_fx_total = b_eq_n
   OUTER_FOR (b_i = 0; b_i < b_abil_n; b_i += 1) BEGIN
-    OUTER_SET b_fx_total += EVAL ~b_fxn_%iaitm_gen%_%b_i%~
+    OUTER_SET b_fx_total += EVAL ~b_fxn_%b_i%~
   END
 
   OUTER_SET iaitm_built = 1
@@ -292,8 +295,8 @@ DEFINE_ACTION_MACRO ~S!ITM_BUILD~ BEGIN
     PATCH_TIME ~itm_build: header writes~ BEGIN
     FOR (b_f = 0; b_f < iaitm_hdrf_n; b_f += 1) BEGIN
       SPRINT b_fname $iaitm_hdrf(~%b_f%~)
-      PATCH_IF VARIABLE_IS_SET EVAL ~b_hdr_%iaitm_gen%_%b_fname%~ BEGIN
-        SPRINT b_nm ~b_hdr_%iaitm_gen%_%b_fname%~
+      PATCH_IF VARIABLE_IS_SET EVAL ~b_hdr_%b_fname%~ BEGIN
+        SPRINT b_nm ~b_hdr_%b_fname%~
         SPRINT b_fval EVAL ~%%b_nm%%~
       END ELSE BEGIN
         SPRINT b_fval $iaitm_hdr_dflt(~%b_fname%~)
@@ -324,8 +327,8 @@ DEFINE_ACTION_MACRO ~S!ITM_BUILD~ BEGIN
       SET b_base = 0x72 + b_i * 0x38
       FOR (b_f = 0; b_f < iaitm_abilf_n; b_f += 1) BEGIN
         SPRINT b_fname $iaitm_abilf(~%b_f%~)
-        PATCH_IF VARIABLE_IS_SET EVAL ~b_abil_%iaitm_gen%_%b_i%_%b_fname%~ BEGIN
-          SPRINT b_nm ~b_abil_%iaitm_gen%_%b_i%_%b_fname%~
+        PATCH_IF VARIABLE_IS_SET EVAL ~b_abil_%b_i%_%b_fname%~ BEGIN
+          SPRINT b_nm ~b_abil_%b_i%_%b_fname%~
           SPRINT b_fval EVAL ~%%b_nm%%~
         END ELSE BEGIN
           SPRINT b_fval $iaitm_abil_dflt(~%b_fname%~)
@@ -347,7 +350,7 @@ DEFINE_ACTION_MACRO ~S!ITM_BUILD~ BEGIN
           PATCH_IF b_width = 4 BEGIN WRITE_LONG  b_off b_num END
         END
       END
-      SET b_n = EVAL ~b_fxn_%iaitm_gen%_%b_i%~
+      SET b_n = EVAL ~b_fxn_%b_i%~
       WRITE_SHORT (b_base + 0x1e) b_n    // feature block count
       WRITE_SHORT (b_base + 0x20) b_run  // feature block first index
       SET b_run += b_n
@@ -363,12 +366,12 @@ DEFINE_ACTION_MACRO ~S!ITM_BUILD~ BEGIN
       END ELSE BEGIN
         SPRINT b_lst ~%b_li%~
       END
-      SET b_n = EVAL ~b_fxn_%iaitm_gen%_%b_lst%~
+      SET b_n = EVAL ~b_fxn_%b_lst%~
       FOR (b_j = 0; b_j < b_n; b_j += 1) BEGIN
         SET b_base = b_fx_off + b_k * 0x30
         FOR (b_c = 0; b_c < iaitm_fx_n; b_c += 1) BEGIN
           SPRINT b_fname $iaitm_fxf(~%b_c%~)
-          SPRINT b_nm ~b_fxq_%iaitm_gen%_%b_lst%_%b_j%_%b_fname%~
+          SPRINT b_nm ~b_fxq_%b_lst%_%b_j%_%b_fname%~
           SPRINT b_fval EVAL ~%%b_nm%%~
           PATCH_IF ~%b_fval%~ STRING_EQUAL ~-~ BEGIN
             PATCH_IF ~%b_fname%~ STRING_EQUAL_CASE ~opcode~ BEGIN
@@ -452,8 +455,8 @@ DEFINE_ACTION_MACRO ~S!ITM_BUILD_SRC~ BEGIN
     // header: only fields the table names
     FOR (b_f = 0; b_f < iaitm_hdrf_n; b_f += 1) BEGIN
       SPRINT b_fname $iaitm_hdrf(~%b_f%~)
-      PATCH_IF VARIABLE_IS_SET EVAL ~b_hdr_%iaitm_gen%_%b_fname%~ BEGIN
-        SPRINT b_nm ~b_hdr_%iaitm_gen%_%b_fname%~
+      PATCH_IF VARIABLE_IS_SET EVAL ~b_hdr_%b_fname%~ BEGIN
+        SPRINT b_nm ~b_hdr_%b_fname%~
         SPRINT b_fval EVAL ~%%b_nm%%~
         SET b_off = $iaitm_hdrf_off(~%b_fname%~)
         SET b_width = $iaitm_hdrf_width(~%b_fname%~)
@@ -483,15 +486,15 @@ DEFINE_ACTION_MACRO ~S!ITM_BUILD_SRC~ BEGIN
 
     // abilities: only fields the table names, on existing source abilities
     FOR (b_i = 0; b_i < 4; b_i += 1) BEGIN
-      PATCH_IF VARIABLE_IS_SET $b_abil_seen(~%iaitm_gen%~ ~%b_i%~) BEGIN
+      PATCH_IF VARIABLE_IS_SET $b_abil_seen(~%b_i%~) BEGIN
         PATCH_IF b_i >= b_ab_n BEGIN
           PATCH_FAIL ~S!ITM_BUILD_SRC: ABIL %b_i% rows but %b_src% has %b_ab_n% abilities (%iaitm_build_out%)~
         END
         SET b_base = b_ab_off + b_i * 0x38
         FOR (b_f = 0; b_f < iaitm_abilf_n; b_f += 1) BEGIN
           SPRINT b_fname $iaitm_abilf(~%b_f%~)
-          PATCH_IF VARIABLE_IS_SET EVAL ~b_abil_%iaitm_gen%_%b_i%_%b_fname%~ BEGIN
-            SPRINT b_nm ~b_abil_%iaitm_gen%_%b_i%_%b_fname%~
+          PATCH_IF VARIABLE_IS_SET EVAL ~b_abil_%b_i%_%b_fname%~ BEGIN
+            SPRINT b_nm ~b_abil_%b_i%_%b_fname%~
             SPRINT b_fval EVAL ~%%b_nm%%~
             SET b_off = b_base + $iaitm_abilf_off(~%b_fname%~)
             SET b_width = $iaitm_abilf_width(~%b_fname%~)
@@ -521,7 +524,7 @@ DEFINE_ACTION_MACRO ~S!ITM_BUILD_SRC~ BEGIN
       END ELSE BEGIN
         SPRINT b_lst ~%b_li%~
       END
-      SET b_n = EVAL ~b_fxn_%iaitm_gen%_%b_lst%~
+      SET b_n = EVAL ~b_fxn_%b_lst%~
       PATCH_IF b_n > 0 BEGIN
         READ_LONG  0x6a b_fx_off
         READ_SHORT 0x70 b_eqn
@@ -554,7 +557,7 @@ DEFINE_ACTION_MACRO ~S!ITM_BUILD_SRC~ BEGIN
           SET b_base = b_fx_off + (b_at_idx + b_j) * 0x30
           FOR (b_c = 0; b_c < iaitm_fx_n; b_c += 1) BEGIN
             SPRINT b_fname $iaitm_fxf(~%b_c%~)
-            SPRINT b_nm ~b_fxq_%iaitm_gen%_%b_lst%_%b_j%_%b_fname%~
+            SPRINT b_nm ~b_fxq_%b_lst%_%b_j%_%b_fname%~
             SPRINT b_fval EVAL ~%%b_nm%%~
             PATCH_IF ~%b_fval%~ STRING_EQUAL ~-~ BEGIN
               PATCH_IF ~%b_fname%~ STRING_EQUAL_CASE ~opcode~ BEGIN
