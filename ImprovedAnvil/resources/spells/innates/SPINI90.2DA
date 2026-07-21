@@ -1,0 +1,50 @@
+2DA V1.0
+*
+SAY   NAME1  10230        // ~Perform Ritual~
+SAY   UDESC  10237
+HDR   SOUND      CAS_P06
+HDR   CASTGFX    15
+HDR   ICON_BOOK  SPINI90B
+HDR   ICON_DESC  SPINI90B
+ABIL  0  FORM          1      // standard
+ABIL  0  LOCATION      4
+ABIL  0  ICON          SPINI90B
+ABIL  0  CASTING_TIME  5
+#FX  lst  op   tgt  pow  p1     p2                        tim  dsp  dur  pr1  pr2  resource  dn  ds  sav  sb  spc
+FX   0    321  1    -    -      -                         1    -    -    -    -    S!MISVA2  -   -   -    -   -  // Removal: Effects specified by Resource ~S!MISVA2~
+FX   0    0    1    7    5      -                         -    -    60   -    -    -         -   -   -    -   -  // Stat: AC vs. Damage Type Modifier: +5 vs all
+FX   0    65   1    7    5      -                         -    -    60   -    -    -         -   -   -    -   -  // Overlay: Blur (5,0)
+FX   0    126  1    7    1      -                         -    -    60   -    -    -         -   -   -    -   -  // Stat: Movement Modifier: +1 (cumulative)
+FX   0    317  1    7    -      1                         -    -    60   -    -    -         -   -   -    -   -  // State: Haste 2 (0,1)
+FX   0    206  1    -    -      -                         -    -    60   -    -    SPWII22   -   -   -    -   -  // Spell: Protection from Spell ~SPWII22~ (Improved Web)
+FX   0    206  1    -    -      -                         -    -    60   -    -    SPWI215   -   -   -    -   -  // Spell: Protection from Spell ~SPWI215~ (Web)
+FX   0    206  1    -    -      -                         -    -    60   -    -    SPIN575   -   -   -    -   -  // Spell: Protection from Spell ~SPIN575~ (Vortex Web)
+FX   0    282  1    -    2      15                        -    -    60   -    -    -         -   -   -    -   -  // Script: Scripting State Modifier: SCRIPTINGSTATE16 := 2 (Prepare for spiders, Perform Ritual, ohrboot1)
+FX   0    142  1    -    -      167                       -    -    60   -    -    SPPR722   -   -   -    -   -  // Graphics: Display Special Effect Icon #167 (Perform Ritual)
+FX   0    282  1    4    1      4                         -    -    60   -    -    -         -   -   -    -   -  // Script: Scripting State Modifier: SCRIPTINGSTATE5 (FREEACTION) := 1 (free action, perform ritual, potion of freedom)
+FX   0    328  1    -    -      var:perform_ritual_state  -    -    60   -    -    -         -   -   -    -   1  // State: Set Extended or Spell State -> var:perform_ritual_state
+FX   0    101  1    4    -      157                       -    -    60   -    -    -         -   -   -    -   -  // Protection: from Opcode #157 (State: Web Effect)
+FX   0    101  1    4    -      154                       -    -    60   -    -    -         -   4   -    -   -  // Protection: from Opcode #154 (Overlay: Entangle)
+FX   0    101  1    4    -      158                       -    -    60   -    -    -         -   -   -    -   -  // Protection: from Opcode #158 (Overlay: Grease)
+FX   0    101  1    4    -      109                       -    -    60   -    -    -         -   -   -    -   -  // Protection: from Opcode #109 (State: Paralyze)
+FX   0    101  1    4    -      40                        -    -    60   -    -    -         -   -   -    -   -  // Protection: from Opcode #40 (State: Slow)
+FX   0    169  1    4    -      13                        -    -    60   -    -    -         -   -   -    -   -  // Graphics: Prevent Special Effect Icon #13 (Held)
+FX   0    169  1    4    -      41                        -    -    60   -    -    -         -   -   -    -   -  // Graphics: Prevent Special Effect Icon #41 (Slow)
+FX   0    101  1    4    -      175                       -    -    60   -    -    -         -   -   -    -   -  // Protection: from Opcode #175 (State: Hold)
+FX   0    101  1    4    -      45                        -    -    60   -    -    -         -   -   -    -   -  // Protection: from Opcode #45 (State: Stun)
+FX   0    101  1    4    -      210                       -    -    60   -    -    -         -   -   -    -   -  // Protection: from Opcode #210 (Spell Effect: Stun 90HP)
+FX   0    169  1    4    -      55                        -    -    60   -    -    -         -   -   -    -   -  // Graphics: Prevent Special Effect Icon #55 (Stun)
+FX   0    296  1    4    -      -                         -    -    60   -    -    SPMINDAT  -   -   -    -   -  // Graphics: Protection from Specific Animation ~SPMINDAT~
+FX   0    169  1    4    -      129                       -    -    60   -    -    -         -   -   -    -   -  // Graphics: Prevent Special Effect Icon #129 (Webbed)
+FX   0    267  1    4    14102  -                         -    -    60   -    -    -         -   -   -    -   -  // Text: Protection from Display Specific String: "Held"
+FX   0    267  1    4    1280   -                         -    -    60   -    -    -         -   -   -    -   -  // Text: Protection from Display Specific String: "Stunned"
+FX   0    267  1    4    14043  -                         -    -    60   -    -    -         -   -   -    -   -  // Text: Protection from Display Specific String: "Stun"
+FX   0    267  1    4    14000  -                         -    -    60   -    -    -         -   -   -    -   -  // Text: Protection from Display Specific String: "Slow"
+FX   0    267  1    4    14668  -                         -    -    60   -    -    -         -   -   -    -   -  // Text: Protection from Display Specific String: "Slowed"
+FX   0    206  1    -    -      -                         -    -    60   -    -    S!MISVA2  -   -   -    -   -  // Spell: Protection from Spell ~S!MISVA2~
+FX   0    206  1    -    -      -                         -    -    60   -    -    SPWI312   -   -   -    -   -  // Spell: Protection from Spell ~SPWI312~ (Slow)
+FX   0    206  1    -    -      -                         -    -    60   -    -    SPWISH25  -   -   -    -   -  // Spell: Protection from Spell ~SPWISH25~ (Slow)
+FX   0    206  1    -    -      -                         -    -    60   -    -    SPIN983   -   -   -    -   -  // Spell: Protection from Spell ~SPIN983~ (Slow)
+FX   0    206  1    -    -      -                         -    -    60   -    -    SPIN977   -   -   -    -   -  // Spell: Protection from Spell ~SPIN977~ (Golem Slow)
+FX   0    206  1    -    -      -                         -    -    60   -    -    SPWM164   -   -   -    -   -  // Spell: Protection from Spell ~SPWM164~ (Slow)
+FX   0    206  1    -    -      -                         -    -    60   -    -    SPINI90   -   -   -    -   -  // Spell: Protection from Spell ~SPINI90~ (Perform Ritual)

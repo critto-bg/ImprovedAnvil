@@ -107,32 +107,5 @@ BEGIN
   END
 END
 
-// Retire strings.tph op139 "Display String" overrides on IA weapons: repoint each
-// on-hit display-string effect param to an appended @N (matched by the old strref the
-// def's FX row emits).
-
-COPY_EXISTING ~s!sw18.itm~ ~override/s!sw18.itm~
-  LPF ~S!REPOINT_DISPLAY_STRING~ INT_VAR old_strref = 17536 new_strref = RESOLVE_STR_REF (@10172) END // Improvised Hit
-  LPF ~S!REPOINT_DISPLAY_STRING~ INT_VAR old_strref = 17541 new_strref = RESOLVE_STR_REF (@10173) END // Defensive Stance
-  BUT_ONLY
-
-COPY_EXISTING ~s!minota.itm~ ~override/s!minota.itm~
-  LPF ~S!REPOINT_DISPLAY_STRING~ INT_VAR old_strref = 45051 new_strref = RESOLVE_STR_REF (@10028) END // Grappled
-  LPF ~S!REPOINT_DISPLAY_STRING~ INT_VAR old_strref = 38595 new_strref = RESOLVE_STR_REF (@10029) END // Charged
-  BUT_ONLY
-
-COPY_EXISTING ~s!jailor.itm~ ~override/s!jailor.itm~
-  LPF ~S!REPOINT_DISPLAY_STRING~ INT_VAR old_strref = 39965 new_strref = RESOLVE_STR_REF (@10017) END // Handcuffed
-  BUT_ONLY
-
-COPY_EXISTING ~s!kazfla.itm~ ~override/s!kazfla.itm~
-  LPF ~S!REPOINT_DISPLAY_STRING~ INT_VAR old_strref = 21078 new_strref = RESOLVE_STR_REF (@10278) END // Withering Touch
-  BUT_ONLY
-
-COPY_EXISTING ~s!anacsu.itm~ ~override~
-  LPF ~S!REPOINT_DISPLAY_STRING~ INT_VAR old_strref = 25603 new_strref = RESOLVE_STR_REF (@10027) END // Constricted
-  BUT_ONLY
-
-COPY_EXISTING ~s!kpvipe.itm~ ~override~
-  LPF ~S!REPOINT_DISPLAY_STRING~ INT_VAR old_strref = 25603 new_strref = RESOLVE_STR_REF (@10027) END // Constricted
-  BUT_ONLY
+// (The former strings.tph op139 display-string repoints on IA weapons are now
+// baked into the item defs as @N FX cells, resolved by S!ITM_BUILD.)

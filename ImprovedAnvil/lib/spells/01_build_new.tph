@@ -1,0 +1,143 @@
+/// build the mod's own spells from their definition tables ///
+
+// One .2da per spell under resources/spells/, built by the S!SPL_BUILD
+// engine (lib/tpa/spl_build.tpa); names starting with `_` (meta tables,
+// the _add_spell binaries) are not built.
+//
+// Iterative walk, array names carry the queue index because GET_DIRECTORY_ARRAY /
+// GET_FILE_ARRAY leave stale entries from earlier, larger directories.
+
+ACTION_TIME ~spl_build: TOTAL~ BEGIN
+OUTER_SPRINT $iaspl_walk(~0~) ~ImprovedAnvil/resources/spells~
+OUTER_SET iaspl_walk_n = 1
+OUTER_SET iaspl_walk_i = 0
+
+OUTER_WHILE (iaspl_walk_i < iaspl_walk_n) BEGIN
+  OUTER_SPRINT iaspl_wdir $iaspl_walk(~%iaspl_walk_i%~)
+  OUTER_SET iaspl_walk_i += 1
+
+  GET_DIRECTORY_ARRAY EVAL ~iaspl_dirs_%iaspl_walk_i%~ ~%iaspl_wdir%~ ~.*~
+  ACTION_PHP_EACH EVAL ~iaspl_dirs_%iaspl_walk_i%~ AS _ => iaspl_d BEGIN
+    OUTER_PATCH_SAVE iaspl_dbn ~%iaspl_d%~ BEGIN
+      REPLACE_TEXTUALLY ~^.*[/\\]~ ~~
+    END
+
+    ACTION_IF NOT (~%iaspl_dbn%~ STRING_MATCHES_REGEXP ~^[_.]~ = 0) BEGIN
+      OUTER_SPRINT $iaspl_walk(~%iaspl_walk_n%~) ~%iaspl_d%~
+      OUTER_SET iaspl_walk_n += 1
+    END
+  END
+
+  GET_FILE_ARRAY EVAL ~iaspl_files_%iaspl_walk_i%~ ~%iaspl_wdir%~ ~^[^_].*\.2[dD][aA]$~
+  ACTION_PHP_EACH EVAL ~iaspl_files_%iaspl_walk_i%~ AS _ => iaspl_path BEGIN
+    OUTER_PATCH_SAVE iaspl_bn ~%iaspl_path%~ BEGIN
+      REPLACE_TEXTUALLY ~^.*[/\\]~ ~~
+      REPLACE_TEXTUALLY ~\.2[Dd][Aa]$~ ~~
+    END
+
+    OUTER_SPRINT iaspl_build_table ~%iaspl_path%~
+    OUTER_SPRINT iaspl_build_out ~%iaspl_bn%~
+    LAM ~S!SPL_BUILD~
+  END
+END
+
+// ---------------------------------------------------------------------------
+// Derived spells: tables with SRC <base> rows under _derived/, built by
+// S!SPL_BUILD in derived mode (COPY_EXISTING + named writes + FXM/FXD edits).
+// Every base is a stock spell — already present and 00a-e-patched by this
+// phase.
+// ---------------------------------------------------------------------------
+
+GET_FILE_ARRAY iaspl_dfiles ~ImprovedAnvil/resources/spells/_derived~ ~^[^_].*\.2[dD][aA]$~
+ACTION_PHP_EACH iaspl_dfiles AS _ => iaspl_path BEGIN
+  OUTER_SPRINT iaspl_build_table ~%iaspl_path%~
+  OUTER_PATCH_SAVE iaspl_build_out ~%iaspl_path%~ BEGIN
+    REPLACE_TEXTUALLY ~^.*[/\\]~ ~~
+    REPLACE_TEXTUALLY ~\.2[Dd][Aa]$~ ~~
+  END
+  LAM ~S!SPL_BUILD~
+END
+END  // ACTION_TIME TOTAL
+
+// Add new healing spells for the Shaman //
+
+ACTION_PHP_EACH shaman_healing_spells AS record => int BEGIN
+  // add the new spell into the game
+  ADD_SPELL ~ImprovedAnvil/resources/spells/_add_spell/%record_0%.spl~ 1 record_1 ~%record_2%~
+    SAY NAME1 (AT record_3)
+    SAY NAME2 (AT record_3)
+    SAY UNIDENTIFIED_DESC (AT record_4)
+
+    // update the icon references
+    WRITE_ASCIIE 0x003a ~%record_0%c~ #8
+    GET_OFFSET_ARRAY headers SPL_V10_HEADERS
+
+    PHP_EACH headers AS int => off BEGIN
+      WRITE_ASCIIE 0x04 + off ~%record_0%b~ #8
+    END
+
+    // update the portrait icon
+    PATCH_IF record_5 > 0 BEGIN
+      LPF ALTER_SPELL_EFFECT INT_VAR
+        check_headers = 1
+        match_opcode = 142
+        parameter2 = record_5
+      END
+    END
+
+    // add the split-second aura cleansing effect
+    LPF ADD_SPELL_EFFECT
+      INT_VAR
+        header = 2
+        opcode = 146
+        target = 1
+        parameter2 = 1
+      STR_VAR
+        resource = ~SPPRI25~
+    END
+
+  // copy the spell icons
+  COPY ~ImprovedAnvil\resources\bam\%record_0%b.bam~ ~override/%record_0%b.bam~
+  COPY ~ImprovedAnvil\resources\bam\%record_0%c.bam~ ~override/%record_0%c.bam~
+
+  ACTION_IF record_5 > 0 BEGIN
+    COPY ~ImprovedAnvil\resources\bam\%record_0%d.bam~ ~override/%record_0%d.bam~
+  END
+
+  // create a spell that gives this mending spell when a "cure XX wounds" spell is detected
+  COPY ~ImprovedAnvil/resources/intermediate/shaman_replace_spells.spl~ ~override/%record_0%r.spl~
+    LPF ALTER_SPELL_HEADER
+      INT_VAR
+        target = 1
+    END
+
+    // resolve the new spell's resource name
+    LPF RES_NAME_OF_SPELL_NUM INT_VAR spell_num = EVALUATE_BUFFER ~%record_2%~ RET spell_res END
+
+    LPF ADD_SPELL_EFFECT
+      INT_VAR
+        header = 1
+        opcode = 171
+        target = 2
+        timing = 9
+      STR_VAR
+        resource = EVALUATE_BUFFER "%spell_res%"
+    END
+
+  // add the new spell to a list of exclusion from automatically learnable spells
+  COPY_EXISTING ~hidespl.2da~ ~override/hidespl.2da~
+    COUNT_2DA_COLS ~colcount~
+    COUNT_2DA_ROWS ~colcount~ ~rowcount~
+    INSERT_2DA_ROW ~rowcount~ ~colcount~ ~%spell_res% 1 0 0~
+    PRETTY_PRINT_2DA
+
+  // generate code for baldur.bcs that checks and applies spell replacement when necessary
+  OUTER_SPRINT OldSpellSymbolicName ~%record_6%~
+  OUTER_SPRINT SpellRes ~%record_0%r~
+
+  OUTER_FOR (PlayerNum = 6; PlayerNum > 0; PlayerNum -= 1) BEGIN
+    EXTEND_TOP ~BALDUR.BCS~ ~ImprovedAnvil/resources/intermediate/shaman_replace_spells.baf~
+      SET StrRef = RESOLVE_STR_REF (@11128)
+      EVALUATE_BUFFER
+  END
+END

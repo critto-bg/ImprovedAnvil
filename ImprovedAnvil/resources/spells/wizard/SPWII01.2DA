@@ -1,0 +1,22 @@
+2DA V1.0
+*
+HDR   UNID_NAME       26228     // "Spell Shield"
+HDR   SOUND           CAS_M02
+HDR   TYPE            1         // wizard
+HDR   EXCLUSION       0x00002000  // Transmuters
+HDR   CASTGFX         12
+HDR   PRIMARY_TYPE    1         // Abjurer
+HDR   SECONDARY_TYPE  6         // CONJURATION
+HDR   LEVEL           5
+HDR   ICON_BOOK       SPWI801C
+HDR   UNID_DESC       26229     // "Spell Shield (Abjuration) Level: 5 Rang…"
+ABIL  0  FORM          1      // standard
+ABIL  0  ICON          SPWI801B
+ABIL  0  CASTING_TIME  8
+#FX  lst  op   tgt  pow  p1     p2   tim  dsp  dur  pr1  pr2  resource  dn  ds  sav  sb  spc
+FX   0    139  1    5    26230  1    1    -    -    -    -    -         -   -   -    -   -  // Text: Display String: "Protected by Spell Shield"
+FX   0    174  1    5    -      -    1    -    -    -    -    EFF_M02   -   -   -    -   -  // Spell Effect: Play Sound Effect ~EFF_M02~
+FX   0    226  1    5    1      4    -    -    120  -    -    -         -   -   -    -   -  // Spell: Immunity (by Secondary Type, decrementing) (1,4)
+FX   0    328  1    5    -      108  -    -    120  -    -    -         -   -   -    -   1  // State: Set Extended or Spell State (0,108)
+FX   0    174  1    5    -      -    4    -    120  -    -    EFF_E03   -   -   -    -   -  // Spell Effect: Play Sound Effect ~EFF_E03~
+FX   0    291  1    -    -      1    1    -    -    -    -    -         -   -   -    -   -  // Graphics: Disable Visual Effect (0,1)

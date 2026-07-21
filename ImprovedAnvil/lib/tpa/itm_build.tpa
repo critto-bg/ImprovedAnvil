@@ -14,6 +14,8 @@
 //   HDR   <FIELD>  <value>
 //   ABIL  <index>  <FIELD>  <value>
 //   FX    <E|abil#>  op tgt pow p1 p2 tim dsp dur pr1 pr2 res dn ds sav sb spc
+//         (a 4-byte numeric FX cell may be `@N`: the tra ref is resolved into
+//          the field at build time — used for op139 display strings)
 //
 // Two build modes:
 //   blank (no SRC): construct from the S!blanki prototype; every header/
@@ -156,6 +158,10 @@ DEFINE_ACTION_MACRO ~S!ITM_BUILD~ BEGIN
 
   ACTION_TIME ~itm_build: table parse~ BEGIN
   COPY - ~%iaitm_build_table%~ ~inlined/iaitm_tbl.2da~
+    // strip // comments before tokenizing: the arity scans hash every token
+    // of every row — comment text is a large share of the table bytes
+    // (same measured win as spl_build: parse cost ~halves)
+    REPLACE_TEXTUALLY ~//.*~ ~~
     // single tokenize at arity 3: every real row has >= 3 columns (the
     // 2DA signature/defaults lines drop out); columns are then read per tag.
     // A row shorter than its tag's arity fails the column read loudly;
@@ -380,6 +386,18 @@ DEFINE_ACTION_MACRO ~S!ITM_BUILD~ BEGIN
             PATCH_IF NOT (~%b_fval%~ STRING_EQUAL ~-~) BEGIN
               WRITE_ASCIIE b_off ~%b_fval%~ (8)
             END
+          END ELSE
+          PATCH_IF (~%b_fval%~ STRING_MATCHES_REGEXP ~@[0-9]+~ = 0) BEGIN
+            // @N cell: resolve the tra ref into the field at build time
+            // (find-or-append, replacing the retired install-time repoints)
+            PATCH_IF NOT ($iaitm_fxf_width(~%b_fname%~) = 4) BEGIN
+              PATCH_FAIL ~S!ITM_BUILD: @tra cell on a non-strref field %b_fname% in %iaitm_build_table%~
+            END
+            INNER_PATCH_SAVE b_reftxt ~%b_fval%~ BEGIN
+              REPLACE_TEXTUALLY ~@~ ~~
+            END
+            SET b_ref = b_reftxt
+            SAY (b_off + 0) (AT b_ref)
           END ELSE BEGIN
             SET b_num = b_fval
             PATCH_IF b_num != 0 BEGIN   // buffer is zero-filled
@@ -554,6 +572,17 @@ DEFINE_ACTION_MACRO ~S!ITM_BUILD_SRC~ BEGIN
               PATCH_IF NOT (~%b_fval%~ STRING_EQUAL ~-~) BEGIN
                 WRITE_ASCIIE b_off ~%b_fval%~ (8)
               END
+            END ELSE
+            PATCH_IF (~%b_fval%~ STRING_MATCHES_REGEXP ~@[0-9]+~ = 0) BEGIN
+              // @N cell: resolved at build time (see blank-mode branch)
+              PATCH_IF NOT ($iaitm_fxf_width(~%b_fname%~) = 4) BEGIN
+                PATCH_FAIL ~S!ITM_BUILD: @tra cell on a non-strref field %b_fname% in %iaitm_build_table%~
+              END
+              INNER_PATCH_SAVE b_reftxt ~%b_fval%~ BEGIN
+                REPLACE_TEXTUALLY ~@~ ~~
+              END
+              SET b_ref = b_reftxt
+              SAY (b_off + 0) (AT b_ref)
             END ELSE BEGIN
               SET b_num = b_fval
               PATCH_IF b_num != 0 BEGIN   // inserted bytes are zero-filled

@@ -1,0 +1,24 @@
+2DA V1.0
+*
+SAY   NAME1  12072        // ~Werewolf Howl~
+HDR   SOUND         CAS_P08
+HDR   PRIMARY_TYPE  4         // Enchanter
+HDR   ICON_BOOK     SPWI302C
+#FX  lst  op   tgt  pow  p1  p2                     tim  dsp  dur  pr1  pr2  resource  dn  ds  sav  sb  spc
+FX   C    101  -    -    -   24                     -    -    5    -    -    -         -   -   -    -   -  // Protection: from Opcode #24 (State: Horror)
+FX   C    328  -    -    -   var:immune_fear_state  -    -    5    -    -    -         -   -   -    -   1  // State: Set Extended or Spell State -> var:immune_fear_state
+ABIL  0  FORM          1      // standard
+ABIL  0  ICON          SPWI302B
+ABIL  0  RANGE         40
+ABIL  0  CASTING_TIME  1
+ABIL  0  DICE_SIDES    0
+ABIL  0  DAMAGE_TYPE   0
+ABIL  0  CHARGES       0
+ABIL  0  DEPLETION     0
+ABIL  0  PROJECTILE    254
+FX   0    24   -    -    -   -                      -    -    12   -    -    -         -   -   1    -4  -  // State: Horror
+FX   0    142  -    -    -   36                     -    -    12   -    -    -         -   -   1    -4  -  // Graphics: Display Special Effect Icon #36 (Panic)
+FX   0    174  1    7    -   -                      1    2    -    -    -    EFF_M87   -   -   -    -   -  // Spell Effect: Play Sound Effect ~EFF_M87~
+FX   0    321  -    -    -   -                      -    -    -    60   -    SPDR202   -   -   -    -   -  // Removal: Effects specified by Resource ~SPDR202~ (Resist Fear)
+FX   0    321  -    -    -   -                      -    -    -    60   -    SPPR108   -   -   -    -   -  // Removal: Effects specified by Resource ~SPPR108~ (Remove Fear)
+FX   0    321  -    -    -   -                      -    -    -    60   -    SPWI210   -   -   -    -   -  // Removal: Effects specified by Resource ~SPWI210~ (Resist Fear)

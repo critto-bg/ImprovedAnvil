@@ -1,0 +1,753 @@
+// WeiDU-native spell construction engine — SPL sibling of S!ITM_BUILD
+// (itm_build.tpa). Loads per-spell 2da tables from resources/spells/ and
+// builds the .spl files by direct construction (header + extended headers +
+// feature blocks written at computed offsets).
+//
+// SPL geometry: header 0x72 (same bookkeeping offsets as ITM: 0x64 header
+// offset / 0x68 count / 0x6a fx offset / 0x6e casting first index / 0x70
+// casting count), extended headers 0x28 wide (fx count/index at +0x1e/+0x20,
+// like ITM), feature blocks 0x30. The casting feature list (letter C) plays
+// the role of ITM's equipped list (E). Spells may carry many scaling
+// headers — the engine accepts indices 0..19 (corpus max is 18).
+//
+// Implemented as MACROS: WeiDU functions have local variable scope, so a
+// function-based loader cannot populate the shared table arrays. Macro temp
+// variables are prefixed per macro (m_/s_) to avoid collisions.
+//
+// Table row vocabulary (see resources/spells/_fields.2da and _defaults.2da;
+// `-` = default; trailing // tokens are comments, ignored via tag filtering):
+//   SAY   NAME1|NAME2|UDESC|DESC  <tra ref>
+//   HDR   <FIELD>  <value>
+//   ABIL  <index>  <FIELD>  <value>     (FORM always present: anchor)
+//   FX    <C|abil#>  op tgt pow p1 p2 tim dsp dur pr1 pr2 res dn ds sav sb spc
+//
+// Symbolic numeric cells (HDR, ABIL and FX), resolved at build time — every
+// value they reference is established by earlier install phases (ids.tph,
+// 2da.tph):
+//   @N                 tra ref -> strref (find-or-append; 4-byte fields only)
+//   var:<name>         value of the install variable <name> (spell states,
+//                      ADD_PROJECTILE ids, custom stats)
+//   ids:<file>:<sym>   IDS_OF_SYMBOL lookup
+//
+// Two build modes:
+//   blank (no SRC): construct from the S!blanks prototype; every header/
+//     ability field is written (table value or default); FX rows ARE the
+//     effect lists.
+//   derived (SRC row): COPY_EXISTING the base spell (a stock resource,
+//     already patched by the 00a-e files by this phase) and patch it; only
+//     explicit HDR/ABIL rows are written (no defaults), and existing feature
+//     blocks are edited with FXM/FXD rows (FX rows are not allowed):
+//       SRC   <base resref>  -
+//       FXM   <C|abil#|*>  <mf1> <mv1> <mf2|-> <mv2|->  <field> <value>
+//       FXD   <C|abil#|*>  <mf1> <mv1> <mf2|-> <mv2|->  -       -
+//     FXM sets one field (value may be symbolic) on every feature block of
+//     the list (* = casting + all headers) matching the 1-2 criteria; FXD
+//     deletes the matches. Match/set fields are FX column names; `resource`
+//     matches/writes the resref. Rows apply in table order.
+//
+// Macro interface (globals):  S!SPL_BUILD  in: iaspl_build_table, iaspl_build_out
+
+// ---------------------------------------------------------------------------
+// one-time meta: _fields.2da (layouts), _defaults.2da, blank prototype
+// ---------------------------------------------------------------------------
+DEFINE_ACTION_MACRO ~S!SPL_META~ BEGIN
+  ACTION_IF NOT VARIABLE_IS_SET iaspl_meta_loaded BEGIN
+    OUTER_SET iaspl_meta_loaded = 1
+    OUTER_SET iaspl_hdrf_n = 0
+    OUTER_SET iaspl_abilf_n = 0
+
+    // blank SPL prototype: every build copies this instead of CREATE-ing
+    // (CREATE ignores SILENT and un-silences the install — do it once,
+    // then restore the caller's silence state)
+    OUTER_SET m_silent = (IS_SILENT) ? 1 : 0
+    CREATE ~spl~ ~S!blanks~
+    ACTION_IF (m_silent = 1) BEGIN
+      SILENT
+    END
+
+    COPY - ~ImprovedAnvil/resources/spells/_fields.2da~ ~inlined/iasplfields.2da~
+      COUNT_2DA_ROWS 5 m_row_count
+      FOR (m_row = 0; m_row < m_row_count; m_row += 1) BEGIN
+        READ_2DA_ENTRY m_row 0 5 m_tag
+        READ_2DA_ENTRY m_row 1 5 m_field
+        READ_2DA_ENTRY m_row 2 5 m_off
+        READ_2DA_ENTRY m_row 3 5 m_width
+        READ_2DA_ENTRY m_row 4 5 m_kind
+
+        PATCH_IF ~%m_tag%~ STRING_EQUAL_CASE ~HDRF~ BEGIN
+          SPRINT $iaspl_hdrf(~%iaspl_hdrf_n%~) ~%m_field%~
+          SET $iaspl_hdrf_off(~%m_field%~) = m_off
+          SET $iaspl_hdrf_width(~%m_field%~) = m_width
+          SPRINT $iaspl_hdrf_kind(~%m_field%~) ~%m_kind%~
+          SET iaspl_hdrf_n += 1
+        END
+        ELSE PATCH_IF ~%m_tag%~ STRING_EQUAL_CASE ~ABILF~ BEGIN
+          SPRINT $iaspl_abilf(~%iaspl_abilf_n%~) ~%m_field%~
+          SET $iaspl_abilf_off(~%m_field%~) = m_off
+          SET $iaspl_abilf_width(~%m_field%~) = m_width
+          SPRINT $iaspl_abilf_kind(~%m_field%~) ~%m_kind%~
+          SET iaspl_abilf_n += 1
+        END
+      END
+    BUT_ONLY
+
+    COPY - ~ImprovedAnvil/resources/spells/_defaults.2da~ ~inlined/iaspldflt.2da~
+      COUNT_2DA_ROWS 3 m_row_count
+      FOR (m_row = 0; m_row < m_row_count; m_row += 1) BEGIN
+        READ_2DA_ENTRY m_row 0 3 m_tag
+        READ_2DA_ENTRY m_row 1 3 m_field
+        READ_2DA_ENTRY m_row 2 3 m_value
+        PATCH_IF ~%m_tag%~ STRING_EQUAL_CASE ~HDR~ BEGIN
+          SPRINT $iaspl_hdr_dflt(~%m_field%~) ~%m_value%~
+        END
+        ELSE PATCH_IF ~%m_tag%~ STRING_EQUAL_CASE ~ABIL~ BEGIN
+          SPRINT $iaspl_abil_dflt(~%m_field%~) ~%m_value%~
+        END
+        ELSE PATCH_IF ~%m_tag%~ STRING_EQUAL_CASE ~FXC~ BEGIN
+          SPRINT $iaspl_fxc_dflt(~%m_field%~) ~%m_value%~
+        END
+        ELSE PATCH_IF ~%m_tag%~ STRING_EQUAL_CASE ~FXA~ BEGIN
+          SPRINT $iaspl_fxa_dflt(~%m_field%~) ~%m_value%~
+        END
+      END
+    BUT_ONLY
+
+    // feature-block field layout (eff v1 struct inside spl; fixed by format)
+    OUTER_SET iaspl_fx_n = 0
+    ACTION_FOR_EACH m_spec IN
+        ~opcode:0:2~ ~target:2:1~ ~power:3:1~ ~parameter1:4:4~
+        ~parameter2:8:4~ ~timing:12:1~ ~resist_dispel:13:1~ ~duration:14:4~
+        ~probability1:18:1~ ~probability2:19:1~ ~resource:20:8~
+        ~dicenumber:28:4~ ~dicesize:32:4~ ~savingthrow:36:4~
+        ~savebonus:40:4~ ~special:44:4~
+    BEGIN
+      OUTER_PATCH_SAVE m_field ~%m_spec%~ BEGIN
+        REPLACE_TEXTUALLY ~:.*~ ~~
+      END
+      OUTER_PATCH_SAVE m_rest ~%m_spec%~ BEGIN
+        REPLACE_TEXTUALLY ~^[^:]*:~ ~~
+      END
+      OUTER_PATCH_SAVE m_off ~%m_rest%~ BEGIN
+        REPLACE_TEXTUALLY ~:.*~ ~~
+      END
+      OUTER_PATCH_SAVE m_width ~%m_rest%~ BEGIN
+        REPLACE_TEXTUALLY ~^[^:]*:~ ~~
+      END
+      OUTER_SPRINT $iaspl_fxf(~%iaspl_fx_n%~) ~%m_field%~
+      OUTER_SET $iaspl_fxf_off(~%m_field%~) = m_off
+      OUTER_SET $iaspl_fxf_width(~%m_field%~) = m_width
+      OUTER_SET iaspl_fx_n += 1
+    END
+
+    // recognized row tags ('2DA' = the signature line, '*' = defaults line)
+    ACTION_FOR_EACH m_tagname IN ~SRC~ ~SAY~ ~HDR~ ~ABIL~ ~FX~ ~FXM~ ~FXD~ ~2DA~ ~*~ BEGIN
+      OUTER_SET $iaspl_valid_tag(~%m_tagname%~) = 1
+    END
+  END
+END
+
+// ---------------------------------------------------------------------------
+// S!SPL_CELLVAL: numeric cell -> s_value. Handles plain numbers (with negative
+// wrap for narrow fields), var:<name> and ids:<file>:<sym> symbolic cells.
+//   in: s_cell, s_width   out: s_value
+// ---------------------------------------------------------------------------
+DEFINE_PATCH_MACRO ~S!SPL_CELLVAL~ BEGIN
+  // var:<name> — value of an install variable
+  PATCH_IF (~%s_cell%~ STRING_MATCHES_REGEXP ~var:.+~ = 0) BEGIN
+    INNER_PATCH_SAVE s_var_name ~%s_cell%~ BEGIN
+      REPLACE_TEXTUALLY ~^var:~ ~~
+    END
+    PATCH_IF NOT VARIABLE_IS_SET EVAL ~%s_var_name%~ BEGIN
+      PATCH_FAIL ~S!SPL_CELLVAL: variable %s_var_name% not set (cell %s_cell% in %iaspl_build_table%)~
+    END
+    SPRINT s_var_val EVAL ~%%s_var_name%%~
+    SET s_value = s_var_val
+  END ELSE
+
+  // ids:<file>:<sym> — IDS_OF_SYMBOL lookup
+  PATCH_IF (~%s_cell%~ STRING_MATCHES_REGEXP ~ids:.+:.+~ = 0) BEGIN
+    INNER_PATCH_SAVE s_ids_file ~%s_cell%~ BEGIN
+      REPLACE_TEXTUALLY ~^ids:\([^:]+\):.*~ ~\1~
+    END
+    INNER_PATCH_SAVE s_ids_symbol ~%s_cell%~ BEGIN
+      REPLACE_TEXTUALLY ~^ids:[^:]+:~ ~~
+    END
+    SET s_value = IDS_OF_SYMBOL (~%s_ids_file%~ ~%s_ids_symbol%~)
+  END ELSE BEGIN
+
+    // plain number (negative wrap for narrow fields)
+    SET s_value = s_cell
+    PATCH_IF (s_value < 0) AND (s_width < 4) BEGIN
+      SET s_value = s_value + ((s_width = 1) ? 0x100 : 0x10000)
+    END
+  END
+END
+
+// ---------------------------------------------------------------------------
+// S!SPL_BUILD: parse one table, construct the spell
+//   in: iaspl_build_table (path), iaspl_build_out (resref)
+// ---------------------------------------------------------------------------
+DEFINE_ACTION_MACRO ~S!SPL_BUILD~ BEGIN
+  LAM ~S!SPL_META~
+
+  // per-build generation: keys the parse arrays (arrays cannot be cleared)
+  ACTION_IF NOT VARIABLE_IS_SET iaspl_gen BEGIN OUTER_SET iaspl_gen = 0 END
+  OUTER_SET iaspl_gen += 1
+
+  // per-build state reset
+  OUTER_SET s_abil_n = 0
+  OUTER_SET s_edit_n = 0
+  OUTER_SPRINT s_src ~~
+
+  ACTION_FOR_EACH s_say_key IN ~NAME1~ ~NAME2~ ~UDESC~ ~DESC~ BEGIN
+    OUTER_SET $s_say(~%s_say_key%~) = 0 - 1
+  END
+
+  OUTER_SET EVAL ~s_fxcnt_%iaspl_gen%_C~ = 0
+  OUTER_FOR (s_list_i = 0; s_list_i < 20; s_list_i += 1) BEGIN
+    OUTER_SET EVAL ~s_fxcnt_%iaspl_gen%_%s_list_i%~ = 0
+  END
+
+  ACTION_FOR_EACH s_tag IN ~SRC~ ~SAY~ ~HDR~ ~ABIL~ ~FX~ ~FXM~ ~FXD~ BEGIN
+    OUTER_SET $s_seen(~%s_tag%~) = 0
+    OUTER_SET $s_parsed(~%s_tag%~) = 0
+  END
+
+  ACTION_TIME ~spl_build: table parse~ BEGIN
+  COPY - ~%iaspl_build_table%~ ~inlined/iaspl_tbl.2da~
+    // strip // comments before tokenizing: the arity scans hash every token
+    // of every row, and the decoded fx comments almost double the token count
+    // (measured: ~45% of the whole build spent tokenizing comment text)
+    REPLACE_TEXTUALLY ~//.*~ ~~
+    // single tokenize at arity 3: every real row has >= 3 columns (the
+    // 2DA signature/defaults lines drop out); columns are then read per tag.
+    // A row shorter than its tag's arity fails the column read loudly;
+    // rows below 3 columns are caught by the guard pass underneath.
+    READ_2DA_ENTRIES_NOW iaspl_r3 3
+    FOR (s_row = 0; s_row < iaspl_r3; s_row += 1) BEGIN
+      READ_2DA_ENTRY_FORMER iaspl_r3 s_row 0 s_tag
+
+      PATCH_IF ~%s_tag%~ STRING_EQUAL_CASE ~SAY~ BEGIN
+        READ_2DA_ENTRY_FORMER iaspl_r3 s_row 1 s_key
+        READ_2DA_ENTRY_FORMER iaspl_r3 s_row 2 s_cell
+        PATCH_IF NOT VARIABLE_IS_SET $s_say(~%s_key%~) BEGIN
+          PATCH_FAIL ~S!SPL_BUILD: unknown SAY key %s_key% in %iaspl_build_table%~
+        END
+        SET $s_say(~%s_key%~) = s_cell
+        SET $s_parsed(~SAY~) += 1
+      END
+
+      ELSE PATCH_IF ~%s_tag%~ STRING_EQUAL_CASE ~HDR~ BEGIN
+        READ_2DA_ENTRY_FORMER iaspl_r3 s_row 1 s_key
+        READ_2DA_ENTRY_FORMER iaspl_r3 s_row 2 s_cell
+        PATCH_IF NOT VARIABLE_IS_SET $iaspl_hdrf_off(~%s_key%~) BEGIN
+          PATCH_FAIL ~S!SPL_BUILD: unknown HDR field %s_key% in %iaspl_build_table%~
+        END
+        TEXT_SPRINT EVAL ~s_hdr_%iaspl_gen%_%s_key%~ ~%s_cell%~
+        SET $s_parsed(~HDR~) += 1
+      END
+
+      ELSE PATCH_IF ~%s_tag%~ STRING_EQUAL_CASE ~ABIL~ BEGIN
+        READ_2DA_ENTRY_FORMER iaspl_r3 s_row 1 s_abil_i
+        READ_2DA_ENTRY_FORMER iaspl_r3 s_row 2 s_key
+        READ_2DA_ENTRY_FORMER iaspl_r3 s_row 3 s_cell
+        PATCH_IF (s_abil_i > 19) OR (s_abil_i < 0) BEGIN
+          PATCH_FAIL ~S!SPL_BUILD: ability index %s_abil_i% out of range in %iaspl_build_table%~
+        END
+        PATCH_IF NOT VARIABLE_IS_SET $iaspl_abilf_off(~%s_key%~) BEGIN
+          PATCH_FAIL ~S!SPL_BUILD: unknown ABIL field %s_key% in %iaspl_build_table%~
+        END
+        TEXT_SPRINT EVAL ~s_abil_%iaspl_gen%_%s_abil_i%_%s_key%~ ~%s_cell%~
+        SET $s_abil_seen(~%iaspl_gen%~ ~%s_abil_i%~) = 1
+        PATCH_IF (s_abil_i + 1) > s_abil_n BEGIN
+          SET s_abil_n = s_abil_i + 1
+        END
+        SET $s_parsed(~ABIL~) += 1
+      END
+
+      ELSE PATCH_IF ~%s_tag%~ STRING_EQUAL_CASE ~FX~ BEGIN
+        READ_2DA_ENTRY_FORMER iaspl_r3 s_row 1 s_list
+        SET s_fx_n = EVAL ~s_fxcnt_%iaspl_gen%_%s_list%~
+        FOR (s_col = 0; s_col < iaspl_fx_n; s_col += 1) BEGIN
+          SPRINT s_field $iaspl_fxf(~%s_col%~)
+          READ_2DA_ENTRY_FORMER iaspl_r3 s_row (s_col + 2) s_cell
+          TEXT_SPRINT EVAL ~s_fxrow_%iaspl_gen%_%s_list%_%s_fx_n%_%s_field%~ ~%s_cell%~
+        END
+        SET EVAL ~s_fxcnt_%iaspl_gen%_%s_list%~ = s_fx_n + 1
+        SET $s_parsed(~FX~) += 1
+      END
+
+      ELSE PATCH_IF ~%s_tag%~ STRING_EQUAL_CASE ~SRC~ BEGIN
+        READ_2DA_ENTRY_FORMER iaspl_r3 s_row 1 s_src
+        SET $s_parsed(~SRC~) += 1
+      END
+
+      ELSE PATCH_IF (~%s_tag%~ STRING_EQUAL_CASE ~FXM~) OR
+                    (~%s_tag%~ STRING_EQUAL_CASE ~FXD~) BEGIN
+        TEXT_SPRINT EVAL ~s_edit_%iaspl_gen%_%s_edit_n%_tag~ ~%s_tag%~
+        FOR (s_col = 0; s_col < 7; s_col += 1) BEGIN
+          READ_2DA_ENTRY_FORMER iaspl_r3 s_row (s_col + 1) s_cell
+          TEXT_SPRINT EVAL ~s_edit_%iaspl_gen%_%s_edit_n%_c%s_col%~ ~%s_cell%~
+        END
+        SET s_edit_n += 1
+        PATCH_IF ~%s_tag%~ STRING_EQUAL_CASE ~FXM~ BEGIN
+          SET $s_parsed(~FXM~) += 1
+        END ELSE BEGIN
+          SET $s_parsed(~FXD~) += 1
+        END
+      END
+    END
+
+    // ------- unknown-tag guard + short-row guard ----------------------------
+    // (a row below 3 columns is invisible to the pass above — count every
+    // tag occurrence here and require the parse saw all of them)
+    READ_2DA_ENTRIES_NOW iaspl_r1 1
+    FOR (s_row = 0; s_row < iaspl_r1; s_row += 1) BEGIN
+      READ_2DA_ENTRY_FORMER iaspl_r1 s_row 0 s_tag
+      PATCH_IF VARIABLE_IS_SET $s_seen(~%s_tag%~) BEGIN
+        SET $s_seen(~%s_tag%~) += 1
+      END
+      ELSE PATCH_IF NOT VARIABLE_IS_SET $iaspl_valid_tag(~%s_tag%~) BEGIN
+        PATCH_IF NOT (~%s_tag%~ STRING_MATCHES_REGEXP ~^#.*~ = 0) BEGIN
+          PATCH_FAIL ~S!SPL_BUILD: unknown tag %s_tag% in %iaspl_build_table%~
+        END
+      END
+    END
+  BUT_ONLY
+  END  // ACTION_TIME table parse
+
+  ACTION_FOR_EACH s_tag IN ~SRC~ ~SAY~ ~HDR~ ~ABIL~ ~FX~ ~FXM~ ~FXD~ BEGIN
+    ACTION_IF NOT ($s_seen(~%s_tag%~) = $s_parsed(~%s_tag%~)) BEGIN
+      FAIL ~S!SPL_BUILD: %s_tag% row below its arity (short row) in %iaspl_build_table%~
+    END
+  END
+
+  ACTION_IF NOT (~%s_src%~ STRING_EQUAL ~~) BEGIN
+    // derived mode: FX rows (list construction) make no sense on a copy
+    OUTER_SET s_fx_any = EVAL ~s_fxcnt_%iaspl_gen%_C~
+    OUTER_FOR (s_abil_i = 0; s_abil_i < 20; s_abil_i += 1) BEGIN
+      OUTER_SET s_fx_any += EVAL ~s_fxcnt_%iaspl_gen%_%s_abil_i%~
+    END
+    ACTION_IF (s_fx_any > 0) BEGIN
+      FAIL ~S!SPL_BUILD: FX rows in derived (SRC) table %iaspl_build_table% — use FXM/FXD~
+    END
+    LAM ~S!SPL_BUILD_SRC~
+  END ELSE BEGIN
+
+  // ---- blank mode ---------------------------------------------------------
+
+  ACTION_IF (s_edit_n > 0) BEGIN
+    FAIL ~S!SPL_BUILD: FXM/FXD rows without SRC in %iaspl_build_table%~
+  END
+
+  // every declared ability must be contiguous from 0 (FORM anchors);
+  // FX lists may only reference declared abilities.
+  OUTER_FOR (s_abil_i = 0; s_abil_i < s_abil_n; s_abil_i += 1) BEGIN
+    ACTION_IF NOT VARIABLE_IS_SET $s_abil_seen(~%iaspl_gen%~ ~%s_abil_i%~) BEGIN
+      FAIL ~S!SPL_BUILD: ability %s_abil_i% undeclared (gap) in %iaspl_build_table%~
+    END
+  END
+  OUTER_FOR (s_abil_i = s_abil_n; s_abil_i < 20; s_abil_i += 1) BEGIN
+    ACTION_IF (EVAL ~s_fxcnt_%iaspl_gen%_%s_abil_i%~ > 0) BEGIN
+      FAIL ~S!SPL_BUILD: FX rows for undeclared ability %s_abil_i% in %iaspl_build_table%~
+    END
+  END
+
+  OUTER_SET s_cast_n = EVAL ~s_fxcnt_%iaspl_gen%_C~
+  OUTER_SET s_fx_total = s_cast_n
+  OUTER_FOR (s_abil_i = 0; s_abil_i < s_abil_n; s_abil_i += 1) BEGIN
+    OUTER_SET s_fx_total += EVAL ~s_fxcnt_%iaspl_gen%_%s_abil_i%~
+  END
+
+  // ---- prototype + one INSERT + computed writes ----------------------------
+  COPY ~override/S!blanks.spl~ ~override/%iaspl_build_out%.spl~
+    INSERT_BYTES 0x72 (s_abil_n * 0x28 + s_fx_total * 0x30)
+    SET s_fx_off = 0x72 + s_abil_n * 0x28
+
+    WRITE_LONG  0x64 0x72          // extended header offset
+    WRITE_SHORT 0x68 s_abil_n      // extended header count
+    WRITE_LONG  0x6a s_fx_off      // feature block offset
+    WRITE_SHORT 0x6e 0             // casting list first index
+    WRITE_SHORT 0x70 s_cast_n      // casting list count
+
+    // header: every field, table value or default
+    PATCH_TIME ~spl_build: header writes~ BEGIN
+    FOR (s_field_i = 0; s_field_i < iaspl_hdrf_n; s_field_i += 1) BEGIN
+      SPRINT s_field $iaspl_hdrf(~%s_field_i%~)
+      PATCH_IF VARIABLE_IS_SET EVAL ~s_hdr_%iaspl_gen%_%s_field%~ BEGIN
+        SPRINT s_slot ~s_hdr_%iaspl_gen%_%s_field%~
+        SPRINT s_cell EVAL ~%%s_slot%%~
+      END ELSE BEGIN
+        SPRINT s_cell $iaspl_hdr_dflt(~%s_field%~)
+      END
+
+      SET s_off = $iaspl_hdrf_off(~%s_field%~)
+      SET s_width = $iaspl_hdrf_width(~%s_field%~)
+      SPRINT s_kind $iaspl_hdrf_kind(~%s_field%~)
+
+      PATCH_IF ~%s_kind%~ STRING_EQUAL_CASE ~S~ BEGIN
+        PATCH_IF ~%s_cell%~ STRING_EQUAL ~-~ BEGIN SPRINT s_cell ~~ END
+        WRITE_ASCIIE s_off ~%s_cell%~ (s_width)
+      END ELSE BEGIN
+        SET s_value = s_cell
+        PATCH_IF (s_value < 0) AND (s_width < 4) BEGIN
+          SET s_value = s_value + ((s_width = 1) ? 0x100 : 0x10000)
+        END
+        PATCH_IF s_width = 1 BEGIN WRITE_BYTE  s_off s_value END
+        PATCH_IF s_width = 2 BEGIN WRITE_SHORT s_off s_value END
+        PATCH_IF s_width = 4 BEGIN WRITE_LONG  s_off s_value END
+      END
+    END
+
+    END  // PATCH_TIME header writes
+
+    // extended headers
+    PATCH_TIME ~spl_build: ability writes~ BEGIN
+    SET s_fx_first = s_cast_n
+    FOR (s_abil_i = 0; s_abil_i < s_abil_n; s_abil_i += 1) BEGIN
+      SET s_abil_base = 0x72 + s_abil_i * 0x28
+      FOR (s_field_i = 0; s_field_i < iaspl_abilf_n; s_field_i += 1) BEGIN
+        SPRINT s_field $iaspl_abilf(~%s_field_i%~)
+        PATCH_IF VARIABLE_IS_SET EVAL ~s_abil_%iaspl_gen%_%s_abil_i%_%s_field%~ BEGIN
+          SPRINT s_slot ~s_abil_%iaspl_gen%_%s_abil_i%_%s_field%~
+          SPRINT s_cell EVAL ~%%s_slot%%~
+        END ELSE BEGIN
+          SPRINT s_cell $iaspl_abil_dflt(~%s_field%~)
+        END
+
+        SET s_off = s_abil_base + $iaspl_abilf_off(~%s_field%~)
+        SET s_width = $iaspl_abilf_width(~%s_field%~)
+        SPRINT s_kind $iaspl_abilf_kind(~%s_field%~)
+
+        PATCH_IF ~%s_kind%~ STRING_EQUAL_CASE ~S~ BEGIN
+          PATCH_IF ~%s_cell%~ STRING_EQUAL ~-~ BEGIN SPRINT s_cell ~~ END
+          WRITE_ASCIIE s_off ~%s_cell%~ (s_width)
+        END ELSE BEGIN
+          LAUNCH_PATCH_MACRO ~S!SPL_CELLVAL~
+          PATCH_IF s_width = 1 BEGIN WRITE_BYTE  s_off s_value END
+          PATCH_IF s_width = 2 BEGIN WRITE_SHORT s_off s_value END
+          PATCH_IF s_width = 4 BEGIN WRITE_LONG  s_off s_value END
+        END
+      END
+
+      SET s_fx_n = EVAL ~s_fxcnt_%iaspl_gen%_%s_abil_i%~
+      WRITE_SHORT (s_abil_base + 0x1e) s_fx_n    // feature block count
+      WRITE_SHORT (s_abil_base + 0x20) s_fx_first  // feature block first index
+      SET s_fx_first += s_fx_n
+    END
+
+    END  // PATCH_TIME ability writes
+
+    // feature blocks: casting list first, then each ability's, in row order
+    PATCH_TIME ~spl_build: fx writes~ BEGIN
+    SET s_fx_cursor = 0
+    FOR (s_list_i = 0 - 1; s_list_i < s_abil_n; s_list_i += 1) BEGIN
+      PATCH_IF s_list_i < 0 BEGIN
+        SPRINT s_list ~C~
+      END ELSE BEGIN
+        SPRINT s_list ~%s_list_i%~
+      END
+      SET s_fx_n = EVAL ~s_fxcnt_%iaspl_gen%_%s_list%~
+      FOR (s_row_i = 0; s_row_i < s_fx_n; s_row_i += 1) BEGIN
+        SET s_fx_base = s_fx_off + s_fx_cursor * 0x30
+        FOR (s_col = 0; s_col < iaspl_fx_n; s_col += 1) BEGIN
+          SPRINT s_field $iaspl_fxf(~%s_col%~)
+          SPRINT s_slot ~s_fxrow_%iaspl_gen%_%s_list%_%s_row_i%_%s_field%~
+          SPRINT s_cell EVAL ~%%s_slot%%~
+          PATCH_IF ~%s_cell%~ STRING_EQUAL ~-~ BEGIN
+            PATCH_IF ~%s_field%~ STRING_EQUAL_CASE ~opcode~ BEGIN
+              PATCH_FAIL ~S!SPL_BUILD: FX row without opcode in %iaspl_build_table%~
+            END
+            PATCH_IF s_list_i < 0 BEGIN
+              SPRINT s_cell $iaspl_fxc_dflt(~%s_field%~)
+            END ELSE BEGIN
+              SPRINT s_cell $iaspl_fxa_dflt(~%s_field%~)
+            END
+          END
+
+          SET s_off = s_fx_base + $iaspl_fxf_off(~%s_field%~)
+
+          PATCH_IF ~%s_field%~ STRING_EQUAL_CASE ~resource~ BEGIN
+            PATCH_IF NOT (~%s_cell%~ STRING_EQUAL ~-~) BEGIN
+              WRITE_ASCIIE s_off ~%s_cell%~ (8)
+            END
+          END ELSE
+          PATCH_IF (~%s_cell%~ STRING_MATCHES_REGEXP ~@[0-9]+~ = 0) BEGIN
+            // @N cell: resolve the tra ref into the field at build time
+            // (find-or-append, replacing the retired install-time repoints)
+            PATCH_IF NOT ($iaspl_fxf_width(~%s_field%~) = 4) BEGIN
+              PATCH_FAIL ~S!SPL_BUILD: @tra cell on a non-strref field %s_field% in %iaspl_build_table%~
+            END
+            INNER_PATCH_SAVE s_tra_txt ~%s_cell%~ BEGIN
+              REPLACE_TEXTUALLY ~@~ ~~
+            END
+            SET s_tra_ref = s_tra_txt
+            SAY (s_off + 0) (AT s_tra_ref)
+          END ELSE BEGIN
+            SET s_width = $iaspl_fxf_width(~%s_field%~)
+            LAUNCH_PATCH_MACRO ~S!SPL_CELLVAL~
+            PATCH_IF s_value != 0 BEGIN   // buffer is zero-filled
+              PATCH_IF s_width = 1 BEGIN WRITE_BYTE  s_off s_value END
+              PATCH_IF s_width = 2 BEGIN WRITE_SHORT s_off s_value END
+              PATCH_IF s_width = 4 BEGIN WRITE_LONG  s_off s_value END
+            END
+          END
+        END
+        SET s_fx_cursor += 1
+      END
+    END
+
+    END  // PATCH_TIME fx writes
+
+    // strings last (SAY overrides the -1 defaults written above)
+    PATCH_IF ($s_say(~NAME1~) >= 0) BEGIN
+      SET s_tra_ref = $s_say(~NAME1~)
+      SAY NAME1 (AT s_tra_ref)
+    END
+
+    PATCH_IF ($s_say(~NAME2~) >= 0) BEGIN
+      SET s_tra_ref = $s_say(~NAME2~)
+      SAY NAME2 (AT s_tra_ref)
+    END
+
+    PATCH_IF ($s_say(~UDESC~) >= 0) BEGIN
+      SET s_tra_ref = $s_say(~UDESC~)
+      SAY UNIDENTIFIED_DESC (AT s_tra_ref)
+    END
+
+    PATCH_IF ($s_say(~DESC~) >= 0) BEGIN
+      SET s_tra_ref = $s_say(~DESC~)
+      SAY DESC (AT s_tra_ref)
+    END
+
+  END  // blank mode
+END
+
+// ---------------------------------------------------------------------------
+// S!SPL_BUILD_SRC: derived mode — copy the parsed table's SRC base and patch
+// it. Internal: dispatched from S!SPL_BUILD, consumes its parse state.
+// Bases are stock spells (00a-e-patched by this phase) — a missing base is a
+// hard error, not a deferral.
+// ---------------------------------------------------------------------------
+DEFINE_ACTION_MACRO ~S!SPL_BUILD_SRC~ BEGIN
+  ACTION_IF NOT FILE_EXISTS_IN_GAME ~%s_src%.spl~ BEGIN
+    FAIL ~S!SPL_BUILD_SRC: base %s_src% missing for %iaspl_build_out%~
+  END
+
+  COPY_EXISTING ~%s_src%.spl~ ~override/%iaspl_build_out%.spl~
+    // header: only fields the table names
+    FOR (s_field_i = 0; s_field_i < iaspl_hdrf_n; s_field_i += 1) BEGIN
+      SPRINT s_field $iaspl_hdrf(~%s_field_i%~)
+      PATCH_IF VARIABLE_IS_SET EVAL ~s_hdr_%iaspl_gen%_%s_field%~ BEGIN
+        SPRINT s_slot ~s_hdr_%iaspl_gen%_%s_field%~
+        SPRINT s_cell EVAL ~%%s_slot%%~
+        SET s_off = $iaspl_hdrf_off(~%s_field%~)
+        SET s_width = $iaspl_hdrf_width(~%s_field%~)
+        SPRINT s_kind $iaspl_hdrf_kind(~%s_field%~)
+
+        PATCH_IF ~%s_kind%~ STRING_EQUAL_CASE ~S~ BEGIN
+          PATCH_IF ~%s_cell%~ STRING_EQUAL ~-~ BEGIN SPRINT s_cell ~~ END
+          WRITE_ASCIIE s_off ~%s_cell%~ (s_width)
+        END ELSE BEGIN
+          LAUNCH_PATCH_MACRO ~S!SPL_CELLVAL~
+          PATCH_IF s_width = 1 BEGIN WRITE_BYTE  s_off s_value END
+          PATCH_IF s_width = 2 BEGIN WRITE_SHORT s_off s_value END
+          PATCH_IF s_width = 4 BEGIN WRITE_LONG  s_off s_value END
+        END
+      END
+    END
+
+    READ_LONG  0x64 s_abil_off
+    READ_SHORT 0x68 s_abil_count
+
+    // abilities: only fields the table names, on existing source headers
+    FOR (s_abil_i = 0; s_abil_i < 20; s_abil_i += 1) BEGIN
+      PATCH_IF VARIABLE_IS_SET $s_abil_seen(~%iaspl_gen%~ ~%s_abil_i%~) BEGIN
+        PATCH_IF s_abil_i >= s_abil_count BEGIN
+          PATCH_FAIL ~S!SPL_BUILD_SRC: ABIL %s_abil_i% rows but %s_src% has %s_abil_count% headers (%iaspl_build_out%)~
+        END
+        SET s_abil_base = s_abil_off + s_abil_i * 0x28
+        FOR (s_field_i = 0; s_field_i < iaspl_abilf_n; s_field_i += 1) BEGIN
+          SPRINT s_field $iaspl_abilf(~%s_field_i%~)
+          PATCH_IF VARIABLE_IS_SET EVAL ~s_abil_%iaspl_gen%_%s_abil_i%_%s_field%~ BEGIN
+            SPRINT s_slot ~s_abil_%iaspl_gen%_%s_abil_i%_%s_field%~
+            SPRINT s_cell EVAL ~%%s_slot%%~
+            SET s_off = s_abil_base + $iaspl_abilf_off(~%s_field%~)
+            SET s_width = $iaspl_abilf_width(~%s_field%~)
+            SPRINT s_kind $iaspl_abilf_kind(~%s_field%~)
+
+            PATCH_IF ~%s_kind%~ STRING_EQUAL_CASE ~S~ BEGIN
+              PATCH_IF ~%s_cell%~ STRING_EQUAL ~-~ BEGIN SPRINT s_cell ~~ END
+              WRITE_ASCIIE s_off ~%s_cell%~ (s_width)
+            END ELSE BEGIN
+              LAUNCH_PATCH_MACRO ~S!SPL_CELLVAL~
+              PATCH_IF s_width = 1 BEGIN WRITE_BYTE  s_off s_value END
+              PATCH_IF s_width = 2 BEGIN WRITE_SHORT s_off s_value END
+              PATCH_IF s_width = 4 BEGIN WRITE_LONG  s_off s_value END
+            END
+          END
+        END
+      END
+    END
+
+    // FXM/FXD rows, in table order
+    FOR (s_edit_i = 0; s_edit_i < s_edit_n; s_edit_i += 1) BEGIN
+      // read the staged row back: tag, list, match pair 1, match pair 2,
+      // set field + value (FXD carries `-` padding for the set columns)
+      SPRINT s_slot ~s_edit_%iaspl_gen%_%s_edit_i%_tag~
+      SPRINT s_edit_tag EVAL ~%%s_slot%%~
+      SPRINT s_slot ~s_edit_%iaspl_gen%_%s_edit_i%_c0~
+      SPRINT s_edit_list EVAL ~%%s_slot%%~
+
+      SPRINT s_slot ~s_edit_%iaspl_gen%_%s_edit_i%_c1~
+      SPRINT s_match_f1 EVAL ~%%s_slot%%~
+      SPRINT s_slot ~s_edit_%iaspl_gen%_%s_edit_i%_c2~
+      SPRINT s_match_v1 EVAL ~%%s_slot%%~
+      SPRINT s_slot ~s_edit_%iaspl_gen%_%s_edit_i%_c3~
+      SPRINT s_match_f2 EVAL ~%%s_slot%%~
+      SPRINT s_slot ~s_edit_%iaspl_gen%_%s_edit_i%_c4~
+      SPRINT s_match_v2 EVAL ~%%s_slot%%~
+
+      SPRINT s_slot ~s_edit_%iaspl_gen%_%s_edit_i%_c5~
+      SPRINT s_set_field EVAL ~%%s_slot%%~
+      SPRINT s_slot ~s_edit_%iaspl_gen%_%s_edit_i%_c6~
+      SPRINT s_set_value EVAL ~%%s_slot%%~
+
+      READ_LONG  0x6a s_fx_off
+      READ_SHORT 0x70 s_cast_count
+
+      // scan bounds: * = whole file, C = casting list, N = that header's list
+      PATCH_IF ~%s_edit_list%~ STRING_EQUAL ~*~ BEGIN
+        SET s_scan_lo = 0
+        SET s_scan_hi = (BUFFER_LENGTH - s_fx_off) / 0x30
+      END ELSE PATCH_IF ~%s_edit_list%~ STRING_EQUAL_CASE ~C~ BEGIN
+        SET s_scan_lo = 0
+        SET s_scan_hi = s_cast_count
+      END ELSE BEGIN
+        PATCH_IF s_edit_list >= s_abil_count BEGIN
+          PATCH_FAIL ~S!SPL_BUILD_SRC: FXM/FXD list %s_edit_list% but %s_src% has %s_abil_count% headers (%iaspl_build_out%)~
+        END
+        READ_SHORT (s_abil_off + s_edit_list * 0x28 + 0x20) s_scan_lo
+        READ_SHORT (s_abil_off + s_edit_list * 0x28 + 0x1e) s_list_count
+        SET s_scan_hi = s_scan_lo + s_list_count
+      END
+
+      SET s_edit_hits = 0
+      FOR (s_fx_i = s_scan_hi - 1; s_fx_i >= s_scan_lo; s_fx_i -= 1) BEGIN   // reverse: delete-safe
+        SET s_fx_base = s_fx_off + s_fx_i * 0x30
+
+        // evaluate the 1-2 match criteria (`-` field = no criterion)
+        SET s_matched = 1
+        FOR (s_match_i = 0; s_match_i < 2; s_match_i += 1) BEGIN
+
+          PATCH_IF s_match_i = 0 BEGIN
+            SPRINT s_match_f ~%s_match_f1%~
+            SPRINT s_match_v ~%s_match_v1%~
+          END ELSE BEGIN
+            SPRINT s_match_f ~%s_match_f2%~
+            SPRINT s_match_v ~%s_match_v2%~
+          END
+
+          PATCH_IF NOT (~%s_match_f%~ STRING_EQUAL ~-~) BEGIN
+            PATCH_IF NOT VARIABLE_IS_SET $iaspl_fxf_off(~%s_match_f%~) BEGIN
+              PATCH_FAIL ~S!SPL_BUILD_SRC: unknown FXM match field %s_match_f% in %iaspl_build_table%~
+            END
+            PATCH_IF ~%s_match_f%~ STRING_EQUAL_CASE ~resource~ BEGIN
+              READ_ASCII (s_fx_base + 0x14) s_actual_res (8) NULL
+              PATCH_IF NOT (~%s_actual_res%~ STRING_EQUAL_CASE ~%s_match_v%~) BEGIN
+                SET s_matched = 0
+              END
+            END ELSE BEGIN
+              SET s_match_off = $iaspl_fxf_off(~%s_match_f%~)
+              SET s_match_width = $iaspl_fxf_width(~%s_match_f%~)
+              PATCH_IF s_match_width = 1 BEGIN READ_BYTE  (s_fx_base + s_match_off) s_actual END
+              PATCH_IF s_match_width = 2 BEGIN READ_SHORT (s_fx_base + s_match_off) s_actual END
+              PATCH_IF s_match_width = 4 BEGIN READ_LONG  (s_fx_base + s_match_off) s_actual END
+              PATCH_IF NOT (s_actual = s_match_v) BEGIN
+                SET s_matched = 0
+              END
+            END
+          END
+        END
+
+        PATCH_IF s_matched = 1 BEGIN
+          SET s_edit_hits += 1
+          PATCH_IF ~%s_edit_tag%~ STRING_EQUAL_CASE ~FXD~ BEGIN
+            // delete the block: owning-list count down, later first-indices down
+            DELETE_BYTES s_fx_base 0x30
+            PATCH_IF s_fx_i < s_cast_count BEGIN
+              WRITE_SHORT 0x70 (s_cast_count - 1)
+              SET s_cast_count -= 1
+            END ELSE BEGIN
+              FOR (s_abil_j = 0; s_abil_j < s_abil_count; s_abil_j += 1) BEGIN
+                READ_SHORT (s_abil_off + s_abil_j * 0x28 + 0x20) s_first
+                READ_SHORT (s_abil_off + s_abil_j * 0x28 + 0x1e) s_abil_j_n
+                PATCH_IF (s_fx_i >= s_first) AND (s_fx_i < s_first + s_abil_j_n) BEGIN
+                  WRITE_SHORT (s_abil_off + s_abil_j * 0x28 + 0x1e) (s_abil_j_n - 1)
+                END
+              END
+            END
+
+            FOR (s_abil_j = 0; s_abil_j < s_abil_count; s_abil_j += 1) BEGIN
+              READ_SHORT (s_abil_off + s_abil_j * 0x28 + 0x20) s_first
+              PATCH_IF s_first > s_fx_i BEGIN
+                WRITE_SHORT (s_abil_off + s_abil_j * 0x28 + 0x20) (s_first - 1)
+              END
+            END
+          END ELSE BEGIN
+            // FXM: write the set field (resref, @tra or numeric/symbolic)
+            PATCH_IF NOT VARIABLE_IS_SET $iaspl_fxf_off(~%s_set_field%~) BEGIN
+              PATCH_FAIL ~S!SPL_BUILD_SRC: unknown FXM set field %s_set_field% in %iaspl_build_table%~
+            END
+            SET s_off = s_fx_base + $iaspl_fxf_off(~%s_set_field%~)
+            SET s_width = $iaspl_fxf_width(~%s_set_field%~)
+
+            PATCH_IF ~%s_set_field%~ STRING_EQUAL_CASE ~resource~ BEGIN
+              WRITE_ASCIIE s_off ~%s_set_value%~ #8
+            END ELSE
+            PATCH_IF (~%s_set_value%~ STRING_MATCHES_REGEXP ~@[0-9]+~ = 0) BEGIN
+              PATCH_IF NOT (s_width = 4) BEGIN
+                PATCH_FAIL ~S!SPL_BUILD_SRC: @tra cell on a non-strref field %s_set_field% in %iaspl_build_table%~
+              END
+              INNER_PATCH_SAVE s_tra_txt ~%s_set_value%~ BEGIN
+                REPLACE_TEXTUALLY ~@~ ~~
+              END
+              SET s_tra_ref = s_tra_txt
+              SAY (s_off + 0) (AT s_tra_ref)
+            END ELSE BEGIN
+              SPRINT s_cell ~%s_set_value%~
+              LAUNCH_PATCH_MACRO ~S!SPL_CELLVAL~
+              PATCH_IF s_width = 1 BEGIN WRITE_BYTE  s_off s_value END
+              PATCH_IF s_width = 2 BEGIN WRITE_SHORT s_off s_value END
+              PATCH_IF s_width = 4 BEGIN WRITE_LONG  s_off s_value END
+            END
+          END
+        END
+      END
+
+      PATCH_IF s_edit_hits = 0 BEGIN
+        PATCH_FAIL ~S!SPL_BUILD_SRC: %s_edit_tag% row %s_edit_i% (%s_match_f1%=%s_match_v1%) matched nothing in %iaspl_build_out%~
+      END
+    END
+
+    // strings last
+    PATCH_IF ($s_say(~NAME1~) >= 0) BEGIN
+      SET s_tra_ref = $s_say(~NAME1~)
+      SAY NAME1 (AT s_tra_ref)
+    END
+
+    PATCH_IF ($s_say(~NAME2~) >= 0) BEGIN
+      SET s_tra_ref = $s_say(~NAME2~)
+      SAY NAME2 (AT s_tra_ref)
+    END
+
+    PATCH_IF ($s_say(~UDESC~) >= 0) BEGIN
+      SET s_tra_ref = $s_say(~UDESC~)
+      SAY UNIDENTIFIED_DESC (AT s_tra_ref)
+    END
+
+    PATCH_IF ($s_say(~DESC~) >= 0) BEGIN
+      SET s_tra_ref = $s_say(~DESC~)
+      SAY DESC (AT s_tra_ref)
+    END
+END

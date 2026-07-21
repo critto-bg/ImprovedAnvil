@@ -115,6 +115,10 @@ DEFINE_ACTION_MACRO ~S!CRE_TABLE_LOAD~ BEGIN
     END
 
     COPY - ~%iacre_load_file%~ ~inlined/iacre_tbl.2da~
+      // strip // comments before tokenizing: every arity pass below re-hashes
+      // all tokens incl. comment text (7 passes/table; same class as the
+      // spl_build/itm_build fix, smaller win — cre comments are ~8% of bytes)
+      REPLACE_TEXTUALLY ~//.*~ ~~
       // ------- arity-3: TPL SAY HDR COLOUR PKG SEL + section markers --------
       READ_2DA_ENTRIES_NOW iacre_r3 3
       FOR (tl_r = 0; tl_r < iacre_r3; tl_r += 1) BEGIN
