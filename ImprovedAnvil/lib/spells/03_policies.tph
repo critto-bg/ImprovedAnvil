@@ -1,0 +1,72 @@
+/// Batch policies over spells (and spell projectiles) ///
+
+// patch all wish spells to ignore wild surges //
+
+COPY_EXISTING_REGEXP ~SPWISH[0-9]+\.spl~ ~override~
+  READ_BYTE 0x19  splflags
+  WRITE_BYTE 0x19 ("%splflags%" | BIT7)
+
+// patch in removal of shaman's innate aura cleansing //
+
+COPY_EXISTING_REGEXP GLOB ~SPPR[1-7][0-5][0-9]+\.spl~ ~override~
+                          ~SPDR202.spl~ ~override~
+                          ~SPDR302.spl~ ~override~
+                          ~SPCL940.spl~ ~override~
+                          ~SPCL941.spl~ ~override~
+                          ~SPCLI12.spl~ ~override~
+                          ~SPCLI15.spl~ ~override~
+                          ~SPCLI16.spl~ ~override~
+  READ_BYTE 0x21 exc_flags
+
+  PATCH_IF ((exc_flags BAND BIT7) = 0) BEGIN
+    LPF ADD_SPELL_EFFECT
+      INT_VAR
+        opcode = 321
+        target = 1
+        insert_point = 0
+      STR_VAR
+        resource = ~SPPRI25~
+    END
+  END
+
+  BUT_ONLY
+
+// allow HLAs with 0 casting time to be cast when silenced //
+
+ACTION_FOR_EACH ~file~ IN
+  ~gbalchmg~ ~gbalchpr~ ~gbscrbmg~ ~gbscrbpr~
+  ~SPCL144~ ~SPCL152~ ~SPCL236~ ~SPCL321~ ~SPCL412~ ~SPCL414~ ~SPCL423~ ~SPCL521~ ~SPCL522~ ~SPCL811~ ~SPCL820~
+  ~SPCL900~ ~SPCL901~ ~SPCL902~ ~SPCL903~ ~SPCL904~ ~SPCL905~ ~SPCL906~ ~SPCL907~ ~SPCL908~ ~SPCL909~ ~SPCL910~
+  ~SPCL911~ ~SPCL912~ ~SPCL913~ ~SPCL914~ ~SPCL916~ ~SPCL917~ ~SPCL918~ ~SPCL919~ ~SPCL922~ ~SPCLI13~ ~SPDWD02~
+  ~SPINI87~ ~spini92~
+BEGIN
+  COPY_EXISTING ~%file%.spl~ ~override~
+    READ_BYTE 0x19 flags_2
+    READ_BYTE 0x1b flags_4
+
+    WRITE_BYTE 0x19 (flags_2 | BIT6)
+    WRITE_BYTE 0x1b (flags_4 | BIT1)
+END
+
+// projectile fixes //
+
+COPY_EXISTING ~METSWARM.pro~ ~override/METSWARM.pro~
+  WRITE_BYTE 0x216 4
+
+// fix Comet's projectile to affect only enemies
+COPY_EXISTING ~comet.pro~ ~override/comet.pro~
+  READ_LONG 0x00200 "areaflags"
+  WRITE_LONG 0x00200 ("%areaflags%" | BIT6)
+  BUT_ONLY
+
+// fix Writhing Fog's projectile to affect only allies, caster included
+COPY_EXISTING ~writhing.pro~ ~override/writhing.pro~
+  READ_LONG  0x0c behavior
+  WRITE_LONG 0x0c ("%behavior%" ^^ BIT4)
+
+  READ_LONG 0x00200 "areaflags"
+  WRITE_LONG 0x00200 ("%areaflags%" | BIT6 | BIT7)
+
+  WRITE_BYTE 0x00216 4 // trigger count
+
+  BUT_ONLY

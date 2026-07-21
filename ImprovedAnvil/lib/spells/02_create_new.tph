@@ -7,7 +7,29 @@ COPY_EXISTING ~SPWI210.spl~ ~override/SPDR202.spl~
 
 // Protection from Cold
 COPY_EXISTING ~SPWI320.spl~ ~override/SPDR302.spl~
+  SAY UNIDENTIFIED_DESC @10119
   WRITE_SHORT 0x1c 2 // spell type
+
+// Minor Globe of Invulnerability (innate)
+COPY_EXISTING ~SPWI406.spl~ ~override/SPIN736.spl~
+  SAY UNIDENTIFIED_DESC @10086
+  LAUNCH_PATCH_FUNCTION ~ALTER_SPELL_EFFECT~ INT_VAR
+    check_headers = 1
+    header_type = 1
+    target = 2
+  END
+
+  LAUNCH_PATCH_FUNCTION ~ALTER_SPELL_HEADER~ INT_VAR
+    header = 1
+    target = 1
+  END
+
+// Dolorous Decay -> Bolt of the Grove
+COPY_EXISTING ~SPPR612.spl~ ~override/SPPR610.spl~
+  SAY NAME1 @11162
+  SAY UNIDENTIFIED_DESC @10305
+
+  WRITE_BYTE 0x21 0b01000000 // exclusion flags
 
 // Giant Strength
 COPY_EXISTING ~SPWI607.spl~ ~override/SPDR603.spl~

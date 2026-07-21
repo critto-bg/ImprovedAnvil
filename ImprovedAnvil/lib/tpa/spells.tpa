@@ -1,0 +1,135 @@
+// ADD_SPELL_HEADER: append an extended (ability) header to a spell.                    //
+// SPL sibling of S!ADD_ITEM_HEADER (items.tpa): appends at the end of the header list  //
+// with an empty feature-block list indexed after all existing blocks. WeiDU ships no   //
+// built-in for this (ALTER/DELETE_SPELL_HEADER only).                                  //
+// This is a PATCH function. All integer variables default to 0.                        //
+// The string variable icon defaults to the string "".                                  //
+
+DEFINE_PATCH_FUNCTION ~S!ADD_SPELL_HEADER~
+INT_VAR
+  header_type   = "0" // spell form at 0x00 (1 standard, 2 projectile)
+  friendly      = "0" // 'friendly' flag at 0x01 (PST heritage, normally 0)
+  location      = "0" // ability location at 0x02 (2 spell, 4 innate)
+  target        = "0" // target type at 0x0c
+  target_count  = "0" // target count at 0x0d
+  range         = "0" // range at 0x0e
+  min_level     = "0" // level required at 0x10
+  casting_time  = "0" // casting time at 0x12 (tenths of a round)
+  times_per_day = "0" // times per day at 0x14 (unused)
+  dicesize      = "0" // dice sides at 0x16 (unused)
+  dicenumber    = "0" // dice thrown at 0x18 (unused)
+  enchanted     = "0" // enchanted at 0x1a (unused)
+  damage_type   = "0" // damage type at 0x1c (unused)
+  charges       = "0" // charges at 0x22 (unused)
+  drained       = "0" // charge depletion behaviour at 0x24 (unused)
+  projectile    = "0" // projectile at 0x26 (projectl.ids, off-by-one)
+STR_VAR
+  icon          = ""  // memorised icon at 0x04
+BEGIN
+  READ_LONG  0x64 abil_off
+  READ_SHORT 0x68 abil_num
+  READ_LONG  0x6a fx_off
+  READ_SHORT 0x70 fx_num
+
+  // calculate the new header's first-effect indice
+  FOR (i = 0; i < "%abil_num%"; i += 1) BEGIN
+    READ_SHORT (%abil_off% + %i% * 0x28 + 0x1e) abil_fx_cnt
+    SET %fx_num% += abil_fx_cnt
+  END
+
+  // add ability
+  INSERT_BYTES (%abil_off% + %abil_num% * 0x28)  0x28
+
+  // write stuff
+  WRITE_BYTE   (%abil_off% + %abil_num% * 0x28        )   header_type   // Spell form
+  WRITE_BYTE   (%abil_off% + %abil_num% * 0x28 + 0x001)   friendly      // 'Friendly' flag
+  WRITE_SHORT  (%abil_off% + %abil_num% * 0x28 + 0x002)   location      // Location
+  WRITE_ASCIIE (%abil_off% + %abil_num% * 0x28 + 0x004)   "%icon%" #8   // Memorised icon
+  WRITE_BYTE   (%abil_off% + %abil_num% * 0x28 + 0x00c)   target        // Target type
+  WRITE_BYTE   (%abil_off% + %abil_num% * 0x28 + 0x00d)   target_count  // Target count
+  WRITE_SHORT  (%abil_off% + %abil_num% * 0x28 + 0x00e)   range         // Range
+  WRITE_SHORT  (%abil_off% + %abil_num% * 0x28 + 0x010)   min_level     // Level required
+  WRITE_SHORT  (%abil_off% + %abil_num% * 0x28 + 0x012)   casting_time  // Casting time
+  WRITE_SHORT  (%abil_off% + %abil_num% * 0x28 + 0x014)   times_per_day // Times per day
+  WRITE_SHORT  (%abil_off% + %abil_num% * 0x28 + 0x016)   dicesize      // Dice sides
+  WRITE_SHORT  (%abil_off% + %abil_num% * 0x28 + 0x018)   dicenumber    // Dice thrown
+  WRITE_SHORT  (%abil_off% + %abil_num% * 0x28 + 0x01a)   enchanted     // Enchanted
+  WRITE_SHORT  (%abil_off% + %abil_num% * 0x28 + 0x01c)   damage_type   // Damage type
+  WRITE_SHORT  (%abil_off% + %abil_num% * 0x28 + 0x01e)   0             // Count of feature blocks
+  WRITE_SHORT  (%abil_off% + %abil_num% * 0x28 + 0x020)   %fx_num%      // Index of feature blocks
+  WRITE_SHORT  (%abil_off% + %abil_num% * 0x28 + 0x022)   charges       // Charges
+  WRITE_SHORT  (%abil_off% + %abil_num% * 0x28 + 0x024)   drained       // Charge depletion behaviour
+  WRITE_SHORT  (%abil_off% + %abil_num% * 0x28 + 0x026)   projectile    // Projectile
+
+  // update ability count and starting fx offset
+  SET %abil_num% += 1
+  SET %fx_off% += 0x28
+
+  WRITE_SHORT 0x68 %abil_num%
+  WRITE_LONG  0x6a %fx_off%
+END
+
+// CLONE_SPELL_HEADER: duplicate an existing extended header WITH its feature //
+// blocks into a given position, overriding the level requirement — the       //
+// natural expression of per-level scaling headers ("as level N, but ...").   //
+// This is a PATCH function.                                                  //
+//   header    = source header, 1-based; must be BEFORE the insert position   //
+//   position  = 1-based slot for the clone (existing headers shift right);   //
+//               0 (default) appends after the last header                    //
+//   min_level = level required (0x10) written on the clone                   //
+// The clone's feature blocks are inserted at their canonical slot (after the //
+// previous header's list), so canonical layout is preserved.                 //
+
+DEFINE_PATCH_FUNCTION ~S!CLONE_SPELL_HEADER~
+INT_VAR
+  header    = "1"
+  position  = "0"
+  min_level = "0"
+BEGIN
+  READ_LONG  0x64 abil_off
+  READ_SHORT 0x68 abil_num
+  READ_SHORT 0x70 cast_num
+  PATCH_IF (position <= 0) BEGIN SET position = abil_num + 1 END
+  SET src = header - 1
+  SET pos = position - 1
+
+  // source geometry (read before any edit)
+  READ_SHORT (%abil_off% + %src% * 0x28 + 0x1e) src_num
+  READ_SHORT (%abil_off% + %src% * 0x28 + 0x20) src_idx
+
+  // insert the cloned header struct (source is before it, so unshifted)
+  INSERT_BYTES (%abil_off% + %pos% * 0x28) 0x28
+  FOR (i = 0; i < 0x28; i += 1) BEGIN
+    READ_BYTE  (%abil_off% + %src% * 0x28 + %i%) onebyte
+    WRITE_BYTE (%abil_off% + %pos% * 0x28 + %i%) onebyte
+  END
+
+  READ_LONG 0x6a fx_off
+  SET %fx_off% += 0x28
+  WRITE_LONG  0x6a %fx_off%
+  WRITE_SHORT 0x68 (%abil_num% + 1)
+  WRITE_SHORT (%abil_off% + %pos% * 0x28 + 0x10) min_level
+
+  // canonical first-index for the clone = casting fx + counts before it
+  SET run = cast_num
+  FOR (i = 0; i < pos; i += 1) BEGIN
+    READ_SHORT (%abil_off% + %i% * 0x28 + 0x1e) abil_fx_cnt
+    SET %run% += abil_fx_cnt
+  END
+  WRITE_SHORT (%abil_off% + %pos% * 0x28 + 0x1e) src_num
+  WRITE_SHORT (%abil_off% + %pos% * 0x28 + 0x20) run
+
+  // copy the source feature blocks into the clone's canonical slot
+  // (source list lies before the slot, so its offsets are unaffected)
+  INSERT_BYTES (%fx_off% + %run% * 0x30) (%src_num% * 0x30)
+  FOR (i = 0; i < src_num * 0x30; i += 1) BEGIN
+    READ_BYTE  (%fx_off% + %src_idx% * 0x30 + %i%) onebyte
+    WRITE_BYTE (%fx_off% + %run% * 0x30 + %i%) onebyte
+  END
+
+  // shift the first-index of every header after the clone
+  FOR (i = pos + 1; i < abil_num + 1; i += 1) BEGIN
+    READ_SHORT  (%abil_off% + %i% * 0x28 + 0x20) abil_fx_idx
+    WRITE_SHORT (%abil_off% + %i% * 0x28 + 0x20) (%abil_fx_idx% + %src_num%)
+  END
+END
