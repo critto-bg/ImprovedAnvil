@@ -180,16 +180,3 @@ BEGIN
     END
     BUT_ONLY
 END
-
-// remove "undesirable" items game-wide, from lib/tables/item_removals.2da:
-// overwriting the resource with a tame counterpart keeps every reference
-// (stores, loot tables, inventories, scripts) working. Runs last: the
-// replacement content must carry its price/stack policy state, and the
-// build phase preserves IA-private copies (e.g. S!scrl04 = Spell Shield)
-// before the public resref is replaced. Full deprecation (reference
-// replacement + resource removal) is a separate parked project. //
-ACTION_PHP_EACH item_removals AS record => int BEGIN
-  ACTION_IF FILE_EXISTS_IN_GAME "%record_1%" BEGIN
-    COPY_EXISTING ~%record_1%~ ~override/%record_0%~
-  END
-END

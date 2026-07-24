@@ -16,19 +16,6 @@ COPY - "ImprovedAnvil/lib/tables/item_replacements.2da" "inlined/item_replacemen
     SPRINT $item_replacements("%res_type%" "%resource%" "%old_item%" "%new_item%") "%num%"
   END
 
-COPY - "ImprovedAnvil/lib/tables/item_removals.2da" "inlined/item_removals.2da"
-  COUNT_2DA_ROWS 2 num_rows
-
-  FOR (num = 1; num < num_rows; num += 1) BEGIN
-    READ_2DA_ENTRY num 0 2 replaced
-    READ_2DA_ENTRY num 1 2 with
-
-    TO_LOWER replaced
-    TO_LOWER with
-
-    SPRINT $item_removals("%replaced%" "%with%") "%num%"
-  END
-
 COPY - "ImprovedAnvil/lib/tables/item_prices.2da" "inlined/item_prices.2da"
   COUNT_2DA_ROWS 2 num_rows
 
