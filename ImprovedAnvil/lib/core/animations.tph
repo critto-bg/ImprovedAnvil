@@ -299,3 +299,25 @@ CLEAR_IDS_MAP
 
 COPY ~ImprovedAnvil\resources\animations\isair~ ~override~
 COPY ~ImprovedAnvil\resources\animations\ini\isair.ini~ ~override\e275.ini~
+
+// Orcus (from NWN, extracted my morpheus)
+// uses IWD slot allocated dynamically
+// INI not included in BG2EE
+// resref: MOCS
+// requires patching during mod install because of dynamic allocation
+// WRITE_LONG 0x28 (IDS_OF_SYMBOL (~animate~ ~ANVIL_NWN_ORCUS~))
+
+LAF FIND_FREE_ANIM_SLOT INT_VAR slotMin = 0xe000 slotMax = 0xefff RET slot END
+ACTION_IF (slot <= 0) BEGIN
+  FAIL ~No free creature animation slot found.~
+END
+
+LAF TO_HEX_NUMBER INT_VAR value = slot minDigits = 4 RET hexNumber END
+APPEND ~animate.ids~ ~0x%hexNumber% ANVIL_NWN_ORCUS~ UNLESS ~ANVIL_NWN_ORCUS~
+CLEAR_IDS_MAP
+
+COPY ~ImprovedAnvil\resources\animations\ini\orcus_nwn.INI~ ~override\%hexNumber%.ini~
+
+ACTION_IF (NOT FILE_EXISTS_IN_GAME ~mocsa1.BAM~) BEGIN
+	COPY ~ImprovedAnvil\resources\animations\orcus_nwn~ ~override~
+END
